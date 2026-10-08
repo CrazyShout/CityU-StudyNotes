@@ -1,7 +1,7 @@
 """Validate collaborative sources, local references and committed A4 files."""
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
-import hashlib,json,re,subprocess,sys
+import hashlib,json,re,subprocess,sys,importlib.util
 import markdown,nbformat
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
@@ -55,6 +55,16 @@ for anchor in ['decision-boundaries','model-limits']:
 for stale in ['log-scores','comparison']:
     assert f'<!-- EXAM:focus-{stale}:START -->' not in lecture
 assert '[相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note)' in lecture
+# Regression check: source-index links must not be stolen by new Chinese headings.
+spec=importlib.util.spec_from_file_location('notes_previews',ROOT/'CS5489/course-notes/tools/build_previews.py')
+previews=importlib.util.module_from_spec(spec);spec.loader.exec_module(previews)
+for n in [1,5]:
+    source=ROOT/f'CS5489/course-notes/Lecture{n:02}.md'
+    rendered=BeautifulSoup(previews.wrap('anchor check',previews.md(source.read_text()),source),'html.parser')
+    target=rendered.find(id='_2')
+    heading=target if target and target.name=='h2' else target.find_next('h2') if target else None
+    assert heading and '覆盖索引' in heading.get_text(),(source.name,'legacy source-index target')
+
 subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
 # Other authored display formulas are numbered by document, not by experiment cell.
 numbered_documents={}

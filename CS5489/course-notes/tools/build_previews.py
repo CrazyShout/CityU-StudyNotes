@@ -45,6 +45,23 @@ def rewrite_href(href, source):
 def wrap(title,body,source):
     # Notebook markdown cells each generate their own heading IDs. Preserve the
     # first occurrence (and old deep links), suffix only later collisions.
+    # The two relocated source-index aliases must outrank newly added headings.
+    # Keep every other document's established duplicate-ID convention unchanged.
+    reserved={'_2'} if source in {OUT/'Lecture01.md',OUT/'Lecture05.md'} else set()
+    all_ids=set(re.findall(r' id="([^"]+)"',body));renamed={}
+    def heading_id(match):
+        level,key=match.group(1),match.group(2)
+        if key not in reserved:return match.group(0)
+        new=key+'-heading';suffix=2
+        while new in all_ids:new=key+'-heading-'+str(suffix);suffix+=1
+        all_ids.add(new);renamed[key]=new
+        return '<h'+level+' id="'+new+'"'
+    body=re.sub(r'<h([1-6]) id="([^"]+)"',heading_id,body)
+    def update_toc(match):
+        result=match.group(0)
+        for old,new in renamed.items():result=result.replace('href="#'+old+'"','href="#'+new+'"')
+        return result
+    body=re.sub(r'<div class="toc">[\s\S]*?</div>',update_toc,body)
     seen={}
     def unique_id(match):
         key=match.group(1);seen[key]=seen.get(key,0)+1
