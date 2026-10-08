@@ -31,6 +31,25 @@ for group,records in GROUPS.items():
   title=body.find('h1').get_text(' ',strip=True)
   # Preserve source headings and prefix anchors to make the combined book unambiguous.
   for e in body.select('[id]'):e['id']=docid+'__'+e['id']
+  # Empty legacy anchors before a heading can paginate onto the preceding page.
+  # Put their PDF destinations inside that heading, retaining the empty paragraph
+  # so this repair does not intentionally change the surrounding spacing.
+  for paragraph in body.find_all('p'):
+   children=[x for x in paragraph.contents if str(x).strip()]
+   if children and all(getattr(x,'name',None)=='a' and x.has_attr('id') and not x.has_attr('href') and not x.contents for x in children):
+    heading=paragraph.find_next_sibling()
+    if heading and heading.name in ['h1','h2','h3','h4']:
+     for anchor in reversed(children):heading.insert(0,anchor.extract())
+  # Zero-size inline anchors can still be assigned to a preceding page by
+  # Chromium. Give each alias the heading's actual text box, without changing
+  # its typography. Nested spans preserve multiple legacy IDs on one heading.
+  for heading in body.select('h1,h2,h3,h4'):
+   aliases=[a for a in heading.select('a[id]:not([href])') if not a.contents]
+   for alias in aliases:alias.extract()
+   for alias in reversed(aliases):
+    alias.name='span';alias['class']='print-anchor'
+    for node in list(heading.contents):alias.append(node.extract())
+    heading.append(alias)
   for a in body.select('a[href]'):
    u=urlsplit(a['href'])
    if u.scheme or u.netloc:continue
@@ -66,6 +85,16 @@ for group,records in GROUPS.items():
     if not parent.find('img'):parent.decompose()
    elif parent.name not in ['td','th','figure']:
     f=soup.new_tag('figure');im.wrap(f)
+  if docid=='CS5489-Lecture02':
+   for table in body.find_all('table'):
+    if table.select('img[src$="/iris-versicolor.jpg"]'):
+     table['class']=list(table.get('class',[]))+['flower-photos']
+   # A short sentence introducing an equation should travel with that equation.
+   for block in body.select('div.arithmatex, table'):
+    outer=block.parent if block.name=='table' and 'table-scroll' in block.parent.get('class',[]) else block
+    lead=outer.find_previous_sibling()
+    if lead and lead.name=='p' and len(lead.get_text())<=180 and (block.name!='table' or lead.get_text().rstrip().endswith(('：',':'))):
+     lead['class']=list(lead.get('class',[]))+['equation-lead']
   # Clip only blank margins of full-page question images through layout.
   # Pixels in the original file are never rewritten; all nonwhite content stays.
   for image in list(body.select('figure img')):
@@ -84,7 +113,7 @@ for group,records in GROUPS.items():
   # Captions stay with images when the next paragraph is explicitly italic.
   for f in list(body.select('figure')):
    nxt=f.find_next_sibling()
-   if nxt and nxt.name=='p' and nxt.find('em') and len(nxt.get_text())<500:
+   if nxt and nxt.name=='p' and len(nxt.get_text())<500 and (nxt.find('em') or (docid=='CS5489-Lecture02' and nxt.get_text().startswith('图源：'))):
     nxt.name='figcaption';f.append(nxt.extract())
    image=f.find('img')
    if image and 'svm-supplement-' in image.get('src',''):
@@ -124,9 +153,9 @@ for group,records in GROUPS.items():
   targets=[]
   for e in body.select('[id]'):
    if e.name in ['h1','h2','h3','h4']:heading=e
-   elif e.name=='a':heading=e.find_next(['h1','h2','h3','h4'])
+   elif e.name=='a' or 'print-anchor' in e.get('class',[]):heading=e.find_parent(['h1','h2','h3','h4']) or e.find_next(['h1','h2','h3','h4'])
    else:continue
-   if heading:targets.append({'id':e['id'],'title':heading.get_text(' ',strip=True)})
+   if heading:targets.append({'id':e['id'],'title':heading.get_text(' ',strip=True),'attached_to_heading':'print-anchor' in e.get('class',[])})
   blocks.append('<article class="doc" id="'+docid+'">'+''.join(str(x) for x in body.contents)+'</article>')
   docs.append({'id':docid,'source':r['source'],'title':title,'sections':sections,'targets':targets})
  label={'CS5489':'机器学习 · 课堂讲义与练习','CS5222':'计算机网络 · 课堂讲义与练习','Foundations':'按需基础补课与来源说明'}[group]

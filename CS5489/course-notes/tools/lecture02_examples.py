@@ -1,4 +1,4 @@
-"""Recompute Lecture 2 teaching examples and two figures; never runs Tutorials.
+"""Recompute Lecture 2 teaching examples and six print figures; never runs Tutorials.
 
 Install requirements-notebooks.txt. Set COURSE_DATA_ROOT to the Canvas data root.
 No raw datasets or instructor notebooks are copied into the repository.
@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from matplotlib.patches import Ellipse
 from scipy.stats import norm, multivariate_normal
 from scipy.special import logsumexp
 from sklearn.model_selection import train_test_split
@@ -26,7 +27,7 @@ for name in ['iris2.csv', 'Lecture2b.ipynb', 'email']:
 ASSETS = NOTES/'assets'
 REPORT = ROOT/'docs/reviews/lecture02-2026-10-08/calculations.json'
 ASSETS.mkdir(exist_ok=True); REPORT.parent.mkdir(parents=True, exist_ok=True)
-plt.rcParams.update({'font.family':'DejaVu Sans','font.size':11,'figure.dpi':150,
+plt.rcParams.update({'font.family':'DejaVu Sans','font.size':12,'figure.dpi':150,
     'axes.spines.top':False,'axes.spines.right':False,'savefig.facecolor':'white'})
 BLUE, GOLD, INK = '#2870a2','#b57319','#243343'
 def save(fig, name):
@@ -47,13 +48,43 @@ prior=np.array([np.mean(y==c) for c in [1,2]])
 point=5.; densities=norm.pdf(point,mu,std); scores=densities*prior
 manual_density=np.exp(-((point-mu)**2)/(2*std**2))/np.sqrt(2*np.pi*std**2)
 np.testing.assert_allclose(densities,manual_density)
-fig,axes=plt.subplots(1,2,figsize=(9,3.5),layout='constrained')
+fig,axes=plt.subplots(1,2,figsize=(8,3.4),layout='constrained')
 for c,ax,color in zip([1,2],axes,[BLUE,GOLD]):
     v=X[y==c,0];grid=np.linspace(2.5,7.2,400)
     ax.hist(v,bins=np.arange(2.5,7.51,.2),density=True,color=color,alpha=.25,edgecolor=color,label='Observed lengths (n=50)')
     ax.plot(grid,norm.pdf(grid,mu[c-1],std[c-1]),color=color,lw=2,label='Fitted Gaussian')
-    ax.set(title=['Versicolor (class 1)','Virginica (class 2)'][c-1],xlabel='Petal length (cm)',ylabel='Density (1/cm)',xlim=(2.5,7.2));ax.legend(fontsize=8)
+    ax.set(title=['Versicolor (class 1)','Virginica (class 2)'][c-1],xlabel='Petal length (cm)',ylabel='Density (1/cm)',xlim=(2.5,7.2));ax.legend(fontsize=11)
 save(fig,'lecture02-histogram-fit.png')
+# Single-panel chart: 132 mm in the A4 book; labels remain about 10 pt.
+fig,ax=plt.subplots(figsize=(6.2,4),layout='constrained')
+for c,color,marker,name in [(1,BLUE,'o','Versicolor (1)'),(2,GOLD,'^','Virginica (2)')]:
+    pts=X[y==c]
+    ax.scatter(*pts.T,label=f'{name}, n={len(pts)}',c=color,marker=marker,s=35,alpha=.85,edgecolors='white',linewidths=.5)
+ax.set(xlabel='Petal length (cm)',ylabel='Sepal width (cm)',title="The instructor's two-feature iris data")
+ax.legend(fontsize=11);ax.grid(alpha=.15);save(fig,'iris-measurements.png')
+# Same one-dimensional fit and equal empirical priors as the worked example.
+axis=np.linspace(2.5,7,500);density=np.array([norm.pdf(axis,m,s) for m,s in zip(mu,std)]).T
+joint=density*prior;posterior=joint/joint.sum(1,keepdims=True)
+fig,axes=plt.subplots(1,2,figsize=(8,3.5),layout='constrained')
+for j,color in enumerate([BLUE,GOLD]):
+    axes[0].plot(axis,density[:,j],color=color,label=f'Class {j+1}',ls='-' if j==0 else '--')
+    axes[1].plot(axis,posterior[:,j],color=color,label=f'Class {j+1}',ls='-' if j==0 else '--')
+axes[0].set(title='Class-conditional density',xlabel='Petal length (cm)',ylabel='Density (1/cm)')
+axes[1].set(title='Posterior with equal priors',xlabel='Petal length (cm)',ylabel='Class probability',ylim=(0,1))
+for ax in axes:ax.legend(fontsize=11);ax.grid(alpha=.15)
+save(fig,'iris-density-posterior.png')
+# New Lecture-2-only asset: the existing shared foundation figure is unchanged.
+fig,axes=plt.subplots(2,2,figsize=(6.4,5.8),layout='constrained')
+for ax,rho in zip(axes.flat,[0,.5,.9,-.9]):
+    cov=np.array([[1,rho],[rho,1]]);values,vectors=np.linalg.eigh(cov)
+    angle=np.degrees(np.arctan2(vectors[1,-1],vectors[0,-1]))
+    ax.add_patch(Ellipse((0,0),4*np.sqrt(values[-1]),4*np.sqrt(values[0]),angle=angle,fill=False,ec=BLUE,lw=2))
+    ax.axhline(0,color=INK,alpha=.2,lw=.7);ax.axvline(0,color=INK,alpha=.2,lw=.7)
+    ax.set(xlim=(-2.4,2.4),ylim=(-2.4,2.4),xlabel='Feature 1 (unitless)',ylabel='Feature 2 (unitless)',title=f'Off-diagonal = {rho:g}')
+    ax.set_aspect('equal')
+fig.suptitle('Equal marginal variances; different joint shapes\nContours at squared Mahalanobis distance 4',fontsize=12)
+save(fig,'lecture02-covariance-shapes.png')
+
 # Same instructor split, with indices retained to identify the annotated record.
 it,iv=train_test_split(np.arange(len(y)),train_size=.5,test_size=.5,random_state=4487)
 xt,xv,yt,yv=X[it],X[iv],y[it],y[iv]
@@ -61,14 +92,14 @@ gnb=GaussianNB().fit(xt,yt);pred=gnb.predict(xv)
 error_indices=np.flatnonzero(pred!=yv);ei=int(error_indices[0]);focus=xv[ei]
 grid0,grid1=np.meshgrid(np.linspace(2.5,7,220),np.linspace(1.5,4,180))
 grid=np.c_[grid0.ravel(),grid1.ravel()];p2=gnb.predict_proba(grid)[:,1].reshape(grid0.shape)
-fig,ax=plt.subplots(figsize=(7,4.8),layout='constrained')
+fig,ax=plt.subplots(figsize=(6.4,4.4),layout='constrained')
 ax.contourf(grid0,grid1,p2,levels=[0,.5,1],colors=[BLUE,GOLD],alpha=.09)
 ax.contour(grid0,grid1,p2,levels=[.5],colors=INK,linestyles='--',linewidths=1.5)
 for c,color,marker,name in [(1,BLUE,'o','True class 1'),(2,GOLD,'^','True class 2')]:
     ax.scatter(*xv[yv==c].T,color=color,marker=marker,s=33,label=name)
 ax.scatter(*xv[error_indices].T,marker='s',facecolors='none',edgecolors=INK,s=100,lw=1.25,label='Wrong prediction')
-ax.annotate(f'A: ({focus[0]:g}, {focus[1]:g}) cm',xy=focus,xytext=(3.0,3.75),arrowprops={'arrowstyle':'->','color':INK},fontsize=10)
-ax.set(title='Gaussian NB: 42 / 50 test flowers classified correctly',xlabel='Petal length (cm)',ylabel='Sepal width (cm)',xlim=(2.5,7),ylim=(1.5,4));ax.legend(loc='lower right',fontsize=9);ax.grid(alpha=.15)
+ax.annotate(f'A: ({focus[0]:g}, {focus[1]:g}) cm',xy=focus,xytext=(3.0,3.75),arrowprops={'arrowstyle':'->','color':INK},fontsize=12)
+ax.set(title='Gaussian NB: 42 / 50 correct on test data',xlabel='Petal length (cm)',ylabel='Sepal width (cm)',xlim=(2.5,7),ylim=(1.5,4));ax.legend(loc='lower right',fontsize=11);ax.grid(alpha=.15)
 save(fig,'lecture02-test-errors.png')
 probe=np.array([5.,3.]);marginal=norm.pdf(probe,gnb.theta_,np.sqrt(gnb.var_))
 manual_post=marginal.prod(axis=1)*gnb.class_prior_;manual_post/=manual_post.sum()
@@ -76,6 +107,18 @@ np.testing.assert_allclose(manual_post,gnb.predict_proba(probe[None,:])[0])
 full_mu=np.array([xt[yt==c].mean(0) for c in [1,2]])
 full_cov=np.array([np.cov(xt[yt==c],rowvar=False) for c in [1,2]])
 full_score=np.column_stack([multivariate_normal.logpdf(xv,mean=full_mu[j],cov=full_cov[j])+np.log(gnb.class_prior_[j]) for j in [0,1]])
+# Same class-specific N_c-1 covariance convention as the instructor's code.
+full_grid_score=np.column_stack([multivariate_normal.logpdf(grid,mean=full_mu[j],cov=full_cov[j])+np.log(gnb.class_prior_[j]) for j in [0,1]])
+full_grid_p=normalized(full_grid_score)[:,1].reshape(grid0.shape)
+fig,axes=plt.subplots(1,2,figsize=(8,3.5),layout='constrained')
+for ax,p,title in [(axes[0],p2,'Gaussian NB\nDiagonal covariance'),(axes[1],full_grid_p,'Gaussian Bayes\nClass-specific full covariance')]:
+    ax.contour(grid0,grid1,p,levels=[.5],colors=INK,linestyles='--',linewidths=1.6)
+    for c,color,marker in [(1,BLUE,'o'),(2,GOLD,'^')]:
+        ax.scatter(*xt[yt==c].T,c=color,marker=marker,s=26,label=f'Train class {c}')
+    ax.set(title=title,xlabel='Petal length (cm)',ylabel='Sepal width (cm)',xlim=(2.5,7),ylim=(1.5,4))
+    ax.legend(fontsize=11);ax.grid(alpha=.15)
+save(fig,'iris-model-comparison.png')
+
 # Two covariance matrices used in the worked bridge and changed-prior exercise.
 point2=np.array([1.,1.]);covs=[np.eye(2),np.array([[1.,.5],[.5,1.]])]
 distance=np.array([point2@np.linalg.solve(c,point2) for c in covs]);det=np.array([np.linalg.det(c) for c in covs])

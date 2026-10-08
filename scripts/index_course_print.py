@@ -2,12 +2,12 @@
 from pathlib import Path
 import json,re,sys,unicodedata
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject,TextStringObject
+from pypdf.generic import NameObject,TextStringObject,ArrayObject,DictionaryObject
 from urllib.parse import unquote,urlsplit,quote
 C=Path(__file__).resolve().parents[1];P=C/'.build/print';F=C/'pdf'
 manifest=json.loads((P/'manifest.json').read_text());old=json.loads((P/'page-map.json').read_text()) if (P/'page-map.json').exists() else {}
 old_anchors=json.loads((P/'anchor-map.json').read_text()) if (P/'anchor-map.json').exists() else {}
-result={};pdfs={};anchors={}
+result={};pdfs={};anchors={};heading_destinations={};destination_repairs=[]
 for group,book in manifest.items():
  r=PdfReader(F/(group+'-A4.pdf'));pdfs[group]=r
  texts=None
@@ -26,7 +26,9 @@ for group,book in manifest.items():
    if isinstance(item,list):yield from walk(item)
    else:yield item
  def norm(s):return re.sub(r'\s+','',unicodedata.normalize('NFKC',s))
- headings=[(norm(o.title),r.get_destination_page_number(o)+1) for o in walk(r.outline)]
+ outlines=list(walk(r.outline))
+ headings=[(norm(o.title),r.get_destination_page_number(o)+1) for o in outlines]
+ heading_destinations[group]={}
  for doc in book['documents']:
   start,end=result[doc['id']]['start'],result[doc['id']]['end']
   anchors[doc['id']]=start
@@ -35,6 +37,22 @@ for group,book in manifest.items():
    if candidates:anchors[t['id']]=candidates[0]
   for key,dest in r.named_destinations.items():
    if key.lstrip('/').startswith(doc['id']+'__'):anchors[key.lstrip('/')]=r.get_destination_page_number(dest)+1
+  # Chromium occasionally leaves a named destination at its pre-pagination
+  # position even when it wraps real heading text. The outline has the actual
+  # printed heading position; use it for the page map and final PDF destination.
+  for target in doc.get('targets',[]):
+   if not target.get('attached_to_heading'):continue
+   key='/'+target['id'] if '/'+target['id'] in r.named_destinations else target['id']
+   actual=r.named_destinations.get(key)
+   if actual is None:continue
+   matches=[o for o in outlines if start<=r.get_destination_page_number(o)+1<=end and norm(o.title)==norm(target['title'])]
+   if len(matches)!=1:raise RuntimeError(('Ambiguous heading destination',target['id'],len(matches)))
+   heading=matches[0];page=r.get_destination_page_number(heading)+1
+   heading_destinations[group][key]=(page,heading.dest_array)
+   anchors[target['id']]=page
+   if r.get_destination_page_number(actual)+1!=page:
+    destination_repairs.append({'group':group,'id':target['id'],'from':r.get_destination_page_number(actual)+1,'to':page})
+(P/'heading-destination-repairs.json').write_text(json.dumps(destination_repairs,ensure_ascii=False,indent=2)+'\n')
 (P/'page-map.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
 (P/'anchor-map.json').write_text(json.dumps(anchors,ensure_ascii=False,indent=2)+'\n')
 print('Page map stable:',result==old,'Anchor map stable:',anchors==old_anchors)
@@ -43,6 +61,28 @@ if '--finalize' in sys.argv:
  if result!=old or anchors!=old_anchors:raise RuntimeError('Page map changed; rebuild and render before finalizing')
  for group,r in pdfs.items():
   w=PdfWriter();w.clone_document_from_reader(r)
+  destinations=w.get_named_dest_root()
+  repaired=set()
+  # Chromium uses the legacy /Dests dictionary; other producers use /Names.
+  direct=w.root_object.get('/Dests')
+  if direct:
+   direct=direct.get_object()
+   for key in list(direct):
+    if str(key) in heading_destinations[group]:
+     page,array=heading_destinations[group][str(key)]
+     direct[key]=ArrayObject([w.pages[page-1].indirect_reference,*array[1:]])
+     repaired.add(str(key))
+  for index in range(0,len(destinations),2):
+   key=str(destinations[index])
+   if key not in heading_destinations[group]:continue
+   page,array=heading_destinations[group][key]
+   corrected=ArrayObject([w.pages[page-1].indirect_reference,*array[1:]])
+   item=destinations[index+1].get_object()
+   if isinstance(item,DictionaryObject):item[NameObject('/D')]=corrected
+   else:destinations[index+1]=corrected
+   repaired.add(key)
+  if repaired!=set(heading_destinations[group]):raise RuntimeError(('Unrepaired heading destinations',group,set(heading_destinations[group])-repaired))
+
   w.add_metadata({'/Title':group+' | A4 study notes','/Author':'Local course learning notes','/Subject':'Instructor-aligned bilingual study notes; current downloaded Canvas; collaborative study notes'})
   for doc in manifest[group]['documents']:w.add_named_destination(doc['id'],result[doc['id']]['start']-1)
   from io import BytesIO
@@ -74,4 +114,9 @@ if '--finalize' in sys.argv:
   temp=F/(group+'-A4.tmp.pdf')
   with temp.open('wb') as f:w.write(f)
   temp.replace(F/(group+'-A4.pdf'))
+  verified=PdfReader(F/(group+'-A4.pdf'),strict=True)
+  for key,(page,_) in heading_destinations[group].items():
+   if verified.get_destination_page_number(verified.named_destinations[key])+1!=page:
+    raise RuntimeError(('Final PDF destination mismatch',group,key,page))
+
  print('Final metadata, named document destinations and relative cross-book links written.')

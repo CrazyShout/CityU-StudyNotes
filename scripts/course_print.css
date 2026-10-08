@@ -84,3 +84,19 @@ figure img[src$="/poisson.png"],figure img[src$="/gaussian.png"] {max-width:130m
 .print-column-panel {break-inside:avoid;page-break-inside:avoid;}
 .print-column-panel caption {text-align:left;font-size:9pt;margin-bottom:1.5mm;}
 .print-column-panel th,.print-column-panel td {overflow-wrap:normal;word-break:normal;}
+
+/* Lecture 2: explanatory images fit their role, equations retain readable type. */
+#CS5489-Lecture02 figure img[src$="/Petal-sepal.jpg"] {max-width:44mm;max-height:48mm;}
+#CS5489-Lecture02 table.flower-photos {width:108mm;margin-left:auto;margin-right:auto;}
+#CS5489-Lecture02 table.flower-photos img {max-width:48mm;max-height:38mm;}
+#CS5489-Lecture02 figure img[src$="/iris-measurements.png"],
+#CS5489-Lecture02 figure img[src$="/lecture02-test-errors.png"] {max-width:132mm;}
+#CS5489-Lecture02 figure img[src$="/lecture02-covariance-shapes.png"] {max-width:132mm;}
+#CS5489-Lecture02 figure img[src$="/lecture02-histogram-fit.png"],
+#CS5489-Lecture02 figure img[src$="/iris-density-posterior.png"],
+#CS5489-Lecture02 figure img[src$="/iris-model-comparison.png"] {max-width:155mm;}
+#CS5489-Lecture02 figure img[src$="/tom-mitchell-bow.jpg"] {max-width:68mm;max-height:65mm;}
+#CS5489-Lecture02 .equation-lead {break-after:avoid;page-break-after:avoid;}
+#CS5489-Lecture02 .katex-display {margin:4mm 0;}
+
+#CS5489-Lecture02 .answer-block {break-inside:avoid;page-break-inside:avoid;}

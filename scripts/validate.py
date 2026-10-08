@@ -35,10 +35,24 @@ for course in ['CS5489','CS5222']:
     stems=[Path(d['source']).stem for d in docs if d['major'] and d['course']==course]
     ranks=[0 if s.startswith(('Lecture','Chapter')) else 1 if s.startswith('Tutorial') else 2 for s in stems]
     assert ranks==sorted(ranks),(course,'document ordering')
+# Lecture 2 display equations are numbered once, in reading order.
+lecture=(ROOT/'CS5489/course-notes/Lecture02.md').read_text()
+blocks=re.findall(r'\$\$(.*?)\$\$',lecture,re.S)
+equation_numbers=[]
+for i,block in enumerate(blocks,1):
+    tags=re.findall(r'\\tag\{([^}]+)\}',block)
+    assert tags==[f'2.{i}'],('Lecture02 equation numbering',i,tags)
+    equation_numbers.append(f'(2.{i})')
 manifest=json.loads((ROOT/'pdf/manifest.json').read_text())
 for book in manifest['books']:
     p=ROOT/'pdf'/book['file'];assert hashlib.sha256(p.read_bytes()).hexdigest()==book['sha256'],p
     reader=PdfReader(p,strict=True);assert len(reader.pages)==book['pages']
+    if book['file']=='CS5489-A4.pdf':
+        document=next(d for d in book['documents'] if d['id']=='CS5489-Lecture02')
+        text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
+        printed=re.findall(r'\(2\.\d+\)',text)
+        assert printed==equation_numbers,('Printed Lecture02 equation tags',printed)
+
     for page in reader.pages:
         assert abs(float(page.mediabox.width)-595.28)<2 and abs(float(page.mediabox.height)-841.89)<2
         for ref in page.get('/Annots',[]):

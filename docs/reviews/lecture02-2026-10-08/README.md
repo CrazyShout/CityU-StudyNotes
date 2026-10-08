@@ -29,7 +29,7 @@
 python CS5489/course-notes/tools/lecture02_examples.py
 ```
 
-默认读取仓库被忽略的`data/`。缺少数据明确报错，不使用随机替代数据。脚本生成两张新图及此目录的计算记录，不运行Tutorial或Assignment。
+默认读取仓库被忽略的`data/`。缺少数据明确报错，不使用随机替代数据。脚本生成六张Lecture 2计算图及此目录的计算记录，不运行Tutorial或Assignment。
 
 ## 验收
 
@@ -38,3 +38,7 @@ python CS5489/course-notes/tools/lecture02_examples.py
 为使PR里的PDF能访问新增计算记录，打印器支持STUDY_NOTES_SOURCE_REF，将仓库资料链接固定到源稿提交；不设置时仍用main。跨册PDF继续使用相对链接。
 
 打印回链还修复了一处已有问题：课程目录的临时README.html映射回可提交的README.md。校验器会拒绝指向未发布HTML中间文件的仓库链接。
+
+## 排版跟进
+
+用户要求缩小图片、改善公式并加编号后，已完成[排版复核](LAYOUT.md)。Lecture 2的36组独立公式编号为(2.1)–(2.36)，照片与数据图按内容设定宽度，纸质和电子回链均对齐实际标题页。此记录补充上述首轮验收。

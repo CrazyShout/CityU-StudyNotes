@@ -34,7 +34,10 @@
 
 数学上把测量写成列向量
 
-$$\mathbf{x}=(x_1,x_2)^T\in\mathbb R^2,\qquad y\in\{1,2\}.$$
+$$
+\mathbf{x}=(x_1,x_2)^T\in\mathbb R^2,\qquad y\in\{1,2\}.
+\tag{2.1}
+$$
 
 $x_1$、$x_2$依次表示上述两个长度，单位都是厘米；上标$T$表示转置，使两个数竖着排列。1和2只是类别的名字。代码把100朵花按行堆起来，所以`X.shape=(100,2)`，标签数组`y.shape=(100,)`。单条数学向量写成列，程序按行保存多条记录，两者说的是同一批数据。
 
@@ -53,13 +56,19 @@ $x_1$、$x_2$依次表示上述两个长度，单位都是厘米；上标$T$表�
 
 两者合起来描述“种类与测量一起出现”的情况：
 
-$$p(\mathbf{x},y)=p(y)\,p(\mathbf{x}\mid y).$$
+$$
+p(\mathbf{x},y)=p(y)\,p(\mathbf{x}\mid y).
+\tag{2.2}
+$$
 
 这叫 **generative model（生成式模型）**：先描述类别，再描述该类的特征。预测时方向相反：看见测量后，判断种类。这时需要 **posterior probability（后验概率）** $p(y=c\mid\mathbf{x})$，第三部分会把它算出来。
 
 老师先用40%与60%的类别比例举例。令$\pi=p(y=1)$，则$p(y=2)=1-\pi$。把两个情况合成一行，就是
 
-$$p(y)=\pi^{\mathbb 1(y=1)}(1-\pi)^{\mathbb 1(y=2)}.$$
+$$
+p(y)=\pi^{\mathbb 1(y=1)}(1-\pi)^{\mathbb 1(y=2)}.
+\tag{2.3}
+$$
 
 **Indicator function（指示函数）**在括号里的条件成立时取1，否则取0。$y=1$时公式留下$\pi$；$y=2$时留下$1-\pi$。这里$\pi$是类别比例；后面高斯公式中的$2\pi$使用圆周率。
 
@@ -71,21 +80,30 @@ $$p(y)=\pi^{\mathbb 1(y=1)}(1-\pi)^{\mathbb 1(y=2)}.$$
 
 把已经收集到的标签固定下来，尝试不同的$\pi$。如果这些标签独立来自同一个类别分布，整串标签的概率是各项相乘。记总数为$N$、两类数量为$N_1,N_2$，则
 
-$$L(\pi)=\prod_{i=1}^{N}p(y_i;\pi)=\pi^{N_1}(1-\pi)^{N_2},\qquad N=N_1+N_2.$$
+$$
+L(\pi)=\prod_{i=1}^{N}p(y_i;\pi)=\pi^{N_1}(1-\pi)^{N_2},\qquad N=N_1+N_2.
+\tag{2.4}
+$$
 
 把这个式子看成关于参数$\pi$的函数，就叫 **likelihood（似然）**。我们比较的是“哪一个参数更能解释同一批观测”，并没有给参数本身赋予概率。
 
 取自然对数能把乘积变成和；对数单调递增，最大值的位置保持：
 
-$$\ell(\pi)=\log L(\pi)=N_1\log\pi+N_2\log(1-\pi).$$
+$$
+\ell(\pi)=\log L(\pi)=N_1\log\pi+N_2\log(1-\pi).
+\tag{2.5}
+$$
 
 两类都出现时，令导数为0：
 
-$$\begin{aligned}
+$$
+\begin{aligned}
 \frac{d\ell}{d\pi}&=\frac{N_1}{\pi}-\frac{N_2}{1-\pi}=0,\\
 N_1(1-\pi)&=N_2\pi,\\
 \hat\pi&=\frac{N_1}{N_1+N_2}.
-\end{aligned}$$
+\end{aligned}
+\tag{2.6}
+$$
 
 二阶导数为$-N_1/\pi^2-N_2/(1-\pi)^2\lt0$，因此这是最大值。若只观察到一种类别，最大值在0或1的边界。多类的结果同样是$\hat p(y=c)=N_c/N$。
 
@@ -109,8 +127,11 @@ N_1(1-\pi)&=N_2\pi,\\
 
 老师选择 **Gaussian distribution / normal distribution（高斯分布／正态分布）**来建模。这样只要两个参数，就能描述中心位置和展开宽度：
 
-$$p(x\mid y=c)=\frac{1}{\sqrt{2\pi\sigma_c^2}}
-\exp\!\left[-\frac{(x-\mu_c)^2}{2\sigma_c^2}\right].$$
+$$
+p(x\mid y=c)=\frac{1}{\sqrt{2\pi\sigma_c^2}}
+\exp\!\left[-\frac{(x-\mu_c)^2}{2\sigma_c^2}\right].
+\tag{2.7}
+$$
 
 其中$c$是类别，$\mu_c$是平均长度，$\sigma_c$是标准差，两者单位均为厘米；$\sigma_c^2$是方差，单位为平方厘米。每个类别都有自己的这组参数。
 
@@ -128,28 +149,40 @@ $$p(x\mid y=c)=\frac{1}{\sqrt{2\pi\sigma_c^2}}
 
 每个样本有一个高斯密度。把它们相乘，就得到这一组参数对全体观测的似然：
 
-$$L(\mu,\sigma^2)=\prod_{i=1}^N
+$$
+L(\mu,\sigma^2)=\prod_{i=1}^N
 \frac{1}{\sqrt{2\pi\sigma^2}}
-\exp\!\left[-\frac{(x_i-\mu)^2}{2\sigma^2}\right].$$
+\exp\!\left[-\frac{(x_i-\mu)^2}{2\sigma^2}\right].
+\tag{2.8}
+$$
 
 现在取对数。每个样本的归一化系数都贡献$-\tfrac12\log(2\pi\sigma^2)$，共出现$N$次；指数中的项则相加。于是
 
-$$\ell(\mu,\sigma^2)=-\frac N2\log(2\pi\sigma^2)
--\frac{1}{2\sigma^2}\sum_{i=1}^N(x_i-\mu)^2.$$
+$$
+\ell(\mu,\sigma^2)=-\frac N2\log(2\pi\sigma^2)
+-\frac{1}{2\sigma^2}\sum_{i=1}^N(x_i-\mu)^2.
+\tag{2.9}
+$$
 
 固定方差，对均值求导。$(x_i-\mu)^2$的导数是$-2(x_i-\mu)$，与外面的负号抵消：
 
-$$\frac{\partial\ell}{\partial\mu}
-=\frac1{\sigma^2}\sum_i(x_i-\mu)=0
-\quad\Rightarrow\quad
-\hat\mu=\frac1N\sum_i x_i.$$
+$$
+\begin{aligned}
+\frac{\partial\ell}{\partial\mu}&=\frac1{\sigma^2}\sum_i(x_i-\mu)=0,\\
+\hat\mu&=\frac1N\sum_i x_i.
+\end{aligned}
+\tag{2.10}
+$$
 
 方差也能这样求。以下补齐原课省略的中间步骤：令$v=\sigma^2$，明确我们对**方差**求导；$v^{-1}$的导数为$-v^{-2}$：
 
-$$\frac{\partial\ell}{\partial v}
-=-\frac N{2v}+\frac{\sum_i(x_i-\mu)^2}{2v^2}=0
-\quad\Rightarrow\quad
-\hat\sigma^2=\frac1N\sum_i(x_i-\hat\mu)^2.$$
+$$
+\begin{aligned}
+\frac{\partial\ell}{\partial v}&=-\frac N{2v}+\frac{\sum_i(x_i-\mu)^2}{2v^2}=0,\\
+\hat\sigma^2&=\frac1N\sum_i(x_i-\hat\mu)^2.
+\end{aligned}
+\tag{2.11}
+$$
 
 **教学算例 / Worked example.** 某类长度为2、4、6 cm，求高斯MLE的均值、方差和标准差。 / For lengths 2, 4 and 6 cm from one class, find the Gaussian MLE mean, variance and standard deviation.
 
@@ -184,8 +217,11 @@ $$\frac{\partial\ell}{\partial v}
 
 先算类1的密度：
 
-$$p(5\mid1)=\frac{\exp[-(5-4.26)^2/(2\times0.4652^2)]}
-{\sqrt{2\pi}\times0.4652}\approx0.2420\ \mathrm{cm}^{-1}.$$
+$$
+p(5\mid1)=\frac{\exp[-(5-4.26)^2/(2\times0.4652^2)]}
+{\sqrt{2\pi}\times0.4652}\approx0.2420\ \mathrm{cm}^{-1}.
+\tag{2.12}
+$$
 
 类2同样代入$\mu_2=5.5520,\sigma_2=0.5463$，得到约$0.4383$ cm⁻¹。参数和结果在正文中四舍五入，计算记录使用未舍入值。
 
@@ -193,8 +229,11 @@ $$p(5\mid1)=\frac{\exp[-(5-4.26)^2/(2\times0.4652^2)]}
 
 密度还需要结合类别先验。把两者相乘得到$s_c$，再除以全部类别分数之和：
 
-$$s_c=p(x\mid y=c)p(y=c),\qquad
-p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.$$
+$$
+s_c=p(x\mid y=c)p(y=c),\qquad
+p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
+\tag{2.13}
+$$
 
 | 计算步骤 | 类1 | 类2 |
 |---|---:|---:|
@@ -226,8 +265,11 @@ p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.$$
 
 只想选类别时，可以省掉共同分母；再对正分数取log，大小顺序也不变：
 
-$$\hat y=\arg\max_c p(x\mid c)p(c)
-=\arg\max_c\{\log p(x\mid c)+\log p(c)\}.$$
+$$
+\hat y=\arg\max_c p(x\mid c)p(c)
+=\arg\max_c\{\log p(x\mid c)+\log p(c)\}.
+\tag{2.14}
+$$
 
 `argmax`返回让分数最大的类别。多项很小的数连乘，计算机可能把结果舍入成0，这叫 **underflow（下溢）**。把乘法转成对数的加法，能避免许多这样的数值问题。零分数的log可视为$-\infty$；所有类别都不可能时则需要处理模型或输入。
 
@@ -246,16 +288,22 @@ $$\hat y=\arg\max_c p(x\mid c)p(c)
 
 一维模型没有使用萼片宽度。现在输入恢复为$\mathbf x=(x_1,x_2)^T$，我们要描述两项测量的联合分布。**Naive Bayes（朴素贝叶斯，NB）**先作一个简化：给定花的种类之后，两项测量条件独立，于是
 
-$$p(x_1,x_2\mid c)=p(x_1\mid c)p(x_2\mid c),\qquad
-p(\mathbf x\mid c)=\prod_{j=1}^d p(x_j\mid c).$$
+$$
+p(x_1,x_2\mid c)=p(x_1\mid c)p(x_2\mid c),\qquad
+p(\mathbf x\mid c)=\prod_{j=1}^d p(x_j\mid c).
+\tag{2.15}
+$$
 
 这个假设意味着：已经知道种类时，再知道花瓣长度，不会改变模型对萼片宽度的分布判断。它没有要求把不同种类混在一起后，两项测量也独立。稍后我们会看，原数据为什么需要比这个假设更灵活的模型。
 
 **Gaussian NB**把每一项测量分别建成一元高斯。类别$c$、特征$j$各有均值$\mu_{c,j}$和方差$\sigma_{c,j}^2$：
 
-$$\log p(\mathbf x\mid c)=\sum_{j=1}^d
+$$
+\log p(\mathbf x\mid c)=\sum_{j=1}^d
 \left[-\frac12\log(2\pi\sigma_{c,j}^2)
--\frac{(x_j-\mu_{c,j})^2}{2\sigma_{c,j}^2}\right].$$
+-\frac{(x_j-\mu_{c,j})^2}{2\sigma_{c,j}^2}\right].
+\tag{2.16}
+$$
 
 课堂把100朵花分成50朵训练、50朵测试，划分种子为4487。模型只从训练集估参数。这次训练集中类1有19朵、类2有31朵，所以先验变成0.38、0.62；它与前面全数据演示的0.5、0.5不同。
 
@@ -304,24 +352,30 @@ model.var_          # 同样形状：方差
 
 二维 **covariance matrix（协方差矩阵）**把信息放在四个格子中：
 
-$$\boldsymbol\Sigma_c=
+$$
+\boldsymbol\Sigma_c=
 \begin{pmatrix}
 \sigma_{c,1}^2 & \sigma_{c,12}\\
 \sigma_{c,12} & \sigma_{c,2}^2
-\end{pmatrix}.$$
+\end{pmatrix}.
+\tag{2.17}
+$$
 
 对角线上是两项测量各自的方差；另两个格子是协方差。协方差为正表示相对各自均值，两项常一起变大或变小；为负则表示一项变大时另一项常变小。独立且方差存在会得到零协方差；一般而言零协方差不保证独立，联合高斯是可以推出独立的特例。
 
-![同样的边缘方差，不同协方差使等密度线转向并变窄](assets/covariance-shapes.png)
+![同样的边缘方差，不同协方差使等密度线转向并变窄](assets/lecture02-covariance-shapes.png)
 
 四幅图的均值都是零，两项方差都是1，输入无量纲。左上图没有倾斜；右上到左下的正相关逐渐增强，两个坐标接近相等的组合更常见；右下图的负相关让常见组合沿反方向展开。每条曲线上各点的密度相同。绘图统一使用马氏距离平方为4的轮廓，便于比较形状。
 
 Gaussian NB对应**对角协方差**：没有倾斜的等密度椭圆。完整高斯允许非对角项，以记录这种搭配关系。它的均值向量有$d$项，协方差矩阵大小为$d\times d$；当协方差正定、各方向都保留非零波动时，密度为
 
-$$p(\mathbf x\mid c)=
+$$
+p(\mathbf x\mid c)=
 \frac{\exp[-\frac12(\mathbf x-\boldsymbol\mu_c)^T
 \boldsymbol\Sigma_c^{-1}(\mathbf x-\boldsymbol\mu_c)]}
-{(2\pi)^{d/2}|\boldsymbol\Sigma_c|^{1/2}}.$$
+{(2\pi)^{d/2}|\boldsymbol\Sigma_c|^{1/2}}.
+\tag{2.18}
+$$
 
 先看指数内：$\mathbf x-\boldsymbol\mu_c$是偏离均值的向量；转置、逆矩阵和乘法把它变成一个数，叫 **squared Mahalanobis distance（马氏距离平方）**。在本来波动大的方向，偏离一点不太意外；在波动很小的方向，同样偏离就更显眼。
 
@@ -329,24 +383,36 @@ $$p(\mathbf x\mid c)=
 
 分类时取log，省掉各类共有的$-\tfrac d2\log(2\pi)$，留下三项：
 
-$$g_c(\mathbf x)=
-\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}(\mathbf x-\boldsymbol\mu_c)}_{\text{distance}}
-\underbrace{-\tfrac12\log|\Sigma_c|}_{\text{spread}}
-+\underbrace{\log\pi_c}_{\text{prior}},\quad \pi_c=p(y=c).$$
+$$
+\begin{aligned}
+g_c(\mathbf x)&=\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}(\mathbf x-\boldsymbol\mu_c)}_{\text{distance}}\\
+&\quad\underbrace{-\tfrac12\log|\Sigma_c|}_{\text{spread}}+\underbrace{\log\pi_c}_{\text{prior}},\\
+\pi_c&=p(y=c).
+\end{aligned}
+\tag{2.19}
+$$
 
 ### A complete Gaussian decision｜三项一起算完
 
 **教学题 / Worked problem：** 两类均值为零，先验均为0.5。给定无量纲点$\mathbf x=(1,1)^T$和
 
-$$\Sigma_A=I=\begin{pmatrix}1&0\\0&1\end{pmatrix},\qquad
-\Sigma_B=\begin{pmatrix}1&0.5\\0.5&1\end{pmatrix},$$
+$$
+\Sigma_A=I=\begin{pmatrix}1&0\\0&1\end{pmatrix},\qquad
+\Sigma_B=\begin{pmatrix}1&0.5\\0.5&1\end{pmatrix},
+\tag{2.20}
+$$
 
 求两类分数与后验，在相同错分代价下分类。 / Both classes have zero means and priors 0.5. Using the point and covariances above, compute scores and posteriors and classify under equal error costs.
 
 $I$是单位矩阵：乘它不改变向量。A的距离平方为$1^2+1^2=2$。B的逆矩阵为
 
-$$\Sigma_B^{-1}=\frac1{0.75}\begin{pmatrix}1&-0.5\\-0.5&1\end{pmatrix},\qquad
-(1,1)\Sigma_B^{-1}(1,1)^T=\frac43.$$
+$$
+\begin{aligned}
+\Sigma_B^{-1}&=\frac1{0.75}\begin{pmatrix}1&-0.5\\-0.5&1\end{pmatrix},\\
+(1,1)\Sigma_B^{-1}(1,1)^T&=\frac43.
+\end{aligned}
+\tag{2.21}
+$$
 
 这个点沿两个坐标一起增大的方向移动，符合B的正相关趋势，因此B给出的校正距离更小。继续计算另外两项：
 
@@ -368,9 +434,14 @@ $$\Sigma_B^{-1}=\frac1{0.75}\begin{pmatrix}1&-0.5\\-0.5&1\end{pmatrix},\qquad
 
 对类别$c$的$N_c$条训练记录，理论MLE为
 
-$$\hat{\boldsymbol\mu}_c=\frac1{N_c}\sum_{i:y_i=c}\mathbf x_i,\qquad
-\hat{\boldsymbol\Sigma}_c=\frac1{N_c}\sum_{i:y_i=c}
-(\mathbf x_i-\hat{\boldsymbol\mu}_c)(\mathbf x_i-\hat{\boldsymbol\mu}_c)^T.$$
+$$
+\begin{aligned}
+\hat{\boldsymbol\mu}_c&=\frac1{N_c}\sum_{i:y_i=c}\mathbf x_i,\\
+\hat{\boldsymbol\Sigma}_c&=\frac1{N_c}\sum_{i:y_i=c}
+(\mathbf x_i-\hat{\boldsymbol\mu}_c)(\mathbf x_i-\hat{\boldsymbol\mu}_c)^T.
+\end{aligned}
+\tag{2.22}
+$$
 
 每个偏差向量与自己的转置相乘，得到$d\times d$表格，再取平均：对角格积累平方偏差，非对角格积累两项偏差的乘积。这就把“各自波动”和“一起变化”算进同一矩阵。
 
@@ -430,18 +501,27 @@ testX = cntvect.transform(testtext)
 
 **Bernoulli NB**只问一个词有没有出现。固定词$j$、类别$c$，设
 
-$$\pi_{j,c}=P(x_j=1\mid y=c),\qquad x_j\in\{0,1\}.$$
+$$
+\pi_{j,c}=P(x_j=1\mid y=c),\qquad x_j\in\{0,1\}.
+\tag{2.23}
+$$
 
 若该类有$N_c$篇文档，其中$N_{j,c}$篇含词$j$，无平滑MLE就是$N_{j,c}/N_c$。一封邮件写五遍free，在这里仍只计一篇“含有free的邮件”。
 
 先用两个词理解分类。如果词表是`[free, meeting]`，新邮件只出现free，那么在类别$c$下，它的概率为
 
-$$P([1,0]\mid c)=\pi_{\mathrm{free},c}(1-\pi_{\mathrm{meeting},c}).$$
+$$
+P([1,0]\mid c)=\pi_{\mathrm{free},c}(1-\pi_{\mathrm{meeting},c}).
+\tag{2.24}
+$$
 
 乘法来自给定类别后的条件独立假设。第一个因子表示free出现，第二个因子表示meeting未出现。推广到大小为$V$的词表，每个词都要考虑出现或未出现；再加先验并取log：
 
-$$\log p(c)+\sum_{j=1}^{V}
-\left[x_j\log\pi_{j,c}+(1-x_j)\log(1-\pi_{j,c})\right].$$
+$$
+\log p(c)+\sum_{j=1}^{V}
+\left[x_j\log\pi_{j,c}+(1-x_j)\log(1-\pi_{j,c})\right].
+\tag{2.25}
+$$
 
 课堂的`BernoulliNB`默认会把正计数转成1，因此可以接收计数向量。若某个估计恰好为0或1，取log可能产生无穷值；小样本里“没见过”的词尤其容易造成这个问题。
 
@@ -451,7 +531,10 @@ $$\log p(c)+\sum_{j=1}^{V}
 
 训练集中某类没有出现过free，只能说明有限记录里没见到。加法平滑给“出现”和“未出现”各加$\alpha$份虚拟计数：
 
-$$\tilde\pi_{j,c}=\frac{N_{j,c}+\alpha}{N_c+2\alpha},\qquad\alpha>0.$$
+$$
+\tilde\pi_{j,c}=\frac{N_{j,c}+\alpha}{N_c+2\alpha},\qquad\alpha>0.
+\tag{2.26}
+$$
 
 分母加$2\alpha$是因为每个词只有出现／未出现两种结果，与类别数和词表大小无关。$\alpha=1$通常叫 **Laplace smoothing（拉普拉斯平滑）**。
 
@@ -459,8 +542,13 @@ $$\tilde\pi_{j,c}=\frac{N_{j,c}+\alpha}{N_c+2\alpha},\qquad\alpha>0.$$
 
 平滑后Spam参数为$[3/5,2/5]$，Ham为$[1/5,3/5]$。因此
 
-$$P([1,0]\mid S)=\frac35\left(1-\frac25\right)=\frac9{25},\qquad
-P([1,0]\mid H)=\frac15\left(1-\frac35\right)=\frac2{25}.$$
+$$
+\begin{aligned}
+P([1,0]\mid S)&=\frac35\left(1-\frac25\right)=\frac9{25},\\
+P([1,0]\mid H)&=\frac15\left(1-\frac35\right)=\frac2{25}.
+\end{aligned}
+\tag{2.27}
+$$
 
 相等先验消去后，Spam后验为$9/(9+2)=9/11\approx0.8182$。这次“meeting未出现”确实参与了判断。
 
@@ -474,7 +562,9 @@ P([1,0]\mid H)=\frac15\left(1-\frac35\right)=\frac2{25}.$$
 
 老师用对数差表达同一个比较：
 
-$$\log P(x_j=1\mid S)-\log P(x_j=1\mid H).
+$$
+\log P(x_j=1\mid S)-\log P(x_j=1\mid H).
+\tag{2.28}
 $$
 
 两词的差分别为0和$\log6\approx1.792$。按某一类的`feature_log_prob_`排名只能找出该类的高出现率词；要找区分性，还要比较另一类。完整Bernoulli分类仍需汇总其他词的出现／未出现证据和先验。
@@ -487,10 +577,13 @@ $$
 
 用原设置$\alpha=0.1$重算这一个样本，Spam相对Ham的log分数差为
 
-$$\underbrace{0.2412}_{\text{prior}}
+$$
+\underbrace{0.2412}_{\text{prior}}
 +\underbrace{0}_{\text{present words}}
-\underbrace{-11.5231}_{\text{absent words}}
-=-11.2819.$$
+\quad\underbrace{-11.5231}_{\text{absent words}}
+=-11.2819.
+\tag{2.29}
+$$
 
 因此模型选Ham；其模型后验约为0.999987。这个高数值并不使标签变正确。错分说明：词表先决定模型看到了哪些信息，之后的分类器无法利用已经丢掉的广告词。
 
@@ -521,9 +614,13 @@ Boolean只问是否出现，计数记录出现次数。可是，一封长邮件�
 
 老师的简式是
 
-$$\mathrm{TF}_{j,D}=\frac{w_j}{|D|},\qquad
-\mathrm{IDF}(j)=\log\frac N{N_j},\qquad
-x_j=\mathrm{TF}_{j,D}\mathrm{IDF}(j).$$
+$$
+\begin{aligned}
+\mathrm{TF}_{j,D}&=\frac{w_j}{|D|},\qquad \mathrm{IDF}(j)=\log\frac N{N_j},\\
+x_j&=\mathrm{TF}_{j,D}\mathrm{IDF}(j).
+\end{aligned}
+\tag{2.30}
+$$
 
 $w_j$是当前文档中的词计数，$|D|$是文档词数。以D1为例，长度为4：
 
@@ -550,7 +647,10 @@ testXtf = tf_trans.transform(testX)
 
 这个库的默认设置从**原始计数**出发，采用平滑IDF
 
-$$\mathrm{IDF}_{\rm lib}(j)=\log\frac{1+N}{1+N_j}+1.$$
+$$
+\mathrm{IDF}_{\rm lib}(j)=\log\frac{1+N}{1+N_j}+1.
+\tag{2.31}
+$$
 
 然后做 **L1 normalization（L1归一化）**：对这些非负权重除以一行的总和，使非零向量加起来为1。全零行保持为零。
 
@@ -583,18 +683,27 @@ D1的完整转换为：
 
 给定类别和文长，可以想象独立抽取$L$个词，再把顺序丢掉，保留每词次数$x_j$。于是$L=\sum_jx_j$，多项式概率为
 
-$$p(\mathbf x\mid c,L)=\frac{L!}{\prod_jx_j!}\prod_{j=1}^V\pi_{j,c}^{x_j},\qquad
-\sum_j\pi_{j,c}=1.$$
+$$
+p(\mathbf x\mid c,L)=\frac{L!}{\prod_jx_j!}\prod_{j=1}^V\pi_{j,c}^{x_j},\qquad
+\sum_j\pi_{j,c}=1.
+\tag{2.32}
+$$
 
 阶乘项数出同样词次数对应多少种排列。例如两次free、一次meeting可以有三种顺序，因此系数为$3!/(2!1!)=3$。独立假设针对抽词过程；固定总词数之后，各词计数会受到总和约束。
 
 比较同一封邮件的类别时，阶乘项相同；在不另建类别文长模型的常用设定下，分类得分为
 
-$$\log p(c)+\sum_jx_j\log\pi_{j,c}.$$
+$$
+\log p(c)+\sum_jx_j\log\pi_{j,c}.
+\tag{2.33}
+$$
 
 若$T_{j,c}$是类别$c$中词$j$的总次数，加法平滑给出
 
-$$\tilde\pi_{j,c}=\frac{T_{j,c}+\alpha}{\sum_{k=1}^VT_{k,c}+V\alpha}.$$
+$$
+\tilde\pi_{j,c}=\frac{T_{j,c}+\alpha}{\sum_{k=1}^VT_{k,c}+V\alpha}.
+\tag{2.34}
+$$
 
 分母由“全部词次数”和“每个词各加一次$\alpha$”组成，与Bernoulli中的文档数加$2\alpha$不同。
 
@@ -623,10 +732,15 @@ $$\tilde\pi_{j,c}=\frac{T_{j,c}+\alpha}{\sum_{k=1}^VT_{k,c}+V\alpha}.$$
 
 计数为$[2,0,0,1]$，按训练IDF转换后得到$[0.7513,0,0,0.2487]$。两类得分为
 
-$$\begin{aligned}
-g_S&=\log0.5+0.7513\log0.3518+0.2487\log0.2611\approx-1.8120,\\
-g_H&=\log0.5+0.7513\log0.1667+0.2487\log0.2745\approx-2.3608.
-\end{aligned}$$
+$$
+\begin{aligned}
+g_S&=\log0.5+0.7513\log0.3518+0.2487\log0.2611\\
+&\approx-1.8120,\\
+g_H&=\log0.5+0.7513\log0.1667+0.2487\log0.2745\\
+&\approx-2.3608.
+\end{aligned}
+\tag{2.35}
+$$
 
 **答案 / Answer：** Spam分数更大；将两个指数分数归一化，Spam约0.6339、Ham约0.3661。 / Select Spam. The normalized model scores are approximately 0.6339 for Spam and 0.3661 for Ham.
 
@@ -753,8 +867,13 @@ Lecture2a第39个单元用“类1后验较大的网格点数”估计分界，�
 
 令$z_c$为各类log分数，$m=\max_c z_c$，则
 
-$$\operatorname{logsumexp}(z)=m+\log\sum_c e^{z_c-m},\qquad
-\log p(c\mid x)=z_c-\operatorname{logsumexp}(z).$$
+$$
+\begin{aligned}
+\operatorname{logsumexp}(z)&=m+\log\sum_c e^{z_c-m},\\
+\log p(c\mid x)&=z_c-\operatorname{logsumexp}(z).
+\end{aligned}
+\tag{2.36}
+$$
 
 减$m$后指数不超过1，再补回$m$，数学结果不变。该写法要求至少一个类别有有限分数；全部为$-\infty$时不能恢复后验。来源：Lecture2b第44个单元的`predict_logproba`；数值解释为补充。
 
