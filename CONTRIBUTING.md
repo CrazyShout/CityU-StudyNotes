@@ -1,7 +1,5 @@
 # 贡献与维护
 
-三册资料的长期写作依据见[学习讲义的写作与打印规范](docs/PRINT_MATERIAL_STANDARDS.md)：包括内容组织、自然表达、双语与例题、A4版式、公式编号，以及历史考点提示和统计口径。
-
 ## 改哪里
 
 - 讲义正文：两门课程`course-notes/`中的Markdown；可运行练习为Notebook。
