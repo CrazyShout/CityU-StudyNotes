@@ -60,8 +60,13 @@ def wrap(title,body,source):
         (CODEXING/'CS5489/course-notes/README.md','CS5489目录'),
         (CODEXING/'CS5222/course-notes/README.md','CS5222目录'),
         (FOUNDATION,'数学基础'),(FOUNDATION.with_name('NetworkBasics.md'),'网络基础')])
+    style=STYLE
+    if source==OUT/'Lecture02.md':
+        # The fixed-right KaTeX tag can cover a long equation on a phone.
+        # Place it on its own line in this reading preview; A4 styles are separate.
+        style+='@media screen and (max-width:600px){.katex-display>.katex>.katex-html>.tag{position:static;display:block;text-align:right;margin-top:8px}.katex-display>.katex>.katex-html>.tag>.strut{display:none}}'
     return ('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-      '<title>'+html.escape(title)+'</title><link rel="stylesheet" href="'+prefix+'katex.min.css"><style>'+STYLE+'</style></head><body><main>'
+      '<title>'+html.escape(title)+'</title><link rel="stylesheet" href="'+prefix+'katex.min.css"><style>'+style+'</style></head><body><main>'
       '<nav>本地学习讲义　 '+nav+'</nav>'
       +body+'<p class="source-note">本地阅读版 · <a href="'+relative_href(source,source)+'">打开作者源文件</a></p></main><script src="'+prefix+'katex.min.js"></script><script src="'+prefix+'contrib/auto-render.min.js"></script>'
       '<script>renderMathInElement(document.body,{delimiters:[{left:"\\\\[",right:"\\\\]",display:true},{left:"\\\\(",right:"\\\\)",display:false}],throwOnError:false});</script></body></html>')

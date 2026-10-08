@@ -39,13 +39,22 @@ for course in ['CS5489','CS5222']:
 lecture=(ROOT/'CS5489/course-notes/Lecture02.md').read_text()
 blocks=re.findall(r'\$\$(.*?)\$\$',lecture,re.S)
 # Keep later references stable when one numbered calculation gains subparts.
-expected_tags=[tag for i in range(1,37) for tag in (['2.21a','2.21b'] if i==21 else [f'2.{i}'])]
+supplements={14:['2.14a','2.14b','2.14c'],16:['2.16a'],35:['2.35a','2.35b']}
+expected_tags=[tag for i in range(1,37) for tag in ((['2.21a','2.21b'] if i==21 else [f'2.{i}'])+supplements.get(i,[]))]
 assert len(blocks)==len(expected_tags),('Lecture02 displayed equation count',len(blocks))
 equation_numbers=[]
 for block,expected in zip(blocks,expected_tags):
     tags=re.findall(r'\\tag\{([^}]+)\}',block)
     assert tags==[expected],('Lecture02 equation numbering',expected,tags)
     equation_numbers.append(f'({expected})')
+# Exam links must lead to the ability they name, not merely to a valid anchor.
+for anchor in ['decision-boundaries','gaussian-nb-boundary','model-limits','qe-parameter-posterior-note']:
+    assert lecture.count(f'id="{anchor}"')==1,('Lecture02 teaching anchor',anchor)
+for anchor in ['decision-boundaries','model-limits']:
+    assert lecture.count(f'<!-- EXAM:focus-{anchor}:START -->')==1
+for stale in ['log-scores','comparison']:
+    assert f'<!-- EXAM:focus-{stale}:START -->' not in lecture
+assert '[相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note)' in lecture
 subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
 printed_cs=[x for x in docs if x['course']=='CS5489' and (x['major'] or x.get('print_appendix'))]
 assert printed_cs[-1]['source']=='CS5489/course-notes/ExamIndex.md'

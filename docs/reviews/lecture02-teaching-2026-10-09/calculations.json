@@ -1,0 +1,147 @@
+{
+  "status": "passed",
+  "model_source": "explicit teaching parameters; no instructor dataset or notebook executed",
+  "methods": [
+    "manual expansion versus scipy.stats log densities",
+    "polynomial roots versus completed square",
+    "2D Gaussian scores versus expanded coefficients",
+    "quadrature versus constant Bayes risk",
+    "Q7 full Gaussian densities versus existing reduced scores"
+  ],
+  "results": {
+    "one_dimension": {
+      "means_cm": [
+        4.0,
+        6.0
+      ],
+      "priors": [
+        0.5,
+        0.5
+      ],
+      "shared_variances_cm2": [
+        1,
+        1
+      ],
+      "changed_variances_cm2": [
+        1,
+        4
+      ],
+      "shared_threshold_cm": 5.0,
+      "changed_thresholds_cm": [
+        1.4290827565260251,
+        5.237583910140642
+      ],
+      "probe_x_cm": [
+        0.0,
+        4.0,
+        8.0
+      ],
+      "probe_predictions": [
+        2,
+        1,
+        2
+      ]
+    },
+    "two_dimensions": {
+      "means": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "first_variances": [
+        1,
+        4
+      ],
+      "second_variances_I": [
+        1,
+        4
+      ],
+      "second_variances_II": [
+        1,
+        9
+      ],
+      "shared_boundary_coefficients": [
+        1,
+        0.5,
+        -1
+      ],
+      "changed_x2_squared_coefficient": 0.06944444444444445,
+      "probe_points": [
+        [
+          -2.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          2.0
+        ],
+        [
+          3.0,
+          -1.0
+        ],
+        [
+          5.0,
+          4.0
+        ]
+      ],
+      "score_differences_I": [
+        -2.5,
+        -1.0,
+        1.0,
+        1.5,
+        6.0
+      ],
+      "score_differences_II": [
+        -2.83602066366372,
+        -1.127687330330387,
+        0.5945348918918354,
+        1.7195348918918354,
+        5.872312669669615
+      ]
+    },
+    "identical_distributions": [
+      {
+        "priors": [
+          0.5,
+          0.5
+        ],
+        "minimum_expected_error": 0.5,
+        "integration_error_bound": 5.068205349782287e-09
+      },
+      {
+        "priors": [
+          0.2,
+          0.8
+        ],
+        "minimum_expected_error": 0.19999999999999551,
+        "integration_error_bound": 9.728503713103146e-09
+      }
+    ],
+    "Q7": {
+      "scores_without_common_gaussian_constant": [
+        -1.2231435513142097,
+        -2.1322635428748766
+      ],
+      "posteriors": [
+        0.7128200520576708,
+        0.2871799479423291
+      ]
+    }
+  },
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2"
+  },
+  "figure": "CS5489/course-notes/assets/lecture02-boundary-variance.png",
+  "figure_sha256": "20a3fe09532d40152b83c0311318c654881cbc474bd862dd496ef0b246020d49"
+}

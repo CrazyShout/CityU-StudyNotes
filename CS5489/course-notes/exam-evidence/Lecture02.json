@@ -222,7 +222,7 @@
     {
       "id": "boundary",
       "title": "线性与非线性边界",
-      "anchor": "log-scores",
+      "anchor": "decision-boundaries",
       "skill": "根据分布和共享方差条件判断边界"
     },
     {
@@ -246,7 +246,7 @@
     {
       "id": "limits",
       "title": "误差、不确定性与模型局限",
-      "anchor": "comparison",
+      "anchor": "model-limits",
       "skill": "解释分布重叠、假设失配与过拟合"
     },
     {

@@ -88,6 +88,16 @@ for group,records in GROUPS.items():
    elif parent.name not in ['td','th','figure']:
     f=soup.new_tag('figure');im.wrap(f)
   if docid=='CS5489-Lecture02':
+   selfcheck=body.find(id=docid+'__self-check')
+   if selfcheck:
+    heading=selfcheck.find_parent(['h2','h3']) or selfcheck.find_next(['h2','h3'])
+    for item in heading.find_next_siblings():
+     if item.name in ['h2','h3']:break
+     if item.name=='p' and re.match(r'Q[1-5]\s*中文',item.get_text(' ',strip=True)):
+      item['class']=list(item.get('class',[]))+['short-qa']
+   for item in body.find_all('p'):
+    if re.match(r'Q7：',item.get_text(' ',strip=True)):
+     item['class']=list(item.get('class',[]))+['question-lead']
    for table in body.find_all('table'):
     if table.select('img[src$="/iris-versicolor.jpg"]'):
      table['class']=list(table.get('class',[]))+['flower-photos']
