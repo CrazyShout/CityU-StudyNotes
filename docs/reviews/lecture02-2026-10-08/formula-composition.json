@@ -1,0 +1,20 @@
+{
+  "baseline": "3f73b965a65e562a8231571edc590f4a64f7f32d",
+  "other_registered_sources_unchanged": 25,
+  "other_display_equations_unchanged": 34,
+  "algebra_unchanged": true,
+  "old_anchor_ids_unchanged": true,
+  "source_and_pdf_labels": "2.1 through 2.36, with 2.21 split into 2.21a and 2.21b",
+  "pdf_pages": {
+    "CS5489-A4.pdf": 160,
+    "CS5222-A4.pdf": 86,
+    "Foundations-A4.pdf": 43
+  },
+  "page_ranges_unchanged": true,
+  "changed_pages": [
+    "CS5489-017",
+    "CS5489-025"
+  ],
+  "unchanged_raster_pages": 287,
+  "review": "Passed: both changed pages rendered at 180 dpi and visually checked; equations, subnumbers, transitions and surrounding text have no clipping or overlap."
+}

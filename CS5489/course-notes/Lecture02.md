@@ -97,11 +97,11 @@ $$
 两类都出现时，令导数为0：
 
 $$
-\begin{aligned}
-\frac{d\ell}{d\pi}&=\frac{N_1}{\pi}-\frac{N_2}{1-\pi}=0,\\
-N_1(1-\pi)&=N_2\pi,\\
-\hat\pi&=\frac{N_1}{N_1+N_2}.
-\end{aligned}
+\begin{gathered}
+\frac{d\ell}{d\pi}=\frac{N_1}{\pi}-\frac{N_2}{1-\pi}=0,\\[0.4em]
+N_1(1-\pi)=N_2\pi,\\[0.4em]
+\hat\pi=\frac{N_1}{N_1+N_2}.
+\end{gathered}
 \tag{2.6}
 $$
 
@@ -407,11 +407,15 @@ $$
 $I$是单位矩阵：乘它不改变向量。A的距离平方为$1^2+1^2=2$。B的逆矩阵为
 
 $$
-\begin{aligned}
-\Sigma_B^{-1}&=\frac1{0.75}\begin{pmatrix}1&-0.5\\-0.5&1\end{pmatrix},\\
-(1,1)\Sigma_B^{-1}(1,1)^T&=\frac43.
-\end{aligned}
-\tag{2.21}
+\Sigma_B^{-1}=\frac1{0.75}\begin{pmatrix}1&-0.5\\-0.5&1\end{pmatrix}.
+\tag{2.21a}
+$$
+
+将这个逆矩阵代入点$(1,1)^T$的距离平方，得到：
+
+$$
+(1,1)\Sigma_B^{-1}(1,1)^T=\frac43.
+\tag{2.21b}
 $$
 
 这个点沿两个坐标一起增大的方向移动，符合B的正相关趋势，因此B给出的校正距离更小。继续计算另外两项：

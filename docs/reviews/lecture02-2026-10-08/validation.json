@@ -146,5 +146,23 @@
     ],
     "visual_review": "All 25 revised pages plus boundaries, and the 20 other pages with printed page-reference changes. The remaining 244 pages are pixel-identical to baseline.",
     "physical_print_test": false
+  },
+  "formula_composition_followup": {
+    "status": "passed",
+    "equations_changed": [
+      "2.6",
+      "2.21"
+    ],
+    "printed_labels": [
+      "2.6",
+      "2.21a",
+      "2.21b"
+    ],
+    "changed_pages": [
+      17,
+      25
+    ],
+    "other_pages_pixel_identical": 287,
+    "evidence": "formula-composition.json"
   }
 }

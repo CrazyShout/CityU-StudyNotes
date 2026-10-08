@@ -38,11 +38,14 @@ for course in ['CS5489','CS5222']:
 # Lecture 2 display equations are numbered once, in reading order.
 lecture=(ROOT/'CS5489/course-notes/Lecture02.md').read_text()
 blocks=re.findall(r'\$\$(.*?)\$\$',lecture,re.S)
+# Keep later references stable when one numbered calculation gains subparts.
+expected_tags=[tag for i in range(1,37) for tag in (['2.21a','2.21b'] if i==21 else [f'2.{i}'])]
+assert len(blocks)==len(expected_tags),('Lecture02 displayed equation count',len(blocks))
 equation_numbers=[]
-for i,block in enumerate(blocks,1):
+for block,expected in zip(blocks,expected_tags):
     tags=re.findall(r'\\tag\{([^}]+)\}',block)
-    assert tags==[f'2.{i}'],('Lecture02 equation numbering',i,tags)
-    equation_numbers.append(f'(2.{i})')
+    assert tags==[expected],('Lecture02 equation numbering',expected,tags)
+    equation_numbers.append(f'({expected})')
 manifest=json.loads((ROOT/'pdf/manifest.json').read_text())
 for book in manifest['books']:
     p=ROOT/'pdf'/book['file'];assert hashlib.sha256(p.read_bytes()).hexdigest()==book['sha256'],p
@@ -50,7 +53,7 @@ for book in manifest['books']:
     if book['file']=='CS5489-A4.pdf':
         document=next(d for d in book['documents'] if d['id']=='CS5489-Lecture02')
         text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
-        printed=re.findall(r'\(2\.\d+\)',text)
+        printed=re.findall(r'\(2\.\d+[a-z]?\)',text)
         assert printed==equation_numbers,('Printed Lecture02 equation tags',printed)
 
     for page in reader.pages:
