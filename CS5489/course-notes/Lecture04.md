@@ -8,6 +8,30 @@
 
 基础复习可跳过：不熟悉函数和斜率，读[函数图像](../../learning/foundation-notes/MathForML.md#symbols-functions)；矩阵不满秩、不能直接求逆，读[秩与伪逆](../../learning/foundation-notes/MathForML.md#rank-pseudoinverse)；不熟悉向量导数，读[梯度](../../learning/foundation-notes/MathForML.md#optimization)。Python与数组回到[Lecture1](Lecture01.md#arrays)。
 
+<!-- EXAM:overview:START -->
+<div class="exam-overview exam-overview-compact" markdown="1">
+<a id="exam-review"></a>
+## Exam focus｜这一讲怎样安排复习
+
+历史期中常要求比较正则化、损失和集成方法。矩阵求解、RANSAC及核回归即使在这批卷中出现较少，也由当前Lecture和Tutorial直接要求；不要按卷数跳过它们。
+
+| 考点 | 复习动作 | 期中：直接／关联 | 期末：直接／关联 | QE记录 | 入口 |
+|---|---|---|---|---|---|
+| OLS与基线 | 会手算并核对单位与秩条件 | 1套／未见 | 未见／未见 | 未见 | [讲解](#ols) |
+| Ridge、LASSO与特征选择 | 先分清残差损失和参数惩罚 | 6套／未见 | 未见／未见 | 未见 | [讲解](#ridge) |
+| 稳健与非对称残差损失 | Huber与非对称损失为历史补充 | 5套／未见 | 未见／未见 | 未见 | [讲解](#regression-losses) |
+| Bagging、RF与boosting | 分清训练并行与预测并行 | 4套／3套 | 未见／未见 | 未见 | [讲解](#ensembles) |
+| 树间相关性与平均方差 | 保留等方差、等相关假设 | 1套／未见 | 未见／未见 | 未见 | [讲解](#forest-variance) |
+| 核回归与SVR | 当前主课与Tutorial仍需掌握 | 1套／未见 | 未见／未见 | 未见 | [讲解](#kernel-regression) |
+
+**口径：** 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
+
+Huber、非对称损失、Elastic Net和RF方差推导作为明确标识的历史补充。AdaBoost、Gaussian process需要额外知识；当前不扩写成另一整讲。现有期末与QE未见直接对应本讲的独立题。
+
+绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+</div>
+<!-- EXAM:overview:END -->
+
 [TOC]
 
 | 主题 | 优先级 | 难度与卡点 | 掌握要求与依据 |
@@ -24,7 +48,7 @@
 <a id="data"></a>
 ## 1. Regression and the housing example｜先弄清横纵轴的单位
 
-输入 $\mathbf x\in\mathbb R^d$，输出 $y\in\mathbb R$；希望学到 $\hat y=f(\mathbf x)$。误差 $r_i=y_i-\hat y_i$ 叫 residual（残差）。图上的点表示实际观测，线或曲面表示模型预测；两者的距离就是残差。
+输入 $\mathbf x\in\mathbb R^d$，输出 $y\in\mathbb R$；希望学到 $\hat y=f(\mathbf x)$。误差 $r_i=y_i-\hat y_i$ 叫 residual（残差）。图上的点表示实际观测，线或曲面表示模型预测；在同一个输入位置，真实值减预测值得到残差；一维图上是带正负号的竖直差，不是点到直线的最短垂直距离。
 
 老师先用100个人工数据点展示斜率、截距和噪声，再用房屋的真实记录预测售价。下面保留课堂的数据字段和单位，这样系数才有明确含义。
 
@@ -49,7 +73,9 @@ mode2 取 GrLivArea、TotRmsAbvGrd、GarageArea、TotalBsmtSF、Fireplaces、Bed
 
 Ordinary least squares（OLS，普通最小二乘）最小化平方残差和：
 
-$$E(\mathbf w,b)=\sum_{i=1}^N[y_i-(\mathbf w^T\mathbf x_i+b)]^2.$$
+$$
+E(\mathbf w,b)=\sum_{i=1}^N[y_i-(\mathbf w^T\mathbf x_i+b)]^2.\tag{4.1}
+$$
 
 为什么平方？正负残差不能相互抵消，偏离越远罚得越多，也形成方便求导的目标。代价是极端点的影响可能很大。MSE=E/N，RMSE=$\sqrt{E/N}$：MSE的单位是价格单位的平方，RMSE才回到价格单位。
 
@@ -62,36 +88,51 @@ $$E(\mathbf w,b)=\sum_{i=1}^N[y_i-(\mathbf w^T\mathbf x_i+b)]^2.$$
 | (2,2) | 1 | 1/3 | 1/3 | 1 |
 | 合计 | | | 1 | 2 |
 
-$$w=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2}=\frac12,
-\qquad b=\bar y-w\bar x=\frac76.$$
+$$
+w=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2}=\frac12,
+\qquad b=\bar y-w\bar x=\frac76.\tag{4.2}
+$$
 
 把各个x代入 $\hat y=x/2+7/6$，预测为 $(7/6,5/3,13/6)$；真实值减预测值得残差 $(-1/6,1/3,-1/6)$。因此
 
-$$\mathrm{SSE}=\frac1{36}+\frac19+\frac1{36}=\frac16,
-\qquad\mathrm{MSE}=\frac{\mathrm{SSE}}3=\frac1{18}.$$
+$$
+\mathrm{SSE}=\frac1{36}+\frac19+\frac1{36}=\frac16,
+\qquad\mathrm{MSE}=\frac{\mathrm{SSE}}3=\frac1{18}.\tag{4.3}
+$$
 
 <a id="ols"></a>
 ## 3. Matrix solution｜先摆好矩阵，再求导
+<!-- EXAM:focus-ols:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：OLS与基线</span><br>期中直接：1套。</p>
+<!-- EXAM:focus-ols:END -->
+
 
 三点的计算可以一次写成矩阵运算。先沿用老师“每列一个样本”的约定：给每个输入补一个常数1，让偏置也能放进权重向量。记
 
-$$\tilde x_i=(x_i^T,1)^T,\quad
-X=[\tilde x_1,\ldots,\tilde x_N]\in\mathbb R^{(d+1)\times N},\quad
-w\in\mathbb R^{d+1},\quad y\in\mathbb R^N.$$
+$$
+\begin{gathered}\tilde x_i=(x_i^T,1)^T,\qquad w\in\mathbb R^{d+1},\quad y\in\mathbb R^N,\\[3pt]
+X=[\tilde x_1,\ldots,\tilde x_N]\in\mathbb R^{(d+1)\times N}.\end{gathered}\tag{4.4}
+$$
 
 这里d是每条记录的特征数，N是记录数；w最后一项是截距。$X^Tw$得到N个预测值，每个样本恰好对应一个。程序常把样本放在行上，此时数据矩阵应写成 $A=X^T$，预测为Aw。
 
 展开目标：
 
-$$E=\|y-X^Tw\|^2=y^Ty-2y^TX^Tw+w^TXX^Tw.$$
+$$
+E=\|y-X^Tw\|^2=y^Ty-2y^TX^Tw+w^TXX^Tw.\tag{4.5}
+$$
 
 第一项不含w，导数0；第二项导数 $-2Xy$；因为 $XX^T$ 对称，第三项导数 $2XX^Tw$。令梯度为0：
 
-$$XX^Tw=Xy.$$
+$$
+XX^Tw=Xy.\tag{4.6}
+$$
 
 方程能直接求逆的条件是X的各行相互独立，即**满行秩（full row rank）**。这时
 
-$$w=(XX^T)^{-1}Xy.$$
+$$
+w=(XX^T)^{-1}Xy.\tag{4.7}
+$$
 
 在当前“样本放列”的约定下，每一行对应一项特征或常数1。若两项特征完全重复，便有两行相同，矩阵不能直接求逆。仅仅两条样本重复，并不足以断言所有行都不独立。
 
@@ -113,36 +154,52 @@ w仍1/2，b变13/6，残差与MSE不变。 / The slope remains 0.5, the intercep
 
 接着比较12个特征的散点/成对图。一个特征单独相关不代表加入其他特征后仍有同样贡献；面积、房间数可能彼此相关。想比较系数大小，先在训练数据上标准化，否则“美元/平方英尺”和“美元/年”不在同一尺度。标准化后系数对应输入改变一个训练标准差的预测差异。
 
-来源：Lecture4a，第25–34个单元。
-来源：Lecture4a，第35–41个单元。
+来源：Lecture4a，第25–34个单元；第35–41个单元。
 
 
+<a id="ridge"></a>
 ## 5. Ridge regression｜给不稳定方向加一条“别太夸张”的限制
+<!-- EXAM:focus-ridge:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Ridge、LASSO与特征选择</span><br>期中直接：6套。</p>
+<!-- EXAM:focus-ridge:END -->
+
 
 房屋面积和房间数往往一起增加，两项特征可能提供很相近的信息。此时，很多组系数都能拟合得差不多，数据稍有变化，系数却可能变很多。
 
 看一个更极端的教学例子：把同一列面积重复输入两次。系数取 $(100,-99)$ 与 $(0.5,0.5)$ 时，预测相同，因为都只相当于面积乘1。前一组依赖两个大数互相抵消。Ridge在拟合误差之外，加上系数平方和作为代价：前一组是19801，后一组只有0.5，因此更偏好后一种分配。这里比较的是两组相同预测的系数；完整训练还会同时权衡预测误差。
 
-$$E(w)=\sum_i(y_i-f(x_i))^2+\alpha\|w\|^2,\qquad\alpha\ge0.$$
+$$
+E(w)=\sum_i(y_i-f(x_i))^2+\alpha\|w\|^2,\qquad\alpha\ge0.\tag{4.8}
+$$
 
 第一项要求预测贴近数据，第二项限制系数大小。alpha越大，大系数的代价越高；它与上一讲分类器C的调节方向相反。常用实现只惩罚特征权重，不惩罚截距。
 
 **一维手算（无截距）：** x=(1,2)，y=(1,2)，所以 $\sum x^2=\sum xy=5$。目标为 $5(1-w)^2+\alpha w^2$，求导得
 
-$$10(w-1)+2\alpha w=0
-\quad\Rightarrow\quad w=\frac5{5+\alpha}.$$
+$$
+10(w-1)+2\alpha w=0
+\quad\Rightarrow\quad w=\frac5{5+\alpha}.\tag{4.9}
+$$
 
 alpha=0时回到OLS的w=1；alpha=5时w=0.5。预测离训练点更远，但系数更小。这个例子展示了两项代价的取舍；是否改善新数据预测，要用验证数据判断。Ridge通常缩小系数，LASSO则可以直接得到零系数，下一节会比较。
+
+**变式 / Transfer：** 同样x=(1,2)、y=(1,2)、无截距，Ridge的alpha改为10，求w与两个预测。 / For x=(1,2), y=(1,2), no intercept and ridge alpha=10, find w and both predictions.
+
+**答 / Answer：** $w=5/15=1/3$，预测$(1/3,2/3)$。 / w=1/3 and predictions (1/3,2/3).
 
 <details markdown="1"><summary>进一步看矩阵：为什么加正则项后可以求解？</summary>
 
 若w的所有分量都受惩罚，求导得到
 
-$$(XX^T+\alpha I)w=Xy.$$
+$$
+(XX^T+\alpha I)w=Xy.\tag{4.10}
+$$
 
 当 $\alpha>0$，对任意非零向量v，
 
-$$v^T(XX^T+\alpha I)v=\|X^Tv\|^2+\alpha\|v\|^2>0.$$
+$$
+v^T(XX^T+\alpha I)v=\|X^Tv\|^2+\alpha\|v\|^2>0.\tag{4.11}
+$$
 
 即使某个方向满足 $X^Tv=0$，第二项仍大于0，所以矩阵可逆。直观上，原数据无法区分的系数组合，现在也要付出正则代价。若截距不受惩罚，应先中心化输入和目标、求特征权重，再恢复截距；也可以使用最后一个对角元素为0的惩罚矩阵。
 
@@ -154,7 +211,9 @@ $$v^T(XX^T+\alpha I)v=\|X^Tv\|^2+\alpha\|v\|^2>0.$$
 
 LASSO（Least Absolute Shrinkage and Selection Operator）把平方惩罚换成绝对值：
 
-$$E=\sum_i(y_i-f(x_i))^2+\alpha\sum_j|w_j|.$$
+$$
+E=\sum_i(y_i-f(x_i))^2+\alpha\sum_j|w_j|.\tag{4.12}
+$$
 
 图中的椭圆表示相同拟合误差：越靠近椭圆中心，误差越小。圆或菱形表示允许的系数范围。寻找两者刚好接触的位置，就是在限制下尽量降低误差。L1的菱形尖角落在坐标轴上，接触点落到尖角时，一个系数恰好为0；L2的圆形边界没有这种尖角。这个图解释了LASSO为什么容易产生零系数，具体哪些系数为0仍取决于数据和alpha。
 
@@ -169,9 +228,15 @@ $$E=\sum_i(y_i-f(x_i))^2+\alpha\sum_j|w_j|.$$
 
 合起来得到
 
-$$w=\frac{\operatorname{sign}(t)\max(|t|-\alpha/2,0)}a.$$
+$$
+w=\frac{\operatorname{sign}(t)\max(|t|-\alpha/2,0)}a.\tag{4.13}
+$$
 
-沿用a=t=5，alpha=4得w=0.6；alpha=10得0。这叫软阈值。sklearn Lasso把拟合项写成 $\|y-Aw\|^2/(2N)$，同名alpha与上式缩放不同；应先对齐目标再比较数字。
+沿用a=t=5，alpha=4得w=0.6；alpha=10得0。这叫软阈值（soft thresholding）。sklearn Lasso把拟合项写成 $\|y-Aw\|^2/(2N)$，同名alpha与上式缩放不同；应先对齐目标再比较数字。
+
+**独立比较 / Check：** 沿用x=(1,2)、y=(1,2)，无截距，LASSO采用本节未除样本数的目标。alpha=6和10时，w分别多少？ / Under this section's unaveraged LASSO objective, use x=(1,2), y=(1,2) and no intercept. Find w for alpha=6 and 10.
+
+**答 / Answer：** $(5-3)/5=0.4$与0；alpha达到10时阈值恰好把系数推到零。 / w=0.4 and 0; the threshold reaches the observed correlation at alpha=10.
 
 课堂用非零系数数目和CV选择alpha。原课特征列表是该数据/设置下的结果，不是宣告房间数等永远无用。相关变量可能互相替代；大alpha也可能丢掉真正有用的信号。
 
@@ -190,11 +255,46 @@ $\|w\|_0$表示非零个数，不是真正的范数。限制 $\|w\|_0\le K$ 是�
 
 第二轮把a₁也选进来。现在一起求两个系数c₁、c₂：
 
-$$c_1\begin{pmatrix}1\\0\end{pmatrix}
+$$
+c_1\begin{pmatrix}1\\0\end{pmatrix}
 +\frac{c_2}{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}
-=\begin{pmatrix}1\\2\end{pmatrix}.$$
+=\begin{pmatrix}1\\2\end{pmatrix}.\tag{4.14}
+$$
 
 第二行给 $c_2=2\sqrt2$，第一行给c₁=−1。两列合起来恰好重建y，残差为0。注意a₂的系数也从 $3/\sqrt2$ 改成了 $2\sqrt2$：这就是“联合重拟合”。如果固定旧系数，只计算新特征的贡献，就做不到这一步。Lecture4a，第84个单元调用的OMP包含这次联合更新。
+
+**变式 / Transfer：** 保留同样两列、无截距，将目标改成$y=(2,1)^T$。第一轮选谁？第二轮的两个联合系数是多少？ / Keep the same normalized columns and no intercept, but use y=(2,1)ᵀ. Identify the first selected column and the final two coefficients.
+
+**答 / Answer：** 相关量为2与$3/\sqrt2$，仍先选a₂。联合解为$c_1=1,c_2=\sqrt2$，重建$(2,1)^T$。 / Select a₂ first; the joint coefficients are 1 and √2, exactly reconstructing y.
+
+<a id="regression-losses"></a>
+### 选读：改残差的惩罚，与改权重的惩罚
+<!-- EXAM:focus-regression-losses:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：稳健与非对称残差损失</span><br>期中直接：5套。</p>
+<!-- EXAM:focus-regression-losses:END -->
+
+
+前面的LASSO在权重w上使用L1惩罚，目的是让某些系数为0。历史题也会把**残差**$r=y-\hat y$改成绝对值损失$|r|$：残差从1变成10时，平方损失从1升到100，绝对损失从1升到10，因此后者相对减轻大残差的影响。它并不会仅凭这一点把权重变稀疏。
+
+Huber损失把两种形状接起来。以无量纲残差、阈值1为例：
+
+$$
+\ell_H(r)=\begin{cases}\frac12r^2,&|r|\le1,\\|r|-\frac12,&|r|>1.\end{cases}\tag{4.15}
+$$
+
+在r=±1处，两段的值和斜率相接。小残差用光滑二次项，大残差线性增长。例如r=0.5时为0.125，r=2时为1.5。它减轻大y残差的影响，但不能保证对所有异常输入都稳健，例如极端x仍可能强烈影响拟合。
+
+**变式 / Transfer：** 同一Huber损失在r=−3处是多少？与平方损失相比呢？ / Evaluate the Huber loss above at r=−3 and compare it with squared loss.
+
+**答 / Answer：** Huber为2.5，平方损失为9。 / Huber loss is 2.5; squared loss is 9.
+
+如果低估需求的成本高于高估，损失还可以不对称。由于$r=y-\hat y$，r>0才表示低估；一种教学设计是r>0罚$4r^2$，否则罚$r^2$。同样差2个单位，低估罚16，高估罚4。设计时先写残差方向，避免把高成本那一侧画反。
+
+**判断 / Check：** 若改为高估更贵，上述4倍惩罚应放在哪一侧？ / If overprediction is more costly, which side should receive the fourfold penalty?
+
+**答 / Answer：** 放在r<0一侧，因为这时预测超过真实值。 / Use it for r<0, where the prediction exceeds the target.
+
+历史题中的Elastic Net则同时惩罚权重的L1与L2项：一项鼓励稀疏，一项抑制大权重。它与这里对残差改形状是不同的选择。来源：历史期中与样题中的回归损失比较；当前Lecture4a主线仍是Ridge、LASSO和OMP，完整题号见讲末索引。
 
 <a id="ransac"></a>
 ## 8. RANSAC｜不是每个离群点都值得把直线拽过去
@@ -205,9 +305,24 @@ $$c_1\begin{pmatrix}1\\0\end{pmatrix}
 
 ![OLS, ridge and RANSAC on the instructor synthetic outlier setup](assets/lecture04-ransac.png)
 
-本轮重算保留Lecture4b，第5个单元的4487/447数据种子及Lecture4b，第13个单元的RANSAC种子1234。图中对照线说明稳健拟合的目的；成功仍依赖足够的一致点、合理模型与阈值。补充概率：每次独立取s个点、单点为inlier概率约q，k次至少一次全inlier概率约 $1-(1-q^s)^k$；近似假设应说明，不能当作任意数据都保证成功。
+此图采用Lecture4b，第5个单元的4487/447数据种子及Lecture4b，第13个单元的RANSAC种子1234。图中对照线说明稳健拟合的目的；成功仍依赖足够的一致点、合理模型与阈值。补充概率：每次独立取s个点、单点为inlier概率约q，k次至少一次全inlier概率约 $1-(1-q^s)^k$；近似假设应说明，不能当作任意数据都保证成功。
 
-来源：Lecture4b，第4–15个单元。
+把一次迭代落到数字上（教学补充）：四点为$(0,1),(1,2),(2,3),(3,10)$，横纵坐标均无量纲。抽中第1、3点得到候选线$\hat y=x+1$；取绝对残差阈值0.5。
+
+| x | 真值y | 候选预测 | 绝对残差 | 本轮是否内点 |
+|---:|---:|---:|---:|---|
+| 0 | 1 | 1 | 0 | 是 |
+| 1 | 2 | 2 | 0 | 是 |
+| 2 | 3 | 3 | 0 | 是 |
+| 3 | 10 | 4 | 6 | 否 |
+
+用前三个内点重新拟合，仍得到$\hat y=x+1$。这只是一轮候选；完整RANSAC还会比较其他抽样轮次。阈值决定哪些点参加这次重拟合。
+
+**变式 / Transfer：** 相同四点与候选线，把阈值改成7。哪些点成为内点？重新做OLS得到什么线？ / Keep the four points and candidate line above, but change the absolute-residual threshold to 7. Which points are inliers, and what is the refitted OLS line?
+
+**答 / Answer：** 四点全部纳入。$\bar x=1.5,\bar y=4$，中心化乘积和14、平方和5，得到$w=2.8,b=-0.2$。 / All four are inliers; refitting gives ŷ=2.8x−0.2. 阈值过宽让原离群点重新影响了拟合。
+
+来源：Lecture4b，第4–15个单元；四点迭代及变式为教学补充。
 
 
 ## 9. Polynomial regression｜对输入非线性，对参数仍线性
@@ -218,7 +333,7 @@ $$c_1\begin{pmatrix}1\\0\end{pmatrix}
 
 代码中的 `polyfeats__degree` 是Pipeline内多项式步骤的参数名。搜索器统一寻找更大的分数，所以 `neg_mean_squared_error` 返回MSE的负值；画误差图时再取负号恢复MSE。
 
-**变式 / Transfer:** 二维输入(2,3)用含常数和一次项的二次映射，结果是什么？ / Give the degree-2 expansion including bias and linear terms for (2,3).
+**变式 / Transfer:** 二维输入(2,3)用含常数和一次项的二次映射，结果是什么？ / For the two-dimensional input (2,3), list the degree-2 features in the order (1,x₁,x₂,x₁²,x₁x₂,x₂²).
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -229,11 +344,18 @@ $(1,2,3,4,6,9)$，共6维。 / (1,2,3,4,6,9), six features. `include_bias=False`
 来源：Lecture4b，第16–39个单元。
 
 
+<a id="kernel-regression"></a>
 ## 10. Kernel ridge regression｜把线性代数搬到样本之间
+<!-- EXAM:focus-kernel-regression:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：核回归与SVR</span><br>期中直接：1套。</p>
+<!-- EXAM:focus-kernel-regression:END -->
+
 
 给N个训练点，$K_{ij}=k(x_i,x_j)$ 为N×N核矩阵，$k_*=(k(x_1,x_*),…,k(x_N,x_*))^T$ 为N维向量：
 
-$$a=(K+\alpha I)^{-1}y,\qquad \hat y_*=k_*^Ta.$$
+$$
+a=(K+\alpha I)^{-1}y,\qquad \hat y_*=k_*^Ta.\tag{4.16}
+$$
 
 字母a是每个训练样本的系数，和特征权重w、正则参数alpha区分。对有效半正定核、alpha>0可解。截距/中心化要另外约定；默认KernelRidge并非自动拟合不惩罚的截距。
 
@@ -251,7 +373,12 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 
 图左先看容忍带，图右看损失的平底。C决定违约代价，epsilon决定忽略多大误差，gamma决定RBF核尺度。Lecture4b，第70个单元同时搜索三者：10×10×10候选、5折，共5000次候选拟合。这一段说明原课的搜索流程；执行范围见文末。
 
+<a id="ensembles"></a>
 ## 12. Trees and random forests｜多位意见不同的“专家”怎样投票
+<!-- EXAM:focus-ensembles:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Bagging、RF与boosting</span><br>期中直接：4套；期中关联：3套。</p>
+<!-- EXAM:focus-ensembles:END -->
+
 
 回归树按阈值逐层分支，每个叶子输出其中训练目标的平均值（平方损失情形），所以形成台阶。单棵深树容易记住训练噪声。Random Forest通过bootstrap抽样，并在节点分裂时按设置随机选特征，让多棵树产生不同规则；最终预测是**各树预测的平均**，不是只找其中一棵树的叶子。
 
@@ -261,11 +388,38 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 
 当前`RandomForestRegressor`默认`max_features=1.0`，即每个节点可考虑所有特征；若要演示特征子采样需显式设置。名称叫随机森林不意味着每份默认代码都有严格小于全部的候选特征数。叶子平均的树通常不擅长超出训练目标范围的外推；图看起来块状合理不等于已证明无数据区域预测正确。
 
+<a id="forest-variance"></a>
+### 选读：树很多，为什么仍有误差？
+<!-- EXAM:focus-forest-variance:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：树间相关性与平均方差</span><br>期中直接：1套。</p>
+<!-- EXAM:focus-forest-variance:END -->
+
+
+平均能消掉一部分随机波动，但多棵树若经常一起偏高、一起偏低，共同偏差不会被平均掉。固定一个输入，设n棵树的随机预测各有方差$\sigma^2$，任意不同两棵之间的相关系数均为$\rho$，则平均预测的方差为
+
+$$
+\begin{aligned}\operatorname{Var}\!\left(\frac1n\sum_{j=1}^n T_j\right)
+&=\frac{n\sigma^2+n(n-1)\rho\sigma^2}{n^2}\\[3pt]
+&=\sigma^2\left[\rho+\frac{1-\rho}{n}\right].\end{aligned}\tag{4.17}
+$$
+
+第一项来自n个自身方差，第二项来自不同树之间的协方差。这里$T_j$表示因训练抽样等随机性而变化的第j棵树预测；公式不把偏差或观测噪声算成0。取$\sigma^2=1,\rho=0.2$，5棵时方差0.36，20棵时0.24；若这些条件保持，树数趋于无穷仍留下0.2。因此降低树间相关性也很有价值。
+
+**变式 / Transfer：** 保持方差1，将相关系数改成0.5，10棵树的平均方差是多少？树数很大时趋近多少？ / Each tree has variance 1 and every pair has correlation 0.5. Find the variance of the average of ten trees and its limit as the number grows.
+
+**答 / Answer：** $0.5+0.5/10=0.55$，极限0.5。 / 0.55, approaching 0.5. 来源：2023B期中Q11的等方差、等相关模型；数字为教学改编。
+
 ## 13. Boosting and XGBoost｜后一棵树接着修前面的误差
 
 Bagging让多棵树主要并行学习不同抽样，boosting让后一个模型针对当前组合的不足继续学习。平方损失的负梯度与残差方向一致，因此可拟合 $y-f_{t-1}(x)$，再作 $f_t=f_{t-1}+\eta h_t$。若h拟合的是正梯度，则用减号。Lecture4b，第97个单元采用正梯度/减号约定，不要同时翻两个号。
 
-补算：当前预测(2,2)，真实值(3,1)，残差(1,−1)。若新弱学习器恰拟合残差，学习率0.5，新预测(2.5,1.5)，平方误差和从2降为0.5。这只验证一步机制，不表示每个实际弱学习器都能精确拟合。
+补算：当前预测(2,2)，真实值(3,1)，残差(1,−1)。若新弱学习器恰拟合残差，学习率0.5，新预测(2.5,1.5)，平方误差和从2降为0.5。这一步把两个残差都缩小了一半。实际弱学习器只能近似拟合残差，效果还需用验证集检查。
+
+**变式 / Transfer：** 同样真值(3,1)、旧预测(2,2)、新模型输出(1,−1)，把学习率改为0.25，求新预测与SSE。 / With targets (3,1), old predictions (2,2) and new learner outputs (1,−1), use learning rate 0.25. Find the updated predictions and SSE.
+
+**答 / Answer：** 新预测(2.25,1.75)，SSE=$0.75^2+(-0.75)^2=1.125$。 / Predictions are (2.25,1.75), and SSE is 1.125.
+
+“后一棵依赖前一棵”描述的是boosting的训练过程。所有弱模型训练完毕后，对一个新输入分别计算它们的输出、最后求加权和，可以并行；随机森林也可以并行计算各树后求平均。实际加速还取决于树的数量、深度、硬件和合并开销，不能只凭算法名称断言预测必然快慢。历史题中的AdaBoost调整错分样本权重，与本节平方损失的梯度提升有关联，但不是同一更新公式。
 
 XGBoost在梯度提升树中还使用正则化及二阶信息。Lecture4b，第98个单元搜索列采样、分裂gamma、树深、行采样、学习率、树数；这里的`gamma`是最小分裂损失收益，**不是RBF gamma**。`RandomizedSearchCV(n_iter=200,cv=5,random_state=4487)`共1000次候选拟合。学习率是每轮贡献，不是某种“准确率参数”。
 
@@ -297,6 +451,99 @@ XGBoost在梯度提升树中还使用正则化及二阶信息。Lecture4b，第9
 4. **Does lower training MSE imply better prediction? / 训练MSE更低就一定更好？** 答：不，需验证新数据表现与假设。 / No; assess generalization on appropriate validation data.
 
 首轮可选[现有回归卡](https://crazyshout.github.io/micro-course/cards.html#CS5489-M187) **M187（OLS与残差）、M189（截距与设计矩阵）、M194（ridge）、M207（非线性输入与线性参数）**，按卡号进入Markji；其他模型按需要分次复习。参见[最小二乘微课](https://crazyshout.github.io/micro-course/?lesson=ml19)。
+
+<!-- EXAM:topics:START -->
+<a id="exam-topic-index"></a>
+## Historical exam map｜按考点查题源
+
+题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。
+
+<div class="exam-topic-unit" markdown="1">
+### OLS与基线
+
+解释残差、矩阵解及拟合失败。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2021B*期中 | Q11／4 | 直接：线性回归未超过常数基线时的改进方向 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### Ridge、LASSO与特征选择
+
+比较权重收缩、精确为零及联合重拟合。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q13／6–7 | 直接：残差L1与权重L2的不同作用 |
+| 2021A期中 | Q6／3 | 直接：OLS、Ridge、LASSO与稀疏系数 |
+| 2021B*期中 | Q1（LASSO选项）、Q4／2 | 直接：L1/L2回归的选择与限制 |
+| 2023A期中 | Q6／3 | 直接：Ridge、OMP、L1与特征选择 |
+| Mock Exam（复用2023A题面） | Q6／2 | 直接（样题）：Ridge、OMP、L1与特征选择 |
+| 2023B期中 | Q6／3 | 直接：Elastic Net组合L1/L2惩罚 |
+| 2025A期中 | Q6／3 | 直接：Elastic Net惩罚及其作用 |
+
+**题源条件：** 历史补充；当前主线仍是Ridge/LASSO。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 稳健与非对称残差损失
+
+计算分段损失并解释哪一侧误差更贵。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q13／6–7 | 直接：残差L1与权重L2的不同作用 |
+| 2021A期中 | Q12／4 | 直接：绝对残差损失与异常值 |
+| 2023A期中 | Q12／9 | 直接：低估成本更高时设计非对称回归损失 |
+| Mock Exam（复用2023A题面） | Q12／8 | 直接（样题）：低估成本更高时设计非对称回归损失 |
+| 2023B期中 | Q12／9 | 直接：Huber损失的图形与稳健性 |
+| 2025A期中 | Q7(b)／4 | 直接：Huber损失的分段图形与稳健性 |
+| 2025A期中 | Q12／9 | 直接：低估需求更贵的回归损失设计 |
+| Question Samples（年份未载） | Q4(a)／4 | 直接（样题）：样题Huber分段损失画图 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### Bagging、RF与boosting
+
+比较训练依赖、平均与逐步修正。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q6／3 | 直接：比较bagging与boosting的采样和依赖关系 |
+| 2021A期中 | Q9／3 | 关联：分类任务中比较RF与线性／核模型 |
+| 2021B*期中 | Q10／4 | 关联：按规模、异常值及输入分布比较RF回归与GP |
+| 2021B*期中 | Q12／4 | 关联：多核条件下RF和AdaBoost的预测并行 |
+| 2023A期中 | Q5／3 | 直接：RF、boosting及回归用途 |
+| Mock Exam（复用2023A题面） | Q5／2 | 直接（样题）：RF、boosting及回归用途 |
+| 2023A期中 | Q11／8 | 关联：AdaBoost训练与在线应用、噪声 |
+| Mock Exam（复用2023A题面） | Q11／7 | 关联（样题）：AdaBoost训练与在线应用、噪声 |
+| 2023B期中 | Q5／3 | 直接：集成训练并行、树数与错误分析 |
+| 2025A期中 | Q5、Q7(a)／3–4 | 直接：RF、bagging与boosting比较 |
+
+**题源条件：** 当前本讲演示RF回归；分类投票与回归平均不同；Gaussian process是后续知识，未记作当前完整覆盖；题问预测；boosting训练有顺序不意味着预测不可并行；深度和弱模型复杂度决定题设结论；AdaBoost不是本讲梯度提升的同一更新公式。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 树间相关性与平均方差
+
+推导平均预测的方差与极限。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2023B期中 | Q11／8 | 直接：推导等方差等相关树的平均方差 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 核回归与SVR
+
+区分核、正则与容忍带。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2021B*期中 | Q3（SVR选项）／2 | 直接：核方法中SVR与分类的区别 |
+</div>
+<!-- EXAM:topics:END -->
 
 ## 16. Source coverage and execution boundary｜能回查，也能知道哪些跑过
 

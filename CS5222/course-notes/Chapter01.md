@@ -29,7 +29,7 @@
 
 看图从home network沿连接走到regional/global ISP，再到别的网络。手机、PC、服务器属于应用所在端系统；交换机和路由器服务中间转发。原Chapter 1完整课件，第5张幻灯片的联网相框、冰箱等例子说明“host不等于台式电脑”。
 
-服务视角（Chapter 1完整课件，第7张幻灯片）则问应用能获得什么：程序通过接口请求把数据送到远端程序，好比寄件时按规则写地址、交给邮政系统。应用不必亲自安排沿途每一个路口；但选用的传输服务决定它获得哪些保证。RFC是互联网技术文档系列，IETF是重要标准组织（Chapter 1完整课件，第6张幻灯片）；并非每一份RFC都是正式标准。
+服务视角（Chapter 1完整课件，第7张幻灯片）则问应用能获得什么：程序通过接口请求把数据送到远端程序，好比寄件时按规则写地址、交给邮政系统。应用不必亲自安排沿途每一个路口；但选用的传输服务决定它获得哪些保证。RFC（Request for Comments）是互联网技术文档系列；IETF（Internet Engineering Task Force，互联网工程任务组）制定许多互联网标准（Chapter 1完整课件，第6张幻灯片）；并非每一份RFC都是正式标准。
 
 **English takeaway:** The Internet connects networks of hosts and packet switches, and provides communication services to applications through interfaces.
 
@@ -80,7 +80,7 @@
 
 ## 4. Circuit versus packet switching｜预留座位，还是来了再排队
 
-Circuit switching（电路交换）先预留路径上的资源，即使使用者暂时不发送，别人通常也不能借用这份预留。Chapter 1完整课件，第22张幻灯片原图每条边有4条电路，一次连接在经过的每段占一份。FDM按频带分，TDM按重复时隙分；同一用户在不同链路使用哪一个编号电路不必相同。
+Circuit switching（电路交换）先预留路径上的资源，即使使用者暂时不发送，别人通常也不能借用这份预留。Chapter 1完整课件，第22张幻灯片原图每条边有4条电路，一次连接在经过的每段占一份。频分复用（frequency-division multiplexing，FDM）让各连接使用不同频带；时分复用（time-division multiplexing，TDM）则轮流分配重复出现的时隙。同一用户在不同链路使用哪一个编号电路不必相同。
 
 ![Original circuit resource reservation](assets/chapter01-22.png)
 ![Original FDM versus TDM](assets/chapter01-23.png)
@@ -97,7 +97,9 @@ Packet switching（分组交换）把应用消息拆成包，按需使用链路�
 
 原例：1Mbps链路，每用户活跃时100kbps、活跃概率0.1。电路交换最多固定支持10人；35人做分组共享时，假设用户独立，活跃人数K服从Binomial(35,0.1)。
 
-$$P(K>10)=\sum_{k=11}^{35}\binom{35}{k}0.1^k0.9^{35-k}\approx0.0004243.$$
+$$
+P(K>10)=\sum_{k=11}^{35}\binom{35}{k}0.1^k0.9^{35-k}\approx0.0004243.\tag{1.1}
+$$
 
 **原页写“less than .0004”不够精确**；独立模型重算约0.0004243，约0.04243%，是略大于0.0004。Chapter 1完整课件，第30张幻灯片只有Binomial标题，补课给出从列举到公式的台阶。
 
@@ -112,15 +114,14 @@ $$P(K>10)=\sum_{k=11}^{35}\binom{35}{k}0.1^k0.9^{35-k}\approx0.0004243.$$
 
 ![Original forwarding table and routing diagram](assets/chapter01-28.png)
 
-不同网络还需要相互连接。一步步构造互联网：若N个接入ISP两两直连，需N(N−1)/2条连接，扩展困难；可购买上游transit，也可用peering直接互联，经IXP交换流量，再加regional networks与content-provider networks。内容提供商将服务放近用户、建立自有网络，会减少对某些上游路径的依赖，从而可能缩短传输路径。原公司的例名保留为图中时代背景。
+不同网络还需要相互连接。一步步构造互联网：若N个接入ISP两两直连，需N(N−1)/2条连接，扩展困难；接入ISP可以向上游购买传输服务（transit），让上游替它把流量送往更多网络；也可以与另一网络直接互联（peering）。互联网交换点（Internet Exchange Point，IXP）提供集中互联的位置。区域网络（regional network）连接一片地区，内容提供商网络（content-provider network）连接自己的服务节点。内容提供商将服务放近用户、建立自有网络，会减少对某些上游路径的依赖，从而可能缩短传输路径。原公司的例名保留为图中时代背景。
 
 ![Original network-of-networks diagram](assets/chapter01-42.png)
 
 **English:** Forwarding is a local per-packet action; routing determines paths. The Internet consists of interconnected networks with both technical and economic relationships.
 
 
-来源：Chapter 1完整课件，第28张幻灯片。
-来源：Chapter 1完整课件，第33–42张幻灯片。
+来源：Chapter 1完整课件，第28张幻灯片；第33–42张幻灯片。
 
 <a id="delay"></a>
 
@@ -128,7 +129,9 @@ $$P(K>10)=\sum_{k=11}^{35}\binom{35}{k}0.1^k0.9^{35-k}\approx0.0004243.$$
 
 区分四类时延：
 
-$$d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}.$$
+$$
+d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}.\tag{1.2}
+$$
 
 | 项 | 发生什么 | 计算/影响 |
 |---|---|---|
@@ -145,7 +148,11 @@ $$d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}.$$
 
 队列的traffic intensity为 $\rho=La/R$，a为平均包到达率（packets/s），L为本模型固定包长。rho接近1时在常见随机排队模型中等待显著增长；rho>1长期输入超过服务能力，无限缓冲理想模型不稳定，现实有限缓冲会丢包。仅平均rho<1不能保证任意流量下没有大突发或所有等待性质都良好，课件曲线是模型直觉。
 
-**独立变式 / Transfer:** 一个包1000B，R=4Mbps，d=3000km，s=2×10⁸m/s，处理1ms、排队3ms，整包单跳耗时？ / Find the one-hop complete-packet delay under these conditions.
+把四项接成一次完整计时（教学示范）：某节点从开始处理一个500 B的包计时。处理1 ms、排队2 ms，随后以2 Mbps发送；链路长1000 km，传播速度2×10⁸ m/s。忽略其他开销。
+
+发送部分先把500 B换成4000 bit，得到4000/(2×10⁶)=2 ms；传播部分把1000 km换成10⁶ m，得到5 ms。从开始处理到末位到达下一节点，总共1+2+2+5=10 ms。首位到达时包可能还没收齐，所以这里明确计到末位。
+
+**独立变式 / Transfer:** 另一个包1000 B，R=4 Mbps，d=3000 km，s=2×10⁸ m/s，处理1 ms、排队3 ms。从开始处理到整包到达下一节点需多久？ / A 1000-byte packet has a 4-Mbps link, 3000-km distance, propagation speed 2×10⁸ m/s, 1-ms processing and 3-ms queueing. Find the time from processing start to complete reception at the next node.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -153,8 +160,7 @@ $$d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}.$$
 
 </details>
 
-来源：Chapter 1完整课件，第44–49张幻灯片。
-来源：Chapter 1完整课件，第47张幻灯片。
+来源：Chapter 1完整课件，第44–49张幻灯片；第47张幻灯片。
 
 
 ## 7. Real delays and throughput｜测得的RTT不是某一条线的长度
@@ -167,7 +173,7 @@ $$d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}.$$
 
 ![Original shared-backbone throughput model](assets/chapter01-55.png)
 
-**自测 / Check:** 接入10Mbps、服务器20Mbps、5条流公平共享30Mbps骨干，每流瓶颈吞吐？ / With these capacities and five fairly sharing flows, find the per-flow bottleneck throughput.
+**自测 / Check:** 接入10Mbps、服务器20Mbps、5条流公平共享30Mbps骨干，每流瓶颈吞吐？ / Each flow has 10-Mbps access and a 20-Mbps server link; five flows fairly share a 30-Mbps backbone. Find the per-flow bottleneck rate.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -175,8 +181,7 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 
 </details>
 
-来源：Chapter 1完整课件，第50–51张幻灯片。
-来源：Chapter 1完整课件，第52张幻灯片。
+来源：Chapter 1完整课件，第50–51张幻灯片；第52张幻灯片。
 
 
 ## 8. Layers and encapsulation｜把一件复杂的事拆成清楚的职责
@@ -193,7 +198,7 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 
 从底向上编号时transport是第4层。OSI另列presentation/session，Internet应用仍可能需要编码、加密、会话等功能，只是不独立命名为这两层；“没有这一层”不等于“不需要这个功能”。
 
-封装（encapsulation）将上一层信息作为本层payload，加上本层头部，某些链路协议还加尾部。应用message → 传输segment（TCP语境；UDP常叫datagram）→ IP datagram → link frame → bit。解封装按相反方向解释对应头部。
+封装（encapsulation）将上一层信息作为本层payload，加上本层头部，某些链路协议还加尾部。例如浏览器的HTTP请求先是一段应用消息（message），TCP给它加传输头成为报文段（segment），IP再加网络头成为数据报（datagram），链路层包成帧（frame），最后变成介质上的比特信号。接收端按相反顺序解释并移去各层信息。UDP在传输层通常也称datagram，读这个词时要确认所在层。
 
 ![Original encapsulation across source, switch, router and destination](assets/chapter01-64.png)
 
@@ -212,9 +217,7 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 课堂的2016设备数量、早期社交网络用户数只作为课件当时背景，不称当前规模；“instantaneous”是宣传式简写，跨网络通信仍有非零时延。
 
 
-来源：Chapter 1完整课件，第67–71张幻灯片。
-来源：Chapter 1完整课件，第73–77张幻灯片。
-来源：Chapter 1完整课件，第77张幻灯片。
+来源：Chapter 1完整课件，第67–71张幻灯片；第73–77张幻灯片；第77张幻灯片。
 
 <a id="qa"></a>
 
@@ -244,7 +247,7 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 
 英文独立表达：**Explain why increasing a link's rate does not reduce its propagation delay. / 解释为什么增加速率不减少传播时延。** 要点：$L/R$改变，$d/s$由距离与传播速度决定。 / Link rate changes transmission time; propagation depends on distance and signal speed.
 
-首轮可选 **[N015（分组交换）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N013)、[N025（四类时延）、N033（流量强度）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N025)、[N072（流水线）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N071)**，再在Markji按卡号复习。微课入口：[NET02](https://crazyshout.github.io/micro-course/?lesson=net02)。
+首轮可选 **[N015（分组交换）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N015)、[N025（四类时延）、N033（流量强度）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N025)、[N072（流水线）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N072)**，再在Markji按卡号复习。微课入口：[NET02](https://crazyshout.github.io/micro-course/?lesson=net02)。
 
 | 原完整PPT页码 | 本文位置 | 覆盖内容 |
 |---|---|---|
@@ -261,4 +264,4 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 | 72–78 | §9、§11 | 演进、时代数字、总结 |
 | Q&A 1–6 | §10 | 标题及全部5道题 |
 
-part1的49页对应完整1–49；part2的29页对应完整50–78，页码重编不算新增教学内容。逐页文本与内嵌图内容核对记录见本轮材料清单。原图在相关段落展示，计算步骤见正文。
+part1的49页对应完整1–49；part2的29页对应完整50–78，页码重编不算新增教学内容。原图在相关段落展示，计算步骤见正文。

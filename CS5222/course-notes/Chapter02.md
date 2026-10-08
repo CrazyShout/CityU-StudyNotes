@@ -54,8 +54,7 @@ Client/server架构中，一方提供相对稳定可达的服务，客户端发�
 **English:** Reliability, ordering, latency, throughput and security are different service properties. UDP's minimal service lets applications choose additional mechanisms, but does not remove responsibility for congestion and reliability design.
 
 
-来源：Chapter 2完整课件，第12张幻灯片。
-来源：Chapter 2完整课件，第17张幻灯片。
+来源：Chapter 2完整课件，第12张幻灯片；第17张幻灯片。
 
 <a id="http"></a>
 
@@ -75,6 +74,10 @@ Persistent HTTP：复用连接，后续对象省去重新握手。**持久连接
 
 补充小例：base HTML加2个小对象，都在同服务器，忽略发送时间和DNS。串行非持久共3×2=6RTT；单个持久无流水线是1握手+3请求=4RTT；拿到HTML后一次发两个后续请求的理想流水线模型为3RTT。先问清协议/浏览器约定，才有唯一算式。原Chapter 2完整课件，第27张幻灯片画的是顺序复用，Tutorial3c据此读。
 
+**变式 / Transfer：** 同一服务器上的HTML还引用4个很小的对象。初始无连接，先收到HTML，忽略DNS、发送、TLS、丢包和处理时延。串行非持久与单条无流水线持久连接各需多少RTT？ / A base HTML file references four small objects on the same server. Start without connections and fetch HTML first. Ignore DNS, transmission, TLS, loss and processing. Compare serial non-persistent HTTP with one non-pipelined persistent connection.
+
+**答 / Answer：** 非持久有5次“握手＋请求”，共10 RTT；持久只握手一次，加5次请求，共6 RTT。 / Ten RTTs versus six RTTs. 复用连接省的是握手，请求本身仍需往返。
+
 ### 读报文：把每一行与问题对应
 
 请求行是method、request target、version；头字段包括Host、User-Agent、Accept等；CRLF分行，空行结束头部。GET通常索取表示；HEAD只请求相应响应头；POST提交内容供资源处理，不能仅凭方法名保证请求是否“安全”或是否一定有某种body。
@@ -85,8 +88,7 @@ Persistent HTTP：复用连接，后续对象省去重新握手。**持久连接
 
 **English:** A page may require multiple object requests. Connection persistence, pipelining and parallel connections are separate choices; name the timing model before counting RTTs.
 
-来源：Chapter 2完整课件，第19张幻灯片。
-来源：Chapter 2完整课件，第30–31张幻灯片。
+来源：Chapter 2完整课件，第19张幻灯片；第30–31张幻灯片。
 
 
 ## 4. Cookies and caches｜识别会话，与复用内容是两件事
@@ -104,14 +106,13 @@ Persistent HTTP：复用连接，后续对象省去重新握手。**持久连接
 </details>
 
 
-来源：Chapter 2完整课件，第32–35张幻灯片。
-来源：Chapter 2完整课件，第36–37张幻灯片。
+来源：Chapter 2完整课件，第32–35张幻灯片；第36–37张幻灯片。
 
 <a id="mail"></a>
 
 ## 5. Electronic mail and SMTP｜把“送到邮箱”和“打开邮箱”拆开
 
-中Alice的user agent先把信交给发送邮件服务器，放入outgoing queue；服务器经SMTP投递到Bob的邮件服务器，进入mailbox；Bob再用客户端访问。发件/收件服务器可能在不同交互中分别担当client/server。
+Alice的邮件客户端（user agent）先把信交给发送邮件服务器，放入outgoing queue；服务器经SMTP投递到Bob的邮件服务器，进入mailbox；Bob再用客户端访问。发件/收件服务器可能在不同交互中分别担当client/server。
 
 SMTP通过命令/响应完成greeting、邮件传送、结束。课堂Chapter 2完整课件，第42张幻灯片原对话顺序是 `HELO` → `MAIL FROM` → `RCPT TO` → `DATA` → 邮件内容 → 单独一行`.` → `QUIT`。只有服务器给出354后才发DATA内容；250代表该阶段成功，但不是“Bob已阅读”。同一持久TCP连接可投递多封邮件。
 
@@ -122,8 +123,7 @@ SMTP通过命令/响应完成greeting、邮件传送、结束。课堂Chapter 2�
 **English:** SMTP transfers mail to a receiving server. Message headers are distinct from SMTP envelope commands, and server acceptance does not mean the recipient has read the message.
 
 
-来源：Chapter 2完整课件，第39–43张幻灯片。
-来源：Chapter 2完整课件，第44张幻灯片。
+来源：Chapter 2完整课件，第39–43张幻灯片；第44张幻灯片。
 
 <a id="pop3"></a>
 
@@ -149,8 +149,7 @@ root、TLD和权威服务器形成管理层次；本地解析器负责替你沿�
 把root写成“自己联系权威并取回最终映射”不代表通常迭代解析的根服务行为；按随后Chapter 2完整课件，第60–61张幻灯片的常见图，递归解析器接收referral后自己继续查询。[RFC1034 §4.3](https://www.rfc-editor.org/rfc/rfc1034) 原页根服务器实例数量是当时快照，不作为当前数量。不要把根服务标识数、实例数、物理机器数混成同一个概念。
 
 
-来源：Chapter 2完整课件，第53–59张幻灯片。
-来源：Chapter 2完整课件，第57张幻灯片。
+来源：Chapter 2完整课件，第53–59张幻灯片；第57张幻灯片。
 
 <a id="dns"></a>
 
@@ -160,9 +159,13 @@ root、TLD和权威服务器形成管理层次；本地解析器负责替你沿�
 
 ![Original iterative DNS query flow](assets/chapter02-61.png)
 
-看图先跟数字1–8，不要把每根箭头当一个RTT：一次往返有去和回。无缓存、顺序访问root/TLD/权威时，若host↔local为RTT_L，每个local↔远端为RTT_r，总RTT_L+3RTT_r。命中local缓存、无需再验证且忽略处理时，只RTT_L。这个算式在Tutorial3保留完整原图。
+看图先跟数字1–8，不要把每根箭头当一个RTT：一次往返有去和回。无缓存、顺序访问root/TLD/权威时，若host↔local为RTT_L，每个local↔远端为RTT_r，总RTT_L+3RTT_r。命中local缓存、无需再验证且忽略处理时，只RTT_L。原图也用于Tutorial3。若RTT_L=2 ms、RTT_r=10 ms，无缓存时为2+3×10=32 ms；本地命中时为2 ms。
 
-缓存有TTL，回答可以非权威但仍来自缓存的权威资料链。过期需要重新查询；记录变化不会自动让所有旧缓存同时消失。DNS TTL是缓存时间概念，和IP TTL的跳数控制不是同一字段。
+**独立题 / Check：** 仍按图中顺序，忽略处理与发送时延。RTT_L改为3 ms、RTT_r为15 ms，无缓存与本地有效缓存命中分别多久？ / Under the same sequential DNS flow and negligible processing/serialization, use RTT_L=3 ms and RTT_r=15 ms. Find the uncached and valid local-cache-hit times.
+
+**答 / Answer：** 3+3×15=48 ms与3 ms。 / 48 ms and 3 ms.
+
+缓存有TTL（time to live，有效存活时间），回答可以非权威但仍来自缓存的权威资料链。过期需要重新查询；记录变化不会自动让所有旧缓存同时消失。DNS TTL是缓存时间概念，和IP TTL的跳数控制不是同一字段。
 
 ## 9. DNS records and messages｜名字、值、类型、有效时间要一起读
 
@@ -181,9 +184,7 @@ root、TLD和权威服务器形成管理层次；本地解析器负责替你沿�
 
 **English:** Recursive resolution delegates completion; iterative resolution returns referrals. DNS records have distinct types and TTLs; a non-authoritative cached answer is not automatically an incorrect answer.
 
-来源：Chapter 2完整课件，第66–67张幻灯片。
-来源：Chapter 2完整课件，第68张幻灯片。
-来源：Chapter 2完整课件，第69张幻灯片。
+来源：Chapter 2完整课件，第66–67张幻灯片；第68张幻灯片；第69张幻灯片。
 
 
 ## 10. P2P file distribution｜新加入的人也可以带来上传能力
@@ -192,13 +193,17 @@ root、TLD和权威服务器形成管理层次；本地解析器负责替你沿�
 
 Client-server的服务器共需上传NF bit，最慢客户端下载F bit：
 
-$$D_{cs}\ge\max\left(\frac{NF}{u_s},\frac F{d_{min}}\right).$$
+$$
+D_{cs}\ge\max\left(\frac{NF}{u_s},\frac F{d_{min}}\right).\tag{2.1}
+$$
 
 服务器不必物理“顺序开完一个连接才开下一个”，NF/u_s来自总上传工作量，哪怕并行也绕不过这个容量下界。
 
-P可互助上传，但最初至少要有一份文件从源头出去；每个节点仍须下载F，所有节点总共需NF的接收量：
+P2P中的节点可以互助上传，但最初至少要有一份文件从源头出去；每个节点仍须下载F，所有节点总共需NF的接收量：
 
-$$D_{p2p}\ge\max\left(\frac F{u_s},\frac F{d_{min}},\frac{NF}{u_s+\sum_i u_i}\right).$$
+$$
+D_{p2p}\ge\max\left(\frac F{u_s},\frac F{d_{min}},\frac{NF}{u_s+\sum_i u_i}\right).\tag{2.2}
+$$
 
 图和公式是理想容量下界，实际调度、块稀缺、离线、协议开销会增加耗时。Chapter 2完整课件，第75张幻灯片“always less”应读为在理想能力比较中不劣且有时更好，可能相等，不能保证任意实际P2P更快。
 
@@ -215,12 +220,11 @@ max(10,20,40)=40s，与CS相同。 / 40 s, equal to the client-server bound. 这
 </details>
 
 来源：Chapter 2完整课件，第71–75张幻灯片。
-来源：Chapter 2完整课件，第2张幻灯片。
 
 
 ## 11. BitTorrent｜先找邻居，再交换稀缺块
 
-中torrent是交换同一文件分块的peer集合，tracker帮助发现参与者，不必亲自发送全部文件。peer加入时无块，逐渐下载并向别人上传；成员离开/加入称churn。
+一个torrent是交换同一文件分块的节点集合，tracker帮助发现参与者，不必亲自发送全部文件。peer加入时无块，逐渐下载并向别人上传；成员离开/加入称churn。
 
 请求块采用rarest-first，优先扩散目前邻居中少见的块，降低最后只缺同一块的风险。发送方面，课堂用“偏向近期给自己较高上传速率的四个伙伴，每10秒重评、每30秒随机尝试一个新伙伴”的tit-for-tat/optimistic unchoking例子。这里的4/10/30属于课件所述算法版本，客户端实现可能采用不同参数。随机试新伙伴避免只锁在既有关系里。
 
@@ -233,18 +237,20 @@ max(10,20,40)=40s，与CS相同。 / 40 s, equal to the client-server bound. 这
 
 解释视频由连续图像组成；空间冗余可压缩同一帧重复信息，时间冗余利用帧间变化。不同编码码率对应不同质量/数据量，但码率不是用户网络吞吐。“4Mbps视频”指播放每秒需要约4Mbit编码数据，而不是网络必然提供4Mbps。
 
-从单个HTTP文件到Dynamic Adaptive Streaming over HTTP（DASH）：服务器把视频切成时间块，同一块有多个码率版本，manifest给出访问位置；客户端估计吞吐与缓冲状况，决定何时请求、用哪档、从哪里取。不能只用刚测到的瞬时峰值去选最高清，否则缓冲会先抗议。
+从单个HTTP文件到Dynamic Adaptive Streaming over HTTP（DASH）：服务器把视频切成时间块，同一块有多个码率版本，manifest给出访问位置；客户端估计吞吐与缓冲状况，决定何时请求、用哪档、从哪里取。不能只用刚测到的瞬时峰值去选最高清，否则可能很快耗尽缓冲。
 
-补算：4秒片段、编码2Mbps，块大小8Mbit；可用吞吐4Mbps时下载2秒，若同时正常播放，缓冲时长净增加约2秒。若只有1Mbps则下载8秒，需要足够初始缓冲，否则会停顿。这里忽略请求/变码率等开销，不能当所有编码器每块都精确恒长。
+补算：4秒片段、编码2Mbps，块大小8Mbit；可用吞吐4Mbps时下载2秒，若同时正常播放，缓冲时长净增加约2秒。若只有1Mbps则下载8秒，需要足够初始缓冲，否则会停顿。这里忽略请求/变码率等开销，按固定编码率计算；实际块大小可以变化。
 
-用CDN把副本放在多个地理/网络位置，降低单站压力与长路径问题。Enter deep靠近接入网络、地点多；bring home集中于较少大型IXP附近集群。选择“近”往往看网络路径/负载，不只地图公里数。DASH控制表示与请求，CDN提供分发位置，二者可配合但不是同义词。原用户数、流量占比和部署地点数均为原页时期的案例。
+**自己算 / Try：** 一个6秒视频块按3 Mbps编码，可用吞吐6 Mbps，初始缓冲充足且边下边播。求大小、下载时间和缓冲时长净增量。 / A six-second chunk is encoded at 3 Mbps and downloaded at 6 Mbps. With enough initial buffer and simultaneous playback, find its size, download time and net buffer gain.
+
+**答 / Answer：** 18 Mbit、3秒、净增6−3=3秒，忽略请求和解码开销。 / 18 Mbit, 3 seconds to download, and 3 seconds of net buffer gain, ignoring request and decoding overhead.
+
+内容分发网络（content delivery network，CDN）把副本放在多个地理/网络位置，降低单站压力与长路径问题。Enter deep靠近接入网络、地点多；bring home集中于较少大型IXP附近集群。选择“近”往往看网络路径/负载，不只地图公里数。DASH控制表示与请求，CDN提供分发位置，二者可配合但不是同义词。原用户数、流量占比和部署地点数均为原页时期的案例。
 
 **English:** Encoding rate describes media demand, while throughput describes delivery capacity. DASH adapts chunk requests; CDNs distribute replicas across serving locations.
 
 
-来源：Chapter 2完整课件，第82–84张幻灯片。
-来源：Chapter 2完整课件，第85–88张幻灯片。
-来源：Chapter 2完整课件，第89–92张幻灯片。
+来源：Chapter 2完整课件，第82–84张幻灯片；第85–88张幻灯片；第89–92张幻灯片。
 
 <a id="sockets"></a>
 
@@ -285,25 +291,66 @@ TCP没有消息边界：本例规定每条文本以换行结束，`sendall`发�
 
 打开网页时：DNS得到服务地址 → socket取得所选传输服务 → HTTP表达所需资源 → 响应中的cookie可关联状态、cache可复用内容。邮件用SMTP投递、POP3/IMAP/HTTP访问；大文件与视频则进一步考虑peer上传能力、分块、编码与分发位置。共同的问题始终是：**双方是谁、消息怎么写、何时发送、需要哪些服务、状态由谁保存。**
 
-接着做[Tutorial3](Tutorial03.md)的报文/DNS/HTTP题和[Assignment1](Assignment01.md#pop3)的POP3与Zoom分析。首轮可选 **[N100（连接复用）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N100)、[N118（Webmail路径）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N111)、[N124（DNS查询模式）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N121)、[N233（HTTP时序）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N231)**，在Markji按卡号定位。相关[微课NET05](https://crazyshout.github.io/micro-course/?lesson=net05)继续可用。
+接着做[Tutorial3](Tutorial03.md)的报文/DNS/HTTP题和[Assignment1](Assignment01.md#pop3)的POP3与Zoom分析。首轮可选 **[N100（连接复用）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N100)、[N118（Webmail路径）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N118)、[N124（DNS查询模式）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N124)、[N233（HTTP时序）](https://crazyshout.github.io/micro-course/cards.html#CS5222-N233)**，在Markji按卡号定位。相关[微课NET05](https://crazyshout.github.io/micro-course/?lesson=net05)继续可用。
 
 英文自测：**Explain why persistent HTTP does not necessarily imply pipelining. / 为什么持久HTTP不等于流水线？** 关键答：复用的是连接，流水线另决定是否在上一响应完成前发后续请求。 / Persistence reuses a connection; pipelining additionally overlaps outstanding requests.
 
 <a id="class-qa"></a>
-## 课堂 Q&A：先说课堂答案，再补适用情境
+## 课堂 Q&A：按原题判断并说明条件
 
-新到Q&A_cha2学生版共7页，Chapter 2课堂Q&A，第2–7张幻灯片有六题。以下答案根据本章机制整理；学生版未附教师解答。题干条件与英文选项要一起读。
+Q&A_cha2学生版第2–7张幻灯片有六题，未附教师解答。下面保留完整选项，答案根据本章机制整理。
 
-| 原题 | 题干与选项概要 / Question | 整理答案与理由 / Answer |
-|---|---|---|
-| Chapter 2课堂Q&A，第2张幻灯片 | 哪些服务适合UDP？A文件传输、B视频流、C邮件、D在线游戏 / Choose UDP-suitable services | 课堂实时服务模型选B、D；强调时延容忍与应用需求。现代视频也可能用HTTP/TCP或其他传输，不能按服务名永久锁定协议。 / B,D under the classroom latency-sensitive model; actual deployments vary. |
-| Chapter 2课堂Q&A，第3张幻灯片 | 同服务器HTML+2个小JPEG，非持久HTTP总响应？选2/3/6/8 RTT / One HTML plus two JPEGs | 按顺序获取、忽略DNS/传输时延，3对象各2RTT，共6RTT，C；若并行则需重算。 / C, six RTTs for serial requests. |
-| Chapter 2课堂Q&A，第4张幻灯片 | 联系abc.com邮件服务器需要何信息？IP由DNS/自行知道，端口由DNS/25 / Mail-server addressing | 按SMTP投递情境选A、D：DNS求目标IP，服务端口25来自协议/配置；不是DNS普遍返回端口。客户端提交、IMAP/POP3情境端口不同。 / A,D for SMTP delivery, not every mail-client operation. |
-| Chapter 2课堂Q&A，第5张幻灯片 | 哪种DNS记录可支持题意负载分配？A A-record、B NS、C CNAME、D MX / DNS record type | A：同一名字可有多个A地址；返回多个地址本身不保证负载精确均衡。 / A, with multiple addresses and appropriate selection. |
-| Chapter 2课堂Q&A，第6张幻灯片 | BitTorrent：A纯client-server；B需peer地址；C优先最大块；D始终相同peer / BitTorrent statements | B；它可动态换peer，常用稀缺块优先，不是块越大先拿。 / B; peer discovery, rarest-first and changing peers. |
-| Chapter 2课堂Q&A，第7张幻灯片 | TCP可靠有序；UDP要握手；UDP显式目的地址/端口；socket选择网络层协议 / Socket statements | 课件基本接口模型选A、C；可靠性有连接失败边界，C对应sendto数据报接口。socket能有地址族/类型参数，不能把D理解为应用随意指定沿途网络协议。 / A,C in the taught API/service model. |
+### 1. Transport service｜为应用选择传输服务
 
-**迁移 / Transfer：** 把Chapter 2课堂Q&A，第3张幻灯片改为HTML后可并行取两张图，非持久连接且理想无竞争，总需几RTT？ / Allow two parallel image connections after receiving HTML.
+**EN:** Which services should use UDP? A) File transfer. B) Video streaming. C) Email. D) Online games.
+
+**中文：** 哪些服务适合使用UDP？A文件传输；B视频流；C邮件；D在线游戏。
+
+**答 / Answer：** 课堂对时延敏感服务的简化模型选B、D；实际协议还要结合应用设计，例如视频也可能使用HTTP/TCP。 / B and D under the classroom model of latency-sensitive services; real applications may choose other transports, including HTTP/TCP for video.
+
+### 2. HTTP timing｜从HTML到两张图片
+
+**EN:** A browser obtains an HTML page and two very small JPEG images from the same server using non-persistent HTTP. What is the total response time? A) 2 RTTs. B) 3 RTTs. C) 6 RTTs. D) 8 RTTs.
+
+**中文：** 浏览器从同一服务器获取HTML和两张很小的JPEG，采用非持久HTTP，总响应时间是A 2、B 3、C 6还是D 8个RTT？
+
+**答 / Answer：** 按课件顺序获取、忽略DNS与对象传输时延的约定，三个对象各需2RTT，共6RTT，选C。原题未明确并行性；并行连接时答案要重算。 / C: six RTTs for serial requests, ignoring DNS and object transmission time. Parallel connections would change the timing.
+
+### 3. Mail addressing｜目标主机与服务端口
+
+**EN:** What addressing information does a client process need to communicate with the mail server at abc.com? A) Its IP address, usually obtained through DNS. B) Its IP address, which the client usually already knows. C) Its port number, usually obtained through DNS. D) Port number 25.
+
+**中文：** 客户进程联系abc.com的邮件服务器，需要哪些地址信息？A通常经DNS得到IP；B客户端通常已知道IP；C通常经DNS得到端口；D端口25。
+
+**答 / Answer：** 按本题SMTP投递情境选A、D：IP通过DNS确定，端口25来自协议与配置。它不代表所有邮件客户端操作都用25；提交、收信另有服务。 / A and D for SMTP delivery: resolve the server's IP address and use port 25. Submission and mailbox access are different services.
+
+### 4. DNS records｜一个名字怎样对应多台服务器
+
+**EN:** Which DNS record type can enable load balancing in this question? A) A. B) NS. C) CNAME. D) MX.
+
+**中文：** 哪类DNS记录可实现本题所指的负载分配？A A记录；B NS；C CNAME；D MX。
+
+**答 / Answer：** 选A。同一名字可返回多个IPv4地址，由客户端或返回顺序影响选择；它本身不保证各服务器负载精确相同。 / A: multiple addresses can be returned for one name, although this alone does not ensure perfectly balanced load.
+
+### 5. BitTorrent｜找到谁、向谁下载
+
+**EN:** Which statement about BitTorrent is true? A) It uses a client-server architecture. B) A user needs the IP addresses of peers. C) Missing chunks with the largest size are requested first. D) A user always communicates with the same peers throughout the download.
+
+**中文：** 哪句正确？A采用client-server架构；B需要peer的IP地址；C优先请求最大的缺失块；D下载全程始终联系同一批peer。
+
+**答 / Answer：** 选B。BitTorrent的数据分发是P2P，常用稀缺块优先，连接的peer可以变化；发现peer可以借助tracker等机制。 / B. Data distribution is peer-to-peer, chunk selection commonly uses rarest-first, and peers may change during a download.
+
+### 6. Socket services｜接口提供了什么
+
+**EN:** Which statements are true? A) TCP guarantees that bytes arrive in order. B) UDP performs a handshake before sending data. C) With UDP, the sender explicitly supplies the destination IP address and port for each packet. D) Socket programming selects the network-layer protocol.
+
+**中文：** 哪些说法正确？A TCP提供可靠且有序的字节传输；B UDP发数据前握手；C UDP发送时逐包给目的IP和端口；D socket编程选择网络层协议。
+
+**答 / Answer：** 课件基本服务与`sendto`接口模型选A、C。TCP向应用交付有序字节，但连接失败时不能保证最终成功；C描述本章未连接UDP的发送接口。D不能理解为应用通过本章接口任意指定沿途网络协议。 / A and C in the taught service/API model. TCP delivers ordered bytes but can report connection failure; C describes the unconnected UDP sendto interface used here.
+
+来源：Chapter 2课堂Q&A，第2–7张幻灯片，英文按原题整理。
+
+**迁移 / Transfer：** 把Chapter 2课堂Q&A，第3张幻灯片改为HTML后可并行取两张图，非持久连接且理想无竞争，总需几RTT？ / After receiving the HTML, fetch its two small images through parallel non-persistent connections. Ignore DNS and transmission time, assume no contention, and express the total in RTTs.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -311,7 +358,7 @@ HTML两RTT，图片同一批两RTT，共4RTT；这是补充变式，不替换原
 
 </details>
 
-[Tutorial4](Tutorial04.md)继续练本章P2P/DASH；[Tutorial5](Tutorial05.md)属于下一章传输层。Q&A页面并入本章覆盖索引：Chapter 2课堂Q&A，第1张幻灯片为封面，Chapter 2课堂Q&A，第2–7张幻灯片对应上表六题。
+[Tutorial4](Tutorial04.md)继续练本章P2P/DASH；[Tutorial5](Tutorial05.md)属于下一章传输层。Q&A页面并入本章覆盖索引：Chapter 2课堂Q&A，第1张幻灯片为封面，Chapter 2课堂Q&A，第2–7张幻灯片对应以上六题。
 
 ## 15. Source coverage and cautions｜每一页有去处
 

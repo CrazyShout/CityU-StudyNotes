@@ -2,7 +2,7 @@
 
 [Chapter 2](Chapter02.md) · [课程目录](README.md) · [Assignment 1](Assignment01.md)
 
-依据当前 原题PDF（3页），按Problem1–4展开。已补充对照Tutorial 3教师解答，第13张幻灯片页：Tutorial 3教师解答，第3–4张幻灯片对应Q1，Tutorial 3教师解答，第8张幻灯片对应Q2，Tutorial 3教师解答，第11–13张幻灯片对应Q3；Q4未给当前测量答案。以下保留教师结论与整理补充的区别。Q1/Q2/Q3为核心必会（中等难度，卡在字段证据与RTT条件），Q4为常规掌握的实际操作任务（需区别观察和推断）。
+依据当前 原题PDF（3页），按Problem1–4展开。教师解答共13页：Tutorial 3教师解答，第3–4张幻灯片对应Q1，Tutorial 3教师解答，第8张幻灯片对应Q2，Tutorial 3教师解答，第11–13张幻灯片对应Q3；Q4未给当前测量答案。以下保留教师结论与整理补充的区别。Q1/Q2/Q3为核心必会（中等难度，卡在字段证据与RTT条件），Q4为常规掌握的实际操作任务（需区别观察和推断）。
 
 可选先修：[ASCII、CRLF与报文](../../learning/foundation-notes/NetworkBasics.md#messages)、[时间轴](../../learning/foundation-notes/NetworkBasics.md#timeline)。
 
@@ -80,7 +80,7 @@ c **Persistent / 持久：** 原题未明说是否pipelining；新到Tutorial 3�
 
 ![Calculated object request rounds](assets/http-rounds.png)
 
-图按握手/请求轮次计算，仅表示题目简化模型；不包括TLS、服务器思考时间、连接拥塞控制与大文件传输。
+图按握手/请求轮次计算，仅表示题目简化模型；不包括TLS、服务端处理时间、连接拥塞控制与大文件传输。
 
 **变式 / Transfer:** 改为base HTML+6对象，非持久且最多4并行、其他条件不变，结果？ / Use six referenced objects and at most four parallel non-persistent connections.
 
@@ -95,9 +95,9 @@ D+2RTT₀+2×ceil(6/4)RTT₀=D+6RTT₀。 / D+6RTT₀. 物件少两个仍需两�
 
 **原任务 / Task:** 用`nslookup cityu.edu.hk`找地址，再判断把IP直接输入浏览器能否得到网页。 / Resolve cityu.edu.hk and investigate whether navigating directly to its IP retrieves the site.
 
-本机macOS于 **2026-09-23 01:19（UTC+8）** 实际查询，解析器223.5.5.5返回non-authoritative answer，两个A地址为 **45.60.199.218、45.60.197.218**。完整输出 非权威表示答案来自递归/缓存服务器，不等于错误；多地址也不是异常。地点、时间、DNS策略变化可返回不同集合，不能把这两个IP当永久常量背下来。
+本机macOS于 **2026-09-23 01:19（UTC+8）** 实际查询，解析器223.5.5.5返回non-authoritative answer，两个A地址为 **45.60.199.218、45.60.197.218**。“非权威”表示答案来自递归/缓存服务器，不等于错误；多地址也不是异常。地点、时间、DNS策略变化可返回不同集合，不能把这两个IP当永久常量背下来。
 
-直接输入IP可能打开默认页面、错误页、重定向，也可能某些服务可用；**不保证与域名访问相同**。HTTP虚拟主机依赖Host，HTTPS还涉及TLS服务器名SNI和证书名称，CDN/WAF可能按域名路由。不能从“DNS返回IP”推断“浏览器写这个IP必定显示该站”。本次直接IP访问的浏览器检查未完成，记录见浏览观察记录。
+直接输入IP可能打开默认页面、错误页、重定向，也可能某些服务可用；**不保证与域名访问相同**。HTTP虚拟主机依赖Host，HTTPS还涉及TLS服务器名SNI和证书名称，CDN/WAF可能按域名路由。不能从“DNS返回IP”推断“浏览器写这个IP必定显示该站”。这份2026-09-23的记录只包含DNS查询，未包含直接IP访问的结果。
 
 **English answer:** The dated lookup returned two A records. Direct-IP navigation is not guaranteed to reproduce the hostname-based website because virtual hosting, TLS name validation and routing can depend on the hostname.
 

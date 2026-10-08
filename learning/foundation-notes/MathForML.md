@@ -9,11 +9,11 @@
 只默认你会加减乘除、分数和简单方程。不必一次读完：可以从下面选择卡住的专题；小节末尾有返回相关Lecture或Tutorial具体位置的链接。正文中的英文术语帮助对照课堂，English takeaway 是整理后的表达，练习题答中英对齐。
 
 <a id="foundation-nav"></a>
-新增按需入口：[反向传播里的矩阵、广播与批量梯度](MathForML.md#batch-gradients)，用于Lecture5和Assignment2；原有专题仍可独立跳读。
+各专题可以单独阅读；学会当前需要的工具后，通过节末链接回到课程。
 
 ## 先找到自己缺的那一级台阶
 
-| 如果你卡在这里 | 从哪里补 | 本讲用在哪里 |
+| 如果你卡在这里 | 从哪里补 | 用在哪些内容 |
 |---|---|---|
 | 一看到下标、函数图像、Σ、Π就读不下去 | [1. 符号、函数与图像](MathForML.md#symbols-functions) | 数据记录、似然乘积、均值求和 |
 | 分不清“给定谁”，或把密度高度当概率 | [2. 概率、条件与密度](MathForML.md#probability-density) | 生成模型、高斯观察模型 |
@@ -24,6 +24,7 @@
 | 不知道投影、正交和张成空间是什么意思 | [7. 长度与投影](MathForML.md#projection) | CS5489 Tutorial1、Lecture3 |
 | 逆不存在却还要拟合，不知怎么办 | [8. 秩与伪逆](MathForML.md#rank-pseudoinverse) | CS5489 Lecture4最小二乘 |
 | 梯度、约束、乘子突然冒出来 | [9. 梯度与约束](MathForML.md#optimization) | CS5489 Lecture3 LR/SVM |
+| 不清楚反向传播为什么转置、求和或平均 | [10. 批量梯度](MathForML.md#batch-gradients) | Lecture5、Assignment2 |
 
 不确定从哪开始，可以先看这五道自查。**会解释理由就可以跳过相应入门段；卡住时再点专题。** 
 
@@ -103,7 +104,9 @@ X是4×2；非对角线描述两个特征相对于各自均值一起变化的情
 
 把每一行相同的计算压缩成一句话，就是
 
-$$V(t)=2t+1.$$
+$$
+V(t)=2t+1.\tag{M.1}
+$$
 
 这里t是 **variable（变量）**，V(t)读作“时间t对应的水量”。括号表示把t送入规则，**V(t)不是V乘以t**。2t才表示2×t；2的单位是L/min，乘以分钟后得到L，才能与原有1 L相加。
 
@@ -120,7 +123,9 @@ $$V(t)=2t+1.$$
 
 **Slope（斜率）**是“输出变化量÷输入变化量”。大写希腊字母Δ读作delta，在这里表示“后一个值减前一个值”：
 
-$$\text{slope}=\frac{\Delta V}{\Delta t}=\frac{5-3}{2-1}=2\ \text{L/min}.$$
+$$
+\text{slope}=\frac{\Delta V}{\Delta t}=\frac{5-3}{2-1}=2\ \text{L/min}.\tag{M.2}
+$$
 
 这条直线到处斜率相同；曲线则可能一会儿陡、一会儿平，专题4会从这里引出导数。
 
@@ -135,16 +140,22 @@ English question: Under the same tank assumptions, find the volume after 2.5 min
 
 有三个读数1、2、4，写成x₁=1、x₂=2、x₃=4。**Subscript（下标）**i告诉你“第几个”；x₂是第二个读数，不是x乘2，也不是平方。
 
-$$\sum_{i=1}^{3}x_i=x_1+x_2+x_3=1+2+4=7,$$
+$$
+\sum_{i=1}^{3}x_i=x_1+x_2+x_3=1+2+4=7,\tag{M.3}
+$$
 
-$$\prod_{i=1}^{3}x_i=x_1x_2x_3=1\times2\times4=8.$$
+$$
+\prod_{i=1}^{3}x_i=x_1x_2x_3=1\times2\times4=8.\tag{M.4}
+$$
 
 Σ（summation）说“逐项相加”，Π（product）说“逐项相乘”。下方i=1是起始编号，上方3是结束编号；i只是计数用的名字，换成j不会改变计算。省略上下限时，需要从上下文知道加了哪些项。
 
 平方也要看括号：
 
-$$\sum_{i=1}^{3}x_i^2=1^2+2^2+4^2=21,
-\qquad\left(\sum_{i=1}^{3}x_i\right)^2=7^2=49.$$
+$$
+\sum_{i=1}^{3}x_i^2=1^2+2^2+4^2=21,
+\qquad\left(\sum_{i=1}^{3}x_i\right)^2=7^2=49.\tag{M.5}
+$$
 
 前者“各自平方再相加”，后者“先合计再平方”。括号决定先做哪一步。在实数范围内，a≥0时，符号√a表示平方后得到a的非负数，例如√9=3；它稍后用于从方差回到标准差。
 
@@ -199,11 +210,15 @@ English question: Select one message uniformly from the table. What is the proba
 
 第一问先把目光缩到“垃圾邮件”那一行：30封里18封含free，得到
 
-$$P(F\mid S)=\frac{18}{30}=0.6.$$
+$$
+P(F\mid S)=\frac{18}{30}=0.6.\tag{M.6}
+$$
 
 第二问先缩到“含free”那一列：25封里18封是垃圾邮件，得到
 
-$$P(S\mid F)=\frac{18}{25}=0.72.$$
+$$
+P(S\mid F)=\frac{18}{25}=0.72.\tag{M.7}
+$$
 
 竖线“|”读作 **given（已知、给定）**。两问用了同一个18，却有不同分母；“已知是猫，有胡子的比例”和“已知有胡子，是猫的比例”也有这个区别。
 
@@ -211,8 +226,10 @@ $$P(S\mid F)=\frac{18}{25}=0.72.$$
 
 两个条件同时满足叫交集，写成F∩S；本例概率是18/100=0.18。由计数关系可归纳出
 
-$$P(F\mid S)=\frac{P(F\cap S)}{P(S)},\qquad
-P(F\cap S)=P(F\mid S)P(S),\quad P(S)>0.$$
+$$
+P(F\mid S)=\frac{P(F\cap S)}{P(S)},\qquad
+P(F\cap S)=P(F\mid S)P(S),\quad P(S)>0.\tag{M.8}
+$$
 
 不必先背：30/100的人被留下，在留下的人中取18/30，乘起来正好18/100。条件事件概率为0时，这个分式不能直接计算；不能把0/0随意写成0或1。
 
@@ -240,7 +257,9 @@ P(F\cap S)=P(F\mid S)P(S),\quad P(S)>0.$$
 
 这条曲线叫 **probability density function，PDF（概率密度函数）**，写作f(x)。这里PDF是函数的缩写，不是文件格式。对于这个均匀模型：
 
-$$f(x)=\begin{cases}2,&0\le x\le0.5,\\0,&\text{otherwise}.\end{cases}$$
+$$
+f(x)=\begin{cases}2,&0\le x\le0.5,\\0,&\text{otherwise}.\end{cases}\tag{M.9}
+$$
 
 ![均匀与标准正态密度图，分别标出区间概率0.4和约0.6827](assets/density-area.png)
 
@@ -255,7 +274,9 @@ English question: In the uniform waiting-time model on [0,0.5] minutes, find the
 
 对曲线，可以把区间切成很多窄长方形，将“宽×高”相加，越切越细。这种累计面积记为 **integral（积分）**：
 
-$$P(a\le X\le b)=\int_a^b f(x)\,dx.$$
+$$
+P(a\le X\le b)=\int_a^b f(x)\,dx.\tag{M.10}
+$$
 
 ∫表示累计，a、b是左右端点，dx提示沿x方向累计很小的宽度。这里先会读“区间下的面积”即可，不需要先学一整套积分技巧。对有密度的连续模型，单个精确点没有宽度，概率为0；实际仪器显示“2.3 cm”通常代表经过舍入的一小段区间。混合了离散点质量的模型不属于这句说明的范围。
 
@@ -285,8 +306,10 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 
 **Logarithm（对数）**把问题倒过来：“底数2的几次方等于8？”答案是3，记成log₂8=3。一般定义为
 
-$$\log_b x=y\quad\Longleftrightarrow\quad b^y=x,
-\qquad b>0,\ b\ne1,\ x>0.$$
+$$
+\log_b x=y\quad\Longleftrightarrow\quad b^y=x,
+\qquad b>0,\ b\ne1,\ x>0.\tag{M.11}
+$$
 
 双向箭头表示两句话等价。底数1不行，因为1的任何次幂仍是1，无法唯一反推出指数。实数对数这里要求正输入；log₂(−8)不是这个定义里的实数结果。
 
@@ -294,7 +317,9 @@ $$\log_b x=y\quad\Longleftrightarrow\quad b^y=x,
 
 **Natural logarithm（自然对数）**以特殊常数e≈2.71828为底，写成ln(x)。对应的指数函数eˣ也写成exp(x)。它们互相反解：
 
-$$\ln(e^u)=u,\qquad e^{\ln x}=x\quad(x>0).$$
+$$
+\ln(e^u)=u,\qquad e^{\ln x}=x\quad(x>0).\tag{M.12}
+$$
 
 以e为底有一个方便的性质：eˣ的局部变化率恰好等于当前高度，而ln(x)的变化率恰好为1/x。专题4会解释“变化率”怎样变成导数；此处先会读函数即可。Lecture 2中的log默认按自然对数理解。
 
@@ -309,12 +334,16 @@ $$\ln(e^u)=u,\qquad e^{\ln x}=x\quad(x>0).$$
 
 设a=eᵘ、b=eᵛ，两个数都为正。指数的相乘规则给出ab=eᵘeᵛ=eᵘ⁺ᵛ。对它反问“这是e的几次方”，答案就是u+v。因此
 
-$$\ln(ab)=\ln a+\ln b.$$
+$$
+\ln(ab)=\ln a+\ln b.\tag{M.13}
+$$
 
 同样，正数a有ln(aᵏ)=k ln(a)。例如ln(0.2×0.5)=ln0.2+ln0.5；多个因子时，把这个规则重复使用：
 
-$$\ln\left(\prod_{i=1}^{N}p_i\right)=\sum_{i=1}^{N}\ln p_i,
-\qquad p_i>0.$$
+$$
+\ln\left(\prod_{i=1}^{N}p_i\right)=\sum_{i=1}^{N}\ln p_i,
+\qquad p_i>0.\tag{M.14}
+$$
 
 这不是任意“把括号拆开”。**加法没有同样的规则**：ln(2+4)=ln6，而ln2+ln4=ln8，两者不同。
 
@@ -359,9 +388,11 @@ English question: Compute log₂(1/8) and log₂(2×4). Which is larger, ln0.3 o
 
 我们先盯住x=2，问它附近的变化率。从x走到x+h，h表示这一步的长度，可以为正，也可以为负，但不能是0。两点间 **secant（割线）**的斜率为
 
-$$\frac{f(x+h)-f(x)}{h}
+$$
+\frac{f(x+h)-f(x)}{h}
 =\frac{(x+h)^2-x^2}{h}
-=\frac{x^2+2xh+h^2-x^2}{h}=2x+h.$$
+=\frac{x^2+2xh+h^2-x^2}{h}=2x+h.\tag{M.15}
+$$
 
 中间只用了展开括号、约掉x²，再约掉非零h。把x=2放进去：
 
@@ -374,7 +405,9 @@ $$\frac{f(x+h)-f(x)}{h}
 
 让h从两侧越来越接近0，斜率趋近4。这个 **limit（极限）**不是先把分母h替换成0；它问非零h靠近0时整个比值趋向哪里。这个局部变化率叫 **derivative（导数）**，可以写成f′(x)或df/dx：
 
-$$f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}h=2x.$$
+$$
+f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}h=2x.\tag{M.16}
+$$
 
 ![平方曲线在x等于2处的切线，以及不同步长的割线](assets/secant-tangent.png)
 
@@ -396,9 +429,11 @@ $$f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}h=2x.$$
 
 对1/x也可以直接检查差商：
 
-$$\frac{1/(x+h)-1/x}{h}
+$$
+\frac{1/(x+h)-1/x}{h}
 =\frac{-h}{x(x+h)h}
-=-\frac1{x(x+h)}\ \longrightarrow\ -\frac1{x^2}.$$
+=-\frac1{x(x+h)}\ \longrightarrow\ -\frac1{x^2}.\tag{M.17}
+$$
 
 为什么ln x的导数是1/x？自然对数也可以由曲线1/t从1到x累计的**有向面积**定义，它与以e为底的对数一致。x往右增加很小的Δx，多出的窄条面积约为(1/x)Δx；除以宽度Δx，再让宽度趋近0，就得到1/x。x<1时方向反过来，累计面积取负，这也呼应了上一专题的负对数。
 
@@ -415,7 +450,9 @@ $$\frac{1/(x+h)-1/x}{h}
 
 令z=3x+1，再令y=z²。先把x变成z，再把z平方得到y。x动一点，第一道工序先把变化放大3倍；第二道工序在当前z附近再放大约2z倍。总变化率就是两段相乘：
 
-$$\frac{dy}{dx}=\frac{dy}{dz}\frac{dz}{dx}=2z\times3=6(3x+1).$$
+$$
+\frac{dy}{dx}=\frac{dy}{dz}\frac{dz}{dx}=2z\times3=6(3x+1).\tag{M.18}
+$$
 
 这叫 **chain rule（链式法则）**。dy/dz等写法在这里是变化率记号，不是任意情况下都能当普通分数约掉的字母。
 
@@ -437,8 +474,10 @@ English question: Let z=3x+1 and y=z². At x=1, find dy/dx and explain what is m
 
 如果函数有两个输入，比如E(u,v)=(u−1)²+(v−2)²，想知道u单独改变的影响，就先把v固定。这样的导数叫 **partial derivative（偏导）**，用弯曲的∂写成∂E/∂u：
 
-$$\frac{\partial E}{\partial u}=2(u-1),\qquad
-\frac{\partial E}{\partial v}=2(v-2).$$
+$$
+\frac{\partial E}{\partial u}=2(u-1),\qquad
+\frac{\partial E}{\partial v}=2(v-2).\tag{M.19}
+$$
 
 对u求导时，(v−2)²是常数，导数为0；对v求导时反过来。把这些偏导按顺序排成向量，叫 **gradient（梯度）**，本讲先认识这个词，不需要先学梯度下降算法。
 
@@ -455,7 +494,9 @@ Lecture 2的高斯似然有μ与σ²两个参数。对μ求偏导时，方差固
 
 用本讲即将看到的一个教学例子连接起来：固定10个独立标签，其中4个为类1、6个为类2。令p为候选的类1概率；改变的是p，不是重新抽标签。该固定标签序列的似然为
 
-$$L(p)=p^4(1-p)^6,\qquad 0\le p\le1.$$
+$$
+L(p)=p^4(1-p)^6,\qquad 0\le p\le1.\tag{M.20}
+$$
 
 这里没有乘二项式组合系数，因为我们写的是一个固定序列的概率；若只统计总数，组合系数不依赖p，也不改变获胜的p。L(p)不是“p本身的概率密度”，不要求它沿p的面积为1。
 
@@ -469,12 +510,16 @@ English question: For the fixed independent label sequence with four class-1 and
 
 对0<p<1先取对数，再应用刚才的规则：
 
-$$\ell(p)=4\ln p+6\ln(1-p),\qquad
-\ell'(p)=\frac4p-\frac6{1-p}.$$
+$$
+\ell(p)=4\ln p+6\ln(1-p),\qquad
+\ell'(p)=\frac4p-\frac6{1-p}.\tag{M.21}
+$$
 
 令导数为0，得到4(1−p)=6p，所以p=0.4。为了判断是不是山顶，把导数合成一个分式：
 
-$$\ell'(p)=\frac{4-10p}{p(1-p)}.$$
+$$
+\ell'(p)=\frac{4-10p}{p(1-p)}.\tag{M.22}
+$$
 
 区间内分母为正，p<0.4时分子为正，p>0.4时分子为负，因此函数先升后降；两个端点的L都为0。由此确认0.4是最大值。**English answer:** The log-likelihood derivative is 4/p−6/(1−p), which vanishes at p=0.4. It is positive before 0.4 and negative after it, while the endpoint likelihoods are zero, so p=0.4 is the maximizer.
 
@@ -502,8 +547,10 @@ English question: (1) Find the derivative of y=(2x−1)² at x=3. (2) Find both 
 
 假设每条记录有两个测量。把同一个类别里的四条人为教学记录写成(1,1)、(2,3)、(3,2)、(4,4)，数值均无量纲。一个 **vector（向量）**保存一条记录的有序特征；**matrix（矩阵）**则把很多数字按行列组织起来。
 
-$$X=\begin{pmatrix}1&1\\2&3\\3&2\\4&4\end{pmatrix}\in\mathbb R^{4\times2},
-\qquad \mathbf{x}_2=\begin{pmatrix}2\\3\end{pmatrix}\in\mathbb R^2.$$
+$$
+X=\begin{pmatrix}1&1\\2&3\\3&2\\4&4\end{pmatrix}\in\mathbb R^{4\times2},
+\qquad \mathbf{x}_2=\begin{pmatrix}2\\3\end{pmatrix}\in\mathbb R^2.\tag{M.23}
+$$
 
 X有4行、2列，写成4×2，顺序是“行数×列数”。第2行是一条记录；数学里把它单独拿出时，常写成竖着的 **column vector（列向量）**。ℝ²表示两个实数构成的向量空间，此处只需理解“有两个实数坐标”。
 
@@ -518,13 +565,17 @@ X有4行、2列，写成4×2，顺序是“行数×列数”。第2行是一条�
 
 两个长度相同的向量可以做 **dot product（点积、内积）**：对应位置相乘，再求和。令u=(2,3)ᵀ、v=(4,1)ᵀ：
 
-$$\mathbf{u}^T\mathbf{v}=2\times4+3\times1=11.$$
+$$
+\mathbf{u}^T\mathbf{v}=2\times4+3\times1=11.\tag{M.24}
+$$
 
 这是1×2乘2×1，结果为1×1，即一个数。反过来u uᵀ是2×1乘1×2，得到2×2的 **outer product（外积）**：
 
-$$\mathbf{u}\mathbf{u}^T=
+$$
+\mathbf{u}\mathbf{u}^T=
 \begin{pmatrix}2\times2&2\times3\\3\times2&3\times3\end{pmatrix}
-=\begin{pmatrix}4&6\\6&9\end{pmatrix}.$$
+=\begin{pmatrix}4&6\\6&9\end{pmatrix}.\tag{M.25}
+$$
 
 交换乘法顺序，结果从一个数变成了一个矩阵。
 
@@ -536,7 +587,9 @@ English question: Let A=[[2,1],[0,1]] and x=(2,3)ᵀ. Compute Ax and explain the
 
 第一行[2,1]与x相乘，得到2×2+1×3=7；第二行[0,1]与x相乘，得到0×2+1×3=3：
 
-$$A\mathbf{x}=\begin{pmatrix}7\\3\end{pmatrix}.$$
+$$
+A\mathbf{x}=\begin{pmatrix}7\\3\end{pmatrix}.\tag{M.26}
+$$
 
 **English answer:** The result is (7,3)ᵀ. Each output is a row of A dotted with the input vector.
 
@@ -551,8 +604,10 @@ $$A\mathbf{x}=\begin{pmatrix}7\\3\end{pmatrix}.$$
 
 先把偏差平方，再取平均，就得到这里采用的经验 **variance（方差）**：
 
-$$\bar x=\frac1N\sum_{i=1}^N x_i,\qquad
-v=\frac1N\sum_{i=1}^N(x_i-\bar x)^2.$$
+$$
+\bar x=\frac1N\sum_{i=1}^N x_i,\qquad
+v=\frac1N\sum_{i=1}^N(x_i-\bar x)^2.\tag{M.27}
+$$
 
 N是观测数，x̄表示样本均值。代入得到v=(4+0+4)/3=8/3 cm²。**Standard deviation（标准差）**是方差的平方根，s=√(8/3)≈1.633 cm，单位回到原长度单位。平方根取非负值。
 
@@ -576,7 +631,9 @@ N是观测数，x̄表示样本均值。代入得到v=(4+0+4)/3=8/3 cm²。**Sta
 
 两个特征都高于各自均值、或都低于各自均值，乘积为正；一个高一个低，乘积为负。把这些乘积平均，得到 **covariance（协方差）**：
 
-$$s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.$$
+$$
+s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
+$$
 
 ![四个教学数据点与均值交叉线，展示同向和反向偏差](assets/covariance-data.png)
 
@@ -584,13 +641,17 @@ $$s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.$$
 
 每列自身的方差都为(2.25+0.25+0.25+2.25)/4=1.25。把它们与协方差排进矩阵：
 
-$$\hat\Sigma=\begin{pmatrix}1.25&1\\1&1.25\end{pmatrix}.$$
+$$
+\hat\Sigma=\begin{pmatrix}1.25&1\\1&1.25\end{pmatrix}.\tag{M.29}
+$$
 
 对角线比较一个特征与它自己，所以是方差；非对角线比较不同特征，所以是协方差。它是对称的：先乘第一维再乘第二维，与反过来相同。这里Σ是矩阵名称，和带上下限的求和符号∑须按上下文区分。
 
 刚学过的外积能一次记下全部偏差乘积。把第i条记录减均值得到列向量dᵢ=xᵢ−μ̂，则
 
-$$\hat\Sigma=\frac1N\sum_{i=1}^N\mathbf{d}_i\mathbf{d}_i^T.$$
+$$
+\hat\Sigma=\frac1N\sum_{i=1}^N\mathbf{d}_i\mathbf{d}_i^T.\tag{M.30}
+$$
 
 例如第一条的d₁=(−1.5,−1.5)ᵀ，外积四格都是2.25；第二条d₂=(−0.5,0.5)ᵀ，外积对角线为0.25、非对角线为−0.25。四个矩阵逐格相加再除以4，就得到上面的结果。这正是原课协方差估计式的含义。
 
@@ -604,7 +665,7 @@ $$\hat\Sigma=\frac1N\sum_{i=1}^N\mathbf{d}_i\mathbf{d}_i^T.$$
 
 ![复用老师四个协方差矩阵的等密度轮廓图](../../CS5489/course-notes/assets/covariance-shapes.png)
 
-*复用已核查的Lecture2b cell36矩阵图：均值零、两维方差都为1，非对角元分别0、0.5、0.9、−0.9。正值让椭圆朝一起增大的方向倾斜，负值让它朝一增一减的方向倾斜。轮廓对应马氏距离平方4。*
+*复用已核查的Lecture2b，第36个单元的矩阵图：均值零、两维方差都为1，非对角元分别0、0.5、0.9、−0.9。正值让椭圆朝一起增大的方向倾斜，负值让它朝一增一减的方向倾斜。轮廓对应马氏距离平方4。*
 
 这张图不要求你先会计算椭圆。先看同样的横纵波动范围，如何因为“是否一起变化”而形成不同形状。课堂中需要在每个类别内部估计这个形状，不能把所有类别混起来算一次，就当作每个类别的关系。
 
@@ -613,14 +674,18 @@ $$\hat\Sigma=\frac1N\sum_{i=1}^N\mathbf{d}_i\mathbf{d}_i^T.$$
 
 之前A把x=(2,3)ᵀ变成了(7,3)ᵀ。若能从结果唯一恢复原输入，这个反向操作可用 **inverse matrix（逆矩阵）**A⁻¹表示。单位矩阵I只保留原向量，A⁻¹A=I：
 
-$$I=\begin{pmatrix}1&0\\0&1\end{pmatrix},\qquad
-A^{-1}=\begin{pmatrix}1/2&-1/2\\0&1\end{pmatrix}.$$
+$$
+I=\begin{pmatrix}1&0\\0&1\end{pmatrix},\qquad
+A^{-1}=\begin{pmatrix}1/2&-1/2\\0&1\end{pmatrix}.\tag{M.31}
+$$
 
 用它恢复：(7/2−3/2,3)ᵀ=(2,3)ᵀ。矩阵的逆不是把每个元素分别倒数；那样还会在0的位置遇到除以0。
 
 对一个2×2矩阵A=[[a,b],[c,d]]，**determinant（行列式）**为det(A)=ad−bc。若它非零，可以用
 
-$$A^{-1}=\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}.$$
+$$
+A^{-1}=\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}.\tag{M.32}
+$$
 
 本例det(A)=2。若det(A)=0，就没有这种通常的逆；例如[[1,1],[2,2]]把输出第二项永远变成第一项的两倍，许多不同输入被压到同一条线上，信息无法唯一恢复。不能把“逆不存在”处理成“逆矩阵是零”。
 
@@ -674,13 +739,17 @@ English question: (1) Find uᵀv for u=(1,2)ᵀ and v=(3,4)ᵀ. (2) For B=diag(3
 
 从n个人中选k个人：先按顺序选有 $n(n-1)\cdots(n-k+1)$ 种，但同一组k个人的顺序有 $k!=k(k-1)\cdots1$ 种，除掉重复：
 
-$$\binom nk=\frac{n!}{k!(n-k)!},\qquad 0!=1,\quad0\le k\le n.$$
+$$
+\binom nk=\frac{n!}{k!(n-k)!},\qquad 0!=1,\quad0\le k\le n.\tag{M.33}
+$$
 
 例如 $\binom32=3\times2/(2\times1)=3$。$\binom n0=1$：谁也不选，是一种空集合，不是没有可能情况。阶乘只是一种连乘记号，不需要先学一套新的运算。
 
 若每人**独立**以概率p活跃，特定状态“甲乙活跃、丙安静”的概率为 $p\times p\times(1-p)$。恰两人活跃要把三个互不重叠的状态相加，得到 $3p^2(1-p)$。一般地，活跃人数 $K\sim\operatorname{Binomial}(n,p)$：
 
-$$P(K=k)=\binom nk p^k(1-p)^{n-k}.$$
+$$
+P(K=k)=\binom nk p^k(1-p)^{n-k}.\tag{M.34}
+$$
 
 前项数“有几种人选”，后项算“每种人选有多可能”。独立且相同p是这个公式的条件。如果大家同时下课一起上传，独立假设可能失效，不能只因为有n个人就套二项分布。
 
@@ -717,7 +786,9 @@ $$P(K=k)=\binom nk p^k(1-p)^{n-k}.$$
 
 怎么计算？沿u方向的点可写成 $p=au$。要求余下 $r=v-au$ 与u垂直：
 
-$$u^T(v-au)=0\ \Rightarrow\ u^Tv-a(u^Tu)=0\ \Rightarrow\ a=\frac{u^Tv}{u^Tu}.$$
+$$
+u^T(v-au)=0\ \Rightarrow\ u^Tv-a(u^Tu)=0\ \Rightarrow\ a=\frac{u^Tv}{u^Tu}.\tag{M.35}
+$$
 
 所以 $p=(u^Tv)/(u^Tu)\,u$。如果u已经归一化为q，分母=1，写成 $(q^Tv)q$。向量维度必须相同，u必须非零。这个分母是长度平方，不是长度。
 
@@ -750,7 +821,9 @@ $u^Tv=2,u^Tu=2$，a=1，p=(1,−1)，r=(3,3)，uᵀr=3−3=0。 / The projection
 
 再把y改为(3,5)，现在第一行希望和为3，第二行希望和为2.5，两者不能都满足。最小二乘不再问“有没有精确解”，而问“哪一个可达向量离y最近”。设s=w₁+w₂，误差
 
-$$E(s)=(3-s)^2+(5-2s)^2=5s^2-26s+34.$$
+$$
+E(s)=(3-s)^2+(5-2s)^2=5s^2-26s+34.\tag{M.36}
+$$
 
 求导 $10s-26=0$，得s=2.6，预测(2.6,5.2)，残差(0.4,−0.2)。残差与列(1,2)点积0，正好与前面的投影衔接。最优系数仍不唯一；伪逆（pseudoinverse）选其中长度最小的解w=(1.3,1.3)。
 
@@ -783,7 +856,9 @@ w=(2,2)，预测(4,8)，残差0；仍有其他精确解，但其长度更大。 
 
 前面一元导数回答“x多一点，函数怎么变”。现在同时有两个参数，代价 $E(w_1,w_2)=w_1^2+2w_2^2$。固定w₂，对w₁求导得2w₁；固定w₁，对w₂求导得4w₂。把两个偏导按变量顺序装成向量：
 
-$$\nabla E=(2w_1,4w_2)^T.$$
+$$
+\nabla E=(2w_1,4w_2)^T.\tag{M.37}
+$$
 
 这个向量叫梯度（gradient）。在(1,1)，梯度(2,4)：往w₂方向多走一点，局部增加代价更快。负梯度是局部最陡下降方向（欧氏度量），梯度下降一次 $w\leftarrow w-\eta\nabla E$。eta=0.1时(1,1)变(0.8,0.6)，代价从3降为1.36。
 
@@ -816,7 +891,6 @@ g=2−x≥0，L=(x−3)²−lambda(2−x)。可行范围内最接近3的是x=2�
 
 返回：[Lecture3：Logistic Regression](../../CS5489/course-notes/Lecture03.md#logistic) · [Lecture3：SVM对偶](../../CS5489/course-notes/Lecture03.md#dual) · [Lecture4：OLS](../../CS5489/course-notes/Lecture04.md#ols) · [导航](MathForML.md#foundation-nav)
 
-<a id="sources"></a>
 <a id="batch-gradients"></a>
 ## 10. Batch gradients｜两行数据，为什么只更新一个偏置？
 
@@ -832,17 +906,23 @@ g=2−x≥0，L=(x−3)²−lambda(2−x)。可行范围内最接近3的是x=2�
 
 一条记录$x=(x_1,x_2)$乘矩阵A，得到输出$u=xA+b$。两条记录排成X的两行，仍乘同一个A。设
 
-$$X=\begin{bmatrix}1&2\\3&4\end{bmatrix},\quad
-G=\frac{\partial L}{\partial U}=\begin{bmatrix}1&-1\\2&0\end{bmatrix}.$$
+$$
+X=\begin{bmatrix}1&2\\3&4\end{bmatrix},\quad
+G=\frac{\partial L}{\partial U}=\begin{bmatrix}1&-1\\2&0\end{bmatrix}.\tag{M.38}
+$$
 
 G每一格表示对应输出稍增一点，损失会怎样变。某权重$A_{jk}$同时影响所有样本的第k个输出，因此
 
-$$\frac{\partial L}{\partial A_{jk}}=\sum_i X_{ij}G_{ik}.$$
+$$
+\frac{\partial L}{\partial A_{jk}}=\sum_i X_{ij}G_{ik}.\tag{M.39}
+$$
 
 四格分别为1×1+3×2=7，1×(−1)+3×0=−1，2×1+4×2=10，2×(−1)+4×0=−2。把这些求和排成矩阵，就是
 
-$$\nabla_A L=X^TG=\begin{bmatrix}7&-1\\10&-2\end{bmatrix},\qquad
-\nabla_b L=\sum_iG_{i,:}=(3,-1).$$
+$$
+\nabla_A L=X^TG=\begin{bmatrix}7&-1\\10&-2\end{bmatrix},\qquad
+\nabla_b L=\sum_iG_{i,:}=(3,-1).\tag{M.40}
+$$
 
 这里的转置有具体作用：X的每一列是某个输入特征，把它变成一行，才能与某输出的逐样本梯度作点积。若X为B×d，G为B×h，结果就是d×h，和A同形。
 
@@ -850,7 +930,9 @@ $$\nabla_A L=X^TG=\begin{bmatrix}7&-1\\10&-2\end{bmatrix},\qquad
 
 输入有两个分量、输出也有两个分量，Jacobian第j行第k列记$\partial f_j/\partial x_k$。例如$f(x_1,x_2)=(2x_1,x_1+x_2)$，表为
 
-$$J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.$$
+$$
+J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.\tag{M.41}
+$$
 
 若下游损失对两个输出的列梯度是(3,4)，输入梯度为$J^T(3,4)^T=(10,4)^T$：x₁沿两条路线影响损失，贡献6+4；x₂只有一条路线贡献4。这就是为什么一般向量函数不能只逐元素相乘。
 
@@ -866,9 +948,9 @@ $$J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.$$
 
 以前对$x^2$求x的导数，现在固定x，对指数n求$x^n$的导数。对于x>0，写成$e^{n\ln x}$，链式法则得到$x^n\ln x$。比如x=2，增加n会增加输出，导数为正；x=0.5，增加n会减小输出，导数为负。对数的定义域说明为什么不能不加分支地对负数使用这个公式。
 
-**完整例子 / Worked：** x=2、n=2，下游梯度3。对x的梯度是$3n x^{n-1}=12$，对n是$3x^n\ln x\approx8.3178$。 / The two derivatives answer different parameter changes.
+**完整例子 / Worked：** x=2、n=2，下游梯度3。对x的梯度是$3n x^{n-1}=12$，对n是$3x^n\ln x\approx8.3178$。 / For x=2, n=2 and upstream derivative 3, the input gradient is 12 and the exponent gradient is 12 ln2≈8.3178.
 
-**独立题 / Check：** 两样本对共享偏置的梯度为(2,−1)和(−3,4)，上游已经包含平均因子，偏置梯度是什么，还要除2吗？ / Sum these already averaged contributions to the shared bias.
+**独立题 / Check：** 两样本对共享偏置的梯度为(2,−1)和(−3,4)，上游已经包含平均因子，偏置梯度是什么，还要除2吗？ / Two samples contribute (2,−1) and (−3,4) to a shared bias. The upstream gradients already include averaging. Find the bias gradient and state whether to divide by two again.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -881,26 +963,27 @@ $$J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.$$
 [回到Lecture5：完整反传](../../CS5489/course-notes/Lecture05.md#batch-backprop) · [回到作业：可学习指数](../../CS5489/course-notes/Assignment02.md#learnable-activation)
 
 
+<a id="sources"></a>
 ## 这些补课从哪里来，学到哪里为止？
 
 这些专题按当前课程需要组织：前五节衔接Lecture2，组合概率用于网络课，投影、伪逆和优化衔接后续Lecture/Tutorial，批量梯度用于Lecture5与Assignment2。例子和推导为教学补充，按需要选读。
 
 | 专题 | 当前课程需要它的位置 | 复用与补充 |
 |---|---|---|
-| 符号、函数、数组 | Lecture2a cells4–17；Lecture2b cells6–15 | 复用既有vectors-matrices基础的形状解释；水箱和符号展开为教学补充 |
-| 概率与密度 | Lecture2a cells9–25、32–40 | 展开既有probability基础；人数表、等待时间与标准正态面积是教学补充 |
-| 指数与对数 | Lecture2a cells13–15、41–47；Lecture2b cells89–92 | 复用powers-logs的两模型概率比较与定义域说明，新增曲线和推理步骤 |
-| 导数与极值 | Lecture2a cells15、26–28 | 复用derivatives的差商、链式法则、偏导示例；新增规则解释与似然图 |
-| 矩阵与协方差 | Lecture2b cells33–44 | 复用vectors-matrices/linear-algebra的约定及原cell36矩阵图；四条记录、矩阵操作和变式为教学补充 |
+| 符号、函数、数组 | Lecture2a，第4–17个单元；Lecture2b，第6–15个单元 | 水箱、下标和数组形状的教学例子 |
+| 概率与密度 | Lecture2a，第9–25、32–40个单元 | 邮件计数表、均匀等待时间与标准正态面积的教学例子 |
+| 指数与对数 | Lecture2a，第13–15、41–47个单元；Lecture2b，第89–92个单元 | 两模型的概率比较；指数／对数曲线与定义域 |
+| 导数与极值 | Lecture2a，第15、26–28个单元 | 差商、链式法则、偏导与似然峰值的教学例子 |
+| 矩阵与协方差 | Lecture2b，第33–44个单元 | 原第36个单元的协方差模型；四条记录与矩阵操作为教学补充 |
 | 组合与二项概率 | CS5222 Chapter1统计复用、Tutorial1 Q4 | 从3用户列举到n用户；教学补充，条件明确 |
-| 长度与投影 | CS5489 Tutorial1 cells35–45、Lecture3b cells27–36 | 衔接原Gram–Schmidt和margin，算法留在课程正文 |
-| 秩与伪逆 | Lecture4a cells19–21、43–49 | 展开逆不存在与最小范数的具体例子 |
-| 梯度与约束 | Lecture3a cell52、Lecture3b cells37–44、SVM.pdf pp2–4 | 展开原课求导与KKT前提，不代替SVM推导 |
+| 长度与投影 | Tutorial1，第35–45个单元；Lecture3b，第27–36个单元 | 衔接原Gram–Schmidt和margin，算法留在课程正文 |
+| 秩与伪逆 | Lecture4a，第19–21、43–49个单元 | 展开逆不存在与最小范数的具体例子 |
+| 梯度与约束 | Lecture3a，第52个单元；Lecture3b，第37–44个单元；SVM.pdf第2–4页 | 展开原课求导与KKT前提，不代替SVM推导 |
 
-原件：Lecture2a、Lecture2b。复用来源：既有基础主稿。所有单元号从原Notebook第1个单元起算，不是In[n]执行编号。
+表中单元号从原Notebook第1个单元起算，包含文字与代码，不是In[n]执行编号。
 
-绘图的输入、参数与来源在[figure-data.json](figure-data.json)，可复现脚本为[build_figures.py](tools/build_figures.py)。本轮数学复核与显示证据见检查记录。图中英文坐标保持与课堂术语一致，中文读图说明在图旁。
+绘图的输入、参数与来源在[figure-data.json](figure-data.json)，可复现脚本为[build_figures.py](tools/build_figures.py)。图中英文坐标保持与课堂术语一致，中文读图说明在图旁。
 
-新增四节的图与独立复算见 [extend_figures.py](tools/extend_figures.py) 和 [extra-figure-data.json](extra-figure-data.json)，各图的参数与计算过程可在这些文件中回查。学习网络单位和报文读法请用[Network Basics](NetworkBasics.md)。
+组合、投影、伪逆和约束部分的图与计算见 [extend_figures.py](tools/extend_figures.py) 和 [extra-figure-data.json](extra-figure-data.json)，各图的参数与计算过程可在这些文件中回查。学习网络单位和报文读法请用[Network Basics](NetworkBasics.md)。
 
 掌握需要的基础后，回到相应课程完成老师的模型、推导和任务。更完整的微积分、线性代数证明与优化方法，等后续课程真正用到时再补。

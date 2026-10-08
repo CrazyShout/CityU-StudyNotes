@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "updated": "2026-10-09",
+  "scope": "Lecture 1当前教学内容与历史题的对应；题答册未扩编",
+  "catalogue": "Lecture02.json",
+  "count_unit": "independent_paper_per_topic_and_relation",
+  "intro": "本讲先学会组织一次机器学习实验，再补Python、NumPy与概率工具。历史题直接支持训练／验证分工和结果诊断；编程工具的重要性来自当前Tutorial及后续课程依赖。",
+  "boundaries": "现有卷中未见直接考Python语法或NumPy接口的题，不能由此判断不考。深层网络和CNN曲线题只作关联入口；本讲不承担网络结构设计。",
+  "topics": [
+    {
+      "id": "pipeline",
+      "title": "训练、验证与最终评价",
+      "anchor": "pipeline",
+      "skill": "说明何时拟合、何时选参、何时评价",
+      "priority": "先能安排一次不泄漏的模型选择"
+    },
+    {
+      "id": "diagnosis",
+      "title": "训练与验证表现诊断",
+      "anchor": "error-diagnosis",
+      "skill": "比较过拟合、分布变化与容量不足的可能性",
+      "priority": "根据证据提出下一步检查"
+    }
+  ],
+  "questions": [
+    {
+      "id": "L1E01",
+      "topics": [
+        "pipeline"
+      ],
+      "summary": "交叉验证、选参后重拟合与最终测试的分工",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q4",
+          "pages": "2–3",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L1E02",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "训练好而测试差的解释与改进",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q2、Q11",
+          "pages": "2、5–6",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L1E03",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "数据较多时训练与测试都差，比较容量与表示问题",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q7",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L1E04",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "分析泛化差距与未超过基线的回归表现",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q2、Q11",
+          "pages": "2、4",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L1E05",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "将训练／验证曲线诊断应用到深层网络",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q9",
+          "pages": "4",
+          "relation": "related",
+          "source_id": "S003"
+        }
+      ],
+      "answer_basis": "配套答案见S002",
+      "review_note": "完整处理还需Lecture5的优化与早停"
+    },
+    {
+      "id": "L1E06",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "将训练／验证诊断用于CNN结构调整",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q11",
+          "pages": "5",
+          "relation": "related",
+          "source_id": "S005"
+        }
+      ],
+      "answer_basis": "配套答案见S004",
+      "review_note": "CNN结构不在当前Lecture1–5范围"
+    },
+    {
+      "id": "L1E07",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "苹果检测器的训练／验证曲线诊断",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "Apple (b.4)",
+          "pages": "PDF1、3（原印8–9/11）",
+          "relation": "related",
+          "source_id": "S020"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "缺年份与独立原卷身份；CNN设计另需后续课"
+    },
+    {
+      "id": "L1E08",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "瓶子分类器的训练／验证差距",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "Bottles (b.3)",
+          "pages": "PDF5、7（原印8–9/10）",
+          "relation": "related",
+          "source_id": "S020"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "缺年份；不把片段数量计为卷数"
+    },
+    {
+      "id": "L1E09",
+      "topics": [
+        "diagnosis"
+      ],
+      "summary": "海豚分类中的过拟合原因与改进",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "CWD (b.3)",
+          "pages": "PDF11（原印7/9）",
+          "relation": "related",
+          "source_id": "S020"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "缺年份；只映射一般诊断能力"
+    }
+  ]
+}

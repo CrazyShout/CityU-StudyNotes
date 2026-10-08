@@ -31,7 +31,7 @@
 
 **English answer:** Allocate min(us/N,dmin) to every client. The aggregate rate is feasible and every client completes in max(NF/us,F/dmin).
 
-**独立题 / Transfer：** F=100Mbit、N=4、$u_s$=20Mbps、每人下载8Mbps，多久？ / Find a feasible allocation and completion time.
+**独立题 / Transfer：** F=100Mbit、N=4、$u_s$=20Mbps、每人下载8Mbps，多久？ / For F=100 Mbit, N=4, server upload 20 Mbps and each client download 8 Mbps, give a feasible allocation and completion time.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -42,7 +42,7 @@
 <a id="q2"></a>
 ## Problem 2. 15 Gbit分给100人
 
-**完整条件 / Conditions：** F=15Gbit，N=100，服务器30Mbps，每人下载2Mbps、上传700kbps=0.7Mbps。问client-server与P2P理想最短分发时间。 / Use decimal units and compare both architectures.
+**完整条件 / Conditions：** F=15Gbit，N=100，服务器30Mbps，每人下载2Mbps、上传700kbps=0.7Mbps。问client-server与P2P理想最短分发时间。 / A 15-Gbit file is distributed to 100 peers. Server upload is 30 Mbps; each peer downloads at 2 Mbps and uploads at 700 kbps. Using decimal units and the ideal model, compare client-server and P2P completion times.
 
 先把文件写成15000Mbit。Client-server两项为100×15000/30=50000秒，以及15000/2=7500秒，因此选**50000秒，C**。
 
@@ -67,7 +67,7 @@ client-server=max(5000,7500)=7500秒；P2P=max(500,7500,150000/37)=7500秒。此
 
 **原题 / Task：** Bob加入BitTorrent但不上传；a能否完整下载？b多台不同IP电脑是否可能让这种free-riding更高效？ / Can a non-uploading participant finish, and can multiple hosts improve that possibility?
 
-Tutorial 4教师解答 v2，第9–11张幻灯片答两个问题均**可能，B**。除了优先服务回馈较好的peer，课堂BitTorrent模型还有optimistic unchoking：周期性试着给某个新peer机会。如果有足够peer停留足够久，Bob可能逐渐收齐。Bob能否最终收齐，取决于其他peer是否提供足够片段并停留足够久。
+Tutorial 4教师解答 v2，第9–11张幻灯片答两个问题均**可能，B**。除了优先服务回馈较好的peer，课堂BitTorrent模型还有optimistic unchoking：周期性试着给某个新peer机会。如果有足够peer停留足够久，Bob可能逐渐收齐；参与者过早离开则未必能完成。
 
 多主机可各自获得机会并收集不同片段后合并，教师称为一种Sybil式行为。这是机制分析；实际速率还受peer数量、停留时间、网络资源等影响，不能把主机数量乘上去就断言下载速度同比增加。
 
@@ -84,7 +84,7 @@ Tutorial 4教师解答 v2，第9–11张幻灯片答两个问题均**可能，B*
 <a id="q4"></a>
 ## Problem 4. DASH到底存N份，还是N²份？
 
-原题有N个视频质量版本和N个音频质量版本。开头说任意选择音视频，a的括号又明确要求按质量一一配对；教师v2的Tutorial 4教师解答 v2，第14张幻灯片按**一一配对**作答，因此本题a为**N，A**。b分离保存音频和视频，需**2N，B**，客户端负责同步。
+原题有N个视频质量版本和N个音频质量版本。开头说任意选择音视频，a的括号又明确要求按质量一一配对；教师解答v2第14张幻灯片按**一一配对**作答，因此本题a为**N，A**。b分离保存音频和视频，需**2N，B**，客户端负责同步。
 
 以N=3看清：固定高配高、中配中、低配低，预合并文件只有3份。若真正允许任意组合，要把3×3种配对都提前合并，则是9份。若分轨，保存3视频+3音频共6份，播放时组合即可。这三种情境不是互相推翻，差别在配对约束。
 

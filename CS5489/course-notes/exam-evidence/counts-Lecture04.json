@@ -1,0 +1,85 @@
+{
+  "ols": {
+    "midterm_direct": [
+      "M21B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "penalty": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  },
+  "robust": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK",
+      "SAMPLE"
+    ]
+  },
+  "ensemble": {
+    "midterm_direct": [
+      "M20B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "midterm_related": [
+      "M21A",
+      "M21B",
+      "M23A"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  },
+  "variance": {
+    "midterm_direct": [
+      "M23B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "nonlinear": {
+    "midterm_direct": [
+      "M21B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  }
+}

@@ -1,0 +1,439 @@
+{
+  "version": 1,
+  "updated": "2026-10-09",
+  "scope": "Lecture 5当前教学内容与历史题的对应；题答册未扩编",
+  "catalogue": "Lecture02.json",
+  "count_unit": "independent_paper_per_topic_and_relation",
+  "intro": "本讲在现有期末材料中主要对应激活、反向传播、优化与泛化；2025A期中也出现了梯度消失与链式法则。先用小网络把计算走通，再练用英文解释条件。",
+  "boundaries": "QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN结构、卷积尺寸、数据增强、ResNet、BatchNorm、AE/VAE和GAN不计入当前Lecture5已覆盖内容。",
+  "topics": [
+    {
+      "id": "output",
+      "title": "输出概率与交叉熵",
+      "anchor": "cross-entropy",
+      "skill": "说明输出层、标签编码及负对数似然",
+      "priority": "把概率、标签和损失对上"
+    },
+    {
+      "id": "backprop",
+      "title": "链式法则与反向传播",
+      "anchor": "batch-backprop",
+      "skill": "逐层算梯度并检查形状",
+      "priority": "完整走通小网络的前向与反向"
+    },
+    {
+      "id": "activation",
+      "title": "激活函数与梯度消失",
+      "anchor": "vanishing-gradient",
+      "skill": "比较斜率、饱和与梯度连乘",
+      "priority": "解释条件，避免只背函数名称"
+    },
+    {
+      "id": "capacity",
+      "title": "MLP表达能力与深浅比较",
+      "anchor": "capacity",
+      "skill": "区分能表示、能优化与能泛化",
+      "priority": "说明没有非线性时为何仍为线性"
+    },
+    {
+      "id": "optimization",
+      "title": "SGD、学习率与momentum",
+      "anchor": "training",
+      "skill": "区分批次梯度、训练噪声与收敛",
+      "priority": "结合Assignment2优化器公式"
+    },
+    {
+      "id": "monitoring",
+      "title": "正则化、曲线与早停",
+      "anchor": "monitoring",
+      "skill": "依据验证表现选择训练时刻",
+      "priority": "不给单条曲线唯一诊断"
+    }
+  ],
+  "questions": [
+    {
+      "id": "L5E01",
+      "topics": [
+        "activation"
+      ],
+      "summary": "解释梯度消失及激活函数的作用",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q10",
+          "pages": "7",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L5E02",
+      "topics": [
+        "backprop"
+      ],
+      "summary": "计算链式导数与两层网络参数梯度",
+      "skill": "推导／计算",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q13(a–b)",
+          "pages": "10",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "按印刷题面读取；手写答案不作标准"
+    },
+    {
+      "id": "L5E03",
+      "topics": [
+        "backprop",
+        "activation",
+        "capacity"
+      ],
+      "summary": "MLP反传、激活与表达能力",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q3",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S003"
+        }
+      ],
+      "answer_basis": "配套答案见S002",
+      "review_note": ""
+    },
+    {
+      "id": "L5E04",
+      "topics": [
+        "optimization"
+      ],
+      "summary": "SGD噪声、momentum与学习率",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q5",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S003"
+        }
+      ],
+      "answer_basis": "配套答案见S002",
+      "review_note": "单个minibatch梯度为零不足以说明全部损失最优"
+    },
+    {
+      "id": "L5E05",
+      "topics": [
+        "monitoring"
+      ],
+      "summary": "分析训练／验证损失并提出调整",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q9",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S003"
+        }
+      ],
+      "answer_basis": "配套答案见S002",
+      "review_note": ""
+    },
+    {
+      "id": "L5E06",
+      "topics": [
+        "capacity"
+      ],
+      "summary": "比较单隐藏层与深层MLP",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q10",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S003"
+        }
+      ],
+      "answer_basis": "配套答案见S002",
+      "review_note": ""
+    },
+    {
+      "id": "L5E07",
+      "topics": [
+        "activation"
+      ],
+      "summary": "Leaky ReLU的正负区斜率与利弊",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q13",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S003"
+        }
+      ],
+      "answer_basis": "配套答案见S002",
+      "review_note": ""
+    },
+    {
+      "id": "L5E08",
+      "topics": [
+        "activation"
+      ],
+      "summary": "sigmoid、ReLU与输出激活的性质",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21A",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S007"
+        }
+      ],
+      "answer_basis": "配套答案见S006",
+      "review_note": ""
+    },
+    {
+      "id": "L5E09",
+      "topics": [
+        "monitoring"
+      ],
+      "summary": "正则化与早停降低过拟合的思路",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21A",
+          "question": "Q3（L2与早停选项）",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S007"
+        }
+      ],
+      "answer_basis": "配套答案见S006",
+      "review_note": ""
+    },
+    {
+      "id": "L5E10",
+      "topics": [
+        "capacity"
+      ],
+      "summary": "无隐藏非线性的深层MLP仍是线性判别",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21A",
+          "question": "Q8",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S007"
+        }
+      ],
+      "answer_basis": "配套答案见S006",
+      "review_note": ""
+    },
+    {
+      "id": "L5E11",
+      "topics": [
+        "optimization"
+      ],
+      "summary": "SGD、momentum及Adam的训练噪声",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21A",
+          "question": "Q11(a–b)",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S007"
+        }
+      ],
+      "answer_basis": "配套答案见S006",
+      "review_note": "Adam细节见Assignment2；图仅支持该设置下的可能解释"
+    },
+    {
+      "id": "L5E12",
+      "topics": [
+        "output",
+        "capacity"
+      ],
+      "summary": "无隐藏层MLP与多分类Logistic的对应",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q4",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S005"
+        }
+      ],
+      "answer_basis": "配套答案见S004",
+      "review_note": ""
+    },
+    {
+      "id": "L5E13",
+      "topics": [
+        "monitoring"
+      ],
+      "summary": "网络L2正则与先验解释",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q5",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S005"
+        }
+      ],
+      "answer_basis": "配套答案见S004",
+      "review_note": ""
+    },
+    {
+      "id": "L5E14",
+      "topics": [
+        "activation",
+        "output"
+      ],
+      "summary": "分段线性输出配二元交叉熵的性质",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q9",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S005"
+        }
+      ],
+      "answer_basis": "配套答案见S004",
+      "review_note": "原题有图，需保留饱和区与log零概率边界；不是把ReLU直接当概率"
+    },
+    {
+      "id": "L5E15",
+      "topics": [
+        "monitoring"
+      ],
+      "summary": "CNN曲线与结构调整",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q11",
+          "pages": "5",
+          "relation": "related",
+          "source_id": "S005"
+        }
+      ],
+      "answer_basis": "配套答案见S004",
+      "review_note": "一般诊断已讲；具体CNN结构仍需后续课"
+    },
+    {
+      "id": "L5E16",
+      "topics": [
+        "backprop"
+      ],
+      "summary": "tanh单隐藏节点的链式导数与更新",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "SAMPLE",
+          "question": "Q4(b)",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S014"
+        }
+      ],
+      "answer_basis": "配套答案见S014",
+      "review_note": ""
+    },
+    {
+      "id": "L5E17",
+      "topics": [
+        "output"
+      ],
+      "summary": "为二类图像分类选择损失并说明原理",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "Apple (b.3)",
+          "pages": "PDF1（原印8/11）",
+          "relation": "related",
+          "source_id": "S020"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "CNN架构未在当前讲义覆盖；题段年份与卷次待定"
+    },
+    {
+      "id": "L5E18",
+      "topics": [
+        "monitoring"
+      ],
+      "summary": "苹果CNN训练／验证曲线诊断",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "Apple (b.4)",
+          "pages": "PDF1、3（原印8–9/11）",
+          "relation": "related",
+          "source_id": "S020"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "仅映射通用训练诊断"
+    },
+    {
+      "id": "L5E19",
+      "topics": [
+        "monitoring"
+      ],
+      "summary": "瓶子CNN泛化差距分析",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "Bottles (b.3)",
+          "pages": "PDF5、7（原印8–9/10）",
+          "relation": "related",
+          "source_id": "S020"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "图与问题跨两个原页；不使用扫描手写解答"
+    },
+    {
+      "id": "L5E20",
+      "topics": [
+        "monitoring"
+      ],
+      "summary": "海豚CNN过拟合的原因与改善",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "CWD (b.3)",
+          "pages": "PDF11（原印7/9）",
+          "relation": "related",
+          "source_id": "S020"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": "缺年份和独立原卷身份"
+    }
+  ]
+}

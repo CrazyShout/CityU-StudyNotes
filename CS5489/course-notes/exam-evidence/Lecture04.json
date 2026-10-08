@@ -1,0 +1,521 @@
+{
+  "version": 1,
+  "updated": "2026-10-09",
+  "scope": "Lecture 4当前教学内容与历史题的对应；题答册未扩编",
+  "catalogue": "Lecture02.json",
+  "count_unit": "independent_paper_per_topic_and_relation",
+  "intro": "历史期中常要求比较正则化、损失和集成方法。矩阵求解、RANSAC及核回归即使在这批卷中出现较少，也由当前Lecture和Tutorial直接要求；不要按卷数跳过它们。",
+  "boundaries": "Huber、非对称损失、Elastic Net和RF方差推导作为明确标识的历史补充。AdaBoost、Gaussian process需要额外知识；当前不扩写成另一整讲。现有期末与QE未见直接对应本讲的独立题。",
+  "topics": [
+    {
+      "id": "ols",
+      "title": "OLS与基线",
+      "anchor": "ols",
+      "skill": "解释残差、矩阵解及拟合失败",
+      "priority": "会手算并核对单位与秩条件"
+    },
+    {
+      "id": "penalty",
+      "title": "Ridge、LASSO与特征选择",
+      "anchor": "ridge",
+      "skill": "比较权重收缩、精确为零及联合重拟合",
+      "priority": "先分清残差损失和参数惩罚"
+    },
+    {
+      "id": "robust",
+      "title": "稳健与非对称残差损失",
+      "anchor": "regression-losses",
+      "skill": "计算分段损失并解释哪一侧误差更贵",
+      "priority": "Huber与非对称损失为历史补充"
+    },
+    {
+      "id": "ensemble",
+      "title": "Bagging、RF与boosting",
+      "anchor": "ensembles",
+      "skill": "比较训练依赖、平均与逐步修正",
+      "priority": "分清训练并行与预测并行"
+    },
+    {
+      "id": "variance",
+      "title": "树间相关性与平均方差",
+      "anchor": "forest-variance",
+      "skill": "推导平均预测的方差与极限",
+      "priority": "保留等方差、等相关假设"
+    },
+    {
+      "id": "nonlinear",
+      "title": "核回归与SVR",
+      "anchor": "kernel-regression",
+      "skill": "区分核、正则与容忍带",
+      "priority": "当前主课与Tutorial仍需掌握"
+    }
+  ],
+  "questions": [
+    {
+      "id": "L4E01",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "比较bagging与boosting的采样和依赖关系",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q6",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L4E02",
+      "topics": [
+        "penalty",
+        "robust"
+      ],
+      "summary": "残差L1与权重L2的不同作用",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q13",
+          "pages": "6–7",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L4E03",
+      "topics": [
+        "penalty"
+      ],
+      "summary": "OLS、Ridge、LASSO与稀疏系数",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q6",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L4E04",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "分类任务中比较RF与线性／核模型",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q9",
+          "pages": "3",
+          "relation": "related",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": "当前本讲演示RF回归；分类投票与回归平均不同"
+    },
+    {
+      "id": "L4E05",
+      "topics": [
+        "robust"
+      ],
+      "summary": "绝对残差损失与异常值",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q12",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L4E06",
+      "topics": [
+        "penalty"
+      ],
+      "summary": "L1/L2回归的选择与限制",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q1（LASSO选项）、Q4",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L4E07",
+      "topics": [
+        "nonlinear"
+      ],
+      "summary": "核方法中SVR与分类的区别",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q3（SVR选项）",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L4E08",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "按规模、异常值及输入分布比较RF回归与GP",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q10",
+          "pages": "4",
+          "relation": "related",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": "Gaussian process是后续知识，未记作当前完整覆盖"
+    },
+    {
+      "id": "L4E09",
+      "topics": [
+        "ols"
+      ],
+      "summary": "线性回归未超过常数基线时的改进方向",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q11",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L4E10",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "多核条件下RF和AdaBoost的预测并行",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q12",
+          "pages": "4",
+          "relation": "related",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": "题问预测；boosting训练有顺序不意味着预测不可并行；深度和弱模型复杂度决定题设结论"
+    },
+    {
+      "id": "L4E11",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "RF、boosting及回归用途",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q5",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q5",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L4E12",
+      "topics": [
+        "penalty"
+      ],
+      "summary": "Ridge、OMP、L1与特征选择",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q6",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q6",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L4E13",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "AdaBoost训练与在线应用、噪声",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q11",
+          "pages": "8",
+          "relation": "related",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q11",
+          "pages": "7",
+          "relation": "related",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": "AdaBoost不是本讲梯度提升的同一更新公式"
+    },
+    {
+      "id": "L4E14",
+      "topics": [
+        "robust"
+      ],
+      "summary": "低估成本更高时设计非对称回归损失",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q12",
+          "pages": "9",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q12",
+          "pages": "8",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L4E15",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "集成训练并行、树数与错误分析",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q5",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": ""
+    },
+    {
+      "id": "L4E16",
+      "topics": [
+        "penalty"
+      ],
+      "summary": "Elastic Net组合L1/L2惩罚",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q6",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": "历史补充；当前主线仍是Ridge/LASSO"
+    },
+    {
+      "id": "L4E17",
+      "topics": [
+        "variance"
+      ],
+      "summary": "推导等方差等相关树的平均方差",
+      "skill": "推导／计算",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q11",
+          "pages": "8",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": ""
+    },
+    {
+      "id": "L4E18",
+      "topics": [
+        "robust"
+      ],
+      "summary": "Huber损失的图形与稳健性",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q12",
+          "pages": "9",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": ""
+    },
+    {
+      "id": "L4E19",
+      "topics": [
+        "ensemble"
+      ],
+      "summary": "RF、bagging与boosting比较",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q5、Q7(a)",
+          "pages": "3–4",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L4E20",
+      "topics": [
+        "penalty"
+      ],
+      "summary": "Elastic Net惩罚及其作用",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q6",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L4E21",
+      "topics": [
+        "robust"
+      ],
+      "summary": "Huber损失的分段图形与稳健性",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q7(b)",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L4E22",
+      "topics": [
+        "robust"
+      ],
+      "summary": "低估需求更贵的回归损失设计",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q12",
+          "pages": "9",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L4E23",
+      "topics": [
+        "robust"
+      ],
+      "summary": "样题Huber分段损失画图",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "SAMPLE",
+          "question": "Q4(a)",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S014"
+        }
+      ],
+      "answer_basis": "配套答案见S014",
+      "review_note": ""
+    }
+  ]
+}

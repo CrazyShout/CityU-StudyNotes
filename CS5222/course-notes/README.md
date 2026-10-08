@@ -1,6 +1,6 @@
 # CS5222 · 讲义与配套练习
 
-[项目首页](../../README.md) · [A4 PDF](../../pdf/CS5222-A4.pdf) · [逐篇页码](../../pdf/README.md) · [基础补课](../../learning/foundation-notes/MathForML.md#foundation-nav)
+[项目首页](../../README.md) · [A4 PDF](../../pdf/CS5222-A4.pdf) · [逐篇页码](../../pdf/README.md) · [网络基础补课](../../learning/foundation-notes/NetworkBasics.md#units)
 
 ## Lecture / Chapter · 理论
 

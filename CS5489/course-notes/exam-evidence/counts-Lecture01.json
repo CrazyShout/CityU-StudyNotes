@@ -1,0 +1,29 @@
+{
+  "pipeline": {
+    "midterm_direct": [
+      "M20B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "diagnosis": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [
+      "F20B",
+      "F21B"
+    ],
+    "qe_fragments": [
+      "QE-U"
+    ],
+    "samples": []
+  }
+}

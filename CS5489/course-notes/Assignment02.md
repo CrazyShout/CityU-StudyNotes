@@ -27,14 +27,16 @@
 
 一批B个样本，每行d个特征。隐藏宽度h，类别数C。原NumPy模板使用行样本：
 
-$$X_{B\times d}\;\longmapsto\;U=XA+c\;\longmapsto\;H=\phi(U)
-\;\longmapsto\;Z=HW+b\;\longmapsto\;L.$$
+$$
+\begin{gathered}X_{B\times d}\;\longmapsto\;U=XA+c\;\longmapsto\;H=\phi(U),\\
+H\;\longmapsto\;Z=HW+b\;\longmapsto\;L.\end{gathered}\tag{A2.1}
+$$
 
 A是d×h，c是1×h；W是h×C，b是1×C。模板隐藏层属性叫`W`、输出层属性叫`w`；上式用A/W避免同名字母混淆。代码的`alpha`是正则系数，`learning_rate`才是更新步长；不要因为优化器公式也用alpha就混成同一个量。
 
 `forward_pass`存下后面求导会用的值。`backward_pass`接收下游给来的梯度，算本层参数梯度，并返回上一层所需梯度。返回的是导数数组，不是分类标签，也不是更新后的特征。
 
-**形状检查 / Check：** B=2、d=3、h=4、C=2时，U、Z、隐藏权重梯度各是什么形状？ / Give the shapes of U, Z and the hidden-weight gradient.
+**形状检查 / Check：** B=2、d=3、h=4、C=2时，U、Z、隐藏权重梯度各是什么形状？ / For B=2, d=3, h=4 and C=2 under the row-sample convention above, give the shapes of U, Z and the hidden-weight gradient.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -51,9 +53,10 @@ U为2×4，Z为2×2，隐藏权重梯度为3×4。梯度与被求导参数同形
 
 正则目标为 $L=L_{data}+\frac\lambda2(\|A\|_F^2+\|W\|_F^2)$，偏置不在模板正则项中。Output所需三项为
 
-$$\nabla_W L=H^TG_Z+\lambda W,\quad
-\nabla_b L=\sum_i(G_Z)_{i,:},\quad
-G_H=G_ZW^T.$$
+$$
+\begin{gathered}\nabla_W L=H^TG_Z+\lambda W,\\
+\nabla_b L=\sum_i(G_Z)_{i,:},\qquad G_H=G_ZW^T.\end{gathered}\tag{A2.2}
+$$
 
 广播的b影响所有样本，所以要沿batch轴求和并保持1×C形状。**先用更新前的W算$G_H$，再修改W。** 一边反传一边用刚更新的权重，会把同一次计算图里的参数版本混起来。
 
@@ -63,34 +66,39 @@ Primer的单样本式子 $\partial L/\partial b=\partial L/\partial z$ 可以帮
 
 Primer主要用ReLU，原Notebook的普通隐藏层实际用Leaky ReLU：正区斜率1，负区斜率0.01。零点不可微，固定实现约定即可；数值差分测试选离0有距离的输入。
 
-$$G_U=G_H\odot\phi'(U),\quad
-\nabla_A L=X^TG_U+\lambda A,\quad
-\nabla_c L=\sum_i(G_U)_{i,:},\quad G_X=G_UA^T.$$
+$$
+\begin{gathered}G_U=G_H\odot\phi'(U),\qquad \nabla_A L=X^TG_U+\lambda A,\\
+\nabla_c L=\sum_i(G_U)_{i,:},\qquad G_X=G_UA^T.\end{gathered}\tag{A2.3}
+$$
 
 $\odot$为逐元素乘，不是矩阵乘。这里每个位置的激活只依赖同一位置的输入，所以将对应的两个导数相乘即可。若输出同时依赖多个输入，就需要把各条影响路径的贡献加起来。
 
-**手算 / Worked：** U=(−2,3)，上游$G_H=(4,5)$。Leaky ReLU输出(−0.02,3)，反向$G_U=(0.04,5)$。若错用普通ReLU，第一项会变成0，改变了原模型。 / The leaky slope preserves a small negative-side gradient.
+**手算 / Worked：** U=(−2,3)，上游$G_H=(4,5)$。Leaky ReLU输出(−0.02,3)，反向$G_U=(0.04,5)$。若错用普通ReLU，第一项会变成0，改变了原模型。 / With U=(−2,3) and upstream gradient (4,5), Leaky ReLU with negative slope 0.01 gives output (−0.02,3) and input gradient (0.04,5).
 
 <a id="learnable-activation"></a>
 ## 4. 可学习指数：对数为什么突然出现？
 
 原`Hidden_Vondrick`在正区用 $\phi(u,n)=u^n$，负区用0.01u；n是共享的一个标量参数，不是每个样本各有一个n。对u和n是两种不同的提问：
 
-$$\frac{\partial\phi}{\partial u}=nu^{n-1},\qquad
-\frac{\partial\phi}{\partial n}=u^n\log u\quad(u>0).$$
+$$
+\frac{\partial\phi}{\partial u}=nu^{n-1},\qquad
+\frac{\partial\phi}{\partial n}=u^n\log u\quad(u>0).\tag{A2.4}
+$$
 
 第二式来自$u^n=e^{n\log u}$：改变指数时，先对指数内部求导得到log u。负区对u的导数0.01，对n的导数0；u=0处依约定处理，不能对负数直接计算实数log。
 
 共享指数收到所有位置的贡献：
 
-$$\frac{\partial L}{\partial n}=\sum_{i,j}(G_H)_{ij}
-\frac{\partial\phi(U_{ij},n)}{\partial n}.$$
+$$
+\frac{\partial L}{\partial n}=\sum_{i,j}(G_H)_{ij}
+\frac{\partial\phi(U_{ij},n)}{\partial n}.\tag{A2.5}
+$$
 
 计算正区时先用mask选出正数，再调用power/log；不要依靠`np.where`隐藏另一分支中的非法log，因为两侧表达式可能都先被求值。原模板对n投影到至少1.01，且该层权重/指数分别有硬编码步长0.0005/0.001；这两个硬编码步长没有跟随外部learning_rate一起变化。
 
 **跟做 / Worked：** u=2、n=2、上游导数3。输出4；对u的损失导数为3×4=12，对n为$3\times4\ln2\approx8.3178$。 / Output 4, input gradient 12, exponent gradient about 8.3178.
 
-**变式 / Transfer：** u=0.5、n=2、上游导数3，两个梯度的符号？ / Determine both gradient signs.
+**变式 / Transfer：** u=0.5、n=2、上游导数3，两个梯度的符号？ / For u=0.5, exponent n=2 and upstream derivative 3, determine the input and exponent gradients and their signs.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -102,9 +110,11 @@ $$\frac{\partial L}{\partial n}=\sum_{i,j}(G_H)_{ij}
 
 调试顺序：核对层形状；检查一个样本；再检查两个样本的平均与偏置；最后逐项核验有限差分。对某参数$\theta_k$，用中心差分
 
-$$g_k^{FD}=\frac{L(\theta+\varepsilon e_k)-L(\theta-\varepsilon e_k)}{2\varepsilon}$$
+$$
+g_k^{FD}=\frac{L(\theta+\varepsilon e_k)-L(\theta-\varepsilon e_k)}{2\varepsilon}\tag{A2.6}
+$$
 
-与解析梯度比较。double精度取例如$\varepsilon=10^{-6}$，避开激活拐点；正则项、平均方式、输入和随机状态要完全相同。先算梯度后更新，差分时不训练。对不同分支分别选小输入检查，例如同时包含激活的正区和负区。
+其中$e_k$只在第k个参数位置为1，其余位置为0，所以两次只扰动同一个参数。用这个差商与解析梯度比较。double精度取例如$\varepsilon=10^{-6}$，避开激活拐点；正则项、平均方式、输入和随机状态要完全相同。先算梯度后更新，差分时不训练。对不同分支分别选小输入检查，例如同时包含激活的正区和负区。
 
 原数据Wine CSV有1599行、11个输入字段，quality≥6映射1，否则0；855条映射为1。原外部划分为test_size=0.25、random_state=1。原题提到的约70%以上可作调试参考；实际训练与测试准确率应由你的运行结果计算。
 
@@ -129,19 +139,25 @@ $$g_k^{FD}=\frac{L(\theta+\varepsilon e_k)-L(\theta-\varepsilon e_k)}{2\varepsil
 | AdaGrad | $s_t=s_{t-1}+\tilde g_t^2$；按$\eta/\sqrt{s_t+\epsilon}$缩放 | 累积平方梯度越大，有效步长越小 |
 | Adam | 维护一阶、非中心二阶矩，零初始化偏差修正后更新 | t从1开始；两个状态与参数同形 |
 
+表中的$\tilde g_t$是本次实际使用的梯度，可为精确梯度或加噪梯度；平方和除法按分量计算。$\gamma,\beta_1,\beta_2$控制历史状态的保留比例，通常在0到1之间；$\epsilon>0$用于防止分母为零。
+
 这里AdaGrad的epsilon在根号内，沿用Assignment2，第48个单元；有些库放根号外，它们不是逐数值完全相同的实现。部分已有卡片采用根号外的约定；对照时先看epsilon的位置。
 
 Adam沿原Assignment2，第52个单元：
 
-$$m_t=\beta_1m_{t-1}+(1-\beta_1)\tilde g_t,\quad
-v_t=\beta_2v_{t-1}+(1-\beta_2)\tilde g_t^2,$$
+$$
+\begin{aligned}m_t&=\beta_1m_{t-1}+(1-\beta_1)\tilde g_t,\\
+v_t&=\beta_2v_{t-1}+(1-\beta_2)\tilde g_t^2.\end{aligned}\tag{A2.7}
+$$
 
-$$\hat m_t=m_t/(1-\beta_1^t),\quad\hat v_t=v_t/(1-\beta_2^t),\quad
-\theta_{t+1}=\theta_t-\eta\hat m_t/(\sqrt{\hat v_t+\epsilon}).$$
+$$
+\begin{gathered}\hat m_t=\frac{m_t}{1-\beta_1^t},\qquad\hat v_t=\frac{v_t}{1-\beta_2^t},\\[4pt]
+\theta_{t+1}=\theta_t-\eta\frac{\hat m_t}{\sqrt{\hat v_t+\epsilon}}.\end{gathered}\tag{A2.8}
+$$
 
 第一个t不能取0，否则偏差修正分母为0。v是梯度平方的滑动平均，不是减去均值后的方差。原小标题写Adaptive Momentum Estimation，常用全称是Adaptive Moment Estimation；“best of all worlds”应当作宣传式概括，不能当任何任务都最好的定理。
 
-**一步手算 / Worked：** 一维二次函数$f(\theta)=\theta^2$，θ=2，η=0.1。GD的梯度4，更新θ=1.6；若上一动量v=0.2、γ=0.9，则新v=0.58，新θ=1.42。 / Distinguish the velocity state from the gradient and the parameter.
+**一步手算 / Worked：** 一维二次函数$f(\theta)=\theta^2$，θ=2，η=0.1。GD的梯度4，更新θ=1.6；若上一动量v=0.2、γ=0.9，则新v=0.58，新θ=1.42。 / For f(θ)=θ², θ=2 and η=0.1, GD gives θ=1.6. With previous velocity 0.2 and momentum 0.9, the stated momentum rule gives new velocity 0.58 and θ=1.42.
 
 Nesterov在Assignment2，第45–46个单元用于理解“向前看一点再求梯度”，题目不要求实现；RMSProp/AdaDelta在Assignment2，第50个单元仅作简要介绍。
 
@@ -158,7 +174,7 @@ Nesterov在Assignment2，第45–46个单元用于理解“向前看一点再求
 
 原公式：bowl为$x^2+y^2$；mult为$\sin(\sqrt{x^2+y^2})$；题中monkey写$x^3+3xy^2$；Matyas为$0.26(x^2+y^2)-0.48xy$。保留题面函数，不仅凭函数昵称替换成另一符号版本；mult在原点的可微性也需小心，原题建议的初值不在原点。
 
-本指南对mult实验采用代码单元给定的(0.8,0.8)，把正文(0.5,0.5)列为原文不一致；若教师另有澄清，应以澄清为准。用静态等高线加完整轨迹、起点与终点即可支持网页和纸读；动画可用于自己观察，但不能让打印版只剩一块空白。
+本指南对mult实验采用代码单元给定的(0.8,0.8)，把正文(0.5,0.5)列为原文不一致；若教师另有澄清，应以澄清为准。用静态等高线加完整轨迹、起点与终点即可支持屏幕和纸读；动画可用于自己观察，但不能让打印版只剩一块空白。
 
 ## 8. 原文核对与修正记录
 
@@ -189,7 +205,7 @@ Nesterov在Assignment2，第45–46个单元用于理解“向前看一点再求
 | Assignment2，第1–5个单元 总任务、两类隐藏层、说明 | 开头、§1、§3–4 |
 | Assignment2，第6–7个单元 NumPy层、Loss、NN接口与TODO | §1–5 |
 | Assignment2，第8–18个单元 Wine输入、预处理、基线 | §5 |
-| Assignment2，第19–27个单元 普通/自定义网络训练与评价 | §4–5、§9，未代跑作业 |
+| Assignment2，第19–27个单元 普通/自定义网络训练与评价 | §4–5、§9：实现方法与评价要求 |
 | Assignment2，第28–33个单元 函数与图 | §7–8 |
 | Assignment2，第34–55个单元 GD、SGD、Momentum、Nesterov、AdaGrad、Adam与Optimizer | §6 |
 | Assignment2，第56–75个单元 绘图助手与四组轨迹任务 | §7 |

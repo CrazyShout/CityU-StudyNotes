@@ -12,7 +12,7 @@
 
 **题目 / Question：** UDP socket怎样完整标识？TCP呢？区别是什么？ / Compare identification in the instructor's UDP and established-TCP demultiplexing models.
 
-按Chapter3 Chapter 3 part 1，第11张幻灯片/Chapter 3 part 1，第13张幻灯片的普通模型：UDP接收socket看目的IP、目的端口；已建立TCP连接看源IP、源端口、目的IP、目的端口。同一个UDP接收socket可以接收多个来源的数据报，TCP按不同四元组区分连接。
+按Chapter 3 part 1，第11、13张幻灯片的普通模型：UDP接收socket看目的IP、目的端口；已建立TCP连接看源IP、源端口、目的IP、目的端口。同一个UDP接收socket可以接收多个来源的数据报，TCP按不同四元组区分连接。
 
 术语“完整标识”这里按课件抽象回答；监听socket和已建立连接不同，真实系统也允许connected UDP。本题按上述课堂模型作答。
 
@@ -64,7 +64,7 @@
 
 **English answer:** Sum 35+78+84=197 (11000101), then complement to 00111010. The receiver expects an all-one one's-complement sum including the checksum. Single-bit corruption is detected; two compensating changes can be missed.
 
-**独立题 / Transfer：** 数据只有11111111和00000010，8bit校验和是什么？ / Include the end-around carry.
+**独立题 / Transfer：** 数据只有11111111和00000010，8bit校验和是什么？ / Compute the toy 8-bit checksum for 11111111 and 00000010, including end-around carry.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -100,6 +100,6 @@
 
 ## 来源与复习
 
-原题p1为Q1–3及完整端点图，p2为Q4。Chapter3 Chapter 3 part 1，第9–15张幻灯片对应端点，Chapter 3 part 1，第19–20张幻灯片对应校验，Chapter 3 part 1，第35–44张幻灯片对应编号、超时与重复处理；Q4反例为按原条件整理的推导。
+原题p1为Q1–3及完整端点图，p2为Q4。Chapter 3 part 1，第9–15张幻灯片对应端点，Chapter 3 part 1，第19–20张幻灯片对应校验，Chapter 3 part 1，第35–44张幻灯片对应编号、超时与重复处理；Q4反例为按原条件整理的推导。
 
 沿用[N150](https://crazyshout.github.io/micro-course/cards.html#CS5222-N150)、[N237](https://crazyshout.github.io/micro-course/cards.html#CS5222-N237)、[N238](https://crazyshout.github.io/micro-course/cards.html#CS5222-N238)。Q2可在表格里换一组端口，自行写出回程。

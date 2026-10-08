@@ -56,6 +56,30 @@ for stale in ['log-scores','comparison']:
     assert f'<!-- EXAM:focus-{stale}:START -->' not in lecture
 assert '[相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note)' in lecture
 subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
+# Other authored display formulas are numbered by document, not by experiment cell.
+numbered_documents={}
+for record in docs:
+    path=ROOT/record['source']
+    if path.name=='Lecture02.md':continue
+    if path.suffix=='.ipynb':
+        source='\n\n'.join(c.source for c in nbformat.read(path,as_version=4).cells if c.cell_type=='markdown')
+    else:source=path.read_text()
+    displayed=re.findall(r'\$\$(.*?)\$\$',source,re.S)
+    if not displayed:continue
+    stem=path.stem
+    if stem.startswith(('Lecture','Chapter')):prefix=str(int(stem[-2:]))
+    elif stem.startswith('Tutorial'):prefix='T'+str(int(stem[-2:]))
+    elif stem.startswith('Assignment'):prefix='A'+str(int(stem[-2:]))
+    else:prefix={'MathForML':'M','NetworkBasics':'N'}[stem]
+    expected=[f'{prefix}.{i}' for i in range(1,len(displayed)+1)]
+    actual=[]
+    for formula in displayed:
+        tags=re.findall(r'\\tag\{([^}]+)\}',formula)
+        assert len(tags)==1,(record['source'],'missing/duplicate formula tag')
+        actual+=tags
+    assert actual==expected,(record['source'],actual,expected)
+    numbered_documents[record['source']]=(prefix,expected)
+
 printed_cs=[x for x in docs if x['course']=='CS5489' and (x['major'] or x.get('print_appendix'))]
 assert printed_cs[-1]['source']=='CS5489/course-notes/ExamIndex.md'
 manifest=json.loads((ROOT/'pdf/manifest.json').read_text())
@@ -68,6 +92,13 @@ for book in manifest['books']:
         assert not re.search(r'EXAM:(overview|focus|topics)',text),'Source markers must not appear in the PDF'
         printed=re.findall(r'\(2\.\d+[a-z]?\)',text)
         assert printed==equation_numbers,('Printed Lecture02 equation tags',printed)
+
+    for document in book['documents']:
+        if document['source'] not in numbered_documents:continue
+        prefix,expected=numbered_documents[document['source']]
+        text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
+        printed=[n for n in re.findall(r'\(('+re.escape(prefix)+r'\.\d+)\)',text) if n in expected]
+        assert printed==expected,(document['source'],'printed equation numbers',printed,expected)
 
     for page in reader.pages:
         assert abs(float(page.mediabox.width)-595.28)<2 and abs(float(page.mediabox.height)-841.89)<2
