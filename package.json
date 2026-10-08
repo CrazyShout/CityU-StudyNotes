@@ -1,0 +1,9 @@
+{
+  "name": "cityu-studynotes-print",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Chromium PDF rendering only; no website",
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

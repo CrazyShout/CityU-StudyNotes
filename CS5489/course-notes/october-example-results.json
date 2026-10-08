@@ -1,0 +1,132 @@
+{
+  "softmax": {
+    "actual": [
+      0.2,
+      0.30000000000000004,
+      0.5
+    ],
+    "expected": [
+      0.2,
+      0.3,
+      0.5
+    ]
+  },
+  "shift invariance": {
+    "actual": [
+      0.20000000000000018,
+      0.299999999999999,
+      0.5000000000000009
+    ],
+    "expected": [
+      0.2,
+      0.30000000000000004,
+      0.5
+    ]
+  },
+  "scale logits": {
+    "actual": [
+      0.10526315789473685,
+      0.23684210526315796,
+      0.6578947368421052
+    ],
+    "expected": [
+      0.10526315789473684,
+      0.23684210526315788,
+      0.6578947368421053
+    ]
+  },
+  "layer parameter counts": {
+    "actual": [
+      39760,
+      159010,
+      795010
+    ],
+    "expected": [
+      39760,
+      159010,
+      795010
+    ]
+  },
+  "two hidden count": {
+    "actual": 648010,
+    "expected": 648010
+  },
+  "linear weight gradient": {
+    "actual": [
+      [
+        7.0,
+        -1.0
+      ],
+      [
+        10.0,
+        -2.0
+      ]
+    ],
+    "expected": [
+      [
+        7,
+        -1
+      ],
+      [
+        10,
+        -2
+      ]
+    ]
+  },
+  "broadcast bias gradient": {
+    "actual": [
+      3.0,
+      -1.0
+    ],
+    "expected": [
+      3,
+      -1
+    ]
+  },
+  "exponent example": {
+    "actual": [
+      12.0,
+      8.317766166719343
+    ],
+    "expected": [
+      12.0,
+      8.317766166719343
+    ]
+  },
+  "full-network-finite-difference": {
+    "max_abs_error_by_parameter": [
+      1.2189738801682282e-10,
+      6.664962262919061e-11,
+      8.071517065832978e-11,
+      3.0958596797248106e-11
+    ],
+    "batch": 2,
+    "regularization": 0.07
+  },
+  "shared exponent finite difference": {
+    "actual": -4.888418549477814,
+    "expected": -4.888418549064966
+  },
+  "distribution": {
+    "actual": [
+      50000.0,
+      15000.0
+    ],
+    "expected": [
+      50000,
+      15000
+    ]
+  },
+  "checksum": {
+    "actual": 58,
+    "expected": 58
+  },
+  "stop wait utilization": {
+    "actual": 0.00026659557451346307,
+    "expected": 0.00026659557451346307
+  },
+  "minimum full pipeline": {
+    "actual": 3751.0,
+    "expected": 3751
+  }
+}

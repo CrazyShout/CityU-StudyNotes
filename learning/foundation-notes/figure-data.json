@@ -1,0 +1,243 @@
+{
+  "scope": "Author-created mathematical teaching examples, not measurements or assignment results",
+  "generator": "tools/build_figures.py",
+  "figures": [
+    {
+      "file": "assets/tank-function.png",
+      "question": "How do input, output and slope connect?",
+      "parameters": {
+        "initial_litres": 1,
+        "litres_per_minute": 2,
+        "time_range_minutes": [
+          0,
+          4
+        ]
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "9ed4441ab6b76ede3594174b7c46f993fdc73af7cdc321d02dc7af62aa84bee7"
+    },
+    {
+      "file": "assets/density-area.png",
+      "question": "Why is probability an area rather than a height?",
+      "parameters": {
+        "uniform_interval": [
+          0,
+          0.5
+        ],
+        "uniform_shaded_interval": [
+          0.1,
+          0.3
+        ],
+        "normal_mean": 0,
+        "normal_std": 1,
+        "normal_shaded_interval": [
+          -1,
+          1
+        ],
+        "normal_shaded_probability": 0.6826894921370859
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "4fc208c10f493e1786ea8923508b9d20dea7da504625f00271f7fe6ddf1626dd"
+    },
+    {
+      "file": "assets/exp-log.png",
+      "question": "What does it mean for exp and ln to be inverse functions?",
+      "parameters": {
+        "exp_range": [
+          -2,
+          2
+        ],
+        "log_range": [
+          0.08,
+          4
+        ],
+        "marked_pairs": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2.718281828459045
+          ]
+        ]
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "3339c929c2df6ba75b1387b98ed834adc6a72df66881a95e31b2056fffd8c867"
+    },
+    {
+      "file": "assets/log-area.png",
+      "question": "Why is the derivative of ln(x) equal to 1/x?",
+      "parameters": {
+        "start": 1,
+        "x": 2,
+        "increment": 0.2,
+        "log_x": 0.6931471805599453,
+        "added_area": 0.09531017980432499,
+        "rectangle_approximation": 0.1
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "9c930e07053c6e84a74ae2ef75ac22509c13e48a4c18e0e34dca015c78982159"
+    },
+    {
+      "file": "assets/secant-tangent.png",
+      "question": "How does an average slope approach a derivative?",
+      "parameters": {
+        "function": "x^2",
+        "base_x": 2,
+        "secant_h": [
+          1,
+          0.25
+        ],
+        "derivative_at_base": 4
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "45f583e994fe397ebdbcf1d46e3f45bd00f0283989302c3c836701ba3cd334e2"
+    },
+    {
+      "file": "assets/likelihood-peak.png",
+      "question": "Why do likelihood and log-likelihood select the same parameter?",
+      "parameters": {
+        "class_1_count": 4,
+        "class_2_count": 6,
+        "p_range": [
+          0.005,
+          0.995
+        ],
+        "maximum_p": 0.4,
+        "L_max": 0.0011943936,
+        "log_L_max": -6.730116670092564,
+        "binomial_coefficient_included": false
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "d17514b2d55294db9b630a8069dca545de06bbdcb469ea9209f91f669bc7786a"
+    },
+    {
+      "file": "assets/records-vectors.png",
+      "question": "How does one matrix row become one mathematical feature vector?",
+      "parameters": {
+        "X": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "selected_row_1based": 2
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "003d8c59f07f557d38d79ee01c6f2872ef454fbabd5616df5ff693683e0674ee"
+    },
+    {
+      "file": "assets/covariance-data.png",
+      "question": "What is being multiplied when covariance is computed?",
+      "parameters": {
+        "X": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "mean": [
+          2.5,
+          2.5
+        ],
+        "covariance_ddof0": [
+          [
+            1.25,
+            1.0
+          ],
+          [
+            1.0,
+            1.25
+          ]
+        ]
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "56646d7447dc56d6e387054b723eed239354641794a73492078dfe493d5bb2ef"
+    },
+    {
+      "file": "assets/determinant-area.png",
+      "question": "How does a determinant describe area scaling?",
+      "parameters": {
+        "A": [
+          [
+            2,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "input_vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "output_vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "determinant": 2
+      },
+      "kind": "synthetic_teaching_example",
+      "sha256": "c619d834a7ab68be201ac00b0cb3d59995a10101dc24ec4d7e579748862599c6"
+    }
+  ],
+  "reused_figure": {
+    "path": "../../CS5489/course-notes/assets/covariance-shapes.png",
+    "source": "Lecture2b cell 36; existing checked redraw",
+    "condition": "Mean zero, unit marginal variances, squared Mahalanobis distance 4; not a 95% region"
+  }
+}

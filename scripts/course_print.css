@@ -1,0 +1,86 @@
+@page {size:A4; margin:18mm 17mm 18mm 20mm;}
+* {box-sizing:border-box;}
+html {background:white;color:#111;}
+body {margin:0;font-family:"PingFang SC","Noto Sans CJK SC",Arial,sans-serif;font-size:11pt;line-height:1.58;}
+main {width:100%;margin:0;padding:0;}
+a {color:#111;text-decoration:none;overflow-wrap:anywhere;}
+p {margin:0 0 3.2mm;orphans:3;widows:3;}
+li {margin:1mm 0;orphans:2;widows:2;}
+ul,ol {padding-left:6mm;margin:2mm 0 4mm;}
+h1,h2,h3,h4 {break-after:avoid;page-break-after:avoid;color:#111;line-height:1.38;}
+h1 {font-size:22pt;margin:0 0 5mm;}
+h2 {font-size:15pt;margin:7mm 0 3mm;border-bottom:.3pt solid #aaa;padding-bottom:1.5mm;}
+h3 {font-size:12pt;margin:5mm 0 2mm;}
+h4 {font-size:11pt;margin:4mm 0 2mm;}
+strong {font-weight:650;}
+blockquote {margin:4mm 0;padding:1mm 0 1mm 4mm;border-left:1.5pt solid #777;background:none;}
+blockquote p:last-child {margin-bottom:0;}
+.doc {break-before:page;}
+.doc-code {font-size:10pt;letter-spacing:.5pt;color:#444;border-top:1.3pt solid #222;padding-top:3mm;margin-bottom:3mm;}
+.doc-title {font-size:19pt;}
+.doc-subtitle {font-size:15pt;margin:2mm 0 5mm;}
+.cover-kicker {font-size:12pt;margin:0 0 8mm;letter-spacing:1pt;}
+.cover-title {font-size:27pt;}
+.cover {break-after:page;padding-top:10mm;}
+.cover-summary {font-size:11pt;margin:6mm 0;}
+.cover-notes {font-size:10pt;border-top:.5pt solid #aaa;margin-top:7mm;padding-top:4mm;}
+.cover table {font-size:10.5pt;}
+.cover td {padding:2.8mm 1.5mm;}
+.cover-long {padding-top:4mm;}
+.cover-long .cover-kicker {margin-bottom:4mm;}
+.cover-long td {padding-top:2mm;padding-bottom:2mm;}
+.cover-long .cover-notes {margin-top:4mm;padding-top:3mm;}
+.page-ref {white-space:nowrap;font-variant-numeric:tabular-nums;}
+.print-ref {font-size:8.5pt;color:#444;white-space:normal;}
+.toc {font-size:9.5pt;margin:4mm 0;}
+.toc li {margin:0;}
+.table-scroll {overflow:visible;}
+.table-scroll::before {display:none;}
+table {border-collapse:collapse;width:100%;min-width:0;max-width:100%;font-size:9.5pt;line-height:1.45;margin:3mm 0 5mm;table-layout:auto;}
+th,td {padding:1.8mm 2mm;border-bottom:.4pt solid #aaa;text-align:left;vertical-align:top;min-width:0;overflow-wrap:anywhere;}
+th {font-weight:650;background:#f1f1f1;}
+thead {display:table-header-group;}
+tr {break-inside:avoid;page-break-inside:avoid;}
+td p {margin:0;}
+figure {margin:4mm 0;break-inside:avoid;page-break-inside:avoid;text-align:center;}
+img {display:block;max-width:100%;max-height:222mm;width:auto;height:auto;object-fit:contain;margin:0 auto;}
+figure img {max-width:100%;max-height:217mm;}
+figcaption {font-size:9pt;line-height:1.45;text-align:left;margin:2mm 0 0;color:#333;}
+pre,code {font-family:Menlo,"DejaVu Sans Mono",monospace;font-variant-ligatures:none;}
+pre {font-size:8.6pt;line-height:1.48;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:visible;background:#f7f7f7;border:.3pt solid #bbb;padding:3mm;margin:2mm 0 4mm;tab-size:4;}
+pre code {font-size:inherit;white-space:inherit;}
+pre *, .highlight * {color:#111!important;background:transparent!important;}
+p>code,li>code,td code {font-size:.9em;overflow-wrap:anywhere;}
+.code-input {margin:4mm 0 0;}
+.cell-label {font-size:8pt;color:#555;break-after:avoid;margin:1mm 0;}
+.output {margin:0 0 4mm;}
+.output pre {background:white;}
+.answer-block {margin:3mm 0 5mm;padding:2mm 0 1mm 4mm;border-left:.8pt solid #888;}
+.answer-title {font-size:10pt;font-weight:650;margin-bottom:2mm;break-after:avoid;}
+.answer-block p:last-child {margin-bottom:0;}
+.katex {font-size:1.03em;}
+.katex-display {overflow:visible!important;margin:3.5mm 0;break-inside:avoid;page-break-inside:avoid;}
+.arithmatex {overflow:visible!important;}
+.katex-display>.katex {white-space:nowrap;}
+.katex-html {white-space:normal;}
+.katex-display .katex-html {white-space:nowrap;}
+.source-note, nav {display:none;}
+hr {border:0;border-top:.5pt solid #aaa;margin:5mm 0;}
+@media screen {body{background:#ddd;}main{width:210mm;padding:18mm 17mm 18mm 20mm;margin:8mm auto;background:white;} .doc{margin-top:14mm;}}
+/* Wide original handwritten pages: rotate the content, not the A4 sheet. */
+figure.source-spread {break-before:page;break-after:page;height:256mm;margin:0;position:relative;}
+figure.source-spread img {position:absolute;left:50%;top:49%;width:240mm;max-width:none;max-height:none;height:auto;transform:translate(-50%,-50%) rotate(90deg);}
+figure.source-spread figcaption {position:absolute;bottom:0;left:0;right:0;font-size:9pt;}
+table.source-index {font-size:9pt;line-height:1.35;}
+table.source-index th,table.source-index td {padding:1.2mm 1.8mm;}
+/* Reference indexes stay legible but compact; photographs are not page-sized posters. */
+table.source-index {line-height:1.25;}
+table.source-index th,table.source-index td {padding:.65mm 1.8mm;}
+figure img[src$="/Petal-sepal.jpg"] {max-width:80mm;max-height:85mm;}
+figure img[src$="/poisson.png"],figure img[src$="/gaussian.png"] {max-width:130mm;}
+
+.source-viewport {position:relative;overflow:hidden;margin:0 auto;}
+.source-viewport img {position:absolute;max-width:none;max-height:none;margin:0;object-fit:fill;}
+.print-column-panel {break-inside:avoid;page-break-inside:avoid;}
+.print-column-panel caption {text-align:left;font-size:9pt;margin-bottom:1.5mm;}
+.print-column-panel th,.print-column-panel td {overflow-wrap:normal;word-break:normal;}

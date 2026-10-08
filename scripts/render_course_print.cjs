@@ -1,0 +1,22 @@
+/* Render local print books with an isolated Chromium profile; no account/network access. */
+const fs=require('fs'),path=require('path');
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+if(!process.argv[2]){console.error('Usage: node render_course_print.cjs <new evidence directory under  .build>');process.exit(2);}
+const C=path.resolve(__dirname,'..'), OUT=path.join(C,'pdf'), RUN=path.resolve(process.argv[2]);
+if(!RUN.startsWith(path.join(C,'.build')+path.sep))throw Error('Evidence directory must be under .build.');
+const notesUpdated=JSON.parse(fs.readFileSync(path.join(C,'learning/course-notes-documents.json'))).updated;
+(async()=>{fs.mkdirSync(OUT,{recursive:true});const m=JSON.parse(fs.readFileSync(path.join(C,'.build/print/manifest.json')));const browser=await chromium.launch({...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{}),headless:true});let results=[];
+try {for(const [group,book] of Object.entries(m)){
+ console.log('Rendering '+group);const page=await browser.newPage({viewport:{width:654,height:986},deviceScaleFactor:1});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route('http://**/*',route=>route.abort());await page.route('https://**/*',route=>route.abort());
+ await page.emulateMedia({media:'print'});await page.goto('file://'+path.join(C,book.html),{waitUntil:'load'});await page.waitForFunction(()=>window.printReady===true);await page.evaluate(()=>document.fonts.ready);
+ await page.evaluate(()=>{for(const e of document.querySelectorAll('pre')){if(e.getBoundingClientRect().height<590){e.style.breakInside='avoid';e.style.pageBreakInside='avoid';}}});
+ await page.evaluate(()=>{for(const e of document.querySelectorAll('table')){if(e.getBoundingClientRect().height<280){e.style.breakInside='avoid';e.style.pageBreakInside='avoid';}}});
+ const fit=await page.evaluate(()=>{let changes=[];for(const e of document.querySelectorAll('.katex-display')){let k=e.querySelector('.katex');if(!k)continue;const natural=k.getBoundingClientRect().width;const available=e.clientWidth;const inner=k.querySelector('.katex-html');const actual=inner?inner.getBoundingClientRect().width:natural;const need=Math.max(k.scrollWidth,actual);if(need>available+1){const old=parseFloat(getComputedStyle(k).fontSize);const size=old*available/need*.98;k.style.fontSize=size+'px';changes.push({tex:e.textContent.slice(0,120),from:old,to:size,width:need,available});}}return changes;});
+ const check=await page.evaluate(()=>({body:document.documentElement.scrollWidth,viewport:innerWidth,math:document.querySelectorAll('.katex').length,mathErrors:[...document.querySelectorAll('.katex-error')].map(x=>x.textContent),images:document.images.length,brokenImages:[...document.images].filter(x=>!x.complete||x.naturalWidth===0).map(x=>x.src),closedDetails:document.querySelectorAll('details:not([open])').length,answers:document.querySelectorAll('.answer-block').length,overflows:[...document.querySelectorAll('table,pre,.katex-display')].filter(x=>x.scrollWidth>x.clientWidth+3).map(x=>({tag:x.tagName,class:x.className,text:x.textContent.slice(0,140),width:x.clientWidth,scroll:x.scrollWidth})),headings:[...document.querySelectorAll('article')].map(a=>({id:a.id,title:a.querySelector('h1').textContent})),smallMath:[...document.querySelectorAll('.katex-display>.katex')].filter(x=>parseFloat(getComputedStyle(x).fontSize)<11.33).map(x=>({text:x.textContent.slice(0,100),size:getComputedStyle(x).fontSize}))}));
+ if(errors.length||check.mathErrors.length||check.brokenImages.length||check.closedDetails||check.smallMath.length)throw Error(JSON.stringify({group,errors,check}));
+ await page.pdf({path:path.join(OUT,group+'-A4.pdf'),format:'A4',preferCSSPageSize:true,printBackground:true,tagged:true,outline:true,displayHeaderFooter:true,headerTemplate:`<div style="width:100%;font-size:8px;margin-left:20mm;margin-right:17mm;color:#555;font-family:Arial,sans-serif">${group} · CityU StudyNotes · ${notesUpdated}</div>`,footerTemplate:'<div style="width:100%;text-align:right;margin-right:17mm;font-size:9px;color:#555;font-family:Arial,sans-serif"><span class="pageNumber"></span> / <span class="totalPages"></span></div>'});
+ results.push({group,check,fit,errors});await page.close();console.log('Saved '+group);
+ }} finally {await browser.close();}
+ fs.writeFileSync(path.join(RUN,'print-browser-validation.json'),JSON.stringify(results,null,2));
+})().catch(e=>{console.error(e);process.exit(1)});

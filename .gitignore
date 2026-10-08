@@ -1,0 +1,15 @@
+.DS_Store
+.venv/
+node_modules/
+.build/
+__pycache__/
+.ipynb_checkpoints/
+**/.cache/
+**/.mpl-cache/
+**/outputs/
+**/execution/
+data/
+*.html
+*.tmp.pdf
+.env
+.env.*

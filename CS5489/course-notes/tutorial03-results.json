@@ -1,0 +1,128 @@
+{
+  "source_sha256": "9adbd795bf63b2408ae08e6610a80d8c3475e7c1e2df37fa3759449aa04df6ee",
+  "image_shape": [
+    50,
+    45,
+    40
+  ],
+  "crop_shape": [
+    22,
+    18
+  ],
+  "train_indices": [
+    0,
+    2,
+    23,
+    11,
+    32,
+    45,
+    10,
+    46,
+    28,
+    15,
+    30,
+    36,
+    6,
+    34,
+    9,
+    24,
+    29,
+    27,
+    25,
+    38,
+    39,
+    1,
+    4,
+    22,
+    26,
+    13,
+    20,
+    40,
+    41,
+    17,
+    44,
+    5,
+    47,
+    21,
+    18,
+    49,
+    35,
+    37,
+    12,
+    16
+  ],
+  "test_indices": [
+    19,
+    14,
+    8,
+    42,
+    31,
+    3,
+    43,
+    7,
+    33,
+    48
+  ],
+  "train_seed": 4487,
+  "cv_seed": 42,
+  "C_candidates": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0
+  ],
+  "alpha_candidates": [
+    0.001,
+    0.01,
+    0.1,
+    1.0
+  ],
+  "selected_alpha": 0.01,
+  "models": [
+    {
+      "model": "LR full",
+      "features": 1800,
+      "C": 0.1,
+      "CV accuracy": 0.9,
+      "train accuracy": 0.95,
+      "test accuracy": 0.8
+    },
+    {
+      "model": "SVM full",
+      "features": 1800,
+      "C": 0.01,
+      "CV accuracy": 0.9,
+      "train accuracy": 0.925,
+      "test accuracy": 0.8
+    },
+    {
+      "model": "LR crop",
+      "features": 396,
+      "C": 1.0,
+      "CV accuracy": 0.85,
+      "train accuracy": 0.975,
+      "test accuracy": 0.8
+    },
+    {
+      "model": "SVM crop",
+      "features": 396,
+      "C": 10.0,
+      "CV accuracy": 0.825,
+      "train accuracy": 1.0,
+      "test accuracy": 0.9
+    },
+    {
+      "model": "L1 SVM crop",
+      "features": 396,
+      "C": 10.0,
+      "CV accuracy": 0.875,
+      "train accuracy": 1.0,
+      "test accuracy": 0.9
+    }
+  ],
+  "all_checks_passed": true,
+  "scope": "Provided filename labels, not a claim about individual identity."
+}

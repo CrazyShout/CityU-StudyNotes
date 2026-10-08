@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-23",
+  "units": "decimal bit rates; 1 byte=8 bits",
+  "checks": {
+    "unit_conversions": true,
+    "binomial_vs_enumeration": true,
+    "ring_capacity": true,
+    "delay_formulas": true,
+    "pipeline_vs_event_recurrence": true,
+    "http_rounds": true,
+    "p2p_bounds": true
+  },
+  "chapter1": {
+    "35_users_over_10": 0.00042429759545082615,
+    "tutorial_capacity": 20.0,
+    "caravan_min": 62.0,
+    "fast_first_car_min": 7.0,
+    "fast_last_car_min": 10
+  },
+  "tutorial1": {
+    "ring_link_occupancy": {
+      "AB": 4,
+      "BC": 4,
+      "CD": 4,
+      "AD": 4
+    },
+    "file_time_s": 1.85,
+    "120_users_over_20": 0.007941192248396997
+  },
+  "tutorial2": {
+    "voip_playout_ms": 12.128,
+    "store_forward_ms": 64.0,
+    "immediate_bit_forward_ms": 46.0,
+    "queue_ms": 27.0,
+    "voip_128byte_ms": 16.256,
+    "queue_transfer_ms": 13.5
+  },
+  "assignment1": {
+    "P6_distance_m": 535714.2857142857,
+    "P31_unsegmented_s": 12.0,
+    "P31_segmented_s": 4.009999999999937,
+    "P31_packet2_switch1_s": 0.01,
+    "P31_400_packets_s": 4.02,
+    "POP3_octets": 1410
+  },
+  "tutorial3": {
+    "dns_no_cache_ms": 64,
+    "dns_local_hit_ms": 4,
+    "http_serial_RTT": 18,
+    "http_parallel5_RTT": 6,
+    "http_persistent_serial_RTT": 10,
+    "http_persistent_pipelined_RTT": 3
+  },
+  "chapter2": {
+    "F_Mbit": 100,
+    "N": 4,
+    "server_upload_Mbps": 10,
+    "peer_upload_Mbps": 2,
+    "peer_download_Mbps": 5,
+    "CS_lower_bound_s": 40,
+    "P2P_lower_bound_s": 22.22222222222222,
+    "DASH_chunk_Mbit": 8,
+    "DASH_download_s": 2.0,
+    "report_stall_s": 5
+  },
+  "all_checks_passed": true
+}

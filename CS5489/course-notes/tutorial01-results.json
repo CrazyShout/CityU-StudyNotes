@@ -1,0 +1,21 @@
+{
+  "source": "Tutorial1.ipynb; data1.pickle",
+  "integer_range": [
+    2,
+    100
+  ],
+  "integer_count": 99,
+  "histogram_total": 99,
+  "prime_count": 25,
+  "data_shape": [
+    120,
+    2
+  ],
+  "gs_shape": [
+    4,
+    3
+  ],
+  "gs_orthogonality_error": 4.918300529807393e-16,
+  "gs_span_error": 1.7227701019713026e-15,
+  "all_checks_passed": true
+}

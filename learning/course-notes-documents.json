@@ -1,0 +1,137 @@
+{
+  "documents": [
+    {
+      "source": "CS5489/course-notes/Lecture01.md",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture02.md",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture03.md",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture04.md",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture05.md",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial01.ipynb",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial02.ipynb",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial03.ipynb",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial04.ipynb",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Assignment01.md",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Assignment02.md",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/README.md",
+      "course": "CS5489",
+      "major": false
+    },
+    {
+      "source": "CS5222/course-notes/Chapter01.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Chapter02.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Chapter03.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial01.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial02.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial03.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial04.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial05.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Assignment01.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/ResearchReportGuide.md",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/README.md",
+      "course": "CS5222",
+      "major": false
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.md",
+      "course": null,
+      "major": false
+    },
+    {
+      "source": "learning/foundation-notes/NetworkBasics.md",
+      "course": null,
+      "major": false
+    },
+    {
+      "source": "learning/foundation-notes/SourceEvidence.md",
+      "course": null,
+      "major": false
+    }
+  ],
+  "major_documents": 21,
+  "scope": "Current downloaded Canvas; collaborative Markdown and Notebook sources with A4 PDFs; no hosted HTML",
+  "updated": "2026-10-08"
+}

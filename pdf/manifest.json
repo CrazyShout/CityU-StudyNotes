@@ -1,0 +1,194 @@
+{
+  "updated": "2026-10-08",
+  "books": [
+    {
+      "file": "CS5489-A4.pdf",
+      "pages": 158,
+      "sha256": "1d056e81cf1ab5cdc7bd73ceacfd0c698638a80c3ac9c39752bc5c0d975d4954",
+      "documents": [
+        {
+          "id": "CS5489-Lecture01",
+          "start": 2,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture01.md",
+          "end": 14
+        },
+        {
+          "id": "CS5489-Lecture02",
+          "start": 15,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture02.md",
+          "end": 37
+        },
+        {
+          "id": "CS5489-Lecture03",
+          "start": 38,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture03.md",
+          "end": 53
+        },
+        {
+          "id": "CS5489-Lecture04",
+          "start": 54,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture04.md",
+          "end": 67
+        },
+        {
+          "id": "CS5489-Lecture05",
+          "start": 68,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture05.md",
+          "end": 77
+        },
+        {
+          "id": "CS5489-Tutorial01",
+          "start": 78,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial01.ipynb",
+          "end": 88
+        },
+        {
+          "id": "CS5489-Tutorial02",
+          "start": 89,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial02.ipynb",
+          "end": 115
+        },
+        {
+          "id": "CS5489-Tutorial03",
+          "start": 116,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial03.ipynb",
+          "end": 130
+        },
+        {
+          "id": "CS5489-Tutorial04",
+          "start": 131,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial04.ipynb",
+          "end": 143
+        },
+        {
+          "id": "CS5489-Assignment01",
+          "start": 144,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Assignment01.md",
+          "end": 152
+        },
+        {
+          "id": "CS5489-Assignment02",
+          "start": 153,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Assignment02.md",
+          "end": 158
+        }
+      ]
+    },
+    {
+      "file": "CS5222-A4.pdf",
+      "pages": 86,
+      "sha256": "9759354b573b81c74e49adb87b1160eedaec4860c676251ca8b33b6df9aa77a6",
+      "documents": [
+        {
+          "id": "CS5222-Chapter01",
+          "start": 2,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter01.md",
+          "end": 18
+        },
+        {
+          "id": "CS5222-Chapter02",
+          "start": 19,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter02.md",
+          "end": 33
+        },
+        {
+          "id": "CS5222-Chapter03",
+          "start": 34,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter03.md",
+          "end": 41
+        },
+        {
+          "id": "CS5222-Tutorial01",
+          "start": 42,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial01.md",
+          "end": 48
+        },
+        {
+          "id": "CS5222-Tutorial02",
+          "start": 49,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial02.md",
+          "end": 55
+        },
+        {
+          "id": "CS5222-Tutorial03",
+          "start": 56,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial03.md",
+          "end": 62
+        },
+        {
+          "id": "CS5222-Tutorial04",
+          "start": 63,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial04.md",
+          "end": 66
+        },
+        {
+          "id": "CS5222-Tutorial05",
+          "start": 67,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial05.md",
+          "end": 71
+        },
+        {
+          "id": "CS5222-Assignment01",
+          "start": 72,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Assignment01.md",
+          "end": 82
+        },
+        {
+          "id": "CS5222-ResearchReportGuide",
+          "start": 83,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/ResearchReportGuide.md",
+          "end": 86
+        }
+      ]
+    },
+    {
+      "file": "Foundations-A4.pdf",
+      "pages": 43,
+      "sha256": "12f954b764477fe4d6b19beb8341f1bd8b7a82ff7180cfd73b798617e93562df",
+      "documents": [
+        {
+          "id": "Foundations-MathForML",
+          "start": 2,
+          "group": "Foundations",
+          "source": "learning/foundation-notes/MathForML.md",
+          "end": 36
+        },
+        {
+          "id": "Foundations-NetworkBasics",
+          "start": 37,
+          "group": "Foundations",
+          "source": "learning/foundation-notes/NetworkBasics.md",
+          "end": 41
+        },
+        {
+          "id": "Foundations-SourceEvidence",
+          "start": 42,
+          "group": "Foundations",
+          "source": "learning/foundation-notes/SourceEvidence.md",
+          "end": 43
+        }
+      ]
+    }
+  ]
+}

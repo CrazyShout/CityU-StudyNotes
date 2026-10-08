@@ -1,0 +1,8 @@
+beautifulsoup4>=4.12,<5
+Markdown>=3.7,<4
+nbformat>=5.10,<6
+Pygments>=2.18,<3
+pymdown-extensions>=10.12,<13
+Pillow>=11,<13
+pypdf>=6.10,<7
+reportlab>=4.4,<5

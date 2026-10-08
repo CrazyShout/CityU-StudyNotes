@@ -1,0 +1,71 @@
+{
+  "date": "2026-09-23",
+  "source": "Teaching examples supplementing current course prerequisites",
+  "figures": {
+    "binomial-users.png": {
+      "n": 3,
+      "p": [
+        0.2,
+        0.5
+      ],
+      "transfer_probability": 0.3125
+    },
+    "vector-projection.png": {
+      "illustration_u": [
+        1,
+        0
+      ],
+      "illustration_v": [
+        2,
+        1
+      ],
+      "worked_projection": [
+        2.0,
+        2.0
+      ],
+      "transfer_projection": [
+        1.0,
+        -1.0
+      ]
+    },
+    "rank-projection.png": {
+      "A": [
+        [
+          1.0,
+          1.0
+        ],
+        [
+          2.0,
+          2.0
+        ]
+      ],
+      "y": [
+        3.0,
+        5.0
+      ],
+      "minimum_norm_w": [
+        1.2999999999999996,
+        1.2999999999999996
+      ],
+      "residual": [
+        0.4000000000000008,
+        -0.1999999999999984
+      ]
+    },
+    "gradient-constraint.png": {
+      "gradient_at_1_1": [
+        2,
+        4
+      ],
+      "eta": 0.1,
+      "next": [
+        0.8,
+        0.6
+      ],
+      "objective_after": 1.36,
+      "constraint_optimum": 1,
+      "lambda": 2
+    }
+  },
+  "all_checks_passed": true
+}

@@ -1,0 +1,73 @@
+{
+  "run_date": "2026-09-23",
+  "large_searches_executed": false,
+  "checks": {
+    "lecture1": true,
+    "lecture3_gradient_and_dual": true,
+    "lecture4_algebra": true
+  },
+  "sigmoid": [
+    0.11920292202211755,
+    0.5,
+    0.8807970779778823
+  ],
+  "iris_logistic": {
+    "source": "Lecture3a cells 54,57,58",
+    "split_seed": 4487,
+    "C": 100,
+    "weights": [
+      [
+        9.539474545561756,
+        0.8988902032861976
+      ]
+    ],
+    "intercept": [
+      -48.82195461091532
+    ],
+    "test_accuracy": 0.92
+  },
+  "housing": {
+    "openml_id": 42165,
+    "version": 1,
+    "csv_sha256": "b214efc1b289b5675b9f84316549c2a3f44cfaaa1f51ea2f4d0bcdd34fe33882",
+    "subsample": 4,
+    "shape": [
+      365,
+      2
+    ],
+    "target_unit": "thousand dollars",
+    "two_feature_weights": [
+      8.874377939036096,
+      -1.0479370224433602
+    ],
+    "two_feature_intercept": 82.70885419625044,
+    "two_feature_training_MSE": 1789.1772961139009,
+    "mode2_shape": [
+      365,
+      12
+    ],
+    "train_shape": [
+      292,
+      12
+    ],
+    "test_shape": [
+      73,
+      12
+    ],
+    "split_seed": 4487,
+    "ridge_cv_alpha": 4.714866363457395,
+    "ridge_cv_MSE": 1095.3585533312732,
+    "ridge_test_MSE": 511.89151911827673,
+    "difference_from_original": "Scaling is fitted inside each CV fold; original scales the full training split before RidgeCV."
+  },
+  "ransac": {
+    "data_seeds": [
+      4487,
+      447
+    ],
+    "model_seed": 1234,
+    "inliers": 101,
+    "total": 110
+  },
+  "all_checks_passed": true
+}

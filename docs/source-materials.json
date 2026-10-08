@@ -1,0 +1,205 @@
+{
+  "note": "Original Canvas/history filenames for reference; full source materials are obtained separately.",
+  "files": [
+    {
+      "file": "CS5489/Lecture1/Lecture1/Lecture1 Intro.pdf",
+      "sha256": "70bece2d30a1af8d5b089248ea2d02864a1ae531bcbc289a7a791cb04fab01a8"
+    },
+    {
+      "file": "CS5489/Lecture1/Lecture1/Lecture1a.ipynb",
+      "sha256": "229377b2eeccb8b4515e901180032d89fab4e7de8efd0af482bb0908428b4d59"
+    },
+    {
+      "file": "CS5489/Lecture1/Lecture1/Lecture1b.ipynb",
+      "sha256": "395cf34836c4aae911e22ba7b6a82202b83137ca27d69b89e2046dbb275e707b"
+    },
+    {
+      "file": "extra_information/CS5489 Machine Learning/homework/assignment/Home_Assignments_1.pdf",
+      "sha256": "684527b3875d66eeb9fe0580182cb48b35ee3a802e8d0cb5d923618d8758bff1"
+    },
+    {
+      "file": "extra_information/CS5489 Machine Learning/homework/assignment/Final/sample_final_questions.docx",
+      "sha256": "4fee6d245fd67ed59226264b20c2ffaf7d39a459d114fbd9e0502a3baf8dca4a"
+    },
+    {
+      "file": "CS5489/Lecture2/Lecture2/Lecture2a.ipynb",
+      "sha256": "1a1358a0a6e82e6b307ceffe6289061a6264b37185667ecd0a89b75eec1b9b5b"
+    },
+    {
+      "file": "CS5489/Lecture2/Lecture2/Lecture2a.pdf",
+      "sha256": "c32ac6097b364c48b69b51677cd41f5916af919663fcb99ba473ad4d33abbd56"
+    },
+    {
+      "file": "CS5489/Lecture2/Lecture2/Lecture2b.ipynb",
+      "sha256": "32132b01adfa64b12615ba751bf1f3ca6824339393d014cd5b38dbc56905ab12"
+    },
+    {
+      "file": "CS5489/Lecture2/Lecture2/Lecture2b.pdf",
+      "sha256": "9bd429fbaf898232374189b71c4ec0b895e844e9668af71d8c9194befdd01f95"
+    },
+    {
+      "file": "CS5489/Lecture3/Lecture3/Lecture3a.ipynb",
+      "sha256": "4c79f99dcacaaea0fc3251781b221ffe3c5660aea59b73ae5aadb90fd37b0678"
+    },
+    {
+      "file": "CS5489/Lecture3/Lecture3/Lecture3b.ipynb",
+      "sha256": "4568f6160990e971ab42550637ddb42a24e2adb20db79bb99b57f88bca2e35bb"
+    },
+    {
+      "file": "CS5489/Lecture3/Lecture3/Lecture3c.ipynb",
+      "sha256": "5ef43fd94f5b59b9a1061bfa2d8cb50ae5d4907965815879aac16b73d8f5dd1e"
+    },
+    {
+      "file": "CS5489/Lecture3/SVM.pdf",
+      "sha256": "841c5a03c035ce7887f05b7a3eaf28b399f79ef8e14221c94c48eae240148ce6"
+    },
+    {
+      "file": "CS5489/Lecture4/Lecture4/Lecture4a.ipynb",
+      "sha256": "48bbf79fb06a542969749f2d968cf39111039340657c9cc62ba4119cc0715d9c"
+    },
+    {
+      "file": "CS5489/Lecture4/Lecture4/Lecture4b.ipynb",
+      "sha256": "a4a42a68343b990ca5aa81ed1d02da6a3cf06f67487b1fa6e192723717c0187c"
+    },
+    {
+      "file": "CS5489/Lecture5/Lecture5/Lecture5a.ipynb",
+      "sha256": "1041aafaf076c342cc62d1a6731587152567c9825e8f659692adaf4b1164d107"
+    },
+    {
+      "file": "CS5489/Lecture5/Lecture5/Lecture5b.ipynb",
+      "sha256": "2f043b534d066c363d472763486003a9ecb711326ce8a598078043937711053e"
+    },
+    {
+      "file": "CS5489/Lecture1/Tutorial/Tutorial1.ipynb",
+      "sha256": "45ba28160b399857f2f51964a46b54528fd5b900e76bc894c8826527256b8e61"
+    },
+    {
+      "file": "CS5489/Lecture2/Tutorial2/Tutorial2v2.ipynb",
+      "sha256": "15e4bc6ee40f4cbde6bd108629e90dd22da57026848ef07f2319cc47435d09d9"
+    },
+    {
+      "file": "CS5489/Lecture2/Tutorial2/dataAG.json",
+      "sha256": "6fc06494ec6a66501f4db2e0c9710e32db6c88a6a0ca8ff59db3620011fe378b"
+    },
+    {
+      "file": "CS5489/Lecture3/Tutorial3/Tutorial3.ipynb",
+      "sha256": "4627398740804a65d5dd4aa0144f2939cee8230f6815756526d63cc50ed4ae56"
+    },
+    {
+      "file": "CS5489/Lecture4/Tutorial/Tutorial4.ipynb",
+      "sha256": "15aa98a47b1e9fc14f1fd887d14bbb02cb6baa5b806c3a32a364873ed928bb06"
+    },
+    {
+      "file": "CS5489/Lecture4/Tutorial/Bike-Sharing-Dataset.zip",
+      "sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401"
+    },
+    {
+      "file": "CS5489/Lecture2/Assignment1/Assignment1-Doc.ipynb",
+      "sha256": "379288ea320df9d1f894345e3adc3328e8af8e836a4c9c6c20c0bc66f09bbf16"
+    },
+    {
+      "file": "CS5489/Lecture2/Assignment1/Assignment1-Final.ipynb",
+      "sha256": "444030627458f5b0992c05706c84f0c221edfc47413871a069e4599a6e884859"
+    },
+    {
+      "file": "CS5489/Lecture2/Assignment1/smishing_train.txt",
+      "sha256": "96fe16df4d957c073123e72b8ea83cd78a76e130e8b4b4b54ec7777a2881fcb2"
+    },
+    {
+      "file": "CS5489/Lecture2/Assignment1/smishing_val_test.txt",
+      "sha256": "0f88442f3c67319a379b2d4437f40f75a11a8f37bc649be5a676b037b325d870"
+    },
+    {
+      "file": "CS5489/Lecture2/Assignment1/smishing_val_test.csv",
+      "sha256": "af93eb1f18303af4aafb134bf5051dd540b4d0f6b0bc33977d74bccb3d72fc24"
+    },
+    {
+      "file": "CS5489/Lecture5/Assignment2/Assignment2.ipynb",
+      "sha256": "848ca070b398b0ba183e3340be108dcc5f3c30411359007df568c409b814ded5"
+    },
+    {
+      "file": "CS5489/Lecture5/Assignment2/Section1_MLP_Primer.pdf",
+      "sha256": "9993e48fed52e947d662bcd50160e37a2a7635ca95a2289eac8f3663052198d6"
+    },
+    {
+      "file": "CS5489/Lecture5/Assignment2/winequality-red.csv",
+      "sha256": "d6a0d9bd24806944818795f22500c46cb6424cbff517aacda36595d3ed9b2daa"
+    },
+    {
+      "file": "CS5222/Cha.1/cs5222_cha1_2026_student.pptx",
+      "sha256": "e34c0915b7cf881ec1d28bbf80ab2e9c39ecb9d13b00107036e9f21aa32a43aa"
+    },
+    {
+      "file": "CS5222/Cha.1/Q&A_cha1_2026_student.pptx",
+      "sha256": "a4dd606a14bed6285e66d59dee9a55703fef78387c05a6a481570bff3d2a0a72"
+    },
+    {
+      "file": "CS5222/Cha.2/cs5222_cha2_2026_student.pptx",
+      "sha256": "49c603bb0719b5c956b2b49d30c80d632a5352dca4a6b82a55323465558b9ae6"
+    },
+    {
+      "file": "CS5222/Cha.2/Q&A_cha2_2026_student.pptx",
+      "sha256": "9001fba7cdbe48df49b8c97ad4a2bff8f8d441f0bb2f8ea5689f485e78fcfc67"
+    },
+    {
+      "file": "CS5222/Cha.3/cs5222_cha3_2026_student_part1.pptx",
+      "sha256": "3d6081e18061bf7c62b0711a255ce2aab80356ffa10b164cc677db081b680210"
+    },
+    {
+      "file": "CS5222/Cha.3/cs5222_cha3_2026_student_part2.pptx",
+      "sha256": "465fe6d2f64d78371d8387c3aa59001827494ab5b84e05d8db91683f23a2da76"
+    },
+    {
+      "file": "CS5222/Tutorial1/tutorial-1_semA2026.pdf",
+      "sha256": "7feae674e3c7cad83feb5b02e91d11a5d805ad7cbcefa291fb4b5dc42eafb29f"
+    },
+    {
+      "file": "CS5222/Tutorial1/tutorial-1-solution_semA2026.pptx",
+      "sha256": "98bc4e5637465b378b59e9c77858ef210a3b609d4ef64903b73af46e2c55ac49"
+    },
+    {
+      "file": "CS5222/Tutorial2/tutorial-2_semA2026.pdf",
+      "sha256": "bd2a46e3405ec1ad00c8c20d6b72a02f687566e5d373f2768b092aa361921519"
+    },
+    {
+      "file": "CS5222/Tutorial2/tutorial-2-solution_semA2026.pptx",
+      "sha256": "ecb885ee09709a74f14e077034de775e7a7f831bf7f022dcff0f05fcbe1a3359"
+    },
+    {
+      "file": "CS5222/Tutorial3/tutorial-3_semA2026.pdf",
+      "sha256": "9e39415f652ef1ea23088d21fdb8694b69bd65122c8e850edff09aeb36ae7e51"
+    },
+    {
+      "file": "CS5222/Tutorial3/tutorial-3-solution_semA2026.pptx",
+      "sha256": "7f617cce17e617ad3afe877df81b5bcf21f2164039a52328bc8f439f98137a0d"
+    },
+    {
+      "file": "CS5222/Tutorial4/Tutorial-4_semA2026.pdf",
+      "sha256": "b4118edeb7e4fca5f3b5201d7430dbff2f624d0a82bb4664ccac3a5c4586ff32"
+    },
+    {
+      "file": "CS5222/Tutorial4/Tutorial-4-solution_semA2026v2.pptx",
+      "sha256": "120887d6a4bb1b2a7c1d25840634947e860a7cf4b66b7e6651ef4bb87d06bbd2"
+    },
+    {
+      "file": "CS5222/Tutorial5/tutorial-5_semA2026.pdf",
+      "sha256": "a60373239ac8b774bd7cf90d4bd55afaf2a0a246f2f898b705106ef112a7a1b9"
+    },
+    {
+      "file": "CS5222/Assignment/CS5222 Assignment 1.pdf",
+      "sha256": "e22846cd98d7efc8b269ac515bd7a5cb9b9697ff1112be4ec9eecbc31e56bf90"
+    },
+    {
+      "file": "CS5222/CS5222 Research Report 2026.pdf",
+      "sha256": "8d9b10a8e50d18f7a6c118f5db37f263e51f154ab4416fcde39b4cb8f849751d"
+    },
+    {
+      "file": "CS5222/cs5222_overview_semA2026.pdf",
+      "sha256": "5f76574e499a5afe7ca465ded615619e1b282f774279959e99fc70be7c87208f"
+    },
+    {
+      "file": "extra_information/CS5222 Computer Networks & Internets/review/review/review.docx",
+      "sha256": "47cb96b67b237767dd34717aeac2b7b39f01cceac641362a27cb24e62dbb2973"
+    }
+  ]
+}
