@@ -4,7 +4,7 @@
     {
       "file": "CS5489-A4.pdf",
       "pages": 160,
-      "sha256": "33c58cc1a2e4a5552681e5bb18b6ca7e0a0a7d9ceaeb0ce22412e5cd31575616",
+      "sha256": "d0606f3b061e2c11a36949afa57f12b1fcab91d983daf72350567b17a3e7496f",
       "documents": [
         {
           "id": "CS5489-Lecture01",
@@ -88,7 +88,7 @@
     {
       "file": "CS5222-A4.pdf",
       "pages": 86,
-      "sha256": "639e2b9a1ce316fb61603dae8922b1a9223830ae07d76bfe30060d34630b9c1d",
+      "sha256": "469062a56e0d8b5121d83ebc756c6d6177a598e46b4d1a2aa1f4f7ae8e2436eb",
       "documents": [
         {
           "id": "CS5222-Chapter01",
@@ -165,7 +165,7 @@
     {
       "file": "Foundations-A4.pdf",
       "pages": 43,
-      "sha256": "c517ab76f0b8a51945a96c7aff496d5d5b2f974af5684a02e828b125b19421e6",
+      "sha256": "4f129b2edaada7234d3b22cc9b7dbc6ad8a5b521a32b3203d34d6c14e1527061",
       "documents": [
         {
           "id": "Foundations-MathForML",
