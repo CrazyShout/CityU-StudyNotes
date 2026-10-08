@@ -20,7 +20,7 @@
 | 协方差与高斯形状 | 基础与后续聚类迁移都要懂 | 4套 | 未见／3套 | 现有材料未见 | [讲解](#full-gaussian) |
 | 平滑与正则化 | 能解释零概率与如何调节 | 2套 | 未见／未见 | 现有材料未见 | [讲解](#smoothing) |
 | 文本表示与NB改进 | 结合设备条件提出具体改进 | 1套 | 未见／未见 | 现有材料未见 | [讲解](#bow) |
-| 误差、不确定性与模型局限 | 用条件或反例拆掉绝对说法 | 4套 | 未见／未见 | 现有材料未见 | [讲解](#model-limits) |
+| 误差、不确定性与模型局限 | 用假设与反例判断模型局限 | 4套 | 未见／未见 | 现有材料未见 | [讲解](#model-limits) |
 | 参数后验与MAP（QE延伸） | QE延伸；补齐题面后再练完整推导 | 未见 | 未见／未见 | 题段；卷次待定 | [相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note) |
 
 **统计口径：** 已辨识6套期中、3套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。
@@ -275,6 +275,8 @@ p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
 \tag{2.13}
 $$
 
+这里$\mathcal Y$是所有候选类别组成的集合，本例为$\{1,2\}$。
+
 | 计算步骤 | 类1 | 类2 |
 |---|---:|---:|
 | 密度$p(5\mid c)$（cm⁻¹） | 0.241986 | 0.438306 |
@@ -397,7 +399,7 @@ p(\mathbf x\mid c)=\prod_{j=1}^d p(x_j\mid c).
 \tag{2.15}
 $$
 
-这个假设意味着：已经知道种类时，再知道花瓣长度，不会改变模型对萼片宽度的分布判断。它没有要求把不同种类混在一起后，两项测量也独立。稍后我们会看，原数据为什么需要比这个假设更灵活的模型。
+这里$d$是特征数，本例为2。这个假设意味着：已经知道种类时，再知道花瓣长度，不会改变模型对萼片宽度的分布判断。它没有要求把不同种类混在一起后，两项测量也独立。稍后我们会看，原数据为什么需要比这个假设更灵活的模型。
 
 **Gaussian NB**把每一项测量分别建成一元高斯。类别$c$、特征$j$各有均值$\mu_{c,j}$和方差$\sigma_{c,j}^2$：
 
@@ -436,7 +438,7 @@ model.var_          # 同样形状：方差
 <a id="gaussian-nb-boundary"></a>
 ### Shared variances and boundary shape｜两项测量的边界怎样连起来
 
-刚才算出了一个输入的类别。若把所有可能的输入都代入，哪些位置会使两类打平？把式（2.16）中两类的log分数相减，再展开每一维的平方，就能沿用上一部分的办法：
+刚才算出了一个输入的类别。若把所有可能的输入都代入，哪些位置会使两类打平？给式（2.16）的类条件log密度加上各类的log先验，再把第二类分数减去第一类，展开每一维的平方：
 
 $$
 \begin{aligned}
@@ -557,7 +559,7 @@ $$
 \tag{2.21b}
 $$
 
-这个点沿两个坐标一起增大的方向移动，符合B的正相关趋势，因此B给出的校正距离更小。继续计算另外两项：
+这个点沿两个坐标一起增大的方向移动，符合B的正相关趋势，因此B给出的校正距离更小。用$D^2$表示马氏距离平方，把距离项、宽度项和先验项相加：
 
 | 项目 | A | B |
 |---|---:|---:|
@@ -738,7 +740,7 @@ $$
 
 因此模型选Ham；其模型后验约为0.999987。这个高数值并不使标签变正确。错分说明：词表先决定模型看到了哪些信息，之后的分类器无法利用已经丢掉的广告词。
 
-这是对一个原课错分样本的重算解释，不是新的一轮模型选择；第六部分另列老师保存的整体结果。课程中尝试扩大词表或改变表示时，应通过训练内部的验证来判断是否有帮助。
+这里只重算这一封原课错分邮件；老师保存的整体结果见第六部分。课程中尝试扩大词表或改变表示时，应通过训练内部的验证来判断是否有帮助。
 
 **English takeaway:** BoW fixes the vocabulary; Bernoulli NB models word presence and absence. Smoothing avoids automatic zero estimates. A message can be misclassified when its useful words disappear during vectorization, even if the resulting model probability is high.
 
@@ -893,7 +895,7 @@ g_H&=\log0.5+0.7513\log0.1667+0.2487\log0.2745\\
 \tag{2.35}
 $$
 
-**答案 / Answer：** Spam分数更大；将两个指数分数归一化，Spam约0.6339、Ham约0.3661。 / Select Spam. The normalized model scores are approximately 0.6339 for Spam and 0.3661 for Ham.
+**答案 / Answer：** Spam分数更大。先对两类log分数取指数，再除以两项之和，得到Spam约0.6339、Ham约0.3661。 / Select Spam. The normalized model scores are approximately 0.6339 for Spam and 0.3661 for Ham.
 
 这是分类器对加权特征给出的模型概率输出；其计算可以使用，特征的小数值却不应解释为整数多项式模型中的词次数。来源：Lecture2b，第93–97个单元；[Multinomial NB实现说明](https://scikit-learn.org/stable/modules/naive_bayes.html)。
 
@@ -1009,7 +1011,7 @@ $$
 
 </details>
 
-**Q7：距离不变、先验改变 / Same distances, new priors。** 使用第四部分的$\mathbf x=(1,1)^T$、零均值、$\Sigma_A=I$与$\Sigma_B=\bigl(\begin{smallmatrix}1&0.5\\0.5&1\end{smallmatrix}\bigr)$，将A／B先验改成0.8／0.2。错分代价相同，求完整分数、后验和类别。 / Keep the same point, zero means and covariance matrices, but use priors 0.8/0.2 for A/B. Find the scores, posteriors and class under equal error costs.
+**Q7：距离不变、先验改变 / Same distances, new priors。** 使用第四部分的无量纲点$\mathbf x=(1,1)^T$、零均值、$\Sigma_A=I$与$\Sigma_B=\bigl(\begin{smallmatrix}1&0.5\\0.5&1\end{smallmatrix}\bigr)$，将A／B先验改成0.8／0.2。错分代价相同，按式（2.19）求分类分数（略去共有高斯常数）、后验和类别。 / With dimensionless $\mathbf x=(1,1)^T$, zero means, the above covariances and A/B priors 0.8/0.2, compute scores with the common Gaussian constant omitted, posteriors and class under equal error costs.
 
 <details markdown="1"><summary>Q7答案 / Answer</summary>
 

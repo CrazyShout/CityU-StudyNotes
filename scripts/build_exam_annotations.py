@@ -24,7 +24,7 @@ def build():
  counts={t['id']:stats(t['id']) for t in d['topics']}
  def num(seq):return str(len(seq))+'套' if seq else '未见'
  def qetext(t):return '题段；卷次待定' if counts[t]['qe_fragments'] else '现有材料未见'
- labels={'generative':'反复考查：先分清三个概率','decision':'反复考查：先验与最优性的条件','nb':'反复考查：能完整写出模型','mle':'学习思想有直接题；推导也是基础','boundary':'反复比较：共享方差是否成立','covariance':'基础与后续聚类迁移都要懂','smoothing':'能解释零概率与如何调节','text':'结合设备条件提出具体改进','limits':'用条件或反例拆掉绝对说法','parameter-posterior':'QE延伸；补齐题面后再练完整推导'}
+ labels={'generative':'反复考查：先分清三个概率','decision':'反复考查：先验与最优性的条件','nb':'反复考查：能完整写出模型','mle':'学习思想有直接题；推导也是基础','boundary':'反复比较：共享方差是否成立','covariance':'基础与后续聚类迁移都要懂','smoothing':'能解释零概率与如何调节','text':'结合设备条件提出具体改进','limits':'用假设与反例判断模型局限','parameter-posterior':'QE延伸；补齐题面后再练完整推导'}
  inventory_counts={k:sum(p['countable'] and p['kind']==k for p in papers.values()) for k in ['midterm','final']}
  def paper_order(pid):
   p=papers[pid];return ({'midterm':0,'final':1,'sample':2,'qe':3}[p['kind']],p['year'] or 9999,p['term'] or '',pid)
