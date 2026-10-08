@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-08",
+  "updated": "2026-10-09",
   "books": [
     {
       "file": "CS5489-A4.pdf",
-      "pages": 160,
-      "sha256": "d0606f3b061e2c11a36949afa57f12b1fcab91d983daf72350567b17a3e7496f",
+      "pages": 170,
+      "sha256": "28d95d6c5fde73300f0de545f94f50a3143a3dd6e4990016efca513cc3b4b4ce",
       "documents": [
         {
           "id": "CS5489-Lecture01",
@@ -18,77 +18,84 @@
           "start": 15,
           "group": "CS5489",
           "source": "CS5489/course-notes/Lecture02.md",
-          "end": 39
+          "end": 44
         },
         {
           "id": "CS5489-Lecture03",
-          "start": 40,
+          "start": 45,
           "group": "CS5489",
           "source": "CS5489/course-notes/Lecture03.md",
-          "end": 55
+          "end": 60
         },
         {
           "id": "CS5489-Lecture04",
-          "start": 56,
+          "start": 61,
           "group": "CS5489",
           "source": "CS5489/course-notes/Lecture04.md",
-          "end": 69
+          "end": 74
         },
         {
           "id": "CS5489-Lecture05",
-          "start": 70,
+          "start": 75,
           "group": "CS5489",
           "source": "CS5489/course-notes/Lecture05.md",
-          "end": 79
+          "end": 84
         },
         {
           "id": "CS5489-Tutorial01",
-          "start": 80,
+          "start": 85,
           "group": "CS5489",
           "source": "CS5489/course-notes/Tutorial01.ipynb",
-          "end": 90
+          "end": 95
         },
         {
           "id": "CS5489-Tutorial02",
-          "start": 91,
+          "start": 96,
           "group": "CS5489",
           "source": "CS5489/course-notes/Tutorial02.ipynb",
-          "end": 117
+          "end": 122
         },
         {
           "id": "CS5489-Tutorial03",
-          "start": 118,
+          "start": 123,
           "group": "CS5489",
           "source": "CS5489/course-notes/Tutorial03.ipynb",
-          "end": 132
+          "end": 137
         },
         {
           "id": "CS5489-Tutorial04",
-          "start": 133,
+          "start": 138,
           "group": "CS5489",
           "source": "CS5489/course-notes/Tutorial04.ipynb",
-          "end": 145
+          "end": 150
         },
         {
           "id": "CS5489-Assignment01",
-          "start": 146,
+          "start": 151,
           "group": "CS5489",
           "source": "CS5489/course-notes/Assignment01.md",
-          "end": 154
+          "end": 159
         },
         {
           "id": "CS5489-Assignment02",
-          "start": 155,
+          "start": 160,
           "group": "CS5489",
           "source": "CS5489/course-notes/Assignment02.md",
-          "end": 160
+          "end": 165
+        },
+        {
+          "id": "CS5489-ExamIndex",
+          "start": 166,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/ExamIndex.md",
+          "end": 170
         }
       ]
     },
     {
       "file": "CS5222-A4.pdf",
       "pages": 86,
-      "sha256": "469062a56e0d8b5121d83ebc756c6d6177a598e46b4d1a2aa1f4f7ae8e2436eb",
+      "sha256": "8178b63bc65034fc793fa32c3ea5b7b35ebf271104539f2612e7f692d633cb63",
       "documents": [
         {
           "id": "CS5222-Chapter01",
@@ -165,7 +172,7 @@
     {
       "file": "Foundations-A4.pdf",
       "pages": 43,
-      "sha256": "4f129b2edaada7234d3b22cc9b7dbc6ad8a5b521a32b3203d34d6c14e1527061",
+      "sha256": "86c599f451a738bab62c6fb0f24f82d70b89c84a989edd9bbd30a2db7289604b",
       "documents": [
         {
           "id": "Foundations-MathForML",
