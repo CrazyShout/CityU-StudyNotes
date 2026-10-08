@@ -44,6 +44,8 @@ for book in manifest['books']:
         for ref in page.get('/Annots',[]):
             uri=str(ref.get_object().get('/A',{}).get('/URI',''))
             assert not uri.startswith('file:') and '/Users/' not in uri,(p,uri)
+            if 'github.com/CrazyShout/CityU-StudyNotes/blob/' in uri:
+                assert not urlsplit(uri).path.endswith('.html'),(p,'PDF points to an ignored HTML intermediate',uri)
             if uri.endswith('.pdf') or '.pdf#page=' in uri:
                 parsed=urlsplit(uri)
                 if not parsed.scheme:assert (p.parent/parsed.path).is_file(),uri

@@ -9,6 +9,8 @@ REG=json.loads((C/'learning/course-notes-documents.json').read_text())['document
 GROUPS={'CS5489':[r for r in REG if r['major'] and r['course']=='CS5489'],
         'CS5222':[r for r in REG if r['major'] and r['course']=='CS5222'],
         'Foundations':[r for r in REG if r['course'] is None]}
+# Resolve ignored HTML previews back to their registered, committed author sources.
+AUTHOR_SOURCES={(C/r['source']).with_suffix('.html').resolve():(C/r['source']).resolve() for r in REG}
 # Registry order is shared with local directories and public notes.
 LOOKUP={}
 for group,records in GROUPS.items():
@@ -44,6 +46,7 @@ for group,records in GROUPS.items():
      note.string=f'〔{label} p.{pagen}〕';a.insert_after(note)
    elif u.path:
     if dest.is_relative_to(C):
+     dest=AUTHOR_SOURCES.get(dest,dest)
      a['href']='https://github.com/CrazyShout/CityU-StudyNotes/blob/'+SOURCE_REF+'/'+quote(dest.relative_to(C).as_posix(),safe='/')+('#'+u.fragment if u.fragment else '')
     else:
      a.replace_with(a.get_text())

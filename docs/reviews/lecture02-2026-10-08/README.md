@@ -36,3 +36,5 @@ python CS5489/course-notes/tools/lecture02_examples.py
 正文、双语题答、52个旧锚点、15张表与原件保护检查通过。三册A4共289页，Lecture2在CS5489册第15–39页；19张联系页和三处重点页已查看，表格分隔符问题已修复。记录见[验收摘要](validation.json)及WORKLIST。提交PR供审阅，本轮不合并主分支。
 
 为使PR里的PDF能访问新增计算记录，打印器支持STUDY_NOTES_SOURCE_REF，将仓库资料链接固定到源稿提交；不设置时仍用main。跨册PDF继续使用相对链接。
+
+打印回链还修复了一处已有问题：课程目录的临时README.html映射回可提交的README.md。校验器会拒绝指向未发布HTML中间文件的仓库链接。

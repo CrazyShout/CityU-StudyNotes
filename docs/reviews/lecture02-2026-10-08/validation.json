@@ -3,7 +3,7 @@
   "legacy_anchors_retained": 52,
   "total_anchors": 95,
   "tables_checked": 15,
-  "local_references_checked": 36,
+  "local_references_checked": 37,
   "other_registered_sources_unchanged": 25,
   "protected_source_files_unchanged": 686,
   "main_themes": 6,
@@ -27,7 +27,8 @@
       33
     ],
     "table_pipe_issue": "Fixed and visually rechecked on page 26",
-    "scope": "Rendered PDF, not physical paper printing"
+    "scope": "Rendered PDF, not physical paper printing",
+    "repository_links": "Resolve unprinted directory previews to committed Markdown; source-ref selects the committed review version."
   },
   "reading_preview": {
     "viewport_width": 1280,
