@@ -24,3 +24,5 @@
 构建PDF使用`requirements-build.txt`，不需要Canvas数据，也不执行Notebook。运行实验另安装`requirements-notebooks.txt`并配置`COURSE_DATA_ROOT`，见[数据说明](docs/DATA.md)。不同系统的中文字体可能使分页变化，页码索引由最终PDF计算。
 
 构建失败时先修源稿或依赖，保留上一次已验证PDF。不得用空白输出或假造图表绕过检查。
+
+PR中的PDF若引用此次新增的计算记录，先提交源稿，再以`STUDY_NOTES_SOURCE_REF=<源稿提交SHA> python scripts/build.py`构建。这样PDF的仓库资料链接指向已存在的固定版本，不会提前指向尚未合并的main。跨册PDF链接仍为相对路径；不设置时沿用main。

@@ -1,7 +1,7 @@
 """Build print HTML from the registered, already executed local notes. Never reruns notebooks."""
 from pathlib import Path
 from urllib.parse import urlsplit,unquote,quote
-import importlib.util,json,re,html,copy
+import importlib.util,json,re,html,copy,os
 from bs4 import BeautifulSoup
 from PIL import Image,ImageChops
 C=Path(__file__).resolve().parents[1]; OUT=C/'.build/print';OUT.mkdir(parents=True,exist_ok=True)
@@ -18,6 +18,7 @@ for group,records in GROUPS.items():
 PAGE_MAP=json.loads((OUT/'page-map.json').read_text()) if (OUT/'page-map.json').exists() else {}
 ANCHOR_MAP=json.loads((OUT/'anchor-map.json').read_text()) if (OUT/'anchor-map.json').exists() else {}
 CSS=(C/'scripts/course_print.css').read_text()
+SOURCE_REF=quote(os.environ.get('STUDY_NOTES_SOURCE_REF','main'),safe='/')
 manifest={}
 for group,records in GROUPS.items():
  blocks=[];docs=[]
@@ -43,7 +44,7 @@ for group,records in GROUPS.items():
      note.string=f'〔{label} p.{pagen}〕';a.insert_after(note)
    elif u.path:
     if dest.is_relative_to(C):
-     a['href']='https://github.com/CrazyShout/CityU-StudyNotes/blob/main/'+quote(dest.relative_to(C).as_posix(),safe='/')+('#'+u.fragment if u.fragment else '')
+     a['href']='https://github.com/CrazyShout/CityU-StudyNotes/blob/'+SOURCE_REF+'/'+quote(dest.relative_to(C).as_posix(),safe='/')+('#'+u.fragment if u.fragment else '')
     else:
      a.replace_with(a.get_text())
   for im in body.select('img[src]'):

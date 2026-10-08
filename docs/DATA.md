@@ -23,3 +23,13 @@ python CS5489/course-notes/tools/execute_tutorial.py --notebook Tutorial01.ipynb
 缺文件会明确报错，不能替换成随机数据并沿用旧成绩。原种子、数据划分、标签含义、单位与词表实验条件见每份Notebook。只改文件位置不需要重跑训练；结果解释仍对应原记录的实验。
 
 其他作业附件按各自任务从Canvas取得，作业指南提供方法与接口，不包含个人正式提交文件。
+
+## Lecture 2 图示与算例
+
+重新生成Lecture 2图示与计算记录时，在同一数据根目录下提供`CS5489/Lecture2/Lecture2/iris2.csv`、`Lecture2b.ipynb`及原`email/`子目录。
+
+```sh
+python CS5489/course-notes/tools/lecture02_examples.py
+```
+
+脚本只重算Lecture 2例子和两张图，不执行Tutorial；原Notebook的邮件实验成绩从保存输出读取并标明身份。原文件仍只读，缺少文件时明确报错。仅阅读和构建PDF不需要这些输入。
