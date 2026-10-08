@@ -19,3 +19,7 @@
 
 - [Assignment 1 · SMS Classification](Assignment01.md)
 - [Assignment 2 · Backpropagation and Optimization](Assignment02.md)
+
+## 历史题源索引
+
+[Lecture 2考点与复习顺序](Lecture02.md#exam-review) · [按试卷查Lecture 2题源](ExamIndex.md)。附录位于A4分册的Assignment之后；完整题目与答案另在本地整理，不随仓库发布。

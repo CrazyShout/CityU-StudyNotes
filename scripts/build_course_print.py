@@ -2,11 +2,11 @@
 from pathlib import Path
 from urllib.parse import urlsplit,unquote,quote
 import importlib.util,json,re,html,copy,os
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup,Comment
 from PIL import Image,ImageChops
 C=Path(__file__).resolve().parents[1]; OUT=C/'.build/print';OUT.mkdir(parents=True,exist_ok=True)
 REG=json.loads((C/'learning/course-notes-documents.json').read_text())['documents']
-GROUPS={'CS5489':[r for r in REG if r['major'] and r['course']=='CS5489'],
+GROUPS={'CS5489':[r for r in REG if (r['major'] or r.get('print_appendix')) and r['course']=='CS5489'],
         'CS5222':[r for r in REG if r['major'] and r['course']=='CS5222'],
         'Foundations':[r for r in REG if r['course'] is None]}
 # Resolve ignored HTML previews back to their registered, committed author sources.
@@ -19,7 +19,7 @@ for group,records in GROUPS.items():
   LOOKUP[src]=LOOKUP[src.with_suffix('.html')]={'group':group,'docid':docid,'source':src}
 PAGE_MAP=json.loads((OUT/'page-map.json').read_text()) if (OUT/'page-map.json').exists() else {}
 ANCHOR_MAP=json.loads((OUT/'anchor-map.json').read_text()) if (OUT/'anchor-map.json').exists() else {}
-CSS=(C/'scripts/course_print.css').read_text()
+CSS=(C/'scripts/course_print.css').read_text()+(C/'scripts/exam_markers.css').read_text()
 SOURCE_REF=quote(os.environ.get('STUDY_NOTES_SOURCE_REF','main'),safe='/')
 manifest={}
 for group,records in GROUPS.items():
@@ -27,6 +27,8 @@ for group,records in GROUPS.items():
  for r in records:
   src=C/r['source'];preview=src.with_suffix('.html');docid=LOOKUP[src.resolve()]['docid']
   soup=BeautifulSoup(preview.read_text(),'html.parser');body=soup.main
+  # str(Comment) drops <!-- -->; remove generated source markers before serialization.
+  for comment in list(body.find_all(string=lambda x:isinstance(x,Comment) and str(x).strip().startswith('EXAM:'))):comment.extract()
   for x in body.select('nav,.source-note'):x.decompose()
   title=body.find('h1').get_text(' ',strip=True)
   # Preserve source headings and prefix anchors to make the combined book unambiguous.

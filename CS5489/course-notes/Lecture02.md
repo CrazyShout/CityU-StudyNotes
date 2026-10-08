@@ -3,6 +3,34 @@
 <a id="_1"></a>
 **从花朵测量到邮件分类**
 
+<!-- EXAM:overview:START -->
+<div class="exam-overview" markdown="1">
+<a id="exam-review"></a>
+## Exam focus｜这一讲怎样安排复习
+
+先把生成式模型、Bayes决策和Gaussian NB讲清楚，再练分布假设、边界与模型局限。下面的卷数用于安排练习顺序；它描述手头历史材料，不预测本学期考题。
+
+| 考点 | 本轮复习重点 | 期中 | 期末：直接／关联 | QE记录 | 回到正文 |
+|---|---|---|---|---|---|
+| 生成式模型与概率分工 | 反复考查：先分清三个概率 | 6套 | 未见／未见 | 现有材料未见 | [讲解](#generative) |
+| Bayes决策与先验作用 | 反复考查：先验与最优性的条件 | 6套 | 未见／未见 | 现有材料未见 | [讲解](#bayes-rule) |
+| 条件独立与Gaussian NB | 反复考查：能完整写出模型 | 5套 | 未见／未见 | 现有材料未见 | [讲解](#gaussian-nb) |
+| MLE学习思想 | 学习思想有直接题；推导也是基础 | 2套 | 未见／未见 | 题段；卷次待定 | [讲解](#prior-mle) |
+| 线性与非线性边界 | 反复比较：共享方差是否成立 | 4套 | 未见／1套 | 现有材料未见 | [讲解](#log-scores) |
+| 协方差与高斯形状 | 基础与后续聚类迁移都要懂 | 4套 | 未见／3套 | 现有材料未见 | [讲解](#full-gaussian) |
+| 平滑与正则化 | 能解释零概率与如何调节 | 2套 | 未见／未见 | 现有材料未见 | [讲解](#smoothing) |
+| 文本表示与NB改进 | 结合设备条件提出具体改进 | 1套 | 未见／未见 | 现有材料未见 | [讲解](#bow) |
+| 误差、不确定性与模型局限 | 用条件或反例拆掉绝对说法 | 4套 | 未见／未见 | 现有材料未见 | [讲解](#comparison) |
+| 参数后验与MAP（QE延伸） | QE延伸；补齐题面后再练完整推导 | 未见 | 未见／未见 | 题段；卷次待定 | [讲解](#prior-mle) |
+
+**统计口径：** 已辨识6套期中、3套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。
+
+**标记：** <span class="exam-mark"><span class="exam-wave wave-mid"></span>绿色＝期中</span>　<span class="exam-mark"><span class="exam-wave wave-final"></span>黄色＝期末</span>　<span class="exam-mark"><span class="exam-wave wave-qe"></span>红色＝QE</span>。多类证据分层画线，文字同时说明类别；黑白打印看文字即可。
+
+题号与出处见[讲末考点索引](#exam-topic-index)；按试卷查阅见[全册附录](ExamIndex.md)。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
+</div>
+<!-- EXAM:overview:END -->
+
 <a id="_2"></a>
 <a id="intro"></a>
 老师给出两个任务：根据花瓣长度和萼片宽度辨认鸢尾花；根据邮件内容判断是不是垃圾邮件。它们的输入不同，却可以用同一条思路处理：**先从已知类别的记录中学出各类的特征，再判断新记录更符合哪一类。**
@@ -49,6 +77,10 @@ $x_1$、$x_2$依次表示上述两个长度，单位都是厘米；上标$T$表�
 <a id="generative"></a>
 ### Prior and class-conditional distribution｜分别描述类别和测量
 
+<!-- EXAM:focus-generative:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：生成式模型与概率分工</span><br>期中：6套。</p>
+<!-- EXAM:focus-generative:END -->
+
 设想从植物园随机挑一朵花。在尚未测量时，我们可以先问“哪种花本来更多”；知道种类后，则可以问“这种花通常有多长”。这正好是模型的两部分：
 
 - **Prior probability（先验概率）** $p(y=c)$：还没看当前测量，类别$c$出现的比例。
@@ -75,6 +107,10 @@ $$
 <a id="3-learn-from-our-data"></a>
 <a id="prior-mle"></a>
 ### Maximum likelihood estimation｜从记录估计类别比例
+
+<!-- EXAM:focus-prior-mle:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-qe"></span>考点：MLE学习思想</span><br>期中：2套；QE题段，年份未载／卷次待定。QE另问参数后验和MAP，不能当作类别决策题。</p>
+<!-- EXAM:focus-prior-mle:END -->
 
 假设10条已知标签中，4条是类1、6条是类2，直觉上会估计类1比例为0.4。**Maximum likelihood estimation，MLE（最大似然估计）**说明这个直觉怎样变成一个优化问题。
 
@@ -209,6 +245,10 @@ $$
 <a id="bayes-rule"></a>
 ## 3. Bayesian decision｜给一朵新花作判断
 
+<!-- EXAM:focus-bayes-rule:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Bayes决策与先验作用</span><br>期中：6套。</p>
+<!-- EXAM:focus-bayes-rule:END -->
+
 ### From a measurement to a posterior｜把5厘米代进模型
 
 现在假设来了一朵花瓣长5 cm的新花。这是教学输入，先不使用第二项测量。上一部分已经给出两类的参数和相等先验，我们可以直接计算。
@@ -263,6 +303,10 @@ $$
 <a id="log-scores"></a>
 ### Comparing log scores｜很多小数相乘时怎样算得稳
 
+<!-- EXAM:focus-log-scores:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：线性与非线性边界</span><br>期中：4套；期末关联：1套。</p>
+<!-- EXAM:focus-log-scores:END -->
+
 只想选类别时，可以省掉共同分母；再对正分数取log，大小顺序也不变：
 
 $$
@@ -283,6 +327,10 @@ $$
 <a id="8-naive-bayes-classifier-learn-gaussian-nb-model"></a>
 <a id="gaussian-nb"></a>
 ## 4. Multiple features｜同时使用两项测量
+
+<!-- EXAM:focus-gaussian-nb:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：条件独立与Gaussian NB</span><br>期中：5套。</p>
+<!-- EXAM:focus-gaussian-nb:END -->
 
 ### Gaussian Naive Bayes｜先分别看两项测量
 
@@ -347,6 +395,10 @@ model.var_          # 同样形状：方差
 <a id="10-naive-bayes-assumption-multivariate-gaussian"></a>
 <a id="full-gaussian"></a>
 ### Full covariance｜两项测量会一起变化时
+
+<!-- EXAM:focus-full-gaussian:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：协方差与高斯形状</span><br>期中：4套；期末关联：3套。</p>
+<!-- EXAM:focus-full-gaussian:END -->
 
 再看同一种花的记录。若花瓣较长的花往往也有较宽的萼片，仅仅分别描述“花瓣通常多长”“萼片通常多宽”还不够；我们需要描述它们**怎样搭配**。
 
@@ -469,6 +521,10 @@ $\alpha$与方差有相同单位。厘米换成毫米，方差会放大100倍；
 <a id="bow"></a>
 ## 5. Evidence from words｜把邮件变成分类证据
 
+<!-- EXAM:focus-bow:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：文本表示与NB改进</span><br>期中：1套。</p>
+<!-- EXAM:focus-bow:END -->
+
 ### Bag-of-words｜给文字安排固定的位置
 
 现在回到垃圾邮件任务。花朵可以直接测量，邮件却是一串文字。**Bag-of-words，BoW（词袋）**先固定词表，每一列对应一个词，然后数它在文档里出现多少次。
@@ -532,6 +588,10 @@ $$
 <a id="15-smoothing"></a>
 <a id="smoothing"></a>
 ### Additive smoothing｜没有见过，不等于绝不可能
+
+<!-- EXAM:focus-smoothing:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：平滑与正则化</span><br>期中：2套。</p>
+<!-- EXAM:focus-smoothing:END -->
 
 训练集中某类没有出现过free，只能说明有限记录里没见到。加法平滑给“出现”和“未出现”各加$\alpha$份虚拟计数：
 
@@ -786,6 +846,10 @@ $$
 <a id="comparison"></a>
 ## Review｜把整讲串起来
 
+<!-- EXAM:focus-comparison:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：误差、不确定性与模型局限</span><br>期中：4套。</p>
+<!-- EXAM:focus-comparison:END -->
+
 整讲不断重复同一个过程：**按类估计特征分布 → 对新输入计算各类分数 → 结合先验 → 比较类别或报告归一化结果。**
 
 | 模型 | 输入 | 各类学什么 | 对特征的主要假设 |
@@ -916,6 +980,154 @@ TF-IDF的平滑IDF与NB的alpha作用不同：前者调整跨文档的词权重�
 | 条件高斯证明、共享协方差LDA推导 | 二读拓展 | 高：矩阵代数 | 当前先认出假设区别 |
 
 当前Tutorial 2要求文本模型比较与另一类条件分布实现，Assignment 1要求运用分类流程。历史作业`Home_Assignments_1.pdf`涉及换分布推MLE、LDA和条件高斯证明；2024/25东莞的`sample_final_questions.docx`是样题，可辅助练英文解释，不能作为香港本学期高频题统计。年份、身份和去重说明集中在[共用来源说明](../../learning/foundation-notes/SourceEvidence.md)。
+
+<!-- EXAM:topics:START -->
+<a id="exam-topic-index"></a>
+## Historical exam map｜按考点查题源
+
+各行保留原题号与原材料页码。同一卷在本表不同考点下出现，不会让该考点的卷数重复增加。材料文件、配套答案与版本差异见[按卷附录](ExamIndex.md)。
+
+<div class="exam-topic-unit" markdown="1">
+### 生成式模型与概率分工
+
+解释先验、类条件与后验各自描述什么。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2020B期中Quiz · 直接 | Q5 | 3 | 解释／辨错 |
+| 2021A期中 · 直接 | Q1、Q2、Q8 | 2、3 | 比较／辨错、解释／辨错、比较 |
+| 2021B*期中 · 直接 | Q6、Q7 | 3 | 解释／辨错、比较／解释 |
+| 2023A期中 · 直接 | Q1、Q7(a–c) | 2、4 | 解释／辨错、解释／写模型 |
+| 2023B期中 · 直接 | Q1、Q2、Q8 | 2、5 | 解释／辨错、辨错、比较／计数 |
+| 2025A期中 · 直接 | Q1、Q11(a–c) | 2、8 | 解释／辨错、解释／写模型 |
+| Mock Exam（复用2023A题面） · 模拟 | Q1、Q7(a–c) | 1、3 | 解释／辨错、解释／写模型 |
+| Question Samples（年份未载） · 模拟 | Q1 | 2 | 解释／辨错 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### Bayes决策与先验作用
+
+说明为何比较后验，何时可省共同分母。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2020B期中Quiz · 直接 | Q5 | 3 | 解释／辨错 |
+| 2021A期中 · 直接 | Q2 | 2 | 解释／辨错 |
+| 2021B*期中 · 直接 | Q6、Q8 | 3 | 解释／辨错、解释／反例 |
+| 2023A期中 · 直接 | Q1、Q7(a–c) | 2、4 | 解释／辨错、解释／写模型 |
+| 2023B期中 · 直接 | Q1 | 2 | 解释／辨错 |
+| 2025A期中 · 直接 | Q1、Q11(a–c) | 2、8 | 解释／辨错、解释／写模型 |
+| Mock Exam（复用2023A题面） · 模拟 | Q1、Q7(a–c) | 1、3 | 解释／辨错、解释／写模型 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 条件独立与Gaussian NB
+
+用英文讲出假设、分布形式和预测步骤。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2021A期中 · 直接 | Q2 | 2 | 解释／辨错 |
+| 2021B*期中 · 直接 | Q1 | 2 | 辨错 |
+| 2023A期中 · 直接 | Q1、Q7(a–c) | 2、4 | 解释／辨错、解释／写模型 |
+| 2023B期中 · 直接 | Q8 | 5 | 比较／计数 |
+| 2025A期中 · 直接 | Q1、Q11(a–c) | 2、8 | 解释／辨错、解释／写模型 |
+| Mock Exam（复用2023A题面） · 模拟 | Q1、Q7(a–c) | 1、3 | 解释／辨错、解释／写模型 |
+| Question Samples（年份未载） · 模拟 | Q1 | 2 | 解释／辨错 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### MLE学习思想
+
+区分拟合类条件模型与拟合标签条件概率。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2020B期中Quiz · 直接 | Q5 | 3 | 解释／辨错 |
+| 2023B期中 · 直接 | Q8 | 5 | 比较／计数 |
+| CS5489 QE整理片段（年份未载） · 残题 | (a.1)–(a.7) | PDF9（原印6/9） | 推导（条件未齐） |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 线性与非线性边界
+
+根据分布和共享方差条件判断边界。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2020B期中Quiz · 直接 | Q5 | 3 | 解释／辨错 |
+| 2021A期中 · 直接 | Q2、Q4、Q8 | 2、3 | 解释／辨错、比较／辨错、比较 |
+| 2021B*期中 · 直接 | Q6 | 3 | 解释／辨错 |
+| 2023B期中 · 直接 | Q8 | 5 | 比较／计数 |
+| 2020B期末 · 关联选做 | Q8 | 3 | 读图／解释 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 协方差与高斯形状
+
+从矩阵解释椭圆方向、宽度与距离。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2021A期中 · 直接 | Q2 | 2 | 解释／辨错 |
+| 2023A期中 · 直接 | Q7(a–c) | 4 | 解释／写模型 |
+| 2023B期中 · 直接 | Q8 | 5 | 比较／计数 |
+| 2025A期中 · 直接 | Q11(a–c) | 8 | 解释／写模型 |
+| 2020B期末 · 关联选做 | Q2、Q8 | 2、3 | 解释／辨错、读图／解释 |
+| 2021A期末 · 关联选做 | Q1、Q7 | 2、3 | 解释／辨错、解释／反例 |
+| 2021B期末 · 关联选做 | Q3、Q8 | 2、3 | 解释／辨错、读图／方法选择 |
+| Mock Exam（复用2023A题面） · 模拟 | Q7(a–c) | 3 | 解释／写模型 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 平滑与正则化
+
+解释虚拟计数、零概率和调参。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2020B期中Quiz · 直接 | Q5 | 3 | 解释／辨错 |
+| 2023B期中 · 直接 | Q7 | 4 | 应用／方案选择 |
+| Question Samples（年份未载） · 模拟 | Q7 | 3 | 应用／方案选择 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 文本表示与NB改进
+
+说明词袋、分布、词表与TF-IDF的取舍。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2023B期中 · 直接 | Q7 | 4 | 应用／方案选择 |
+| Question Samples（年份未载） · 模拟 | Q7 | 3 | 应用／方案选择 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 误差、不确定性与模型局限
+
+解释分布重叠、假设失配与过拟合。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| 2020B期中Quiz · 直接 | Q5 | 3 | 解释／辨错 |
+| 2021A期中 · 直接 | Q2 | 2 | 解释／辨错 |
+| 2021B*期中 · 直接 | Q6、Q8 | 3 | 解释／辨错、解释／反例 |
+| 2023B期中 · 直接 | Q1 | 2 | 解释／辨错 |
+| Question Samples（年份未载） · 模拟 | Q1 | 2 | 解释／辨错 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 参数后验与MAP（QE延伸）
+
+分清参数后验和类别后验；残题只练方法。
+
+| 考试类型与学期 | 原题号 | 原材料页 | 要求 |
+|---|---|---|---|
+| CS5489 QE整理片段（年份未载） · 残题 | (a.1)–(a.7) | PDF9（原印6/9） | 推导（条件未齐） |
+
+此题问的是参数后验与MAP，缺少前页模型和先验。当前只能核对通用步骤，不能据此登记某一分布的完整MLE推导已考过。
+</div>
+<!-- EXAM:topics:END -->
 
 <a id="23"></a>
 <a id="coverage"></a>
