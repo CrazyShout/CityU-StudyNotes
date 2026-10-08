@@ -1,0 +1,425 @@
+{
+  "source_hashes": {
+    "iris2.csv": "10e8b9d87e67610abaa12207c9e11f5a9d03a72f67efaf92d927f0a0aa554434",
+    "Lecture2b.ipynb": "32132b01adfa64b12615ba751bf1f3ca6824339393d014cd5b38dbc56905ab12"
+  },
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "iris_1d": {
+    "means": [
+      4.26,
+      5.5520000000000005
+    ],
+    "std_mle": [
+      0.4651881339845203,
+      0.546347874526844
+    ],
+    "priors": [
+      0.5,
+      0.5
+    ],
+    "new_length_cm": 5.0,
+    "densities_per_cm": [
+      0.24198616954658445,
+      0.4383060101536675
+    ],
+    "unnormalized_scores": [
+      0.12099308477329222,
+      0.21915300507683375
+    ],
+    "posterior": [
+      0.3557091743333101,
+      0.6442908256666899
+    ]
+  },
+  "iris_2d": {
+    "mean": [
+      [
+        4.268421052631578,
+        2.6578947368421053
+      ],
+      [
+        5.577419354838708,
+        2.9645161290322584
+      ]
+    ],
+    "variance": [
+      [
+        0.1442659285730394,
+        0.0992797789885518
+      ],
+      [
+        0.22045785699478374,
+        0.0777731535608608
+      ]
+    ],
+    "priors": [
+      0.38,
+      0.62
+    ],
+    "probe_cm": [
+      5.0,
+      3.0
+    ],
+    "marginal_densities": [
+      [
+        0.16433886001993206,
+        0.7022561392564635
+      ],
+      [
+        0.3988788683717102,
+        1.418991243261061
+      ]
+    ],
+    "posterior": [
+      0.11108768132241546,
+      0.8889123186775846
+    ],
+    "nb_correct": 42,
+    "full_correct": 45,
+    "n_test": 50,
+    "error_A": {
+      "test_index_zero_based": 9,
+      "data_row_zero_based": 0,
+      "features_cm": [
+        4.7,
+        3.2
+      ],
+      "true_label": 1,
+      "predicted_label": 2,
+      "posterior": [
+        0.39588730097091196,
+        0.604112699029088
+      ]
+    }
+  },
+  "covariance_bridge": {
+    "distance_squared": [
+      2.0,
+      1.3333333333333335
+    ],
+    "determinants": [
+      1.0,
+      0.75
+    ],
+    "base_scores": [
+      -1.0,
+      -0.5228256304407763
+    ],
+    "equal": {
+      "priors": [
+        0.5,
+        0.5
+      ],
+      "scores_without_common_constant": [
+        -1.6931471805599454,
+        -1.2159728110007215
+      ],
+      "posterior": [
+        0.38291957833802925,
+        0.6170804216619707
+      ]
+    },
+    "changed": {
+      "priors": [
+        0.8,
+        0.2
+      ],
+      "scores_without_common_constant": [
+        -1.2231435513142097,
+        -2.1322635428748766
+      ],
+      "posterior": [
+        0.712820052057671,
+        0.2871799479423291
+      ]
+    }
+  },
+  "text_toy": {
+    "vocabulary": [
+      "free",
+      "offer",
+      "meeting",
+      "today"
+    ],
+    "documents": [
+      "free free offer today",
+      "free today",
+      "meeting meeting today",
+      "meeting today"
+    ],
+    "labels_spam1_ham0": [
+      1,
+      1,
+      0,
+      0
+    ],
+    "counts": [
+      [
+        2,
+        1,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        2,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        1
+      ]
+    ],
+    "document_frequency": [
+      2,
+      1,
+      2,
+      4
+    ],
+    "tf": [
+      [
+        0.5,
+        0.25,
+        0.0,
+        0.25
+      ],
+      [
+        0.5,
+        0.0,
+        0.0,
+        0.5
+      ],
+      [
+        0.0,
+        0.0,
+        0.6666666666666666,
+        0.3333333333333333
+      ],
+      [
+        0.0,
+        0.0,
+        0.5,
+        0.5
+      ]
+    ],
+    "idf_simple": [
+      0.6931471805599453,
+      1.3862943611198906,
+      0.6931471805599453,
+      0.0
+    ],
+    "conceptual_tfidf": [
+      [
+        0.34657359027997264,
+        0.34657359027997264,
+        0.0,
+        0.0
+      ],
+      [
+        0.34657359027997264,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.46209812037329684,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.34657359027997264,
+        0.0
+      ]
+    ],
+    "idf_smoothed": [
+      1.5108256237659907,
+      1.916290731874155,
+      1.5108256237659907,
+      1.0
+    ],
+    "tfidf_l1": [
+      [
+        0.5088718040714473,
+        0.32271967939737367,
+        0.0,
+        0.16840851653117897
+      ],
+      [
+        0.6017246317169177,
+        0.0,
+        0.0,
+        0.3982753682830824
+      ],
+      [
+        0.0,
+        0.0,
+        0.7513459177710443,
+        0.24865408222895583
+      ],
+      [
+        0.0,
+        0.0,
+        0.6017246317169177,
+        0.3982753682830824
+      ]
+    ],
+    "class_weight_ham_spam": [
+      [
+        0.0,
+        0.0,
+        1.353070549487962,
+        0.6469294505120382
+      ],
+      [
+        1.110596435788365,
+        0.32271967939737367,
+        0.0,
+        0.5666838848142614
+      ]
+    ],
+    "smoothed_theta_ham_spam": [
+      [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.3921784249146603,
+        0.27448824175200637
+      ],
+      [
+        0.3517660726313942,
+        0.2204532798995623,
+        0.16666666666666666,
+        0.26111398080237685
+      ]
+    ],
+    "alpha": 1,
+    "predictions": {
+      "free free today": {
+        "counts": [
+          2,
+          0,
+          0,
+          1
+        ],
+        "tfidf_l1": [
+          0.7513459177710443,
+          0.0,
+          0.0,
+          0.24865408222895583
+        ],
+        "logjoint_ham_spam": [
+          -2.3608499913602694,
+          -1.8120373172093749
+        ],
+        "posterior_ham_spam": [
+          0.36613992150767755,
+          0.6338600784923224
+        ]
+      },
+      "meeting today today": {
+        "counts": [
+          0,
+          0,
+          1,
+          2
+        ],
+        "tfidf_l1": [
+          0.0,
+          0.0,
+          0.4303334274247888,
+          0.5696665725752112
+        ],
+        "logjoint_ham_spam": [
+          -1.8324474198382013,
+          -2.2291484559003223
+        ],
+        "posterior_ham_spam": [
+          0.5978947911636493,
+          0.40210520883635087
+        ]
+      }
+    }
+  },
+  "mail_case": {
+    "identity": "Original Lecture2b test record 12 (zero-based), watches advertisement",
+    "source_file": "email/spam/11.txt",
+    "source_sha256": "38c5004640d01ba1316cc16d8448aaff981bbccb801e776cceab2357892d28a9",
+    "excerpt": "Get Up to 75% OFF at Online WatchesStore",
+    "true_class": "spam",
+    "model": "Recomputed BernoulliNB alpha=0.1, instructor seed=11, max_features=100",
+    "present_vocabulary_terms": [],
+    "log_prior_ratio_spam_over_ham": 0.24116205681688774,
+    "present_log_ratio_sum": 0.0,
+    "absent_log_ratio_sum": -11.523081241697135,
+    "logjoint_ham_spam": [
+      -5.890424598322099,
+      -17.172343783202344
+    ],
+    "posterior_ham_spam": [
+      0.9999874014872093,
+      1.2598512790510423e-05
+    ],
+    "class_order": [
+      "ham",
+      "spam"
+    ]
+  },
+  "instructor_saved_outputs": {
+    "note": "Read from saved outputs, not new experiment scores",
+    "accuracy_by_cell": {
+      "78": 0.64,
+      "82": 0.72,
+      "95": 0.68
+    }
+  },
+  "independent_bayes": {
+    "priors": [
+      0.2,
+      0.8
+    ],
+    "scores": [
+      0.04839723390931689,
+      0.350644808122934
+    ],
+    "posterior": [
+      0.1212835461217026,
+      0.8787164538782974
+    ]
+  },
+  "existing_examples": {
+    "bernoulli_smoothed_parameters_spam_ham": [
+      [
+        0.6,
+        0.4
+      ],
+      [
+        0.2,
+        0.6
+      ]
+    ],
+    "bernoulli_conditional_scores_spam_ham": [
+      0.36,
+      0.08000000000000002
+    ],
+    "bernoulli_spam_posterior": 0.8181818181818181,
+    "multinomial_spam_posterior": 0.9245283018867925
+  },
+  "checks": "Manual formulas agree with independent NumPy/SciPy/scikit-learn paths; no tutorial execution."
+}

@@ -1,0 +1,168 @@
+{
+  "status": "passed",
+  "legacy_anchors_retained": 52,
+  "total_anchors": 95,
+  "tables_checked": 15,
+  "local_references_checked": 37,
+  "other_registered_sources_unchanged": 25,
+  "protected_source_files_unchanged": 686,
+  "main_themes": 6,
+  "bilingual_independent_exercises": 3,
+  "coverage": "Lecture2a 1–49; Lecture2b 1–100 mapped in source index",
+  "notebooks": "All four files byte-identical, including code and outputs.",
+  "pdf": {
+    "pages": {
+      "CS5489": 160,
+      "CS5222": 86,
+      "Foundations": 43
+    },
+    "lecture02_pages": [
+      15,
+      39
+    ],
+    "contact_sheets_reviewed": 19,
+    "enlarged_CS5489_pages": [
+      19,
+      26,
+      33
+    ],
+    "table_pipe_issue": "Fixed and visually rechecked on page 26",
+    "scope": "Rendered PDF, not physical paper printing",
+    "repository_links": "Resolve unprinted directory previews to committed Markdown; source-ref selects the committed review version."
+  },
+  "reading_preview": {
+    "viewport_width": 1280,
+    "broken_images": 0,
+    "math_errors": 0,
+    "body_overflow": false,
+    "math_blocks_after_table_fix": 198,
+    "Q8_answer_toggle": "opened and read in browser",
+    "legacy_anchor_check": "52 preserved, 0 duplicates"
+  },
+  "numerical": "Independent formulas agree with SciPy/sklearn; saved instructor overall mail scores are separate from recomputed single-mail explanation.",
+  "boundaries": "Tutorial/Assignment source and all saved outputs unchanged; no card, Markji or website changes.",
+  "layout_followup": {
+    "unchanged_other_registered_documents": 25,
+    "unchanged_legacy_source_anchors": 53,
+    "prose_and_inline_formulas_unchanged": true,
+    "calculations_json_byte_identical": true,
+    "original_photos_and_shared_covariance_unchanged": true,
+    "pdf": [
+      {
+        "book": "CS5489",
+        "pages": 160,
+        "verified_heading_aliases": 15
+      },
+      {
+        "book": "CS5222",
+        "pages": 86,
+        "verified_heading_aliases": 7
+      },
+      {
+        "book": "Foundations",
+        "pages": 43,
+        "verified_heading_aliases": 15
+      }
+    ],
+    "raster_comparison": {
+      "total": 289,
+      "identical": 244,
+      "changed": [
+        "CS5222-08",
+        "CS5222-25",
+        "CS5222-31",
+        "CS5222-42",
+        "CS5489-002",
+        "CS5489-015",
+        "CS5489-016",
+        "CS5489-017",
+        "CS5489-018",
+        "CS5489-019",
+        "CS5489-020",
+        "CS5489-021",
+        "CS5489-022",
+        "CS5489-023",
+        "CS5489-024",
+        "CS5489-025",
+        "CS5489-026",
+        "CS5489-027",
+        "CS5489-028",
+        "CS5489-029",
+        "CS5489-030",
+        "CS5489-031",
+        "CS5489-032",
+        "CS5489-033",
+        "CS5489-034",
+        "CS5489-035",
+        "CS5489-036",
+        "CS5489-037",
+        "CS5489-038",
+        "CS5489-039",
+        "CS5489-071",
+        "CS5489-118",
+        "Foundations-02",
+        "Foundations-04",
+        "Foundations-06",
+        "Foundations-08",
+        "Foundations-10",
+        "Foundations-13",
+        "Foundations-14",
+        "Foundations-19",
+        "Foundations-21",
+        "Foundations-28",
+        "Foundations-29",
+        "Foundations-40",
+        "Foundations-41"
+      ]
+    },
+    "changed_outside_lecture02": [
+      "CS5222-08",
+      "CS5222-25",
+      "CS5222-31",
+      "CS5222-42",
+      "CS5489-002",
+      "CS5489-071",
+      "CS5489-118",
+      "Foundations-02",
+      "Foundations-04",
+      "Foundations-06",
+      "Foundations-08",
+      "Foundations-10",
+      "Foundations-13",
+      "Foundations-14",
+      "Foundations-19",
+      "Foundations-21",
+      "Foundations-28",
+      "Foundations-29",
+      "Foundations-40",
+      "Foundations-41"
+    ],
+    "display_equations_numbered": 36,
+    "long_equations_aligned": 9,
+    "formula_scaling_needed": false,
+    "lecture02_pages": [
+      15,
+      39
+    ],
+    "visual_review": "All 25 revised pages plus boundaries, and the 20 other pages with printed page-reference changes. The remaining 244 pages are pixel-identical to baseline.",
+    "physical_print_test": false
+  },
+  "formula_composition_followup": {
+    "status": "passed",
+    "equations_changed": [
+      "2.6",
+      "2.21"
+    ],
+    "printed_labels": [
+      "2.6",
+      "2.21a",
+      "2.21b"
+    ],
+    "changed_pages": [
+      17,
+      25
+    ],
+    "other_pages_pixel_identical": 287,
+    "evidence": "formula-composition.json"
+  }
+}
