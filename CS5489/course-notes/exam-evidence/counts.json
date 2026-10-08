@@ -1,0 +1,141 @@
+{
+  "generative": {
+    "midterm": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK",
+      "SAMPLE"
+    ]
+  },
+  "decision": {
+    "midterm": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  },
+  "nb": {
+    "midterm": [
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK",
+      "SAMPLE"
+    ]
+  },
+  "mle": {
+    "midterm": [
+      "M20B",
+      "M23B"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [
+      "QE-U"
+    ],
+    "samples": []
+  },
+  "boundary": {
+    "midterm": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23B"
+    ],
+    "final_direct": [],
+    "final_related": [
+      "F20B"
+    ],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "covariance": {
+    "midterm": [
+      "M21A",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "final_direct": [],
+    "final_related": [
+      "F20B",
+      "F21A",
+      "F21B"
+    ],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  },
+  "smoothing": {
+    "midterm": [
+      "M20B",
+      "M23B"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "SAMPLE"
+    ]
+  },
+  "text": {
+    "midterm": [
+      "M23B"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "SAMPLE"
+    ]
+  },
+  "limits": {
+    "midterm": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23B"
+    ],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "SAMPLE"
+    ]
+  },
+  "parameter-posterior": {
+    "midterm": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [
+      "QE-U"
+    ],
+    "samples": []
+  }
+}

@@ -6,6 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--node',default='node');p.add_argument('--finalize-python',default=sys.executable);args=p.parse_args()
 run=ROOT/'.build/reports';run.mkdir(parents=True,exist_ok=True)
 def call(*cmd):subprocess.run([str(x) for x in cmd],cwd=ROOT,check=True)
+call(sys.executable,ROOT/'scripts/build_exam_annotations.py','--check')
 call(sys.executable,ROOT/'CS5489/course-notes/tools/build_previews.py')
 for iteration in range(5):
     paths=[ROOT/'.build/print'/f for f in ['page-map.json','anchor-map.json']]

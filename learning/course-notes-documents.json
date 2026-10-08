@@ -56,6 +56,12 @@
       "major": true
     },
     {
+      "source": "CS5489/course-notes/ExamIndex.md",
+      "course": "CS5489",
+      "major": false,
+      "print_appendix": true
+    },
+    {
       "source": "CS5489/course-notes/README.md",
       "course": "CS5489",
       "major": false
@@ -133,5 +139,5 @@
   ],
   "major_documents": 21,
   "scope": "Current downloaded Canvas; collaborative Markdown and Notebook sources with A4 PDFs; no hosted HTML",
-  "updated": "2026-10-08"
+  "updated": "2026-10-09"
 }

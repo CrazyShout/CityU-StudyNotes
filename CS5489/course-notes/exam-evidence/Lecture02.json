@@ -1,0 +1,938 @@
+{
+  "version": 1,
+  "updated": "2026-10-09",
+  "scope": "Lecture 2 only",
+  "count_unit": "distinct identifiable exam paper per topic; not question count",
+  "papers": [
+    {
+      "id": "M20B",
+      "label": "2020B期中Quiz",
+      "kind": "midterm",
+      "year": 2020,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S013",
+        "S038"
+      ],
+      "answer_source_ids": [
+        "S013",
+        "S038"
+      ],
+      "description": "封面为Semester B 2020；说明提交到Midterm Assignment。"
+    },
+    {
+      "id": "M21A",
+      "label": "2021A期中",
+      "kind": "midterm",
+      "year": 2021,
+      "term": "A",
+      "countable": true,
+      "source_ids": [
+        "S012",
+        "S019"
+      ],
+      "answer_source_ids": [
+        "S018",
+        "S037"
+      ],
+      "description": "两版PDF题面相同；答案PDF与DOCX配对为一套卷。"
+    },
+    {
+      "id": "M21B",
+      "label": "2021B*期中",
+      "kind": "midterm",
+      "year": 2021,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S010",
+        "S036"
+      ],
+      "answer_source_ids": [
+        "S009",
+        "S039"
+      ],
+      "description": "题纸封面写2020B；题内答案文件名和配套答案封面指向2021B。按配套材料归为2021B，并保留星号，不另算一套2020卷。",
+      "year_status": "resolved_from_paired_answer_with_cover_conflict"
+    },
+    {
+      "id": "M23A",
+      "label": "2023A期中",
+      "kind": "midterm",
+      "year": 2023,
+      "term": "A",
+      "countable": true,
+      "source_ids": [
+        "S015"
+      ],
+      "answer_source_ids": [
+        "S015"
+      ],
+      "description": "10页，含随卷答案。"
+    },
+    {
+      "id": "M23B",
+      "label": "2023B期中",
+      "kind": "midterm",
+      "year": 2023,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S016"
+      ],
+      "answer_source_ids": [
+        "S016"
+      ],
+      "description": "10页，含随卷答案。"
+    },
+    {
+      "id": "M25A",
+      "label": "2025A期中",
+      "kind": "midterm",
+      "year": 2025,
+      "term": "A",
+      "countable": true,
+      "source_ids": [
+        "S030"
+      ],
+      "answer_source_ids": [],
+      "description": "带学生批注的10页扫描卷；封面明确2025A。手写答案与批改不作为官方答案发布。"
+    },
+    {
+      "id": "F20B",
+      "label": "2020B期末",
+      "kind": "final",
+      "year": 2020,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S003"
+      ],
+      "answer_source_ids": [
+        "S002"
+      ],
+      "description": "题卷4页；本轮相关题属于聚类中的高斯与协方差迁移。"
+    },
+    {
+      "id": "F21A",
+      "label": "2021A期末",
+      "kind": "final",
+      "year": 2021,
+      "term": "A",
+      "countable": true,
+      "source_ids": [
+        "S007"
+      ],
+      "answer_source_ids": [
+        "S006"
+      ],
+      "description": "题卷4页；本轮相关题属于聚类中的协方差与分配机制。"
+    },
+    {
+      "id": "F21B",
+      "label": "2021B期末",
+      "kind": "final",
+      "year": 2021,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S005"
+      ],
+      "answer_source_ids": [
+        "S004"
+      ],
+      "description": "题卷5页；本轮相关题属于聚类形状与高斯模型应用。"
+    },
+    {
+      "id": "SAMPLE",
+      "label": "Question Samples（年份未载）",
+      "kind": "sample",
+      "year": null,
+      "term": null,
+      "countable": false,
+      "source_ids": [
+        "S014"
+      ],
+      "answer_source_ids": [
+        "S014"
+      ],
+      "description": "4页样题，原题号为Q1、Q2、Q7、Q4；保留原编号，不按版面重排成新题号。"
+    },
+    {
+      "id": "MOCK",
+      "label": "Mock Exam（复用2023A题面）",
+      "kind": "sample",
+      "year": null,
+      "term": null,
+      "countable": false,
+      "source_ids": [
+        "S017"
+      ],
+      "answer_source_ids": [
+        "S017"
+      ],
+      "description": "模拟卷题面与2023A去封面后的题目对应，不增加真题卷数。另有未载年份的同题扫描副本，不能用扫描日期推定年份。",
+      "duplicate_of": "M23A"
+    },
+    {
+      "id": "QE-U",
+      "label": "CS5489 QE整理片段（年份未载）",
+      "kind": "qe",
+      "year": null,
+      "term": null,
+      "countable": false,
+      "source_ids": [
+        "S020"
+      ],
+      "answer_source_ids": [],
+      "description": "使用者提供的CS5489 QE整理片段；第9页保留MLE/MAP七小问，缺前页模型与先验定义、封面和年份。独立卷次待定。",
+      "year_status": "unknown",
+      "missing": [
+        "年份与封面",
+        "第9页(a)题的前页模型和先验定义"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "generative",
+      "title": "生成式模型与概率分工",
+      "anchor": "generative",
+      "skill": "解释先验、类条件与后验各自描述什么"
+    },
+    {
+      "id": "decision",
+      "title": "Bayes决策与先验作用",
+      "anchor": "bayes-rule",
+      "skill": "说明为何比较后验，何时可省共同分母"
+    },
+    {
+      "id": "nb",
+      "title": "条件独立与Gaussian NB",
+      "anchor": "gaussian-nb",
+      "skill": "用英文讲出假设、分布形式和预测步骤"
+    },
+    {
+      "id": "mle",
+      "title": "MLE学习思想",
+      "anchor": "prior-mle",
+      "skill": "区分拟合类条件模型与拟合标签条件概率"
+    },
+    {
+      "id": "boundary",
+      "title": "线性与非线性边界",
+      "anchor": "log-scores",
+      "skill": "根据分布和共享方差条件判断边界"
+    },
+    {
+      "id": "covariance",
+      "title": "协方差与高斯形状",
+      "anchor": "full-gaussian",
+      "skill": "从矩阵解释椭圆方向、宽度与距离"
+    },
+    {
+      "id": "smoothing",
+      "title": "平滑与正则化",
+      "anchor": "smoothing",
+      "skill": "解释虚拟计数、零概率和调参"
+    },
+    {
+      "id": "text",
+      "title": "文本表示与NB改进",
+      "anchor": "bow",
+      "skill": "说明词袋、分布、词表与TF-IDF的取舍"
+    },
+    {
+      "id": "limits",
+      "title": "误差、不确定性与模型局限",
+      "anchor": "comparison",
+      "skill": "解释分布重叠、假设失配与过拟合"
+    },
+    {
+      "id": "parameter-posterior",
+      "title": "参数后验与MAP（QE延伸）",
+      "anchor": "prior-mle",
+      "skill": "分清参数后验和类别后验；残题只练方法"
+    }
+  ],
+  "questions": [
+    {
+      "id": "L2Q01",
+      "title": "生成式分类器学了什么",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "decision",
+        "limits"
+      ],
+      "skill": "解释／辨错",
+      "summary": "识别生成式建模的对象、类别先验及分布选择的影响。",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S016 Q1，随卷答案AD"
+    },
+    {
+      "id": "L2Q02",
+      "title": "生成式模型与朴素假设：样题变式",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "nb",
+        "limits"
+      ],
+      "skill": "解释／辨错",
+      "summary": "样题改变了一个选项，需独立判断，不能沿用真题答案。",
+      "occurrences": [
+        {
+          "paper": "SAMPLE",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S014 Q1，随卷答案ADE"
+    },
+    {
+      "id": "L2Q03",
+      "title": "生成式与判别式的区别",
+      "group": "direct",
+      "topics": [
+        "generative"
+      ],
+      "skill": "比较／辨错",
+      "summary": "比较生成式与判别式的学习对象、标签和新特征处理。",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S018 / S037 Q1，随卷答案ACD（题目要求选不正确）"
+    },
+    {
+      "id": "L2Q04",
+      "title": "用图像特征解释两种建模方式",
+      "group": "direct",
+      "topics": [
+        "generative"
+      ],
+      "skill": "比较／解释",
+      "summary": "在原题给定的人像标签任务中解释两类模型学习的内容。",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q7",
+          "pages": "3",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S009 / S039 Q7，随卷解答；补充样本效率的条件"
+    },
+    {
+      "id": "L2Q05",
+      "title": "Bayes规则和Naive Bayes的关系",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "decision",
+        "nb"
+      ],
+      "skill": "解释／辨错",
+      "summary": "区分决策规则与具体模型，核对先验和条件独立。",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct"
+        },
+        {
+          "paper": "M25A",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q1",
+          "pages": "1",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S015 Q1 / S017 Q1，随卷答案AC；2025A同题独立复用"
+    },
+    {
+      "id": "L2Q06",
+      "title": "Bayesian classifier的性质",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "decision",
+        "boundary",
+        "limits"
+      ],
+      "skill": "解释／辨错",
+      "summary": "讨论后验、过拟合、先验及最小错误率的条件。",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q6",
+          "pages": "3",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S009 / S039 Q6答案D；笔记选项与随卷答案有差异，保留措辞解释"
+    },
+    {
+      "id": "L2Q07",
+      "title": "NB的学习、不确定性和正则化",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "decision",
+        "mle",
+        "boundary",
+        "smoothing",
+        "limits"
+      ],
+      "skill": "解释／辨错",
+      "summary": "解释NB训练与预测的关系、边界不确定性及平滑。",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q5",
+          "pages": "3",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S013 / S038 Q5，随卷答案ABCD；解释A/B语境"
+    },
+    {
+      "id": "L2Q08",
+      "title": "NB的最优性、独立性与边界",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "decision",
+        "nb",
+        "covariance",
+        "boundary",
+        "limits"
+      ],
+      "skill": "解释／辨错",
+      "summary": "区分密度椭圆方向与分类边界，核对误差和假设。",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S018 / S037 Q2，随卷答案ACE；最优性加成立条件"
+    },
+    {
+      "id": "L2Q09",
+      "title": "完整讲出Gaussian NB",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "decision",
+        "nb",
+        "covariance"
+      ],
+      "skill": "解释／写模型",
+      "summary": "从假设、先验与类条件分布讲到预测规则。",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q7(a–c)",
+          "pages": "4",
+          "relation": "direct"
+        },
+        {
+          "paper": "M25A",
+          "question": "Q11(a–c)",
+          "pages": "8",
+          "relation": "direct"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q7(a–c)",
+          "pages": "3",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S015 Q7 / S017 Q7随卷解答；2025A同题归并"
+    },
+    {
+      "id": "L2Q10",
+      "title": "连续特征能否使用NB：混合选择题",
+      "group": "direct",
+      "topics": [
+        "nb"
+      ],
+      "skill": "辨错",
+      "summary": "完整保留混合选择题，其中连续变量与NB为本讲考点。",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S009 / S039 Q1，随卷答案BE；其余选项为跨讲说明"
+    },
+    {
+      "id": "L2Q11",
+      "title": "哪些模型能产生不同形状的边界",
+      "group": "direct",
+      "topics": [
+        "boundary"
+      ],
+      "skill": "比较／辨错",
+      "summary": "完整保留模型比较题，重点核对Gaussian NB方差条件。",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q4",
+          "pages": "2",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S018 / S037 Q4，随卷答案ABC"
+    },
+    {
+      "id": "L2Q12",
+      "title": "同为线性分类器，学习原则有何不同",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "boundary"
+      ],
+      "skill": "比较",
+      "summary": "比较相同线性函数形式下的学习目标与准确率取舍。",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q8",
+          "pages": "3",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S018 / S037 Q8随卷解答；不把LR标签似然称为参数后验"
+    },
+    {
+      "id": "L2Q13",
+      "title": "LR与共享方差Gaussian NB",
+      "group": "direct",
+      "topics": [
+        "generative",
+        "nb",
+        "mle",
+        "boundary",
+        "covariance"
+      ],
+      "skill": "比较／计数",
+      "summary": "比较模型、学习目标、参数数目与共享方差约定。",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q8",
+          "pages": "5",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S016 Q8随卷答案；补清2d+1的模型约定和先验计数"
+    },
+    {
+      "id": "L2Q14",
+      "title": "LR与生成式模型：混合选择题",
+      "group": "direct",
+      "topics": [
+        "generative"
+      ],
+      "skill": "辨错",
+      "summary": "完整保留LR题，标出直接条件建模与生成式建模的区别。",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S016 Q2，随卷答案BCD；其余选项为跨讲说明"
+    },
+    {
+      "id": "L2Q15",
+      "title": "无限数据能消除分类错误吗",
+      "group": "direct",
+      "topics": [
+        "decision",
+        "limits"
+      ],
+      "skill": "解释／反例",
+      "summary": "用类条件分布重叠解释不可消除错误。",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q8",
+          "pages": "3",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S009 / S039 Q8随卷解答"
+    },
+    {
+      "id": "L2Q16",
+      "title": "智能笔上的文本NB如何改进",
+      "group": "direct",
+      "topics": [
+        "smoothing",
+        "text"
+      ],
+      "skill": "应用／方案选择",
+      "summary": "在设备计算资源限制下改进文本表示和NB参数。",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q7",
+          "pages": "4",
+          "relation": "direct"
+        },
+        {
+          "paper": "SAMPLE",
+          "question": "Q7",
+          "pages": "3",
+          "relation": "direct"
+        }
+      ],
+      "answer_basis": "S016 Q7 / S014 Q7随卷解答；不把更复杂模型当必然更好"
+    },
+    {
+      "id": "L2Q17",
+      "title": "GMM形状与EM：期末关联题",
+      "group": "related",
+      "topics": [
+        "covariance"
+      ],
+      "skill": "解释／辨错",
+      "summary": "把协方差形状知识用于GMM；其余选项需要聚类基础。",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "related"
+        }
+      ],
+      "answer_basis": "S002 Q2答案BE，配S003题面"
+    },
+    {
+      "id": "L2Q18",
+      "title": "从聚类边界识别方法",
+      "group": "related",
+      "topics": [
+        "covariance",
+        "boundary"
+      ],
+      "skill": "读图／解释",
+      "summary": "比较欧氏距离分区与高斯密度分区。",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q8",
+          "pages": "3",
+          "relation": "related"
+        }
+      ],
+      "answer_basis": "S002 Q8，配S003原图"
+    },
+    {
+      "id": "L2Q19",
+      "title": "K-means与高斯混合的关系",
+      "group": "related",
+      "topics": [
+        "covariance"
+      ],
+      "skill": "解释／辨错",
+      "summary": "区分单位协方差、软分配与k-means。",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q3",
+          "pages": "2",
+          "relation": "related"
+        }
+      ],
+      "answer_basis": "S004 Q3答案AD，配S005题面"
+    },
+    {
+      "id": "L2Q20",
+      "title": "椭圆和弯曲数据分别怎么聚类",
+      "group": "related",
+      "topics": [
+        "covariance"
+      ],
+      "skill": "读图／方法选择",
+      "summary": "将椭圆密度与流形结构区分，属于后续聚类选做题。",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q8",
+          "pages": "3",
+          "relation": "related"
+        }
+      ],
+      "answer_basis": "S004 Q8，配S005原图"
+    },
+    {
+      "id": "L2Q21",
+      "title": "单位协方差是否使分配均匀",
+      "group": "related",
+      "topics": [
+        "covariance"
+      ],
+      "skill": "解释／辨错",
+      "summary": "区分相同分布宽度、簇归属概率和簇大小。",
+      "occurrences": [
+        {
+          "paper": "F21A",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "related"
+        }
+      ],
+      "answer_basis": "S006 Q1答案CD（选不正确），配S007题面"
+    },
+    {
+      "id": "L2Q22",
+      "title": "中心一样，分配也一定一样吗",
+      "group": "related",
+      "topics": [
+        "covariance"
+      ],
+      "skill": "解释／反例",
+      "summary": "均值之外的协方差和混合权重也会改变归属。",
+      "occurrences": [
+        {
+          "paper": "F21A",
+          "question": "Q7",
+          "pages": "3",
+          "relation": "related"
+        }
+      ],
+      "answer_basis": "S006 Q7结论Yes；其only限定过强，独立反例修正"
+    },
+    {
+      "id": "L2Q23",
+      "title": "MLE、参数后验与MAP：QE残题",
+      "group": "qe",
+      "topics": [
+        "mle",
+        "parameter-posterior"
+      ],
+      "skill": "推导（条件未齐）",
+      "summary": "现存七小问涉及似然、MLE、方差关系、参数后验与MAP；缺前页定义。",
+      "occurrences": [
+        {
+          "paper": "QE-U",
+          "question": "(a.1)–(a.7)",
+          "pages": "PDF9（原印6/9）",
+          "relation": "fragment"
+        }
+      ],
+      "answer_basis": "S020题面及用户提供的CS5489 QE身份；无随卷完整答案，只给有条件的方法模板"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S002",
+      "label": "CS5489-final-2020-answersheet-key.docx",
+      "sha256": "50cfbf809b17dd1c8fbb8be93277aa87457ad679d7ebb15fd95613beacd837a8",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S003",
+      "label": "CS5489-final-2020-questions.docx",
+      "sha256": "7baa37840a5f2dbf42ed1ef38c7ee2dfcbdd77a5af2f3ffe019b8747b1e211c6",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S004",
+      "label": "CS5489-final-2021-answersheet-key.docx",
+      "sha256": "64c9659b9e69299fcdc04a2655e9015511d6782939218e63e944ec8be0c5ed0e",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S005",
+      "label": "CS5489-final-2021-questions-v3.docx",
+      "sha256": "01c9d42eb9713c6c34c8d63a5078b325c4dc6c8b8d77c1639f6dd16cf166067b",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S006",
+      "label": "CS5489-final-2021A-answer-key.docx",
+      "sha256": "672f5180fbd15345e6f2855397e104cf0f6220f60d9e6efa96250e68123bcf2c",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S007",
+      "label": "CS5489-final-2021A-questions.docx",
+      "sha256": "a91305e6b111f7fbc53b61ec4dfa4f09adcdcbf025ea02459a69c63175d24908",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S009",
+      "label": "CS5489-midterm-2021B-answer-key.pdf",
+      "sha256": "16953d9335c51dae9614797415218e38b86498e1f5c8816dc5fb754e9b49dae8",
+      "format": ".pdf",
+      "pages": 4,
+      "name_note": "标准化查阅名称；原文件及别名保留于本地材料总表"
+    },
+    {
+      "id": "S010",
+      "label": "CS5489-midterm-2021B-questions.pdf",
+      "sha256": "fbbda22aff84706181f73c73acf2249089d6001f0f4cd1fea7957dc797491b60",
+      "format": ".pdf",
+      "pages": 4,
+      "name_note": "标准化查阅名称；原文件及别名保留于本地材料总表"
+    },
+    {
+      "id": "S012",
+      "label": "CS5489-midterm-2021A-questions.pdf",
+      "sha256": "66ffa095489d019f9f6a11d446b8f833317a5d1471f74ee483cdb8c85dd61ecb",
+      "format": ".pdf",
+      "pages": 4,
+      "name_note": "标准化查阅名称；原文件及别名保留于本地材料总表"
+    },
+    {
+      "id": "S013",
+      "label": "CS5489-midterm-2020B-quiz-with-answers.pdf",
+      "sha256": "ef55801f940908eea6865effbd3aafa5471df6a20d08097f9e49a8f52472426f",
+      "format": ".pdf",
+      "pages": 7,
+      "name_note": "标准化查阅名称；原文件及别名保留于本地材料总表"
+    },
+    {
+      "id": "S014",
+      "label": "CS5489 Question Samples.pdf",
+      "sha256": "e2898ce599398c5044a639df099d85c30c50c218a3521df8524d2a6477e1da29",
+      "format": ".pdf",
+      "pages": 4,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S015",
+      "label": "CS5489-midterm-2023A-questions+answers.pdf",
+      "sha256": "f3a8f73027c2006c0033ec8a1b5cfebcbf2d678eb634ac9a10f3e96b7590ea36",
+      "format": ".pdf",
+      "pages": 10,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S016",
+      "label": "CS5489-midterm-2023B-questions+answers.pdf",
+      "sha256": "b18d2ee9932d5c05101c845de0950e886deef09995a46494b694d8d34ab6ad6e",
+      "format": ".pdf",
+      "pages": 10,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S017",
+      "label": "CS5489 Mock Exam w_ Answer.pdf",
+      "sha256": "ea2afa98efe5e0b04d8e5aefc6940c368bad06b4b603266bf39472c05d237b96",
+      "format": ".pdf",
+      "pages": 9,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S018",
+      "label": "CS5489-midterm-2021A-answers.pdf",
+      "sha256": "0311d105fdd7547aa4333f5624db09abf91f1a3a5aedbe1fed3186a7127aba5b",
+      "format": ".pdf",
+      "pages": 4,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S019",
+      "label": "CS5489-midterm-2021A-questions.pdf",
+      "sha256": "9294c1aa74c2164dfafdc1853619db8edb2da7c0163d329079c0571c8173d8aa",
+      "format": ".pdf",
+      "pages": 4,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S020",
+      "label": "CS5489 QE整理片段.pdf",
+      "sha256": "a82d550feb7b15db2af5503b7b1e7b0fe9d05287f2c189e1f262434cc0399b4d",
+      "format": ".pdf",
+      "pages": 11,
+      "name_note": "标准化查阅名称；原文件及别名保留于本地材料总表"
+    },
+    {
+      "id": "S030",
+      "label": "2025A期中批注扫描卷（原文件名不公开）",
+      "sha256": "6e8beef61fa4139d82845a4bfe5fedb3ba85b9f646c4dc6fde068a227138ed10",
+      "format": ".pdf",
+      "pages": 10,
+      "name_note": "标准化查阅名称；原文件及别名保留于本地材料总表"
+    },
+    {
+      "id": "S036",
+      "label": "CS5489-midterm-2021B-questions.docx",
+      "sha256": "b19f42623f01ab280e1646026da449eba1a3860deec7ef62ececce72299d2093",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S037",
+      "label": "CS5489-midterm-2021A-answersheet-key.docx",
+      "sha256": "8dc1797ff2ec45a6683a05a3fba3a0148448e5f31bc372989b1b67a7eefbd074",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S038",
+      "label": "CS5489-quiz-2020-answers.docx",
+      "sha256": "9eb88980c0d93e03771fc05715f667a00cd2acaa020fddc1a9beca6699f55697",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    },
+    {
+      "id": "S039",
+      "label": "CS5489-midterm-2021B-answersheet-key.docx",
+      "sha256": "6cac11678bd982e8b2b8a011f937069d489db2766e2cf1c6226d90865435809c",
+      "format": ".docx",
+      "pages": null,
+      "name_note": "文件名"
+    }
+  ],
+  "ledger_policy": "Private original alias catalog retained locally. Public data contains topic mappings and provenance summaries only."
+}

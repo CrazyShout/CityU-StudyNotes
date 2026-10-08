@@ -1,7 +1,7 @@
 """Validate collaborative sources, local references and committed A4 files."""
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
-import hashlib,json,re
+import hashlib,json,re,subprocess,sys
 import markdown,nbformat
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
@@ -46,6 +46,9 @@ for block,expected in zip(blocks,expected_tags):
     tags=re.findall(r'\\tag\{([^}]+)\}',block)
     assert tags==[expected],('Lecture02 equation numbering',expected,tags)
     equation_numbers.append(f'({expected})')
+subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
+printed_cs=[x for x in docs if x['course']=='CS5489' and (x['major'] or x.get('print_appendix'))]
+assert printed_cs[-1]['source']=='CS5489/course-notes/ExamIndex.md'
 manifest=json.loads((ROOT/'pdf/manifest.json').read_text())
 for book in manifest['books']:
     p=ROOT/'pdf'/book['file'];assert hashlib.sha256(p.read_bytes()).hexdigest()==book['sha256'],p
@@ -53,6 +56,7 @@ for book in manifest['books']:
     if book['file']=='CS5489-A4.pdf':
         document=next(d for d in book['documents'] if d['id']=='CS5489-Lecture02')
         text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
+        assert not re.search(r'EXAM:(overview|focus|topics)',text),'Source markers must not appear in the PDF'
         printed=re.findall(r'\(2\.\d+[a-z]?\)',text)
         assert printed==equation_numbers,('Printed Lecture02 equation tags',printed)
 

@@ -22,6 +22,7 @@ details{margin:18px 0;padding:8px 0}summary{cursor:pointer;color:#236588;font-we
 .table-scroll::before{display:none}th:first-child{min-width:84px}
 @media(max-width:600px){main{padding:18px 17px 60px}body{font-size:16px}h1{font-size:25px}h2{font-size:22px}table{font-size:13px}.table-scroll::before{content:"宽表可左右滑动 / Swipe wide tables";display:block;font-size:11px;color:#607580}}
 """ + HtmlFormatter().get_style_defs('.highlight')
+STYLE += (CODEXING/'scripts/exam_markers.css').read_text()
 def md(text):
     rendered=markdown.markdown(text,extensions=['tables','fenced_code','toc','md_in_html','pymdownx.arithmatex'],
            extension_configs={'pymdownx.arithmatex':{'generic':True}})
