@@ -30,14 +30,16 @@ def build():
   p=papers[pid];return ({'midterm':0,'final':1,'sample':2,'qe':3}[p['kind']],p['year'] or 9999,p['term'] or '',pid)
  def question_order(pair):
   n=re.search(r'\d+',pair[1]['question']);return int(n.group()) if n else 999
- intro=['<div class="exam-overview" markdown="1">','<a id="exam-review"></a>','## Exam focus｜这一讲怎样安排复习','','先把生成式模型、Bayes决策和Gaussian NB讲清楚，再练分布假设、边界与模型局限。下面的卷数用于安排练习顺序；它描述手头历史材料，不预测本学期考题。','','| 考点 | 本轮复习重点 | 期中 | 期末：直接／关联 | QE记录 | 回到正文 |','|---|---|---|---|---|---|']
+ intro=['<div class="exam-overview" markdown="1">','<a id="exam-review"></a>','## Exam focus｜这一讲怎样安排复习','','先把生成式模型、Bayes决策和Gaussian NB讲清楚，再练分布假设、边界与模型局限。下面的卷数用于安排练习顺序；它描述手头历史材料，不预测本学期考题。','','| 考点 | 本轮复习重点 | 期中 | 期末：直接／关联 | QE记录 | 学习入口 |','|---|---|---|---|---|---|']
  for t in d['topics']:
-  c=counts[t['id']];intro.append(f"| {t['title']} | {labels[t['id']]} | {num(c['midterm'])} | {num(c['final_direct'])}／{num(c['final_related'])} | {qetext(t['id'])} | [讲解](#{t['anchor']}) |")
+  c=counts[t['id']]
+  entry=f"[讲解](#{t['anchor']})" if t['id']!='parameter-posterior' else '[相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note)'
+  intro.append(f"| {t['title']} | {labels[t['id']]} | {num(c['midterm'])} | {num(c['final_direct'])}／{num(c['final_related'])} | {qetext(t['id'])} | {entry} |")
  intro += ['',f'**统计口径：** 已辨识{inventory_counts["midterm"]}套期中、{inventory_counts["final"]}套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。','','**标记：** <span class="exam-mark"><span class="exam-wave wave-mid"></span>绿色＝期中</span>　<span class="exam-mark"><span class="exam-wave wave-final"></span>黄色＝期末</span>　<span class="exam-mark"><span class="exam-wave wave-qe"></span>红色＝QE</span>。多类证据分层画线，文字同时说明类别；黑白打印看文字即可。','','题号与出处见[讲末考点索引](#exam-topic-index)；按试卷查阅见[全册附录](ExamIndex.md)。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。']
  intro+=['</div>']
  end=['<a id="exam-topic-index"></a>','## Historical exam map｜按考点查题源','','各行保留原题号与原材料页码。同一卷在本表不同考点下出现，不会让该考点的卷数重复增加。材料文件、配套答案与版本差异见[按卷附录](ExamIndex.md)。','']
  for t in d['topics']:
-  end += ['<div class="exam-topic-unit" markdown="1">',f"### {t['title']}",'',t['skill']+'。','', '| 考试类型与学期 | 原题号 | 原材料页 | 要求 |','|---|---|---|---|']
+  end += ['<div class="exam-topic-unit" markdown="1">',*(['<a id="qe-parameter-posterior-note"></a>'] if t['id']=='parameter-posterior' else []),f"### {t['title']}",'',t['skill']+'。','', '| 考试类型与学期 | 原题号 | 原材料页 | 要求 |','|---|---|---|---|']
   grouped={}
   for q,o in occurrences(t['id']):
    key=(o['paper'],o['relation']);grouped.setdefault(key,[]).append((q,o))
@@ -60,6 +62,8 @@ def build():
   if t['id']=='mle':detail+='。QE另问参数后验和MAP，不能当作类别决策题'
   notice[t['anchor']]=f'<p class="exam-focus"><span class="exam-mark">{waves}考点：{t["title"]}</span><br>{detail}。</p>'
  lesson=ROOT/'CS5489/course-notes/Lecture02.md';text=lesson.read_text()
+ # A moved topic must leave no obsolete focus block at its former location.
+ text=re.sub(r'<!-- EXAM:focus-([^:\n]+):START -->[\s\S]*?<!-- EXAM:focus-\1:END -->',lambda m:m.group(0) if m.group(1) in notice else '',text)
  def marked(key,content):return f'<!-- EXAM:{key}:START -->\n{content.strip()}\n<!-- EXAM:{key}:END -->'
  def replace_existing(key,content):
   nonlocal text

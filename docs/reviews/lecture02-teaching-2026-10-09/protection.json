@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "baseline_commit": "039186ce72d63802a41c3a4204af43c334cd650b",
+  "old_explicit_anchors_preserved": 55,
+  "old_equation_bodies_unchanged": 37,
+  "new_equations": [
+    "2.14a",
+    "2.14b",
+    "2.14c",
+    "2.16a",
+    "2.35a",
+    "2.35b"
+  ],
+  "tracked_files_outside_scope_unchanged": true,
+  "existing_notebook_files_unchanged": true,
+  "existing_images_unchanged": true,
+  "unrelated_worktree_files_unchanged": [
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "docs/PRINT_MATERIAL_STANDARDS.md"
+  ],
+  "ledger_only_navigation_changes": {
+    "boundary": [
+      "log-scores",
+      "decision-boundaries"
+    ],
+    "limits": [
+      "comparison",
+      "model-limits"
+    ]
+  },
+  "exam_counts_unchanged": true,
+  "private_question_and_answer_books_unchanged": true,
+  "two_generator_runs_byte_identical": true,
+  "generated_hashes": {
+    "CS5489/course-notes/Lecture02.md": "15fb05a502faf056fca2d6f9ea700d51c52da3bd1cb894a91a74d8d3c3fea492",
+    "CS5489/course-notes/ExamIndex.md": "09f3db7794beab5e199d4084ba0b6929d470f20fbe17b17af21caffa0255fa86",
+    "CS5489/course-notes/exam-evidence/counts.json": "b14e97b66f9726e53aef5ffa93c6b7b8d1b4725d490630b097b0931826f121f0"
+  }
+}

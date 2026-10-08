@@ -100,3 +100,9 @@ figure img[src$="/poisson.png"],figure img[src$="/gaussian.png"] {max-width:130m
 #CS5489-Lecture02 .katex-display {margin:4mm 0;}
 
 #CS5489-Lecture02 .answer-block {break-inside:avoid;page-break-inside:avoid;}
+
+/* Lecture 2 follow-up: keep each short bilingual question with its answer. */
+#CS5489-Lecture02 .short-qa {break-inside:avoid;page-break-inside:avoid;}
+#CS5489-Lecture02 figure img[src$="/lecture02-boundary-variance.png"] {max-width:140mm;}
+
+#CS5489-Lecture02 .question-lead {break-after:avoid;page-break-after:avoid;}

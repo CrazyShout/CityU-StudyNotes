@@ -10,18 +10,18 @@
 
 先把生成式模型、Bayes决策和Gaussian NB讲清楚，再练分布假设、边界与模型局限。下面的卷数用于安排练习顺序；它描述手头历史材料，不预测本学期考题。
 
-| 考点 | 本轮复习重点 | 期中 | 期末：直接／关联 | QE记录 | 回到正文 |
+| 考点 | 本轮复习重点 | 期中 | 期末：直接／关联 | QE记录 | 学习入口 |
 |---|---|---|---|---|---|
 | 生成式模型与概率分工 | 反复考查：先分清三个概率 | 6套 | 未见／未见 | 现有材料未见 | [讲解](#generative) |
 | Bayes决策与先验作用 | 反复考查：先验与最优性的条件 | 6套 | 未见／未见 | 现有材料未见 | [讲解](#bayes-rule) |
 | 条件独立与Gaussian NB | 反复考查：能完整写出模型 | 5套 | 未见／未见 | 现有材料未见 | [讲解](#gaussian-nb) |
 | MLE学习思想 | 学习思想有直接题；推导也是基础 | 2套 | 未见／未见 | 题段；卷次待定 | [讲解](#prior-mle) |
-| 线性与非线性边界 | 反复比较：共享方差是否成立 | 4套 | 未见／1套 | 现有材料未见 | [讲解](#log-scores) |
+| 线性与非线性边界 | 反复比较：共享方差是否成立 | 4套 | 未见／1套 | 现有材料未见 | [讲解](#decision-boundaries) |
 | 协方差与高斯形状 | 基础与后续聚类迁移都要懂 | 4套 | 未见／3套 | 现有材料未见 | [讲解](#full-gaussian) |
 | 平滑与正则化 | 能解释零概率与如何调节 | 2套 | 未见／未见 | 现有材料未见 | [讲解](#smoothing) |
 | 文本表示与NB改进 | 结合设备条件提出具体改进 | 1套 | 未见／未见 | 现有材料未见 | [讲解](#bow) |
-| 误差、不确定性与模型局限 | 用条件或反例拆掉绝对说法 | 4套 | 未见／未见 | 现有材料未见 | [讲解](#comparison) |
-| 参数后验与MAP（QE延伸） | QE延伸；补齐题面后再练完整推导 | 未见 | 未见／未见 | 题段；卷次待定 | [讲解](#prior-mle) |
+| 误差、不确定性与模型局限 | 用条件或反例拆掉绝对说法 | 4套 | 未见／未见 | 现有材料未见 | [讲解](#model-limits) |
+| 参数后验与MAP（QE延伸） | QE延伸；补齐题面后再练完整推导 | 未见 | 未见／未见 | 题段；卷次待定 | [相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note) |
 
 **统计口径：** 已辨识6套期中、3套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。
 
@@ -171,7 +171,7 @@ $$
 
 其中$c$是类别，$\mu_c$是平均长度，$\sigma_c$是标准差，两者单位均为厘米；$\sigma_c^2$是方差，单位为平方厘米。每个类别都有自己的这组参数。
 
-读这个公式可以分两步：偏离均值越多，指数中的负数通常越小，密度便下降；相同偏离除以较大的方差，显得不那么突出。前面的系数把曲线下面积调整为1。
+固定这条高斯曲线后，离均值越远，指数里的数越负，密度越低。方差较大时，同样的偏离只占较少的标准差，曲线展开得更宽；前面的归一化系数也随方差变化，使曲线下面积保持为1。
 
 连续变量的曲线高度是 **density（密度）**，单位为cm⁻¹。某个长度区间的概率等于区间下的面积；“恰好5 cm”的点概率与“5 cm附近比较常见”是两件事。密度高度可以超过1，只要总面积仍为1。详见[密度与面积](../../learning/foundation-notes/MathForML.md#density-area)。
 
@@ -303,9 +303,7 @@ $$
 <a id="log-scores"></a>
 ### Comparing log scores｜很多小数相乘时怎样算得稳
 
-<!-- EXAM:focus-log-scores:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：线性与非线性边界</span><br>期中：4套；期末关联：1套。</p>
-<!-- EXAM:focus-log-scores:END -->
+
 
 只想选类别时，可以省掉共同分母；再对正分数取log，大小顺序也不变：
 
@@ -322,6 +320,63 @@ $$
 **English takeaway:** Evaluate each class's density at the new input, multiply by its prior, and normalize. Equal error costs lead to the largest-posterior rule. Log scores preserve the winning class while improving numerical stability.
 
 来源：Lecture2a，第32–49个单元。5 cm的逐步演算和log平移算例为教学补充。
+
+<a id="decision-boundaries"></a>
+### Where the boundary comes from｜两个类别在哪里打平
+
+<!-- EXAM:focus-decision-boundaries:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：线性与非线性边界</span><br>期中：4套；期末关联：1套。</p>
+<!-- EXAM:focus-decision-boundaries:END -->
+
+继续用花瓣长度$x$辨认两类花。为了把分界的计算看清楚，下面采用一组**教学简化参数**：两类均值分别为4、6 cm，先验各为0.5，开始时方差都为1 cm²。仍用前面的log分数$g_c(x)$：该类的log密度加上log先验。
+
+把第二类分数减去第一类，记作$\Delta(x)=g_2(x)-g_1(x)$。差值为正就选第二类，为负就选第一类；等于0时两类打平。这些打平的位置就是**决策边界（decision boundary）**。恰好打平时，任选一个固定的类别作为平局规则即可。
+
+![Same means and priors, different class variances: density crossings and prediction regions](assets/lecture02-boundary-variance.png)
+
+*图源：本节教学高斯模型。两幅图保持均值4／6 cm和先验0.5／0.5；右图只把第二类方差从1改为4 cm²。上方窄条的数字表示预测类别，竖直点线标出两类密度相等的位置；由于先验相同，这里也就是后验相等的位置。实线／虚线及数字可在黑白打印中区分类别。*
+
+先看左图。两类的方差与先验相同，所以log分数中的归一化项和先验项相减后都消失。代入两组均值，再展开平方（下式中的$x$取按cm计的数值）：
+
+$$
+\begin{aligned}
+\Delta(x)&=\frac{(x-4)^2-(x-6)^2}{2}\\
+&=\frac{(x^2-8x+16)-(x^2-12x+36)}{2}\\
+&=2x-10.
+\end{aligned}
+\tag{2.14a}
+$$
+
+关键就在第二行：两边的$x^2$系数相同，正好抵消。令$2x-10=0$，得到分界点$x=5$ cm；小于5时选第一类，大于5时选第二类。改变先验会给分数差增加一个常数，移动分界的位置，不会凭空增加$x^2$项。
+
+现在看右图，只把第二类方差改成4 cm²，即标准差从1变为2 cm。它的曲线变宽，峰值也变低；高斯密度前面的归一化因子减半，因此相减时必须保留$-\log2$：
+
+$$
+\begin{aligned}
+\Delta(x)&=-\log2-\frac{(x-6)^2}{8}+\frac{(x-4)^2}{2}\\
+&=\frac38x^2-\frac52x+\frac72-\log2.
+\end{aligned}
+\tag{2.14b}
+$$
+
+这次$x^2$的系数没有抵消。要找到交点，将差值设为0并配方：先乘以24，得到$9x^2-60x+84-24\log2=0$；把前两项凑成$(3x-10)^2$，便有
+
+$$
+\begin{aligned}
+(3x-10)^2&=16+24\log2,\\
+x&=\frac{10\pm\sqrt{16+24\log2}}{3}\\
+&\approx1.4291\ \text{cm}\quad\text{or}\quad5.2376\ \text{cm}.
+\end{aligned}
+\tag{2.14c}
+$$
+
+因为二次项系数$3/8$为正，两个根之间差值为负，选第一类；两侧差值为正，选第二类。较宽的第二类分布在远端下降得较慢，因而在很短和很长的测量处都可能占优。这里比较的是两类的相对证据；两类密度本身都很小时，仍可能得到明确的类别选择。
+
+在这一维例子中，边界是一个或两个**分界点**，不是一条弯曲的线。到了二维，分数中的二次项才可能形成曲线；多维情形下一般对应二次曲面，具体形状还取决于其他系数。
+
+**English takeaway:** A decision boundary is where the class scores tie. Shared class variances cancel the quadratic terms in a Gaussian log-score difference. Unequal variances can leave quadratic terms; in one dimension this example has two thresholds.
+
+来源：对Lecture2a高斯模型与Bayes分数的补充推导；教学参数与前面的原数据拟合值分开。[2021A期中Q4、2023B期中Q8的考查位置](ExamIndex.md)见按卷索引。计算与绘图依据见[本轮计算记录](../../docs/reviews/lecture02-teaching-2026-10-09/calculations.json)。
 
 <a id="part-b-naive-bayes-classifier"></a>
 <a id="8-naive-bayes-classifier-learn-gaussian-nb-model"></a>
@@ -377,6 +432,38 @@ model.var_          # 同样形状：方差
 类1的未归一化分数为$0.16434\times0.70226\times0.38\approx0.04386$，类2为$0.39888\times1.41899\times0.62\approx0.35092$。两者的单位都是cm⁻²；归一化后单位消去。
 
 **答案 / Answer：** 后验约为$(0.1111,0.8889)$，选类2。 / The posteriors are approximately (0.1111, 0.8889); select class 2. The density 1.41899 is valid because density height is not a probability.
+
+<a id="gaussian-nb-boundary"></a>
+### Shared variances and boundary shape｜两项测量的边界怎样连起来
+
+刚才算出了一个输入的类别。若把所有可能的输入都代入，哪些位置会使两类打平？把式（2.16）中两类的log分数相减，再展开每一维的平方，就能沿用上一部分的办法：
+
+$$
+\begin{aligned}
+\Delta(\mathbf x)&=\sum_{j=1}^{d}\bigl(a_jx_j^2+b_jx_j\bigr)+C,\\
+a_j&=\frac{1}{2\sigma_{1,j}^{2}}-\frac{1}{2\sigma_{2,j}^{2}},\qquad
+b_j=\frac{\mu_{2,j}}{\sigma_{2,j}^{2}}-\frac{\mu_{1,j}}{\sigma_{1,j}^{2}}.
+\end{aligned}
+\tag{2.16a}
+$$
+
+$a_j$、$b_j$只是展开后各项的系数；$C$收集不含输入$\mathbf x$的项，包括先验、分布宽度与均值平方带来的常数。$C$仍影响分界的位置，求边界时需要保留。
+
+如果**每一维的方差在两个类别之间相同**，那么每个$a_j$都为0，剩下的是$\sum_j b_jx_j+C$。若两类均值不同，这个等分数边界在二维是直线，在更高维是超平面。特征1的共享方差可以是1，特征2的共享方差可以是4；“共享”要求的是同一特征在不同类别之间相同，并不要求不同特征的方差也相同。
+
+NB的条件独立假设让各维密度可以相乘，却没有要求两个类别使用相同的方差。因此，**条件独立不保证线性边界**。有二次项时也要看完整方程，不能仅凭“方差不同”就断言每一种设置都产生弯曲边界。
+
+<div class="short-qa" markdown="1">
+
+**边界判断 / Boundary check（教学变式）：** 两项特征均无量纲。Gaussian NB的两类均值为$(0,0)$和$(1,2)$，先验各0.5。设置I中，两类的方差向量均为$(1,4)$；设置II只把第二类的方差向量改为$(1,9)$。两种设置分别会不会留下二次项，边界是否为直线？ / The two features are dimensionless. A Gaussian NB model has class means (0,0) and (1,2), with equal priors. In setting I, both variance vectors are (1,4). In setting II, only the second class changes to (1,9). Do quadratic terms remain, and is each boundary a straight line?
+
+**答 / Answer：** I的二次项全部抵消，边界为$x_1+\tfrac12x_2-1=0$。II中$x_2^2$的系数为$1/8-1/18=5/72$，而$x_1$的系数仍为1；这组参数下的边界是一条抛物线。 / In I, all quadratic terms cancel and the boundary is $x_1+\tfrac12x_2-1=0$. In II, the coefficient of $x_2^2$ is $5/72$, while the coefficient of $x_1$ is 1; these parameters give a parabolic boundary.
+
+</div>
+
+**English takeaway:** Conditional independence and shared variances are different assumptions. Gaussian NB can have a linear or quadratic boundary; compare each feature's variance across classes before deciding.
+
+来源：对Lecture2b Gaussian NB分数的补充展开；变式为教学设计，与课堂鸢尾花拟合参数分开。
 
 <a id="9-view-the-posterior-evaluate-on-the-test-set"></a>
 <a id="testing"></a>
@@ -846,9 +933,7 @@ $$
 <a id="comparison"></a>
 ## Review｜把整讲串起来
 
-<!-- EXAM:focus-comparison:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：误差、不确定性与模型局限</span><br>期中：4套。</p>
-<!-- EXAM:focus-comparison:END -->
+
 
 整讲不断重复同一个过程：**按类估计特征分布 → 对新输入计算各类分数 → 结合先验 → 比较类别或报告归一化结果。**
 
@@ -862,6 +947,32 @@ $$
 
 Poisson NB在[Tutorial 2](Tutorial02.ipynb)继续练习：更换类条件分布，仍要完成估参数、算log分数和归一化。
 
+<a id="model-limits"></a>
+### When more data still leaves errors｜为什么学得更准，仍会分错
+
+<!-- EXAM:focus-model-limits:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：误差、不确定性与模型局限</span><br>期中：4套。</p>
+<!-- EXAM:focus-model-limits:END -->
+
+设想两种花在**我们记录的全部测量上，分布完全相同**，而且两类各占一半。无论量到什么，测量结果都没有提供区分类别的证据。用$f(\mathbf x)$表示这份共同的类条件密度，用$\pi_c$表示类别$c$的先验，Bayes公式给出
+
+$$
+p(c\mid\mathbf x)
+=\frac{f(\mathbf x)\pi_c}{f(\mathbf x)(\pi_1+\pi_2)}
+=\pi_c,\qquad f(\mathbf x)>0.
+\tag{2.35a}
+$$
+
+因此每个可能输入处的后验都是0.5／0.5。选任何一类，另一类仍有50%的条件概率；在错分代价相同、只使用这些特征时，**最低预期错误率为50%**。这是模型下的长期平均比例：测试10朵花，实际错几朵仍会波动。
+
+即使训练数据无限多，把两个分布估计得完全准确，这个重叠仍然存在。要进一步区分类别，需要找到新的、有区分信息的特征。记住有限训练集的标签可能让训练误差变成0，但没有改变新样本所包含的信息。
+
+实际学习中，还要分清另外两种情况。**有限样本估计误差**是数据太少，均值、方差或词概率容易受偶然样本影响；NB也可能因此过拟合，平滑能缓和极端估计。**假设失配**是模型没有表达真实规律的能力，例如NB忽略了能帮助分类的类内相关关系；增加数据不一定能修好这个结构限制。上面的**分布重叠**例子则说明，模型和参数都正确时，错误也可能无法完全消除。
+
+**English takeaway:** More data can improve parameter estimates without eliminating Bayes error. Identical class-conditional distributions provide no class information; under equal error costs, the minimum expected error is one minus the largest prior. Estimation error, model misspecification and distributional overlap have different causes.
+
+来源：Bayes决策规则的补充解释；对应历史题中“无限数据是否保证零错误”的考查。下方Q3改变先验，检验同一种推理。
+
 <a id="21"></a>
 <a id="self-check"></a>
 ### Explain in English｜五个短自测
@@ -874,9 +985,9 @@ Poisson NB在[Tutorial 2](Tutorial02.ipynb)继续练习：更换类条件分布�
 **Q2 English:** A class has observations 1, 2 and 3. Find the Gaussian MLE mean and variance, and compare with the unbiased sample variance.  
 **答 / Answer：** 均值2，MLE方差2/3，无偏方差1。 / The mean is 2, the MLE variance is 2/3, and the unbiased variance is 1.
 
-**Q3 中文：** 两类的共同似然为正，先验0.2／0.8，错分代价相同，选哪类？  
-**Q3 English:** Both classes have the same positive likelihood, priors 0.2/0.8 and equal error costs. Which class is selected?  
-**答 / Answer：** 第二类；后验与先验相同。 / Select the second class; the posterior equals the prior.
+**Q3 中文：** 两类在全部现有特征上的分布完全相同，先验为0.2／0.8，错分代价相同。应选哪类？最低预期错误率是多少？无限训练数据能否让它变为0？  
+**Q3 English:** The two classes have identical distributions of all available features, priors 0.2/0.8 and equal misclassification costs. Which class should be selected? What is the minimum expected error rate, and can unlimited training data make it zero?  
+**答 / Answer：** 选第二类；后验等于先验，所以最低预期错误率为$1-0.8=20\%$。更多训练数据可以改进参数估计，但现有特征仍无法区分类别。 / Select the second class. The posterior equals the prior, giving a minimum expected error rate of 20%. Unlimited training data cannot remove this overlap when only these features are available.
 
 **Q4 中文：** 类内非零协方差为何与Gaussian NB假设冲突？完整高斯是否一定更好？  
 **Q4 English:** Why does nonzero within-class covariance conflict with Gaussian NB, and must full covariance perform better?  
@@ -888,7 +999,7 @@ Poisson NB在[Tutorial 2](Tutorial02.ipynb)继续练习：更换类条件分布�
 
 ### Try a changed condition｜三个独立变式
 
-先遮住答案，写出中间值。这些是教学练习；它们检查计算过程，不是新测试集的性能评价。
+先遮住答案，写出中间值。
 
 **Q6：新花与新先验 / A flower with new priors。** 仍用第二部分的花瓣高斯参数，输入5 cm，将类1／类2先验改成0.2／0.8，错分代价相同。求两个密度、乘先验后的分数和后验。 / Use the petal-length Gaussians from Part 2 at 5 cm, with class priors 0.2/0.8 and equal error costs. Calculate densities, unnormalized scores and posteriors.
 
@@ -902,7 +1013,17 @@ Poisson NB在[Tutorial 2](Tutorial02.ipynb)继续练习：更换类条件分布�
 
 <details markdown="1"><summary>Q7答案 / Answer</summary>
 
-距离和宽度两项之和仍为A的−1、B的−0.5228。加先验后，$g_A=-1+\log0.8\approx-1.2231$，$g_B=-0.5228+\log0.2\approx-2.1323$。后验约为$(0.7128,0.2872)$，这次选A。 / Distance and spread terms are unchanged. The new scores are approximately −1.2231 and −2.1323, giving posteriors (0.7128,0.2872). Select A: B's smaller distance does not override the changed prior.
+距离和宽度两项之和仍为A的$-1$、B的$-2/3-\tfrac12\log(3/4)\approx-0.5228$。分别加上新的先验：
+
+$$
+\begin{aligned}
+g_A&=-1+\log0.8\approx-1.2231,\\
+g_B&=-\frac23-\frac12\log\frac34+\log0.2\approx-2.1323.
+\end{aligned}
+\tag{2.35b}
+$$
+
+归一化得到后验约为$(0.7128,0.2872)$，这次选A。 / Distance and spread terms are unchanged. Adding the new log priors gives scores approximately −1.2231 and −2.1323. Normalization yields posteriors (0.7128,0.2872), so select A.
 
 </details>
 
@@ -921,7 +1042,7 @@ Poisson NB在[Tutorial 2](Tutorial02.ipynb)继续练习：更换类条件分布�
 <a id="implementation-notes"></a>
 ## Implementation details｜原代码使用说明（选读）
 
-这里集中说明复现原课时会遇到的细节。它们不改变前面六个主题的讲述顺序。
+复现原Notebook时，注意以下设置和实现差异。
 
 ### Density plots and boundaries｜直方图与边界代码
 
@@ -1117,6 +1238,7 @@ TF-IDF的平滑IDF与NB的alpha作用不同：前者调整跨文档的词权重�
 </div>
 
 <div class="exam-topic-unit" markdown="1">
+<a id="qe-parameter-posterior-note"></a>
 ### 参数后验与MAP（QE延伸）
 
 分清参数后验和类别后验；残题只练方法。
