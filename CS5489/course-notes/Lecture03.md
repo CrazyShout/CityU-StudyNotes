@@ -156,6 +156,23 @@ $f=0,\sigma(-yf)=0.5$，$\partial E/\partial w=-1$、$\partial E/\partial b=-0.5
 
 </details>
 
+### 换成L1惩罚，分类器会怎样变？
+
+历史题还会把式（3.4）的平方惩罚换成绝对值惩罚。数据损失仍是logistic loss，改的是权重的代价：
+
+$$
+E=\sum_i\log(1+e^{-y_i f_i})+\lambda\sum_j|w_j|,\qquad\lambda>0.
+\tag{3.6a}
+$$
+
+L1惩罚在零点有尖角，可以把某些权重推到恰好为0；为什么会这样，见[下一讲的LASSO手算](Lecture04.md#lasso)。如果二维模型学到$w=(0,2)^T,b=-4$，分数就是$2x_2-4$：$x_1$完全不参与判断，边界为$x_2=2$。L1改变了用到哪些特征，并没有让线性分数自动变成非线性函数。
+
+**判断 / Check：** 改成$w=(3,0)^T,b=-6$，边界在哪里？只知道用了L1，能否断言必有一个零权重？ / For w=(3,0)ᵀ and b=−6, locate the boundary. Does using L1 alone guarantee a zero weight?
+
+**答 / Answer：** 边界为$x_1=2$；不能保证，是否出现零系数取决于数据与惩罚强度。 / The boundary is x₁=2. L1 encourages sparsity but does not guarantee a zero coefficient for every dataset and penalty strength.
+
+来源：2020B期中Q12的L1分类目标；数值与变式为教学补充。
+
 <a id="finite-logistic-solution"></a>
 ### 凸目标不等于一定有唯一的有限解
 
@@ -318,7 +335,14 @@ $$
 
 消去 slack 后为 $\frac12\|w\|^2+C\sum_i\max(0,1-y_if_i)$。整体除 C 得正则系数 $1/(2C)$。Lecture3b，第58个单元 写成 $1/C$ 时相当于重新定义了 C，不能在数值比较时无声跳过因子 2。
 
-对 $\xi_i\ge0$ 引入另一个乘子 $\gamma_i$，$\partial L/\partial\xi_i=C-\alpha_i-\gamma_i=0$，故 $0\le\alpha_i\le C$。对偶目标形式不变，增加上界。
+对 $\xi_i\ge0$ 引入另一个乘子 $\gamma_i$，$\partial L/\partial\xi_i=C-\alpha_i-\gamma_i=0$，故 $0\le\alpha_i\le C$。对偶目标形式不变，增加上界。还要同时满足两条互补松弛条件：
+
+$$
+\alpha_i(y_if_i-1+\xi_i)=0,\qquad (C-\alpha_i)\xi_i=0.
+\tag{3.13a}
+$$
+
+第二式来自$\gamma_i\xi_i=0$和$\gamma_i=C-\alpha_i$。如果$\alpha_i<C$，它迫使$\xi_i=0$；如果还满足$\alpha_i>0$，第一式再迫使$y_if_i=1$。如果$\alpha_i=C$，第一式给出$y_if_i=1-\xi_i\le1$。这就得到下面三种情形：
 
 | 最优乘子情形 | 可以可靠推出什么 |
 |---|---|
@@ -326,7 +350,7 @@ $$
 | $0<\alpha_i<C$ | slack=0，$y_if_i=1$；适合恢复 b |
 | $\alpha_i=C$ | $y_if_i\le1$；可以在边界、间隔内或错分 |
 
-大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。不是“大 C 永远更好”。原 `C=inf` 是概念性硬间隔示范，新接口要求有限 C；大有限 C 也只是近似，并需核查可分性与间隔。
+大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。原 `C=inf` 是概念性硬间隔示范，新接口要求有限 C；大有限 C 也只是近似，并需核查可分性与间隔。
 
 来源：SVM手写补充，第3页。
 

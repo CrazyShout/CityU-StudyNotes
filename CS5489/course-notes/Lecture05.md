@@ -61,7 +61,9 @@ $$
 \mathbf w\leftarrow\mathbf w+\eta y_i\mathbf x_i.\tag{5.1}
 $$
 
-$\eta>0$ 是学习率。负梯度不是“看见负类就所有权重减1”，而是按输入每个分量调整。边界 $z=0$ 是不可微点，原阈值把分数0判为+1；实现应明确是否把所有边界样本也作为更新对象，不能混用规则。
+$\eta>0$ 是学习率。负梯度不是“看见负类就所有权重减1”，而是按输入每个分量调整。边界 $z=0$ 是损失的不可微点。本文沿用“分数0判+1，预测错误就更新”的规则：负类点落在0处会更新，正类点落在0处不更新。若偏置单独保存，同一次错分还应更新 $b\leftarrow b+\eta y_i$。
+
+**对照原代码：** Lecture5a第24个单元只在$z<0$时更新，因此会漏过“负类、分数0”这种错分；其余非边界情形与上述规则一致。答题时以题目给出的平局与更新约定为准。
 
 **跟做 / Worked（补充算例）：** 无偏置，$\mathbf w=(0,0)$、$\mathbf x=(2,1)$、$y=-1$、$\eta=0.5$。原预测为+1，错误。更新为 $\mathbf w=(-1,-0.5)$，新分数−2.5，方向正确。 / The initial +1 prediction is wrong. One update gives (−1,−0.5), scoring the point at −2.5.
 
@@ -201,6 +203,16 @@ $$
 
 常见激活函数包括sigmoid、tanh与ReLU。前两者在饱和区导数很小，反传经过多层小因子可能缩小；ReLU在正区导数1，负区0，避免一部分饱和问题，但可能出现长期不激活的单元。ReLU不会自动保证“多数单元为0”，稀疏程度取决于输入和参数。Leaky ReLU在负区保留小斜率，是作业用到的变体。
 
+把图中的响应与求导规则列在一起。令u为激活前的一个实数：
+
+| 激活 | 输出及范围 | 对u的导数 |
+|---|---|---|
+| Sigmoid | $\sigma(u)=1/(1+e^{-u})$，范围$(0,1)$ | $\sigma(u)[1-\sigma(u)]$ |
+| Tanh | $h=\tanh u$，范围$(-1,1)$ | $1-h^2$ |
+| ReLU | $\max(0,u)$，范围$[0,\infty)$ | u>0时为1，u<0时为0；0处需约定 |
+
+Sigmoid导数在u=0时最大，为1/4；tanh导数在u=0时为1。两者到了饱和区，输出变化慢，导数便接近0。数值计算可能因舍入显示端点，有限实数输入下的数学范围仍是上表的开区间。
+
 ![Activations and local slopes](assets/oct-activations.png)
 
 左图看响应值，右图看局部斜率。ReLU在0处左斜率为0、右斜率为1，因此普通导数不存在。程序仍需约定在这个点传回什么值；这是计算规则，不是该点存在普通导数。回归输出可用线性层，互斥多分类输出使用logits配交叉熵。
@@ -322,6 +334,31 @@ $G_Z\approx[-0.7311,0.7311]$。W和A的梯度第一行为这个向量，第二�
 
 </details>
 
+<a id="scalar-regression-backprop"></a>
+### 换成回归任务：tanh与平方误差怎样反传？
+
+链式法则不变，换损失和激活后，沿途的导数需要重算。下面是教学补充，数字与原样题不同。输入$x=1$，隐藏节点$h=\tanh u$、$u=w_1x+b_1$，输出$\hat y=w_2h+b_2$。取$w_1=b_1=b_2=0,w_2=2$，真值$y=1$，损失$L=(\hat y-y)^2$。
+
+前向得到$u=h=\hat y=0$，所以L=1。要改$w_1$，沿“权重→隐藏输入→激活→预测→损失”逐段求导：
+
+$$
+\begin{aligned}
+\frac{\partial L}{\partial w_1}
+&=\frac{\partial L}{\partial\hat y}\frac{\partial\hat y}{\partial h}
+  \frac{\partial h}{\partial u}\frac{\partial u}{\partial w_1}\\[3pt]
+&=2(\hat y-y)w_2(1-h^2)x=-4.
+\end{aligned}
+\tag{5.11a}
+$$
+
+学习率0.1、只更新$w_1$的一步得到$w_1=0.4$；保持其他参数，预测成为$2\tanh(0.4)\approx0.7599$，损失约0.0576，确实比1小。式中系数2来自未除以2的平方损失，不能从前面的交叉熵照搬$p-y$。
+
+**变式 / Transfer：** 回到初始参数，仅把损失改为$L=(\hat y-y)^2/2$，学习率仍为0.1且只更新$w_1$。导数与新权重各是多少？ / Return to the stated initial network (x=1, y=1, w₁=b₁=b₂=0, w₂=2). Use half-squared error, learning rate 0.1, and update only w₁. Find its gradient and new value.
+
+**答 / Answer：** 导数为−2，新$w_1=0.2$。 / The gradient is −2 and the updated weight is 0.2. 要更新全部参数时，每个梯度都由同一组旧参数计算。
+
+来源：Lecture5b第15–21个单元的链式法则；对应《CS5489 Question Samples》Q4(b)的tanh回归题型，原样题与期中真题分开统计。
+
 分支也有一条规则：同一中间量同时流向两个下游，返回的梯度要相加。链条上的影响相乘，分支汇合的影响相加。原课还介绍了自动微分框架的历史分类；读这部分时，重点理解计算图如何组织链式法则。
 
 **English takeaway:** Backpropagation composes local derivatives and sums contributions from all children. A gradient must match its parameter's shape, and loss averaging must be applied consistently.
@@ -340,7 +377,15 @@ $G_Z\approx[-0.7311,0.7311]$。W和A的梯度第一行为这个向量，第二�
 
 课堂用小批量SGD与PyTorch演示训练。`nn.Linear`保存权重和偏置，激活逐元素处理，DataLoader分批提供数据；每批典型顺序是清梯度、前向、算损失、`backward()`、`step()`。不清梯度会累积，这是可用功能，但不能在不知道时意外累积。
 
-一次optimizer step是一次参数更新，一个epoch通常是一遍训练数据。例如1000样本、batch=100、无累积，每epoch10次更新。Momentum为更新方向保存历史状态，公式与Assignment2一致性见[作业指南](Assignment02.md#optimizers)。
+一次optimizer step是一次参数更新，一个epoch通常是一遍训练数据。例如1000样本、batch=100、无累积，每epoch10次更新。Momentum把先前的更新方向保留一部分，再加入本次梯度。沿用[作业指南](Assignment02.md#optimizers)的一种普通动量约定：$v_t=\gamma v_{t-1}+\eta g_t$，$\theta_{t+1}=\theta_t-v_t$。其中$g_t$是当前批的梯度，$\gamma\in[0,1)$控制保留比例；v已经含学习率，更新参数时不再乘一次。
+
+例如$\theta_0=1,v_{-1}=0,\eta=0.1,\gamma=0.9$，连续两批提供的梯度为2和−2。第一步$v_0=0.2,\theta_1=0.8$；第二步$v_1=0.18-0.2=-0.02,\theta_2=0.82$。方向突然翻转时，两次梯度的一部分互相抵消。若第二批仍为2，动量会沿原方向累积。
+
+**自查 / Check：** 在同样初值与参数下，两批梯度均为2，第二步后θ是多少？ / With the same initial state, learning rate 0.1 and momentum 0.9, use gradients 2 and 2. What is θ after two steps?
+
+**答 / Answer：** 第二步v=0.38，θ=0.42。 / The second velocity is 0.38, giving θ=0.42.
+
+原Lecture5b第40个单元还设了`nesterov=True`，其更新与上面普通动量不同；这里的小例用于解释累积与抵消，不是逐数值复现原训练。
 
 一批数据的梯度为0，也不代表整个训练目标已经最优。教学反例：两个样本的损失分别为$(w-1)^2$和$(w+1)^2$。w=1时，第一份损失的梯度为0，第二份为4，平均损失的梯度仍为2。小批量SGD只看当前抽中的那批；momentum会平滑历史方向，但不会把一次零梯度变成收敛证明。
 
@@ -357,7 +402,7 @@ $G_Z\approx[-0.7311,0.7311]$。W和A的梯度第一行为这个向量，第二�
 
 训练集参与更新参数；验证集用于观察曲线、选学习率、选择早停时刻。早停要保存验证表现较好的参数，而不只是退出循环时的最后一次参数。若使用验证准确率，阈值与方向应按准确率定义；若使用验证损失，按越低越好。测试集用于冻结选择后的最后评价。
 
-原课的两类数据示范比较不同隐藏宽度和训练长度。训练误差下降、验证误差反升，是过拟合的线索；两者都高还可能是优化没跑通、模型容量不够或表示不合适。仅凭一条曲线不能独断一个原因。
+原课的两类数据示范比较不同隐藏宽度和训练长度。训练误差下降、验证误差反升，是过拟合的线索；两者都高还可能是优化没跑通、模型容量不够或表示不合适；训练与验证分布不同、预处理不一致也可能造成差距。仅凭一条曲线不能独断一个原因。
 
 **迁移 / Transfer：** 若每个epoch都看测试准确率，再挑最高的一轮，能称它独立最终测试吗？ / Is the highest test accuracy over many selected epochs an untouched final evaluation?
 
