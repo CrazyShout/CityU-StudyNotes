@@ -69,7 +69,7 @@ $\eta>0$ 是学习率。负梯度不是“看见负类就所有权重减1”，�
 
 **跟做 / Worked（补充算例）：** 无偏置，$\mathbf w=(0,0)$、$\mathbf x=(2,1)$、$y=-1$、$\eta=0.5$。原预测为+1，错误。更新为 $\mathbf w=(-1,-0.5)$，新分数−2.5，方向正确。 / The initial +1 prediction is wrong. One update gives (−1,−0.5), scoring the point at −2.5.
 
-**自己做 / Check：** $\mathbf w=(1,-1)$、$\mathbf x=(1,2)$、$y=+1$、$\eta=0.2$，是否更新，得到什么？ / With w=(1,−1), x=(1,2), y=+1, no bias and learning rate 0.2, is an update needed, and what is the new weight?
+**自己做 / Check：** 无偏置，$\mathbf w=(1,-1)$、$\mathbf x=(1,2)$、$y=+1$、$\eta=0.2$，是否更新，得到什么？ / With w=(1,−1), x=(1,2), y=+1, no bias and learning rate 0.2, is an update needed, and what is the new weight?
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -185,7 +185,7 @@ $$
 
 </details>
 
-课堂将原鸢尾花数据送进多分类逻辑回归。这里要认出：类别标签可以是整数索引，推导用one-hot；二者表达相同目标，但代码接口不同。数据划分与实际类别编码以原代码为准，不擅自把标签1..C直接当PyTorch要求的0..C−1。
+课堂将原鸢尾花数据送进多分类逻辑回归。这里要认出：类别标签可以是整数索引，推导用one-hot；二者表达相同目标，但代码接口不同。使用接收类别索引的损失接口时，标签若为1到C，应转换为对应的0到C−1编号。
 
 
 来源：Lecture5a，第52–58个单元；第59–65个单元。
@@ -426,7 +426,9 @@ $$
 <!-- EXAM:focus-training:END -->
 
 
-课堂用小批量SGD与PyTorch演示训练。`nn.Linear`保存权重和偏置，激活逐元素处理，DataLoader分批提供数据；每批典型顺序是清梯度、前向、算损失、`backward()`、`step()`。不清梯度会累积，这是可用功能，但不能在不知道时意外累积。
+前面求的是一批样本的平均损失梯度。如果每次更新都使用整个训练集，数据很多时，一步就需要处理全部样本。**Mini-batch SGD（小批量随机梯度下降）**每次取一小批训练样本，用这批损失的平均梯度估计整体下降方向。它减少每次更新的计算量和内存需求，但不同批的数据不同，方向也会有波动。
+
+课堂用PyTorch实现这个过程。`nn.Linear`保存权重和偏置，激活逐元素处理，DataLoader分批提供数据；每批典型顺序是清梯度、前向、算损失、`backward()`、`step()`。`backward()`会把新梯度加到已有梯度上，因此独立更新每批时需先清零；有意跨批累积时则按累积方案处理。
 
 一次optimizer step是一次参数更新，一个epoch通常是一遍训练数据。例如1000样本、batch=100、无累积，每epoch10次更新。Momentum把先前的更新方向保留一部分，再加入本次梯度。沿用[作业指南](Assignment02.md#optimizers)的一种普通动量约定：$v_t=\gamma v_{t-1}+\eta g_t$，$\theta_{t+1}=\theta_t-v_t$。其中$g_t$是当前批的梯度，$\gamma\in[0,1)$控制保留比例；v已经含学习率，更新参数时不再乘一次。
 
@@ -451,7 +453,9 @@ $$
 <!-- EXAM:focus-monitoring:END -->
 
 
-训练集参与更新参数；验证集用于观察曲线、选学习率、选择早停时刻。早停要保存验证表现较好的参数，而不只是退出循环时的最后一次参数。若使用验证准确率，阈值与方向应按准确率定义；若使用验证损失，按越低越好。测试集用于冻结选择后的最后评价。
+训练集参与更新参数；验证集用于观察曲线、选学习率和选择早停时刻。若使用验证准确率，以较高为好；若使用验证损失，以较低为好。测试集用于冻结选择后的最后评价。
+
+老师的早停代码根据验证准确率记录连续未改善的轮数，达到阈值后退出循环，没有保存或恢复最佳参数。完整使用早停时，可以在验证指标改善时保存检查点，停止后恢复最佳检查点，再做最终评价。这是对课堂实现的补充；停止时的最后一组参数不一定是验证表现最好的一组。来源：Lecture5b，第36–37个单元。
 
 原课的两类数据示范比较不同隐藏宽度和训练长度。训练误差下降、验证误差反升，是过拟合的线索；两者都高还可能是优化没跑通、模型容量不够或表示不合适；训练与验证分布不同、预处理不一致也可能造成差距。仅凭一条曲线不能独断一个原因。
 
@@ -516,9 +520,41 @@ $$
 
 <div class="short-exercise" markdown="1">
 
-英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?
+**Q1. 加入隐藏层改变了什么？ / What changes when a hidden layer is added?**
 
-关键要点 / Key points：隐藏层学习非线性表示；p−y包含分子分母共同求导；平均损失只缩放一次；早停选参数时刻；逼近定理不保证训练或泛化。 / Learned nonlinear features; full softmax derivative; one averaging factor; a selected checkpoint; no training or generalization guarantee.
+**答 / Answer：** 带非线性激活的隐藏层学习中间特征，使分类器能形成非线性边界。如果各层只有线性变换，多层合起来仍是线性变换。 / A hidden layer with a nonlinear activation learns intermediate features and allows nonlinear boundaries. A composition of linear layers remains linear.
+
+</div>
+
+<div class="short-exercise" markdown="1">
+
+**Q2. 单样本softmax交叉熵的logit梯度为什么是$p-y$？ / Why does single-example softmax cross-entropy give the logit gradient $p-y$?**
+
+**答 / Answer：** 对第$j$个logit求导时，softmax的共同分母使各类别的损失都产生贡献。合并后是$p_j\sum_k y_k-y_j$；标签满足$\sum_k y_k=1$，因此得到$p_j-y_j$。 / The shared denominator couples all classes. Differentiation gives $p_j\sum_k y_k-y_j=p_j-y_j$, since the target entries sum to one.
+
+</div>
+
+<div class="short-exercise" markdown="1">
+
+**Q3. 平均损失中的批量大小$B$在哪里进入反传？ / Where does batch size $B$ enter backpropagation for a mean loss?**
+
+**答 / Answer：** 在输出梯度中除以$B$，后续层使用这个已缩放的梯度，不逐层再除一次。若损失采用求和，则不除以$B$。 / Divide the output gradient by $B$ once; subsequent layers propagate that scaled gradient. A summed loss has no averaging factor.
+
+</div>
+
+<div class="short-exercise" markdown="1">
+
+**Q4. 早停选择什么，训练结束后应使用哪组参数？ / What does early stopping select, and which parameters should be used afterward?**
+
+**答 / Answer：** 按预先选定的验证指标选择训练时刻及其参数。完整实现保存并恢复最佳验证检查点；不默认使用退出循环时的最后参数，也不按测试集挑选。 / Select a training checkpoint using a chosen validation metric, then restore its saved parameters. Do not select it using the test set or assume the final iteration is best.
+
+</div>
+
+<div class="short-exercise" markdown="1">
+
+**Q5. 通用逼近定理不保证什么？ / What does universal approximation not guarantee?**
+
+**答 / Answer：** 它在规定条件下说明存在能逼近目标函数的网络，不保证训练算法能找到相应参数、所需宽度很小，或模型能泛化到未见数据。 / It establishes representational possibility under assumptions, not that training will find the parameters, a small width will suffice, or the model will generalize.
 
 </div>
 
@@ -528,7 +564,7 @@ $$
 <a id="exam-topic-index"></a>
 ## Historical exam map｜按考点查题源
 
-题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。
+题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
 
 <div class="exam-topic-unit" markdown="1">
 ### 输出概率与交叉熵

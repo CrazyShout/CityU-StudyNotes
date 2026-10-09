@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updated": "2026-10-09",
-  "scope": "Lecture 3当前教学内容与历史题的对应；题答册未扩编",
+  "scope": "Lecture 3当前教学内容与历史题的对应；公开考点与题源，完整题答另行本地维护",
   "catalogue": "Lecture02.json",
   "count_unit": "independent_paper_per_topic_and_relation",
   "intro": "本讲的历史题集中在Logistic目标、SVM与核方法，也经常要求根据应用代价或存储限制选择方法。复习时把“写出目标、说明条件、解释结果”连起来。",

@@ -60,7 +60,7 @@ Huber、非对称损失、Elastic Net和RF方差推导作为明确标识的历�
 |---|---|---|
 | GrLivArea | 除100 | 100平方英尺（不是平方米） |
 | YrSold、YearBuilt | 相减 | 售出时年龄，年 |
-| SalePrice | 除1000 | 原数据价格单位的千元，图中标为美元千元 |
+| SalePrice | 除1000 | 千美元（原价格除以1000） |
 | 行采样 | `[::4]` | 每4行取1行，保留原顺序；不是随机抽样 |
 
 mode2 取 GrLivArea、TotRmsAbvGrd、GarageArea、TotalBsmtSF、Fireplaces、BedroomAbvGr、FullBath、LotArea、LowQualFinSF、OverallQual、OverallCond、YrSold、YearBuilt，合并最后两列为 Age 后剩12维；这些面积列不统一除100。预测目标仍除1000。不同 mode 的系数不能直接比数值。
@@ -376,7 +376,7 @@ $\alpha_1$鼓励精确零系数，$\alpha_2$抑制大权重，两者都为0时�
 
 几个离群点就可能明显拉动拟合直线，课堂例子展示大残差如何支配平方误差。Ridge缩小权重，但仍平方惩罚残差，因此不是专门的异常值过滤器。RANSAC（Random Sample Consensus）反复：随机选足够拟合的小子集 → 拟合候选模型 → 按残差阈值找inliers → 保留较大一致集 → 对一致集重新拟合。
 
-拟合二维图中的直线至少需要两个横坐标不同的点，不是任意两行都够。原手工示范Lecture4b，第9个单元有放回采样，可能抽中同一个点；学习时应检查退化样本并跳过。阈值T用y的单位，例如预测价格千元时T=15表示1.5万元，不是15%。inlier/outlier是相对于模型和阈值的判断，不自动代表真实数据好坏。
+拟合二维图中的直线至少需要两个横坐标不同的点，不是任意两行都够。原手工示范Lecture4b，第9个单元有放回采样，可能抽中同一个点；学习时应检查退化样本并跳过。阈值T用y的单位，例如目标单位是千美元时，T=15表示1.5万美元的预测误差，不是15%。inlier/outlier是相对于模型和阈值的判断，不自动代表真实数据好坏。
 
 ![OLS, ridge and RANSAC on the instructor synthetic outlier setup](assets/lecture04-ransac.png)
 
@@ -430,17 +430,23 @@ $(1,2,3,4,6,9)$，共6维。 / (1,2,3,4,6,9), six features. `include_bias=False`
 
 记新特征为$\phi(x)\in\mathbb R^m$，$m$是变换后的特征数。继续采用**每列一个样本**：$\Phi=[\phi(x_1),\ldots,\phi(x_N)]\in\mathbb R^{m\times N}$，目标$y\in\mathbb R^N$，权重$w\in\mathbb R^m$。本段没有单独的截距，全部权重都受平方惩罚，且$\alpha>0$；$I_m$、$I_N$分别表示$m$维和$N$维单位矩阵。
 
-目标是$\|y-\Phi^Tw\|^2+\alpha\|w\|^2$，因此[前面的Ridge方程](#ridge)变为$(\Phi\Phi^T+\alpha I_m)w=\Phi y$。把含$\Phi\Phi^T$的部分移到右边，提取共同的$\Phi$，得到$\alpha w=\Phi(y-\Phi^Tw)$。这说明最优权重可以由训练样本的特征向量组合而成：定义$N$维向量$a=(y-\Phi^Tw)/\alpha$，便有$w=\Phi a=\sum_i a_i\phi(x_i)$。
+目标是$\|y-\Phi^Tw\|^2+\alpha\|w\|^2$，因此[前面的Ridge方程](#ridge)变为$(\Phi\Phi^T+\alpha I_m)w=\Phi y$。把含$\Phi\Phi^T$的部分移到右边，右侧就能提取共同的$\Phi$。
 
-现在求这组样本系数。令$K=\Phi^T\Phi$，它是$N\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\phi(x_i)^T\phi(x_j)$。将$w=\Phi a$代回$a$的定义，得到$\alpha a=y-\Phi^T\Phi a=y-Ka$，即$(K+\alpha I_N)a=y$。
+定义$N$维向量$a=(y-\Phi^Tw)/\alpha$，移项后的式子便给出$w=\Phi a$。也就是说，最优权重是训练样本特征向量的组合，$a_i$是第$i$条样本的组合系数，可以为负。
 
-新输入$x_*$只需与各训练点计算核值，组成$k_*=(k(x_1,x_*),\ldots,k(x_N,x_*))^T\in\mathbb R^N$。这样便得到老师给出的求解与预测公式：
+现在求这组样本系数。令$K=\Phi^T\Phi$，它是$N\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\phi(x_i)^T\phi(x_j)$。将$w=\Phi a$代回$a$的定义，右边变成$(y-Ka)/\alpha$；两边乘$\alpha$，再把$Ka$移到左边，就得到关于$a$的线性方程。
+
+新输入$x_*$与各训练点的核值组成$k_*=(k(x_1,x_*),\ldots,k(x_N,x_*))^T\in\mathbb R^N$。把移项、求系数和预测写在一起：
 
 $$
-a=(K+\alpha I_N)^{-1}y,\qquad \hat y_*=k_*^Ta.\tag{4.16}
+\begin{gathered}
+\alpha w=\Phi(y-\Phi^Tw),\\[4pt]
+w=\Phi a,\qquad (K+\alpha I_N)a=y,\\[4pt]
+a=(K+\alpha I_N)^{-1}y,\qquad \hat y_*=k_*^Ta.
+\end{gathered}\tag{4.16}
 $$
 
-$a_i$是样本系数，可以为负；$\alpha$则是控制惩罚强度的正数。预测为什么可以用核值相加？把刚才求出的$w=\Phi a$放回原预测式即可：
+末行的预测为什么可以用核值相加？把$w=\Phi a$放回原预测式即可：
 
 $$
 \begin{aligned}
@@ -479,9 +485,11 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 <!-- EXAM:focus-ensembles:END -->
 
 
-回归树按阈值逐层分支，每个叶子输出其中训练目标的平均值（平方损失情形），所以形成台阶。单棵深树容易记住训练噪声。Random Forest通过bootstrap抽样，并在节点分裂时按设置随机选特征，让多棵树产生不同规则；最终预测是**各树预测的平均**，不是只找其中一棵树的叶子。
+回归树按阈值逐层分支，每个叶子输出其中训练目标的平均值（平方损失情形），所以形成台阶。单棵深树容易记住训练噪声。
 
-例如三棵树对同一房屋输出180、210、210（千元），森林输出200。增加树通常稳定随机波动，但不保证每增加一棵测试误差就降低。原Lecture4b，第91个单元画的是训练MSE随树数变化，不能读成测试泛化曲线。Lecture4b，第94个单元再用5折选树深度，这才把复杂度选择和验证联系起来。
+Random Forest让多棵树使用不同的训练样本。**Bootstrap（自助抽样）**是从原训练集有放回地抽样：抽出一条记录后仍放回，它就可能再次被抽中。例如原记录编号为1、2、3、4，一棵树可抽到2、2、4、1；记录2重复，记录3这次没有出现。不同树分别抽样，并在节点分裂时按设置随机选特征，从而形成不同规则。最终预测是**各树预测的平均**。
+
+例如三棵树对同一房屋输出180、210、210（千美元），森林输出200千美元。增加树通常稳定随机波动，但不保证每增加一棵测试误差就降低。原Lecture4b，第91个单元画的是训练MSE随树数变化，不能读成测试泛化曲线。Lecture4b，第94个单元再用5折选树深度，这才把复杂度选择和验证联系起来。
 
 ![Instructor random forest diagram](assets/source-RF.jpg)
 
@@ -555,7 +563,7 @@ XGBoost在梯度提升树中还使用正则化及二阶信息。Lecture4b，第9
 <a id="exam-topic-index"></a>
 ## Historical exam map｜按考点查题源
 
-题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。
+题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
 
 <div class="exam-topic-unit" markdown="1">
 ### OLS与基线
