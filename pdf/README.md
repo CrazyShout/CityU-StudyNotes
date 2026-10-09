@@ -6,7 +6,7 @@ A4、100%实际大小、每张一页；双面建议长边翻转。答案已展�
 
 ## CS5489
 
-[下载PDF](CS5489-A4.pdf) · 209页
+[下载PDF](CS5489-A4.pdf) · 210页
 
 | 文档 | PDF页码 |
 |---|---|
@@ -14,14 +14,14 @@ A4、100%实际大小、每张一页；双面建议长边翻转。答案已展�
 | [Lecture02](../CS5489/course-notes/Lecture02.md) | 17–52 |
 | [Lecture03](../CS5489/course-notes/Lecture03.md) | 53–79 |
 | [Lecture04](../CS5489/course-notes/Lecture04.md) | 80–100 |
-| [Lecture05](../CS5489/course-notes/Lecture05.md) | 101–117 |
-| [Tutorial01](../CS5489/course-notes/Tutorial01.ipynb) | 118–128 |
-| [Tutorial02](../CS5489/course-notes/Tutorial02.ipynb) | 129–155 |
-| [Tutorial03](../CS5489/course-notes/Tutorial03.ipynb) | 156–171 |
-| [Tutorial04](../CS5489/course-notes/Tutorial04.ipynb) | 172–185 |
-| [Assignment01](../CS5489/course-notes/Assignment01.md) | 186–194 |
-| [Assignment02](../CS5489/course-notes/Assignment02.md) | 195–201 |
-| [ExamIndex](../CS5489/course-notes/ExamIndex.md) | 202–209 |
+| [Lecture05](../CS5489/course-notes/Lecture05.md) | 101–118 |
+| [Tutorial01](../CS5489/course-notes/Tutorial01.ipynb) | 119–129 |
+| [Tutorial02](../CS5489/course-notes/Tutorial02.ipynb) | 130–156 |
+| [Tutorial03](../CS5489/course-notes/Tutorial03.ipynb) | 157–172 |
+| [Tutorial04](../CS5489/course-notes/Tutorial04.ipynb) | 173–186 |
+| [Assignment01](../CS5489/course-notes/Assignment01.md) | 187–195 |
+| [Assignment02](../CS5489/course-notes/Assignment02.md) | 196–202 |
+| [ExamIndex](../CS5489/course-notes/ExamIndex.md) | 203–210 |
 
 ## CS5222
 

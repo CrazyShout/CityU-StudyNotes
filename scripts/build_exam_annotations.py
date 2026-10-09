@@ -175,7 +175,7 @@ def generate_lecture(n,data,papers):
    return match.end()
   text=replace_block(text,'focus-'+t['anchor'],notice,position)
  end=['<a id="exam-topic-index"></a>','## Historical exam map｜按考点查题源','',
-  '题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。','']
+  '题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。','']
  for t in data['topics']:
   end += ['<div class="exam-topic-unit" markdown="1">',f"### {t['title']}",'',t['skill']+'。','',
           '| 试卷 | 原题号／页码 | 关系与要求 |','|---|---|---|']
@@ -201,7 +201,7 @@ def combined_appendix(all_data,catalogue):
  papers=catalogue['papers'];sources={s['id']:s for s in catalogue['sources']}
  lines=['<a id="exam-appendix-lecture-2"></a>','# Exam appendix · Lecture 1–5历史题源索引','',
  '**映射范围：当前Lecture 1–5。** 本附录按独立试卷整理本轮已核对的对应题目，放在Assignment之后。CNN、PCA、聚类等后续主题仅在与当前基础有直接联系时列为关联，不表示完整教学已覆盖。','',
- '题目册与答案册目前只单独维护Lecture 2。下面公开考点、题号和材料身份，不附完整原卷或同学作答。','',
+ '课程级期中题库已按考点在本地另册维护，题目与答案分开；期末与QE不包含在该题库中。本附录公开考点、题号和材料身份，不附完整原卷或同学作答。','',
  ' · '.join(f'[Lecture {n}复习表](Lecture{n:02}.md#exam-review)' for n in sorted(all_data)),'',
  '按独立试卷计数，样题另列。2021B*题纸封面写2020，但题内答案文件名及配套解答指向2021B，保留此冲突。QE年份和独立原卷身份待补，片段数量不当作考试次数。','']
  for p in papers:

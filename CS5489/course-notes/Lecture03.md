@@ -98,7 +98,7 @@ $$
 
 ## 2. Linear classifier and separating hyperplane｜一张有方向的分界线
 
-从 Lecture3a，第24个单元 开始，理论标签改成 $y\in\{-1,+1\}$，不再是前面的 1、2。输入 $\mathbf x\in\mathbb R^d$、权重 $\mathbf w\in\mathbb R^d$，偏置 $b$ 是一个数。$f>0$ 判 +1，$f<0$ 判 −1；$f=0$ 要约定平局处理。分数本身不是概率。
+把线性分数记为 $f(\mathbf x)=\mathbf w^T\mathbf x+b$。输入 $\mathbf x\in\mathbb R^d$、权重 $\mathbf w\in\mathbb R^d$，偏置 $b$ 是一个数。接下来用 $y\in\{-1,+1\}$ 表示两个类别，替代前面的1、2标签；标签的正负只是编码。$f(\mathbf x)>0$ 判+1，$f(\mathbf x)<0$ 判−1；等于0时需要约定平局处理。这个分数本身不是概率。
 
 老师原例 $\mathbf w=(2,1)^T,b=0$：看见 $(2,-1)$ 就算 $2\times2-1=3$，判 +1；看见 $(-2,1)$ 得 −3，判 −1。边界 $2x_1+x_2=0$ 垂直于 $\mathbf w$。二维是线，三维是平面，$d$ 维叫超平面（hyperplane），维度为 $d-1$，要求 $\mathbf w\ne0$。
 
@@ -113,6 +113,8 @@ $$
 $f=2+2-1=3>0$，预测 +1。 / The score is 3; predict +1. 偏置移动边界，不增加一个观测维度。
 
 </details>
+
+来源：Lecture3a，第24个单元。
 
 <a id="logistic"></a>
 ## 3. Logistic regression｜把分数翻译成概率
@@ -247,7 +249,7 @@ $$
 
 $\mathbf y$ 是 one-hot 真实标签，仅真实类别的分量为 1，所以损失就是该类概率的负对数。分数 $(0,\log2,\log3)$ 对应概率 $(1/6,2/6,3/6)$；若真实类别为第 2 类，损失 $\log3\approx1.0986$。数值实现先减最大分数再指数，概率不变且更稳定。
 
-原 `multi_class='ovr'` / `'multinomial'` 是旧接口写法。需要明确 OvR 时用 `OneVsRestClassifier(LogisticRegression(...))`；不要靠新版默认值猜老师在示范哪一种模型。
+原 `multi_class='ovr'` / `'multinomial'` 是旧接口写法。复现OvR时显式使用 `OneVsRestClassifier(LogisticRegression(...))`，使训练方式不依赖默认设置。
 
 
 来源：Lecture3a，第74–85个单元；第86–99个单元。
@@ -416,7 +418,15 @@ $$
 | $0<\alpha_i<C$ | slack=0，$y_if_i=1$；适合恢复 b |
 | $\alpha_i=C$ | $y_if_i\le1$；可以在边界、间隔内或错分 |
 
-大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。原`C=inf`用于示意硬间隔极限，程序接口要求有限C。对线性可分数据，**足够大的有限C可以得到与硬间隔相同的最优权重**：只要上界$\alpha_i\le C$没有排除硬间隔的一组最优乘子即可。前面$x=\pm1$、标签为−1／+1的两点例子中，硬间隔乘子均为$1/2$；当$C\ge1/2$时，$w=1,b=0$也就是软间隔的最优解。 / For linearly separable data, a finite C that admits a hard-margin dual optimum can recover the same optimal weights. In the two-point example x=±1 with labels −1/+1, both hard-margin multipliers are 1/2, so C≥1/2 gives w=1 and b=0.
+大C让间隔违规的损失占更大比重，小C更愿意牺牲部分训练拟合。
+
+即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。
+
+对线性可分数据，**足够大的有限C可以得到与硬间隔相同的最优权重**：只要上界$\alpha_i\le C$没有排除硬间隔的一组最优乘子即可。前面$x=\pm1$、标签为−1／+1的两点例子中，硬间隔乘子均为$1/2$；因此$C\nobreak\ge\nobreak1/2$时，软间隔也取得$w=1,b=0$。
+
+实现注：原`C=inf`用于示意硬间隔极限；程序中使用有限C。
+
+**English takeaway:** For linearly separable data, a finite C that admits a hard-margin dual optimum can recover the same optimal weights. In the two-point example x=±1 with labels −1/+1, both hard-margin multipliers are 1/2, so C≥1/2 gives w=1 and b=0.
 
 来源：SVM手写补充，第3页。
 
@@ -505,7 +515,9 @@ K的行列对应训练点，不是输入特征。每格告诉我们这两个点�
 
 接着看特征的表示方式。把 cat/dog/horse 编成 0/1/2 会强加虚假的次序和距离，one-hot 避免这个问题，但不自动表达动物相似性。原 Lecture3c，第17个单元 的 cat×horse=2 是算术笔误，0×2=0；真正的问题是数字的内积没有所需语义。Binning 将连续值分箱再 one-hot，会丢掉箱内细节；PolynomialFeatures 增加一次、平方和交互项；log 变换压缩正数跨度，需说明定义域，不能对零或负数直接 log。
 
-课堂的类别不平衡例子有 200 对 20 个样本。`class_weight='balanced'` 使用 $w_c=N/(K N_c)$，两权重为 0.55、5.5，让两类总权重相等；它改变损失，不会凭空生成新数据。Lecture3c，第35–42个单元 的垃圾邮件例子讨论的是**错误代价不同**：合法邮件被扔掉更严重。人为设权重 {0:0.2,1:5} 让 class1 的单个样本权重是另一类的 25 倍，需要先说清哪个标签代表什么。
+课堂先用200对20个合成样本演示**类别数量不平衡**。`class_weight='balanced'`使用$w_c=N/(K N_c)$计算各类权重。这里$N$是总样本数，$K$是类别数，$N_c$是第$c$类的样本数。两类权重为0.55、5.5，让两类总权重相等。样本仍为220条，改变的是每条样本在训练损失中所占的权重。
+
+后面的代码换成另一组0/1合成数据，并指定`{0:0.2,1:5}`：class1每个样本的损失权重是class0的25倍。它演示的是**错误代价不同**，代码没有把0、1定义为邮件类别。接到邮件应用时，如果正常邮件被误判为垃圾邮件的代价更高，就给正常邮件对应的标签较大权重；标签数字本身没有固定的“正常”或“垃圾”含义。
 
 **自测 / Check:** 1000封合法邮件、10封垃圾邮件，全部预测合法，accuracy 是否足以说明成功？ / A set contains 1000 legitimate messages and 10 spam messages. Is predicting every message as legitimate successful based on accuracy alone?
 
@@ -542,7 +554,9 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 | Linear SVM | 权衡间隔与 hinge 违规 | 高维线性判别 | 原始分数非概率；尺度/C有影响 |
 | Kernel SVM | 在核特征空间做 SVM | 非线性与自定义相似度 | 核条件、调参、Gram矩阵开销 |
 
-把这些模型的训练目标放在一起，可统一写为 $\sum_i L(y_i,f(x_i))+\lambda\Omega(f)$：数据拟合加模型复杂度惩罚。Logistic loss 对分对的点仍有非零惩罚，hinge 超过间隔后为0；原画图将 logistic loss 除以 log2 是视觉尺度调整，不能无声当成同一正则强度的目标。
+Logistic regression、SVM等方法可以写成$\sum_i L(y_i,f(x_i))+\lambda\Omega(f)$：分类损失衡量预测与标签的差异，正则项约束模型复杂度。NB则估计先验与类条件分布；本讲的NB最大似然学习不直接优化同一个判别分数损失。
+
+老师画图时将logistic loss除以$\log 2$，使曲线便于比较。若在训练目标中也缩放损失，却保持正则项系数不变，就会改变两项的相对权重。
 
 <a id="loss-shapes"></a>
 ### 看损失曲线时，先看横轴
@@ -572,9 +586,11 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 
 **答 / Answer：** 4与8。 / Four and eight. 历史随卷答案有省略先验的计数，作答时应先写清采用的约定。
 
+来源：Lecture3c，第44–50个单元。
+
 “No Free Lunch”提醒我们不存在对所有任务都占优的模型，不代表在特定数据与假设下无法比较模型。用一致划分、合适指标和验证设计比较，可以将本讲的算法放在同一条件下评价。
 
-来源：Lecture3c，第44–50个单元。
+来源：Lecture3c，第53个单元。
 
 
 ## 15. Back to the tutorial and English self-test｜从本讲走向实践
@@ -592,7 +608,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 <a id="exam-topic-index"></a>
 ## Historical exam map｜按考点查题源
 
-题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。
+题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
 
 <div class="exam-topic-unit" markdown="1">
 ### 生成式与判别式

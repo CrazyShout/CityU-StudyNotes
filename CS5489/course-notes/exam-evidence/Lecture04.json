@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updated": "2026-10-09",
-  "scope": "Lecture 4当前教学内容与历史题的对应；题答册未扩编",
+  "scope": "Lecture 4当前教学内容与历史题的对应；公开考点与题源，完整题答另行本地维护",
   "catalogue": "Lecture02.json",
   "count_unit": "independent_paper_per_topic_and_relation",
   "intro": "历史期中常要求比较正则化、损失和集成方法。矩阵求解、RANSAC及核回归即使在这批卷中出现较少，也由当前Lecture和Tutorial直接要求；不要按卷数跳过它们。",

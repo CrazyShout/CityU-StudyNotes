@@ -1,0 +1,194 @@
+[
+  {
+    "issue": "P01",
+    "file": "CS5489/course-notes/Lecture02.md",
+    "before": "这个高数值并不使标签变正确。",
+    "after": "模型虽然给出很高的Ham概率，这封邮件仍被错分了。"
+  },
+  {
+    "issue": "P02",
+    "file": "CS5489/course-notes/Lecture02.md",
+    "before": "本文没有将它们合成同一模型。",
+    "after": ""
+  },
+  {
+    "issue": "P03",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "从 Lecture3a，第24个单元 开始，理论标签改成 $y\\in\\{-1,+1\\}$，不再是前面的 1、2。输入 $\\mathbf x\\in\\mathbb R^d$、权重 $\\mathbf w\\in\\mathbb R^d$，偏置 $b$ 是一个数。$f>0$ 判 +1，$f<0$ 判 −1；$f=0$ 要约定平局处理。分数本身不是概率。",
+    "after": "把线性分数记为 $f(\\mathbf x)=\\mathbf w^T\\mathbf x+b$。输入 $\\mathbf x\\in\\mathbb R^d$、权重 $\\mathbf w\\in\\mathbb R^d$，偏置 $b$ 是一个数。接下来用 $y\\in\\{-1,+1\\}$ 表示两个类别，替代前面的1、2标签；标签的正负只是编码。$f(\\mathbf x)>0$ 判+1，$f(\\mathbf x)<0$ 判−1；等于0时需要约定平局处理。这个分数本身不是概率。"
+  },
+  {
+    "issue": "P03",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "</details>\n\n<a id=\"logistic\"></a>",
+    "after": "</details>\n\n来源：Lecture3a，第24个单元。\n\n<a id=\"logistic\"></a>"
+  },
+  {
+    "issue": "P04",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "原 `multi_class='ovr'` / `'multinomial'` 是旧接口写法。需要明确 OvR 时用 `OneVsRestClassifier(LogisticRegression(...))`；不要靠新版默认值猜老师在示范哪一种模型。",
+    "after": "原 `multi_class='ovr'` / `'multinomial'` 是旧接口写法。复现OvR时显式使用 `OneVsRestClassifier(LogisticRegression(...))`，使训练方式不依赖默认设置。"
+  },
+  {
+    "issue": "P05",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。原`C=inf`用于示意硬间隔极限，程序接口要求有限C。对线性可分数据，**足够大的有限C可以得到与硬间隔相同的最优权重**：只要上界$\\alpha_i\\le C$没有排除硬间隔的一组最优乘子即可。前面$x=\\pm1$、标签为−1／+1的两点例子中，硬间隔乘子均为$1/2$；当$C\\ge1/2$时，$w=1,b=0$也就是软间隔的最优解。 / For linearly separable data, a finite C that admits a hard-margin dual optimum can recover the same optimal weights. In the two-point example x=±1 with labels −1/+1, both hard-margin multipliers are 1/2, so C≥1/2 gives w=1 and b=0.",
+    "after": "大C让间隔违规的损失占更大比重，小C更愿意牺牲部分训练拟合。\n\n即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。\n\n对线性可分数据，**足够大的有限C可以得到与硬间隔相同的最优权重**：只要上界$\\alpha_i\\le C$没有排除硬间隔的一组最优乘子即可。前面$x=\\pm1$、标签为−1／+1的两点例子中，硬间隔乘子均为$1/2$；当$C\\ge1/2$时，$w=1,b=0$也就是软间隔的最优解。\n\n实现注：原`C=inf`用于示意硬间隔极限；程序中使用有限C。\n\n**English takeaway:** For linearly separable data, a finite C that admits a hard-margin dual optimum can recover the same optimal weights. In the two-point example x=±1 with labels −1/+1, both hard-margin multipliers are 1/2, so C≥1/2 gives w=1 and b=0."
+  },
+  {
+    "issue": "P06",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "课堂的类别不平衡例子有 200 对 20 个样本。`class_weight='balanced'` 使用 $w_c=N/(K N_c)$，两权重为 0.55、5.5，让两类总权重相等；它改变损失，不会凭空生成新数据。Lecture3c，第35–42个单元 的垃圾邮件例子讨论的是**错误代价不同**：合法邮件被扔掉更严重。人为设权重 {0:0.2,1:5} 让 class1 的单个样本权重是另一类的 25 倍，需要先说清哪个标签代表什么。",
+    "after": "课堂先用200对20个合成样本演示**类别数量不平衡**。`class_weight='balanced'`使用$w_c=N/(K N_c)$：$N$是总样本数，$K$是类别数，$N_c$是第$c$类的样本数。两类权重为0.55、5.5，让两类总权重相等。样本仍为220条，改变的是每条样本在训练损失中所占的权重。\n\n后面的代码换成另一组0/1合成数据，并指定`{0:0.2,1:5}`：class1每个样本的损失权重是class0的25倍。它演示的是**错误代价不同**，代码没有把0、1定义为邮件类别。接到邮件应用时，如果正常邮件被误判为垃圾邮件的代价更高，就给正常邮件对应的标签较大权重；标签数字本身没有固定的“正常”或“垃圾”含义。"
+  },
+  {
+    "issue": "P07",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "把这些模型的训练目标放在一起，可统一写为 $\\sum_i L(y_i,f(x_i))+\\lambda\\Omega(f)$：数据拟合加模型复杂度惩罚。Logistic loss 对分对的点仍有非零惩罚，hinge 超过间隔后为0；原画图将 logistic loss 除以 log2 是视觉尺度调整，不能无声当成同一正则强度的目标。",
+    "after": "Logistic regression、SVM等方法可以写成$\\sum_i L(y_i,f(x_i))+\\lambda\\Omega(f)$：分类损失衡量预测与标签的差异，正则项约束模型复杂度。NB则估计先验与类条件分布；本讲的NB最大似然学习不直接优化同一个判别分数损失。\n\n老师画图时将logistic loss除以$\\log 2$，使曲线便于比较。若在训练目标中也缩放损失，却保持正则项系数不变，就会改变两项的相对权重。"
+  },
+  {
+    "issue": "P08",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "“No Free Lunch”提醒我们不存在对所有任务都占优的模型，不代表在特定数据与假设下无法比较模型。用一致划分、合适指标和验证设计比较，可以将本讲的算法放在同一条件下评价。\n\n来源：Lecture3c，第44–50个单元。",
+    "after": "来源：Lecture3c，第44–50个单元。\n\n“No Free Lunch”提醒我们不存在对所有任务都占优的模型，不代表在特定数据与假设下无法比较模型。用一致划分、合适指标和验证设计比较，可以将本讲的算法放在同一条件下评价。\n\n来源：Lecture3c，第53个单元。"
+  },
+  {
+    "issue": "P09",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "目标是$\\|y-\\Phi^Tw\\|^2+\\alpha\\|w\\|^2$，因此[前面的Ridge方程](#ridge)变为$(\\Phi\\Phi^T+\\alpha I_m)w=\\Phi y$。把含$\\Phi\\Phi^T$的部分移到右边，提取共同的$\\Phi$，得到$\\alpha w=\\Phi(y-\\Phi^Tw)$。这说明最优权重可以由训练样本的特征向量组合而成：定义$N$维向量$a=(y-\\Phi^Tw)/\\alpha$，便有$w=\\Phi a=\\sum_i a_i\\phi(x_i)$。",
+    "after": "目标是$\\|y-\\Phi^Tw\\|^2+\\alpha\\|w\\|^2$，因此[前面的Ridge方程](#ridge)变为$(\\Phi\\Phi^T+\\alpha I_m)w=\\Phi y$。把含$\\Phi\\Phi^T$的部分移到右边，右侧就能提取共同的$\\Phi$。\n\n定义$N$维向量$a=(y-\\Phi^Tw)/\\alpha$，移项后的式子便给出$w=\\Phi a$。也就是说，最优权重是训练样本特征向量的组合，$a_i$是第$i$条样本的组合系数，可以为负。"
+  },
+  {
+    "issue": "P09",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "现在求这组样本系数。令$K=\\Phi^T\\Phi$，它是$N\\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\\phi(x_i)^T\\phi(x_j)$。将$w=\\Phi a$代回$a$的定义，得到$\\alpha a=y-\\Phi^T\\Phi a=y-Ka$，即$(K+\\alpha I_N)a=y$。",
+    "after": "现在求这组样本系数。令$K=\\Phi^T\\Phi$，它是$N\\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\\phi(x_i)^T\\phi(x_j)$。将$w=\\Phi a$代回$a$的定义，右边变成$(y-Ka)/\\alpha$；两边乘$\\alpha$，再把$Ka$移到左边，就得到关于$a$的线性方程。"
+  },
+  {
+    "issue": "P09",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "新输入$x_*$只需与各训练点计算核值，组成$k_*=(k(x_1,x_*),\\ldots,k(x_N,x_*))^T\\in\\mathbb R^N$。这样便得到老师给出的求解与预测公式：",
+    "after": "新输入$x_*$与各训练点的核值组成$k_*=(k(x_1,x_*),\\ldots,k(x_N,x_*))^T\\in\\mathbb R^N$。把移项、求系数和预测写在一起："
+  },
+  {
+    "issue": "P09",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "a=(K+\\alpha I_N)^{-1}y,\\qquad \\hat y_*=k_*^Ta.\\tag{4.16}",
+    "after": "\\begin{gathered}\n\\alpha w=\\Phi(y-\\Phi^Tw),\\\\[4pt]\nw=\\Phi a,\\qquad (K+\\alpha I_N)a=y,\\\\[4pt]\na=(K+\\alpha I_N)^{-1}y,\\qquad \\hat y_*=k_*^Ta.\n\\end{gathered}\\tag{4.16}"
+  },
+  {
+    "issue": "P09",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "$a_i$是样本系数，可以为负；$\\alpha$则是控制惩罚强度的正数。预测为什么可以用核值相加？把刚才求出的$w=\\Phi a$放回原预测式即可：",
+    "after": "末行的预测为什么可以用核值相加？把$w=\\Phi a$放回原预测式即可："
+  },
+  {
+    "issue": "P10",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "回归树按阈值逐层分支，每个叶子输出其中训练目标的平均值（平方损失情形），所以形成台阶。单棵深树容易记住训练噪声。Random Forest通过bootstrap抽样，并在节点分裂时按设置随机选特征，让多棵树产生不同规则；最终预测是**各树预测的平均**，不是只找其中一棵树的叶子。",
+    "after": "回归树按阈值逐层分支，每个叶子输出其中训练目标的平均值（平方损失情形），所以形成台阶。单棵深树容易记住训练噪声。\n\nRandom Forest让多棵树使用不同的训练样本。**Bootstrap（自助抽样）**是从原训练集有放回地抽样：抽出一条记录后仍放回，它就可能再次被抽中。例如原记录编号为1、2、3、4，一棵树可抽到2、2、4、1；记录2重复，记录3这次没有出现。不同树分别抽样，并在节点分裂时按设置随机选特征，从而形成不同规则。最终预测是**各树预测的平均**。"
+  },
+  {
+    "issue": "P11",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "原数据价格单位的千元，图中标为美元千元",
+    "after": "千美元（原价格除以1000）"
+  },
+  {
+    "issue": "P11",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "例如预测价格千元时T=15表示1.5万元，不是15%",
+    "after": "例如目标单位是千美元时，T=15表示1.5万美元的预测误差，不是15%"
+  },
+  {
+    "issue": "P11",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "输出180、210、210（千元），森林输出200",
+    "after": "输出180、210、210（千美元），森林输出200千美元"
+  },
+  {
+    "issue": "P12",
+    "file": "CS5489/course-notes/Lecture05.md",
+    "before": "**自己做 / Check：** $\\mathbf w=(1,-1)$",
+    "after": "**自己做 / Check：** 无偏置，$\\mathbf w=(1,-1)$"
+  },
+  {
+    "issue": "P13",
+    "file": "CS5489/course-notes/Lecture05.md",
+    "before": "数据划分与实际类别编码以原代码为准，不擅自把标签1..C直接当PyTorch要求的0..C−1。",
+    "after": "使用接收类别索引的损失接口时，标签若为1到C，应转换为对应的0到C−1编号。"
+  },
+  {
+    "issue": "P14",
+    "file": "CS5489/course-notes/Lecture05.md",
+    "before": "课堂用小批量SGD与PyTorch演示训练。`nn.Linear`保存权重和偏置，激活逐元素处理，DataLoader分批提供数据；每批典型顺序是清梯度、前向、算损失、`backward()`、`step()`。不清梯度会累积，这是可用功能，但不能在不知道时意外累积。",
+    "after": "前面求的是一批样本的平均损失梯度。如果每次更新都使用整个训练集，数据很多时，一步就需要处理全部样本。**Mini-batch SGD（小批量随机梯度下降）**每次取一小批训练样本，用这批损失的平均梯度估计整体下降方向。它减少每次更新的计算量和内存需求，但不同批的数据不同，方向也会有波动。\n\n课堂用PyTorch实现这个过程。`nn.Linear`保存权重和偏置，激活逐元素处理，DataLoader分批提供数据；每批典型顺序是清梯度、前向、算损失、`backward()`、`step()`。`backward()`会把新梯度加到已有梯度上，因此独立更新每批时需先清零；有意跨批累积时则按累积方案处理。"
+  },
+  {
+    "issue": "P15",
+    "file": "CS5489/course-notes/Lecture05.md",
+    "before": "训练集参与更新参数；验证集用于观察曲线、选学习率、选择早停时刻。早停要保存验证表现较好的参数，而不只是退出循环时的最后一次参数。若使用验证准确率，阈值与方向应按准确率定义；若使用验证损失，按越低越好。测试集用于冻结选择后的最后评价。",
+    "after": "训练集参与更新参数；验证集用于观察曲线、选学习率和选择早停时刻。若使用验证准确率，以较高为好；若使用验证损失，以较低为好。测试集用于冻结选择后的最后评价。\n\n老师的早停代码根据验证准确率记录连续未改善的轮数，达到阈值后退出循环，没有保存或恢复最佳参数。完整使用早停时，可以在验证指标改善时保存检查点，停止后恢复最佳检查点，再做最终评价。这是对课堂实现的补充；停止时的最后一组参数不一定是验证表现最好的一组。来源：Lecture5b，第36–37个单元。"
+  },
+  {
+    "issue": "P16",
+    "file": "CS5489/course-notes/Lecture05.md",
+    "before": "<div class=\"short-exercise\" markdown=\"1\">\n\n英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?\n\n关键要点 / Key points：隐藏层学习非线性表示；p−y包含分子分母共同求导；平均损失只缩放一次；早停选参数时刻；逼近定理不保证训练或泛化。 / Learned nonlinear features; full softmax derivative; one averaging factor; a selected checkpoint; no training or generalization guarantee.\n\n</div>",
+    "after": "<div class=\"short-exercise\" markdown=\"1\">\n\n**Q1. 加入隐藏层改变了什么？ / What changes when a hidden layer is added?**\n\n**答 / Answer：** 带非线性激活的隐藏层学习中间特征，使分类器能形成非线性边界。如果各层只有线性变换，多层合起来仍是线性变换。 / A hidden layer with a nonlinear activation learns intermediate features and allows nonlinear boundaries. A composition of linear layers remains linear.\n\n</div>\n\n<div class=\"short-exercise\" markdown=\"1\">\n\n**Q2. 单样本softmax交叉熵的logit梯度为什么是$p-y$？ / Why does single-example softmax cross-entropy give the logit gradient $p-y$?**\n\n**答 / Answer：** 对第$j$个logit求导时，softmax的共同分母使各类别的损失都产生贡献。合并后是$p_j\\sum_k y_k-y_j$；标签满足$\\sum_k y_k=1$，因此得到$p_j-y_j$。 / The shared denominator couples all classes. Differentiation gives $p_j\\sum_k y_k-y_j=p_j-y_j$, since the target entries sum to one.\n\n</div>\n\n<div class=\"short-exercise\" markdown=\"1\">\n\n**Q3. 平均损失中的批量大小$B$在哪里进入反传？ / Where does batch size $B$ enter backpropagation for a mean loss?**\n\n**答 / Answer：** 在输出梯度中除以$B$，后续层使用这个已缩放的梯度，不逐层再除一次。若损失采用求和，则不除以$B$。 / Divide the output gradient by $B$ once; subsequent layers propagate that scaled gradient. A summed loss has no averaging factor.\n\n</div>\n\n<div class=\"short-exercise\" markdown=\"1\">\n\n**Q4. 早停选择什么，训练结束后应使用哪组参数？ / What does early stopping select, and which parameters should be used afterward?**\n\n**答 / Answer：** 按预先选定的验证指标选择训练时刻及其参数。完整实现保存并恢复最佳验证检查点；不默认使用退出循环时的最后参数，也不按测试集挑选。 / Select a training checkpoint using a chosen validation metric, then restore its saved parameters. Do not select it using the test set or assume the final iteration is best.\n\n</div>\n\n<div class=\"short-exercise\" markdown=\"1\">\n\n**Q5. 通用逼近定理不保证什么？ / What does universal approximation not guarantee?**\n\n**答 / Answer：** 它在规定条件下说明存在能逼近目标函数的网络，不保证训练算法能找到相应参数、所需宽度很小，或模型能泛化到未见数据。 / It establishes representational possibility under assumptions, not that training will find the parameters, a small width will suffice, or the model will generalize.\n\n</div>"
+  },
+  {
+    "issue": "P17",
+    "file": "scripts/build_exam_annotations.py",
+    "before": "题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。",
+    "after": "题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。"
+  },
+  {
+    "issue": "P17",
+    "file": "scripts/build_exam_annotations.py",
+    "before": "题目册与答案册目前只单独维护Lecture 2。下面公开考点、题号和材料身份，不附完整原卷或同学作答。",
+    "after": "课程级期中题库已按考点在本地另册维护，题目与答案分开；期末与QE不包含在该题库中。本附录公开考点、题号和材料身份，不附完整原卷或同学作答。"
+  },
+  {
+    "issue": "P18",
+    "file": "CS5489/course-notes/exam-evidence/Lecture01.json",
+    "before": "当前教学内容与历史题的对应；题答册未扩编",
+    "after": "当前教学内容与历史题的对应；公开考点与题源，完整题答另行本地维护"
+  },
+  {
+    "issue": "P18",
+    "file": "CS5489/course-notes/exam-evidence/Lecture03.json",
+    "before": "当前教学内容与历史题的对应；题答册未扩编",
+    "after": "当前教学内容与历史题的对应；公开考点与题源，完整题答另行本地维护"
+  },
+  {
+    "issue": "P18",
+    "file": "CS5489/course-notes/exam-evidence/Lecture04.json",
+    "before": "当前教学内容与历史题的对应；题答册未扩编",
+    "after": "当前教学内容与历史题的对应；公开考点与题源，完整题答另行本地维护"
+  },
+  {
+    "issue": "P18",
+    "file": "CS5489/course-notes/exam-evidence/Lecture05.json",
+    "before": "当前教学内容与历史题的对应；题答册未扩编",
+    "after": "当前教学内容与历史题的对应；公开考点与题源，完整题答另行本地维护"
+  },
+  {
+    "issue": "P19",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "当$C\\ge1/2$时，$w=1,b=0$也就是软间隔的最优解。",
+    "after": "因此$C\\nobreak\\ge\\nobreak1/2$时，软间隔也取得$w=1,b=0$。"
+  },
+  {
+    "issue": "P19",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "使用$w_c=N/(K N_c)$：$N$是总样本数",
+    "after": "使用$w_c=N/(K N_c)$计算各类权重。这里$N$是总样本数"
+  },
+  {
+    "issue": "P19",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "右边变成$(y-Ka)/\\alpha$；两边乘$\\alpha$，再把$Ka$移到左边",
+    "after": "右边变成$(y-Ka)/\\alpha$。两边乘$\\alpha$后，把$Ka$移到左边"
+  }
+]

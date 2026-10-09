@@ -1,0 +1,43 @@
+{
+  "source_commit": "e19e10e0ce79bfeab8cedbe601abac3356d696b9",
+  "derivation_checks": 108,
+  "corrected_rule_cases": 6,
+  "generator_idempotent": true,
+  "exam_counts_unchanged": true,
+  "existing_equation_ids_unchanged": true,
+  "changed_display_equation": [
+    "4.16"
+  ],
+  "notebook_code_outputs_unchanged": true,
+  "existing_drafts_unchanged": true,
+  "reviewed_lecture_pages": [
+    17,
+    118
+  ],
+  "contact_page_count": 102,
+  "final_delta_pages": [
+    64,
+    67,
+    92
+  ],
+  "screen_checks": 12,
+  "screenshots": 26,
+  "physical_print": false,
+  "books": [
+    {
+      "file": "CS5489-A4.pdf",
+      "pages": 210,
+      "sha256": "ecaace43078b1482b5bc47b36895b2341ba714dd50ff27cc441ee952bae558be"
+    },
+    {
+      "file": "CS5222-A4.pdf",
+      "pages": 88,
+      "sha256": "13be4007260602a9a92ffb455721cfbc6fea6ff338764fb522b3f64b48e16286"
+    },
+    {
+      "file": "Foundations-A4.pdf",
+      "pages": 43,
+      "sha256": "7a2041625d07be81a7547680e73be1923c2a3ed43eb00113bf2d40d4b6e3a762"
+    }
+  ]
+}

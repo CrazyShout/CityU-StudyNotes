@@ -3,7 +3,7 @@
 
 **映射范围：当前Lecture 1–5。** 本附录按独立试卷整理本轮已核对的对应题目，放在Assignment之后。CNN、PCA、聚类等后续主题仅在与当前基础有直接联系时列为关联，不表示完整教学已覆盖。
 
-题目册与答案册目前只单独维护Lecture 2。下面公开考点、题号和材料身份，不附完整原卷或同学作答。
+课程级期中题库已按考点在本地另册维护，题目与答案分开；期末与QE不包含在该题库中。本附录公开考点、题号和材料身份，不附完整原卷或同学作答。
 
 [Lecture 1复习表](Lecture01.md#exam-review) · [Lecture 2复习表](Lecture02.md#exam-review) · [Lecture 3复习表](Lecture03.md#exam-review) · [Lecture 4复习表](Lecture04.md#exam-review) · [Lecture 5复习表](Lecture05.md#exam-review)
 
