@@ -51,7 +51,7 @@ TCP提供连接上的可靠有序字节流以及流控、拥塞控制；UDP提�
 
 **实现补注：** 这里比较的是课堂的普通UDP接收与已建立TCP连接。监听socket、已接受连接及connected UDP的接口细节，可在实际编程时进一步区分。
 
-**变式 / Transfer：** 两客户端在不同IP上都使用端口50000，连接同一个服务器443端口，是否冲突？ / Do these two established connections conflict?
+**变式 / Transfer：** 两客户端在不同IP上都使用端口50000，连接同一个服务器443端口，是否冲突？ / Two clients with different IP addresses both use source port 50000 to connect to the same server IP and port 443. Do the established TCP connections conflict?
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -85,7 +85,7 @@ UDP首部四个16bit字段为source port、destination port、length、checksum�
 
 [Tutorial5](Tutorial05.md#checksum)改用8bit以便手算，这是题目简化，不能把真实UDP首部缩成8bit。单比特翻转可被此校验发现；两个适当位置的变化可能相互抵消。检验通过不证明数据来源可信，也不等于密码学完整性认证。
 
-**自测 / Check：** 8bit简化模型中，`11111111+00000001`的反码校验和是多少？ / Compute the toy 8-bit checksum.
+**自测 / Check：** 8bit简化模型中，`11111111+00000001`的反码校验和是多少？ / In a toy 8-bit model, compute the one’s-complement checksum for words 11111111 and 00000001, including end-around carry.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -127,7 +127,7 @@ rdt2.2去掉NAK，用带编号的ACK表达接收进度：遇到损坏/非期望�
 | ACK丢失 | 也没有对应ACK | 超时重传；接收端辨重复，不重复交付 |
 | ACK只是很慢 | 可能提前超时 | 正确处理重复包和旧ACK |
 
-一次只允许一个未确认包在途，称stop-and-wait。0/1足以在原可靠性模型中区分相邻轮次，但若旧副本可任意延迟到编号重用之后，接收方可能把它当新包。这个边界正是Tutorial5 Q4要求画图说明的，不能把“序号只有两种就够”背成无条件结论。
+一次只允许一个未确认包在途，称stop-and-wait（停等）。例如数据0已交付、ACK0丢了：发送者超时重发0；接收者此时期待1，认出它是重复包，只补发ACK0，不再次交付。这把定时器、序号和ACK三项连成了一次恢复过程。0/1足以在原可靠性模型中区分相邻轮次，但若旧副本可任意延迟到编号重用之后，接收方可能把它当新包。这个边界正是Tutorial5 Q4要求画图说明的，不能把“序号只有两种就够”背成无条件结论。
 
 ![Delayed duplicate counterexample](assets/oct-alternating-bit.png)
 
@@ -142,13 +142,17 @@ rdt2.2去掉NAK，用带编号的ACK表达接收进度：遇到损坏/非期望�
 
 看课堂的停等传输例子：R=1Gbps，L=8000bit，单程传播15ms，RTT=30ms，忽略ACK传输和处理。发送时间$L/R=8\mu s=0.008ms$。一轮从开始发包到ACK返回，耗$RTT+L/R$。
 
-$$U=\frac{L/R}{RTT+L/R}=\frac{0.008}{30.008}\approx0.000266596.$$
+$$
+U=\frac{L/R}{RTT+L/R}=\frac{0.008}{30.008}\approx0.000266596.\tag{3.1}
+$$
 
 发送端忙碌比例约0.02666%，有效吞吐$RU\approx266596$bit/s，即0.2666Mbps。链路名义上1Gbps，却大部分时间在等。这是利用率，不是丢包率。
 
 流水线允许ACK回来前连续发N个包。理想无损模型的利用率为
 
-$$U_N=\min\left(1,\frac{N L/R}{RTT+L/R}\right).$$
+$$
+U_N=\min\left(1,\frac{N L/R}{RTT+L/R}\right).\tag{3.2}
+$$
 
 窗口越大，可填补等待；但不能超过100%。本例达到满利用需$N\ge3751$。这是忽略其他瓶颈与ACK成本的模型结果，不是给真实TCP直接配置3751就必然满速。
 
@@ -167,13 +171,17 @@ $L/R=0.08ms$，$U=0.08/30.08$，吞吐约0.2660Mbps，仍主要受等待限制�
 
 ## 8. GBN与Selective Repeat｜后面的包到了，要不要先收好？
 
-流水线传输有两种值得比较的做法。GBN发送者可有N个未确认包，base表示最早未确认序号，nextseqnum表示下一新包序号。累计ACK(n)表示直到n都已收齐。基本模型只给最早未确认包设timer，超时从base重传所有已发未确认包；接收方丢弃乱序包，重复确认最后连续收到的包。
+流水线传输有两种值得比较的做法。Go-Back-N（GBN，回退N步）发送者可有N个未确认包，base表示最早未确认序号，nextseqnum表示下一新包序号。累计ACK(n)表示直到n都已收齐。基本模型只给最早未确认包设timer，超时从base重传所有已发未确认包；接收方丢弃乱序包，重复确认最后连续收到的包。
 
-SR分别确认正确收到的包，缓存窗口内乱序包，每个未确认包有自己的超时逻辑。某包超时只重传该包；应用仍需按序交付，不能因为缓存里有后段就跳过前段缺口。
+Selective Repeat（SR，选择重传）分别确认正确收到的包，缓存窗口内乱序包，每个未确认包有自己的超时逻辑。某包超时只重传该包；应用仍需按序交付，不能因为缓存里有后段就跳过前段缺口。
 
-**同一场景 / Worked：** 依次发0、1、2、3，1丢失。GBN收到0后ACK0，收到2和3均丢弃并ACK0，超时通常重传1、2、3。SR可缓存2和3并分别ACK2/ACK3，等1补上后连续交付1、2、3。这是包序号，尚不是TCP字节ACK。
+**同一场景 / Worked：** 窗口足以容纳四包，序号不回绕；依次发0、1、2、3，只丢数据1，没有其他丢失或重排。 / Both protocols have sufficient window space, with no sequence-number wraparound. Send packets 0–3; only packet 1 is lost, and all other data and ACKs arrive without reordering. GBN收到0后ACK0，收到2和3均丢弃并ACK0，超时通常重传1、2、3。SR可缓存2和3并分别ACK2/ACK3，等1补上后连续交付1、2、3。这是包序号，尚不是TCP字节ACK。
 
-**独立题 / Check：** 发0–7，6丢失，无重排，在重传前GBN与SR发哪些ACK？ / List receiver ACKs before retransmission.
+![Same loss, different receiver buffering and retransmissions](assets/chapter03-gbn-sr.png)
+
+*教学时序图：两边都只发送0–3这一批，窗口足够大，只有数据1丢失，ACK均成功，未发生序号回绕。纵向表示事件顺序，不按真实RTT比例。GBN丢弃2和3后重传1–3；SR先存好2和3，只补1。图中省略了GBN重传后的正常累计ACK。*
+
+**独立题 / Check：** 第一批发0–7，只有数据6丢失，无重排、ACK无丢失，窗口足够发完这批，序号不回绕。在任何重传开始前，GBN与SR接收端分别发哪些ACK？ / In the first batch, send packets 0–7 with a sufficiently large window and no sequence-number wrap. Only data packet 6 is lost; there is no reordering or ACK loss. List each receiver's ACKs before any retransmission.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -202,7 +210,6 @@ TCP segment序号是该段第一个数据字节的位置；累计ACK是下一期
 
 
 来源：Chapter 3 part 2，第17–23张幻灯片。
-来源：Chapter 3 part 2，第22–23张幻灯片。
 
 <a id="rto"></a>
 
@@ -210,13 +217,28 @@ TCP segment序号是该段第一个数据字节的位置；累计ACK是下一期
 
 超时设置需要权衡：过短会误重传，过长会拖慢真正丢包的恢复。SampleRTT是一次测得的往返时间，EstimatedRTT是平滑估计：
 
-$$E_{new}=(1-\alpha)E_{old}+\alpha S,\quad\alpha=0.125\text{为课件常用值}.$$
+$$
+E_{new}=(1-\alpha)E_{old}+\alpha S,\quad\alpha=0.125\text{为课件常用值}.\tag{3.3}
+$$
 
 S是本次样本，E与S都以相同时间单位计。历史样本的影响指数衰减。波动用DevRTT近似：$D_{new}=(1-\beta)D_{old}+\beta|S-E|$，课件常用β=0.25；超时$RTO=E+4D$。D不是“又一份平均RTT”，而是安全余量相关的波动量。
 
-**手算 / Worked：** 旧E=100ms、样本S=140ms，更新E=105ms。若本题明确固定D=10ms，不更新D，则RTO=145ms。需要同时更新D的题，应说明式中的E使用哪一步估计，不能在未声明的不同顺序间比较数字。
+把两项都算一次（教学例）：旧E=100 ms、旧D=10 ms，本次S=140 ms，取alpha=0.125、beta=0.25。**本例约定先更新E，再把新E代入D的式子。** / Start with E=100 ms, D=10 ms and S=140 ms, with alpha=0.125 and beta=0.25. In this teaching calculation, update E first and use the new E in the deviation update.
 
-超时样本还涉及重传后无法确定ACK对应哪次发送的歧义，原Chapter 3 part 2，第24张幻灯片因此强调不把重传段直接用于SampleRTT。真实TCP的最小超时与退避规则需另参协议规范；本节只做课件给定模型，不把145ms当所有系统应采用的配置值。
+| 步骤 | 代入 | 结果 |
+|---|---|---:|
+| 平滑RTT | 0.875×100+0.125×140 | 105 ms |
+| 与新估计的偏差 | abs(140−105) | 35 ms |
+| 平滑波动 | 0.75×10+0.25×35 | 16.25 ms |
+| 本例超时 | 105+4×16.25 | 170 ms |
+
+如果题目规定D固定为10 ms，则是105+40=145 ms；若用旧E更新D，又会得到另一值。做题时要把采用的更新顺序写明，不能把不同约定的结果直接比较。
+
+**变式 / Transfer：** 从同样的旧E=100 ms、旧D=10 ms重新开始，S改为80 ms，仍先更新E再更新D。求E、D、RTO。 / Restart from E=100 ms and D=10 ms, but use S=80 ms. Keep the same coefficients and update order. Find the new E, D and RTO.
+
+**答 / Answer：** E=97.5 ms；偏差17.5 ms，D=11.875 ms；RTO=145 ms。 / E=97.5 ms, D=11.875 ms, RTO=145 ms.
+
+超时样本还涉及重传后无法确定ACK对应哪次发送的歧义，原Chapter 3 part 2，第24张幻灯片因此强调不把重传段直接用于SampleRTT。真实TCP的最小超时与退避规则需另参协议规范；本节只做课件给定模型，不把本例算出的毫秒数当所有系统应采用的配置值。
 
 来源：Chapter 3 part 2，第24–26张幻灯片。
 

@@ -22,4 +22,4 @@
 
 ## 历史题源索引
 
-[Lecture 2考点与复习顺序](Lecture02.md#exam-review) · [按试卷查Lecture 2题源](ExamIndex.md)。附录位于A4分册的Assignment之后；完整题目与答案另在本地整理，不随仓库发布。
+[按试卷查Lecture 1–5题源](ExamIndex.md)。各Lecture开头按考点列独立卷数，讲末保留题号和页码。附录位于A4分册的Assignment之后；完整题目与答案另在本地整理，不随仓库发布。

@@ -32,11 +32,13 @@
 <a id="q2"></a>
 ## Q2. Three store-and-forward links｜每一跳的发送与传播都要数
 
-**条件 / Conditions:** 长L的包经三条链路，两台存储转发交换机；第i链路长dᵢ m、传播速度sᵢ m/s、发送速率Rᵢ bit/s，每台交换机处理时延dproc，无排队。 / A length-L packet crosses three store-and-forward links and two switches. Link i has length dᵢ, propagation speed sᵢ and rate Rᵢ; each switch adds dproc and there is no queueing.
+**条件 / Conditions:** 长L bit的包经三条链路，两台存储转发交换机；第i链路长dᵢ m、传播速度sᵢ m/s、发送速率Rᵢ bit/s，每台交换机处理时延dproc，无排队。 / An L-bit packet crosses three store-and-forward links and two switches. Link i has length dᵢ, propagation speed sᵢ and rate Rᵢ; each switch adds dproc and there is no queueing.
 
 a 把事件从左到右排：链路1发送/传播 → 交换机1处理 → 链路2发送/传播 → 交换机2处理 → 链路3发送/传播。
 
-$$d_{end}=\sum_{i=1}^3\frac L{R_i}+\sum_{i=1}^3\frac{d_i}{s_i}+2d_{proc}\quad\text{（选B）}.$$
+$$
+d_{end}=\sum_{i=1}^3\frac L{R_i}+\sum_{i=1}^3\frac{d_i}{s_i}+2d_{proc}\quad\text{（选B）}.\tag{T2.1}
+$$
 
 b 给定L=1500byte=12000bit，各R=2Mbps，各s=2.5×10⁸m/s，距离5000/4000/1000km，每交换机3ms：
 
@@ -79,11 +81,13 @@ b 给定L=1500byte=12000bit，各R=2Mbps，各s=2.5×10⁸m/s，距离5000/4000/
 
 前面剩4.5包，$4.5\times12000/(2\times10^6)=0.027$s=**27ms，选A**。一般式为
 
-$$d_{queue}=\frac{(L-x)+nL}R.$$
+$$
+d_{queue}=\frac{(L-x)+nL}R.\tag{T2.2}
+$$
 
 **English answer:** Queueing delay is 27 ms, or ((L−x)+nL)/R. It excludes transmission of the arriving packet itself.
 
-若问它**完成发送**的时间，则另加L/R；若問到目的地还要加传播及后续节点条件。若出口本来空闲，就不是这条“有一个正在发送包”的场景，等待为0。
+若问它**完成发送**的时间，则另加L/R；若问到目的地还要加传播及后续节点条件。若出口本来空闲，就不是这条“有一个正在发送包”的场景，等待为0。
 
 **变式 / Transfer:** 同速同包长，当前包已发75%，队列前面还有2包，新包排队多久？ / The current packet is 75% transmitted and two packets are queued ahead. Find the new packet's queueing delay.
 
@@ -112,7 +116,7 @@ traceroute -n -m 12 -q 3 -w 1 cityu.edu.hk
 
 **English answer:** Columns identify probe hop, responding address and round-trip times. An asterisk means no response within the timeout. Different probes and return paths can produce non-monotonic RTTs.
 
-**本轮实际观察（2026-09-23 01:19，UTC+8）：** 域名解析有两个地址，traceroute选用45.60.199.218；第1跳三个RTT约4.352/3.957/4.301ms，第7跳有星号，第11跳第三次升到192.365ms。在最多12跳内没有看到目的地址响应，故这不是完整路径。进程正常结束也不表示探测已到终点。同一跳有不同地址响应，不足以断言一条固定唯一线路。
+**已保存的实际观察（2026-09-23 01:19，UTC+8）：** 域名解析有两个地址，traceroute选用45.60.199.218；第1跳三个RTT约4.352/3.957/4.301ms，第7跳有星号，第11跳第三次升到192.365ms。在最多12跳内没有看到目的地址响应，故这不是完整路径。进程正常结束也不表示探测已到终点。同一跳有不同地址响应，不足以断言一条固定唯一线路。
 
 你自己的观测应另记时间、探测参数和实际输出；换时间或网络，路径和RTT可能变化。
 
@@ -120,4 +124,4 @@ traceroute -n -m 12 -q 3 -w 1 cityu.edu.hk
 
 原题p1=Q1/Q2，p2=Q3/Q4，p3=Q5。Tutorial 2教师解答，第1–4张幻灯片为四类时延/车队背景（见Chapter1），5=Q1，6–7=Q2，8=Q3，9=Q4，10–11=traceroute课堂示例，12–13=Q5解释。全部已对应，原教师结论与本文补充条件分开。
 
-计算复核：[network-example-results.json](network-example-results.json)。复习可用[现有时延卡N025](https://crazyshout.github.io/micro-course/cards.html#CS5222-N025)与[原题卡N080](https://crazyshout.github.io/micro-course/cards.html#CS5222-N071)，根据本题错误位置，复习单位、时序、转发或排队的相关概念。
+计算复核：[network-example-results.json](network-example-results.json)。复习可用[现有时延卡N025](https://crazyshout.github.io/micro-course/cards.html#CS5222-N025)与[原题卡N080](https://crazyshout.github.io/micro-course/cards.html#CS5222-N080)，根据本题错误位置，复习单位、时序、转发或排队的相关概念。

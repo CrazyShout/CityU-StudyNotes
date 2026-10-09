@@ -1,0 +1,143 @@
+{
+  "discriminative": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "parameter-count": {
+    "midterm_direct": [
+      "M23B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "logistic": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  },
+  "regularization": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  },
+  "margin": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [
+      "F21B"
+    ],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK",
+      "SAMPLE"
+    ]
+  },
+  "kernel": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B",
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [
+      "F21B"
+    ],
+    "final_related": [
+      "F20B"
+    ],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK",
+      "SAMPLE"
+    ]
+  },
+  "storage": {
+    "midterm_direct": [
+      "M20B",
+      "M21B",
+      "M23B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "cost": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M23B"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  },
+  "loss": {
+    "midterm_direct": [
+      "M20B",
+      "M21A",
+      "M21B",
+      "M23A",
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "MOCK"
+    ]
+  }
+}

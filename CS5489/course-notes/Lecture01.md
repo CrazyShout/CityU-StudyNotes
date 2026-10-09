@@ -7,6 +7,26 @@
 
 这一讲先建立整门课的任务语言，再准备实际工具。你要能说清输入、目标与评价，能逐行读Python，知道数组的哪根轴是样本，并能把条件概率的方向读对。原课的安装界面和部分语法说明较旧，本文给出差异说明；日期、评分、提交手续仍查[课程信息](https://crazyshout.github.io/micro-course/notices.html?course=CS5489)与当前Canvas。
 
+<!-- EXAM:overview:START -->
+<div class="exam-overview exam-overview-compact" markdown="1">
+<a id="exam-review"></a>
+## Exam focus｜这一讲怎样安排复习
+
+本讲先学会组织一次机器学习实验，再补Python、NumPy与概率工具。历史题直接支持训练／验证分工和结果诊断；编程工具的重要性来自当前Tutorial及后续课程依赖。
+
+| 考点 | 复习动作 | 期中：直接／关联 | 期末：直接／关联 | QE记录 | 入口 |
+|---|---|---|---|---|---|
+| 训练、验证与最终评价 | 先能安排一次不泄漏的模型选择 | 1套／未见 | 未见／未见 | 未见 | [讲解](#pipeline) |
+| 训练与验证表现诊断 | 根据证据提出下一步检查 | 3套／未见 | 未见／2套 | 关联题段；卷次待定 | [讲解](#error-diagnosis) |
+
+**口径：** 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
+
+现有卷中未见直接考Python语法或NumPy接口的题，不能由此判断不考。深层网络和CNN曲线题只作关联入口；本讲不承担网络结构设计。
+
+绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+</div>
+<!-- EXAM:overview:END -->
+
 | 主题 | 优先级 | 难度与卡点 | 掌握要求、依据 |
 |---|---|---|---|
 | 学习任务、训练/验证/测试 | 核心必会 | 中，目标与流程不同 | 解释并画出数据流；Lecture 1 Intro，第9–26页 |
@@ -34,7 +54,7 @@ Mitchell的任务表述可以拆成三个问题：**task T**做什么，**experi
 **English takeaway:** Define the task, experience and performance measure before choosing an algorithm. Learning from data must be evaluated on an appropriate task and population.
 
 
-**来源与掌握要求：** Lecture 1 Intro，第9–16页。
+来源： Lecture 1 Intro，第9–16页。
 
 <a id="learning-types"></a>
 
@@ -53,11 +73,15 @@ Mitchell的任务表述可以拆成三个问题：**task T**做什么，**experi
 **答／Answer：** 无监督聚类、监督回归、强化学习；具体还需确认标签与反馈。 / Unsupervised clustering, supervised regression and reinforcement learning, subject to the actual labels and feedback.
 
 
-**来源与掌握要求：** Lecture 1 Intro，第16–22页。
+来源： Lecture 1 Intro，第16–22页。
 
 <a id="pipeline"></a>
 
 ## 3. ML Training Pipeline｜先练习，再选方法，最后才验收
+<!-- EXAM:focus-pipeline:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：训练、验证与最终评价</span><br>期中直接：1套。</p>
+<!-- EXAM:focus-pipeline:END -->
+
 
 一份数据先经过特征表示，再进入模型训练。参数是从训练数据学到的数，例如一条分界线的系数；超参数是你选择的配置，例如正则化强度C。验证集帮助选择配置，测试集用于方案固定后的评价。
 
@@ -70,11 +94,27 @@ Mitchell的任务表述可以拆成三个问题：**task T**做什么，**experi
 **独立变式 / Transfer：** 三个模型训练错误率为0%、4%、8%，验证错误率为20%、9%、11%。以验证错误率选谁？ / Training errors are 0%,4%,8% and validation errors are 20%,9%,11%. Which model is selected by validation error?  
 **答／Answer：** 第二个；训练集最低错误不保证验证最好。 / The second model. Minimum training error does not guarantee best validation performance.
 
+<a id="error-diagnosis"></a>
+### 从训练和验证表现寻找下一步
+<!-- EXAM:focus-error-diagnosis:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span><span class="exam-wave wave-qe"></span>考点：训练与验证表现诊断</span><br>期中直接：3套；期末关联：2套；QE关联题段，年份未载／卷次待定。</p>
+<!-- EXAM:focus-error-diagnosis:END -->
+
+
+模型在训练集上几乎全对，却在验证集上经常错，说明它学到的规律没有同样适用于验证数据。若两份数据来自同一目标总体，这种差距常提示过拟合；如果拍摄设备、年份或人群变了，也要检查数据分布变化。只看两条错误率，不能唯一确定原因。
+
+另一种情况是训练和验证都差。若优化已经充分收敛，继续重复相同训练可能没有帮助：特征可能遗漏信息，模型也可能过于受限。这时应检查标签和表示方式，再考虑增加模型能力；一味加强正则化反而可能更难拟合。这个判断会在后面的正则化、树模型和神经网络中反复用到。
+
+**判断 / Check：** 两份有代表性的数据来自同一总体，训练错误2%、验证错误25%。仅凭这两个数，能否证明增加模型复杂度会改善验证表现？ / Representative training and validation sets come from the same population, with errors of 2% and 25%. Do these figures prove that a more complex model will improve validation performance?
+
+**答 / Answer：** 不能。先检查评估流程和过拟合，比较正则化、数据量等调整的验证结果；数字不支持“越复杂越好”。 / No. Check the evaluation procedure and overfitting, then compare changes such as regularization or more data on validation data. Greater complexity is not guaranteed to help.
+
+这是对历史题中训练／验证诊断的补充解释；Python与NumPy仍按下面的课堂顺序学习。
+
 原课CILO要求解释、实现、应用和评价。Lecture负责方法，Tutorial把方法写成代码，Assignment练更完整的实验；本讲的Python与数学正是后面这些工作的工具。
 
 
-**来源与掌握要求：** Lecture 1 Intro，第23–28页。
-来源：Lecture 1 Intro，第24页。
+来源：Lecture 1 Intro，第23–28页。
 
 <a id="notebook"></a>
 
@@ -89,7 +129,7 @@ Notebook有Markdown与code两种单元；内核保存当前变量状态。单元
 **English takeaway:** Notebook state belongs to the running kernel. A clean top-to-bottom run tests whether the document is reproducible rather than dependent on earlier hidden actions.
 
 
-**来源与掌握要求：** Lecture1a，第1–14个单元、Lecture 1 Intro，第6页。
+来源： Lecture1a，第1–14个单元、Lecture 1 Intro，第6页。
 
 <a id="variables"></a>
 
@@ -112,7 +152,7 @@ if x == 4:      # comparison, not assignment
 **答／Answer：** 10，按顺序先变5再变10。 / 10: first 5, then 10.
 
 
-**来源与掌握要求：** Lecture1a，第15–28、76–88个单元。
+来源： Lecture1a，第15–28、76–88个单元。
 
 <a id="containers"></a>
 
@@ -137,7 +177,7 @@ if x == 4:      # comparison, not assignment
 **English takeaway:** Choose containers by their purpose, and distinguish value equality, object identity and in-place mutation. Slices exclude the stop position.
 
 
-**来源与掌握要求：** Lecture1a，第29–75、89–94个单元。
+来源： Lecture1a，第29–75、89–94个单元。
 
 <a id="control-flow"></a>
 
@@ -154,13 +194,24 @@ print(total)              # 9, after the loop
 
 三轮total依次是1、4、9。`enumerate`同时给索引与值，`zip`把多个序列逐项配对，默认在最短序列结束时停止；遍历字典可用`for key, value in d.items()`。`break`退出循环，`continue`跳过本轮剩余部分；循环的`else`在正常结束、没有break时执行。
 
-先会写多行，再读列表推导式：`[4*x for x in values if x>2]`表示遍历、筛选、变换并收集。Lecture1a，第123个单元实际代码为`4*item*4`，所以是16倍，不要把它按前一页4倍解释。可以把推导式展开成循环，逐步核对每个值。
+例如要从`[1,3,4]`中取出大于2的值，并乘4，可以逐行写：
+
+~~~python
+values = [1, 3, 4]
+result = []
+for x in values:
+    if x > 2:
+        result.append(4 * x)
+# result is [12, 16]
+~~~
+
+1没有通过条件；3和4分别产生12和16。列表推导式`[4*x for x in values if x>2]`把同样的遍历、筛选和收集压成一行。Lecture1a，第123个单元实际代码为`4*item*4`，所以是16倍，不要把它按前一页4倍解释。可以把推导式展开成循环，逐步核对每个值。
 
 **变式 / Transfer：** 对[1,2,3,4]只收集偶数的平方，结果是什么？ / Collect squares of the even values in [1,2,3,4].  
 **答／Answer：** [4,16]，例如`[x*x for x in values if x%2==0]`。 / [4,16], by testing evenness before collecting the square.
 
 
-**来源与掌握要求：** Lecture1a，第96–123个单元。
+来源： Lecture1a，第96–123个单元。
 
 <a id="functions-classes"></a>
 
@@ -176,14 +227,35 @@ result = sum3(*[1, 5, 2])          # positional unpacking: 8
 same = sum3(**{"a":5,"b":1,"c":2}) # keyword unpacking: 8
 ~~~
 
-类把状态和动作组织在一起。原`MyList`的`self.x`每个实例各有一份，`MyList.num`是类共享的计数；`__init__`初始化对象，`self`是正在操作的实例。原`appendx`虽然注释写“class method”，实际是普通实例方法，并不是`@classmethod`。
+函数算完可以返回结果；如果还想把前面记录过的值留下来，就需要保存状态。下面把老师的`MyList`缩成一个教学例子：每个对象记自己的列表，所有对象共用一个创建次数计数。
+
+~~~python
+class MyList:
+    num = 0
+    def __init__(self):
+        self.x = []
+        MyList.num += 1
+    def appendx(self, value):
+        self.x.append(value)
+
+a = MyList()
+b = MyList()
+a.appendx(3)
+# a.x == [3], b.x == [], MyList.num == 2
+~~~
+
+`__init__`在新对象创建时初始化它；`self`指当前操作的那个对象。调用`a.appendx(3)`时，修改的是a的列表，b的列表仍为空。`MyList.num`放在类上，记录两个对象的共同计数。老师原`appendx`的注释虽写“class method”，它实际使用self，是实例方法。
+
+**自测 / Check：** 接着执行`b.appendx(5)`，a.x、b.x和MyList.num各是什么？ / After `b.appendx(5)`, give `a.x`, `b.x` and `MyList.num`.
+
+**答 / Answer：** `[3]`、`[5]`、2；追加值没有创建新对象。 / `[3]`, `[5]`, and 2. Appending a value does not create another instance.
 
 `MyListAll(MyList)`继承并重写部分方法，父类初始化仍需正确调用。`_name`约定为内部使用，`__name`触发名字改写；它们都不提供严格的访问控制。`__str__`决定友好文本显示；`__dict__`、`__doc__`、`__module__`、`__name__`、`__bases__`帮助查看对象与类。原属性查找说明针对普通例子，更完整的描述符与继承细节留作语言学习，不要求本课先背完。
 
 **English takeaway:** A function returns a result; an object can retain state across method calls. This prepares you to understand an estimator that is fitted first and used for prediction later.
 
 
-**来源与掌握要求：** Lecture1a，第125–153个单元。
+来源： Lecture1a，第125–153个单元。
 
 <a id="files"></a>
 
@@ -198,7 +270,7 @@ Pickle以二进制保存Python对象结构，`wb/rb`分别写/读字节；它不
 pandas的DataFrame是一张带列名的表，各列可以有不同类型。原例`df['Name']`取列，`df[df.Age>30]`取符合条件的行，`df.Age.mean()`算Age均值。读CSV前确认首行是不是列名，否则可能把第一条样本当成表头。
 
 
-**来源与掌握要求：** Lecture1a，第155–179个单元。
+来源： Lecture1a，第155–179个单元。
 
 <a id="arrays"></a>
 
@@ -224,13 +296,13 @@ A[mask]       # rows 1 and 2
 **答／Answer：** (5,)，一个整数列索引移除了列轴；A[:5,2:3]则是(5,1)。 / (5,); a slice 2:3 would preserve a size-one second axis.
 
 
-**来源与掌握要求：** Lecture1b，第3–43个单元。
+来源： Lecture1b，第3–43个单元。
 
 <a id="shapes-broadcasting"></a>
 
 ## 11. Shape manipulation and broadcasting｜形状对齐不靠猜
 
-`reshape`按元素顺序重新组织形状，总元素数必须匹配；`transpose`交换轴；`ravel`展开；`ndarray.resize`会原地改形状，不能与返回新形状视图的reshape混为一谈。`concatenate`沿指定既有轴拼接，`vstack/hstack`堆叠；`c_`、`r_`是原课的便捷写法。
+`reshape`按元素顺序重新组织形状，总元素数必须匹配；返回的数组可能共享原数据，也可能需要复制。`transpose`交换轴，`ravel`展开；`ndarray.resize`则原地改变数组形状。`concatenate`沿指定既有轴拼接，`vstack/hstack`堆叠；`c_`、`r_`是原课的便捷写法。
 
 NumPy数组的`+,-,*,**`通常逐元素执行，矩阵乘法用`@`。`A.sum(axis=0)`把行方向合并，剩下各列的和；`axis=1`则得到各行的和。`argmax`返回位置，`max`返回数值。
 
@@ -251,7 +323,7 @@ b + c   # [[2,3,4],[3,4,5]]
 **答／Answer：** 不兼容；把后者变成(5,1)。 / They are incompatible; reshape the second array to (5,1).
 
 
-**来源与掌握要求：** Lecture1b，第44–83个单元。
+来源： Lecture1b，第44–83个单元。
 
 <a id="linear-algebra"></a>
 
@@ -261,16 +333,32 @@ b + c   # [[2,3,4],[3,4,5]]
 
 矩阵乘法必须内维度相同：(m×d)乘(d×n)得到(m×n)，每格是左行与右列的点积：
 
-$$c_{ij}=\sum_{k=1}^{d}a_{ik}b_{kj}.$$
+$$
+c_{ij}=\sum_{k=1}^{d}a_{ik}b_{kj}.\tag{1.1}
+$$
 
 **原课勘误：** Lecture1b，第98个单元求和符号使用k，但项中写成固定d；应如上按k遍历。Lecture1b，第102个单元的列向量个数也应跟矩阵的列数m对应，形状检查比死记图里的下标可靠。
 
-Ax可以看作A各列的线性组合；Aᵀx是x与A各列的内积；AB逐列形成Abⱼ；AᵀB是两组列之间的内积表；ABᵀ也可写成对应列外积之和。先数行列，再决定这里要的是一个数、一条向量还是一张表。
+用一个小表算一遍。把两条记录排成A的两行，每条有三个数；B的两列分别规定“第1项加第3项”和“第2项加第3项”：
+
+$$
+A=\begin{pmatrix}1&2&3\\4&5&6\end{pmatrix},\qquad
+B=\begin{pmatrix}1&0\\0&1\\1&1\end{pmatrix},\qquad
+AB=\begin{pmatrix}4&5\\10&11\end{pmatrix}.\tag{1.2}
+$$
+
+左上格是第一行乘第一列：$1\times1+2\times0+3\times1=4$；右上格是第一行乘第二列：$1\times0+2\times1+3\times1=5$。第二行同理得到10和11。A为2×3、B为3×2，结果有2行2列。这里所有数均为无量纲教学数据。
+
+**变式 / Transfer：** A不变，只把B的第二列改为$(1,1,0)^T$，乘积怎样变？ / Keep A and B's first column, but change B's second column to (1,1,0)ᵀ. Find the product.
+
+**答 / Answer：** 第一列仍是$(4,10)^T$；第二列变为$(3,9)^T$。 / The product is [[4,3],[10,9]].
+
+这样也能读懂原课的几种写法：Ax是A各列的加权和；Aᵀx把x分别与A各列作内积；AB的每一列都是一个Abⱼ。AᵀB汇集两组列之间的内积，ABᵀ则可写成对应列外积之和。各式先检查相乘维度，再判断输出。
 
 原例x=(1,2,3)、y=(2,1,1)，内积7，长度√14，距离√6。[需要逐格演算时补这里](../../learning/foundation-notes/MathForML.md#matrix-products)。Tutorial1再把投影与正交化实现出来。
 
 
-**来源与掌握要求：** Lecture1b，第84–109个单元。
+来源： Lecture1b，第84–109个单元。
 
 <a id="copies"></a>
 
@@ -291,7 +379,7 @@ print(d)        # [1,2,3,4]
 不同数组对象可以共享数据，所以`c is a`为假并不保证互不影响。必要时用`np.shares_memory`检查。模型实验里把视图误当副本，可能在预处理时把原训练数据改掉，导致后一个实验接收到不同输入。
 
 
-**来源与掌握要求：** Lecture1b，第110–120个单元。
+来源： Lecture1b，第110–120个单元。
 
 <a id="plots-probability"></a>
 
@@ -301,7 +389,9 @@ print(d)        # [1,2,3,4]
 
 随机变量X从一组可能值中取值。离散变量用PMF给各值概率，非负且和为1。Bernoulli只有0/1两个结果，p(1)=π、p(0)=1−π。Poisson描述给定观察区间内的非负整数次数：
 
-$$p(x)=e^{-\lambda}\frac{\lambda^x}{x!},\qquad x=0,1,2,\ldots.$$
+$$
+p(x)=e^{-\lambda}\frac{\lambda^x}{x!},\qquad x=0,1,2,\ldots.\tag{1.3}
+$$
 
 x!表示x×(x−1)×…×1，0!=1。这里λ是这个指定区间里的期望计数；若给的是每秒到达率r，观察t秒时应使用λ=rt，不能把不同区间的率与总数混用。模型假设是否合适要结合过程判断。
 
@@ -327,14 +417,16 @@ x!表示x×(x−1)×…×1，0!=1。这里λ是这个指定区间里的期望计
 
 边缘概率通过对另一变量求和；连续情形改用积分。把联合概率写成两种乘法顺序，可得Bayes规则：
 
-$$p(y\mid x)=\frac{p(x\mid y)p(y)}{\sum_k p(x\mid k)p(k)}.$$
+$$
+p(y\mid x)=\frac{p(x\mid y)p(y)}{\sum_k p(x\mid k)p(k)}.\tag{1.4}
+$$
 
 这里类别离散，因此分母求和；若y连续则应积分。分母必须为正。下一讲会用这个反转条件方向的工具，从“已知花种时花多长”走到“已知测量时更像哪种花”。
 
 **English takeaway:** PMFs assign mass to discrete values; PDFs assign density whose interval integral is a probability. Marginalization removes a variable, while conditioning fixes one. Bayes' rule reverses the conditioning direction.
 
 
-**来源与掌握要求：** Lecture1b，第122–140个单元。
+来源： Lecture1b，第122–140个单元。
 
 <a id="recap"></a>
 
@@ -353,6 +445,43 @@ $$p(y\mid x)=\frac{p(x\mid y)p(y)}{\sum_k p(x\mid k)p(k)}.$$
 
 已有微课：[Python ML02](https://crazyshout.github.io/micro-course/?lesson=ml02)、[数组 ML03](https://crazyshout.github.io/micro-course/?lesson=ml03)、[投影 ML04](https://crazyshout.github.io/micro-course/?lesson=ml04)、[概率 ML05](https://crazyshout.github.io/micro-course/?lesson=ml05)。已有卡优先复习[M023](https://crazyshout.github.io/micro-course/cards.html#CS5489-M023)、[M028](https://crazyshout.github.io/micro-course/cards.html#CS5489-M028)、[M035](https://crazyshout.github.io/micro-course/cards.html#CS5489-M035)；算法与调试能力需要实际运行检验。
 
+<!-- EXAM:topics:START -->
+<a id="exam-topic-index"></a>
+## Historical exam map｜按考点查题源
+
+题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。
+
+<div class="exam-topic-unit" markdown="1">
+### 训练、验证与最终评价
+
+说明何时拟合、何时选参、何时评价。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q4／2–3 | 直接：交叉验证、选参后重拟合与最终测试的分工 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 训练与验证表现诊断
+
+比较过拟合、分布变化与容量不足的可能性。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q2、Q11／2、5–6 | 直接：训练好而测试差的解释与改进 |
+| 2021A期中 | Q7／3 | 直接：数据较多时训练与测试都差，比较容量与表示问题 |
+| 2021B*期中 | Q2、Q11／2、4 | 直接：分析泛化差距与未超过基线的回归表现 |
+| 2020B期末 | Q9／4 | 关联：将训练／验证曲线诊断应用到深层网络 |
+| 2021B期末 | Q11／5 | 关联：将训练／验证诊断用于CNN结构调整 |
+| CS5489 QE整理片段（年份未载） | Apple (b.4)／PDF1、3（原印8–9/11） | 关联：苹果检测器的训练／验证曲线诊断 |
+| CS5489 QE整理片段（年份未载） | Bottles (b.3)／PDF5、7（原印8–9/10） | 关联：瓶子分类器的训练／验证差距 |
+| CS5489 QE整理片段（年份未载） | CWD (b.3)／PDF11（原印7/9） | 关联：海豚分类中的过拟合原因与改进 |
+
+**题源条件：** 完整处理还需Lecture5的优化与早停；CNN结构不在当前Lecture1–5范围；缺年份与独立原卷身份；CNN设计另需后续课；缺年份；不把片段数量计为卷数；缺年份；只映射一般诊断能力。
+</div>
+<!-- EXAM:topics:END -->
+
+<a id="_2"></a>
 ## 原材料覆盖索引
 
 原文件依次为Lecture 1 Intro PDF、Lecture1a.ipynb、Lecture1b.ipynb。Notebook单元按原文件从1计数，包含文字和代码；PDF按页数计。重复演示合并讲解，位置见下表。

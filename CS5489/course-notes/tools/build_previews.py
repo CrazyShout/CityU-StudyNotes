@@ -45,6 +45,23 @@ def rewrite_href(href, source):
 def wrap(title,body,source):
     # Notebook markdown cells each generate their own heading IDs. Preserve the
     # first occurrence (and old deep links), suffix only later collisions.
+    # The two relocated source-index aliases must outrank newly added headings.
+    # Keep every other document's established duplicate-ID convention unchanged.
+    reserved={'_2'} if source in {OUT/'Lecture01.md',OUT/'Lecture05.md'} else set()
+    all_ids=set(re.findall(r' id="([^"]+)"',body));renamed={}
+    def heading_id(match):
+        level,key=match.group(1),match.group(2)
+        if key not in reserved:return match.group(0)
+        new=key+'-heading';suffix=2
+        while new in all_ids:new=key+'-heading-'+str(suffix);suffix+=1
+        all_ids.add(new);renamed[key]=new
+        return '<h'+level+' id="'+new+'"'
+    body=re.sub(r'<h([1-6]) id="([^"]+)"',heading_id,body)
+    def update_toc(match):
+        result=match.group(0)
+        for old,new in renamed.items():result=result.replace('href="#'+old+'"','href="#'+new+'"')
+        return result
+    body=re.sub(r'<div class="toc">[\s\S]*?</div>',update_toc,body)
     seen={}
     def unique_id(match):
         key=match.group(1);seen[key]=seen.get(key,0)+1
@@ -61,10 +78,9 @@ def wrap(title,body,source):
         (CODEXING/'CS5222/course-notes/README.md','CS5222目录'),
         (FOUNDATION,'数学基础'),(FOUNDATION.with_name('NetworkBasics.md'),'网络基础')])
     style=STYLE
-    if source==OUT/'Lecture02.md':
-        # The fixed-right KaTeX tag can cover a long equation on a phone.
-        # Place it on its own line in this reading preview; A4 styles are separate.
-        style+='@media screen and (max-width:600px){.katex-display>.katex>.katex-html>.tag{position:static;display:block;text-align:right;margin-top:8px}.katex-display>.katex>.katex-html>.tag>.strut{display:none}}'
+    # The fixed-right KaTeX tag can cover a long equation on a phone.
+    # Place it on its own line in reading previews; A4 styles are separate.
+    style+='@media screen and (max-width:600px){.katex-display>.katex>.katex-html>.tag{position:static;display:block;text-align:right;margin-top:8px}.katex-display>.katex>.katex-html>.tag>.strut{display:none}}'
     return ('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
       '<title>'+html.escape(title)+'</title><link rel="stylesheet" href="'+prefix+'katex.min.css"><style>'+style+'</style></head><body><main>'
       '<nav>本地学习讲义　 '+nav+'</nav>'

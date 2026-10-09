@@ -27,7 +27,9 @@
 
 g给s=2.5×10⁸m/s、L=120bit、R=56kbps=56000bit/s：
 
-$$d_{trans}=120/56000\approx0.002142857\text{ s},\quad m\approx535714.29\text{ m}=535.714\text{ km}.$$
+$$
+d_{trans}=120/56000\approx0.002142857\text{ s},\quad m\approx535714.29\text{ m}=535.714\text{ km}.\tag{A1.1}
+$$
 
 ![First-bit versus last-bit time diagram](../../learning/foundation-notes/assets/network-timeline.png)
 
@@ -154,7 +156,7 @@ C: QUIT
 S: +OK signing off
 ```
 
-尖括号内为用户名和密码的占位。实际客户端可保存UIDL跳过已下载邮件；若采用这种扩展约定，可能LIST/UIDL核对后不RETR旧邮件。应明确这是客户端保存状态的行为，而不是“POP3服务器因为上次读过就删掉”。[RFC1939](https://www.rfc-editor.org/rfc/rfc1939)（本轮核查2026-09-23）
+尖括号内为用户名和密码的占位。实际客户端可保存UIDL跳过已下载邮件；若采用这种扩展约定，可能LIST/UIDL核对后不RETR旧邮件。应明确这是客户端保存状态的行为，而不是“POP3服务器因为上次读过就删掉”。[RFC1939](https://www.rfc-editor.org/rfc/rfc1939)（查阅于2026-09-23）
 
 **English answer:** With no deletion and no client-side duplicate suppression, both messages are still available and can be downloaded again. State any UIDL-based client behavior explicitly.
 
@@ -185,7 +187,7 @@ S: +OK signing off
 | SIP | 让标准会议室端点进行会话建立/互通 | Session signaling for supported standards-based room endpoints | [Conference Room Connector](https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0060661)；不是所有原生客户端必经路径 |
 | H.323（协议族） | 另一类标准音视频会议端点经连接器接入 | A conferencing protocol suite for supported room-system interoperability | 同一官方连接器资料；需注明它是协议族而非单一报文协议 |
 
-这不是说一台普通笔记本每次入会同时跑这三项。若教师将题意限定为**原生客户端自身的媒体/控制三种协议**，应按该范围补充特定版本的技术资料，而不能把SIP/H.323互通项代替原生客户端路径的说明。公开端口表只能证明传输端口用途，不能单独证明RTP/SRTP等内部封装；作答时应注明所选客户端与部署情境。
+表中HTTPS用于Web服务，SIP/H.323用于会议室端点互通，作答时分别注明情境。若教师将题意限定为**原生客户端自身的媒体/控制三种协议**，应按该范围补充特定版本的技术资料，而不能把SIP/H.323互通项代替原生客户端路径的说明。公开端口表只能证明传输端口用途，不能单独证明RTP/SRTP等内部封装；作答时应注明所选客户端与部署情境。
 
 ### b. 架构 / Architecture
 
@@ -203,7 +205,7 @@ S: +OK signing off
 
 ### d. 老师电脑的IP / Lecturer's host IP
 
-在普通云课堂情境，学生连接的是Zoom提供的服务端点，不需要自己先解析或输入老师个人电脑的IP。老师和学生各自向基础设施建立通信，服务负责转发；知道meeting ID也不是把它翻译成老师IP。这个结论是上述云路由模型的推断，未验证学校实际配置。
+在普通云课堂情境，学生连接的是Zoom提供的服务端点，不需要自己先解析或输入老师个人电脑的IP。老师和学生各自向基础设施建立通信，服务负责转发；知道meeting ID也不是把它翻译成老师IP。
 
 **English:** In an ordinary cloud meeting, the student does not need to obtain the lecturer's host IP; Zoom infrastructure routes the session. Peer/mesh configurations may use other local endpoints and require separate analysis.
 

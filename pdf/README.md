@@ -6,39 +6,39 @@ A4、100%实际大小、每张一页；双面建议长边翻转。答案已展�
 
 ## CS5489
 
-[下载PDF](CS5489-A4.pdf) · 174页
+[下载PDF](CS5489-A4.pdf) · 200页
 
 | 文档 | PDF页码 |
 |---|---|
-| [Lecture01](../CS5489/course-notes/Lecture01.md) | 2–14 |
-| [Lecture02](../CS5489/course-notes/Lecture02.md) | 15–48 |
-| [Lecture03](../CS5489/course-notes/Lecture03.md) | 49–64 |
-| [Lecture04](../CS5489/course-notes/Lecture04.md) | 65–78 |
-| [Lecture05](../CS5489/course-notes/Lecture05.md) | 79–88 |
-| [Tutorial01](../CS5489/course-notes/Tutorial01.ipynb) | 89–99 |
-| [Tutorial02](../CS5489/course-notes/Tutorial02.ipynb) | 100–126 |
-| [Tutorial03](../CS5489/course-notes/Tutorial03.ipynb) | 127–141 |
-| [Tutorial04](../CS5489/course-notes/Tutorial04.ipynb) | 142–154 |
-| [Assignment01](../CS5489/course-notes/Assignment01.md) | 155–163 |
-| [Assignment02](../CS5489/course-notes/Assignment02.md) | 164–169 |
-| [ExamIndex](../CS5489/course-notes/ExamIndex.md) | 170–174 |
+| [Lecture01](../CS5489/course-notes/Lecture01.md) | 2–16 |
+| [Lecture02](../CS5489/course-notes/Lecture02.md) | 17–50 |
+| [Lecture03](../CS5489/course-notes/Lecture03.md) | 51–75 |
+| [Lecture04](../CS5489/course-notes/Lecture04.md) | 76–93 |
+| [Lecture05](../CS5489/course-notes/Lecture05.md) | 94–108 |
+| [Tutorial01](../CS5489/course-notes/Tutorial01.ipynb) | 109–119 |
+| [Tutorial02](../CS5489/course-notes/Tutorial02.ipynb) | 120–146 |
+| [Tutorial03](../CS5489/course-notes/Tutorial03.ipynb) | 147–162 |
+| [Tutorial04](../CS5489/course-notes/Tutorial04.ipynb) | 163–176 |
+| [Assignment01](../CS5489/course-notes/Assignment01.md) | 177–185 |
+| [Assignment02](../CS5489/course-notes/Assignment02.md) | 186–192 |
+| [ExamIndex](../CS5489/course-notes/ExamIndex.md) | 193–200 |
 
 ## CS5222
 
-[下载PDF](CS5222-A4.pdf) · 86页
+[下载PDF](CS5222-A4.pdf) · 88页
 
 | 文档 | PDF页码 |
 |---|---|
 | [Chapter01](../CS5222/course-notes/Chapter01.md) | 2–18 |
-| [Chapter02](../CS5222/course-notes/Chapter02.md) | 19–33 |
-| [Chapter03](../CS5222/course-notes/Chapter03.md) | 34–41 |
-| [Tutorial01](../CS5222/course-notes/Tutorial01.md) | 42–48 |
-| [Tutorial02](../CS5222/course-notes/Tutorial02.md) | 49–55 |
-| [Tutorial03](../CS5222/course-notes/Tutorial03.md) | 56–62 |
-| [Tutorial04](../CS5222/course-notes/Tutorial04.md) | 63–66 |
-| [Tutorial05](../CS5222/course-notes/Tutorial05.md) | 67–71 |
-| [Assignment01](../CS5222/course-notes/Assignment01.md) | 72–82 |
-| [ResearchReportGuide](../CS5222/course-notes/ResearchReportGuide.md) | 83–86 |
+| [Chapter02](../CS5222/course-notes/Chapter02.md) | 19–34 |
+| [Chapter03](../CS5222/course-notes/Chapter03.md) | 35–43 |
+| [Tutorial01](../CS5222/course-notes/Tutorial01.md) | 44–50 |
+| [Tutorial02](../CS5222/course-notes/Tutorial02.md) | 51–57 |
+| [Tutorial03](../CS5222/course-notes/Tutorial03.md) | 58–64 |
+| [Tutorial04](../CS5222/course-notes/Tutorial04.md) | 65–68 |
+| [Tutorial05](../CS5222/course-notes/Tutorial05.md) | 69–73 |
+| [Assignment01](../CS5222/course-notes/Assignment01.md) | 74–84 |
+| [ResearchReportGuide](../CS5222/course-notes/ResearchReportGuide.md) | 85–88 |
 
 ## Foundations
 

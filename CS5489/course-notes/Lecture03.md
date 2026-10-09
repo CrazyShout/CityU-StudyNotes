@@ -6,6 +6,33 @@
 
 **基础复习（可跳过）**：看不懂点积、距离时先读[长度与投影](../../learning/foundation-notes/MathForML.md#projection)；求梯度、约束和乘子卡住时读[梯度与约束](../../learning/foundation-notes/MathForML.md#optimization)。Python 数组操作回到 [Lecture 1](Lecture01.md#arrays)。先修页解释工具，本讲仍会完整解释分类方法。
 
+<!-- EXAM:overview:START -->
+<div class="exam-overview exam-overview-compact" markdown="1">
+<a id="exam-review"></a>
+## Exam focus｜这一讲怎样安排复习
+
+本讲的历史题集中在Logistic目标、SVM与核方法，也经常要求根据应用代价或存储限制选择方法。复习时把“写出目标、说明条件、解释结果”连起来。
+
+| 考点 | 复习动作 | 期中：直接／关联 | 期末：直接／关联 | QE记录 | 入口 |
+|---|---|---|---|---|---|
+| 生成式与判别式 | 说明两类方法到底学什么 | 3套／未见 | 未见／未见 | 未见 | [讲解](#linear) |
+| 模型参数计数 | 写明先验与共享方差的约定 | 1套／未见 | 未见／未见 | 未见 | [讲解](#parameter-count) |
+| Logistic似然与优化 | 走完一次梯度更新 | 6套／未见 | 未见／未见 | 未见 | [讲解](#logistic) |
+| 正则化、MAP与CV | 先说明目标的缩放约定 | 5套／未见 | 未见／未见 | 未见 | [讲解](#regularization) |
+| SVM间隔、松弛与对偶 | 掌握间隔条件与软间隔权衡 | 6套／未见 | 1套／未见 | 未见 | [讲解](#svm) |
+| 核技巧与合法性 | 会算小Gram矩阵并辨认无效核 | 6套／未见 | 1套／1套 | 未见 | [讲解](#kernels) |
+| 求解维度与预测存储 | 按给定维数和支持向量数计算 | 3套／未见 | 未见／未见 | 未见 | [讲解](#model-cost) |
+| 不平衡、代价与阈值 | 先明确哪种错误更贵 | 5套／未见 | 未见／未见 | 未见 | [讲解](#cost-threshold) |
+| 分类损失曲线 | 检查错分区是否仍被惩罚 | 5套／未见 | 未见／未见 | 未见 | [讲解](#loss-shapes) |
+
+**口径：** 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
+
+核PCA为期末关联知识，当前尚未展开。下面登记原题涉及的能力，不表示每份历史选择题的所有选项都已成为当前课程要求；具体答案中的简化见讲末注。
+
+绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+</div>
+<!-- EXAM:overview:END -->
+
 [TOC]
 
 | 主题 | 优先级 | 理解难度与卡点 | 应达到的能力；判断依据 |
@@ -22,17 +49,22 @@
 
 <a id="linear"></a>
 ## 1. Generative versus discriminative｜先弄懂我们换了什么目标
+<!-- EXAM:focus-linear:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：生成式与判别式</span><br>期中直接：3套。</p>
+<!-- EXAM:focus-linear:END -->
+
 
 生成式分类器学 $p(\mathbf x\mid y)$ 和 $p(y)$，再得到后验 $p(y\mid\mathbf x)$。判别式分类器直接学后验或分类分数。两者都使用带标签的训练数据；“判别式”不等于“不需要概率”，SVM 和 Logistic Regression 也不是同一种训练目标。
 
 老师先从上一讲搭桥（Lecture3a，第8–23个单元）。假设两个类别各维条件独立，**所有类别、所有维度共享同一个方差 $\sigma^2>0$**，均值分别为 $\boldsymbol\mu,\boldsymbol\nu$，先验为 $\pi_1,\pi_2>0$。比较两个后验的对数比：
 
-$$\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}
-=\sum_{j=1}^d\frac{\mu_j-\nu_j}{\sigma^2}x_j
-+\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
-+\log\frac{\pi_1}{\pi_2}.$$
+$$
+\begin{aligned}\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}
+&=\sum_{j=1}^d\frac{\mu_j-\nu_j}{\sigma^2}x_j\\
+&\quad+\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}+\log\frac{\pi_1}{\pi_2}.\end{aligned}\tag{3.1}
+$$
 
-为什么突然变成直线？把 $(x_j-\mu_j)^2$ 和 $(x_j-\nu_j)^2$ 展开，两边的 $x_j^2$ 抵消，只剩一次项和常数。这个抵消依赖共享方差；不要套回 Lecture 2 的逐类完整协方差模型。
+为什么突然变成直线？把 $(x_j-\mu_j)^2$ 和 $(x_j-\nu_j)^2$ 展开，两边的 $x_j^2$ 抵消，只剩一次项和常数。这里采用原课更强的简化：所有类别和维度共用一个方差。上一讲已看到，只要每个特征的方差在类别间相同，也能消去二次项；逐类完整协方差模型一般没有这个保证。
 
 将各个一次项系数记成 $w_j$，所有常数合成 $b$，得到 $f(\mathbf x)=\mathbf w^T\mathbf x+b$。接下来不必先估计均值和方差，可以直接从数据学习 $\mathbf w,b$。
 
@@ -46,9 +78,9 @@ $$\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}
 
 <img src="assets/lecture03-linear-sigmoid.png" alt="Linear scores and sigmoid probabilities" />
 
-图左按原例重绘分类边界，右边显示同一分数经sigmoid转换后的概率。生成代码见 `tools/verify_lecture_examples.py`。
+图左按原例重绘分类边界，右边显示同一分数经sigmoid转换后的概率。左图先判断落在线的哪侧，再沿右图查这个分数对应的模型概率。
 
-**自测 / Check:** 若 $\mathbf w=(2,1)^T,b=-1,\mathbf x=(1,2)^T$，分数和预测是什么？ / Find the score and class for these values.
+**自测 / Check:** 若 $\mathbf w=(2,1)^T,b=-1,\mathbf x=(1,2)^T$，分数和预测是什么？ / For w=(2,1)ᵀ, b=−1 and x=(1,2)ᵀ, find the linear score and predicted class.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -58,44 +90,65 @@ $f=2+2-1=3>0$，预测 +1。 / The score is 3; predict +1. 偏置移动边界，
 
 <a id="logistic"></a>
 ## 3. Logistic regression｜把分数翻译成概率
+<!-- EXAM:focus-logistic:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Logistic似然与优化</span><br>期中直接：6套。</p>
+<!-- EXAM:focus-logistic:END -->
+
 
 “分数为 3”不直接告诉我们有多确定。Logistic Regression 用 sigmoid：
 
-$$\sigma(z)=\frac1{1+e^{-z}},\qquad p(y=+1\mid\mathbf x)=\sigma(f(\mathbf x)),\quad p(y=-1\mid\mathbf x)=1-\sigma(f(\mathbf x)).$$
+$$
+\begin{gathered}\sigma(z)=\frac1{1+e^{-z}},\\[3pt]
+p(y=+1\mid\mathbf x)=\sigma(f(\mathbf x)),\\
+p(y=-1\mid\mathbf x)=1-\sigma(f(\mathbf x)).\end{gathered}\tag{3.2}
+$$
 
 分数 0 对应 0.5；分数 2 对应约 0.8808；−2 对应约 0.1192。概率相加为 1。名称里虽然有 regression，这里做的是分类。Lecture3a，第36个单元 的一维原例 $f(x)=2x-4$，所以边界在 $x=2$，不是在 $x=0$。
 
 现在反过来：给出训练数据，怎样找权重？每个样本希望模型给它的**真实类别**较高概率。利用 $1-\sigma(z)=\sigma(-z)$，两种标签合并为 $p(y\mid\mathbf x)=\sigma(yf(\mathbf x))$。这个写法只适用于 $y=\pm1$；不能直接把 0/1 标签代进去。
 
-令 $z_i=y_i f(\mathbf x_i)$。它为正说明分对，负说明分错，零在边界。独立样本的条件似然相乘，取对数后相加；最大化对数似然等价于最小化负对数：
+令 $z_i=y_i f(\mathbf x_i)$。它为正说明分对，负说明分错，零在边界。对N个独立样本，条件似然相乘，取对数后相加；最大化对数似然等价于最小化负对数：
 
-$$E(\mathbf w,b)=\sum_{i=1}^N\ell(z_i),\qquad \ell(z)=\log(1+e^{-z}).$$
+$$
+E(\mathbf w,b)=\sum_{i=1}^N\ell(z_i),\qquad \ell(z)=\log(1+e^{-z}).\tag{3.3}
+$$
 
 若真实标签 −1，分数却为 2，那么 $z=-2$、损失约 2.1269；同样标签配分数 −2，损失约 0.1269。损失是“对真实答案有多不买账”，不是错误样本的简单计数。即使分对但信心不足，损失仍不为零。
 
 **English:** Logistic regression minimizes the negative conditional log-likelihood. The signed score $yf(x)$ distinguishes correct from incorrect predictions.
 
+<a id="regularization"></a>
 ## 4. Regularization and optimization｜限制大权重，减少过拟合
+<!-- EXAM:focus-regularization:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：正则化、MAP与CV</span><br>期中直接：5套。</p>
+<!-- EXAM:focus-regularization:END -->
+
 
 模型可能靠很大的权重把训练点分得极其自信，但新数据稍有变化就出错。Lecture3a，第49–51个单元 给权重零均值高斯先验，协方差 $(C/2)I$，得到课堂目标：
 
-$$E=\frac1C\|\mathbf w\|^2+\sum_i\log(1+e^{-y_i(\mathbf w^T\mathbf x_i+b)}),\qquad C>0.$$
+$$
+E=\frac1C\|\mathbf w\|^2+\sum_i\log(1+e^{-y_i(\mathbf w^T\mathbf x_i+b)}),\qquad C>0.\tag{3.4}
+$$
 
-第一项惩罚大权重，第二项拟合数据。**小 $C$：更强正则；大 $C$：更弱正则。** 这是一种 MAP 解释，偏置在这份公式里未被惩罚。库中的 $1/2$、求和/平均及 solver 约定可能不同，不应从同一个数值 C 推断不同软件必然输出同一模型。
+第一项惩罚大权重，第二项拟合数据。**小 $C$：更强正则；大 $C$：更弱正则。** 为什么高斯先验会产生平方惩罚？前一讲已经学过高斯的指数项。均值为零、协方差为$(C/2)I$时，先验中与w有关的部分是$\exp(-\|w\|^2/C)$；取负log便得到$\|w\|^2/C$，其余是不随w变化的常数。最大后验估计（maximum a posteriori，MAP）同时考虑数据似然与这份先验，于是得到“数据损失＋平方惩罚”。偏置在这份公式里未被惩罚。库中的 $1/2$、求和/平均及 solver 约定可能不同，不应从同一个数值 C 推断不同软件必然输出同一模型。
 
 老师说用迭代优化（Lecture3a，第52个单元）。补足最关键一步：对一个样本，
 
-$$\frac{d\ell}{dz}=-\frac1{1+e^z}=-\sigma(-z),\qquad
-\nabla_{\mathbf w}\ell=-y\sigma(-yf)\mathbf x.$$
+$$
+\frac{d\ell}{dz}=-\frac1{1+e^z}=-\sigma(-z),\qquad
+\nabla_{\mathbf w}\ell=-y\sigma(-yf)\mathbf x.\tag{3.5}
+$$
 
 第一式来自先求 $\log u$ 的导数再乘 $u=1+e^{-z}$ 的导数；第二式再乘 $z=y(\mathbf w^T\mathbf x+b)$ 对权重的导数。加上正则得到
 
-$$\nabla_{\mathbf w}E=\frac2C\mathbf w-\sum_i y_i\sigma(-y_if_i)\mathbf x_i,\quad
-\frac{\partial E}{\partial b}=-\sum_i y_i\sigma(-y_if_i).$$
+$$
+\begin{aligned}\nabla_{\mathbf w}E&=\frac2C\mathbf w-\sum_i y_i\sigma(-y_if_i)\mathbf x_i,\\[3pt]
+\frac{\partial E}{\partial b}&=-\sum_i y_i\sigma(-y_if_i).\end{aligned}\tag{3.6}
+$$
 
 梯度下降把参数更新为 $\mathbf w\leftarrow\mathbf w-\eta\nabla E$，$\eta>0$ 是学习率。减号表示向局部下降方向走；步子过大仍会跨过谷底。
 
-**补一步题 / Fill a step:** 单个样本 $x=2,y=+1,w=b=0$，无正则，$\eta=0.1$。一次同时更新得到什么？ / Compute one simultaneous gradient step with these values.
+**补一步题 / Fill a step:** 单个样本 $x=2,y=+1,w=b=0$，无正则，$\eta=0.1$。一次同时更新得到什么？ / For one sample x=2, y=+1, initial w=b=0, no regularization and learning rate 0.1, compute one simultaneous update.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -103,9 +156,20 @@ $f=0,\sigma(-yf)=0.5$，$\partial E/\partial w=-1$、$\partial E/\partial b=-0.5
 
 </details>
 
+<a id="finite-logistic-solution"></a>
+### 凸目标不等于一定有唯一的有限解
+
+历史选择题常把“凸”“能找到最优”“唯一解”放在一起，需要分别判断。最简单的反例只有一个点$x=1,y=+1$，固定$b=0$且不加正则：损失是$\log(1+e^{-w})$。w越大，损失越接近0，但任何有限w都不能使它恰好等于0。因此目标虽然凸，却没有有限的最小值点。线性可分数据的无正则logistic MLE也可能有这个问题。
+
+正则化可以限制权重继续变大；解的存在性与唯一性还取决于惩罚了哪些参数、数据和秩条件，不能只凭“logistic regression”这个名称判断。
+
+**独立判断 / Check：** 上述单点例中，w从2改成4，损失怎样变？是否已达到零？ / In the single-point example above, compare the losses at w=2 and w=4. Is either loss zero?
+
+**答 / Answer：** 约0.1269降至0.01815，都大于0。 / It decreases from about 0.1269 to 0.01815; both are positive. 这是教学反例，用于澄清历史题中省略的存在性条件。
+
 ## 5. Iris example and cross-validation｜让验证集帮我们选 C
 
-课堂用 iris2.csv 的两项测量，固定 `random_state=4487`，各一半训练与测试；`C=100` 学到一条边界。原 Lecture3a，第59个单元 的系数是老师保存的输出，依赖版本/求解器，不能当成永不变化的常量。本轮关键计算另行重算，见配套运行报告。
+课堂用 iris2.csv 的两项测量，固定 `random_state=4487`，各一半训练与测试；`C=100` 学到一条边界。Lecture3a，第59个单元保存了该设置的系数。复现时还需对照求解器与版本；已有复算结果见文末记录。
 
 课堂画几个 C 的测试表现属于课堂探索。正式选参应该在训练集内部做 K-fold cross-validation（CV）：将训练数据分 K 份，每次留一份验证，其他份训练；每个 C 得 K 个验证分数，取平均；选好后用**整个原训练集**重新拟合，最后才评估保留测试集。Lecture3a，第69个单元 的“all data”在这里应理解为所有训练数据，不包括用于最终评价的测试集。
 
@@ -124,8 +188,7 @@ search.fit(trainX, trainY)
 
 当前接口使用 `model_selection`；原文提到的 `cross_validation` 是旧模块名。`mean_test_score` 在 GridSearchCV 中指每折的验证分数，不是你保留的外部测试集成绩。
 
-来源：Lecture3a，第54–64个单元。
-来源：Lecture3a，第66个单元。
+来源：Lecture3a，第54–64个单元；第66个单元。
 
 
 ## 6. Multiclass classification｜三类不是多加一个 if 就结束
@@ -134,19 +197,24 @@ One-vs-rest（OvR）为每一类训练“它 versus 其他类”分类器，然�
 
 Softmax 则一起训练 K 组权重，$f_c(\mathbf x)=\mathbf w_c^T\mathbf x$（偏置可加入或吸收到常数特征）：
 
-$$p_c=\frac{e^{f_c}}{\sum_{j=1}^K e^{f_j}},\qquad \ell=-\sum_{c=1}^K y_c\log p_c.$$
+$$
+p_c=\frac{e^{f_c}}{\sum_{j=1}^K e^{f_j}},\qquad \ell=-\sum_{c=1}^K y_c\log p_c.\tag{3.7}
+$$
 
 $\mathbf y$ 是 one-hot 真实标签，仅真实类别的分量为 1，所以损失就是该类概率的负对数。分数 $(0,\log2,\log3)$ 对应概率 $(1/6,2/6,3/6)$；若真实类别为第 2 类，损失 $\log3\approx1.0986$。数值实现先减最大分数再指数，概率不变且更稳定。
 
 原 `multi_class='ovr'` / `'multinomial'` 是旧接口写法。需要明确 OvR 时用 `OneVsRestClassifier(LogisticRegression(...))`；不要靠新版默认值猜老师在示范哪一种模型。
 
 
-来源：Lecture3a，第74–85个单元。
-来源：Lecture3a，第86–99个单元。
+来源：Lecture3a，第74–85个单元；第86–99个单元。
 
 <a id="svm"></a>
 
 ## 7. Maximum margin｜不仅分开，还想留出余地
+<!-- EXAM:focus-svm:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：SVM间隔、松弛与对偶</span><br>期中直接：6套；期末直接：1套。</p>
+<!-- EXAM:focus-svm:END -->
+
 
 从两团可分数据开始。有很多条线能分对训练数据，SVM 优先选离最近点也尽量远的线。这就像在两排桌子中间留通道：只要没碰桌子不代表通道已经够宽。
 
@@ -154,7 +222,9 @@ $\mathbf y$ 是 one-hot 真实标签，仅真实类别的分量为 1，所以损
 
 线性可分、标签正确侧的前提下，选择归一化使最近点 $y_if_i=1$。一侧 margin 为 $1/\|\mathbf w\|$，两条支持平面间的**总宽度**为 $2/\|\mathbf w\|$。于是 hard-margin SVM：
 
-$$\min_{\mathbf w,b}\frac12\|\mathbf w\|^2\quad\text{s.t. } y_i(\mathbf w^T\mathbf x_i+b)\ge1\quad\forall i.$$
+$$
+\min_{\mathbf w,b}\frac12\|\mathbf w\|^2\quad\text{s.t. } y_i(\mathbf w^T\mathbf x_i+b)\ge1\quad\forall i.\tag{3.8}
+$$
 
 目标让间隔大，约束保证所有点都在正确侧且不侵入间隔。单写 $|f_i|\ge1$ 不够，它也容许把标签全部分反；SVM手写补充，第1页 中绝对值中间式必须连着“正确分类”的前提读。
 
@@ -173,19 +243,28 @@ $$\min_{\mathbf w,b}\frac12\|\mathbf w\|^2\quad\text{s.t. } y_i(\mathbf w^T\math
 
 对 hard SVM，$g_i=y_i(\mathbf w^T\mathbf x_i+b)-1$：
 
-$$L(\mathbf w,b,\boldsymbol\alpha)=\frac12\mathbf w^T\mathbf w-\sum_i\alpha_i[y_i(\mathbf w^T\mathbf x_i+b)-1].$$
+$$
+L(\mathbf w,b,\boldsymbol\alpha)=\frac12\mathbf w^T\mathbf w-\sum_i\alpha_i[y_i(\mathbf w^T\mathbf x_i+b)-1].\tag{3.9}
+$$
 
 先固定 $\alpha$，对原变量 $\mathbf w,b$ 取最小值。展开与求导：
 
-$$L=\frac12\mathbf w^T\mathbf w-\mathbf w^T\sum_i\alpha_iy_i\mathbf x_i-b\sum_i\alpha_i y_i+\sum_i\alpha_i,$$
+$$
+\begin{aligned}L&=\frac12\mathbf w^T\mathbf w-\mathbf w^T\sum_i\alpha_iy_i\mathbf x_i\\
+&\quad-b\sum_i\alpha_i y_i+\sum_i\alpha_i.\end{aligned}\tag{3.10}
+$$
 
-$$\nabla_{\mathbf w}L=\mathbf w-\sum_i\alpha_iy_i\mathbf x_i=0,
-\qquad \partial L/\partial b=-\sum_i\alpha_i y_i=0.$$
+$$
+\begin{gathered}\nabla_{\mathbf w}L=\mathbf w-\sum_i\alpha_iy_i\mathbf x_i=0,\\[3pt]
+\frac{\partial L}{\partial b}=-\sum_i\alpha_i y_i=0.\end{gathered}\tag{3.11}
+$$
 
 所以 $\mathbf w=\sum_i\alpha_i y_i\mathbf x_i$ 且 $\sum_i\alpha_i y_i=0$。若后一项不为零，$b$ 可让 L 向负无穷走，不能形成有限对偶函数。将两式代回，二次项一正一负相减，得到
 
-$$\max_{\boldsymbol\alpha}\sum_i\alpha_i-\frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\mathbf x_i^T\mathbf x_j,
-\quad\sum_i\alpha_iy_i=0,\quad\alpha_i\ge0.$$
+$$
+\begin{gathered}\max_{\boldsymbol\alpha}\sum_i\alpha_i-\frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\mathbf x_i^T\mathbf x_j,\\
+\sum_i\alpha_iy_i=0,\qquad\alpha_i\ge0.\end{gathered}\tag{3.12}
+$$
 
 原来未知数是 d 个权重和 b；现在每个训练点对应一个 $\alpha_i$。**对偶（dual）**不是换了数据，只是用“各样本怎样共同支撑边界”表示同一问题。
 
@@ -218,7 +297,7 @@ $$\max_{\boldsymbol\alpha}\sum_i\alpha_i-\frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j
 
 预测可写成 $\operatorname{sign}(\sum_i\alpha_i y_i\mathbf x_i^T\mathbf x_*+b)$，零乘子的点没有直接贡献。用一个合适的边界支持向量恢复 $b=y_i-\mathbf w^T\mathbf x_i$，数值程序常对多个合适点综合处理。
 
-**变式 / Transfer:** 把两点移到 $x=\pm2$，标签仍为两侧 −1/+1。求 w、b、一侧 margin 和两个乘子。 / Move the two points to ±2 and find the hard-margin solution and multipliers.
+**变式 / Transfer:** 把两点移到 $x=\pm2$，标签仍为两侧 −1/+1。求 w、b、一侧 margin 和两个乘子。 / Use two one-dimensional samples (x,y)=(-2,-1) and (2,+1). Find the hard-margin w, b, one-sided margin and both multipliers.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -230,8 +309,10 @@ $w=1/2,b=0$，margin=2。设两个乘子均 a，$w=4a$，所以 $a=1/8$。 / w=0
 
 有重叠/噪声时，强求所有点正确且留出间隔可能无解。为每点引入无量纲 slack $\xi_i\ge0$：
 
-$$\min_{\mathbf w,b,\boldsymbol\xi}\frac12\|\mathbf w\|^2+C\sum_i\xi_i,
-\quad y_if_i\ge1-\xi_i,\quad\xi_i\ge0,\quad C>0.$$
+$$
+\begin{gathered}\min_{\mathbf w,b,\boldsymbol\xi}\frac12\|\mathbf w\|^2+C\sum_i\xi_i,\\
+y_if_i\ge1-\xi_i,\quad\xi_i\ge0,\quad C>0.\end{gathered}\tag{3.13}
+$$
 
 在最优解，对给定分数取最小允许 slack：$\xi_i=\max(0,1-y_if_i)$，即 hinge loss。$y_if_i=1.4$ 时 slack=0；0.4 时 slack=0.6，**仍分类正确**；−0.2 时 slack=1.2，才是错分。slack 是分数上的缺口，几何长度还要除 $\|w\|$。
 
@@ -250,7 +331,12 @@ $$\min_{\mathbf w,b,\boldsymbol\xi}\frac12\|\mathbf w\|^2+C\sum_i\xi_i,
 来源：SVM手写补充，第3页。
 
 
+<a id="kernels"></a>
 ## 11. Multiclass SVM and kernel trick｜直线不够，就改变表示
+<!-- EXAM:focus-kernels:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：核技巧与合法性</span><br>期中直接：6套；期末直接：1套；期末关联：1套。</p>
+<!-- EXAM:focus-kernels:END -->
+
 
 课堂将多类SVM用于Iris，并通过交叉验证比较模型。原 `SVC` 多类内部为 one-vs-one，K 类训练 $K(K-1)/2$ 个二分类器，再投票。输出分数呈 OvR 形状不意味着内部改成了 OvR 训练；需要 OvR 模型时显式使用包装器，其网格参数名为 `estimator__C`。
 
@@ -265,15 +351,52 @@ $$\min_{\mathbf w,b,\boldsymbol\xi}\frac12\|\mathbf w\|^2+C\sum_i\xi_i,
 来源：Lecture3b，第61–82个单元。
 
 
+<a id="model-cost"></a>
+### 原始问题、对偶问题与预测存储
+<!-- EXAM:focus-model-cost:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：求解维度与预测存储</span><br>期中直接：3套。</p>
+<!-- EXAM:focus-model-cost:END -->
+
+
+原始线性SVM主要学习d个特征权重与一个偏置，对偶则给N个训练样本各一个乘子。d是特征维数，N是训练样本数。例如d=100000、N=2000时，对偶未知数较少；但它通常还需要处理N×N核矩阵，求解速度也取决于算法、稀疏性和数据。只比d与N，不能保证哪种实现一定更快。
+
+训练结束后，线性SVM可把支持向量合成为一个w，只存d+1个数。非线性核SVM通常要保存$n_{SV}$个支持向量、每个向量的一个系数$\beta_i=\alpha_i y_i$以及偏置。若忽略核超参数及程序开销，需存$n_{SV}(d+1)+1$个数。d=100、$n_{SV}=20$时分别为101与2021。比较存储量应看实际支持向量数；改变C可能改变它，但没有普遍的单调增减保证。
+
+**变式 / Transfer：** d=50，核模型有10个支持向量。按相同约定，线性与核模型分别保存多少个数？ / For d=50 and 10 kernel support vectors, count stored numbers under the same convention.
+
+**答 / Answer：** 线性51；核模型$10\times51+1=511$。 / 51 for the linear model and 511 for the kernel model.
+
+教学补充：对应历史题中的高维求解与设备存储比较。
+
 ## 12. RBF and custom kernels｜相似度也有尺度
 
 RBF 核 $k(x,x')=\exp(-\gamma\|x-x'\|^2)$，$\gamma>0$。小 gamma 的相似度随距离下降较慢；大 gamma 更局部，可形成复杂边界，但实际效果还取决于 C 和数据。gamma 的单位要与平方距离相抵；改变特征尺度等于改变距离含义。
+
+**完整小例（教学补充）：** 两个无量纲训练点为0和1，取$\gamma=\ln2$。自己与自己的距离为0，所以对角元素都是1；两点距离为1，非对角元素为$e^{-\ln2}=1/2$：
+
+$$
+K=\begin{pmatrix}1&1/2\\1/2&1\end{pmatrix}.\tag{3.14}
+$$
+
+K的行列对应训练点，不是输入特征。每格告诉我们这两个点在核定义下有多相似，行和不必为1。新点0.5分别与两个训练点比较，会得到两个相同值$e^{-(\ln2)/4}\approx0.8409$；这两个数正是预测所需的测试到训练核向量。
+
+**变式 / Transfer：** 仍用0和1，把gamma改为ln4，核矩阵是什么？ / For training points 0 and 1, change gamma to ln4 and compute the RBF Gram matrix.
+
+**答 / Answer：** 对角为1，非对角为1/4；更大的gamma使距离1的两点相似度更低。 / K=[[1,0.25],[0.25,1]]; the larger gamma lowers similarity at distance one.
 
 课堂用20×20组参数、5折交叉验证比较RBF模型，共2000次候选拟合，再对选定方案重拟合。参数比较使用训练内部的验证分数。
 
 **核的成立条件：** 一种相似度若要作为这里的实值核，必须对称，且由任意有限样本集合组成的核矩阵K都为半正定，即 $z^TKz\ge0$ 对所有实向量z成立。它保证K能表示某个特征空间里的内积。只检查手头的一张矩阵，可以发现当前实现错误，但不能证明这个函数对所有输入都成立。
 
 来源：Lecture3b，第114个单元为参数搜索，第118个单元为核条件；其中positive definite应读作positive semidefinite。
+
+矩阵中的数字全为正，还不足以保证它是合法的核矩阵。例如$K=\left(\begin{smallmatrix}1&2\\2&1\end{smallmatrix}\right)$，取$z=(1,-1)^T$，得到$z^TKz=-2$，违反半正定条件。半正定检查的是所有方向上的二次型，不是每一格的正负。
+
+**判断 / Check：** 将上面的非对角元素从2改成0.5，得到的二点矩阵是否半正定？ / Replace both off-diagonal entries by 0.5. Is this two-point matrix positive semidefinite?
+
+**答 / Answer：** 是，其特征值为1.5与0.5；也可直接验证$z^TKz=z_1^2+z_1z_2+z_2^2\ge0$。这只验证这一张矩阵。 / Yes: its eigenvalues are 1.5 and 0.5. This verifies this matrix, not a kernel function on every possible input.
+
+历史题还用“构造特征”验证核：非零向量的余弦核就是归一化特征$x/\|x\|$的内积，必须先排除零向量。更一般的积分形式$k(x,x')=\int p(x\mid u)p(x'\mid u)p(u)\,du$，在相关积分有限时也满足半正定：任意系数的二次型可写成$\int[\sum_i a_i p(x_i\mid u)]^2p(u)\,du\ge0$。这里u是积分变量、$p(u)\ge0$是密度；这段是核条件的选读应用。
 
 课堂的自定义核示例实际用 **Euclidean** 距离 $\exp(-\alpha\|x-x'\|_2)$；Tutorial3 明确改为 **L1** 距离 $\exp(-\alpha\sum_j|x_j-x'_j|)$。两者不能因为都叫 Laplacian 就混用。函数输入为 $(N_1,d),(N_2,d)$，输出必须为 $(N_1,N_2)$；预测时比较的是测试与训练，不是测试与测试。
 
@@ -292,7 +415,7 @@ RBF 核 $k(x,x')=\exp(-\gamma\|x-x'\|^2)$，$\gamma>0$。小 gamma 的相似度�
 
 课堂的类别不平衡例子有 200 对 20 个样本。`class_weight='balanced'` 使用 $w_c=N/(K N_c)$，两权重为 0.55、5.5，让两类总权重相等；它改变损失，不会凭空生成新数据。Lecture3c，第35–42个单元 的垃圾邮件例子讨论的是**错误代价不同**：合法邮件被扔掉更严重。人为设权重 {0:0.2,1:5} 让 class1 的单个样本权重是另一类的 25 倍，需要先说清哪个标签代表什么。
 
-**自测 / Check:** 1000封合法邮件、10封垃圾邮件，全部预测合法，accuracy 是否足以说明成功？ / Is always predicting legitimate mail successful on this imbalanced set?
+**自测 / Check:** 1000封合法邮件、10封垃圾邮件，全部预测合法，accuracy 是否足以说明成功？ / A set contains 1000 legitimate messages and 10 spam messages. Is predicting every message as legitimate successful based on accuracy alone?
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
@@ -300,10 +423,23 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 
 </details>
 
-来源：Lecture3c，第7–15个单元。
-来源：Lecture3c，第16–24个单元。
-来源：Lecture3c，第25–34个单元。
+来源：Lecture3c，第7–15个单元；第16–24个单元；第25–34个单元。
 
+
+<a id="cost-threshold"></a>
+### 改类别权重，与改预测阈值
+<!-- EXAM:focus-cost-threshold:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：不平衡、代价与阈值</span><br>期中直接：5套。</p>
+<!-- EXAM:focus-cost-threshold:END -->
+
+
+提高一类的训练权重，会改变要最小化的损失，通常需要重新训练。改变预测阈值，则使用已经训练好的概率，另设判成正类的门槛。例如三个样本的正类概率为0.2、0.4、0.8，以“概率至少达到阈值”判正：阈值0.5得到负、负、正；降到0.3变为负、正、正。它减少漏报的机会，同时也可能增加误报，效果要结合真实标签检查。
+
+**变式 / Transfer：** 同样三个概率，把阈值改成0.7，哪些判正？能否仅由预测概率计算召回率？ / With probabilities (0.2,0.4,0.8), use threshold 0.7. Which samples are positive, and can recall be computed without their true labels?
+
+**答 / Answer：** 只有第三个判正；没有真实标签就不能计算召回率。 / Only the third is positive; recall also requires the true labels.
+
+阈值与权重都要在训练内部的验证资料上选择。误判代价不同不等于类别数量一定不平衡，两种原因应分别说明。
 
 ## 14. Classification summary｜把不同方法放在同一张地图
 
@@ -315,6 +451,34 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 | Kernel SVM | 在核特征空间做 SVM | 非线性与自定义相似度 | 核条件、调参、Gram矩阵开销 |
 
 把这些模型的训练目标放在一起，可统一写为 $\sum_i L(y_i,f(x_i))+\lambda\Omega(f)$：数据拟合加模型复杂度惩罚。Logistic loss 对分对的点仍有非零惩罚，hinge 超过间隔后为0；原画图将 logistic loss 除以 log2 是视觉尺度调整，不能无声当成同一正则强度的目标。
+
+<a id="loss-shapes"></a>
+### 看损失曲线时，先看横轴
+<!-- EXAM:focus-loss-shapes:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：分类损失曲线</span><br>期中直接：5套。</p>
+<!-- EXAM:focus-loss-shapes:END -->
+
+
+本讲的分类损失横轴通常是有符号分数$z=yf(x)$：z<0代表分错，z>0代表分对。Logistic与hinge都希望把负分数推向正方向，但hinge在z≥1后停止惩罚，logistic仍继续平滑下降。若换成$\ell(z)=\max(0,-1-z)$，则z=−0.5明明分错，损失已经为0；优化它不必纠正这类错误。
+
+**判断 / Check：** 对刚才的损失，z=−0.8与z=0.2的损失各是多少？哪一个分类正确？ / For this loss, evaluate z=−0.8 and z=0.2 and identify the correctly classified case.
+
+**答 / Answer：** 两者损失都是0，只有z=0.2分类正确。 / Both losses are zero; only z=0.2 is correctly classified. 这个教学例子对应历史题的损失图辨读，不作为推荐训练目标。
+
+指数损失$\ell(z)=e^{-z}$对非常负的z增长更快。用同一个有符号分数比较，z=−2时，Logistic、hinge、指数损失约为2.127、3、7.389；改成z=−4，分别约为4.018、5、54.598。最后一种会给远端错分点很大权重；若这些点是错标或异常点，就可能过度受它们影响。这是历史AdaBoost损失题的比较背景，更新算法仍属另一个问题。 / Exponential loss grows much faster on strongly negative margins, which can increase sensitivity to mislabeled outliers.
+
+<a id="parameter-count"></a>
+### 参数少，具体少在哪里
+<!-- EXAM:focus-parameter-count:START -->
+<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：模型参数计数</span><br>期中直接：1套。</p>
+<!-- EXAM:focus-parameter-count:END -->
+
+
+二分类、d维输入时，logistic regression学习d个权重和一个偏置，共d+1个参数。若Gaussian NB给两类各d个均值，并强制所有类、所有维度共用一个标量方差，则有2d+1个分布参数；类别先验若也从数据学习，还要加1个自由参数，共2d+2。不同维度或不同类别使用各自方差时，数量会变化。
+
+**变式 / Transfer：** d=3，采用上述共享标量方差，并学习类别先验。两个模型分别有多少参数？ / For d=3, compare logistic regression with Gaussian NB using one shared scalar variance and a learned class prior.
+
+**答 / Answer：** 4与8。 / Four and eight. 历史随卷答案有省略先验的计数，作答时应先写清采用的约定。
 
 “No Free Lunch”提醒我们不存在对所有任务都占优的模型，不代表在特定数据与假设下无法比较模型。用一致划分、合适指标和验证设计比较，可以将本讲的算法放在同一条件下评价。
 
@@ -330,7 +494,171 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 3. **Why put scaling inside CV? / 为什么在每折内部缩放？** 答：验证折不能影响拟合的预处理参数。 / Validation data must not determine fitted preprocessing parameters.
 4. **What is the difference between a decision score and a probability? / 分数与概率有什么区别？** 答：分数可任意实数，概率需在[0,1]且对类别归一。 / Scores need not be bounded or normalized; class probabilities do.
 
-先复习已有卡 [M143、M144、M146：SVM间隔](https://crazyshout.github.io/micro-course/cards.html#CS5489-M143)、[M166：核函数](https://crazyshout.github.io/micro-course/cards.html#CS5489-M165)；按卡号定位，卡组复习继续在 Markji。
+先复习已有卡 [M143、M144、M146：SVM间隔](https://crazyshout.github.io/micro-course/cards.html#CS5489-M143)、[M166：核技巧](https://crazyshout.github.io/micro-course/cards.html#CS5489-M166)；按卡号定位，卡组复习继续在 Markji。
+
+<!-- EXAM:topics:START -->
+<a id="exam-topic-index"></a>
+## Historical exam map｜按考点查题源
+
+题号和页码指向原题纸；多题出现只增加定位，不重复增加同一卷的次数。需要整题作答时，请按题号回查原卷；当前独立题答册只整理Lecture 2。
+
+<div class="exam-topic-unit" markdown="1">
+### 生成式与判别式
+
+比较拟合对象与边界形式。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q10／5 | 直接：比较高斯Bayes与二次核SVM的边界表达 |
+| 2021A期中 | Q1、Q8／2–3 | 直接：生成式与判别式学习对象及线性分类器比较 |
+| 2021B*期中 | Q7／3 | 直接：用给定分类任务说明生成式与判别式 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 模型参数计数
+
+按方差结构和是否学习先验计算自由参数。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2023B期中 | Q8／5 | 直接：Logistic与共享标量方差Gaussian NB的参数计数 |
+
+**题源条件：** 先说明是否学习类别先验。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### Logistic似然与优化
+
+写出损失、求梯度并判断解的条件。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q1／2 | 直接：Logistic损失、优化、C与输出分数 |
+| 2020B期中Quiz | Q12／6 | 直接：L1 Logistic目标与稀疏边界 |
+| 2021A期中 | Q9／3 | 直接：按数据规模与解释需求选择分类模型 |
+| 2021B*期中 | Q1／2 | 直接：多类SVM、Logistic和输入处理选项 |
+| 2023A期中 | Q2／2 | 直接：Logistic概率、多类与有限解条件 |
+| Mock Exam（复用2023A题面） | Q2／1 | 直接（样题）：Logistic概率、多类与有限解条件 |
+| 2023A期中 | Q8／5 | 直接：损失与MAP正则参数解释 |
+| Mock Exam（复用2023A题面） | Q8／4 | 直接（样题）：损失与MAP正则参数解释 |
+| 2023B期中 | Q2／2 | 直接：条件MLE、MAP与交叉验证 |
+| 2025A期中 | Q2／2 | 直接：Logistic学习目标与输出 |
+| 2025A期中 | Q8／5 | 直接：Logistic目标中的损失与正则项 |
+
+**题源条件：** 凸目标不自动保证唯一有限解；L1可能促零；不是每个数据集都只剩一个特征；题中f是分数；不能把分数与概率混用。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 正则化、MAP与CV
+
+比较惩罚与C并设计训练内验证。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q1／2 | 直接：Logistic损失、优化、C与输出分数 |
+| 2020B期中Quiz | Q4／2–3 | 直接：CV、重拟合与超参数选择 |
+| 2020B期中Quiz | Q12／6 | 直接：L1 Logistic目标与稀疏边界 |
+| 2021A期中 | Q5、Q11／3–4 | 直接：L2、MAP、正则项及其强度选择 |
+| 2023A期中 | Q8／5 | 直接：损失与MAP正则参数解释 |
+| Mock Exam（复用2023A题面） | Q8／4 | 直接（样题）：损失与MAP正则参数解释 |
+| 2023B期中 | Q2／2 | 直接：条件MLE、MAP与交叉验证 |
+| 2025A期中 | Q8／5 | 直接：Logistic目标中的损失与正则项 |
+
+**题源条件：** 凸目标不自动保证唯一有限解；L1可能促零；不是每个数据集都只剩一个特征；题中f是分数；不能把分数与概率混用。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### SVM间隔、松弛与对偶
+
+解释支持向量、约束、C和对偶维度。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q9／4–5 | 直接：高维特征时原始与对偶变量数的比较 |
+| 2021A期中 | Q3、Q4／2 | 直接：核条件、支持向量与线性／非线性模型 |
+| 2021B*期中 | Q1／2 | 直接：多类SVM、Logistic和输入处理选项 |
+| 2023A期中 | Q3／2 | 直接：SVM目标、松弛变量与间隔 |
+| Mock Exam（复用2023A题面） | Q3／1 | 直接（样题）：SVM目标、松弛变量与间隔 |
+| 2023B期中 | Q3／2 | 直接：C、RBF拟合能力及间隔 |
+| 2023B期中 | Q9／6 | 直接：比较不同C的二次核边界与泛化 |
+| 2025A期中 | Q3、Q4／2 | 直接：SVM间隔、核技巧与支持向量 |
+| 2021B期末 | Q1／2 | 直接：期末回顾SVM间隔、松弛与核 |
+| Question Samples（年份未载） | Q2／2 | 直接（样题）：样题辨认软间隔与核技巧 |
+
+**题源条件：** 极大C不保证任意数据可零错，重复冲突标签是反例。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 核技巧与合法性
+
+从特征内积、核矩阵和距离解释非线性。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q10／5 | 直接：比较高斯Bayes与二次核SVM的边界表达 |
+| 2021A期中 | Q3、Q4／2 | 直接：核条件、支持向量与线性／非线性模型 |
+| 2021A期中 | Q9／3 | 直接：按数据规模与解释需求选择分类模型 |
+| 2021B*期中 | Q3／2 | 直接：核方法、支持向量及样本规模开销 |
+| 2021B*期中 | Q5／3 | 直接：从三个输入的相似关系辨认RBF尺度 |
+| 2023A期中 | Q4／3 | 直接：核空间、非线性及支持向量 |
+| Mock Exam（复用2023A题面） | Q4／2 | 直接（样题）：核空间、非线性及支持向量 |
+| 2023A期中 | Q9／6 | 直接：解释核技巧及其作用 |
+| Mock Exam（复用2023A题面） | Q9／5 | 直接（样题）：解释核技巧及其作用 |
+| 2023B期中 | Q3／2 | 直接：C、RBF拟合能力及间隔 |
+| 2023B期中 | Q4／3 | 直接：归一化内积与积分核的合法性 |
+| 2023B期中 | Q9／6 | 直接：比较不同C的二次核边界与泛化 |
+| 2025A期中 | Q3、Q4／2 | 直接：SVM间隔、核技巧与支持向量 |
+| 2021B期末 | Q1／2 | 直接：期末回顾SVM间隔、松弛与核 |
+| 2020B期末 | Q7／3 | 关联：比较KPCA后线性SVM与直接核SVM |
+| Question Samples（年份未载） | Q2／2 | 直接（样题）：样题辨认软间隔与核技巧 |
+
+**题源条件：** 极大C不保证任意数据可零错，重复冲突标签是反例；KPCA不在当前Lecture1–5；这里只支持核方法部分。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 求解维度与预测存储
+
+区分训练开销、支持向量数与部署内存。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q9／4–5 | 直接：高维特征时原始与对偶变量数的比较 |
+| 2021B*期中 | Q3／2 | 直接：核方法、支持向量及样本规模开销 |
+| 2023B期中 | Q10／7 | 直接：比较线性与核SVM预测内存 |
+
+**题源条件：** 随卷解释把C与支持向量数写成单调关系；一般情况下不保证。
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 不平衡、代价与阈值
+
+区分类权重、阈值与评价指标。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q7／3–4 | 直接：疾病筛查的误判代价、类别权重和阈值 |
+| 2021A期中 | Q10／4 | 直接：类别不平衡与不同误判代价 |
+| 2021B*期中 | Q9／4 | 直接：邮件误判代价、权重与阈值 |
+| 2023A期中 | Q10／7 | 直接：疾病筛查的不平衡与不同误判代价 |
+| Mock Exam（复用2023A题面） | Q10／6 | 直接（样题）：疾病筛查的不平衡与不同误判代价 |
+| 2023B期中 | Q13／10 | 直接：代价敏感训练与阈值调整 |
+</div>
+
+<div class="exam-topic-unit" markdown="1">
+### 分类损失曲线
+
+由有符号分数解释正确性和惩罚。
+
+| 试卷 | 原题号／页码 | 关系与要求 |
+|---|---|---|
+| 2020B期中Quiz | Q8／4 | 直接：辨读非标准分类损失曲线 |
+| 2021A期中 | Q13／4 | 直接：给定分类损失的形状与性质 |
+| 2021B*期中 | Q13／4 | 直接：非凸分类损失对远端错分点的作用 |
+| 2023A期中 | Q13／10 | 直接：零损失区域仍含错分样本的反例 |
+| Mock Exam（复用2023A题面） | Q13／9 | 直接（样题）：零损失区域仍含错分样本的反例 |
+| 2025A期中 | Q9／6 | 直接：比较Logistic、hinge和指数损失对错分点的惩罚 |
+</div>
+<!-- EXAM:topics:END -->
 
 ## 16. 原课疑点与覆盖索引
 

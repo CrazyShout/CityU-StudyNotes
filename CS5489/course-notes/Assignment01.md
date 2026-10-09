@@ -42,7 +42,7 @@ Smishing是短信钓鱼，在本作业单列一类。不要因为它也具有垃
 **English takeaway：** The input is an SMS text and the output is one of three specified labels: normal, spam or smishing. Keep the same label mapping throughout preprocessing, evaluation and prediction output.
 
 
-**来源与掌握要求：** Assignment1-Doc，第2–5个单元。核心必会；难度低；要求准确解释输入、输出与类别。
+来源：Assignment1-Doc，第2–5个单元。
 
 <a id="files"></a>
 
@@ -82,7 +82,7 @@ assert len(metadata) == len(texts_eval)
 **English takeaway：** The evaluation text file and metadata have different roles. Align them using the supplied IDs and preserve the original text order. Visible test labels must not be used for model selection.
 
 
-**来源与掌握要求：** Assignment1-Doc，第5–10个单元、Assignment1-Final，第5–6个单元。核心必会；难度中；要求能画出训练与评估的数据流。
+来源：Assignment1-Doc，第5–10个单元、Assignment1-Final，第5–6个单元。
 
 <a id="metric"></a>
 
@@ -92,9 +92,11 @@ assert len(metadata) == len(texts_eval)
 
 在三类都有真实样本的普通多类分类中：
 
-$$\mathrm{Recall}_c=\frac{\mathrm{TP}_c}{\text{真实属于类别c的样本数}},
+$$
+\mathrm{Recall}_c=\frac{\mathrm{TP}_c}{\text{真实属于类别c的样本数}},
 \qquad
-\mathrm{BalancedAccuracy}=\frac13\sum_{c=0}^{2}\mathrm{Recall}_c.$$
+\mathrm{BalancedAccuracy}=\frac13\sum_{c=0}^{2}\mathrm{Recall}_c.\tag{A1.1}
+$$
 
 Recall（召回率）问“该类真实样本找回多少”。Accuracy是整体预测正确比例；precision是“预测成该类的记录中有多少是真的”。这三个英文词不能混译为同一种“准确”。
 
@@ -135,7 +137,7 @@ English answer: There are 96 correct predictions, giving ordinary accuracy≈73.
 **English takeaway：** Balanced accuracy is the mean recall over classes in this setting. It limits majority-class dominance, but the confusion matrix is still needed to understand which errors remain.
 
 
-**来源与掌握要求：** Assignment1-Doc，第3个单元 Evaluation。核心必会；难度中；要求手算并解释指标。
+来源：Assignment1-Doc，第3个单元 Evaluation。
 
 <a id="baseline"></a>
 
@@ -171,7 +173,7 @@ def evaluate_on_validation(pipeline, train_text, train_y,
 **English takeaway：** Establish a reproducible baseline with explicit preprocessing and an aligned metric. Treat the vectorizer and any learned text transformation as part of the fitted model pipeline.
 
 
-**来源与掌握要求：** Assignment1-Doc，第3个单元 Methodology、Assignment1-Doc，第17个单元。核心必会；难度中；要求能说明每一步输入输出。
+来源：Assignment1-Doc，第3个单元 Methodology、Assignment1-Doc，第17个单元。
 
 <a id="validation"></a>
 
@@ -206,12 +208,11 @@ verify IDs and output schema when preparing the required final artifact
 **English takeaway：** Validation selects the procedure; test data assess the fixed choice. All learned preprocessing belongs inside the training fold. Producing predictions for a record does not authorize using its true label for development.
 
 
-**来源与掌握要求：** Assignment1-Doc，第3个单元 Evaluation/Methodology及Usage字段。核心必会；难度高；要求能解释选择与最终评价的边界。
+来源：Assignment1-Doc，第3个单元 Evaluation/Methodology及Usage字段。
 
 <a id="compare"></a>
 
 ## 6. 怎样增加一个有理由的实验？
-**依据：Assignment1-Doc，第3个单元允许自选方法并要求记录尝试。常规掌握；难度中；要求提出可检验假设。**
 
 每次改动先写一句理由，例如“保留字符片段可能帮助识别拼写变体”，再说明怎样保持其他条件相同。不要同时换词表、模型、划分和评价指标，最后只说“新方案好”。
 
@@ -231,7 +232,6 @@ verify IDs and output schema when preparing the required final artifact
 
 <a id="errors"></a>
 ## 7. Error analysis｜把“错了”变成下一步能查的线索
-**依据：Assignment1-Doc，第3个单元 Documentation与原课错误查看。核心必会；难度中；要求用证据解释。**
 
 先看哪一类召回最低、被错分到哪里，再抽取少量验证集错误。保留原文本、真值、预测、模型使用到的特征及对应分数；展示文本时只取判断所需片段，不把整份数据贴进报告。
 
@@ -261,12 +261,12 @@ Assignment1-Doc记录探索过程；Assignment1-Final负责重现最后的固定
 - 原模板writer按照位置产生i+1；仅在已确认当前位置对应这些Id时使用。
 - 在相同环境中从头重跑，固定流程给出同样的预测；跨版本变化要重新检查。
 
-预测CSV及提交格式要求见Canvas和[课程信息](https://crazyshout.github.io/micro-course/notices.html?course=CS5489)为准。
+预测CSV及提交格式以Canvas和[课程信息](https://crazyshout.github.io/micro-course/notices.html?course=CS5489)为准。
 
 **English takeaway：** A reproducible final notebook must declare its own imports, data paths, preprocessing, parameters and random seeds. Correct predictions with incorrect ID alignment still produce an invalid output.
 
 
-**来源与掌握要求：** Assignment1-Doc，第3个单元、Assignment1-Doc，第13–17个单元、Assignment1-Final，第3–8个单元。核心必会；难度中；要求解释并验证可复现性。
+来源：Assignment1-Doc，第3个单元、Assignment1-Doc，第13–17个单元、Assignment1-Final，第3–8个单元。
 
 <a id="check"></a>
 

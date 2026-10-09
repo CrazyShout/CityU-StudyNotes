@@ -1,8 +1,8 @@
 # Research Report Guide｜把一个真实问题解释清楚
 
-[课程目录](README.md) · [Chapter1](Chapter01.md) · [Chapter2](Chapter02.md) · 原任务与Rubric · [课程信息栏](https://crazyshout.github.io/micro-course/notices.html)
+[课程目录](README.md) · [Chapter1](Chapter01.md) · [Chapter2](Chapter02.md) · [课程信息栏](https://crazyshout.github.io/micro-course/notices.html)
 
-这份指南帮助你选题、解释机制、核查资料和整理反思。原任务要求研究你在日常生活、新闻或工作中遇到的新网络技术，联系教材Chapter1–7，排除Chapter8安全主题；用自己的解释和图说明机制，并反思学习过程。格式、页数、评分与提交要求以链接的当前原任务为准。
+这份指南帮助你选题、解释机制、核查资料和整理反思。原任务要求研究你在日常生活、新闻或工作中遇到的新网络技术，联系教材Chapter1–7，排除Chapter8安全主题；用自己的解释和图说明机制，并反思学习过程。格式、页数、评分与提交要求以Canvas中的当前原任务与Rubric为准。
 
 按选题补基础：涉及码率/吞吐就回[网络单位](../../learning/foundation-notes/NetworkBasics.md#units)，涉及状态/时间就回[报文与时间轴](../../learning/foundation-notes/NetworkBasics.md#messages)。没有实际卡点便直接开始。
 
@@ -18,7 +18,7 @@
 
 先记录你**确实遇到**的情况：某个应用在带宽变化时切画质、同一内容从不同地点下载速度不同、多人共享网络时服务突然卡顿。题目应围绕一个能解释的机制问题，例如“客户端怎样在吞吐波动时选择下一视频块的编码版本”。
 
-接着用三道筛子缩小范围：这个问题属于网络吗？能对应教材哪一层/哪章？在本次篇幅内能用一幅图、一个小场景说明主要机制吗？“所有5G技术”往往太宽；“某种特定机制在什么条件下改善什么问题”更容易论证。选题的新意应落在具体变化、部署或问题上。若选DASH等课内基础，需说明你研究的具体新变化、部署或问题，不能只复述课件。
+用三个问题缩小范围：这个问题属于网络吗？能对应教材哪一层/哪章？在本次篇幅内能用一幅图、一个小场景说明主要机制吗？“所有5G技术”往往太宽；“某种特定机制在什么条件下改善什么问题”更容易论证。选题的新意应落在具体变化、部署或问题上。若选DASH等课内基础，需说明你研究的具体新变化、部署或问题，不能只复述课件。
 
 **English framing (整理表达):** *This report examines how [a specific mechanism] addresses [a concrete networking problem] under [a defined setting].* 方括号中填写你的具体问题、机制和调查情境。
 
@@ -34,7 +34,7 @@
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
-下载8秒，已有缓冲只能撑3秒，理想模型中会停顿约5秒，等块到后才续播。 / Download takes eight seconds; under the simplified model, playback stalls for about five seconds. 这说明要考虑安全余量和估计误差，而不是平均值刚好够就万事大吉。
+下载8秒，已有缓冲只能撑3秒，理想模型中会停顿约5秒，等块到后才续播。 / Download takes eight seconds; under the simplified model, playback stalls for about five seconds. 缓冲余量和吞吐估计误差都会影响是否停顿。
 
 </details>
 

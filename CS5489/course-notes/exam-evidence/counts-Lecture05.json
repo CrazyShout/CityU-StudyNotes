@@ -1,0 +1,81 @@
+{
+  "output": {
+    "midterm_direct": [],
+    "midterm_related": [],
+    "final_direct": [
+      "F21B"
+    ],
+    "final_related": [],
+    "qe_fragments": [
+      "QE-U"
+    ],
+    "samples": []
+  },
+  "backprop": {
+    "midterm_direct": [
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [
+      "F20B"
+    ],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": [
+      "SAMPLE"
+    ]
+  },
+  "activation": {
+    "midterm_direct": [
+      "M25A"
+    ],
+    "midterm_related": [],
+    "final_direct": [
+      "F20B",
+      "F21A",
+      "F21B"
+    ],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "capacity": {
+    "midterm_direct": [],
+    "midterm_related": [],
+    "final_direct": [
+      "F20B",
+      "F21A",
+      "F21B"
+    ],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "optimization": {
+    "midterm_direct": [],
+    "midterm_related": [],
+    "final_direct": [
+      "F20B",
+      "F21A"
+    ],
+    "final_related": [],
+    "qe_fragments": [],
+    "samples": []
+  },
+  "monitoring": {
+    "midterm_direct": [],
+    "midterm_related": [],
+    "final_direct": [
+      "F20B",
+      "F21A",
+      "F21B"
+    ],
+    "final_related": [
+      "F21B"
+    ],
+    "qe_fragments": [
+      "QE-U"
+    ],
+    "samples": []
+  }
+}

@@ -17,3 +17,5 @@
  .exam-paper ul{margin:1mm 0 2mm}
  .exam-paper table{margin:2mm 0 3mm}
 }
+
+@media print {.exam-overview-compact{break-after:auto}.exam-paper{break-inside:auto;page-break-inside:auto}}

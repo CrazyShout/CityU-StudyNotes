@@ -31,6 +31,19 @@ for group,records in GROUPS.items():
   for comment in list(body.find_all(string=lambda x:isinstance(x,Comment) and str(x).strip().startswith('EXAM:'))):comment.extract()
   for x in body.select('nav,.source-note'):x.decompose()
   title=body.find('h1').get_text(' ',strip=True)
+  # On paper, list only the main numbered lecture sections; nested exam headings
+  # already have a topic table. Keep full electronic headings/bookmarks intact.
+  if docid in {'CS5489-Lecture03','CS5489-Lecture04','CS5489-Lecture05'}:
+   for toc in body.select('.toc'):
+    links=[copy.copy(a) for a in toc.select('a[href]') if re.match(r'^\d+\. ',a.get_text()) or a.get_text().startswith(('Historical exam map','来源覆盖索引'))]
+    toc.clear();lst=soup.new_tag('ul');toc.append(lst)
+    for link in links:
+     li=soup.new_tag('li');li.append(link);lst.append(li)
+    parent=toc.parent
+    if parent.name=='details':
+     parent.name='div';parent.attrs={'class':'reading-outline'}
+     summary=parent.find('summary')
+     if summary:summary.name='h4';summary.string='本讲目录 / Contents'
   # Preserve source headings and prefix anchors to make the combined book unambiguous.
   for e in body.select('[id]'):e['id']=docid+'__'+e['id']
   # Empty legacy anchors before a heading can paginate onto the preceding page.
@@ -106,6 +119,20 @@ for group,records in GROUPS.items():
     outer=block.parent if block.name=='table' and 'table-scroll' in block.parent.get('class',[]) else block
     lead=outer.find_previous_sibling()
     if lead and lead.name=='p' and len(lead.get_text())<=180 and (block.name!='table' or lead.get_text().rstrip().endswith(('：',':'))):
+     lead['class']=list(lead.get('class',[]))+['equation-lead']
+  # Keep short labelled bilingual questions with their short answer, not whole sections.
+  if docid!='CS5489-Lecture02':
+   for item in list(body.find_all('p')):
+    label=item.find('strong',recursive=False)
+    if not label or not re.match(r'(?:独立|变式|判断|迁移|自测|补一步|Q(?:中文| English)|Check|Transfer)',label.get_text()):continue
+    nxt=item.find_next_sibling()
+    if not nxt:continue
+    is_answer=('answer-block' in nxt.get('class',[]) or (nxt.name=='p' and re.match(r'(?:答|Answer|关键答)',nxt.get_text(' ',strip=True))))
+    if is_answer and len(item.get_text()+nxt.get_text())<=900 and not nxt.find(['img','table','pre']):
+     box=soup.new_tag('div',attrs={'class':'short-exercise'});item.insert_before(box);box.append(item.extract());box.append(nxt.extract())
+   for block in body.select('div.arithmatex'):
+    lead=block.find_previous_sibling()
+    if lead and lead.name=='p' and len(lead.get_text())<=150 and lead.get_text().rstrip().endswith(('：',':')):
      lead['class']=list(lead.get('class',[]))+['equation-lead']
   # Clip only blank margins of full-page question images through layout.
   # Pixels in the original file are never rewritten; all nonwhite content stays.

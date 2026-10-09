@@ -1,0 +1,901 @@
+{
+  "version": 1,
+  "updated": "2026-10-09",
+  "scope": "Lecture 3当前教学内容与历史题的对应；题答册未扩编",
+  "catalogue": "Lecture02.json",
+  "count_unit": "independent_paper_per_topic_and_relation",
+  "intro": "本讲的历史题集中在Logistic目标、SVM与核方法，也经常要求根据应用代价或存储限制选择方法。复习时把“写出目标、说明条件、解释结果”连起来。",
+  "boundaries": "核PCA为期末关联知识，当前尚未展开。下面登记原题涉及的能力，不表示每份历史选择题的所有选项都已成为当前课程要求；具体答案中的简化见讲末注。",
+  "topics": [
+    {
+      "id": "discriminative",
+      "title": "生成式与判别式",
+      "anchor": "linear",
+      "skill": "比较拟合对象与边界形式",
+      "priority": "说明两类方法到底学什么"
+    },
+    {
+      "id": "parameter-count",
+      "title": "模型参数计数",
+      "anchor": "parameter-count",
+      "skill": "按方差结构和是否学习先验计算自由参数",
+      "priority": "写明先验与共享方差的约定"
+    },
+    {
+      "id": "logistic",
+      "title": "Logistic似然与优化",
+      "anchor": "logistic",
+      "skill": "写出损失、求梯度并判断解的条件",
+      "priority": "走完一次梯度更新"
+    },
+    {
+      "id": "regularization",
+      "title": "正则化、MAP与CV",
+      "anchor": "regularization",
+      "skill": "比较惩罚与C并设计训练内验证",
+      "priority": "先说明目标的缩放约定"
+    },
+    {
+      "id": "margin",
+      "title": "SVM间隔、松弛与对偶",
+      "anchor": "svm",
+      "skill": "解释支持向量、约束、C和对偶维度",
+      "priority": "掌握间隔条件与软间隔权衡"
+    },
+    {
+      "id": "kernel",
+      "title": "核技巧与合法性",
+      "anchor": "kernels",
+      "skill": "从特征内积、核矩阵和距离解释非线性",
+      "priority": "会算小Gram矩阵并辨认无效核"
+    },
+    {
+      "id": "storage",
+      "title": "求解维度与预测存储",
+      "anchor": "model-cost",
+      "skill": "区分训练开销、支持向量数与部署内存",
+      "priority": "按给定维数和支持向量数计算"
+    },
+    {
+      "id": "cost",
+      "title": "不平衡、代价与阈值",
+      "anchor": "cost-threshold",
+      "skill": "区分类权重、阈值与评价指标",
+      "priority": "先明确哪种错误更贵"
+    },
+    {
+      "id": "loss",
+      "title": "分类损失曲线",
+      "anchor": "loss-shapes",
+      "skill": "由有符号分数解释正确性和惩罚",
+      "priority": "检查错分区是否仍被惩罚"
+    }
+  ],
+  "questions": [
+    {
+      "id": "L3E01",
+      "topics": [
+        "logistic",
+        "regularization"
+      ],
+      "summary": "Logistic损失、优化、C与输出分数",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": "凸目标不自动保证唯一有限解"
+    },
+    {
+      "id": "L3E02",
+      "topics": [
+        "regularization"
+      ],
+      "summary": "CV、重拟合与超参数选择",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q4",
+          "pages": "2–3",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L3E03",
+      "topics": [
+        "cost"
+      ],
+      "summary": "疾病筛查的误判代价、类别权重和阈值",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q7",
+          "pages": "3–4",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L3E04",
+      "topics": [
+        "loss"
+      ],
+      "summary": "辨读非标准分类损失曲线",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q8",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L3E05",
+      "topics": [
+        "margin",
+        "storage"
+      ],
+      "summary": "高维特征时原始与对偶变量数的比较",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q9",
+          "pages": "4–5",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L3E06",
+      "topics": [
+        "discriminative",
+        "kernel"
+      ],
+      "summary": "比较高斯Bayes与二次核SVM的边界表达",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q10",
+          "pages": "5",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": ""
+    },
+    {
+      "id": "L3E07",
+      "topics": [
+        "logistic",
+        "regularization"
+      ],
+      "summary": "L1 Logistic目标与稀疏边界",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "question": "Q12",
+          "pages": "6",
+          "relation": "direct",
+          "source_id": "S013"
+        }
+      ],
+      "answer_basis": "配套答案见S013",
+      "review_note": "L1可能促零；不是每个数据集都只剩一个特征"
+    },
+    {
+      "id": "L3E08",
+      "topics": [
+        "discriminative"
+      ],
+      "summary": "生成式与判别式学习对象及线性分类器比较",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q1、Q8",
+          "pages": "2–3",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L3E09",
+      "topics": [
+        "kernel",
+        "margin"
+      ],
+      "summary": "核条件、支持向量与线性／非线性模型",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q3、Q4",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L3E10",
+      "topics": [
+        "regularization"
+      ],
+      "summary": "L2、MAP、正则项及其强度选择",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q5、Q11",
+          "pages": "3–4",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L3E11",
+      "topics": [
+        "logistic",
+        "kernel"
+      ],
+      "summary": "按数据规模与解释需求选择分类模型",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q9",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L3E12",
+      "topics": [
+        "cost"
+      ],
+      "summary": "类别不平衡与不同误判代价",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q10",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L3E13",
+      "topics": [
+        "loss"
+      ],
+      "summary": "给定分类损失的形状与性质",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "question": "Q13",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S012"
+        }
+      ],
+      "answer_basis": "配套答案见S018",
+      "review_note": ""
+    },
+    {
+      "id": "L3E14",
+      "topics": [
+        "logistic",
+        "margin"
+      ],
+      "summary": "多类SVM、Logistic和输入处理选项",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L3E15",
+      "topics": [
+        "kernel",
+        "storage"
+      ],
+      "summary": "核方法、支持向量及样本规模开销",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q3",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L3E16",
+      "topics": [
+        "kernel"
+      ],
+      "summary": "从三个输入的相似关系辨认RBF尺度",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q5",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L3E17",
+      "topics": [
+        "discriminative"
+      ],
+      "summary": "用给定分类任务说明生成式与判别式",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q7",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L3E18",
+      "topics": [
+        "cost"
+      ],
+      "summary": "邮件误判代价、权重与阈值",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q9",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L3E19",
+      "topics": [
+        "loss"
+      ],
+      "summary": "非凸分类损失对远端错分点的作用",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "question": "Q13",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S010"
+        }
+      ],
+      "answer_basis": "配套答案见S009",
+      "review_note": ""
+    },
+    {
+      "id": "L3E20",
+      "topics": [
+        "logistic"
+      ],
+      "summary": "Logistic概率、多类与有限解条件",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q2",
+          "pages": "1",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L3E21",
+      "topics": [
+        "margin"
+      ],
+      "summary": "SVM目标、松弛变量与间隔",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q3",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q3",
+          "pages": "1",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L3E22",
+      "topics": [
+        "kernel"
+      ],
+      "summary": "核空间、非线性及支持向量",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q4",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q4",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L3E23",
+      "topics": [
+        "logistic",
+        "regularization"
+      ],
+      "summary": "损失与MAP正则参数解释",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q8",
+          "pages": "5",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q8",
+          "pages": "4",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": "题中f是分数；不能把分数与概率混用"
+    },
+    {
+      "id": "L3E24",
+      "topics": [
+        "kernel"
+      ],
+      "summary": "解释核技巧及其作用",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q9",
+          "pages": "6",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q9",
+          "pages": "5",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L3E25",
+      "topics": [
+        "cost"
+      ],
+      "summary": "疾病筛查的不平衡与不同误判代价",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q10",
+          "pages": "7",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q10",
+          "pages": "6",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L3E26",
+      "topics": [
+        "loss"
+      ],
+      "summary": "零损失区域仍含错分样本的反例",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "question": "Q13",
+          "pages": "10",
+          "relation": "direct",
+          "source_id": "S015"
+        },
+        {
+          "paper": "MOCK",
+          "question": "Q13",
+          "pages": "9",
+          "relation": "direct",
+          "source_id": "S017"
+        }
+      ],
+      "answer_basis": "配套答案见S015",
+      "review_note": ""
+    },
+    {
+      "id": "L3E27",
+      "topics": [
+        "logistic",
+        "regularization"
+      ],
+      "summary": "条件MLE、MAP与交叉验证",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": ""
+    },
+    {
+      "id": "L3E28",
+      "topics": [
+        "margin",
+        "kernel"
+      ],
+      "summary": "C、RBF拟合能力及间隔",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q3",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": "极大C不保证任意数据可零错，重复冲突标签是反例"
+    },
+    {
+      "id": "L3E29",
+      "topics": [
+        "kernel"
+      ],
+      "summary": "归一化内积与积分核的合法性",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q4",
+          "pages": "3",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": ""
+    },
+    {
+      "id": "L3E30",
+      "topics": [
+        "parameter-count"
+      ],
+      "summary": "Logistic与共享标量方差Gaussian NB的参数计数",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q8",
+          "pages": "5",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": "先说明是否学习类别先验"
+    },
+    {
+      "id": "L3E31",
+      "topics": [
+        "margin",
+        "kernel"
+      ],
+      "summary": "比较不同C的二次核边界与泛化",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q9",
+          "pages": "6",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": ""
+    },
+    {
+      "id": "L3E32",
+      "topics": [
+        "storage"
+      ],
+      "summary": "比较线性与核SVM预测内存",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q10",
+          "pages": "7",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": "随卷解释把C与支持向量数写成单调关系；一般情况下不保证"
+    },
+    {
+      "id": "L3E33",
+      "topics": [
+        "cost"
+      ],
+      "summary": "代价敏感训练与阈值调整",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "question": "Q13",
+          "pages": "10",
+          "relation": "direct",
+          "source_id": "S016"
+        }
+      ],
+      "answer_basis": "配套答案见S016",
+      "review_note": ""
+    },
+    {
+      "id": "L3E34",
+      "topics": [
+        "logistic"
+      ],
+      "summary": "Logistic学习目标与输出",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L3E35",
+      "topics": [
+        "margin",
+        "kernel"
+      ],
+      "summary": "SVM间隔、核技巧与支持向量",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q3、Q4",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L3E36",
+      "topics": [
+        "logistic",
+        "regularization"
+      ],
+      "summary": "Logistic目标中的损失与正则项",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q8",
+          "pages": "5",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L3E37",
+      "topics": [
+        "loss"
+      ],
+      "summary": "比较Logistic、hinge和指数损失对错分点的惩罚",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "question": "Q9",
+          "pages": "6",
+          "relation": "direct",
+          "source_id": "S030"
+        }
+      ],
+      "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
+      "review_note": ""
+    },
+    {
+      "id": "L3E38",
+      "topics": [
+        "margin",
+        "kernel"
+      ],
+      "summary": "期末回顾SVM间隔、松弛与核",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F21B",
+          "question": "Q1",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S005"
+        }
+      ],
+      "answer_basis": "配套答案见S004",
+      "review_note": ""
+    },
+    {
+      "id": "L3E39",
+      "topics": [
+        "kernel"
+      ],
+      "summary": "比较KPCA后线性SVM与直接核SVM",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "F20B",
+          "question": "Q7",
+          "pages": "3",
+          "relation": "related",
+          "source_id": "S003"
+        }
+      ],
+      "answer_basis": "配套答案见S002",
+      "review_note": "KPCA不在当前Lecture1–5；这里只支持核方法部分"
+    },
+    {
+      "id": "L3E40",
+      "topics": [
+        "margin",
+        "kernel"
+      ],
+      "summary": "样题辨认软间隔与核技巧",
+      "skill": "解释／比较",
+      "occurrences": [
+        {
+          "paper": "SAMPLE",
+          "question": "Q2",
+          "pages": "2",
+          "relation": "direct",
+          "source_id": "S014"
+        }
+      ],
+      "answer_basis": "配套答案见S014",
+      "review_note": ""
+    }
+  ]
+}

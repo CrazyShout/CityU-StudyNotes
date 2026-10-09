@@ -106,3 +106,19 @@ figure img[src$="/poisson.png"],figure img[src$="/gaussian.png"] {max-width:130m
 #CS5489-Lecture02 figure img[src$="/lecture02-boundary-variance.png"] {max-width:140mm;}
 
 #CS5489-Lecture02 .question-lead {break-before:auto;break-inside:avoid;page-break-inside:avoid;break-after:avoid;page-break-after:avoid;}
+
+/* Scoped keeps: short exercise units, not entire long answers or chapters. */
+.short-exercise {break-inside:avoid;page-break-inside:avoid;}
+.equation-lead {break-after:avoid;page-break-after:avoid;}
+#CS5222-Chapter03 figure img[src$="/chapter03-gbn-sr.png"] {max-width:150mm;}
+
+/* Instructor concept sketches stay modest; data plots retain readable labels. */
+#CS5489-Lecture01 figure img[src$="/lecture01-intro-12.png"],
+#CS5489-Lecture01 figure img[src$="/lecture01-pipeline-23.png"] {max-width:130mm;}
+#CS5489-Lecture01 figure img[src$="/source-poisson.png"],
+#CS5489-Lecture01 figure img[src$="/source-gaussian.png"] {max-width:130mm;}
+#CS5489-Lecture04 figure img[src$="/source-l1.png"],
+#CS5489-Lecture04 figure img[src$="/source-l2.png"] {max-width:105mm;max-height:84mm;}
+.reading-outline .toc {border:0;margin:2mm 0 4mm;}
+
+#CS5222-Chapter01 figure img[src*="/chapter01-qa-"] {max-width:145mm;}

@@ -1,0 +1,37 @@
+{
+  "source_commit": "4680333adf9313e0df9331b9c167aef5db13af07",
+  "registered_sources": 27,
+  "major_documents": 21,
+  "newly_numbered_display_formulas": 112,
+  "lecture2_display_formulas_unchanged": 43,
+  "pdf_pages": {
+    "CS5489-A4.pdf": 200,
+    "CS5222-A4.pdf": 88,
+    "Foundations-A4.pdf": 43
+  },
+  "print_checks": {
+    "CS5489": {
+      "math_errors": 0,
+      "broken_images": 0,
+      "overflows": 0,
+      "auto_shrunk_formulas": 0
+    },
+    "CS5222": {
+      "math_errors": 0,
+      "broken_images": 0,
+      "overflows": 0,
+      "auto_shrunk_formulas": 0
+    },
+    "Foundations": {
+      "math_errors": 0,
+      "broken_images": 0,
+      "overflows": 0,
+      "auto_shrunk_formulas": 0
+    }
+  },
+  "original_exam_source_hashes_verified": 39,
+  "lecture2_body_ledger_counts": "identical to baseline",
+  "notebooks": "Markdown source only; other cells and metadata identical",
+  "cards": "hashes match baseline",
+  "physical_print_test": false
+}
