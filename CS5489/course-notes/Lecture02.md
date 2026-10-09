@@ -33,7 +33,7 @@
 
 <a id="_2"></a>
 <a id="intro"></a>
-老师给出两个任务：根据花瓣长度和萼片宽度辨认鸢尾花；根据邮件内容判断是不是垃圾邮件。它们的输入不同，却可以用同一条思路处理：**先从已知类别的记录中学出各类的特征，再判断新记录更符合哪一类。**
+老师给出两个任务：根据花瓣长度和萼片宽度辨认鸢尾花；根据邮件内容判断是不是垃圾邮件。它们的输入不同，却可以用同一条思路处理：**先从已知类别的记录中估计各类的特征分布，再判断新记录更符合哪一类。**
 
 我们先跟着一朵花走完这个过程，随后把测量值换成文字。前三部分对应Lecture2a，后三部分对应Lecture2b。上一讲的数组用于保存记录，概率用于表达判断的不确定性，Python负责估参数和计算预测。
 
@@ -173,7 +173,7 @@ $$
 
 固定这条高斯曲线后，离均值越远，指数里的数越负，密度越低。方差较大时，同样的偏离只占较少的标准差，曲线展开得更宽；前面的归一化系数也随方差变化，使曲线下面积保持为1。
 
-连续变量的曲线高度是 **density（密度）**，单位为cm⁻¹。某个长度区间的概率等于区间下的面积；“恰好5 cm”的点概率与“5 cm附近比较常见”是两件事。密度高度可以超过1，只要总面积仍为1。详见[密度与面积](../../learning/foundation-notes/MathForML.md#density-area)。
+连续变量的曲线高度是 **density（密度）**，单位为cm⁻¹。某个长度区间的概率等于区间下的面积。连续分布中，“恰好5 cm”的点概率为0；“5 cm附近比较常见”指的是附近一小段区间内的概率。密度高度可以超过1，只要总面积仍为1。详见[密度与面积](../../learning/foundation-notes/MathForML.md#density-area)。
 
 来源：Lecture2a，第18–25个单元。上图按原数据重绘；原课早期的计数直方图与后来的密度图的区别，见文末实现说明。
 
@@ -799,7 +799,7 @@ $$
 
 因此模型选Ham；其模型后验约为0.999987。这个高数值并不使标签变正确。错分说明：词表先决定模型看到了哪些信息，之后的分类器无法利用已经丢掉的广告词。
 
-这里只重算这一封原课错分邮件；老师保存的整体结果见第六部分。课程中尝试扩大词表或改变表示时，应通过训练内部的验证来判断是否有帮助。
+老师保存的整体结果见第六部分。扩大词表或改变表示是否有帮助，需要通过训练内部的验证来判断。
 
 **English takeaway:** BoW fixes the vocabulary; Bernoulli NB models word presence and absence. Smoothing avoids automatic zero estimates. A message can be misclassified when its useful words disappear during vectorization, even if the resulting model probability is high.
 
@@ -956,7 +956,7 @@ $$
 
 **答案 / Answer：** Spam分数更大。先对两类log分数取指数，再除以两项之和，得到Spam约0.6339、Ham约0.3661。 / Select Spam. The normalized model scores are approximately 0.6339 for Spam and 0.3661 for Ham.
 
-这是分类器对加权特征给出的模型概率输出；其计算可以使用，特征的小数值却不应解释为整数多项式模型中的词次数。来源：Lecture2b，第93–97个单元；[Multinomial NB实现说明](https://scikit-learn.org/stable/modules/naive_bayes.html)。
+归一化结果是分类器对加权特征给出的模型概率。来源：Lecture2b，第93–97个单元；[Multinomial NB实现说明](https://scikit-learn.org/stable/modules/naive_bayes.html)。
 
 ### Return to the classroom experiment｜老师的邮件比较说明什么
 
@@ -968,9 +968,9 @@ $$
 | Bernoulli NB | alpha=0.1 | 72%（18/25） |
 | TF-IDF + Multinomial NB | 平滑IDF、L1；alpha=0.05 | 68%（17/25） |
 
-来源：Lecture2b，第78、82、95个单元的**保存输出**；这张表不是本轮重跑成绩。alpha=0的数值行为还与库版本有关，运行说明见文末。
+来源：Lecture2b，第78、82、95个单元的**保存输出**。alpha=0的数值行为还与库版本有关，运行说明见文末。
 
-在这次小测试中，平滑Bernoulli比无平滑版本分对更多；换成TF-IDF Multinomial并没有进一步提高。可见“表示更复杂”本身不是改进的证据。每个模型实际丢掉和保留了什么、词表是否覆盖输入，以及训练样本够不够，都要一起看。反复根据同一测试集挑方法后，这组结果只能作课堂探索，最终评价应留出未参与选择的数据。
+在这25封测试邮件中，平滑Bernoulli分对的邮件更多，TF-IDF Multinomial没有继续提高准确率。分析差异时，可以像前面的手表广告例子一样，检查词表覆盖和预处理保留的信息。这组测试结果已用于课堂模型比较；最终评价需要另留未参与选择的数据。
 
 <a id="19-summary-other-text-preprocessing-other-word-models"></a>
 <a id="extensions"></a>

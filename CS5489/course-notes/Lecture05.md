@@ -3,9 +3,9 @@
 
 [课程目录](README.md) · [上一讲：回归](Lecture04.md) · [Assignment 2 学习指南](Assignment02.md)
 
-假设我们仍在辨认鸢尾花。每朵花是一行测量，标签是已知品种；给一朵新花，我们希望输出它属于各品种的概率。前几讲已经会手工挑特征、拟合线性边界。现在老师追问：能不能让模型自己学出对分类有帮助的中间特征？本讲先从最简单的感知机开始，经过多分类逻辑回归，再把可训练的特征层接到分类器前面。
+假设我们仍在辨认鸢尾花。每朵花是一行测量，标签是已知品种；给一朵新花，我们希望输出它属于各品种的概率。前几讲已经会手工挑特征、拟合线性边界。这一次的问题是：能不能让模型自己学出对分类有帮助的中间特征？本讲先从最简单的感知机开始，经过多分类逻辑回归，再把可训练的特征层接到分类器前面。
 
-**基础复习（可跳过）：** 不熟指数、求导，读[对数与导数](../../learning/foundation-notes/MathForML.md#derivatives)；不熟悉矩阵求导，读[批量梯度与计算图](../../learning/foundation-notes/MathForML.md#batch-gradients)。这里会保留即时解释，不需要先把整个数学册读完。
+**基础复习（可跳过）：** 不熟指数、求导，读[对数与导数](../../learning/foundation-notes/MathForML.md#derivatives)；不熟悉矩阵求导，读[批量梯度与计算图](../../learning/foundation-notes/MathForML.md#batch-gradients)。按需要选读即可。
 
 | 主题 | 学习优先级 | 理解难度与卡点 | 掌握要求／判断依据 |
 |---|---|---|---|
@@ -50,7 +50,7 @@ QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN
 <a id="perceptron"></a>
 ## 1. Perceptron｜先做一个会纠错的线性判断器
 
-用神经元的加权输入引出人工网络，回顾早期MLP、上世纪90年代的低潮，以及数据、算力与训练进步后的深度学习。生物类比只帮助认识“输入加权再响应”；人工神经元不是大脑细胞的完整模拟。
+课件从生物神经元的“接收输入、产生响应”引出人工网络，并回顾早期MLP及后来的深度学习。感知机是其中最简单的模型之一：将输入加权求和，再用阈值决定输出类别。
 
 给输入列向量 $\mathbf{x}\in\mathbb R^d$ 和权重 $\mathbf w$。分数 $a=\mathbf w^T\mathbf x$ 为加权和，分数非负输出+1，否则输出−1。偏置可写成 $a=\mathbf w^T\mathbf x+b$，也可把常数 $x_0=1$ 并入输入；比较参数数量前要说明采用哪种写法。
 
@@ -82,7 +82,7 @@ $\eta>0$ 是学习率。负梯度不是“看见负类就所有权重减1”，�
 **English takeaway:** A perceptron corrects mistakes using the signed feature vector. Separability supports convergence, but neither calibrated probabilities nor maximum margin follows from zero training error.
 
 
-来源：Lecture5a，第3–12个单元；第14–15个单元；第26–35个单元。
+来源：Lecture5a，第3–39个单元。
 
 <a id="softmax"></a>
 
@@ -272,7 +272,7 @@ $(4+1)3+(3+1)2=23$。激活本身通常没有参数；作业的可学习指数�
 
 A为d×h，c为1×h；W为h×C，b为1×C。加偏置时，同一行偏置被用于每个样本。对Z的每一行使用softmax，得到概率矩阵P；Y是同形的one-hot标签矩阵。
 
-现在反向走。记 $G_Z=\partial L/\partial Z$，意思是“Z中每个数稍微改变，损失怎样改变”；其他G下标同理。损失采用批内平均交叉熵，并对A、W加 $\lambda(\|A\|_F^2+\|W\|_F^2)/2$，偏置不惩罚。
+现在反向走。记 $G_Z=\partial L/\partial Z$，意思是“Z中每个数稍微改变，损失怎样改变”；其他G下标同理。损失采用批内平均交叉熵，并对A、W加$\lambda(\|A\|_F^2+\|W\|_F^2)/2$，偏置不惩罚。$\lambda\ge0$控制正则强度；$\|A\|_F^2$表示A所有元素的平方和，W同理。
 
 **从输出开始。** 上一节单样本的p−y按B个样本取平均：
 
@@ -415,12 +415,7 @@ $$
 
 来源：Lecture5b第15–21个单元的链式法则；对应《CS5489 Question Samples》Q4(b)的tanh回归题型，原样题与期中真题分开统计。
 
-分支也有一条规则：同一中间量同时流向两个下游，返回的梯度要相加。链条上的影响相乘，分支汇合的影响相加。原课还介绍了自动微分框架的历史分类；读这部分时，重点理解计算图如何组织链式法则。
-
-**English takeaway:** Backpropagation composes local derivatives and sums contributions from all children. A gradient must match its parameter's shape, and loss averaging must be applied consistently.
-
-
-来源：Lecture5b，第15–21个单元。
+自动微分（automatic differentiation）按计算图执行这些局部求导与求和。课件还介绍了相关框架的历史分类；上面的手算展示了它们共同使用的链式法则。
 
 <a id="training"></a>
 <a id="7-sgd"></a>
@@ -510,14 +505,14 @@ $$
 
 表中准确率沿用老师保存的运行结果；参数数按各层输入、输出和偏置计算。单次表格显示更宽/更深不一定持续提高该设置下的准确率，不能据此建立普遍排名。
 
-总结容量、过拟合、初始化、学习率与梯度传播。数据归一化能改善数值尺度，但不保证训练稳定；GPU加速不改变损失定义。原PyTorch示范需要torch；本讲的小型手算与梯度核验使用NumPy。
+原PyTorch示范将数据处理、模型构建、训练监控和权重可视化接成完整流程；可按上表逐层核对参数数，再比较验证与测试表现。
 
 来源：Lecture5b，第62–70个单元；第71–91个单元；第93–96个单元。
 
 
 ## 10. 回顾与英文自测
 
-这一讲的联系是：感知机先纠正分类方向；Softmax把多个分数转成概率；交叉熵给出训练目标；隐藏层学习特征；反向传播计算梯度；优化器更新参数；验证集帮助决定怎么训练。每个环节的职责应分别说清。
+这一讲的联系是：感知机先纠正分类方向；Softmax把多个分数转成概率；交叉熵给出训练目标；隐藏层学习特征；反向传播计算梯度；优化器更新参数；验证集帮助决定怎么训练。
 
 英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?
 
