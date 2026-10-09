@@ -81,7 +81,7 @@ $$
 
 为什么平方？正负残差不能相互抵消，偏离越远罚得越多，也形成方便求导的目标。代价是极端点的影响可能很大。MSE=E/N，RMSE=$\sqrt{E/N}$：MSE的单位是价格单位的平方，RMSE才回到价格单位。
 
-**完整补算（教学例子）：** 三个观测点为 $(0,1),(1,2),(2,2)$。先求平均：$\bar x=(0+1+2)/3=1$，$\bar y=(1+2+2)/3=5/3$。一维最小二乘的斜率用下面的比值计算；下一节再从平方误差求导说明公式的来历。
+**完整补算（教学例子）：** 三个观测点为 $(0,1),(1,2),(2,2)$。先求平均：$\bar x=(0+1+2)/3=1$，$\bar y=(1+2+2)/3=5/3$。先用下面的斜率公式算一次结果，随后从平方误差推导它，再接到矩阵写法。
 
 | 点 | $x_i-\bar x$ | $y_i-\bar y$ | 两者乘积 | $(x_i-\bar x)^2$ |
 |---|---:|---:|---:|---:|
@@ -101,6 +101,39 @@ $$
 \mathrm{SSE}=\frac1{36}+\frac19+\frac1{36}=\frac16,
 \qquad\mathrm{MSE}=\frac{\mathrm{SSE}}3=\frac1{18}.\tag{4.3}
 $$
+
+### 斜率和截距的公式从哪里来？
+
+先固定斜率$w$，看怎样选择截距$b$。在$E(w,b)=\sum_i[y_i-wx_i-b]^2$中，每个残差对$b$的导数都是$-1$；平方求导后得到：
+
+$$
+\begin{aligned}
+\frac{\partial E}{\partial b}
+&=-2\sum_{i=1}^N(y_i-wx_i-b)=0,\\
+\sum_i y_i-w\sum_i x_i-Nb&=0,\\
+b&=\bar y-w\bar x.
+\end{aligned}\tag{4.3a}
+$$
+
+这里$\bar x,\bar y$分别是输入与输出的平均值。固定斜率后，平方误差关于$b$的二阶导数为$2N>0$，因此这个截距确实使误差最小。把它代回预测式，得到$wx_i+b=\bar y+w(x_i-\bar x)$：最佳直线经过平均点$(\bar x,\bar y)$。
+
+接着只剩斜率未知。为看清求导，记$u_i=x_i-\bar x$、$v_i=y_i-\bar y$，它们都是已经由数据算好的数。代回截距后的残差就是$v_i-wu_i$：
+
+$$
+\begin{aligned}
+E_c(w)&=\sum_i(v_i-wu_i)^2,\\
+\frac{dE_c}{dw}&=-2\sum_i u_i(v_i-wu_i)=0,\\
+w\sum_i u_i^2&=\sum_i u_i v_i.
+\end{aligned}\tag{4.3b}
+$$
+
+只要输入不全相同，$\sum_i u_i^2>0$，两边除以它，就得到式（4.2）的斜率。三点表中已经算出$\sum_i u_i v_i=1$、$\sum_i u_i^2=2$，所以$w=1/2$；再用$\bar y-w\bar x$求得$b=7/6$。
+
+若所有输入都等于某个$x_0$，则所有$u_i=0$，不能除以0。这时所有训练记录得到同一个预测$wx_0+b$；平方误差要求它等于$\bar y$，但满足这个关系的斜率和截距有无穷多组。后面的矩阵写法会把同一个问题表现为秩不足。
+
+**English takeaway:** First minimize over the intercept to obtain b=ȳ−wx̄. Substitution centers the data and leaves a one-variable problem for the slope. A unique slope requires at least two distinct input values.
+
+来源：Lecture4a，第13、19–21个单元；一维逐步推导及三点算例为教学补充。
 
 <a id="ols"></a>
 ## 3. Matrix solution｜先摆好矩阵，再求导
@@ -135,6 +168,20 @@ $$
 $$
 w=(XX^T)^{-1}Xy.\tag{4.7}
 $$
+
+用刚才的三点核对两种写法。此处把矩阵解的权重明确写成$(w,b)^T$，避免把标量斜率$w$与整组参数混淆：
+
+$$
+\begin{gathered}
+X=\begin{pmatrix}0&1&2\\1&1&1\end{pmatrix},\qquad
+y=\begin{pmatrix}1\\2\\2\end{pmatrix},\\[4pt]
+\underbrace{\begin{pmatrix}5&3\\3&3\end{pmatrix}}_{XX^T}
+\begin{pmatrix}w\\b\end{pmatrix}
+=\underbrace{\begin{pmatrix}6\\5\end{pmatrix}}_{Xy}.
+\end{gathered}\tag{4.7a}
+$$
+
+第二行$3w+3b=5$给出$b=5/3-w$，正是前面的截距关系。第一行$5w+3b=6$减去第二行，得到$2w=1$，因此仍是$w=1/2,b=7/6$。矩阵方程把原来分别对斜率、截距求导的两条等式放在了一起。
 
 在当前“样本放列”的约定下，每一行对应一项特征或常数1。若两项特征完全重复，便有两行相同，矩阵不能直接求逆。仅仅两条样本重复，并不足以断言所有行都不独立。
 
@@ -379,15 +426,39 @@ $(1,2,3,4,6,9)$，共6维。 / (1,2,3,4,6,9), six features. `include_bias=False`
 <!-- EXAM:focus-kernel-regression:END -->
 
 
-给N个训练点，$K_{ij}=k(x_i,x_j)$ 为N×N核矩阵，$k_*=(k(x_1,x_*),…,k(x_N,x_*))^T$ 为N维向量：
+前面的Ridge为每一项特征学习一个权重。若先把输入变成多项式等新特征，还可以怎样计算同一个预测？我们从普通Ridge出发，看看权重为什么能改写成训练样本的组合。
+
+记新特征为$\phi(x)\in\mathbb R^m$，$m$是变换后的特征数。继续采用**每列一个样本**：$\Phi=[\phi(x_1),\ldots,\phi(x_N)]\in\mathbb R^{m\times N}$，目标$y\in\mathbb R^N$，权重$w\in\mathbb R^m$。本段没有单独的截距，全部权重都受平方惩罚，且$\alpha>0$。
+
+目标是$\|y-\Phi^Tw\|^2+\alpha\|w\|^2$，因此[前面的Ridge方程](#ridge)变为$(\Phi\Phi^T+\alpha I_m)w=\Phi y$。把含$\Phi\Phi^T$的部分移到右边，提取共同的$\Phi$，得到$\alpha w=\Phi(y-\Phi^Tw)$。这说明最优权重可以由训练样本的特征向量组合而成：定义$N$维向量$a=(y-\Phi^Tw)/\alpha$，便有$w=\Phi a=\sum_i a_i\phi(x_i)$。
+
+现在求这组样本系数。令$K=\Phi^T\Phi$，它是$N\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\phi(x_i)^T\phi(x_j)$。将$w=\Phi a$代回$a$的定义，得到$\alpha a=y-\Phi^T\Phi a=y-Ka$，即$(K+\alpha I_N)a=y$。
+
+新输入$x_*$只需与各训练点计算核值，组成$k_*=(k(x_1,x_*),\ldots,k(x_N,x_*))^T\in\mathbb R^N$。这样便得到老师给出的求解与预测公式：
 
 $$
-a=(K+\alpha I)^{-1}y,\qquad \hat y_*=k_*^Ta.\tag{4.16}
+a=(K+\alpha I_N)^{-1}y,\qquad \hat y_*=k_*^Ta.\tag{4.16}
 $$
 
-字母a是每个训练样本的系数，和特征权重w、正则参数alpha区分。对有效半正定核、alpha>0可解。截距/中心化要另外约定；默认KernelRidge并非自动拟合不惩罚的截距。
+$I_m$、$I_N$分别是与特征数、样本数匹配的单位矩阵；$a_i$是样本系数，不是概率，也不是正则参数$\alpha$。预测为什么可以用核值相加？把刚才求出的$w=\Phi a$放回原预测式即可：
 
-完整小例：训练x=(0,1)，线性核 $k(x,z)=xz$，y=(0,2)，alpha=1、无截距。K=diag(0,1)，a=(0,1)，在x*=2时k*=(0,2)，预测2。它与同一特征和同一惩罚的ridge等价；**不等于任意PolynomialFeatures+无正则OLS**。Lecture4b，第41个单元的“same as”需要补这个条件。多项式核映射包含缩放权重，也未必等于库默认多项式特征的未经缩放内积。
+$$
+\begin{aligned}
+\hat y_*&=w^T\phi(x_*)
+ =\left(\sum_{i=1}^N a_i\phi(x_i)\right)^T\phi(x_*)\\
+&=\sum_{i=1}^N a_i k(x_i,x_*)=k_*^Ta.
+\end{aligned}\tag{4.16a}
+$$
+
+显式构造特征时，$K$就是特征内积表；采用有效的半正定核，也可以直接计算这张表而不列出特征。$\alpha>0$保证$K+\alpha I_N$可逆，即使训练特征有重复或线性相关也能求解。若要拟合不受惩罚的独立截距，需要另作中心化等处理；默认`KernelRidge`不自动完成这件事。
+
+**同一个小例，两种算法：** 训练输入$x=(0,1)$，目标$y=(0,2)$，线性核$k(x,z)=xz$，$\alpha=1$，无截距。直接求特征权重，得到$w=(0\times0+1\times2)/(0^2+1^2+1)=1$；在$x_*=2$时预测$2w=2$。换成核写法，$K=\operatorname{diag}(0,1)$，所以$a=(0,1)^T$；$k_*=(0,2)^T$，仍预测2。
+
+两种算法等价的前提是特征内积和正则惩罚对应。Lecture4b，第41个单元将多项式核与多项式特征回归写成“same as”，应按这个条件理解；不能直接换成无正则OLS。多项式核还可能对应带缩放的特征，例如$(1+xz)^2$对应$(1,\sqrt2x,x^2)$的内积，并非$(1,x,x^2)$的未经缩放内积。
+
+**English takeaway:** The ridge stationarity equation gives w=Φa, with a=(y−Φᵀw)/α. Substitution yields (K+αI)a=y, where K contains feature inner products. Prediction uses the same inner products with the new input. This derivation assumes α>0, penalized feature weights, and no separate unpenalized intercept.
+
+来源：Lecture4a的Ridge目标；Lecture4b，第40–43个单元。由驻点条件连接样本系数及双算法核对为教学补充。
 
 RBF gamma控制距离尺度，alpha控制正则，二者作用不同。Lecture4b，第50个单元用10×10候选、5折，共500次候选拟合；保存的最佳CV分数是模型选择结果，不是独立测试证据。
 

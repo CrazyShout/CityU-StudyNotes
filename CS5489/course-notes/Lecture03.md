@@ -58,19 +58,43 @@
 
 生成式分类器学 $p(\mathbf x\mid y)$ 和 $p(y)$，再得到后验 $p(y\mid\mathbf x)$。判别式分类器直接学后验或分类分数。两者都使用带标签的训练数据；“判别式”不等于“不需要概率”，SVM 和 Logistic Regression 也不是同一种训练目标。
 
-老师先从上一讲搭桥（Lecture3a，第8–23个单元）。假设两个类别各维条件独立，**所有类别、所有维度共享同一个方差 $\sigma^2>0$**，均值分别为 $\boldsymbol\mu,\boldsymbol\nu$，先验为 $\pi_1,\pi_2>0$。比较两个后验的对数比：
+上一讲从花朵的测量分布计算后验；这次看看在什么条件下，同样的判断可以直接写成一个线性分数。假设两个类别各维条件独立，**所有类别、所有维度共享同一个方差$\sigma^2>0$**，均值分别为$\boldsymbol\mu,\boldsymbol\nu\in\mathbb R^d$，先验为$\pi_1,\pi_2>0$。
+
+这里沿老师的约定，比较**第一类后验除以第二类后验**，记其log为$r(\mathbf x)$。它等于第一类log分数减第二类，与[上一讲的$\Delta$](Lecture02.md#gaussian-nb-boundary)方向相反：对同一模型，$r=-\Delta$。两类打平的位置相同；这里$r>0$选第一类，$r<0$选第二类，假定两类错分代价相同。
+
+由Bayes公式，两类后验都除以同一个$p(\mathbf x)$，取比值后该分母消去。各维高斯的方差又完全相同，log密度中的归一化项也消去。留下的平方项可以沿用上一讲的方法展开：
 
 $$
-\begin{aligned}\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}
-&=\sum_{j=1}^d\frac{\mu_j-\nu_j}{\sigma^2}x_j\\
-&\quad+\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}+\log\frac{\pi_1}{\pi_2}.\end{aligned}\tag{3.1}
+\begin{aligned}
+r(\mathbf x)&=\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}\\
+&=\log\frac{p(\mathbf x\mid y=1)}{p(\mathbf x\mid y=2)}
+ +\log\frac{\pi_1}{\pi_2}\\
+&=\sum_{j=1}^d\frac{(x_j-\nu_j)^2-(x_j-\mu_j)^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}\\
+&=\sum_{j=1}^d\frac{2(\mu_j-\nu_j)x_j+\nu_j^2-\mu_j^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}\\
+&=\sum_{j=1}^d\frac{\mu_j-\nu_j}{\sigma^2}x_j
+ +\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}.
+\end{aligned}\tag{3.1}
 $$
 
-为什么突然变成直线？把 $(x_j-\mu_j)^2$ 和 $(x_j-\nu_j)^2$ 展开，两边的 $x_j^2$ 抵消，只剩一次项和常数。这里采用原课更强的简化：所有类别和维度共用一个方差。上一讲已看到，只要每个特征的方差在类别间相同，也能消去二次项；逐类完整协方差模型一般没有这个保证。
+每个$x_j^2$都与另一个同系数的$x_j^2$相减，因此只剩一次项。这里$\|\boldsymbol\mu\|^2=\sum_j\mu_j^2$，是把均值的各维平方加起来，并没有引入另一种计算。将一次项系数和常数分别记成：
 
-将各个一次项系数记成 $w_j$，所有常数合成 $b$，得到 $f(\mathbf x)=\mathbf w^T\mathbf x+b$。接下来不必先估计均值和方差，可以直接从数据学习 $\mathbf w,b$。
+$$
+w_j=\frac{\mu_j-\nu_j}{\sigma^2},\qquad
+b=\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}.
+\tag{3.1a}
+$$
 
-**English takeaway (整理表达):** A shared-variance Gaussian model yields a linear log-posterior ratio. Discriminative learning estimates a decision rule or a posterior directly.
+这样$r(\mathbf x)=\mathbf w^T\mathbf x+b$。边界由这个分数等于0给出；接下来可以直接从数据学习$\mathbf w,b$，不用先估计两类的均值和方差。
+
+这里采用原课更强的简化：所有类别和维度共用一个方差。[Lecture 2的逐特征推导](Lecture02.md#gaussian-nb-boundary)已说明，只要同一特征的方差在类别间相同，也能消去二次项；逐类完整协方差模型一般没有这个保证。
+
+**English takeaway (整理表达):** This lecture takes class 1 minus class 2, the reverse of Lecture 2’s score difference. Common evidence and Gaussian normalization terms cancel; shared variances cancel the squared-input terms. The remaining coefficients define w and b, so a positive score selects class 1 under equal error costs.
+
+来源：Lecture3a，第8–12、21–23个单元；比较方向与跨讲衔接为补充解释。
 
 ## 2. Linear classifier and separating hyperplane｜一张有方向的分界线
 
@@ -278,7 +302,40 @@ $$
 \frac{\partial L}{\partial b}=-\sum_i\alpha_i y_i=0.\end{gathered}\tag{3.11}
 $$
 
-所以 $\mathbf w=\sum_i\alpha_i y_i\mathbf x_i$ 且 $\sum_i\alpha_i y_i=0$。若后一项不为零，$b$ 可让 L 向负无穷走，不能形成有限对偶函数。将两式代回，二次项一正一负相减，得到
+所以 $\mathbf w=\sum_i\alpha_i y_i\mathbf x_i$ 且 $\sum_i\alpha_i y_i=0$。后一条保证关于$b$的项为0；若它不成立，固定这些乘子后，总能沿一个方向改变$b$，让$L$降到负无穷。
+
+下面把求出的权重代回，看看只含乘子的目标怎样出现。为少写一长串求和，暂记$\mathbf v=\sum_i\alpha_i y_i\mathbf x_i$，所以使$L$最小的权重就是$\mathbf w=\mathbf v$。式（3.10）的四项依次变为：
+
+| 原来的一项 | 代回之后 | 原因 |
+|---|---|---|
+| $\tfrac12\mathbf w^T\mathbf w$ | $\tfrac12\mathbf v^T\mathbf v$ | 用$\mathbf v$替换权重 |
+| $-\mathbf w^T\sum_i\alpha_i y_i\mathbf x_i$ | $-\mathbf v^T\mathbf v$ | 内积两边都等于$\mathbf v$ |
+| $-b\sum_i\alpha_i y_i$ | $0$ | 乘子满足刚得到的等式约束 |
+| $\sum_i\alpha_i$ | $\sum_i\alpha_i$ | 不含$\mathbf w,b$，保持原样 |
+
+于是，对固定乘子取到的最小值为：
+
+$$
+\begin{aligned}
+q(\boldsymbol\alpha)&=\min_{\mathbf w,b}L(\mathbf w,b,\boldsymbol\alpha)\\
+&=\frac12\mathbf v^T\mathbf v-\mathbf v^T\mathbf v+\sum_i\alpha_i\\
+&=\sum_i\alpha_i-\frac12\mathbf v^T\mathbf v.
+\end{aligned}\tag{3.11a}
+$$
+
+负的$1/2$来自$1/2-1$。接下来展开$\mathbf v$的内积：左边求和选一个样本$i$，右边求和选一个样本$j$，每一对都要相乘，因此出现双重求和：
+
+$$
+\begin{aligned}
+\mathbf v^T\mathbf v
+&=\left(\sum_{i=1}^N\alpha_i y_i\mathbf x_i\right)^T
+  \left(\sum_{j=1}^N\alpha_j y_j\mathbf x_j\right)\\
+&=\sum_{i=1}^N\sum_{j=1}^N
+  \alpha_i\alpha_j y_i y_j\mathbf x_i^T\mathbf x_j.
+\end{aligned}\tag{3.11b}
+$$
+
+非负乘子给出的$q$是原最小值的下界；现在选择乘子，让这个下界尽可能大，得到对偶问题：
 
 $$
 \begin{gathered}\max_{\boldsymbol\alpha}\sum_i\alpha_i-\frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\mathbf x_i^T\mathbf x_j,\\
@@ -287,7 +344,13 @@ $$
 
 原来未知数是 d 个权重和 b；现在每个训练点对应一个 $\alpha_i$。**对偶（dual）**不是换了数据，只是用“各样本怎样共同支撑边界”表示同一问题。
 
-对前面的 $(-1,-1),(1,+1)$ 小例，两乘子相等为 a，目标 $2a-2a^2$。导数 $2-4a=0$ 得 $a=1/2$，恢复 $w=(1/2)(-1)(-1)+(1/2)(1)(1)=1$，与直接解一致。
+沿用前面的一维两点$(x_1,y_1)=(-1,-1)$、$(x_2,y_2)=(1,+1)$。等式约束是$-\alpha_1+\alpha_2=0$，因此记$\alpha_1=\alpha_2=a\ge0$。样本组合为$v=a(-1)(-1)+a(1)(1)=2a$，于是$q(a)=2a-\tfrac12(2a)^2=2a-2a^2$。令导数$2-4a=0$，得到$a=1/2$；二阶导数为$-4$，确为最大值。
+
+恢复$w=2a=1$，由任一支持点得到$b=0$。两条约束都取等号；原目标$w^2/2=1/2$，对偶目标$2a-2a^2=1/2$，也相互吻合。
+
+**English takeaway:** Substitute the minimizing weights into each term of the Lagrangian. The two weight terms combine as $\tfrac12\|v\|^2-\|v\|^2=-\tfrac12\|v\|^2$; expanding the squared norm produces a sum over all pairs of training samples. The dual maximizes a lower bound on the primal minimum.
+
+来源：Lecture3b，第37–44个单元；逐项代回与两点计算为教学补充。
 
 刚才的小例中，对偶问题与原问题得到相同答案。这需要成立条件支持。
 
@@ -320,7 +383,7 @@ $$
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
-$w=1/2,b=0$，margin=2。设两个乘子均 a，$w=4a$，所以 $a=1/8$。 / w=0.5, b=0; the one-sided margin is 2 and both multipliers are 0.125. 不能因为坐标加倍就说权重也加倍。
+等式约束仍令两个乘子均为$a$；此时$w=a(-1)(-2)+a(1)(2)=4a$。对偶目标为$q(a)=2a-\tfrac12(4a)^2=2a-8a^2$，求导得$a=1/8$。所以$w=1/2,b=0$，一侧margin为2；两点都满足$y_if_i=1$，原目标和对偶目标均为$1/8$。 / The equality constraint gives equal multipliers a. Then w=4a and q(a)=2a−8a², maximized at a=1/8. Thus w=0.5, b=0 and the one-sided margin is 2. Both constraints are tight; the primal and dual objectives equal 1/8.
 
 </details>
 

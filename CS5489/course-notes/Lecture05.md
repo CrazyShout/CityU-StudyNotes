@@ -280,7 +280,18 @@ $$
 G_Z=(P-Y)/B.\tag{5.8}
 $$
 
-输出层每个权重的贡献来自“隐藏特征×分数梯度”，把所有样本的贡献相加，便是矩阵乘法：
+先看单个权重$W_{jk}$：它把第$j$个隐藏特征连到第$k$个输出。第$i$条样本的分数是$Z_{ik}=\sum_{\ell=1}^{h}H_{i\ell}W_{\ell k}+b_k$，所以$\partial Z_{ik}/\partial W_{jk}=H_{ij}$。同一个权重被所有样本共用；按链式法则把各样本对它的贡献相加，再加正则项的导数：
+
+$$
+\begin{aligned}
+\frac{\partial L}{\partial W_{jk}}
+&=\sum_{i=1}^{B}\frac{\partial L}{\partial Z_{ik}}
+ \frac{\partial Z_{ik}}{\partial W_{jk}}+\lambda W_{jk}\\
+&=\sum_{i=1}^{B}H_{ij}(G_Z)_{ik}+\lambda W_{jk}.
+\end{aligned}\tag{5.8a}
+$$
+
+矩阵乘法$(H^TG_Z)_{jk}$恰好就是这个求和：$H$转置后，第$j$行列出所有样本的第$j$项隐藏特征，再与$G_Z$的第$k$列逐项相乘并相加。因此：
 
 $$
 \nabla_W L=H^TG_Z+\lambda W,\qquad
@@ -289,7 +300,19 @@ $$
 
 例如 $H^TG_Z$ 的形状是 $(h\times B)(B\times C)=h\times C$，与W一致。一个偏置会影响全部样本，所以对行求和，结果保持1×C。
 
-**继续回到隐藏层。** Z由H乘W得到，因此传回H的梯度为 $G_H=G_ZW^T$。激活函数再按每个位置的斜率缩放它：
+**继续回到隐藏层。** 一个隐藏值$H_{ij}$会影响同一样本的所有输出。改变它一点，第$k$个输出随之改变的比例为$W_{jk}$，所以需要把各输出传回的贡献相加：
+
+$$
+\begin{aligned}
+(G_H)_{ij}=\frac{\partial L}{\partial H_{ij}}
+&=\sum_{k=1}^{C}\frac{\partial L}{\partial Z_{ik}}
+ \frac{\partial Z_{ik}}{\partial H_{ij}}\\
+&=\sum_{k=1}^{C}(G_Z)_{ik}W_{jk}
+ =(G_ZW^T)_{ij}.
+\end{aligned}\tag{5.9a}
+$$
+
+这里沿输出编号$k$求和；刚才求权重梯度时，沿样本编号$i$求和。两次转置对应不同的汇总方向。得到$G_H$后，激活函数再按每个位置的斜率缩放它：
 
 $$
 G_U=G_H\odot\phi'(U).\tag{5.10}
@@ -305,6 +328,10 @@ $$
 $$
 
 A的梯度形状为d×h，c的梯度为1×h，传回X的梯度为B×d。平均因子已经在起点除过B，后面的链式法则直接使用这些梯度，不逐层再除一次。
+
+**English takeaway:** A shared weight receives a sum over samples, giving HᵀG_Z. A hidden value receives a sum over outputs, giving G_ZWᵀ. The transposes encode these two different sums; the shapes provide a check. Use the original weights throughout backpropagation and apply the batch-average factor only once.
+
+来源：Lecture5b，第15–21个单元的链式法则与计算图；逐分量推导和批量矩阵转写为教学补充。
 
 **一层手算 / Worked：** $X=\begin{bmatrix}1&2\\3&4\end{bmatrix}$，上游梯度 $G=\begin{bmatrix}1&-1\\2&0\end{bmatrix}$，无正则。对$U=XA+c$，$\nabla_A L=X^TG=\begin{bmatrix}7&-1\\10&-2\end{bmatrix}$，$\nabla_cL=(3,-1)$。G若已来自平均损失，此处不要再除2。
 
@@ -328,11 +355,34 @@ A的梯度形状为d×h，c的梯度为1×h，传回X的梯度为B×d。平均�
 
 两层梯度相同是这组单位矩阵和输入造成的，换参数后通常不同。若学习率为0.1，输出权重$W_{11}$从1更新为$1-0.1q\approx0.9731$。所有梯度算完后再统一更新，不能让前一层用到后一层刚改过的权重。
 
-**独立变式 / Transfer：** 保持上述输入、权重、偏置和激活，只把真实类别改为第1类。求$G_Z$及W、A、b、c的梯度。 / Keep the same network and input, but change the label to Y=[1,0]. Find G_Z and the gradients of W, A, b and c.
+### 换一个输出权重，看看两条路径怎样相加
+
+保留$X=[1,2]$、$A=I_2$、零偏置、ReLU、第二类标签和无正则设置，只把输出权重改成$W=\begin{pmatrix}1&-1\\1&2\end{pmatrix}$。隐藏特征仍是$H=[1,2]$；输出变为$Z=[3,3]$，因此$P=[0.5,0.5]$，$G_Z=[0.5,-0.5]$。
+
+一个隐藏节点沿两条边影响两个输出，传回的梯度要连同权重的正负一起相加：
+
+| 隐藏值 | 来自两个输出的贡献 | 合计 |
+|---|---|---:|
+| $H_{11}$ | $0.5\times1+(-0.5)\times(-1)$ | $1$ |
+| $H_{12}$ | $0.5\times1+(-0.5)\times2$ | $-0.5$ |
+
+所以$G_H=[1,-0.5]$。两处ReLU输入仍为正，$G_U=G_H$。输出权重梯度为$\nabla_WL=\begin{pmatrix}0.5&-0.5\\1&-1\end{pmatrix}$，而隐藏权重梯度为$\nabla_AL=\begin{pmatrix}1&-0.5\\2&-1\end{pmatrix}$；偏置梯度分别为$\nabla_bL=[0.5,-0.5]$、$\nabla_cL=[1,-0.5]$。这次两层梯度不同，可以直接看到输出权重如何分配传回的信号。
+
+**English takeaway:** With W=[[1,−1],[1,2]], the logits are [3,3] and G_Z=[0.5,−0.5]. The two output contributions sum to G_H=[1,−0.5]. Since both ReLU inputs are positive, G_U=G_H; the two weight-gradient matrices are now different.
+
+**独立变式 / Transfer：** 输入仍为$X=[1,2]$，$A=I_2$，$c=b=[0,0]$，隐藏层用ReLU，真实类别仍为第2类，损失为单样本softmax交叉熵，无正则。将输出权重改为$W=\begin{pmatrix}1&-1\\1&3\end{pmatrix}$，求输出分数、$G_Z,G_H$及$W,A,b,c$的梯度。 / Use X=[1,2], A=I₂, zero biases, a ReLU hidden layer, class-2 label Y=[0,1], single-sample softmax cross-entropy, and no regularization. Set W=[[1,−1],[1,3]]. Find the logits, G_Z, G_H, and the gradients of W, A, b and c.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
-$G_Z\approx[-0.7311,0.7311]$。W和A的梯度第一行为这个向量，第二行为其2倍，即$[-1.4621,1.4621]$；b和c梯度均为$[-0.7311,0.7311]$。 / The score and bias gradients are [−0.7311,0.7311]. Both weight-gradient matrices have this as their first row and twice it as their second row. 前向概率未变，改变的是用哪个真实答案评价这些概率。
+权重变了，前向分数需要重算：$Z=[3,5]$。令$q=1/(1+e^2)\approx0.1192$，则$P=[q,1-q]$。传回隐藏层的两项为$q\times1+(-q)\times(-1)=2q$、$q\times1+(-q)\times3=-2q$。 / Recompute the logits as [3,5]. With q=1/(1+e²)≈0.1192, P=[q,1−q]. Summing the two output contributions gives hidden gradients 2q and −2q.
+
+| 量 / Quantity | 结果 / Result |
+|---|---|
+| $G_Z$ | $[q,-q]$ |
+| $G_H=G_U$ | $[2q,-2q]$ |
+| $\nabla_WL$ | $\begin{pmatrix}q&-q\\2q&-2q\end{pmatrix}$ |
+| $\nabla_AL$ | $\begin{pmatrix}2q&-2q\\4q&-4q\end{pmatrix}$ |
+| $\nabla_bL,\nabla_cL$ | $[q,-q]$；$[2q,-2q]$ |
 
 </details>
 
