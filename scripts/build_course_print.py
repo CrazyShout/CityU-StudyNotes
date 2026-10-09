@@ -100,6 +100,17 @@ for group,records in GROUPS.items():
     if not parent.find('img'):parent.decompose()
    elif parent.name not in ['td','th','figure']:
     f=soup.new_tag('figure');im.wrap(f)
+  # A compact exam cue must not strand its heading above the opening explanation.
+  # Bound the keep to a short opener, never an entire section or long answer.
+  for focus in list(body.select('.exam-focus')):
+   heading=focus.find_previous_sibling();intro=focus.find_next_sibling()
+   if not heading or heading.name not in ['h2','h3']:continue
+   if not intro or intro.name!='p' or len(intro.get_text())>260 or intro.find(['img','table','pre']):continue
+   group=soup.new_tag('div',attrs={'class':'exam-opening'});heading.insert_before(group)
+   for item in [heading,focus,intro]:group.append(item.extract())
+   formula=group.find_next_sibling()
+   if formula and 'arithmatex' in formula.get('class',[]) and len(formula.get_text())<=700:
+    group.append(formula.extract())
   if docid=='CS5489-Lecture02':
    selfcheck=body.find(id=docid+'__self-check')
    if selfcheck:

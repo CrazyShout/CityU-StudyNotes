@@ -23,3 +23,5 @@
 }
 
 @media print {.exam-overview-compact{break-after:auto}.exam-paper{break-inside:auto;page-break-inside:auto}}
+
+.exam-opening {break-inside:avoid;page-break-inside:avoid;}
