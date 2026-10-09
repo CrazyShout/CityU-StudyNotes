@@ -38,4 +38,4 @@ if '--check' in sys.argv:
     assert json.loads(out.read_text())==report
 else:
     out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
-print('6 corrected-rule cases passed; numerical results saved.')
+print('6 corrected-rule cases passed; '+('saved evidence verified.' if '--check' in sys.argv else 'numerical results saved.'))
