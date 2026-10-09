@@ -92,7 +92,7 @@ $$
 
 [Lecture 2的逐特征推导](Lecture02.md#gaussian-nb-boundary)还允许不同特征使用不同的共享方差，同样能消去二次项；逐类完整协方差模型一般没有这个保证。
 
-**English takeaway (整理表达):** Shared variances cancel the squared-input terms, giving $r(\mathbf x)=\mathbf w^T\mathbf x+b$. This lecture reverses Lecture 2’s class order: under equal error costs, $r>0$ selects class 1.
+**English takeaway (整理表达):** Shared variances cancel the squared-input terms, giving $r(\mathbf x)=\nobreak\mathbf w^T\mathbf x+b$. This lecture reverses Lecture 2’s class order: under equal error costs, $r>0$ selects class 1.
 
 来源：Lecture3a，第8–12、21–23个单元；比较方向与跨讲衔接为补充解释。
 

@@ -359,7 +359,7 @@ A的梯度形状为d×h，c的梯度为1×h，传回X的梯度为B×d。平均�
 
 ### 换一个输出权重，看看两条路径怎样相加
 
-保留$X=[1,2]$、$A=I_2$、零偏置、ReLU、第二类标签和无正则设置，只把输出权重改成$W=\begin{pmatrix}1&-1\\1&2\end{pmatrix}$。隐藏特征仍是$H=[1,2]$；输出变为$Z=[3,3]$，因此$P=[0.5,0.5]$，$G_Z=[0.5,-0.5]$。
+保留$X=[1,2]$、$A=I_2$、零偏置、ReLU、第二类标签和无正则设置，只把输出权重改成$W=\nobreak\begin{pmatrix}1&-1\\1&2\end{pmatrix}$。隐藏特征仍是$H=[1,2]$；输出变为$Z=[3,3]$，因此$P=[0.5,0.5]$，$G_Z=[0.5,-0.5]$。
 
 一个隐藏节点沿两条边影响两个输出，传回的梯度要连同权重的正负一起相加：
 
@@ -372,7 +372,7 @@ A的梯度形状为d×h，c的梯度为1×h，传回X的梯度为B×d。平均�
 
 **English takeaway:** With W=[[1,−1],[1,2]], the logits are [3,3] and $G_Z=[0.5,-0.5]$. The two output contributions sum to $G_H=[1,-0.5]$. Since both ReLU inputs are positive, $G_U=G_H$; the two weight-gradient matrices are now different.
 
-**独立变式 / Transfer：** 输入仍为$X=[1,2]$，$A=I_2$，$c=b=[0,0]$，隐藏层用ReLU，真实类别仍为第2类，损失为单样本softmax交叉熵，无正则。将输出权重改为$W=\begin{pmatrix}1&-1\\1&3\end{pmatrix}$，求输出分数、$G_Z,G_H$及$W,A,b,c$的梯度。 / Use X=[1,2], A=I₂, zero biases, a ReLU hidden layer, class-2 label Y=[0,1], single-sample softmax cross-entropy, and no regularization. Set W=[[1,−1],[1,3]]. Find the logits, $G_Z$, $G_H$, and the gradients of W, A, b and c.
+**独立变式 / Transfer：** 输入仍为$X=[1,2]$，$A=I_2$，$c=b=[0,0]$，隐藏层用ReLU，真实类别仍为第2类，损失为单样本softmax交叉熵，无正则。将输出权重改为$W=\nobreak\begin{pmatrix}1&-1\\1&3\end{pmatrix}$，求输出分数、$G_Z,G_H$及$W,A,b,c$的梯度。 / Use X=[1,2], A=I₂, zero biases, a ReLU hidden layer, class-2 label Y=[0,1], single-sample softmax cross-entropy, and no regularization. Set W=[[1,−1],[1,3]]. Find the logits, $G_Z$, $G_H$, and the gradients of W, A, b and c.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
