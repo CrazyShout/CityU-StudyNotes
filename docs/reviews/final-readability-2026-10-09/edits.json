@@ -1,0 +1,232 @@
+[
+  {
+    "id": "FR01a",
+    "before": "先从已知类别的记录中学出各类的特征，再判断新记录更符合哪一类。",
+    "after": "先从已知类别的记录中估计各类的特征分布，再判断新记录更符合哪一类。"
+  },
+  {
+    "id": "FR01b",
+    "before": "某个长度区间的概率等于区间下的面积；“恰好5 cm”的点概率与“5 cm附近比较常见”是两件事。",
+    "after": "某个长度区间的概率等于区间下的面积。连续分布中，“恰好5 cm”的点概率为0；“5 cm附近比较常见”指的是附近一小段区间内的概率。"
+  },
+  {
+    "id": "FR02a",
+    "before": "这里只重算这一封原课错分邮件；老师保存的整体结果见第六部分。课程中尝试扩大词表或改变表示时，应通过训练内部的验证来判断是否有帮助。",
+    "after": "老师保存的整体结果见第六部分。扩大词表或改变表示是否有帮助，需要通过训练内部的验证来判断。"
+  },
+  {
+    "id": "FR02b",
+    "before": "这是分类器对加权特征给出的模型概率输出；其计算可以使用，特征的小数值却不应解释为整数多项式模型中的词次数。来源：",
+    "after": "归一化结果是分类器对加权特征给出的模型概率。来源："
+  },
+  {
+    "id": "FR02c",
+    "before": "来源：Lecture2b，第78、82、95个单元的**保存输出**；这张表不是本轮重跑成绩。",
+    "after": "来源：Lecture2b，第78、82、95个单元的**保存输出**。"
+  },
+  {
+    "id": "FR02d",
+    "before": "在这次小测试中，平滑Bernoulli比无平滑版本分对更多；换成TF-IDF Multinomial并没有进一步提高。可见“表示更复杂”本身不是改进的证据。每个模型实际丢掉和保留了什么、词表是否覆盖输入，以及训练样本够不够，都要一起看。反复根据同一测试集挑方法后，这组结果只能作课堂探索，最终评价应留出未参与选择的数据。",
+    "after": "在这25封测试邮件中，平滑Bernoulli分对的邮件更多，TF-IDF Multinomial没有继续提高准确率。分析差异时，可以像前面的手表广告例子一样，检查词表覆盖和预处理保留的信息。这组测试结果已用于课堂模型比较；最终评价需要另留未参与选择的数据。"
+  },
+  {
+    "id": "FR03a",
+    "before": "先修页解释工具，本讲仍会完整解释分类方法。",
+    "after": ""
+  },
+  {
+    "id": "FR03b",
+    "before": "当前只需理解适用边界；整理者建议，未据此宣称“不考”",
+    "after": "理解适用条件；列为选读是整理者建议"
+  },
+  {
+    "id": "FR03c",
+    "before": "优先级首先来自当前课件和 Tutorial 的实际要求。历史复习资料能帮助复习，不能把一个旧样题的出现次数叫作“高频”，也不能代替本学期或 QE 范围确认。",
+    "after": "优先级依据当前课件和Tutorial任务；历史考试记录另见讲末索引。"
+  },
+  {
+    "id": "FR03d",
+    "before": "是把均值的各维平方加起来，并没有引入另一种计算。",
+    "after": "就是均值各分量的平方和。"
+  },
+  {
+    "id": "FR03e",
+    "before": "## 6. Multiclass classification｜三类不是多加一个 if 就结束",
+    "after": "<a id=\"6-multiclass-classification-if\"></a>\n## 6. Multiclass classification｜从二类扩展到多类"
+  },
+  {
+    "id": "FR03f",
+    "before": "## 8. Lagrangian and duality｜换一组未知数，不是凭空变公式",
+    "after": "## 8. Lagrangian and duality｜用样本乘子求解最大间隔"
+  },
+  {
+    "id": "FR03g",
+    "before": "原来未知数是 d 个权重和 b；现在每个训练点对应一个 $\\alpha_i$。**对偶（dual）**不是换了数据，只是用“各样本怎样共同支撑边界”表示同一问题。",
+    "after": "原问题求$d$个权重和偏置$b$；对偶问题为每个训练样本求一个乘子$\\alpha_i$，再用这些乘子恢复分类边界。"
+  },
+  {
+    "id": "FR04",
+    "before": "原 `C=inf` 是概念性硬间隔示范，新接口要求有限 C；大有限 C 也只是近似，并需核查可分性与间隔。",
+    "after": "原`C=inf`用于示意硬间隔极限，程序接口要求有限C。对线性可分数据，**足够大的有限C可以得到与硬间隔相同的最优权重**：只要上界$\\alpha_i\\le C$没有排除硬间隔的一组最优乘子即可。前面$x=\\pm1$、标签为−1／+1的两点例子中，硬间隔乘子均为$1/2$；当$C\\ge1/2$时，$w=1,b=0$也就是软间隔的最优解。 / For linearly separable data, a finite C that admits a hard-margin dual optimum can recover the same optimal weights. In the two-point example x=±1 with labels −1/+1, both hard-margin multipliers are 1/2, so C≥1/2 gives w=1 and b=0."
+  },
+  {
+    "id": "FR04b",
+    "before": "slack 是分数上的缺口，几何长度还要除 $\\|w\\|$。",
+    "after": "slack是分数上的缺口；当$\\|w\\|>0$时，换成几何长度还要除以$\\|w\\|$。"
+  },
+  {
+    "id": "FR05a",
+    "before": "来源：Lecture3a，第54–64个单元；第66个单元。",
+    "after": "来源：Lecture3a，第54–73个单元；Pipeline与GridSearchCV示例为补充。"
+  },
+  {
+    "id": "FR05b",
+    "before": "来源：Lecture3b，第61–82个单元。",
+    "after": "来源：Lecture3b，第61–100个单元。"
+  },
+  {
+    "id": "FR05c",
+    "before": "来源：Lecture3c，第7–15个单元；第16–24个单元；第25–34个单元。",
+    "after": "来源：Lecture3c，第7–42个单元。"
+  },
+  {
+    "id": "FR03h",
+    "before": "历史选择题常把“凸”“能找到最优”“唯一解”放在一起，需要分别判断。",
+    "after": "判断优化结果时，需要区分目标是否凸、是否存在最优解，以及解是否唯一。"
+  },
+  {
+    "id": "FR03i",
+    "before": "依赖分布/独立假设；边界未必非线性",
+    "after": "依赖分布/独立假设；边界可线性或非线性"
+  },
+  {
+    "id": "FR06a",
+    "before": "老师先用100个人工数据点展示斜率、截距和噪声，再用房屋的真实记录预测售价。下面保留课堂的数据字段和单位，这样系数才有明确含义。",
+    "after": "老师先用100个人工数据点展示斜率、截距和噪声，再用真实房屋记录预测售价。"
+  },
+  {
+    "id": "FR06b",
+    "before": "老师 mode1 的处理必须连同单位一起保留：",
+    "after": "课堂mode1按下面的方式处理房屋记录："
+  },
+  {
+    "id": "FR06c",
+    "before": "## 5. Ridge regression｜给不稳定方向加一条“别太夸张”的限制",
+    "after": "## 5. Ridge regression｜用平方惩罚稳定系数"
+  },
+  {
+    "id": "FR06d",
+    "before": "## 8. RANSAC｜不是每个离群点都值得把直线拽过去",
+    "after": "## 8. RANSAC｜用相互一致的数据点拟合"
+  },
+  {
+    "id": "FR06e",
+    "before": "## 10. Kernel ridge regression｜把线性代数搬到样本之间",
+    "after": "## 10. Kernel ridge regression｜用训练样本的核值预测"
+  },
+  {
+    "id": "FR06f",
+    "before": "## 12. Trees and random forests｜多位意见不同的“专家”怎样投票",
+    "after": "## 12. Trees and random forests｜把多棵回归树的预测取平均"
+  },
+  {
+    "id": "FR07a",
+    "before": "选与残差最相关的未选特征，加入已经选中的特征集合，",
+    "after": "在归一化后的未选特征中，选与残差**内积绝对值最大**的那一列，加入已选集合，"
+  },
+  {
+    "id": "FR07b",
+    "before": "比较各列与残差的相关程度前，应中心化并适当归一化，避免仅因某列数值更大就选中它。",
+    "after": "拟合截距时，先将输入和目标减去各自的均值；无截距的本节算例直接使用原值。比较前将特征列归一化，避免只因某列数值更大就选中它。强负相关也参与比较：内积为−3的列优先于内积为2的列。 / Compare absolute inner products of normalized columns: a value of −3 ranks ahead of 2."
+  },
+  {
+    "id": "FR08",
+    "before": "Lecture4b，第97个单元采用正梯度/减号约定，不要同时翻两个号。",
+    "after": "Lecture4b，第97个单元采用正梯度配减号的约定；改用负梯度时，更新要配加号。 / Fit the positive gradient and subtract, or fit the negative gradient and add; keep the direction and update sign paired."
+  },
+  {
+    "id": "FR09a",
+    "before": "补充概率：每次独立取s个点、单点为inlier概率约q，k次至少一次全inlier概率约 $1-(1-q^s)^k$；近似假设应说明，不能当作任意数据都保证成功。",
+    "after": "补充概率：若每轮独立抽取$s$个点，每次抽到内点的概率为$q$，且各次抽取相互独立，则一轮全为内点的概率为$q^s$；$k$轮至少成功一次的概率为$1-(1-q^s)^k$。有限数据内不放回抽样时，$q^s$是近似；抽中全内点还要求这些点足以拟合候选模型。"
+  },
+  {
+    "id": "FR09b",
+    "before": "代回截距后的残差就是$v_i-wu_i$：",
+    "after": "代回截距后的残差就是$v_i-wu_i$，将此时的误差记作$E_c(w)$："
+  },
+  {
+    "id": "FR09c",
+    "before": "本段没有单独的截距，全部权重都受平方惩罚，且$\\alpha>0$。",
+    "after": "本段没有单独的截距，全部权重都受平方惩罚，且$\\alpha>0$；$I_m$、$I_N$分别表示$m$维和$N$维单位矩阵。"
+  },
+  {
+    "id": "FR09d",
+    "before": "$I_m$、$I_N$分别是与特征数、样本数匹配的单位矩阵；$a_i$是样本系数，不是概率，也不是正则参数$\\alpha$。",
+    "after": "$a_i$是样本系数，可以为负；$\\alpha$则是控制惩罚强度的正数。"
+  },
+  {
+    "id": "FR06g",
+    "before": "学习率是每轮贡献，不是某种“准确率参数”。",
+    "after": "学习率控制每一轮新树对总预测的贡献。"
+  },
+  {
+    "id": "FR06h",
+    "before": "名称叫随机森林不意味着每份默认代码都有严格小于全部的候选特征数。叶子平均的树通常不擅长超出训练目标范围的外推；图看起来块状合理不等于已证明无数据区域预测正确。",
+    "after": "回归树的叶子输出训练目标的平均值，因此通常不擅长预测超出训练目标范围的数值。"
+  },
+  {
+    "id": "FR10a",
+    "before": "现在老师追问：",
+    "after": "这一次的问题是："
+  },
+  {
+    "id": "FR10b",
+    "before": "这里会保留即时解释，不需要先把整个数学册读完。",
+    "after": "按需要选读即可。"
+  },
+  {
+    "id": "FR10c",
+    "before": "用神经元的加权输入引出人工网络，回顾早期MLP、上世纪90年代的低潮，以及数据、算力与训练进步后的深度学习。生物类比只帮助认识“输入加权再响应”；人工神经元不是大脑细胞的完整模拟。",
+    "after": "课件从生物神经元的“接收输入、产生响应”引出人工网络，并回顾早期MLP及后来的深度学习。感知机是其中最简单的模型之一：将输入加权求和，再用阈值决定输出类别。"
+  },
+  {
+    "id": "FR05d",
+    "before": "来源：Lecture5a，第3–12个单元；第14–15个单元；第26–35个单元。",
+    "after": "来源：Lecture5a，第3–39个单元。"
+  },
+  {
+    "id": "FR10d",
+    "before": "损失采用批内平均交叉熵，并对A、W加 $\\lambda(\\|A\\|_F^2+\\|W\\|_F^2)/2$，偏置不惩罚。",
+    "after": "损失采用批内平均交叉熵，并对A、W加$\\lambda(\\|A\\|_F^2+\\|W\\|_F^2)/2$，偏置不惩罚。$\\lambda\\ge0$控制正则强度；$\\|A\\|_F^2$表示A所有元素的平方和，W同理。"
+  },
+  {
+    "id": "FR10e",
+    "before": "分支也有一条规则：同一中间量同时流向两个下游，返回的梯度要相加。链条上的影响相乘，分支汇合的影响相加。原课还介绍了自动微分框架的历史分类；读这部分时，重点理解计算图如何组织链式法则。\n\n**English takeaway:** Backpropagation composes local derivatives and sums contributions from all children. A gradient must match its parameter's shape, and loss averaging must be applied consistently.\n\n\n来源：Lecture5b，第15–21个单元。",
+    "after": "自动微分（automatic differentiation）按计算图执行这些局部求导与求和。课件还介绍了相关框架的历史分类；上面的手算展示了它们共同使用的链式法则。"
+  },
+  {
+    "id": "FR10f",
+    "before": "总结容量、过拟合、初始化、学习率与梯度传播。数据归一化能改善数值尺度，但不保证训练稳定；GPU加速不改变损失定义。原PyTorch示范需要torch；本讲的小型手算与梯度核验使用NumPy。",
+    "after": "原PyTorch示范将数据处理、模型构建、训练监控和权重可视化接成完整流程；可按上表逐层核对参数数，再比较验证与测试表现。"
+  },
+  {
+    "id": "FR10g",
+    "before": "每个环节的职责应分别说清。",
+    "after": ""
+  },
+  {
+    "id": "FR11a",
+    "before": "先看单个权重$W_{jk}$：它把第$j$个隐藏特征连到第$k$个输出。第$i$条样本的分数是",
+    "after": "权重$W_{jk}$连接隐藏特征$j$与输出$k$。对样本$i$，"
+  },
+  {
+    "id": "FR11b",
+    "before": "英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?\n\n关键要点 / Key points：隐藏层学习非线性表示；p−y包含分子分母共同求导；平均损失只缩放一次；早停选参数时刻；逼近定理不保证训练或泛化。 / Learned nonlinear features; full softmax derivative; one averaging factor; a selected checkpoint; no training or generalization guarantee.",
+    "after": "<div class=\"short-exercise\" markdown=\"1\">\n\n英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?\n\n关键要点 / Key points：隐藏层学习非线性表示；p−y包含分子分母共同求导；平均损失只缩放一次；早停选参数时刻；逼近定理不保证训练或泛化。 / Learned nonlinear features; full softmax derivative; one averaging factor; a selected checkpoint; no training or generalization guarantee.\n\n</div>"
+  },
+  {
+    "id": "FR12",
+    "before": "三次纯项为",
+    "after": "总次数为3的项为"
+  }
+]

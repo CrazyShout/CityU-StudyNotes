@@ -52,9 +52,9 @@ Huber、非对称损失、Elastic Net和RF方差推导作为明确标识的历�
 
 输入 $\mathbf x\in\mathbb R^d$，输出 $y\in\mathbb R$；希望学到 $\hat y=f(\mathbf x)$。误差 $r_i=y_i-\hat y_i$ 叫 residual（残差）。图上的点表示实际观测，线或曲面表示模型预测；在同一个输入位置，真实值减预测值得到残差；一维图上是带正负号的竖直差，不是点到直线的最短垂直距离。
 
-老师先用100个人工数据点展示斜率、截距和噪声，再用房屋的真实记录预测售价。下面保留课堂的数据字段和单位，这样系数才有明确含义。
+老师先用100个人工数据点展示斜率、截距和噪声，再用真实房屋记录预测售价。
 
-老师 mode1 的处理必须连同单位一起保留：
+课堂mode1按下面的方式处理房屋记录：
 
 | 原字段 | 处理后 | 单位与解释 |
 |---|---|---|
@@ -81,7 +81,7 @@ $$
 
 为什么平方？正负残差不能相互抵消，偏离越远罚得越多，也形成方便求导的目标。代价是极端点的影响可能很大。MSE=E/N，RMSE=$\sqrt{E/N}$：MSE的单位是价格单位的平方，RMSE才回到价格单位。
 
-**完整补算（教学例子）：** 三个观测点为 $(0,1),(1,2),(2,2)$。先求平均：$\bar x=(0+1+2)/3=1$，$\bar y=(1+2+2)/3=5/3$。一维最小二乘的斜率用下面的比值计算；下一节再从平方误差求导说明公式的来历。
+**完整补算（教学例子）：** 三个观测点为 $(0,1),(1,2),(2,2)$。先求平均：$\bar x=(0+1+2)/3=1$，$\bar y=(1+2+2)/3=5/3$。先用下面的斜率公式算一次结果，随后从平方误差推导它，再接到矩阵写法。
 
 | 点 | $x_i-\bar x$ | $y_i-\bar y$ | 两者乘积 | $(x_i-\bar x)^2$ |
 |---|---:|---:|---:|---:|
@@ -101,6 +101,39 @@ $$
 \mathrm{SSE}=\frac1{36}+\frac19+\frac1{36}=\frac16,
 \qquad\mathrm{MSE}=\frac{\mathrm{SSE}}3=\frac1{18}.\tag{4.3}
 $$
+
+### 斜率和截距的公式从哪里来？
+
+先固定斜率$w$，看怎样选择截距$b$。在$E(w,b)=\sum_i[y_i-wx_i-b]^2$中，每个残差对$b$的导数都是$-1$；平方求导后得到：
+
+$$
+\begin{gathered}
+\frac{\partial E}{\partial b}
+=-2\sum_{i=1}^N(y_i-wx_i-b)=0,\\
+\sum_i y_i-w\sum_i x_i-Nb=0,\\
+b=\bar y-w\bar x.
+\end{gathered}\tag{4.3a}
+$$
+
+这里$\bar x,\bar y$分别是输入与输出的平均值。固定斜率后，平方误差关于$b$的二阶导数为$2N>0$，因此这个截距确实使误差最小。把它代回预测式，得到$wx_i+b=\bar y+w(x_i-\bar x)$：最佳直线经过平均点$(\bar x,\bar y)$。
+
+接着只剩斜率未知。为看清求导，记$u_i=x_i-\bar x$、$v_i=y_i-\bar y$，它们都是已经由数据算好的数。代回截距后的残差就是$v_i-wu_i$，将此时的误差记作$E_c(w)$：
+
+$$
+\begin{gathered}
+E_c(w)=\sum_i(v_i-wu_i)^2,\\
+\frac{dE_c}{dw}=-2\sum_i u_i(v_i-wu_i)=0,\\
+w\sum_i u_i^2=\sum_i u_i v_i.
+\end{gathered}\tag{4.3b}
+$$
+
+只要输入不全相同，$\sum_i u_i^2>0$，两边除以它，就得到式（4.2）的斜率。三点表中已经算出$\sum_i u_i v_i=1$、$\sum_i u_i^2=2$，所以$w=1/2$；再用$\bar y-w\bar x$求得$b=7/6$。
+
+若所有输入都等于某个$x_0$，则所有$u_i=0$，不能除以0。这时所有训练记录得到同一个预测$wx_0+b$；平方误差要求它等于$\bar y$，但满足这个关系的斜率和截距有无穷多组。后面的矩阵写法会把同一个问题表现为秩不足。
+
+**English takeaway:** First minimize over the intercept to obtain $b=\bar y-w\bar x$. Substitution centers the data and leaves a one-variable problem for the slope. A unique slope requires at least two distinct input values.
+
+来源：Lecture4a，第13、19–21个单元；一维逐步推导及三点算例为教学补充。
 
 <a id="ols"></a>
 ## 3. Matrix solution｜先摆好矩阵，再求导
@@ -135,6 +168,20 @@ $$
 $$
 w=(XX^T)^{-1}Xy.\tag{4.7}
 $$
+
+用刚才的三点核对两种写法。此处把矩阵解的权重明确写成$(w,b)^T$，避免把标量斜率$w$与整组参数混淆：
+
+$$
+\begin{gathered}
+X=\begin{pmatrix}0&1&2\\1&1&1\end{pmatrix},\qquad
+y=\begin{pmatrix}1\\2\\2\end{pmatrix},\\[4pt]
+\underbrace{\begin{pmatrix}5&3\\3&3\end{pmatrix}}_{XX^T}
+\begin{pmatrix}w\\b\end{pmatrix}
+=\underbrace{\begin{pmatrix}6\\5\end{pmatrix}}_{Xy}.
+\end{gathered}\tag{4.7a}
+$$
+
+第二行$3w+3b=5$给出$b=5/3-w$，正是前面的截距关系。第一行$5w+3b=6$减去第二行，得到$2w=1$，因此仍是$w=1/2,b=7/6$。矩阵方程把原来分别对斜率、截距求导的两条等式放在了一起。
 
 在当前“样本放列”的约定下，每一行对应一项特征或常数1。若两项特征完全重复，便有两行相同，矩阵不能直接求逆。仅仅两条样本重复，并不足以断言所有行都不独立。
 
@@ -172,7 +219,7 @@ w仍1/2，b变13/6，残差与MSE不变。 / The slope remains 0.5, the intercep
 
 
 <a id="ridge"></a>
-## 5. Ridge regression｜给不稳定方向加一条“别太夸张”的限制
+## 5. Ridge regression｜用平方惩罚稳定系数
 <!-- EXAM:focus-ridge:START -->
 <div class="exam-focus"><div class="exam-focus-title">考点：Ridge、LASSO与特征选择</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span></div></div>
 <!-- EXAM:focus-ridge:END -->
@@ -260,9 +307,9 @@ $$
 
 ## 7. Sparsity and OMP｜每次挑方向，但要回头一起重拟合
 
-$\|w\|_0$表示非零个数，不是真正的范数。限制 $\|w\|_0\le K$ 是组合选择问题，一般难以穷举。Orthogonal Matching Pursuit（OMP）用贪心近似：从残差开始，选与残差最相关的未选特征，加入已经选中的特征集合，**对所有已选特征联合重做最小二乘**，再更新残差。
+$\|w\|_0$表示非零个数，不是真正的范数。限制 $\|w\|_0\le K$ 是组合选择问题，一般难以穷举。Orthogonal Matching Pursuit（OMP）用贪心近似：从残差开始，在归一化后的未选特征中，选与残差**内积绝对值最大**的那一列，加入已选集合，**对所有已选特征联合重做最小二乘**，再更新残差。
 
-**对照原课：** Lecture4a，第83个单元的简写只计算新特征的系数；OMP还需要把所有已选特征一起重新拟合。比较各列与残差的相关程度前，应中心化并适当归一化，避免仅因某列数值更大就选中它。
+**对照原课：** Lecture4a，第83个单元的简写只计算新特征的系数；OMP还需要把所有已选特征一起重新拟合。拟合截距时，先将输入和目标减去各自的均值；无截距的本节算例直接使用原值。比较前将特征列归一化，避免只因某列数值更大就选中它。强负相关也参与比较：内积为−3的列优先于内积为2的列。 / Compare absolute inner products of normalized columns: a value of −3 ranks ahead of 2.
 
 **走完两轮（补充算例）：** 不设截距，两列特征都已归一化为长度1：$a_1=(1,0)^T$、$a_2=(1,1)^T/\sqrt2$，目标 $y=(1,2)^T$。
 
@@ -325,7 +372,7 @@ $\alpha_1$鼓励精确零系数，$\alpha_2$抑制大权重，两者都为0时�
 这与对残差使用Huber或绝对值损失是两种不同选择。来源：历史期中与样题中的损失、Elastic Net比较；当前Lecture4a主线仍是Ridge、LASSO和OMP，完整题号见讲末索引。此处采用未除样本数的目标，库中的alpha／l1_ratio须按其目标缩放换算。
 
 <a id="ransac"></a>
-## 8. RANSAC｜不是每个离群点都值得把直线拽过去
+## 8. RANSAC｜用相互一致的数据点拟合
 
 几个离群点就可能明显拉动拟合直线，课堂例子展示大残差如何支配平方误差。Ridge缩小权重，但仍平方惩罚残差，因此不是专门的异常值过滤器。RANSAC（Random Sample Consensus）反复：随机选足够拟合的小子集 → 拟合候选模型 → 按残差阈值找inliers → 保留较大一致集 → 对一致集重新拟合。
 
@@ -333,7 +380,7 @@ $\alpha_1$鼓励精确零系数，$\alpha_2$抑制大权重，两者都为0时�
 
 ![OLS, ridge and RANSAC on the instructor synthetic outlier setup](assets/lecture04-ransac.png)
 
-此图采用Lecture4b，第5个单元的4487/447数据种子及Lecture4b，第13个单元的RANSAC种子1234。图中对照线说明稳健拟合的目的；成功仍依赖足够的一致点、合理模型与阈值。补充概率：每次独立取s个点、单点为inlier概率约q，k次至少一次全inlier概率约 $1-(1-q^s)^k$；近似假设应说明，不能当作任意数据都保证成功。
+此图采用Lecture4b，第5个单元的4487/447数据种子及Lecture4b，第13个单元的RANSAC种子1234。图中对照线说明稳健拟合的目的；成功仍依赖足够的一致点、合理模型与阈值。补充概率：若每轮独立抽取$s$个点，每次抽到内点的概率为$q$，且各次抽取相互独立，则一轮全为内点的概率为$q^s$；$k$轮至少成功一次的概率为$1-(1-q^s)^k$。有限数据内不放回抽样时，$q^s$是近似；抽中全内点还要求这些点足以拟合候选模型。
 
 把一次迭代落到数字上（教学补充）：四点为$(0,1),(1,2),(2,3),(3,10)$，横纵坐标均无量纲。抽中第1、3点得到候选线$\hat y=x+1$；取绝对残差阈值0.5。
 
@@ -355,7 +402,7 @@ $\alpha_1$鼓励精确零系数，$\alpha_2$抑制大权重，两者都为0时�
 
 ## 9. Polynomial regression｜对输入非线性，对参数仍线性
 
-把x变成 $(1,x,x^2,\ldots,x^p)$ 再线性拟合。曲线可以弯，但待估参数w仍线性进入。二元二次可含 $(1,x_1,x_2,x_1^2,x_1x_2,x_2^2)$；三次纯项为 $(x_1^3,x_1^2x_2,x_1x_2^2,x_2^3)$，原Lecture4b，第34个单元最后的 $x_3^3$ 是笔误。
+把x变成 $(1,x,x^2,\ldots,x^p)$ 再线性拟合。曲线可以弯，但待估参数w仍线性进入。二元二次可含 $(1,x_1,x_2,x_1^2,x_1x_2,x_2^2)$；总次数为3的项为 $(x_1^3,x_1^2x_2,x_1x_2^2,x_2^3)$，原Lecture4b，第34个单元最后的 $x_3^3$ 是笔误。
 
 给直线模型加上x²项后，新模型仍然能画出原来的直线：只要把x²的系数设成0即可。因此，在不加正则且精确求到最优解时，增加多项式阶数不会提高训练SSE。但多出来的弯曲也可能追着训练噪声跑，使新数据上的误差变大。用交叉验证选择阶数；阶数很高时，还需留意数值计算不稳定。
 
@@ -373,21 +420,45 @@ $(1,2,3,4,6,9)$，共6维。 / (1,2,3,4,6,9), six features. `include_bias=False`
 
 
 <a id="kernel-regression"></a>
-## 10. Kernel ridge regression｜把线性代数搬到样本之间
+## 10. Kernel ridge regression｜用训练样本的核值预测
 <!-- EXAM:focus-kernel-regression:START -->
 <div class="exam-focus"><div class="exam-focus-title">考点：核回归与SVR</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-kernel-regression:END -->
 
 
-给N个训练点，$K_{ij}=k(x_i,x_j)$ 为N×N核矩阵，$k_*=(k(x_1,x_*),…,k(x_N,x_*))^T$ 为N维向量：
+前面的Ridge为每一项特征学习一个权重。若先把输入变成多项式等新特征，还可以怎样计算同一个预测？我们从普通Ridge出发，看看权重为什么能改写成训练样本的组合。
+
+记新特征为$\phi(x)\in\mathbb R^m$，$m$是变换后的特征数。继续采用**每列一个样本**：$\Phi=[\phi(x_1),\ldots,\phi(x_N)]\in\mathbb R^{m\times N}$，目标$y\in\mathbb R^N$，权重$w\in\mathbb R^m$。本段没有单独的截距，全部权重都受平方惩罚，且$\alpha>0$；$I_m$、$I_N$分别表示$m$维和$N$维单位矩阵。
+
+目标是$\|y-\Phi^Tw\|^2+\alpha\|w\|^2$，因此[前面的Ridge方程](#ridge)变为$(\Phi\Phi^T+\alpha I_m)w=\Phi y$。把含$\Phi\Phi^T$的部分移到右边，提取共同的$\Phi$，得到$\alpha w=\Phi(y-\Phi^Tw)$。这说明最优权重可以由训练样本的特征向量组合而成：定义$N$维向量$a=(y-\Phi^Tw)/\alpha$，便有$w=\Phi a=\sum_i a_i\phi(x_i)$。
+
+现在求这组样本系数。令$K=\Phi^T\Phi$，它是$N\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\phi(x_i)^T\phi(x_j)$。将$w=\Phi a$代回$a$的定义，得到$\alpha a=y-\Phi^T\Phi a=y-Ka$，即$(K+\alpha I_N)a=y$。
+
+新输入$x_*$只需与各训练点计算核值，组成$k_*=(k(x_1,x_*),\ldots,k(x_N,x_*))^T\in\mathbb R^N$。这样便得到老师给出的求解与预测公式：
 
 $$
-a=(K+\alpha I)^{-1}y,\qquad \hat y_*=k_*^Ta.\tag{4.16}
+a=(K+\alpha I_N)^{-1}y,\qquad \hat y_*=k_*^Ta.\tag{4.16}
 $$
 
-字母a是每个训练样本的系数，和特征权重w、正则参数alpha区分。对有效半正定核、alpha>0可解。截距/中心化要另外约定；默认KernelRidge并非自动拟合不惩罚的截距。
+$a_i$是样本系数，可以为负；$\alpha$则是控制惩罚强度的正数。预测为什么可以用核值相加？把刚才求出的$w=\Phi a$放回原预测式即可：
 
-完整小例：训练x=(0,1)，线性核 $k(x,z)=xz$，y=(0,2)，alpha=1、无截距。K=diag(0,1)，a=(0,1)，在x*=2时k*=(0,2)，预测2。它与同一特征和同一惩罚的ridge等价；**不等于任意PolynomialFeatures+无正则OLS**。Lecture4b，第41个单元的“same as”需要补这个条件。多项式核映射包含缩放权重，也未必等于库默认多项式特征的未经缩放内积。
+$$
+\begin{aligned}
+\hat y_*&=w^T\phi(x_*)
+ =\left(\sum_{i=1}^N a_i\phi(x_i)\right)^T\phi(x_*)\\
+&=\sum_{i=1}^N a_i k(x_i,x_*)=k_*^Ta.
+\end{aligned}\tag{4.16a}
+$$
+
+显式构造特征时，$K$就是特征内积表；采用有效的半正定核，也可以直接计算这张表而不列出特征。$\alpha>0$保证$K+\alpha I_N$可逆，即使训练特征有重复或线性相关也能求解。若要拟合不受惩罚的独立截距，需要另作中心化等处理；默认`KernelRidge`不自动完成这件事。
+
+**同一个小例，两种算法：** 训练输入$x=(0,1)$，目标$y=(0,2)$，线性核$k(x,z)=xz$，$\alpha=1$，无截距。直接求特征权重，得到$w=(0\times0+1\times2)/(0^2+1^2+1)=1$；在$x_*=2$时预测$2w=2$。换成核写法，$K=\operatorname{diag}(0,1)$，所以$a=(0,1)^T$；$k_*=(0,2)^T$，仍预测2。
+
+两种算法等价的前提是特征内积和正则惩罚对应。Lecture4b，第41个单元将多项式核与多项式特征回归写成“same as”，应按这个条件理解；不能直接换成无正则OLS。多项式核还可能对应带缩放的特征，例如$(1+xz)^2$对应$(1,\sqrt2x,x^2)$的内积，并非$(1,x,x^2)$的未经缩放内积。
+
+**English takeaway:** The ridge stationarity equation gives $w=\Phi a$, with $a=(y-\Phi^Tw)/\alpha$. Substitution yields $(K+\alpha I)a=y$, where $K$ contains feature inner products. Prediction uses the same inner products with the new input. This derivation assumes α>0, penalized feature weights, and no separate unpenalized intercept.
+
+来源：Lecture4a的Ridge目标；Lecture4b，第40–43个单元。由驻点条件连接样本系数及双算法核对为教学补充。
 
 RBF gamma控制距离尺度，alpha控制正则，二者作用不同。Lecture4b，第50个单元用10×10候选、5折，共500次候选拟合；保存的最佳CV分数是模型选择结果，不是独立测试证据。
 
@@ -402,7 +473,7 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 图左先看容忍带，图右看损失的平底。C决定违约代价，epsilon决定忽略多大误差，gamma决定RBF核尺度。Lecture4b，第70个单元同时搜索三者：10×10×10候选、5折，共5000次候选拟合。这一段说明原课的搜索流程；执行范围见文末。
 
 <a id="ensembles"></a>
-## 12. Trees and random forests｜多位意见不同的“专家”怎样投票
+## 12. Trees and random forests｜把多棵回归树的预测取平均
 <!-- EXAM:focus-ensembles:START -->
 <div class="exam-focus"><div class="exam-focus-title">考点：Bagging、RF与boosting</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 4 套</span><span class="exam-badge exam-mid">期中关联 · 3 套</span></div></div>
 <!-- EXAM:focus-ensembles:END -->
@@ -414,7 +485,7 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 
 ![Instructor random forest diagram](assets/source-RF.jpg)
 
-当前`RandomForestRegressor`默认`max_features=1.0`，即每个节点可考虑所有特征；若要演示特征子采样需显式设置。名称叫随机森林不意味着每份默认代码都有严格小于全部的候选特征数。叶子平均的树通常不擅长超出训练目标范围的外推；图看起来块状合理不等于已证明无数据区域预测正确。
+当前`RandomForestRegressor`默认`max_features=1.0`，即每个节点可考虑所有特征；若要演示特征子采样需显式设置。回归树的叶子输出训练目标的平均值，因此通常不擅长预测超出训练目标范围的数值。
 
 <a id="forest-variance"></a>
 ### 选读：树很多，为什么仍有误差？
@@ -439,7 +510,7 @@ $$
 
 ## 13. Boosting and XGBoost｜后一棵树接着修前面的误差
 
-Bagging让多棵树主要并行学习不同抽样，boosting让后一个模型针对当前组合的不足继续学习。平方损失的负梯度与残差方向一致，因此可拟合 $y-f_{t-1}(x)$，再作 $f_t=f_{t-1}+\eta h_t$。若h拟合的是正梯度，则用减号。Lecture4b，第97个单元采用正梯度/减号约定，不要同时翻两个号。
+Bagging让多棵树主要并行学习不同抽样，boosting让后一个模型针对当前组合的不足继续学习。平方损失的负梯度与残差方向一致，因此可拟合 $y-f_{t-1}(x)$，再作 $f_t=f_{t-1}+\eta h_t$。若h拟合的是正梯度，则用减号。Lecture4b，第97个单元采用正梯度配减号的约定；改用负梯度时，更新要配加号。 / Fit the positive gradient and subtract, or fit the negative gradient and add; keep the direction and update sign paired.
 
 补算：当前预测(2,2)，真实值(3,1)，残差(1,−1)。若新弱学习器恰拟合残差，学习率0.5，新预测(2.5,1.5)，平方误差和从2降为0.5。这一步把两个残差都缩小了一半。实际弱学习器只能近似拟合残差，效果还需用验证集检查。
 
@@ -449,7 +520,7 @@ Bagging让多棵树主要并行学习不同抽样，boosting让后一个模型�
 
 “后一棵依赖前一棵”描述的是boosting的训练过程。所有弱模型训练完毕后，对一个新输入分别计算它们的输出、最后求加权和，可以并行；随机森林也可以并行计算各树后求平均。实际加速还取决于树的数量、深度、硬件和合并开销，不能只凭算法名称断言预测必然快慢。历史题中的AdaBoost调整错分样本权重，与本节平方损失的梯度提升有关联，但不是同一更新公式。
 
-XGBoost在梯度提升树中还使用正则化及二阶信息。Lecture4b，第98个单元搜索列采样、分裂gamma、树深、行采样、学习率、树数；这里的`gamma`是最小分裂损失收益，**不是RBF gamma**。`RandomizedSearchCV(n_iter=200,cv=5,random_state=4487)`共1000次候选拟合。学习率是每轮贡献，不是某种“准确率参数”。
+XGBoost在梯度提升树中还使用正则化及二阶信息。Lecture4b，第98个单元搜索列采样、分裂gamma、树深、行采样、学习率、树数；这里的`gamma`是最小分裂损失收益，**不是RBF gamma**。`RandomizedSearchCV(n_iter=200,cv=5,random_state=4487)`共1000次候选拟合。学习率控制每一轮新树对总预测的贡献。
 
 按 [XGBoost官方参数说明](https://xgboost.readthedocs.io/en/stable/parameter.html#learning-task-parameters)（查阅2026-09-23），`reg:squarederror`为平方误差目标，`reg:gamma`使用Gamma回归且目标须为正；不应将任意含0的非负目标直接套进去。上面的手算展示了一次提升步骤；原200候选XGBoost搜索未在本讲重新执行。
 

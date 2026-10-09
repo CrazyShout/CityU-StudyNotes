@@ -33,7 +33,7 @@
 
 <a id="_2"></a>
 <a id="intro"></a>
-老师给出两个任务：根据花瓣长度和萼片宽度辨认鸢尾花；根据邮件内容判断是不是垃圾邮件。它们的输入不同，却可以用同一条思路处理：**先从已知类别的记录中学出各类的特征，再判断新记录更符合哪一类。**
+老师给出两个任务：根据花瓣长度和萼片宽度辨认鸢尾花；根据邮件内容判断是不是垃圾邮件。它们的输入不同，却可以用同一条思路处理：**先从已知类别的记录中估计各类的特征分布，再判断新记录更符合哪一类。**
 
 我们先跟着一朵花走完这个过程，随后把测量值换成文字。前三部分对应Lecture2a，后三部分对应Lecture2b。上一讲的数组用于保存记录，概率用于表达判断的不确定性，Python负责估参数和计算预测。
 
@@ -173,7 +173,7 @@ $$
 
 固定这条高斯曲线后，离均值越远，指数里的数越负，密度越低。方差较大时，同样的偏离只占较少的标准差，曲线展开得更宽；前面的归一化系数也随方差变化，使曲线下面积保持为1。
 
-连续变量的曲线高度是 **density（密度）**，单位为cm⁻¹。某个长度区间的概率等于区间下的面积；“恰好5 cm”的点概率与“5 cm附近比较常见”是两件事。密度高度可以超过1，只要总面积仍为1。详见[密度与面积](../../learning/foundation-notes/MathForML.md#density-area)。
+连续变量的曲线高度是 **density（密度）**，单位为cm⁻¹。某个长度区间的概率等于区间下的面积。连续分布中，“恰好5 cm”的点概率为0；“5 cm附近比较常见”指的是附近一小段区间内的概率。密度高度可以超过1，只要总面积仍为1。详见[密度与面积](../../learning/foundation-notes/MathForML.md#density-area)。
 
 来源：Lecture2a，第18–25个单元。上图按原数据重绘；原课早期的计数直方图与后来的密度图的区别，见文末实现说明。
 
@@ -330,53 +330,82 @@ $$
 <div class="exam-focus"><div class="exam-focus-title">考点：线性与非线性边界</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 4 套</span><span class="exam-badge exam-final">期末关联 · 1 套</span></div></div>
 <!-- EXAM:focus-decision-boundaries:END -->
 
-继续用花瓣长度$x$辨认两类花。为了把分界的计算看清楚，下面采用一组**教学简化参数**：两类均值分别为4、6 cm，先验各为0.5，开始时方差都为1 cm²。仍用前面的log分数$g_c(x)$：该类的log密度加上log先验。
+前面给定一朵花的测量值，算出两类分数，再选分数较大的类别。现在把花瓣长度$x$看成可以变化的量：**它变到什么位置，判断会从一类转向另一类？** 这就需要找出两类分数相等的位置。
 
-把第二类分数减去第一类，记作$\Delta(x)=g_2(x)-g_1(x)$。差值为正就选第二类，为负就选第一类；等于0时两类打平。这些打平的位置就是**决策边界（decision boundary）**。恰好打平时，任选一个固定的类别作为平局规则即可。
+继续使用相同错分代价下的Bayes规则。为看清计算过程，下面采用一组**教学简化参数**：两类均值分别为4、6 cm，先验各为0.5，开始时方差都为1 cm²。公式中的$x$与均值都取按cm计的数值，方差取按cm²计的数值。
 
-![Same means and priors, different class variances: density crossings and prediction regions](assets/lecture02-boundary-variance.png)
+先把每一类的分数写清楚。前面的规则使用$g_c(x)=\log p(x\mid c)+\log p(c)$，即“这个测量值在该类中的log密度，加上该类的log先验”。对高斯密度取log后，归一化因子变成$-\tfrac12\log(2\pi\sigma_c^2)$，指数部分变成$-\tfrac{(x-\mu_c)^2}{2\sigma_c^2}$；再加上$\log p(c)$，就是该类的完整分数。这里$\mu_c$是第$c$类的均值，$\sigma_c^2$是方差。
 
-*图源：本节教学高斯模型。两幅图保持均值4／6 cm和先验0.5／0.5；右图只把第二类方差从1改为4 cm²。上方窄条的数字表示预测类别，竖直点线标出两类密度相等的位置；由于先验相同，这里也就是后验相等的位置。实线／虚线及数字可在黑白打印中区分类别。*
+将两类参数分别代入，可以逐项对照：
 
-先看左图。两类的方差与先验相同，所以log分数中的归一化项和先验项相减后都消失。代入两组均值，再展开平方（下式中的$x$取按cm计的数值）：
+| 类别 | 代入参数后的log分数 |
+|---|---|
+| 第一类：均值4，方差1 | $g_1(x)=-\tfrac12\log(2\pi)-\tfrac{(x-4)^2}{2}+\log0.5$ |
+| 第二类：均值6，方差1 | $g_2(x)=-\tfrac12\log(2\pi)-\tfrac{(x-6)^2}{2}+\log0.5$ |
+
+两行只有中间的距离项不同：第一类看$x$离4有多远，第二类看它离6有多远。为了比较大小，用**第二类的完整分数减去第一类的完整分数**，记作$\Delta(x)=g_2(x)-g_1(x)$。差值为正就选第二类，为负就选第一类；等于0时两类打平。这些打平的位置就是**决策边界（decision boundary）**。恰好打平时，按一个固定规则选择类别即可。
+
+**方差相同：哪些项抵消，为什么会剩下一次式？** 两行都有$-\tfrac12\log(2\pi)$，相减后为0；两行也都有$\log0.5$，同样抵消。剩下的是两个负的距离项相减。注意，减去第一类的负项，会把它变成正项：
 
 $$
 \begin{aligned}
-\Delta(x)&=\frac{(x-4)^2-(x-6)^2}{2}\\
+\Delta(x)&=-\frac{(x-6)^2}{2}-\left[-\frac{(x-4)^2}{2}\right]\\
+&=\frac{(x-4)^2-(x-6)^2}{2}\\
 &=\frac{(x^2-8x+16)-(x^2-12x+36)}{2}\\
-&=2x-10.
+&=\frac{x^2-8x+16-x^2+12x-36}{2}\\
+&=\frac{4x-20}{2}=2x-10.
 \end{aligned}
 \tag{2.14a}
 $$
 
-关键就在第二行：两边的$x^2$系数相同，正好抵消。令$2x-10=0$，得到分界点$x=5$ cm；小于5时选第一类，大于5时选第二类。改变先验会给分数差增加一个常数，移动分界的位置，不会凭空增加$x^2$项。
+两个$x^2$项抵消后，分数差对$x$只剩一次项。
 
-现在看右图，只把第二类方差改成4 cm²，即标准差从1变为2 cm。它的曲线变宽，峰值也变低；高斯密度前面的归一化因子减半，因此相减时必须保留$-\log2$：
+令差值为0，解$2x-10=0$，得到分界点$x=5$ cm。小于5时选第一类，大于5时选第二类。代入4和6可核对方向：差值分别为$-2$和2，也符合按均值远近判断的直觉。
+
+若只改变两类的正先验比例，相减后会多出一个常数$\log[p(2)/p(1)]$。它会移动分界点，却不会产生新的$x^2$项。
+
+**只改变第二类方差：为什么这次不能照样抵消？** 现在把第二类方差改成4 cm²，其余参数保持不变。第二类的标准差从1变成2 cm，曲线变宽、峰值变低。它的分数也有两处变化：归一化项变成$-\tfrac12\log(8\pi)$，距离项的分母变成$2\times4=8$。
+
+第二类的新分数是$g_2(x)=-\tfrac12\log(8\pi)-\tfrac{(x-6)^2}{8}+\log0.5$；第一类仍用表中的分数。
+
+两类先验依然相等，先验项可以抵消；归一化项却不再相同。用第二类减第一类，归一化项之差为$-\tfrac12[\log(8\pi)-\log(2\pi)]$。利用$\log a-\log b=\log(a/b)$，它等于$-\tfrac12\log4=-\log2$。连同两个距离项一起相减，再展开平方、通分：
 
 $$
 \begin{aligned}
 \Delta(x)&=-\log2-\frac{(x-6)^2}{8}+\frac{(x-4)^2}{2}\\
+&=-\log2-\frac{x^2-12x+36}{8}+\frac{x^2-8x+16}{2}\\
+&=-\log2+\frac{-(x^2-12x+36)+4(x^2-8x+16)}{8}\\
+&=-\log2+\frac{3x^2-20x+28}{8}\\
 &=\frac38x^2-\frac52x+\frac72-\log2.
 \end{aligned}
 \tag{2.14b}
 $$
 
-这次$x^2$的系数没有抵消。要找到交点，将差值设为0并配方：先乘以24，得到$9x^2-60x+84-24\log2=0$；把前两项凑成$(3x-10)^2$，便有
+这次两个$x^2$项的系数分别为$-1/8$和$1/2$，相加得到$3/8$，不再是0。求分界仍然只做同一件事：令$\Delta(x)=0$。将上式乘以24，得到$9x^2-60x+84-24\log2=0$。
+
+把二次项和一次项配成平方：$(3x-10)^2=9x^2-60x+100$。将常数移到右边，两边同时加100，便得到：
 
 $$
 \begin{aligned}
 (3x-10)^2&=16+24\log2,\\
+3x-10&=\pm\sqrt{16+24\log2},\\
 x&=\frac{10\pm\sqrt{16+24\log2}}{3}\\
 &\approx1.4291\ \text{cm}\quad\text{or}\quad5.2376\ \text{cm}.
 \end{aligned}
 \tag{2.14c}
 $$
 
-因为二次项系数$3/8$为正，两个根之间差值为负，选第一类；两侧差值为正，选第二类。较宽的第二类分布在远端下降得较慢，因而在很短和很长的测量处都可能占优。这里比较的是两类的相对证据；两类密度本身都很小时，仍可能得到明确的类别选择。
+因为二次项系数$3/8$为正，$\Delta(x)$是一条开口向上的抛物线：两个根之间差值为负，选第一类；两侧差值为正，选第二类。较宽的第二类分布在远离均值时下降得较慢，因而在很短和很长的测量处都可能占优。这里比较的是两类的相对证据；两类密度本身都很小时，仍可能得到明确的类别选择。
+
+把两个计算结果放回密度图中看：左图的两条曲线一样宽，只有5 cm处一个交点；右图第二类变宽后出现两个交点，预测区域也从“左1右2”变成“2、1、2”。先验相同，所以图中密度相等的位置也就是分数与后验相等的位置。
+
+![Same means and priors, different class variances: density crossings and prediction regions](assets/lecture02-boundary-variance.png)
+
+*图源：本节教学高斯模型。两幅图保持均值4／6 cm和先验0.5／0.5；右图只把第二类方差从1改为4 cm²。上方窄条的数字表示预测类别，竖直点线标出交点；实线表示第一类，虚线表示第二类。*
 
 在这一维例子中，边界是一个或两个**分界点**，不是一条弯曲的线。到了二维，分数中的二次项才可能形成曲线；多维情形下一般对应二次曲面，具体形状还取决于其他系数。
 
-**English takeaway:** A decision boundary is where the class scores tie. Shared class variances cancel the quadratic terms in a Gaussian log-score difference. Unequal variances can leave quadratic terms; in one dimension this example has two thresholds.
+**English takeaway:** Write out both Gaussian log scores before subtracting them. With equal variances and priors, the normalization and prior terms cancel; subtracting the negative squared-distance terms gives $\Delta(x)=2x-10$, with a threshold at 5 cm. When only class 2's variance increases to 4 cm², the normalization difference is $-\log2$ and a quadratic term remains, giving two thresholds.
 
 来源：对Lecture2a高斯模型与Bayes分数的补充推导；教学参数与前面的原数据拟合值分开。[2021A期中Q4、2023B期中Q8的考查位置](ExamIndex.md)见按卷索引。计算与绘图依据见[本轮计算记录](../../docs/reviews/lecture02-teaching-2026-10-09/calculations.json)。
 
@@ -438,18 +467,38 @@ model.var_          # 同样形状：方差
 <a id="gaussian-nb-boundary"></a>
 ### Shared variances and boundary shape｜两项测量的边界怎样连起来
 
-刚才算出了一个输入的类别。若把所有可能的输入都代入，哪些位置会使两类打平？给式（2.16）的类条件log密度加上各类的log先验，再把第二类分数减去第一类，展开每一维的平方：
+刚才算出了一个输入的类别。若把所有可能的输入都代入，哪些位置会使两类打平？继续用第二类分数减第一类，先只看第$j$项测量。记$\delta_j$为该项的两类log密度之差；方差都大于0。完整分数还要在各特征相加后，加上两类的log先验之差。
+
+计算方法与[一维边界](#decision-boundaries)相同：减去第一类的负距离项会变成加号，展开两个平方，再把含$x_j^2$、含$x_j$和不含$x_j$的部分分别合并：
 
 $$
 \begin{aligned}
-\Delta(\mathbf x)&=\sum_{j=1}^{d}\bigl(a_jx_j^2+b_jx_j\bigr)+C,\\
-a_j&=\frac{1}{2\sigma_{1,j}^{2}}-\frac{1}{2\sigma_{2,j}^{2}},\qquad
-b_j=\frac{\mu_{2,j}}{\sigma_{2,j}^{2}}-\frac{\mu_{1,j}}{\sigma_{1,j}^{2}}.
-\end{aligned}
-\tag{2.16a}
+\delta_j(x_j)
+&=-\frac12\log\frac{\sigma_{2,j}^2}{\sigma_{1,j}^2}
+ +\frac{(x_j-\mu_{1,j})^2}{2\sigma_{1,j}^2}
+ -\frac{(x_j-\mu_{2,j})^2}{2\sigma_{2,j}^2}\\[3pt]
+&=\left(\frac1{2\sigma_{1,j}^2}-\frac1{2\sigma_{2,j}^2}\right)x_j^2
+ +\left(\frac{\mu_{2,j}}{\sigma_{2,j}^2}-\frac{\mu_{1,j}}{\sigma_{1,j}^2}\right)x_j\\[3pt]
+&\quad+\frac{\mu_{1,j}^2}{2\sigma_{1,j}^2}
+ -\frac{\mu_{2,j}^2}{2\sigma_{2,j}^2}
+ -\frac12\log\frac{\sigma_{2,j}^2}{\sigma_{1,j}^2}.
+\end{aligned}\tag{2.16a}
 $$
 
-$a_j$、$b_j$只是展开后各项的系数；$C$收集不含输入$\mathbf x$的项，包括先验、分布宽度与均值平方带来的常数。$C$仍影响分界的位置，求边界时需要保留。
+例如一次项来自$-2\mu_{1,j}x_j/(2\sigma_{1,j}^2)$与$+2\mu_{2,j}x_j/(2\sigma_{2,j}^2)$。将平方项系数记为$a_j$、一次项系数记为$b_j$，把所有不含输入的项合成$C$，得到完整分数差：
+
+$$
+\begin{aligned}
+\Delta(\mathbf x)&=\sum_{j=1}^d\bigl(a_jx_j^2+b_jx_j\bigr)+C,\\[3pt]
+C&=\log\frac{p(2)}{p(1)}
+ +\sum_{j=1}^d\left[
+ \frac{\mu_{1,j}^2}{2\sigma_{1,j}^2}
+ -\frac{\mu_{2,j}^2}{2\sigma_{2,j}^2}
+ -\frac12\log\frac{\sigma_{2,j}^2}{\sigma_{1,j}^2}\right].
+\end{aligned}\tag{2.16b}
+$$
+
+先验项只加一次；每项测量贡献自己的均值平方项和方差归一化项。$C$虽不随新输入变化，仍决定两类在哪里打平，解$\Delta(\mathbf x)=0$时需要保留。这里假定两类先验均为正，才能使用log先验。
 
 如果**每一维的方差在两个类别之间相同**，那么每个$a_j$都为0，剩下的是$\sum_j b_jx_j+C$。若两类均值不同，这个等分数边界在二维是直线，在更高维是超平面。特征1的共享方差可以是1，特征2的共享方差可以是4；“共享”要求的是同一特征在不同类别之间相同，并不要求不同特征的方差也相同。
 
@@ -459,11 +508,21 @@ NB的条件独立假设让各维密度可以相乘，却没有要求两个类别
 
 **边界判断 / Boundary check（教学变式）：** 两项特征均无量纲。Gaussian NB的两类均值为$(0,0)$和$(1,2)$，先验各0.5。设置I中，两类的方差向量均为$(1,4)$；设置II只把第二类的方差向量改为$(1,9)$。两种设置分别会不会留下二次项，边界是否为直线？ / The two features are dimensionless. A Gaussian NB model has class means (0,0) and (1,2), with equal priors. In setting I, both variance vectors are (1,4). In setting II, only the second class changes to (1,9). Do quadratic terms remain, and is each boundary a straight line?
 
-**答 / Answer：** I的二次项全部抵消，边界为$x_1+\tfrac12x_2-1=0$。II中$x_2^2$的系数为$1/8-1/18=5/72$，而$x_1$的系数仍为1；这组参数下的边界是一条抛物线。 / In I, all quadratic terms cancel and the boundary is $x_1+\tfrac12x_2-1=0$. In II, the coefficient of $x_2^2$ is $5/72$, while the coefficient of $x_1$ is 1; these parameters give a parabolic boundary.
+**答 / Answer：** I中两类每一维的方差相同，$a_1=a_2=0$；一次项系数为$(1,1/2)$，常数为$-1/2-1/2=-1$。II中$a_1=0$、$a_2=1/8-1/18=5/72$，一次项系数变为$(1,2/9)$，常数为$-1/2-2/9-\tfrac12\log(9/4)$。因此：
+
+$$
+\begin{aligned}
+\text{I:}\quad &x_1+\tfrac12x_2-1=0,\\[3pt]
+\text{II:}\quad &x_1+\tfrac5{72}x_2^2+\tfrac29x_2
+ -\tfrac{13}{18}-\tfrac12\log\tfrac94=0.
+\end{aligned}\tag{2.16c}
+$$
+
+I是直线；II可写成$x_1$关于$x_2$的二次函数，是一条抛物线。 / In I, the quadratic coefficients vanish, the linear coefficients are (1,1/2), and C=−1, giving the straight line above. In II, the quadratic coefficients are (0,5/72), the linear coefficients are (1,2/9), and C=−13/18−(1/2)log(9/4), giving a parabola.
 
 </div>
 
-**English takeaway:** Conditional independence and shared variances are different assumptions. Gaussian NB can have a linear or quadratic boundary; compare each feature's variance across classes before deciding.
+**English takeaway:** Expand one feature’s log-density difference, then sum over features and add the log-prior ratio once. The constant term shifts the boundary and must be retained. Conditional independence permits the product of densities; shared variances across classes cancel the quadratic terms.
 
 来源：对Lecture2b Gaussian NB分数的补充展开；变式为教学设计，与课堂鸢尾花拟合参数分开。
 
@@ -740,7 +799,7 @@ $$
 
 因此模型选Ham；其模型后验约为0.999987。这个高数值并不使标签变正确。错分说明：词表先决定模型看到了哪些信息，之后的分类器无法利用已经丢掉的广告词。
 
-这里只重算这一封原课错分邮件；老师保存的整体结果见第六部分。课程中尝试扩大词表或改变表示时，应通过训练内部的验证来判断是否有帮助。
+老师保存的整体结果见第六部分。扩大词表或改变表示是否有帮助，需要通过训练内部的验证来判断。
 
 **English takeaway:** BoW fixes the vocabulary; Bernoulli NB models word presence and absence. Smoothing avoids automatic zero estimates. A message can be misclassified when its useful words disappear during vectorization, even if the resulting model probability is high.
 
@@ -897,7 +956,7 @@ $$
 
 **答案 / Answer：** Spam分数更大。先对两类log分数取指数，再除以两项之和，得到Spam约0.6339、Ham约0.3661。 / Select Spam. The normalized model scores are approximately 0.6339 for Spam and 0.3661 for Ham.
 
-这是分类器对加权特征给出的模型概率输出；其计算可以使用，特征的小数值却不应解释为整数多项式模型中的词次数。来源：Lecture2b，第93–97个单元；[Multinomial NB实现说明](https://scikit-learn.org/stable/modules/naive_bayes.html)。
+归一化结果是分类器对加权特征给出的模型概率。来源：Lecture2b，第93–97个单元；[Multinomial NB实现说明](https://scikit-learn.org/stable/modules/naive_bayes.html)。
 
 ### Return to the classroom experiment｜老师的邮件比较说明什么
 
@@ -909,9 +968,9 @@ $$
 | Bernoulli NB | alpha=0.1 | 72%（18/25） |
 | TF-IDF + Multinomial NB | 平滑IDF、L1；alpha=0.05 | 68%（17/25） |
 
-来源：Lecture2b，第78、82、95个单元的**保存输出**；这张表不是本轮重跑成绩。alpha=0的数值行为还与库版本有关，运行说明见文末。
+来源：Lecture2b，第78、82、95个单元的**保存输出**。alpha=0的数值行为还与库版本有关，运行说明见文末。
 
-在这次小测试中，平滑Bernoulli比无平滑版本分对更多；换成TF-IDF Multinomial并没有进一步提高。可见“表示更复杂”本身不是改进的证据。每个模型实际丢掉和保留了什么、词表是否覆盖输入，以及训练样本够不够，都要一起看。反复根据同一测试集挑方法后，这组结果只能作课堂探索，最终评价应留出未参与选择的数据。
+在这25封测试邮件中，平滑Bernoulli分对的邮件更多，TF-IDF Multinomial没有继续提高准确率。分析差异时，可以像前面的手表广告例子一样，检查词表覆盖和预处理保留的信息。这组测试结果已用于课堂模型比较；最终评价需要另留未参与选择的数据。
 
 <a id="19-summary-other-text-preprocessing-other-word-models"></a>
 <a id="extensions"></a>

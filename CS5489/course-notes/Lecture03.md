@@ -4,7 +4,7 @@
 
 植物园仍然要辨认鸢尾花。上一讲先为每种花建立测量值的分布，再用 Bayes 规则判断新花。这一讲换个问题：如果最后只需要判断类别，能不能直接学习“什么测量结果应该分在哪边”？老师按 **线性分类 → Logistic Regression → SVM → Kernel SVM → 特征与模型比较** 展开，本讲义保持这个顺序。
 
-**基础复习（可跳过）**：看不懂点积、距离时先读[长度与投影](../../learning/foundation-notes/MathForML.md#projection)；求梯度、约束和乘子卡住时读[梯度与约束](../../learning/foundation-notes/MathForML.md#optimization)。Python 数组操作回到 [Lecture 1](Lecture01.md#arrays)。先修页解释工具，本讲仍会完整解释分类方法。
+**基础复习（可跳过）**：看不懂点积、距离时先读[长度与投影](../../learning/foundation-notes/MathForML.md#projection)；求梯度、约束和乘子卡住时读[梯度与约束](../../learning/foundation-notes/MathForML.md#optimization)。Python 数组操作回到 [Lecture 1](Lecture01.md#arrays)。
 
 <!-- EXAM:overview:START -->
 <div class="exam-overview exam-overview-compact" markdown="1">
@@ -45,9 +45,9 @@
 | SVM dual、KKT | 核心必会 | 高；对谁求导、约束符号 | 跟完关键求导并解释乘子；Lecture3b，第37–44个单元、SVM手写补充，第2–4页 |
 | 核、特征映射及参数 | 核心必会 | 中至高；隐式内积 | 手算小核矩阵、实现原任务；Lecture3b，第83–123个单元、Tutorial 3 |
 | 多分类、编码、不平衡 | 常规掌握 | 中；机制与实现区分 | 选择表示与评估方法；Lecture3a，第74–99个单元、Lecture3c，第16–42个单元 |
-| 强对偶的一般证明、核的一般谱理论 | 二读拓展 | 高；数学条件 | 当前只需理解适用边界；整理者建议，未据此宣称“不考” |
+| 强对偶的一般证明、核的一般谱理论 | 二读拓展 | 高；数学条件 | 理解适用条件；列为选读是整理者建议 |
 
-优先级首先来自当前课件和 Tutorial 的实际要求。历史复习资料能帮助复习，不能把一个旧样题的出现次数叫作“高频”，也不能代替本学期或 QE 范围确认。
+优先级依据当前课件和Tutorial任务；历史考试记录另见讲末索引。
 
 <a id="linear"></a>
 ## 1. Generative versus discriminative｜先弄懂我们换了什么目标
@@ -58,19 +58,43 @@
 
 生成式分类器学 $p(\mathbf x\mid y)$ 和 $p(y)$，再得到后验 $p(y\mid\mathbf x)$。判别式分类器直接学后验或分类分数。两者都使用带标签的训练数据；“判别式”不等于“不需要概率”，SVM 和 Logistic Regression 也不是同一种训练目标。
 
-老师先从上一讲搭桥（Lecture3a，第8–23个单元）。假设两个类别各维条件独立，**所有类别、所有维度共享同一个方差 $\sigma^2>0$**，均值分别为 $\boldsymbol\mu,\boldsymbol\nu$，先验为 $\pi_1,\pi_2>0$。比较两个后验的对数比：
+上一讲从花朵的测量分布计算后验；这次看看在什么条件下，同样的判断可以直接写成一个线性分数。假设两个类别各维条件独立，**所有类别、所有维度共享同一个方差$\sigma^2>0$**，均值分别为$\boldsymbol\mu,\boldsymbol\nu\in\mathbb R^d$，先验为$\pi_1,\pi_2>0$。
+
+这里沿老师的约定，比较**第一类后验除以第二类后验**，记其log为$r(\mathbf x)$。它等于第一类log分数减第二类，与[上一讲的$\Delta$](Lecture02.md#gaussian-nb-boundary)方向相反：对同一模型，$r=-\Delta$。两类打平的位置相同；这里$r>0$选第一类，$r<0$选第二类，假定两类错分代价相同。
+
+由Bayes公式，两类后验都除以同一个$p(\mathbf x)$，取比值后该分母消去。各维高斯的方差又完全相同，log密度中的归一化项也消去。留下的平方项可以沿用上一讲的方法展开：
 
 $$
-\begin{aligned}\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}
-&=\sum_{j=1}^d\frac{\mu_j-\nu_j}{\sigma^2}x_j\\
-&\quad+\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}+\log\frac{\pi_1}{\pi_2}.\end{aligned}\tag{3.1}
+\begin{aligned}
+r(\mathbf x)&=\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}\\
+&=\log\frac{p(\mathbf x\mid y=1)}{p(\mathbf x\mid y=2)}
+ +\log\frac{\pi_1}{\pi_2}\\
+&=\sum_{j=1}^d\frac{(x_j-\nu_j)^2-(x_j-\mu_j)^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}\\
+&=\sum_{j=1}^d\frac{2(\mu_j-\nu_j)x_j+\nu_j^2-\mu_j^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}\\
+&=\sum_{j=1}^d\frac{\mu_j-\nu_j}{\sigma^2}x_j
+ +\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}.
+\end{aligned}\tag{3.1}
 $$
 
-为什么突然变成直线？把 $(x_j-\mu_j)^2$ 和 $(x_j-\nu_j)^2$ 展开，两边的 $x_j^2$ 抵消，只剩一次项和常数。这里采用原课更强的简化：所有类别和维度共用一个方差。上一讲已看到，只要每个特征的方差在类别间相同，也能消去二次项；逐类完整协方差模型一般没有这个保证。
+每个$x_j^2$都与另一个同系数的$x_j^2$相减，因此只剩一次项。这里$\|\boldsymbol\mu\|^2=\sum_j\mu_j^2$，就是均值各分量的平方和。将一次项系数和常数分别记成：
 
-将各个一次项系数记成 $w_j$，所有常数合成 $b$，得到 $f(\mathbf x)=\mathbf w^T\mathbf x+b$。接下来不必先估计均值和方差，可以直接从数据学习 $\mathbf w,b$。
+$$
+w_j=\frac{\mu_j-\nu_j}{\sigma^2},\qquad
+b=\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
+ +\log\frac{\pi_1}{\pi_2}.
+\tag{3.1a}
+$$
 
-**English takeaway (整理表达):** A shared-variance Gaussian model yields a linear log-posterior ratio. Discriminative learning estimates a decision rule or a posterior directly.
+这样$r(\mathbf x)=\mathbf w^T\mathbf x+b$。边界由这个分数等于0给出；接下来可以直接从数据学习$\mathbf w,b$，不用先估计两类的均值和方差。
+
+[Lecture 2的逐特征推导](Lecture02.md#gaussian-nb-boundary)还允许不同特征使用不同的共享方差，同样能消去二次项；逐类完整协方差模型一般没有这个保证。
+
+**English takeaway (整理表达):** Shared variances cancel the squared-input terms, giving $r(\mathbf x)=\nobreak\mathbf w^T\mathbf x+b$. This lecture reverses Lecture 2’s class order: under equal error costs, $r>0$ selects class 1.
+
+来源：Lecture3a，第8–12、21–23个单元；比较方向与跨讲衔接为补充解释。
 
 ## 2. Linear classifier and separating hyperplane｜一张有方向的分界线
 
@@ -178,7 +202,7 @@ L1惩罚在零点有尖角，可以把某些权重推到恰好为0；为什么�
 <a id="finite-logistic-solution"></a>
 ### 凸目标不等于一定有唯一的有限解
 
-历史选择题常把“凸”“能找到最优”“唯一解”放在一起，需要分别判断。最简单的反例只有一个点$x=1,y=+1$，固定$b=0$且不加正则：损失是$\log(1+e^{-w})$。w越大，损失越接近0，但任何有限w都不能使它恰好等于0。因此目标虽然凸，却没有有限的最小值点。线性可分数据的无正则logistic MLE也可能有这个问题。
+判断优化结果时，需要区分目标是否凸、是否存在最优解，以及解是否唯一。最简单的反例只有一个点$x=1,y=+1$，固定$b=0$且不加正则：损失是$\log(1+e^{-w})$。w越大，损失越接近0，但任何有限w都不能使它恰好等于0。因此目标虽然凸，却没有有限的最小值点。线性可分数据的无正则logistic MLE也可能有这个问题。
 
 正则化可以限制权重继续变大；解的存在性与唯一性还取决于惩罚了哪些参数、数据和秩条件，不能只凭“logistic regression”这个名称判断。
 
@@ -207,10 +231,11 @@ search.fit(trainX, trainY)
 
 当前接口使用 `model_selection`；原文提到的 `cross_validation` 是旧模块名。`mean_test_score` 在 GridSearchCV 中指每折的验证分数，不是你保留的外部测试集成绩。
 
-来源：Lecture3a，第54–64个单元；第66个单元。
+来源：Lecture3a，第54–73个单元；Pipeline与GridSearchCV示例为补充。
 
 
-## 6. Multiclass classification｜三类不是多加一个 if 就结束
+<a id="6-multiclass-classification-if"></a>
+## 6. Multiclass classification｜从二类扩展到多类
 
 One-vs-rest（OvR）为每一类训练“它 versus 其他类”分类器，然后比较各类分数/概率。三类要三个分类器。它们分别训练，原始 sigmoid 输出不必相加为 1；实现可进一步归一化。
 
@@ -254,7 +279,7 @@ $$
 
 <a id="dual"></a>
 
-## 8. Lagrangian and duality｜换一组未知数，不是凭空变公式
+## 8. Lagrangian and duality｜用样本乘子求解最大间隔
 
 上一节直接求出了一条最大间隔分界线。接下来把每个样本与边界的关系写进求解过程：给第i条约束配一个非负数 $\alpha_i$，称为拉格朗日乘子（Lagrange multiplier）。最终哪些乘子非零，就能看出哪些样本直接参与了边界的表示。
 
@@ -278,16 +303,55 @@ $$
 \frac{\partial L}{\partial b}=-\sum_i\alpha_i y_i=0.\end{gathered}\tag{3.11}
 $$
 
-所以 $\mathbf w=\sum_i\alpha_i y_i\mathbf x_i$ 且 $\sum_i\alpha_i y_i=0$。若后一项不为零，$b$ 可让 L 向负无穷走，不能形成有限对偶函数。将两式代回，二次项一正一负相减，得到
+所以 $\mathbf w=\sum_i\alpha_i y_i\mathbf x_i$ 且 $\sum_i\alpha_i y_i=0$。后一条保证关于$b$的项为0；若它不成立，固定这些乘子后，总能沿一个方向改变$b$，让$L$降到负无穷。
+
+下面把求出的权重代回，看看只含乘子的目标怎样出现。为少写一长串求和，暂记$\mathbf v=\sum_i\alpha_i y_i\mathbf x_i$，所以使$L$最小的权重就是$\mathbf w=\mathbf v$。式（3.10）的四项依次变为：
+
+| 原来的一项 | 代回之后 | 原因 |
+|---|---|---|
+| $\tfrac12\mathbf w^T\mathbf w$ | $\tfrac12\mathbf v^T\mathbf v$ | 用$\mathbf v$替换权重 |
+| $-\mathbf w^T\sum_i\alpha_i y_i\mathbf x_i$ | $-\mathbf v^T\mathbf v$ | 内积两边都等于$\mathbf v$ |
+| $-b\sum_i\alpha_i y_i$ | $0$ | 乘子满足刚得到的等式约束 |
+| $\sum_i\alpha_i$ | $\sum_i\alpha_i$ | 不含$\mathbf w,b$，保持原样 |
+
+于是，对固定乘子取到的最小值为：
+
+$$
+\begin{aligned}
+q(\boldsymbol\alpha)&=\min_{\mathbf w,b}L(\mathbf w,b,\boldsymbol\alpha)\\
+&=\frac12\mathbf v^T\mathbf v-\mathbf v^T\mathbf v+\sum_i\alpha_i\\
+&=\sum_i\alpha_i-\frac12\mathbf v^T\mathbf v.
+\end{aligned}\tag{3.11a}
+$$
+
+负的$1/2$来自$1/2-1$。接下来展开$\mathbf v$的内积：左边求和选一个样本$i$，右边求和选一个样本$j$，每一对都要相乘，因此出现双重求和：
+
+$$
+\begin{aligned}
+\mathbf v^T\mathbf v
+&=\left(\sum_{i=1}^N\alpha_i y_i\mathbf x_i\right)^T
+  \left(\sum_{j=1}^N\alpha_j y_j\mathbf x_j\right)\\
+&=\sum_{i=1}^N\sum_{j=1}^N
+  \alpha_i\alpha_j y_i y_j\mathbf x_i^T\mathbf x_j.
+\end{aligned}\tag{3.11b}
+$$
+
+非负乘子给出的$q$是原最小值的下界；现在选择乘子，让这个下界尽可能大，得到对偶问题：
 
 $$
 \begin{gathered}\max_{\boldsymbol\alpha}\sum_i\alpha_i-\frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\mathbf x_i^T\mathbf x_j,\\
 \sum_i\alpha_iy_i=0,\qquad\alpha_i\ge0.\end{gathered}\tag{3.12}
 $$
 
-原来未知数是 d 个权重和 b；现在每个训练点对应一个 $\alpha_i$。**对偶（dual）**不是换了数据，只是用“各样本怎样共同支撑边界”表示同一问题。
+原问题求$d$个权重和偏置$b$；对偶问题为每个训练样本求一个乘子$\alpha_i$，再用这些乘子恢复分类边界。
 
-对前面的 $(-1,-1),(1,+1)$ 小例，两乘子相等为 a，目标 $2a-2a^2$。导数 $2-4a=0$ 得 $a=1/2$，恢复 $w=(1/2)(-1)(-1)+(1/2)(1)(1)=1$，与直接解一致。
+沿用前面的一维两点$(x_1,y_1)=(-1,-1)$、$(x_2,y_2)=(1,+1)$。等式约束是$-\alpha_1+\alpha_2=0$，因此记$\alpha_1=\alpha_2=a\ge0$。样本组合为$v=a(-1)(-1)+a(1)(1)=2a$，于是$q(a)=2a-\tfrac12(2a)^2=2a-2a^2$。令导数$2-4a=0$，得到$a=1/2$；二阶导数为$-4$，确为最大值。
+
+恢复$w=2a=1$，由任一支持点得到$b=0$。两条约束都取等号；原目标$w^2/2=1/2$，对偶目标$2a-2a^2=1/2$，也相互吻合。
+
+**English takeaway:** Substitute the minimizing weights into each term of the Lagrangian. The two weight terms combine as $\tfrac12\|v\|^2-\|v\|^2=-\tfrac12\|v\|^2$; expanding the squared norm produces a sum over all pairs of training samples. The dual maximizes a lower bound on the primal minimum.
+
+来源：Lecture3b，第37–44个单元；逐项代回与两点计算为教学补充。
 
 刚才的小例中，对偶问题与原问题得到相同答案。这需要成立条件支持。
 
@@ -320,7 +384,7 @@ $$
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
-$w=1/2,b=0$，margin=2。设两个乘子均 a，$w=4a$，所以 $a=1/8$。 / w=0.5, b=0; the one-sided margin is 2 and both multipliers are 0.125. 不能因为坐标加倍就说权重也加倍。
+等式约束仍令两个乘子均为$a$；此时$w=a(-1)(-2)+a(1)(2)=4a$。对偶目标为$q(a)=2a-\tfrac12(4a)^2=2a-8a^2$，求导得$a=1/8$。所以$w=1/2,b=0$，一侧margin为2；两点都满足$y_if_i=1$，原目标和对偶目标均为$1/8$。 / The equality constraint gives equal multipliers a. Then w=4a and q(a)=2a−8a², maximized at a=1/8. Thus w=0.5, b=0 and the one-sided margin is 2. Both constraints are tight; the primal and dual objectives equal 1/8.
 
 </details>
 
@@ -333,7 +397,7 @@ $$
 y_if_i\ge1-\xi_i,\quad\xi_i\ge0,\quad C>0.\end{gathered}\tag{3.13}
 $$
 
-在最优解，对给定分数取最小允许 slack：$\xi_i=\max(0,1-y_if_i)$，即 hinge loss。$y_if_i=1.4$ 时 slack=0；0.4 时 slack=0.6，**仍分类正确**；−0.2 时 slack=1.2，才是错分。slack 是分数上的缺口，几何长度还要除 $\|w\|$。
+在最优解，对给定分数取最小允许 slack：$\xi_i=\max(0,1-y_if_i)$，即 hinge loss。$y_if_i=1.4$ 时 slack=0；0.4 时 slack=0.6，**仍分类正确**；−0.2 时 slack=1.2，才是错分。slack是分数上的缺口；当$\|w\|>0$时，换成几何长度还要除以$\|w\|$。
 
 消去 slack 后为 $\frac12\|w\|^2+C\sum_i\max(0,1-y_if_i)$。整体除 C 得正则系数 $1/(2C)$。Lecture3b，第58个单元 写成 $1/C$ 时相当于重新定义了 C，不能在数值比较时无声跳过因子 2。
 
@@ -352,7 +416,7 @@ $$
 | $0<\alpha_i<C$ | slack=0，$y_if_i=1$；适合恢复 b |
 | $\alpha_i=C$ | $y_if_i\le1$；可以在边界、间隔内或错分 |
 
-大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。原 `C=inf` 是概念性硬间隔示范，新接口要求有限 C；大有限 C 也只是近似，并需核查可分性与间隔。
+大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。原`C=inf`用于示意硬间隔极限，程序接口要求有限C。对线性可分数据，**足够大的有限C可以得到与硬间隔相同的最优权重**：只要上界$\alpha_i\le C$没有排除硬间隔的一组最优乘子即可。前面$x=\pm1$、标签为−1／+1的两点例子中，硬间隔乘子均为$1/2$；当$C\ge1/2$时，$w=1,b=0$也就是软间隔的最优解。 / For linearly separable data, a finite C that admits a hard-margin dual optimum can recover the same optimal weights. In the two-point example x=±1 with labels −1/+1, both hard-margin multipliers are 1/2, so C≥1/2 gives w=1 and b=0.
 
 来源：SVM手写补充，第3页。
 
@@ -376,7 +440,7 @@ $$
 
 核 SVM 用 $k(x_i,x_j)$ 替代内积；软间隔仍须保留 $0\le\alpha_i\le C$。非线性是在原输入空间说的，映射空间里的分类器仍然线性。
 
-来源：Lecture3b，第61–82个单元。
+来源：Lecture3b，第61–100个单元。
 
 
 <a id="model-cost"></a>
@@ -451,7 +515,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 
 </details>
 
-来源：Lecture3c，第7–15个单元；第16–24个单元；第25–34个单元。
+来源：Lecture3c，第7–42个单元。
 
 
 <a id="cost-threshold"></a>
@@ -473,7 +537,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 
 | 方法 | 训练在做什么 | 输出/优势 | 条件与代价 |
 |---|---|---|---|
-| Bayes / NB | 估计先验与类条件分布 | 可多类；结构假设降低估计负担 | 依赖分布/独立假设；边界未必非线性 |
+| Bayes / NB | 估计先验与类条件分布 | 可多类；结构假设降低估计负担 | 依赖分布/独立假设；边界可线性或非线性 |
 | Logistic regression | 正则化条件似然 | 概率与线性分数 | 概率校准仍需检查，不是名称保证 |
 | Linear SVM | 权衡间隔与 hinge 违规 | 高维线性判别 | 原始分数非概率；尺度/C有影响 |
 | Kernel SVM | 在核特征空间做 SVM | 非线性与自定义相似度 | 核条件、调参、Gram矩阵开销 |

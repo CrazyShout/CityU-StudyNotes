@@ -39,7 +39,7 @@ for course in ['CS5489','CS5222']:
 lecture=(ROOT/'CS5489/course-notes/Lecture02.md').read_text()
 blocks=re.findall(r'\$\$(.*?)\$\$',lecture,re.S)
 # Keep later references stable when one numbered calculation gains subparts.
-supplements={14:['2.14a','2.14b','2.14c'],16:['2.16a'],35:['2.35a','2.35b']}
+supplements={14:['2.14a','2.14b','2.14c'],16:['2.16a','2.16b','2.16c'],35:['2.35a','2.35b']}
 expected_tags=[tag for i in range(1,37) for tag in ((['2.21a','2.21b'] if i==21 else [f'2.{i}'])+supplements.get(i,[]))]
 assert len(blocks)==len(expected_tags),('Lecture02 displayed equation count',len(blocks))
 equation_numbers=[]
@@ -82,9 +82,9 @@ for record in docs:
     elif stem.startswith('Assignment'):prefix='A'+str(int(stem[-2:]))
     else:prefix={'MathForML':'M','NetworkBasics':'N'}[stem]
     inserted={
-        'CS5489/course-notes/Lecture03.md':{6:['3.6a'],13:['3.13a']},
-        'CS5489/course-notes/Lecture04.md':{15:['4.15a']},
-        'CS5489/course-notes/Lecture05.md':{11:['5.11a']},
+        'CS5489/course-notes/Lecture03.md':{1:['3.1a'],6:['3.6a'],11:['3.11a','3.11b'],13:['3.13a']},
+        'CS5489/course-notes/Lecture04.md':{3:['4.3a','4.3b'],7:['4.7a'],15:['4.15a'],16:['4.16a']},
+        'CS5489/course-notes/Lecture05.md':{8:['5.8a'],9:['5.9a'],11:['5.11a']},
     }.get(record['source'],{})
     main_count=len(displayed)-sum(len(v) for v in inserted.values())
     expected=[tag for i in range(1,main_count+1) for tag in [f'{prefix}.{i}']+inserted.get(i,[])]

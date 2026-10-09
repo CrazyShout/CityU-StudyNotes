@@ -1,0 +1,91 @@
+{
+  "scope": "Four finite-C cases, normalized OMP sign case, and paired boosting updates. No course experiments.",
+  "cases": [
+    {
+      "case": "finite-C soft SVM",
+      "C": 0.25,
+      "alpha": [
+        0.25,
+        0.25
+      ],
+      "w": 0.5,
+      "slack": [
+        0.5,
+        0.5
+      ],
+      "primal": 0.375,
+      "dual": 0.375
+    },
+    {
+      "case": "finite-C soft SVM",
+      "C": 0.5,
+      "alpha": [
+        0.5,
+        0.5
+      ],
+      "w": 1.0,
+      "slack": [
+        0.0,
+        0.0
+      ],
+      "primal": 0.5,
+      "dual": 0.5
+    },
+    {
+      "case": "finite-C soft SVM",
+      "C": 1.0,
+      "alpha": [
+        0.5,
+        0.5
+      ],
+      "w": 1.0,
+      "slack": [
+        0.0,
+        0.0
+      ],
+      "primal": 0.5,
+      "dual": 0.5
+    },
+    {
+      "case": "finite-C soft SVM",
+      "C": 10.0,
+      "alpha": [
+        0.5,
+        0.5
+      ],
+      "w": 1.0,
+      "slack": [
+        0.0,
+        0.0
+      ],
+      "primal": 0.5,
+      "dual": 0.5
+    },
+    {
+      "case": "OMP absolute inner product",
+      "inner_products": [
+        -3.0,
+        2.0
+      ],
+      "selected_column_0_based": 0,
+      "residual_SSE_by_column": [
+        4.0,
+        9.0
+      ]
+    },
+    {
+      "case": "boosting paired sign convention",
+      "loss": "half-squared error",
+      "subtract_positive": [
+        2.5,
+        1.5
+      ],
+      "add_negative": [
+        2.5,
+        1.5
+      ],
+      "SSE": 0.5
+    }
+  ],
+  "passed": true
+}
