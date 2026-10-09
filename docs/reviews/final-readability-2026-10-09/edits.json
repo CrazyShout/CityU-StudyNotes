@@ -213,5 +213,15 @@
     "id": "FR10g",
     "before": "每个环节的职责应分别说清。",
     "after": ""
+  },
+  {
+    "id": "FR11a",
+    "before": "先看单个权重$W_{jk}$：它把第$j$个隐藏特征连到第$k$个输出。第$i$条样本的分数是",
+    "after": "权重$W_{jk}$连接隐藏特征$j$与输出$k$。对样本$i$，"
+  },
+  {
+    "id": "FR11b",
+    "before": "英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?\n\n关键要点 / Key points：隐藏层学习非线性表示；p−y包含分子分母共同求导；平均损失只缩放一次；早停选参数时刻；逼近定理不保证训练或泛化。 / Learned nonlinear features; full softmax derivative; one averaging factor; a selected checkpoint; no training or generalization guarantee.",
+    "after": "<div class=\"short-exercise\" markdown=\"1\">\n\n英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?\n\n关键要点 / Key points：隐藏层学习非线性表示；p−y包含分子分母共同求导；平均损失只缩放一次；早停选参数时刻；逼近定理不保证训练或泛化。 / Learned nonlinear features; full softmax derivative; one averaging factor; a selected checkpoint; no training or generalization guarantee.\n\n</div>"
   }
 ]

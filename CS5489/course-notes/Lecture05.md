@@ -280,7 +280,7 @@ $$
 G_Z=(P-Y)/B.\tag{5.8}
 $$
 
-先看单个权重$W_{jk}$：它把第$j$个隐藏特征连到第$k$个输出。第$i$条样本的分数是$Z_{ik}=\sum_{\ell=1}^{h}H_{i\ell}W_{\ell k}+b_k$，所以$\partial Z_{ik}/\partial W_{jk}=H_{ij}$。
+权重$W_{jk}$连接隐藏特征$j$与输出$k$。对样本$i$，$Z_{ik}=\sum_{\ell=1}^{h}H_{i\ell}W_{\ell k}+b_k$，所以$\partial Z_{ik}/\partial W_{jk}=H_{ij}$。
 
 同一个权重被所有样本共用；按链式法则把各样本对它的贡献相加，再加正则项的导数：
 
@@ -514,9 +514,13 @@ $$
 
 这一讲的联系是：感知机先纠正分类方向；Softmax把多个分数转成概率；交叉熵给出训练目标；隐藏层学习特征；反向传播计算梯度；优化器更新参数；验证集帮助决定怎么训练。
 
+<div class="short-exercise" markdown="1">
+
 英文自测：What changes when a hidden layer is added? Why does softmax cross-entropy yield p−y? Where does the batch-size factor enter? What does early stopping select? What does universal approximation not guarantee?
 
 关键要点 / Key points：隐藏层学习非线性表示；p−y包含分子分母共同求导；平均损失只缩放一次；早停选参数时刻；逼近定理不保证训练或泛化。 / Learned nonlinear features; full softmax derivative; one averaging factor; a selected checkpoint; no training or generalization guarantee.
+
+</div>
 
 首轮卡沿用[M241](https://crazyshout.github.io/micro-course/cards.html#CS5489-M241)、[M243](https://crazyshout.github.io/micro-course/cards.html#CS5489-M243)、[M248](https://crazyshout.github.io/micro-course/cards.html#CS5489-M248)、[M251](https://crazyshout.github.io/micro-course/cards.html#CS5489-M251)。先手算§4与§6，再用卡片回忆各步的作用和梯度形状。
 
