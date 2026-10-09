@@ -16,5 +16,5 @@ def update(m):
     return '|'.join(cells)+f'| [{maps["Questions"][qid]}](Questions.pdf#page={maps["Questions"][qid]}) | [{maps["Answers"][qid]}](Answers.pdf#page={maps["Answers"][qid]}) |'
 text=re.sub(r'^\| Q\d+ \|.*$',update,text,flags=re.M)
 assert rows==78
-p.write_text(text)
+p.write_text(text.rstrip()+'\n')
 print('Updated',rows,'original-paper rows with independent question/answer pages.')
