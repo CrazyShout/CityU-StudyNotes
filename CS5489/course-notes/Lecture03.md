@@ -90,9 +90,9 @@ $$
 
 这样$r(\mathbf x)=\mathbf w^T\mathbf x+b$。边界由这个分数等于0给出；接下来可以直接从数据学习$\mathbf w,b$，不用先估计两类的均值和方差。
 
-这里采用原课更强的简化：所有类别和维度共用一个方差。[Lecture 2的逐特征推导](Lecture02.md#gaussian-nb-boundary)已说明，只要同一特征的方差在类别间相同，也能消去二次项；逐类完整协方差模型一般没有这个保证。
+[Lecture 2的逐特征推导](Lecture02.md#gaussian-nb-boundary)还允许不同特征使用不同的共享方差，同样能消去二次项；逐类完整协方差模型一般没有这个保证。
 
-**English takeaway (整理表达):** This lecture takes class 1 minus class 2, the reverse of Lecture 2’s score difference. Common evidence and Gaussian normalization terms cancel; shared variances cancel the squared-input terms. The remaining coefficients define w and b, so a positive score selects class 1 under equal error costs.
+**English takeaway (整理表达):** Shared variances cancel the squared-input terms, giving $r(\mathbf x)=\mathbf w^T\mathbf x+b$. This lecture reverses Lecture 2’s class order: under equal error costs, $r>0$ selects class 1.
 
 来源：Lecture3a，第8–12、21–23个单元；比较方向与跨讲衔接为补充解释。
 

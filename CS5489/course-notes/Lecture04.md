@@ -107,12 +107,12 @@ $$
 先固定斜率$w$，看怎样选择截距$b$。在$E(w,b)=\sum_i[y_i-wx_i-b]^2$中，每个残差对$b$的导数都是$-1$；平方求导后得到：
 
 $$
-\begin{aligned}
+\begin{gathered}
 \frac{\partial E}{\partial b}
-&=-2\sum_{i=1}^N(y_i-wx_i-b)=0,\\
-\sum_i y_i-w\sum_i x_i-Nb&=0,\\
-b&=\bar y-w\bar x.
-\end{aligned}\tag{4.3a}
+=-2\sum_{i=1}^N(y_i-wx_i-b)=0,\\
+\sum_i y_i-w\sum_i x_i-Nb=0,\\
+b=\bar y-w\bar x.
+\end{gathered}\tag{4.3a}
 $$
 
 这里$\bar x,\bar y$分别是输入与输出的平均值。固定斜率后，平方误差关于$b$的二阶导数为$2N>0$，因此这个截距确实使误差最小。把它代回预测式，得到$wx_i+b=\bar y+w(x_i-\bar x)$：最佳直线经过平均点$(\bar x,\bar y)$。
@@ -120,18 +120,18 @@ $$
 接着只剩斜率未知。为看清求导，记$u_i=x_i-\bar x$、$v_i=y_i-\bar y$，它们都是已经由数据算好的数。代回截距后的残差就是$v_i-wu_i$：
 
 $$
-\begin{aligned}
-E_c(w)&=\sum_i(v_i-wu_i)^2,\\
-\frac{dE_c}{dw}&=-2\sum_i u_i(v_i-wu_i)=0,\\
-w\sum_i u_i^2&=\sum_i u_i v_i.
-\end{aligned}\tag{4.3b}
+\begin{gathered}
+E_c(w)=\sum_i(v_i-wu_i)^2,\\
+\frac{dE_c}{dw}=-2\sum_i u_i(v_i-wu_i)=0,\\
+w\sum_i u_i^2=\sum_i u_i v_i.
+\end{gathered}\tag{4.3b}
 $$
 
 只要输入不全相同，$\sum_i u_i^2>0$，两边除以它，就得到式（4.2）的斜率。三点表中已经算出$\sum_i u_i v_i=1$、$\sum_i u_i^2=2$，所以$w=1/2$；再用$\bar y-w\bar x$求得$b=7/6$。
 
 若所有输入都等于某个$x_0$，则所有$u_i=0$，不能除以0。这时所有训练记录得到同一个预测$wx_0+b$；平方误差要求它等于$\bar y$，但满足这个关系的斜率和截距有无穷多组。后面的矩阵写法会把同一个问题表现为秩不足。
 
-**English takeaway:** First minimize over the intercept to obtain b=ȳ−wx̄. Substitution centers the data and leaves a one-variable problem for the slope. A unique slope requires at least two distinct input values.
+**English takeaway:** First minimize over the intercept to obtain $b=\bar y-w\bar x$. Substitution centers the data and leaves a one-variable problem for the slope. A unique slope requires at least two distinct input values.
 
 来源：Lecture4a，第13、19–21个单元；一维逐步推导及三点算例为教学补充。
 
@@ -456,7 +456,7 @@ $$
 
 两种算法等价的前提是特征内积和正则惩罚对应。Lecture4b，第41个单元将多项式核与多项式特征回归写成“same as”，应按这个条件理解；不能直接换成无正则OLS。多项式核还可能对应带缩放的特征，例如$(1+xz)^2$对应$(1,\sqrt2x,x^2)$的内积，并非$(1,x,x^2)$的未经缩放内积。
 
-**English takeaway:** The ridge stationarity equation gives w=Φa, with a=(y−Φᵀw)/α. Substitution yields (K+αI)a=y, where K contains feature inner products. Prediction uses the same inner products with the new input. This derivation assumes α>0, penalized feature weights, and no separate unpenalized intercept.
+**English takeaway:** The ridge stationarity equation gives $w=\Phi a$, with $a=(y-\Phi^Tw)/\alpha$. Substitution yields $(K+\alpha I)a=y$, where $K$ contains feature inner products. Prediction uses the same inner products with the new input. This derivation assumes α>0, penalized feature weights, and no separate unpenalized intercept.
 
 来源：Lecture4a的Ridge目标；Lecture4b，第40–43个单元。由驻点条件连接样本系数及双算法核对为教学补充。
 

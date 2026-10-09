@@ -280,7 +280,9 @@ $$
 G_Z=(P-Y)/B.\tag{5.8}
 $$
 
-先看单个权重$W_{jk}$：它把第$j$个隐藏特征连到第$k$个输出。第$i$条样本的分数是$Z_{ik}=\sum_{\ell=1}^{h}H_{i\ell}W_{\ell k}+b_k$，所以$\partial Z_{ik}/\partial W_{jk}=H_{ij}$。同一个权重被所有样本共用；按链式法则把各样本对它的贡献相加，再加正则项的导数：
+先看单个权重$W_{jk}$：它把第$j$个隐藏特征连到第$k$个输出。第$i$条样本的分数是$Z_{ik}=\sum_{\ell=1}^{h}H_{i\ell}W_{\ell k}+b_k$，所以$\partial Z_{ik}/\partial W_{jk}=H_{ij}$。
+
+同一个权重被所有样本共用；按链式法则把各样本对它的贡献相加，再加正则项的导数：
 
 $$
 \begin{aligned}
@@ -329,7 +331,7 @@ $$
 
 A的梯度形状为d×h，c的梯度为1×h，传回X的梯度为B×d。平均因子已经在起点除过B，后面的链式法则直接使用这些梯度，不逐层再除一次。
 
-**English takeaway:** A shared weight receives a sum over samples, giving HᵀG_Z. A hidden value receives a sum over outputs, giving G_ZWᵀ. The transposes encode these two different sums; the shapes provide a check. Use the original weights throughout backpropagation and apply the batch-average factor only once.
+**English takeaway:** A shared weight receives a sum over samples, giving $H^TG_Z$. A hidden value receives a sum over outputs, giving $G_ZW^T$. The transposes encode these two different sums; the shapes provide a check. Use the original weights throughout backpropagation and apply the batch-average factor only once.
 
 来源：Lecture5b，第15–21个单元的链式法则与计算图；逐分量推导和批量矩阵转写为教学补充。
 
@@ -368,9 +370,9 @@ A的梯度形状为d×h，c的梯度为1×h，传回X的梯度为B×d。平均�
 
 所以$G_H=[1,-0.5]$。两处ReLU输入仍为正，$G_U=G_H$。输出权重梯度为$\nabla_WL=\begin{pmatrix}0.5&-0.5\\1&-1\end{pmatrix}$，而隐藏权重梯度为$\nabla_AL=\begin{pmatrix}1&-0.5\\2&-1\end{pmatrix}$；偏置梯度分别为$\nabla_bL=[0.5,-0.5]$、$\nabla_cL=[1,-0.5]$。这次两层梯度不同，可以直接看到输出权重如何分配传回的信号。
 
-**English takeaway:** With W=[[1,−1],[1,2]], the logits are [3,3] and G_Z=[0.5,−0.5]. The two output contributions sum to G_H=[1,−0.5]. Since both ReLU inputs are positive, G_U=G_H; the two weight-gradient matrices are now different.
+**English takeaway:** With W=[[1,−1],[1,2]], the logits are [3,3] and $G_Z=[0.5,-0.5]$. The two output contributions sum to $G_H=[1,-0.5]$. Since both ReLU inputs are positive, $G_U=G_H$; the two weight-gradient matrices are now different.
 
-**独立变式 / Transfer：** 输入仍为$X=[1,2]$，$A=I_2$，$c=b=[0,0]$，隐藏层用ReLU，真实类别仍为第2类，损失为单样本softmax交叉熵，无正则。将输出权重改为$W=\begin{pmatrix}1&-1\\1&3\end{pmatrix}$，求输出分数、$G_Z,G_H$及$W,A,b,c$的梯度。 / Use X=[1,2], A=I₂, zero biases, a ReLU hidden layer, class-2 label Y=[0,1], single-sample softmax cross-entropy, and no regularization. Set W=[[1,−1],[1,3]]. Find the logits, G_Z, G_H, and the gradients of W, A, b and c.
+**独立变式 / Transfer：** 输入仍为$X=[1,2]$，$A=I_2$，$c=b=[0,0]$，隐藏层用ReLU，真实类别仍为第2类，损失为单样本softmax交叉熵，无正则。将输出权重改为$W=\begin{pmatrix}1&-1\\1&3\end{pmatrix}$，求输出分数、$G_Z,G_H$及$W,A,b,c$的梯度。 / Use X=[1,2], A=I₂, zero biases, a ReLU hidden layer, class-2 label Y=[0,1], single-sample softmax cross-entropy, and no regularization. Set W=[[1,−1],[1,3]]. Find the logits, $G_Z$, $G_H$, and the gradients of W, A, b and c.
 
 <details markdown="1"><summary>答案 / Answer</summary>
 
