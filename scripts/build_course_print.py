@@ -106,11 +106,11 @@ for group,records in GROUPS.items():
    heading=focus.find_previous_sibling();intro=focus.find_next_sibling()
    if not heading or heading.name not in ['h2','h3']:continue
    if not intro or intro.name!='p' or len(intro.get_text())>260 or intro.find(['img','table','pre']):continue
-   group=soup.new_tag('div',attrs={'class':'exam-opening'});heading.insert_before(group)
-   for item in [heading,focus,intro]:group.append(item.extract())
-   formula=group.find_next_sibling()
+   opening_box=soup.new_tag('div',attrs={'class':'exam-opening'});heading.insert_before(opening_box)
+   for item in [heading,focus,intro]:opening_box.append(item.extract())
+   formula=opening_box.find_next_sibling()
    if formula and 'arithmatex' in formula.get('class',[]) and len(formula.get_text())<=700:
-    group.append(formula.extract())
+    opening_box.append(formula.extract())
   if docid=='CS5489-Lecture02':
    selfcheck=body.find(id=docid+'__self-check')
    if selfcheck:
