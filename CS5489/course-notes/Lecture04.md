@@ -434,7 +434,7 @@ $(1,2,3,4,6,9)$，共6维。 / (1,2,3,4,6,9), six features. `include_bias=False`
 
 定义$N$维向量$a=(y-\Phi^Tw)/\alpha$，移项后的式子便给出$w=\Phi a$。也就是说，最优权重是训练样本特征向量的组合，$a_i$是第$i$条样本的组合系数，可以为负。
 
-现在求这组样本系数。令$K=\Phi^T\Phi$，它是$N\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\phi(x_i)^T\phi(x_j)$。将$w=\Phi a$代回$a$的定义，右边变成$(y-Ka)/\alpha$；两边乘$\alpha$，再把$Ka$移到左边，就得到关于$a$的线性方程。
+现在求这组样本系数。令$K=\Phi^T\Phi$，它是$N\times N$矩阵，第$i,j$项为$k(x_i,x_j)=\phi(x_i)^T\phi(x_j)$。将$w=\Phi a$代回$a$的定义，右边变成$(y-Ka)/\alpha$。两边乘$\alpha$后，把$Ka$移到左边，就得到关于$a$的线性方程。
 
 新输入$x_*$与各训练点的核值组成$k_*=(k(x_1,x_*),\ldots,k(x_N,x_*))^T\in\mathbb R^N$。把移项、求系数和预测写在一起：
 

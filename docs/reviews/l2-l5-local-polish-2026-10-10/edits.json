@@ -172,5 +172,23 @@
     "file": "CS5489/course-notes/exam-evidence/Lecture05.json",
     "before": "当前教学内容与历史题的对应；题答册未扩编",
     "after": "当前教学内容与历史题的对应；公开考点与题源，完整题答另行本地维护"
+  },
+  {
+    "issue": "P19",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "当$C\\ge1/2$时，$w=1,b=0$也就是软间隔的最优解。",
+    "after": "因此$C\\nobreak\\ge\\nobreak1/2$时，软间隔也取得$w=1,b=0$。"
+  },
+  {
+    "issue": "P19",
+    "file": "CS5489/course-notes/Lecture03.md",
+    "before": "使用$w_c=N/(K N_c)$：$N$是总样本数",
+    "after": "使用$w_c=N/(K N_c)$计算各类权重。这里$N$是总样本数"
+  },
+  {
+    "issue": "P19",
+    "file": "CS5489/course-notes/Lecture04.md",
+    "before": "右边变成$(y-Ka)/\\alpha$；两边乘$\\alpha$，再把$Ka$移到左边",
+    "after": "右边变成$(y-Ka)/\\alpha$。两边乘$\\alpha$后，把$Ka$移到左边"
   }
 ]
