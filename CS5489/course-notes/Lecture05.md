@@ -167,7 +167,7 @@ $$
 
 第一项只留下第j类的标记；第二项中，one-hot标签的总和是1。这两步消去后，才得到简洁的 $p_j-y_j$。对真类，$y_j=1$，梯度通常为负；梯度下降减去负数，会提高真类分数。对其他类，$y_j=0$，则会降低其分数。
 
-最后，分数由 $g_j=\mathbf w_j^T\mathbf x$ 得到，故
+最后，分数由 $g_j=\mathbf w_j^T\mathbf x$ 得到，故：
 
 $$
 \frac{\partial L}{\partial\mathbf w_j}=\mathbf x(p_j-y_j).\tag{5.6}

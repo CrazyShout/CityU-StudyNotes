@@ -122,3 +122,8 @@ figure img[src$="/poisson.png"],figure img[src$="/gaussian.png"] {max-width:130m
 .reading-outline .toc {border:0;margin:2mm 0 4mm;}
 
 #CS5222-Chapter01 figure img[src*="/chapter01-qa-"] {max-width:145mm;}
+
+/* Keep the complete math container on one page in the midterm lectures. */
+#CS5489-Lecture03 div.arithmatex,
+#CS5489-Lecture04 div.arithmatex,
+#CS5489-Lecture05 div.arithmatex {break-inside:avoid;page-break-inside:avoid;}
