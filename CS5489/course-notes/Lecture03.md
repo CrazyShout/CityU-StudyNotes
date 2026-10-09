@@ -29,7 +29,9 @@
 
 核PCA为期末关联知识，当前尚未展开。下面登记原题涉及的能力，不表示每份历史选择题的所有选项都已成为当前课程要求；具体答案中的简化见讲末注。
 
-绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+<div class="exam-legend" aria-label="考试类别"><span>标记：</span><span class="exam-badge exam-mid">期中</span><span class="exam-badge exam-final">期末</span><span class="exam-badge exam-qe">QE</span><span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>
+
+题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
 </div>
 <!-- EXAM:overview:END -->
 
@@ -50,7 +52,7 @@
 <a id="linear"></a>
 ## 1. Generative versus discriminative｜先弄懂我们换了什么目标
 <!-- EXAM:focus-linear:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：生成式与判别式</span><br>期中直接：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：生成式与判别式</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 3 套</span></div></div>
 <!-- EXAM:focus-linear:END -->
 
 
@@ -91,7 +93,7 @@ $f=2+2-1=3>0$，预测 +1。 / The score is 3; predict +1. 偏置移动边界，
 <a id="logistic"></a>
 ## 3. Logistic regression｜把分数翻译成概率
 <!-- EXAM:focus-logistic:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Logistic似然与优化</span><br>期中直接：6套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：Logistic似然与优化</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span></div></div>
 <!-- EXAM:focus-logistic:END -->
 
 
@@ -120,7 +122,7 @@ $$
 <a id="regularization"></a>
 ## 4. Regularization and optimization｜限制大权重，减少过拟合
 <!-- EXAM:focus-regularization:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：正则化、MAP与CV</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：正则化、MAP与CV</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-regularization:END -->
 
 
@@ -229,7 +231,7 @@ $\mathbf y$ 是 one-hot 真实标签，仅真实类别的分量为 1，所以损
 
 ## 7. Maximum margin｜不仅分开，还想留出余地
 <!-- EXAM:focus-svm:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：SVM间隔、松弛与对偶</span><br>期中直接：6套；期末直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：SVM间隔、松弛与对偶</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span><span class="exam-badge exam-final">期末直接 · 1 套</span></div></div>
 <!-- EXAM:focus-svm:END -->
 
 
@@ -358,7 +360,7 @@ $$
 <a id="kernels"></a>
 ## 11. Multiclass SVM and kernel trick｜直线不够，就改变表示
 <!-- EXAM:focus-kernels:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：核技巧与合法性</span><br>期中直接：6套；期末直接：1套；期末关联：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：核技巧与合法性</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span><span class="exam-badge exam-final">期末直接 · 1 套</span><span class="exam-badge exam-final">期末关联 · 1 套</span></div></div>
 <!-- EXAM:focus-kernels:END -->
 
 
@@ -380,7 +382,7 @@ $$
 <a id="model-cost"></a>
 ### 原始问题、对偶问题与预测存储
 <!-- EXAM:focus-model-cost:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：求解维度与预测存储</span><br>期中直接：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：求解维度与预测存储</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 3 套</span></div></div>
 <!-- EXAM:focus-model-cost:END -->
 
 
@@ -455,7 +457,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 <a id="cost-threshold"></a>
 ### 改类别权重，与改预测阈值
 <!-- EXAM:focus-cost-threshold:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：不平衡、代价与阈值</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：不平衡、代价与阈值</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-cost-threshold:END -->
 
 
@@ -481,7 +483,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 <a id="loss-shapes"></a>
 ### 看损失曲线时，先看横轴
 <!-- EXAM:focus-loss-shapes:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：分类损失曲线</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：分类损失曲线</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-loss-shapes:END -->
 
 
@@ -496,7 +498,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 <a id="parameter-count"></a>
 ### 参数少，具体少在哪里
 <!-- EXAM:focus-parameter-count:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：模型参数计数</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：模型参数计数</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-parameter-count:END -->
 
 

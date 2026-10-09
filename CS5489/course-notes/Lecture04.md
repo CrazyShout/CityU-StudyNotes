@@ -28,7 +28,9 @@
 
 Huber、非对称损失、Elastic Net和RF方差推导作为明确标识的历史补充。AdaBoost、Gaussian process需要额外知识；当前不扩写成另一整讲。现有期末与QE未见直接对应本讲的独立题。
 
-绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+<div class="exam-legend" aria-label="考试类别"><span>标记：</span><span class="exam-badge exam-mid">期中</span><span class="exam-badge exam-final">期末</span><span class="exam-badge exam-qe">QE</span><span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>
+
+题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
 </div>
 <!-- EXAM:overview:END -->
 
@@ -103,7 +105,7 @@ $$
 <a id="ols"></a>
 ## 3. Matrix solution｜先摆好矩阵，再求导
 <!-- EXAM:focus-ols:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：OLS与基线</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：OLS与基线</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-ols:END -->
 
 
@@ -172,7 +174,7 @@ w仍1/2，b变13/6，残差与MSE不变。 / The slope remains 0.5, the intercep
 <a id="ridge"></a>
 ## 5. Ridge regression｜给不稳定方向加一条“别太夸张”的限制
 <!-- EXAM:focus-ridge:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Ridge、LASSO与特征选择</span><br>期中直接：6套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：Ridge、LASSO与特征选择</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span></div></div>
 <!-- EXAM:focus-ridge:END -->
 
 
@@ -283,7 +285,7 @@ $$
 <a id="regression-losses"></a>
 ### 选读：改残差的惩罚，与改权重的惩罚
 <!-- EXAM:focus-regression-losses:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：稳健与非对称残差损失</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：稳健与非对称残差损失</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-regression-losses:END -->
 
 
@@ -373,7 +375,7 @@ $(1,2,3,4,6,9)$，共6维。 / (1,2,3,4,6,9), six features. `include_bias=False`
 <a id="kernel-regression"></a>
 ## 10. Kernel ridge regression｜把线性代数搬到样本之间
 <!-- EXAM:focus-kernel-regression:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：核回归与SVR</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：核回归与SVR</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-kernel-regression:END -->
 
 
@@ -402,7 +404,7 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 <a id="ensembles"></a>
 ## 12. Trees and random forests｜多位意见不同的“专家”怎样投票
 <!-- EXAM:focus-ensembles:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Bagging、RF与boosting</span><br>期中直接：4套；期中关联：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：Bagging、RF与boosting</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 4 套</span><span class="exam-badge exam-mid">期中关联 · 3 套</span></div></div>
 <!-- EXAM:focus-ensembles:END -->
 
 
@@ -417,7 +419,7 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 <a id="forest-variance"></a>
 ### 选读：树很多，为什么仍有误差？
 <!-- EXAM:focus-forest-variance:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：树间相关性与平均方差</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：树间相关性与平均方差</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-forest-variance:END -->
 
 

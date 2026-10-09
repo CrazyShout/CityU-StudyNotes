@@ -39,7 +39,9 @@
 
 QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN结构、卷积尺寸、数据增强、ResNet、BatchNorm、AE/VAE和GAN不计入当前Lecture5已覆盖内容。
 
-绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+<div class="exam-legend" aria-label="考试类别"><span>标记：</span><span class="exam-badge exam-mid">期中</span><span class="exam-badge exam-final">期末</span><span class="exam-badge exam-qe">QE</span><span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>
+
+题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
 </div>
 <!-- EXAM:overview:END -->
 
@@ -119,7 +121,7 @@ $$
 
 ## 3. Cross-entropy and MLE｜惩罚给真类太少的概率
 <!-- EXAM:focus-cross-entropy:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-final"></span><span class="exam-wave wave-qe"></span>考点：输出概率与交叉熵</span><br>期末直接：1套；QE关联题段，年份未载／卷次待定。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：输出概率与交叉熵</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-final">期末直接 · 1 套</span><span class="exam-badge exam-qe">QE关联题段 · 年份未载／卷次待定</span></div></div>
 <!-- EXAM:focus-cross-entropy:END -->
 
 
@@ -235,7 +237,7 @@ $(4+1)3+(3+1)2=23$。激活本身通常没有参数；作业的可学习指数�
 <a id="vanishing-gradient"></a>
 ### 沿一条路径看梯度怎样变小
 <!-- EXAM:focus-vanishing-gradient:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：激活函数与梯度消失</span><br>期中直接：1套；期末直接：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：激活函数与梯度消失</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span><span class="exam-badge exam-final">期末直接 · 3 套</span></div></div>
 <!-- EXAM:focus-vanishing-gradient:END -->
 
 
@@ -253,7 +255,7 @@ $(4+1)3+(3+1)2=23$。激活本身通常没有参数；作业的可学习指数�
 
 ## 6. 把一层的梯度推给上一层
 <!-- EXAM:focus-batch-backprop:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：链式法则与反向传播</span><br>期中直接：1套；期末直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：链式法则与反向传播</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span><span class="exam-badge exam-final">期末直接 · 1 套</span></div></div>
 <!-- EXAM:focus-batch-backprop:END -->
 
 
@@ -371,7 +373,7 @@ $$
 
 ## 7. SGD、监控与早停｜从一次更新到选择训练时刻
 <!-- EXAM:focus-training:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-final"></span>考点：SGD、学习率与momentum</span><br>期末直接：2套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：SGD、学习率与momentum</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-final">期末直接 · 2 套</span></div></div>
 <!-- EXAM:focus-training:END -->
 
 
@@ -396,7 +398,7 @@ $$
 <a id="monitoring"></a>
 ### 训练曲线与早停
 <!-- EXAM:focus-monitoring:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-final"></span><span class="exam-wave wave-qe"></span>考点：正则化、曲线与早停</span><br>期末直接：3套；期末关联：1套；QE关联题段，年份未载／卷次待定。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：正则化、曲线与早停</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-final">期末直接 · 3 套</span><span class="exam-badge exam-final">期末关联 · 1 套</span><span class="exam-badge exam-qe">QE关联题段 · 年份未载／卷次待定</span></div></div>
 <!-- EXAM:focus-monitoring:END -->
 
 
@@ -419,7 +421,7 @@ $$
 
 ## 8. Universal approximation｜能表示，不等于容易学会
 <!-- EXAM:focus-capacity:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-final"></span>考点：MLP表达能力与深浅比较</span><br>期末直接：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：MLP表达能力与深浅比较</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-final">期末直接 · 3 套</span></div></div>
 <!-- EXAM:focus-capacity:END -->
 
 
