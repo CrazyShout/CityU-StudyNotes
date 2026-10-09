@@ -16,4 +16,4 @@ Lecture2的规范复核已随PR #3合并。其余现有文档本轮按相同原�
 
 ## 2026-10-09 · CS5489 Lecture 2–5期中前复核
 
-按用户提供的四讲范围再次逐段检查，Lecture2保留，Lecture3–5补足少量推理、条件及迁移例题。[复核记录](reviews/cs5489-midterm-lecture02-05-2026-10-09/README.md)和[考前自查表](reviews/cs5489-midterm-lecture02-05-2026-10-09/MIDTERM_CHECKLIST.md)分开维护。新增子公式不改旧编号，公开台账与试卷计数保持；未新增本次考试日期或题型结论。修改继续交付PR #4，等待审阅。
+按用户提供的四讲范围再次逐段检查，Lecture2保留，Lecture3–5补足少量推理、条件及迁移例题。[复核记录](reviews/cs5489-midterm-lecture02-05-2026-10-09/README.md)和[考前自查表](reviews/cs5489-midterm-lecture02-05-2026-10-09/MIDTERM_CHECKLIST.md)分开维护。新增子公式不改旧编号，公开台账与试卷计数保持；未新增本次考试日期或题型结论。复核期间PR #4已合并；本轮补充另交新的PR，等待审阅。

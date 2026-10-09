@@ -28,4 +28,4 @@ python scripts/verify_revision_examples.py --check
 
 可选`--iris-file <本地iris2.csv>`重算原始花朵数据，`--report <输出.json>`保存证据。报告只记录输入哈希，不记录机器路径；缺少原数据时不宣称已复现原划分。[本轮计算记录](calculations.json)包括65组数值检查，其中新增标量梯度用有限差分交叉核对。前一轮两层网络的全部梯度继续由原验证脚本检查。
 
-打印、链接、保护与远端状态在最终验证记录中报告；本文建立时这些项目仍在进行。
+打印、链接与保护检查结果见[验证记录](VERIFICATION.md)。复核期间PR #4已合并，因此本轮在最新main上单独交新的PR，不向已合并PR追加。

@@ -15,6 +15,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
 checks={}
+inputs={}
 def equal(name, actual, expected, tol=1e-9):
     np.testing.assert_allclose(actual,expected,atol=tol,rtol=tol)
     checks[name]=np.asarray(actual).tolist()
@@ -51,6 +52,7 @@ def calculate(iris=None):
     equal('L2.bayes_error_identical_distributions',[1-max(.5,.5),1-max(.2,.8)],[.5,.2])
     if iris:
         data=np.loadtxt(iris,delimiter=',',skiprows=1);X=data[:,:2];y=data[:,2].astype(int)
+        equal('L2.iris_data_shape',data.shape,[100,3])
         tx,vx,ty,vy=train_test_split(X,y,test_size=.5,random_state=4487)
         nb=GaussianNB().fit(tx,ty)
         equal('L2.iris_train_class_counts',np.bincount(ty)[1:],[19,31])
@@ -60,7 +62,7 @@ def calculate(iris=None):
         equal('L2.iris_full_gaussian_test_correct',np.sum(1+score0.argmax(1)==vy),45)
         dens=[norm.pdf(5,X[y==c,0].mean(),X[y==c,0].std()) for c in [1,2]]
         equal('L2.iris_1d_densities',dens,[.241986,.438306],1e-6)
-        checks['iris_sha256']=hashlib.sha256(Path(iris).read_bytes()).hexdigest()
+        inputs['iris_sha256']=hashlib.sha256(Path(iris).read_bytes()).hexdigest()
 
     equal('L3.logistic_losses',np.logaddexp(0,[2,-2]),[2.126928011,.126928011])
     x=np.array([[1.,2.],[-2,1]]);y=np.array([1.,-1.]);p=np.array([.2,-.3,.1]);C=2.
@@ -121,7 +123,7 @@ def calculate(iris=None):
     equal('L5.momentum_same',.8-(.9*.2+.1*2),.42)
     equal('L5.perceptron_zero_update',np.zeros(2)+.5*(-1)*np.array([2,1]),[-1,-.5])
     equal('L5.network_parameter_counts',[(784+1)*10,(784+1)*50+(50+1)*10,(784+1)*200+(200+1)*10,(784+1)*1000+(1000+1)*10,(784+1)*500+(500+1)*500+(500+1)*10],[7850,39760,159010,795010,648010])
-    return {'status':'passed','checks':checks,'check_groups':len(checks),'versions':{k:importlib.metadata.version(k) for k in ['numpy','scipy','scikit-learn']},'scope':'Explicit teaching examples, optional instructor iris data. No large training search or notebook execution.'}
+    return {'status':'passed','checks':checks,'inputs':inputs,'check_groups':len(checks),'versions':{k:importlib.metadata.version(k) for k in ['numpy','scipy','scikit-learn']},'scope':'Explicit teaching examples, optional instructor iris data. No large training search or notebook execution.'}
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--report',type=Path);p.add_argument('--iris-file',type=Path);a=p.parse_args();result=calculate(a.iris_file)
