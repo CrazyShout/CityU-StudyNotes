@@ -19,4 +19,4 @@
 
 运行：`python scripts/verify_derivation_bridges.py --check`，需要课程Notebook环境中的NumPy与SciPy。默认命令仅更新本目录的计算记录，`--check`不写文件。正文按原Notebook的相关单元核对；未重新执行原Notebook。
 
-打印与最终验证结果将在同目录VERIFICATION.md记录；本文件不把计算通过当成显示验收。
+[最终验证与阅读页码](VERIFICATION.md)记录计算、显示及保护结果。三册已重建，后续通过PR审阅。
