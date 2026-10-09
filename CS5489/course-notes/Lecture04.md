@@ -28,7 +28,9 @@
 
 Huber、非对称损失、Elastic Net和RF方差推导作为明确标识的历史补充。AdaBoost、Gaussian process需要额外知识；当前不扩写成另一整讲。现有期末与QE未见直接对应本讲的独立题。
 
-绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+<div class="exam-legend" aria-label="考试类别"><span>标记：</span><span class="exam-badge exam-mid">期中</span><span class="exam-badge exam-final">期末</span><span class="exam-badge exam-qe">QE</span><span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>
+
+题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
 </div>
 <!-- EXAM:overview:END -->
 
@@ -103,7 +105,7 @@ $$
 <a id="ols"></a>
 ## 3. Matrix solution｜先摆好矩阵，再求导
 <!-- EXAM:focus-ols:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：OLS与基线</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：OLS与基线</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-ols:END -->
 
 
@@ -128,7 +130,7 @@ $$
 XX^Tw=Xy.\tag{4.6}
 $$
 
-方程能直接求逆的条件是X的各行相互独立，即**满行秩（full row rank）**。这时
+方程能直接求逆的条件是X的各行相互独立，即**满行秩（full row rank）**。这时：
 
 $$
 w=(XX^T)^{-1}Xy.\tag{4.7}
@@ -148,6 +150,18 @@ w仍1/2，b变13/6，残差与MSE不变。 / The slope remains 0.5, the intercep
 
 </details>
 
+### 为什么要和“永远预测平均值”比较？
+
+一个不看输入的简单模型，只输出训练目标的平均值$\bar y$。沿用三点例子，它每次预测$5/3$，训练SSE为$4/9+1/9+1/9=2/3$；前面的OLS为$1/6$，确实从x中利用到了信息。
+
+含截距、无正则且求到最优解的OLS，在**同一训练集**上的SSE不会高于这个常数基线，因为$w=0,b=\bar y$本来就是它可以选择的一组参数。验证集没有这个保证。如果验证MSE只与基线相当，应检查两件事：输入是否缺少有用信息或线性形式不够；训练拟合是否受小样本、噪声或分布变化影响。前者可尝试有根据的新特征或非线性表示，后者可检查划分与数据质量，并用训练内部验证选择正则强度。
+
+**判断 / Check：** 验证集上不如均值基线，是否证明OLS没有把训练目标最小化？ / Does worse validation MSE than the training-mean baseline prove that OLS failed to minimize its training objective?
+
+**答 / Answer：** 不证明。训练目标与新样本表现是不同问题；比较时基线仍只用训练集算平均值。 / No. Training optimization and generalization are different; the baseline mean must still be fitted on training data only.
+
+来源：2021B*期中Q11的验证集基线比较；三点计算为本讲例子的延伸。
+
 ## 4. Housing coefficients and feature selection｜大权重必须配着单位读
 
 课堂分别用面积、年龄，以及两者共同拟合。原 Lecture4a，第34个单元 保存的文字系数“每100平方英尺增加8874、每年减少1048、截距82709”是**原课结果**。复算所用数据及结果见文末记录。
@@ -160,7 +174,7 @@ w仍1/2，b变13/6，残差与MSE不变。 / The slope remains 0.5, the intercep
 <a id="ridge"></a>
 ## 5. Ridge regression｜给不稳定方向加一条“别太夸张”的限制
 <!-- EXAM:focus-ridge:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Ridge、LASSO与特征选择</span><br>期中直接：6套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：Ridge、LASSO与特征选择</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span></div></div>
 <!-- EXAM:focus-ridge:END -->
 
 
@@ -207,6 +221,7 @@ $$
 
 **课堂实验与来源：** Lecture4a，第42–62个单元先展示近重复特征，再比较不同alpha。原划分为80/20、种子4487。课堂测试曲线用于探索；配套示范用训练内部交叉验证选alpha，并将标准化与模型放进同一个Pipeline，让每折只用该折训练数据估计缩放参数。
 
+<a id="lasso"></a>
 ## 6. LASSO｜有时需要真的把系数变成零
 
 LASSO（Least Absolute Shrinkage and Selection Operator）把平方惩罚换成绝对值：
@@ -270,7 +285,7 @@ $$
 <a id="regression-losses"></a>
 ### 选读：改残差的惩罚，与改权重的惩罚
 <!-- EXAM:focus-regression-losses:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：稳健与非对称残差损失</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：稳健与非对称残差损失</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-regression-losses:END -->
 
 
@@ -294,7 +309,20 @@ $$
 
 **答 / Answer：** 放在r<0一侧，因为这时预测超过真实值。 / Use it for r<0, where the prediction exceeds the target.
 
-历史题中的Elastic Net则同时惩罚权重的L1与L2项：一项鼓励稀疏，一项抑制大权重。它与这里对残差改形状是不同的选择。来源：历史期中与样题中的回归损失比较；当前Lecture4a主线仍是Ridge、LASSO和OMP，完整题号见讲末索引。
+历史题中的Elastic Net则保留平方残差，同时惩罚权重的L1与L2项。用两个非负系数把作用分开：
+
+$$
+E=\sum_i(y_i-f(x_i))^2+\alpha_1\|w\|_1+\alpha_2\|w\|_2^2.
+\tag{4.15a}
+$$
+
+$\alpha_1$鼓励精确零系数，$\alpha_2$抑制大权重，两者都为0时回到OLS。沿用无截距$x=(1,2),y=(1,2)$，目标为$5(1-w)^2+\alpha_1|w|+\alpha_2w^2$。对正半轴求导得到$2(5+\alpha_2)w-10+\alpha_1=0$；配合零点条件，解为$w=\max(5-\alpha_1/2,0)/(5+\alpha_2)$。例如$\alpha_1=4,\alpha_2=5$得到0.3；仅用相同L1项时是0.6。
+
+**自查 / Check：** 保持$\alpha_2=5$，将$\alpha_1$改为10，w是多少？ / Keep α₂=5 and set α₁=10 in the same example. What is w?
+
+**答 / Answer：** w=0。L1阈值已达到5，L2项不改变本例的零点阈值。 / w=0; the L1 threshold reaches 5, and the L2 term does not change this example's zero threshold.
+
+这与对残差使用Huber或绝对值损失是两种不同选择。来源：历史期中与样题中的损失、Elastic Net比较；当前Lecture4a主线仍是Ridge、LASSO和OMP，完整题号见讲末索引。此处采用未除样本数的目标，库中的alpha／l1_ratio须按其目标缩放换算。
 
 <a id="ransac"></a>
 ## 8. RANSAC｜不是每个离群点都值得把直线拽过去
@@ -347,7 +375,7 @@ $(1,2,3,4,6,9)$，共6维。 / (1,2,3,4,6,9), six features. `include_bias=False`
 <a id="kernel-regression"></a>
 ## 10. Kernel ridge regression｜把线性代数搬到样本之间
 <!-- EXAM:focus-kernel-regression:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：核回归与SVR</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：核回归与SVR</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-kernel-regression:END -->
 
 
@@ -376,7 +404,7 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 <a id="ensembles"></a>
 ## 12. Trees and random forests｜多位意见不同的“专家”怎样投票
 <!-- EXAM:focus-ensembles:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Bagging、RF与boosting</span><br>期中直接：4套；期中关联：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：Bagging、RF与boosting</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 4 套</span><span class="exam-badge exam-mid">期中关联 · 3 套</span></div></div>
 <!-- EXAM:focus-ensembles:END -->
 
 
@@ -391,11 +419,11 @@ SVR在曲线两侧各留epsilon，**总带宽2epsilon**。残差的epsilon-insen
 <a id="forest-variance"></a>
 ### 选读：树很多，为什么仍有误差？
 <!-- EXAM:focus-forest-variance:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：树间相关性与平均方差</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：树间相关性与平均方差</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-forest-variance:END -->
 
 
-平均能消掉一部分随机波动，但多棵树若经常一起偏高、一起偏低，共同偏差不会被平均掉。固定一个输入，设n棵树的随机预测各有方差$\sigma^2$，任意不同两棵之间的相关系数均为$\rho$，则平均预测的方差为
+平均能消掉一部分随机波动，但多棵树若经常一起偏高、一起偏低，这部分共同波动不会被平均掉。固定一个输入，设n棵树的随机预测各有方差$\sigma^2$，任意不同两棵之间的相关系数均为$\rho$，则平均预测的方差为
 
 $$
 \begin{aligned}\operatorname{Var}\!\left(\frac1n\sum_{j=1}^n T_j\right)
@@ -429,7 +457,7 @@ XGBoost在梯度提升树中还使用正则化及二阶信息。Lecture4b，第9
 
 | 方法 | 主要能力 | 关键代价/条件 |
 |---|---|---|
-| OLS | 线性平方误差拟合 | 异常值、共线性；解需秩条件 |
+| OLS | 线性平方误差拟合 | 异常值、共线性；唯一系数及直接求逆需满秩 |
 | Ridge | 缩小权重、稳定解 | 通常不精确选零特征；需尺度一致 |
 | LASSO | 稀疏线性模型 | alpha约定、相关特征选择不稳定 |
 | OMP | 贪心选择少数特征 | 需联合重拟合，不是一般全局L0最优 |

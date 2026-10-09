@@ -23,7 +23,9 @@
 
 现有卷中未见直接考Python语法或NumPy接口的题，不能由此判断不考。深层网络和CNN曲线题只作关联入口；本讲不承担网络结构设计。
 
-绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+<div class="exam-legend" aria-label="考试类别"><span>标记：</span><span class="exam-badge exam-mid">期中</span><span class="exam-badge exam-final">期末</span><span class="exam-badge exam-qe">QE</span><span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>
+
+题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
 </div>
 <!-- EXAM:overview:END -->
 
@@ -79,7 +81,7 @@ Mitchell的任务表述可以拆成三个问题：**task T**做什么，**experi
 
 ## 3. ML Training Pipeline｜先练习，再选方法，最后才验收
 <!-- EXAM:focus-pipeline:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：训练、验证与最终评价</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：训练、验证与最终评价</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-pipeline:END -->
 
 
@@ -97,7 +99,7 @@ Mitchell的任务表述可以拆成三个问题：**task T**做什么，**experi
 <a id="error-diagnosis"></a>
 ### 从训练和验证表现寻找下一步
 <!-- EXAM:focus-error-diagnosis:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span><span class="exam-wave wave-qe"></span>考点：训练与验证表现诊断</span><br>期中直接：3套；期末关联：2套；QE关联题段，年份未载／卷次待定。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：训练与验证表现诊断</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 3 套</span><span class="exam-badge exam-final">期末关联 · 2 套</span><span class="exam-badge exam-qe">QE关联题段 · 年份未载／卷次待定</span></div></div>
 <!-- EXAM:focus-error-diagnosis:END -->
 
 

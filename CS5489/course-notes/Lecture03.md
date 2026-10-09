@@ -29,7 +29,9 @@
 
 核PCA为期末关联知识，当前尚未展开。下面登记原题涉及的能力，不表示每份历史选择题的所有选项都已成为当前课程要求；具体答案中的简化见讲末注。
 
-绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
+<div class="exam-legend" aria-label="考试类别"><span>标记：</span><span class="exam-badge exam-mid">期中</span><span class="exam-badge exam-final">期末</span><span class="exam-badge exam-qe">QE</span><span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>
+
+题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。
 </div>
 <!-- EXAM:overview:END -->
 
@@ -50,7 +52,7 @@
 <a id="linear"></a>
 ## 1. Generative versus discriminative｜先弄懂我们换了什么目标
 <!-- EXAM:focus-linear:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：生成式与判别式</span><br>期中直接：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：生成式与判别式</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 3 套</span></div></div>
 <!-- EXAM:focus-linear:END -->
 
 
@@ -91,7 +93,7 @@ $f=2+2-1=3>0$，预测 +1。 / The score is 3; predict +1. 偏置移动边界，
 <a id="logistic"></a>
 ## 3. Logistic regression｜把分数翻译成概率
 <!-- EXAM:focus-logistic:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Logistic似然与优化</span><br>期中直接：6套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：Logistic似然与优化</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span></div></div>
 <!-- EXAM:focus-logistic:END -->
 
 
@@ -120,7 +122,7 @@ $$
 <a id="regularization"></a>
 ## 4. Regularization and optimization｜限制大权重，减少过拟合
 <!-- EXAM:focus-regularization:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：正则化、MAP与CV</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：正则化、MAP与CV</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-regularization:END -->
 
 
@@ -155,6 +157,23 @@ $$
 $f=0,\sigma(-yf)=0.5$，$\partial E/\partial w=-1$、$\partial E/\partial b=-0.5$。新 $w=0.1,b=0.05$，新分数 0.25，正确类别概率增加到约 0.5622。 / The updated parameters are w=0.1, b=0.05; the positive-class probability becomes about 0.5622.
 
 </details>
+
+### 换成L1惩罚，分类器会怎样变？
+
+历史题还会把式（3.4）的平方惩罚换成绝对值惩罚。数据损失仍是logistic loss，改的是权重的代价：
+
+$$
+E=\sum_i\log(1+e^{-y_i f_i})+\lambda\sum_j|w_j|,\qquad\lambda>0.
+\tag{3.6a}
+$$
+
+L1惩罚在零点有尖角，可以把某些权重推到恰好为0；为什么会这样，见[下一讲的LASSO手算](Lecture04.md#lasso)。如果二维模型学到$w=(0,2)^T,b=-4$，分数就是$2x_2-4$：$x_1$完全不参与判断，边界为$x_2=2$。L1改变了用到哪些特征，并没有让线性分数自动变成非线性函数。
+
+**判断 / Check：** 改成$w=(3,0)^T,b=-6$，边界在哪里？只知道用了L1，能否断言必有一个零权重？ / For w=(3,0)ᵀ and b=−6, locate the boundary. Does using L1 alone guarantee a zero weight?
+
+**答 / Answer：** 边界为$x_1=2$；不能保证，是否出现零系数取决于数据与惩罚强度。 / The boundary is x₁=2. L1 encourages sparsity but does not guarantee a zero coefficient for every dataset and penalty strength.
+
+来源：2020B期中Q12的L1分类目标；数值与变式为教学补充。
 
 <a id="finite-logistic-solution"></a>
 ### 凸目标不等于一定有唯一的有限解
@@ -212,7 +231,7 @@ $\mathbf y$ 是 one-hot 真实标签，仅真实类别的分量为 1，所以损
 
 ## 7. Maximum margin｜不仅分开，还想留出余地
 <!-- EXAM:focus-svm:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：SVM间隔、松弛与对偶</span><br>期中直接：6套；期末直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：SVM间隔、松弛与对偶</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span><span class="exam-badge exam-final">期末直接 · 1 套</span></div></div>
 <!-- EXAM:focus-svm:END -->
 
 
@@ -318,7 +337,14 @@ $$
 
 消去 slack 后为 $\frac12\|w\|^2+C\sum_i\max(0,1-y_if_i)$。整体除 C 得正则系数 $1/(2C)$。Lecture3b，第58个单元 写成 $1/C$ 时相当于重新定义了 C，不能在数值比较时无声跳过因子 2。
 
-对 $\xi_i\ge0$ 引入另一个乘子 $\gamma_i$，$\partial L/\partial\xi_i=C-\alpha_i-\gamma_i=0$，故 $0\le\alpha_i\le C$。对偶目标形式不变，增加上界。
+对 $\xi_i\ge0$ 引入另一个乘子 $\gamma_i$，$\partial L/\partial\xi_i=C-\alpha_i-\gamma_i=0$，故 $0\le\alpha_i\le C$。对偶目标形式不变，增加上界。还要同时满足两条互补松弛条件：
+
+$$
+\alpha_i(y_if_i-1+\xi_i)=0,\qquad (C-\alpha_i)\xi_i=0.
+\tag{3.13a}
+$$
+
+第二式来自$\gamma_i\xi_i=0$和$\gamma_i=C-\alpha_i$。如果$\alpha_i<C$，它迫使$\xi_i=0$；如果还满足$\alpha_i>0$，第一式再迫使$y_if_i=1$。如果$\alpha_i=C$，第一式给出$y_if_i=1-\xi_i\le1$。这就得到下面三种情形：
 
 | 最优乘子情形 | 可以可靠推出什么 |
 |---|---|
@@ -326,7 +352,7 @@ $$
 | $0<\alpha_i<C$ | slack=0，$y_if_i=1$；适合恢复 b |
 | $\alpha_i=C$ | $y_if_i\le1$；可以在边界、间隔内或错分 |
 
-大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。不是“大 C 永远更好”。原 `C=inf` 是概念性硬间隔示范，新接口要求有限 C；大有限 C 也只是近似，并需核查可分性与间隔。
+大 C 让违规更贵，小 C 更愿意牺牲部分训练拟合。即使用RBF核，把C增大也不能解决相同输入却贴着不同标签的冲突：同一个输入只能得到同一份预测。大C也不保证新数据表现更好。原 `C=inf` 是概念性硬间隔示范，新接口要求有限 C；大有限 C 也只是近似，并需核查可分性与间隔。
 
 来源：SVM手写补充，第3页。
 
@@ -334,7 +360,7 @@ $$
 <a id="kernels"></a>
 ## 11. Multiclass SVM and kernel trick｜直线不够，就改变表示
 <!-- EXAM:focus-kernels:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：核技巧与合法性</span><br>期中直接：6套；期末直接：1套；期末关联：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：核技巧与合法性</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 6 套</span><span class="exam-badge exam-final">期末直接 · 1 套</span><span class="exam-badge exam-final">期末关联 · 1 套</span></div></div>
 <!-- EXAM:focus-kernels:END -->
 
 
@@ -343,6 +369,8 @@ $$
 当两类数据呈XOR、中心与两侧或双月形分布时，直线可能不够用。XOR 的 $(1,1),(-1,-1)$ 一组，$(1,-1),(-1,1)$ 另一组，原平面没有一条直线能分开；补一个 $x_1x_2$ 特征，前组 +1、后组 −1，就能分。这个特征捕捉了两项输入是否同号。换特征应有这样的具体理由；来源：Lecture3b，第83–88个单元。
 
 对偶里只用内积，所以可用 $k(\mathbf x,\mathbf x')=\Phi(\mathbf x)^T\Phi(\mathbf x')$ 直接算映射后的内积，省去显式构造巨大的 $\Phi$。这是 kernel trick。
+
+核也可以接收文本等对象，不要求输入本来就是数值向量。例如用字符串s的词计数向量$\Phi(s)$定义$k(s,t)=\Phi(s)^T\Phi(t)$：输入两篇文本，输出一个内积。换成其他文本或图结构的相似度时，仍须满足下一节的合法核条件。来源：Lecture3c，第43个单元。
 
 老师二次多项式原例采用重复交叉项：$\Phi(x_1,x_2)=(x_1^2,x_1x_2,x_2x_1,x_2^2)$，于是内积等于 $(\mathbf x^T\mathbf x')^2$。如果只保留一个交叉项，就要写 $\sqrt2x_1x_2$ 才等价。取 x=(1,2)、x′=(3,4)，核为 $11^2=121$；映射内积为 $1\times9+2\times12+2\times12+4\times16=121$。
 
@@ -354,7 +382,7 @@ $$
 <a id="model-cost"></a>
 ### 原始问题、对偶问题与预测存储
 <!-- EXAM:focus-model-cost:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：求解维度与预测存储</span><br>期中直接：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：求解维度与预测存储</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 3 套</span></div></div>
 <!-- EXAM:focus-model-cost:END -->
 
 
@@ -429,7 +457,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 <a id="cost-threshold"></a>
 ### 改类别权重，与改预测阈值
 <!-- EXAM:focus-cost-threshold:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：不平衡、代价与阈值</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：不平衡、代价与阈值</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-cost-threshold:END -->
 
 
@@ -455,7 +483,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 <a id="loss-shapes"></a>
 ### 看损失曲线时，先看横轴
 <!-- EXAM:focus-loss-shapes:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：分类损失曲线</span><br>期中直接：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：分类损失曲线</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 5 套</span></div></div>
 <!-- EXAM:focus-loss-shapes:END -->
 
 
@@ -470,7 +498,7 @@ accuracy=1000/1010≈99.01%，但垃圾邮件召回率为0；两类 balanced acc
 <a id="parameter-count"></a>
 ### 参数少，具体少在哪里
 <!-- EXAM:focus-parameter-count:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：模型参数计数</span><br>期中直接：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：模型参数计数</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中直接 · 1 套</span></div></div>
 <!-- EXAM:focus-parameter-count:END -->
 
 

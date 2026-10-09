@@ -4,8 +4,23 @@ The ledger contains metadata and topic summaries only. Full questions/answers st
 """
 from pathlib import Path
 import argparse,json,re
+from html import escape
 ROOT=Path(__file__).resolve().parents[1]
 LEDGER=ROOT/'CS5489/course-notes/exam-evidence/Lecture02.json'
+
+def exam_badge(kind, label, detail=''):
+ assert kind in {'mid', 'final', 'qe'}
+ text=label+(f' · {detail}' if detail else '')
+ return f'<span class="exam-badge exam-{kind}">{escape(text)}</span>'
+
+def exam_legend():
+ badges=''.join(exam_badge(kind,label) for kind,label in [('mid','期中'),('final','期末'),('qe','QE')])
+ return f'<div class="exam-legend" aria-label="考试类别"><span>标记：</span>{badges}<span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>'
+
+def exam_focus(title, entries, note=''):
+ badges=''.join(exam_badge(*entry) for entry in entries)
+ extra=f'<p class="exam-focus-note">{escape(note)}</p>' if note else ''
+ return f'<div class="exam-focus"><div class="exam-focus-title">考点：{escape(title)}</div><div class="exam-badges" aria-label="历史考查记录">{badges}</div>{extra}</div>'
 
 def build_lecture2():
  d=json.loads(LEDGER.read_text());papers={p['id']:p for p in d['papers']};sources={s['id']:s for s in d['sources']}
@@ -35,7 +50,7 @@ def build_lecture2():
   c=counts[t['id']]
   entry=f"[讲解](#{t['anchor']})" if t['id']!='parameter-posterior' else '[相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note)'
   intro.append(f"| {t['title']} | {labels[t['id']]} | {num(c['midterm'])} | {num(c['final_direct'])}／{num(c['final_related'])} | {qetext(t['id'])} | {entry} |")
- intro += ['',f'**统计口径：** 已辨识{inventory_counts["midterm"]}套期中、{inventory_counts["final"]}套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。','','**标记：** <span class="exam-mark"><span class="exam-wave wave-mid"></span>绿色＝期中</span>　<span class="exam-mark"><span class="exam-wave wave-final"></span>黄色＝期末</span>　<span class="exam-mark"><span class="exam-wave wave-qe"></span>红色＝QE</span>。多类证据分层画线，文字同时说明类别；黑白打印看文字即可。','','题号与出处见[讲末考点索引](#exam-topic-index)；按试卷查阅见[全册附录](ExamIndex.md)。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。']
+ intro += ['',f'**统计口径：** 已辨识{inventory_counts["midterm"]}套期中、{inventory_counts["final"]}套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。','',exam_legend(),'','题号与出处见[讲末考点索引](#exam-topic-index)；按试卷查阅见[全册附录](ExamIndex.md)。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。']
  intro+=['</div>']
  end=['<a id="exam-topic-index"></a>','## Historical exam map｜按考点查题源','','各行保留原题号与原材料页码。同一卷在本表不同考点下出现，不会让该考点的卷数重复增加。材料文件、配套答案与版本差异见[按卷附录](ExamIndex.md)。','']
  for t in d['topics']:
@@ -52,15 +67,13 @@ def build_lecture2():
  notice={}
  for t in d['topics']:
   if t['id']=='parameter-posterior':continue
-  c=counts[t['id']];classes=[];texts=[]
-  if c['midterm']:classes+=['mid'];texts += [f"期中：{len(c['midterm'])}套"]
-  if c['final_direct']:classes+=['final'];texts += [f"期末直接：{len(c['final_direct'])}套"]
-  if c['final_related']:classes+=['final'];texts += [f"期末关联：{len(c['final_related'])}套"]
-  if c['qe_fragments']:classes+=['qe'];texts+=['QE题段，年份未载／卷次待定']
-  waves=''.join(f'<span class="exam-wave wave-{s}"></span>' for s in dict.fromkeys(classes))
-  detail='；'.join(texts)
-  if t['id']=='mle':detail+='。QE另问参数后验和MAP，不能当作类别决策题'
-  notice[t['anchor']]=f'<p class="exam-focus"><span class="exam-mark">{waves}考点：{t["title"]}</span><br>{detail}。</p>'
+  c=counts[t['id']];entries=[]
+  if c['midterm']:entries.append(('mid','期中',f"{len(c['midterm'])} 套"))
+  if c['final_direct']:entries.append(('final','期末直接',f"{len(c['final_direct'])} 套"))
+  if c['final_related']:entries.append(('final','期末关联',f"{len(c['final_related'])} 套"))
+  if c['qe_fragments']:entries.append(('qe','QE题段','年份未载／卷次待定'))
+  note='QE另问参数后验和MAP，不能当作类别决策题。' if t['id']=='mle' else ''
+  notice[t['anchor']]=exam_focus(t['title'],entries,note)
  lesson=ROOT/'CS5489/course-notes/Lecture02.md';text=lesson.read_text()
  # A moved topic must leave no obsolete focus block at its former location.
  text=re.sub(r'<!-- EXAM:focus-([^:\n]+):START -->[\s\S]*?<!-- EXAM:focus-\1:END -->',lambda m:m.group(0) if m.group(1) in notice else '',text)
@@ -145,18 +158,17 @@ def generate_lecture(n,data,papers):
   c=counts[t['id']];qe='关联题段；卷次待定' if c['qe_fragments'] else '未见'
   overview.append(f"| {t['title']} | {t['priority']} | {num(c['midterm_direct'])}／{num(c['midterm_related'])} | {num(c['final_direct'])}／{num(c['final_related'])} | {qe} | [讲解](#{t['anchor']}) |")
  overview += ['', '**口径：** 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。', '',data['boundaries'],'',
-  '绿色波浪＝期中，黄色＝期末，红色＝QE；文字同时标明类别，黑白打印可直接读。题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。','</div>']
+  exam_legend(),'','题号见[讲末索引](#exam-topic-index)，材料身份见[全册附录](ExamIndex.md)。','</div>']
  text=replace_block(text,'overview','\n'.join(overview),lambda s:s.index('[TOC]') if '[TOC]' in s else s.index('| 主题 |'))
  for t in data['topics']:
-  c=counts[t['id']];classes=[];phrases=[]
+  c=counts[t['id']];entries=[]
   for kind,label,cls in [('midterm','期中','mid'),('final','期末','final')]:
    for relation,suffix in [('direct','直接'),('related','关联')]:
     ids=c[f'{kind}_{relation}']
-    if ids:classes.append(cls);phrases.append(f'{label}{suffix}：{len(ids)}套')
-  if c['qe_fragments']:classes.append('qe');phrases.append('QE关联题段，年份未载／卷次待定')
-  if not classes:continue
-  waves=''.join(f'<span class="exam-wave wave-{v}"></span>' for v in dict.fromkeys(classes))
-  notice=f'<p class="exam-focus"><span class="exam-mark">{waves}考点：{t["title"]}</span><br>'+ '；'.join(phrases)+'。</p>'
+    if ids:entries.append((cls,label+suffix,f'{len(ids)} 套'))
+  if c['qe_fragments']:entries.append(('qe','QE关联题段','年份未载／卷次待定'))
+  if not entries:continue
+  notice=exam_focus(t['title'],entries)
   def position(s,anchor=t['anchor']):
    match=re.search(r'<a id="'+re.escape(anchor)+r'"></a>\s*(?:<a [^>]+></a>\s*)?#{2,3}[^\n]*\n',s)
    assert match,anchor

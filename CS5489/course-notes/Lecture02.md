@@ -25,7 +25,7 @@
 
 **统计口径：** 已辨识6套期中、3套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。
 
-**标记：** <span class="exam-mark"><span class="exam-wave wave-mid"></span>绿色＝期中</span>　<span class="exam-mark"><span class="exam-wave wave-final"></span>黄色＝期末</span>　<span class="exam-mark"><span class="exam-wave wave-qe"></span>红色＝QE</span>。多类证据分层画线，文字同时说明类别；黑白打印看文字即可。
+<div class="exam-legend" aria-label="考试类别"><span>标记：</span><span class="exam-badge exam-mid">期中</span><span class="exam-badge exam-final">期末</span><span class="exam-badge exam-qe">QE</span><span class="exam-legend-note">颜色区分考试类别；卷数与考查关系直接见标签文字。</span></div>
 
 题号与出处见[讲末考点索引](#exam-topic-index)；按试卷查阅见[全册附录](ExamIndex.md)。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
 </div>
@@ -78,7 +78,7 @@ $x_1$、$x_2$依次表示上述两个长度，单位都是厘米；上标$T$表�
 ### Prior and class-conditional distribution｜分别描述类别和测量
 
 <!-- EXAM:focus-generative:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：生成式模型与概率分工</span><br>期中：6套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：生成式模型与概率分工</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 6 套</span></div></div>
 <!-- EXAM:focus-generative:END -->
 
 设想从植物园随机挑一朵花。在尚未测量时，我们可以先问“哪种花本来更多”；知道种类后，则可以问“这种花通常有多长”。这正好是模型的两部分：
@@ -109,7 +109,7 @@ $$
 ### Maximum likelihood estimation｜从记录估计类别比例
 
 <!-- EXAM:focus-prior-mle:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-qe"></span>考点：MLE学习思想</span><br>期中：2套；QE题段，年份未载／卷次待定。QE另问参数后验和MAP，不能当作类别决策题。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：MLE学习思想</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 2 套</span><span class="exam-badge exam-qe">QE题段 · 年份未载／卷次待定</span></div><p class="exam-focus-note">QE另问参数后验和MAP，不能当作类别决策题。</p></div>
 <!-- EXAM:focus-prior-mle:END -->
 
 假设10条已知标签中，4条是类1、6条是类2，直觉上会估计类1比例为0.4。**Maximum likelihood estimation，MLE（最大似然估计）**说明这个直觉怎样变成一个优化问题。
@@ -246,7 +246,7 @@ $$
 ## 3. Bayesian decision｜给一朵新花作判断
 
 <!-- EXAM:focus-bayes-rule:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：Bayes决策与先验作用</span><br>期中：6套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：Bayes决策与先验作用</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 6 套</span></div></div>
 <!-- EXAM:focus-bayes-rule:END -->
 
 ### From a measurement to a posterior｜把5厘米代进模型
@@ -327,7 +327,7 @@ $$
 ### Where the boundary comes from｜两个类别在哪里打平
 
 <!-- EXAM:focus-decision-boundaries:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：线性与非线性边界</span><br>期中：4套；期末关联：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：线性与非线性边界</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 4 套</span><span class="exam-badge exam-final">期末关联 · 1 套</span></div></div>
 <!-- EXAM:focus-decision-boundaries:END -->
 
 继续用花瓣长度$x$辨认两类花。为了把分界的计算看清楚，下面采用一组**教学简化参数**：两类均值分别为4、6 cm，先验各为0.5，开始时方差都为1 cm²。仍用前面的log分数$g_c(x)$：该类的log密度加上log先验。
@@ -386,7 +386,7 @@ $$
 ## 4. Multiple features｜同时使用两项测量
 
 <!-- EXAM:focus-gaussian-nb:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：条件独立与Gaussian NB</span><br>期中：5套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：条件独立与Gaussian NB</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 5 套</span></div></div>
 <!-- EXAM:focus-gaussian-nb:END -->
 
 ### Gaussian Naive Bayes｜先分别看两项测量
@@ -486,7 +486,7 @@ NB的条件独立假设让各维密度可以相乘，却没有要求两个类别
 ### Full covariance｜两项测量会一起变化时
 
 <!-- EXAM:focus-full-gaussian:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span><span class="exam-wave wave-final"></span>考点：协方差与高斯形状</span><br>期中：4套；期末关联：3套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：协方差与高斯形状</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 4 套</span><span class="exam-badge exam-final">期末关联 · 3 套</span></div></div>
 <!-- EXAM:focus-full-gaussian:END -->
 
 再看同一种花的记录。若花瓣较长的花往往也有较宽的萼片，仅仅分别描述“花瓣通常多长”“萼片通常多宽”还不够；我们需要描述它们**怎样搭配**。
@@ -611,7 +611,7 @@ $\alpha$与方差有相同单位。厘米换成毫米，方差会放大100倍；
 ## 5. Evidence from words｜把邮件变成分类证据
 
 <!-- EXAM:focus-bow:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：文本表示与NB改进</span><br>期中：1套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：文本表示与NB改进</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 1 套</span></div></div>
 <!-- EXAM:focus-bow:END -->
 
 ### Bag-of-words｜给文字安排固定的位置
@@ -679,7 +679,7 @@ $$
 ### Additive smoothing｜没有见过，不等于绝不可能
 
 <!-- EXAM:focus-smoothing:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：平滑与正则化</span><br>期中：2套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：平滑与正则化</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 2 套</span></div></div>
 <!-- EXAM:focus-smoothing:END -->
 
 训练集中某类没有出现过free，只能说明有限记录里没见到。加法平滑给“出现”和“未出现”各加$\alpha$份虚拟计数：
@@ -953,7 +953,7 @@ Poisson NB在[Tutorial 2](Tutorial02.ipynb)继续练习：更换类条件分布�
 ### When more data still leaves errors｜为什么学得更准，仍会分错
 
 <!-- EXAM:focus-model-limits:START -->
-<p class="exam-focus"><span class="exam-mark"><span class="exam-wave wave-mid"></span>考点：误差、不确定性与模型局限</span><br>期中：4套。</p>
+<div class="exam-focus"><div class="exam-focus-title">考点：误差、不确定性与模型局限</div><div class="exam-badges" aria-label="历史考查记录"><span class="exam-badge exam-mid">期中 · 4 套</span></div></div>
 <!-- EXAM:focus-model-limits:END -->
 
 设想两种花在**我们记录的全部测量上，分布完全相同**，而且两类各占一半。无论量到什么，测量结果都没有提供区分类别的证据。用$f(\mathbf x)$表示这份共同的类条件密度，用$\pi_c$表示类别$c$的先验，Bayes公式给出

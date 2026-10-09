@@ -81,7 +81,13 @@ for record in docs:
     elif stem.startswith('Tutorial'):prefix='T'+str(int(stem[-2:]))
     elif stem.startswith('Assignment'):prefix='A'+str(int(stem[-2:]))
     else:prefix={'MathForML':'M','NetworkBasics':'N'}[stem]
-    expected=[f'{prefix}.{i}' for i in range(1,len(displayed)+1)]
+    inserted={
+        'CS5489/course-notes/Lecture03.md':{6:['3.6a'],13:['3.13a']},
+        'CS5489/course-notes/Lecture04.md':{15:['4.15a']},
+        'CS5489/course-notes/Lecture05.md':{11:['5.11a']},
+    }.get(record['source'],{})
+    main_count=len(displayed)-sum(len(v) for v in inserted.values())
+    expected=[tag for i in range(1,main_count+1) for tag in [f'{prefix}.{i}']+inserted.get(i,[])]
     actual=[]
     for formula in displayed:
         tags=re.findall(r'\\tag\{([^}]+)\}',formula)
@@ -107,7 +113,7 @@ for book in manifest['books']:
         if document['source'] not in numbered_documents:continue
         prefix,expected=numbered_documents[document['source']]
         text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
-        printed=[n for n in re.findall(r'\(('+re.escape(prefix)+r'\.\d+)\)',text) if n in expected]
+        printed=[n for n in re.findall(r'\(('+re.escape(prefix)+r'\.\d+[a-z]?)\)',text) if n in expected]
         assert printed==expected,(document['source'],'printed equation numbers',printed,expected)
 
     for page in reader.pages:

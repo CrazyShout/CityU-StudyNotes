@@ -13,3 +13,7 @@
 Lecture2的规范复核已随PR #3合并。其余现有文档本轮按相同原则审阅：补足关键示范与变式，完善双语条件、来源位置和公式编号；CS5489历史考点扩展到Lecture1–5，CS5222暂不做考试统计。[本轮问题与处理记录](reviews/all-notes-improvement-2026-10-09/WORKLIST.md)列出逐文档结果。
 
 维护时运行`python scripts/build_exam_annotations.py`更新标注，`--check`仅比对；新增数学例子用`scripts/verify_revision_examples.py`复算，`--check`不写文件。它使用Notebook环境中的NumPy、SciPy、Matplotlib、scikit-learn，只计算明确列出的小例子，不读取原数据或重跑课堂实验。然后按贡献指南生成三册并验收。
+
+## 2026-10-09 · CS5489 Lecture 2–5期中前复核
+
+按用户提供的四讲范围再次逐段检查，Lecture2保留，Lecture3–5补足少量推理、条件及迁移例题。[复核记录](reviews/cs5489-midterm-lecture02-05-2026-10-09/README.md)和[考前自查表](reviews/cs5489-midterm-lecture02-05-2026-10-09/MIDTERM_CHECKLIST.md)分开维护。新增子公式不改旧编号，公开台账与试卷计数保持；未新增本次考试日期或题型结论。复核期间PR #4已合并；本轮补充另交新的PR，等待审阅。

@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "generation_idempotent": true,
+  "ledger_and_counts_unchanged": true,
+  "teaching_text_and_formula_tags_unchanged": true,
+  "all_explicit_anchors_unchanged": true,
+  "documents": [
+    {
+      "lecture": 1,
+      "focus_blocks": 2,
+      "evidence_labels": 4,
+      "legend_labels": 3
+    },
+    {
+      "lecture": 2,
+      "focus_blocks": 9,
+      "evidence_labels": 12,
+      "legend_labels": 3
+    },
+    {
+      "lecture": 3,
+      "focus_blocks": 9,
+      "evidence_labels": 12,
+      "legend_labels": 3
+    },
+    {
+      "lecture": 4,
+      "focus_blocks": 6,
+      "evidence_labels": 7,
+      "legend_labels": 3
+    },
+    {
+      "lecture": 5,
+      "focus_blocks": 6,
+      "evidence_labels": 11,
+      "legend_labels": 3
+    }
+  ]
+}
