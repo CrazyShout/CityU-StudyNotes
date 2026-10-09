@@ -9,8 +9,12 @@ CS5489 机器学习与 CS5222 计算机网络的中文学习讲义，保留英�
 | CS5489 | [下载 A4 PDF](pdf/CS5489-A4.pdf) | [Lecture、Tutorial、Assignment](CS5489/course-notes/README.md) |
 | CS5222 | [下载 A4 PDF](pdf/CS5222-A4.pdf) | [Chapter、Tutorial、Assignment](CS5222/course-notes/README.md) |
 | 基础补课 | [下载 A4 PDF](pdf/Foundations-A4.pdf) | [数学](learning/foundation-notes/MathForML.md) · [网络](learning/foundation-notes/NetworkBasics.md) |
+| CS5489期中题目 | [题目册](CS5489/exam-review/Midterm/Questions.pdf) | [英文原题与中文题意](CS5489/exam-review/Midterm/Questions.md) |
+| CS5489期中答案解析 | [解析册](CS5489/exam-review/Midterm/Answers.pdf) | [英文答案与中文推理](CS5489/exam-review/Midterm/Answers.md) |
 
 [打印设置和逐篇页码](pdf/README.md)。每册先放理论，再放Tutorial和Assignment；基础独立成册。建议A4、100%实际大小、每张一页，双面长边翻转。答案已展开，可遮住答案自测。
+
+[期中题库](CS5489/exam-review/Midterm/README.md)独立于课堂讲义，六套历史期中卷去重为67题，提供[按原卷查题](CS5489/exam-review/Midterm/PaperIndex.md)、必要题图、基础解释与勘误。题目和答案按题号对应、分别分页。
 
 ## 一起修改
 
@@ -40,6 +44,6 @@ python scripts/validate.py
 
 Linux另需Chromium运行库和中文字体：`npx playwright install --with-deps chromium`，并安装`fonts-noto-cjk`。Windows激活命令为`.venv\Scripts\activate`；已安装Chrome时可通过`CHROME_PATH`指定可执行文件。
 
-构建只读取现有Notebook输出，不训练模型、不运行作业。HTML只是`.gitignore`排除的打印中间文件；最终PDF及页码索引在`pdf/`。也可在Actions手动运行 **Build PDFs** 下载构建产物，审核后更新仓库中的PDF。
+构建只读取现有Notebook输出，不训练模型、不运行作业。HTML只是`.gitignore`排除的打印中间文件；课堂三册在`pdf/`，期中两册及其索引在`CS5489/exam-review/Midterm/`。只构建期中题库可运行`python CS5489/exam-review/Midterm/tools/build_all.py`。也可在Actions手动运行 **Build PDFs** 下载全部构建产物。
 
 Notebook的重跑方法与数据目录见[数据说明](docs/DATA.md)。原始整份课件、教材和个人作业不随仓库发布，现有题图及引用保留出处。[材料说明](docs/SOURCES.md) · [迁入记录](docs/MIGRATION.md)。

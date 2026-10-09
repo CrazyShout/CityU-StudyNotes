@@ -1,0 +1,168 @@
+{
+  "scope": "Six independent historical midterms and one supplementary mock source; source archives are not distributed.",
+  "optional_archive_naming": "Place separately held source files under SOURCE_DIR as <id><suffix>, for example S013.pdf.",
+  "files": [
+    {
+      "id": "S009",
+      "sha256": "16953d9335c51dae9614797415218e38b86498e1f5c8816dc5fb754e9b49dae8",
+      "suffix": ".pdf",
+      "bytes": 169750,
+      "pages": 4,
+      "logical_papers": [
+        "M21B"
+      ],
+      "role": "exam/source",
+      "title": "2021B 配套答案 PDF"
+    },
+    {
+      "id": "S010",
+      "sha256": "fbbda22aff84706181f73c73acf2249089d6001f0f4cd1fea7957dc797491b60",
+      "suffix": ".pdf",
+      "bytes": 170606,
+      "pages": 4,
+      "logical_papers": [
+        "M21B"
+      ],
+      "role": "exam/source",
+      "title": "2021B 题纸 PDF（封面年份冲突）"
+    },
+    {
+      "id": "S012",
+      "sha256": "66ffa095489d019f9f6a11d446b8f833317a5d1471f74ee483cdb8c85dd61ecb",
+      "suffix": ".pdf",
+      "bytes": 208148,
+      "pages": 4,
+      "logical_papers": [
+        "M21A"
+      ],
+      "role": "exam/source",
+      "title": "2021A 题纸 PDF"
+    },
+    {
+      "id": "S013",
+      "sha256": "ef55801f940908eea6865effbd3aafa5471df6a20d08097f9e49a8f52472426f",
+      "suffix": ".pdf",
+      "bytes": 404026,
+      "pages": 7,
+      "logical_papers": [
+        "M20B"
+      ],
+      "role": "exam/source",
+      "title": "2020B Quiz 题纸与答案 PDF"
+    },
+    {
+      "id": "S015",
+      "sha256": "f3a8f73027c2006c0033ec8a1b5cfebcbf2d678eb634ac9a10f3e96b7590ea36",
+      "suffix": ".pdf",
+      "bytes": 361396,
+      "pages": 10,
+      "logical_papers": [
+        "M23A"
+      ],
+      "role": "exam/source",
+      "title": "2023A 题纸与答案 PDF"
+    },
+    {
+      "id": "S016",
+      "sha256": "b18d2ee9932d5c05101c845de0950e886deef09995a46494b694d8d34ab6ad6e",
+      "suffix": ".pdf",
+      "bytes": 828007,
+      "pages": 10,
+      "logical_papers": [
+        "M23B"
+      ],
+      "role": "exam/source",
+      "title": "2023B 题纸与答案 PDF"
+    },
+    {
+      "id": "S018",
+      "sha256": "0311d105fdd7547aa4333f5624db09abf91f1a3a5aedbe1fed3186a7127aba5b",
+      "suffix": ".pdf",
+      "bytes": 169015,
+      "pages": 4,
+      "logical_papers": [
+        "M21A"
+      ],
+      "role": "exam/source",
+      "title": "2021A 配套答案 PDF"
+    },
+    {
+      "id": "S019",
+      "sha256": "9294c1aa74c2164dfafdc1853619db8edb2da7c0163d329079c0571c8173d8aa",
+      "suffix": ".pdf",
+      "bytes": 210921,
+      "pages": 4,
+      "logical_papers": [
+        "M21A"
+      ],
+      "role": "exam/source",
+      "title": "2021A 题纸 PDF另一版本"
+    },
+    {
+      "id": "S030",
+      "sha256": "6e8beef61fa4139d82845a4bfe5fedb3ba85b9f646c4dc6fde068a227138ed10",
+      "suffix": ".pdf",
+      "bytes": 2840070,
+      "pages": 10,
+      "logical_papers": [
+        "M25A"
+      ],
+      "role": "exam/source",
+      "title": "2025A 题纸扫描 PDF（学生批注未收入题库）"
+    },
+    {
+      "id": "S036",
+      "sha256": "b19f42623f01ab280e1646026da449eba1a3860deec7ef62ececce72299d2093",
+      "suffix": ".docx",
+      "bytes": 51194,
+      "logical_papers": [
+        "M21B"
+      ],
+      "role": "exam/source",
+      "title": "2021B 题纸 DOCX"
+    },
+    {
+      "id": "S037",
+      "sha256": "8dc1797ff2ec45a6683a05a3fba3a0148448e5f31bc372989b1b67a7eefbd074",
+      "suffix": ".docx",
+      "bytes": 32372,
+      "logical_papers": [
+        "M21A"
+      ],
+      "role": "exam/source",
+      "title": "2021A 配套答案 DOCX"
+    },
+    {
+      "id": "S038",
+      "sha256": "9eb88980c0d93e03771fc05715f667a00cd2acaa020fddc1a9beca6699f55697",
+      "suffix": ".docx",
+      "bytes": 2678886,
+      "logical_papers": [
+        "M20B"
+      ],
+      "role": "exam/source",
+      "title": "2020B Quiz 配套答案 DOCX"
+    },
+    {
+      "id": "S039",
+      "sha256": "6cac11678bd982e8b2b8a011f937069d489db2766e2cf1c6226d90865435809c",
+      "suffix": ".docx",
+      "bytes": 33616,
+      "logical_papers": [
+        "M21B"
+      ],
+      "role": "exam/source",
+      "title": "2021B 配套答案 DOCX"
+    },
+    {
+      "id": "S017",
+      "sha256": "ea2afa98efe5e0b04d8e5aefc6940c368bad06b4b603266bf39472c05d237b96",
+      "suffix": ".pdf",
+      "bytes": 558074,
+      "pages": 9,
+      "logical_papers": [],
+      "role": "supplementary mock cross-check; not counted as a historical midterm",
+      "title": "Mock Exam 题纸与答案 PDF（仅交叉核对）"
+    }
+  ]
+}

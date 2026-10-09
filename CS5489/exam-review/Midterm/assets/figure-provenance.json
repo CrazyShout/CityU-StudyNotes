@@ -1,0 +1,218 @@
+[
+  {
+    "file": "mt008-loss.png",
+    "source_id": "S013",
+    "source_page": 4,
+    "source_sha256": "ef55801f940908eea6865effbd3aafa5471df6a20d08097f9e49a8f52472426f",
+    "box_at_110dpi": [
+      110,
+      365,
+      515,
+      370
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt010-distribution.png",
+    "source_id": "S013",
+    "source_page": 5,
+    "source_sha256": "ef55801f940908eea6865effbd3aafa5471df6a20d08097f9e49a8f52472426f",
+    "box_at_110dpi": [
+      240,
+      370,
+      435,
+      400
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt012-l1-boundary.png",
+    "source_id": "S013",
+    "source_page": 6,
+    "source_sha256": "ef55801f940908eea6865effbd3aafa5471df6a20d08097f9e49a8f52472426f",
+    "box_at_110dpi": [
+      105,
+      650,
+      315,
+      285
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt026-loss.png",
+    "source_id": "S012",
+    "source_page": 4,
+    "source_sha256": "66ffa095489d019f9f6a11d446b8f833317a5d1471f74ee483cdb8c85dd61ecb",
+    "box_at_110dpi": [
+      305,
+      775,
+      285,
+      160
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt031-rbf-points.png",
+    "source_id": "S010",
+    "source_page": 3,
+    "source_sha256": "fbbda22aff84706181f73c73acf2249089d6001f0f4cd1fea7957dc797491b60",
+    "box_at_110dpi": [
+      250,
+      255,
+      355,
+      130
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt039-loss.png",
+    "source_id": "S010",
+    "source_page": 4,
+    "source_sha256": "fbbda22aff84706181f73c73acf2249089d6001f0f4cd1fea7957dc797491b60",
+    "box_at_110dpi": [
+      290,
+      865,
+      330,
+      165
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt051-loss.png",
+    "source_id": "S015",
+    "source_page": 10,
+    "source_sha256": "f3a8f73027c2006c0033ec8a1b5cfebcbf2d678eb634ac9a10f3e96b7590ea36",
+    "box_at_110dpi": [
+      310,
+      235,
+      285,
+      150
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt060-data.png",
+    "source_id": "S016",
+    "source_page": 6,
+    "source_sha256": "b18d2ee9932d5c05101c845de0950e886deef09995a46494b694d8d34ab6ad6e",
+    "box_at_110dpi": [
+      255,
+      245,
+      405,
+      355
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "answer-mt060-large-c.png",
+    "source_id": "S016",
+    "source_page": 6,
+    "source_sha256": "b18d2ee9932d5c05101c845de0950e886deef09995a46494b694d8d34ab6ad6e",
+    "box_at_110dpi": [
+      145,
+      680,
+      210,
+      165
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "answer-mt060-small-c.png",
+    "source_id": "S016",
+    "source_page": 6,
+    "source_sha256": "b18d2ee9932d5c05101c845de0950e886deef09995a46494b694d8d34ab6ad6e",
+    "box_at_110dpi": [
+      145,
+      900,
+      210,
+      155
+    ],
+    "kind": "printed question/answer figure crop"
+  },
+  {
+    "file": "mt065-loss-comparison.png",
+    "source_id": "S030",
+    "source_page": 6,
+    "kind": "clean redraw of printed curves",
+    "formulae": [
+      "max(0,1-z)",
+      "log(1+exp(-z))/log(2)",
+      "exp(-z)"
+    ],
+    "note": "LR normalization inferred from the printed curve: L(0)≈1 and a steeper far-negative tail than hinge. Handwritten annotations excluded."
+  },
+  {
+    "file": "mt067-network.png",
+    "source_id": "S030",
+    "source_page": 10,
+    "kind": "clean redraw of printed forward graph",
+    "nodes": [
+      "x",
+      "g1",
+      "z",
+      "g2",
+      "f",
+      "L"
+    ],
+    "parameter_arrows": [
+      "A -> g1",
+      "W -> g2",
+      "y -> L"
+    ],
+    "note": "No student gradient labels or marking included."
+  },
+  {
+    "file": "answer-kernel-map.png",
+    "kind": "teaching example for MT048",
+    "inputs": [
+      -1,
+      0,
+      1
+    ],
+    "labels": [
+      1,
+      -1,
+      1
+    ],
+    "feature": "x^2",
+    "threshold": 0.5
+  },
+  {
+    "file": "answer-asymmetric-loss.png",
+    "kind": "teaching plot for MT050",
+    "coefficients": {
+      "underprediction": 4,
+      "overprediction": 1
+    }
+  },
+  {
+    "file": "answer-zero-loss-error.png",
+    "kind": "teaching counterexample for MT051",
+    "inputs": [
+      -1,
+      1
+    ],
+    "labels": [
+      -1,
+      1
+    ],
+    "w": 0.1,
+    "b": 0.5,
+    "loss": "max(0,-1-y*f(x))"
+  },
+  {
+    "file": "answer-huber.png",
+    "kind": "plot of the exact supplied Huber formula for MT063/MT064",
+    "delta": 1
+  },
+  {
+    "file": "answer-mt060-pair.png",
+    "kind": "side-by-side layout of the two original answer crops",
+    "source_id": "S016",
+    "source_page": 6,
+    "components": [
+      "answer-mt060-large-c.png",
+      "answer-mt060-small-c.png"
+    ]
+  }
+]

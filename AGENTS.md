@@ -7,7 +7,8 @@
 - 理论Lecture/Chapter在前，Tutorial、Assignment/Research Report在后；正文小例题留在知识点旁。
 - 大规模修改先在docs/reviews/登记问题与进度，保留无问题段落；不以删字比例验收。
 - 保留题目条件、符号、图片、锚点。只改Notebook说明时不动代码与输出；代码变化需重跑受影响实验，真实报告结果。
-- 修改主稿，不直接修改PDF；scripts/build.py生成三册并稳定页码。HTML是打印中间物，不建设网页或Pages。
+- 修改主稿，不直接修改PDF；scripts/build.py生成课堂三册及期中两册并稳定各自页码。HTML是打印中间物，不建设网页或Pages。
+- CS5489/exam-review/Midterm是整理后的期中题库唯一维护源。保留题号、原题条件、选项、必要图和来源身份；原卷档案及学生批注不随题库发布。
 - 原始Canvas文件和实验数据从本地data/或COURSE_DATA_ROOT读取；它们及个人提交文件、凭证、执行缓存不得加入Git。
 - 微课和Markji属于另一项目；本仓库不维护卡片、不生成APKG、不操作Markji。
 - 发布前执行scripts/validate.py并检查生成PDF。只提交任务相关内容，保留他人修改。

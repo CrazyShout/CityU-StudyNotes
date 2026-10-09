@@ -7,6 +7,7 @@
 - 图片：就近放入`assets/`；计算图保留脚本、数据含义、参数、坐标与单位。
 - 顺序和日期：`learning/course-notes-documents.json`。登记顺序决定PDF的理论、Tutorial、Assignment顺序。
 - PDF：从源稿生成后再提交，不直接改PDF文字。
+- CS5489期中题库：`CS5489/exam-review/Midterm/`。题目与答案解析各有Markdown和PDF，按题号对应、独立分页。根目录构建和验证已包含两册；单独构建方法见该目录README。
 
 ## 一次修改
 
@@ -33,6 +34,10 @@ PR中的PDF若引用此次新增的计算记录，先提交源稿，再以`STUDY
 
 ## 历史考试证据
 
-Lecture 2的公开台账为`CS5489/course-notes/exam-evidence/Lecture02.json`。只保留题源元数据、考点概述和答案核查说明；整份原卷、完整题答及学生批注不加入Git。每个考点按独立试卷计数，期末关联、样题和QE身份不明片段分开。更改后运行`python scripts/build_exam_annotations.py`，生成讲义标注、讲末考点表、卷末附录与counts.json；`--check`及常规验证会复算并检查一致性。
+Lecture 2的公开台账为`CS5489/course-notes/exam-evidence/Lecture02.json`，保存题源元数据、考点概述和答案核查说明。2026-10-10起，用户授权将整理后的期中题目与答案解析另收入`CS5489/exam-review/Midterm/`；完整原卷档案、学生手写答案及批注仍不加入Git。每个考点按独立试卷计数，期末关联、样题和QE身份不明片段分开。更改公开台账后运行`python scripts/build_exam_annotations.py`，生成讲义标注、讲末考点表、卷末附录与counts.json；`--check`及常规验证会复算并检查一致性。
+
+期中解析先交代题目对象和所需概念，再沿原条件讲清判断或计算。英文答案简洁完整，中文负责连续解释；必要步骤不放入选读。不要机械给每题增加总结、答题套路或无关提醒。新算例须独立复算，保留原解冲突和成立条件。
+
+期中工具根据两册最终PDF分别生成页码，不能假设同题同页。普通CI核对仓库内主稿、映射、PDF及数值计算；持有原卷时可额外传`--source-dir`核验档案哈希，不能把元数据校验报告成重新读取了原卷。
 
 `<!-- EXAM:... -->`区块由台账生成，正文之外的原有文字与锚点保持。文档登记中的`print_appendix`将考试索引放在Assignment之后，不增加主要课堂文档数量。考点采用黑字文字标签与左侧短色条，直接写考试类别、直接／关联和卷数或待定状态；颜色只辅助区分，不表示重要程度。具体尺寸与维护约定见[考点标签样式](docs/EXAM_LABEL_STYLE.md)。

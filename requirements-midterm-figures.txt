@@ -1,0 +1,2 @@
+-r requirements-build.txt
+matplotlib>=3.9,<4

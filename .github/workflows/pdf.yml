@@ -23,5 +23,10 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: A4-study-notes
-          path: pdf/
+          path: |
+            pdf/
+            CS5489/exam-review/Midterm/Questions.pdf
+            CS5489/exam-review/Midterm/Answers.pdf
+            CS5489/exam-review/Midterm/PageIndex.json
+            CS5489/exam-review/Midterm/PaperIndex.md
           retention-days: 30
