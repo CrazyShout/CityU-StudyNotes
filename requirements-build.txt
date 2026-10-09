@@ -6,3 +6,4 @@ pymdown-extensions>=10.12,<13
 Pillow>=11,<13
 pypdf>=6.10,<7
 reportlab>=4.4,<5
+numpy>=1.26,<3

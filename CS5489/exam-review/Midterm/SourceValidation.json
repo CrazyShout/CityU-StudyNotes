@@ -1,0 +1,23 @@
+{
+  "status": "source_checks_passed",
+  "unique_question_answer_pairs": 67,
+  "original_positions": 78,
+  "independent_midterms": 6,
+  "legacy_aliases": 15,
+  "source_metadata_entries_checked": 14,
+  "source_hashes_verified": 0,
+  "source_archive_verification": "not_requested",
+  "documents": [
+    {
+      "kind": "Questions",
+      "questions": 67,
+      "math_expressions": 96
+    },
+    {
+      "kind": "Answers",
+      "questions": 67,
+      "math_expressions": 777
+    }
+  ],
+  "pdf_status": "requires separate render and visual verification"
+}

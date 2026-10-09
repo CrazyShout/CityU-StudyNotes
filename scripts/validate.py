@@ -8,6 +8,8 @@ from pypdf import PdfReader
 ROOT=Path(__file__).resolve().parents[1]
 registry=json.loads((ROOT/'learning/course-notes-documents.json').read_text());docs=registry['documents'];soups={};issues=[]
 paths={ROOT/d['source'] for d in docs}|{ROOT/'README.md',ROOT/'CONTRIBUTING.md',ROOT/'AGENTS.md'}|set((ROOT/'docs').glob('*.md'))|{ROOT/'pdf/README.md'}
+paths|=set((ROOT/'CS5489/exam-review').glob('*.md'))|set((ROOT/'CS5489/exam-review/Midterm').glob('*.md'))
+paths|=set((ROOT/'docs/reviews/midterm-integration-2026-10-10').glob('*.md'))
 for p in paths:
     assert p.is_file(),p
     if p.suffix=='.ipynb':
@@ -126,4 +128,7 @@ for book in manifest['books']:
             if uri.endswith('.pdf') or '.pdf#page=' in uri:
                 parsed=urlsplit(uri)
                 if not parsed.scheme:assert (p.parent/parsed.path).is_file(),uri
-print(json.dumps({'status':'passed','major_documents':sum(d['major'] for d in docs),'sources':len(docs),'pdf_pages':sum(b['pages'] for b in manifest['books']),'links':'all local links and anchors resolve'},ensure_ascii=False))
+midterm_tools=ROOT/'CS5489/exam-review/Midterm/tools'
+for tool in ['verify_calculations.py','validate_source.py','validate_books.py']:
+    subprocess.run([sys.executable,str(midterm_tools/tool),'--check'],check=True)
+print(json.dumps({'status':'passed','major_documents':sum(d['major'] for d in docs),'sources':len(docs),'course_pdf_pages':sum(b['pages'] for b in manifest['books']),'midterm':'two books, source mapping and calculations checked','links':'all local links and anchors resolve'},ensure_ascii=False))

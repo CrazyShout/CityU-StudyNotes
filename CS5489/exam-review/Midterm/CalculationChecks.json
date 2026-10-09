@@ -1,0 +1,418 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "name": "MT009 Gram entries",
+      "actual": 4000000,
+      "expected": 4000000
+    },
+    {
+      "name": "MT022 full Gram entries",
+      "actual": 2500000000,
+      "expected": 2500000000
+    },
+    {
+      "name": "MT031 RBF example",
+      "actual": [
+        0.9900498337491681,
+        0.36787944117144233
+      ],
+      "expected": [
+        0.9900498337,
+        0.3678794412
+      ]
+    },
+    {
+      "name": "MT050 asymmetric losses",
+      "actual": [
+        4,
+        1,
+        16,
+        4
+      ],
+      "expected": [
+        4,
+        1,
+        16,
+        4
+      ]
+    },
+    {
+      "name": "MT051 signed scores",
+      "actual": [
+        -0.4,
+        0.6
+      ],
+      "expected": [
+        -0.4,
+        0.6
+      ]
+    },
+    {
+      "name": "MT051 both bad losses zero",
+      "actual": [
+        0.0,
+        0.0
+      ],
+      "expected": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "MT055 indicator kernel negative quadratic form",
+      "actual": -3.0,
+      "expected": -3
+    },
+    {
+      "name": "MT055 sine negative diagonal",
+      "actual": -1.0,
+      "expected": -1
+    },
+    {
+      "name": "MT055 tanh negative determinant",
+      "actual": -0.16826582059019524,
+      "expected": -0.16826582059019524
+    },
+    {
+      "name": "MT061 linear prediction storage",
+      "actual": 1001,
+      "expected": 1001
+    },
+    {
+      "name": "MT062 RF variance",
+      "actual": [
+        0.36,
+        0.24000000000000002
+      ],
+      "expected": [
+        0.36,
+        0.24
+      ]
+    },
+    {
+      "name": "MT063 Huber points",
+      "actual": [
+        0.0,
+        0.5,
+        0.5,
+        1.5,
+        1.5
+      ],
+      "expected": [
+        0.0,
+        0.5,
+        0.5,
+        1.5,
+        1.5
+      ]
+    },
+    {
+      "name": "MT063 smooth join -1.0",
+      "actual": -0.9999997499787749,
+      "expected": -1.0
+    },
+    {
+      "name": "MT063 smooth join 1.0",
+      "actual": 0.9999997499787749,
+      "expected": 1.0
+    },
+    {
+      "name": "MT065 original-plot scaled negative-tail slope order",
+      "actual": [
+        54.598150033144236,
+        1.4167464249722663,
+        1.0
+      ],
+      "order": [
+        "AdaBoost",
+        "LR scaled to source",
+        "SVM"
+      ]
+    },
+    {
+      "name": "MT066 four factors",
+      "actual": 0.0016000000000000003,
+      "expected": 0.0016
+    },
+    {
+      "name": "MT067 scalar derivative -0.2",
+      "actual": -2.95292198121811,
+      "expected": -2.952921981214107
+    },
+    {
+      "name": "MT067 scalar derivative 0.15",
+      "actual": -1.8347752109974391,
+      "expected": -1.8347752110264848
+    },
+    {
+      "name": "MT067 scalar derivative 0.4",
+      "actual": -4.782646849738562,
+      "expected": -4.782646849166294
+    },
+    {
+      "name": "MT067 full two-layer A gradient",
+      "actual": [
+        [
+          0.0012884304598067074,
+          0.011199959175245825
+        ],
+        [
+          -0.0043973485217007205,
+          -0.038224898788689184
+        ]
+      ],
+      "expected": [
+        [
+          0.0012884304734228635,
+          0.01119995918230643
+        ],
+        [
+          -0.004397348485341013,
+          -0.03822489880178637
+        ]
+      ]
+    },
+    {
+      "name": "MT067 full two-layer W gradient",
+      "actual": [
+        [
+          -0.7163871159856151,
+          -0.6074807081983451,
+          0.23238608855052395
+        ],
+        [
+          -0.679213402497029,
+          -0.5759582068963227,
+          0.2203274491895617
+        ]
+      ],
+      "expected": [
+        [
+          -0.7163871159343582,
+          -0.607480708181285,
+          0.23238608856668286
+        ],
+        [
+          -0.6792134025213059,
+          -0.5759582069053693,
+          0.22032744917410696
+        ]
+      ]
+    },
+    {
+      "name": "MT067 scalar network example gradients",
+      "actual": [
+        -2.0,
+        0.0
+      ],
+      "expected": [
+        -2.0,
+        0.0
+      ]
+    },
+    {
+      "name": "MT005 Bernoulli label variances",
+      "actual": [
+        0.25,
+        0.08999999999999998
+      ],
+      "expected": [
+        0.25,
+        0.09
+      ]
+    },
+    {
+      "name": "MT022 full double Gram GB",
+      "actual": 20.0,
+      "expected": 20.0
+    },
+    {
+      "name": "MT036 full double covariance entries and GB",
+      "actual": [
+        112296409.0,
+        0.898371272
+      ],
+      "expected": [
+        112296409.0,
+        0.898371272
+      ]
+    },
+    {
+      "name": "MT040 normalized posterior",
+      "actual": [
+        0.18181818181818182,
+        0.8181818181818181
+      ],
+      "expected": [
+        0.18181818181818182,
+        0.8181818181818182
+      ]
+    },
+    {
+      "name": "MT046 squared distances",
+      "actual": [
+        1.2800000000000002,
+        0.07999999999999996
+      ],
+      "expected": [
+        1.28,
+        0.08
+      ]
+    },
+    {
+      "name": "MT046 density posterior vs sigmoid",
+      "actual": 0.6456563062257954,
+      "expected": 0.6456563062257954
+    },
+    {
+      "name": "MT047 signed-score logistic losses",
+      "actual": [
+        0.1269280110429725,
+        2.1269280110429727
+      ],
+      "expected": [
+        0.126928011,
+        2.126928011
+      ]
+    },
+    {
+      "name": "MT061 100 and 500 support-vector storage",
+      "actual": [
+        100101,
+        500501
+      ],
+      "expected": [
+        100101,
+        500501
+      ]
+    },
+    {
+      "name": "MT063 large-residual loss and slope",
+      "actual": [
+        50.0,
+        9.5,
+        10.0,
+        0.9999999999621422
+      ],
+      "expected": [
+        50.0,
+        9.5,
+        10.0,
+        1.0
+      ]
+    },
+    {
+      "name": "MT023 screening rates",
+      "actual": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "expected": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    {
+      "name": "MT059 shared-variance cancellation [0.0, 0.0]",
+      "actual": -1.4945348918918357,
+      "expected": -1.4945348918918349
+    },
+    {
+      "name": "MT059 shared-variance cancellation [1.2, -2.0]",
+      "actual": 4.005465108108164,
+      "expected": 4.005465108108164
+    },
+    {
+      "name": "MT059 shared-variance cancellation [-0.7, 0.8]",
+      "actual": -4.519534891891835,
+      "expected": -4.519534891891835
+    },
+    {
+      "name": "MT019 ridge grid minimum 0.5",
+      "actual": 1.5,
+      "expected": 1.5
+    },
+    {
+      "name": "MT019 lasso grid minimum 0.5",
+      "actual": 2.5,
+      "expected": 2.5
+    },
+    {
+      "name": "MT019 ridge grid minimum 2.0",
+      "actual": 0.6000000000000005,
+      "expected": 0.6
+    },
+    {
+      "name": "MT019 lasso grid minimum 2.0",
+      "actual": 1.0,
+      "expected": 1.0
+    },
+    {
+      "name": "MT019 ridge grid minimum 4.0",
+      "actual": 0.3333000000000004,
+      "expected": 0.3333333333333333
+    },
+    {
+      "name": "MT019 lasso grid minimum 4.0",
+      "actual": 0.0,
+      "expected": 0
+    },
+    {
+      "name": "MT055 direct tanh PSD counterexample",
+      "quadratic_form": -0.22093895977842637
+    },
+    {
+      "name": "MT020 XOR interaction scores",
+      "actual": [
+        0.5,
+        0.5,
+        -0.5,
+        -0.5
+      ],
+      "expected": [
+        0.5,
+        0.5,
+        -0.5,
+        -0.5
+      ]
+    },
+    {
+      "name": "MT055 simple tanh quadratic form",
+      "actual": -0.16713170445680192,
+      "expected": -0.1671317044568
+    },
+    {
+      "name": "MT066 sigmoid slope identity 0.0",
+      "actual": 0.0,
+      "expected": 0.0
+    },
+    {
+      "name": "MT066 sigmoid slope identity 0.1",
+      "actual": 0.09000000000000001,
+      "expected": 0.08999999999999997
+    },
+    {
+      "name": "MT066 sigmoid slope identity 0.25",
+      "actual": 0.1875,
+      "expected": 0.1875
+    },
+    {
+      "name": "MT066 sigmoid slope identity 0.5",
+      "actual": 0.25,
+      "expected": 0.25
+    },
+    {
+      "name": "MT066 sigmoid slope identity 0.8",
+      "actual": 0.15999999999999998,
+      "expected": 0.15999999999999998
+    },
+    {
+      "name": "MT066 sigmoid slope identity 1.0",
+      "actual": 0.0,
+      "expected": 0.0
+    }
+  ]
+}

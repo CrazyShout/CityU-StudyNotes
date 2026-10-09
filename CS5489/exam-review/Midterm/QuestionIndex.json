@@ -1,0 +1,1643 @@
+{
+  "scope": "Six independent historical midterms only; not grouped by Lecture",
+  "unique_questions": 67,
+  "original_question_positions": 78,
+  "groups": [
+    {
+      "id": "foundations",
+      "title": "学习流程与模型诊断"
+    },
+    {
+      "id": "bayes",
+      "title": "Bayes、Naive Bayes与模型比较"
+    },
+    {
+      "id": "logistic",
+      "title": "逻辑回归与参数正则"
+    },
+    {
+      "id": "svm",
+      "title": "SVM与核方法"
+    },
+    {
+      "id": "regression",
+      "title": "回归、特征选择与残差损失"
+    },
+    {
+      "id": "ensemble",
+      "title": "集成学习"
+    },
+    {
+      "id": "loss",
+      "title": "分类损失图与错误代价"
+    },
+    {
+      "id": "neural",
+      "title": "神经网络与链式法则"
+    },
+    {
+      "id": "extra",
+      "title": "历史范围拓展：Gaussian Process"
+    }
+  ],
+  "papers": [
+    {
+      "id": "M20B",
+      "label": "2020B期中Quiz",
+      "kind": "midterm",
+      "year": 2020,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S013",
+        "S038"
+      ],
+      "answer_source_ids": [
+        "S013",
+        "S038"
+      ],
+      "description": "封面为Semester B 2020；说明提交到Midterm Assignment。"
+    },
+    {
+      "id": "M21A",
+      "label": "2021A期中",
+      "kind": "midterm",
+      "year": 2021,
+      "term": "A",
+      "countable": true,
+      "source_ids": [
+        "S012",
+        "S019"
+      ],
+      "answer_source_ids": [
+        "S018",
+        "S037"
+      ],
+      "description": "两版PDF题面相同；答案PDF与DOCX配对为一套卷。"
+    },
+    {
+      "id": "M21B",
+      "label": "2021B*期中",
+      "kind": "midterm",
+      "year": 2021,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S010",
+        "S036"
+      ],
+      "answer_source_ids": [
+        "S009",
+        "S039"
+      ],
+      "description": "题纸封面写2020B；题内答案文件名和配套答案封面指向2021B。按配套材料归为2021B，并保留星号，不另算一套2020卷。",
+      "year_status": "resolved_from_paired_answer_with_cover_conflict"
+    },
+    {
+      "id": "M23A",
+      "label": "2023A期中",
+      "kind": "midterm",
+      "year": 2023,
+      "term": "A",
+      "countable": true,
+      "source_ids": [
+        "S015"
+      ],
+      "answer_source_ids": [
+        "S015"
+      ],
+      "description": "10页，含随卷答案。"
+    },
+    {
+      "id": "M23B",
+      "label": "2023B期中",
+      "kind": "midterm",
+      "year": 2023,
+      "term": "B",
+      "countable": true,
+      "source_ids": [
+        "S016"
+      ],
+      "answer_source_ids": [
+        "S016"
+      ],
+      "description": "10页，含随卷答案。"
+    },
+    {
+      "id": "M25A",
+      "label": "2025A期中",
+      "kind": "midterm",
+      "year": 2025,
+      "term": "A",
+      "countable": true,
+      "source_ids": [
+        "S030"
+      ],
+      "answer_source_ids": [],
+      "description": "带学生批注的10页扫描卷；封面明确2025A。手写答案与批改不作为官方答案发布。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "MT002",
+      "canonical": "M20B-Q2",
+      "group": "foundations",
+      "title": "训练准、测试差：哪些改进值得尝试？",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q2",
+          "source_id": "S013",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT004",
+      "canonical": "M20B-Q4",
+      "group": "foundations",
+      "title": "CV选完参数后，为什么还要重新训练？",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q4",
+          "source_id": "S013",
+          "pages": [
+            2,
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT011",
+      "canonical": "M20B-Q11",
+      "group": "foundations",
+      "title": "识别过拟合，并提出可操作的改进",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q11",
+          "source_id": "S013",
+          "pages": [
+            5
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT020",
+      "canonical": "M21A-Q7",
+      "group": "foundations",
+      "title": "数据很多，训练和测试仍都差",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q7",
+          "source_id": "S012",
+          "pages": [
+            3
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT022",
+      "canonical": "M21A-Q9",
+      "group": "foundations",
+      "title": "五万客户、需要解释：选择哪种分类器？",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q9",
+          "source_id": "S012",
+          "pages": [
+            3
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT028",
+      "canonical": "M21B-Q2",
+      "group": "foundations",
+      "title": "训练误差低、测试误差高：可能原因",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q2",
+          "source_id": "S010",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT005",
+      "canonical": "M20B-Q5",
+      "group": "bayes",
+      "title": "NB的学习、不确定性和正则化",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q5",
+          "source_id": "S013",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q07"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT014",
+      "canonical": "M21A-Q1",
+      "group": "bayes",
+      "title": "生成式与判别式的区别",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q1",
+          "source_id": "S012",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q03"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT015",
+      "canonical": "M21A-Q2",
+      "group": "bayes",
+      "title": "NB的最优性、独立性与边界",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q2",
+          "source_id": "S012",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q08"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT017",
+      "canonical": "M21A-Q4",
+      "group": "bayes",
+      "title": "哪些模型能产生不同形状的边界",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q4",
+          "source_id": "S012",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q11"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT021",
+      "canonical": "M21A-Q8",
+      "group": "bayes",
+      "title": "同为线性分类器，学习原则有何不同",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q8",
+          "source_id": "S012",
+          "pages": [
+            3
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [
+        "L2Q12"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT027",
+      "canonical": "M21B-Q1",
+      "group": "bayes",
+      "title": "连续特征能否使用NB：混合选择题",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q1",
+          "source_id": "S010",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q10"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT032",
+      "canonical": "M21B-Q6",
+      "group": "bayes",
+      "title": "Bayesian classifier的性质",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q6",
+          "source_id": "S010",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q06"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT033",
+      "canonical": "M21B-Q7",
+      "group": "bayes",
+      "title": "用图像特征解释两种建模方式",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q7",
+          "source_id": "S010",
+          "pages": [
+            3
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [
+        "L2Q04"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT034",
+      "canonical": "M21B-Q8",
+      "group": "bayes",
+      "title": "无限数据能消除分类错误吗",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q8",
+          "source_id": "S010",
+          "pages": [
+            3
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [
+        "L2Q15"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT040",
+      "canonical": "M23A-Q1",
+      "group": "bayes",
+      "title": "Bayes规则和Naive Bayes的关系",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q1",
+          "source_id": "S015",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q1",
+          "source_id": "S030",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q05"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT046",
+      "canonical": "M23A-Q7",
+      "group": "bayes",
+      "title": "完整讲出Gaussian NB",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q7",
+          "source_id": "S015",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q11",
+          "source_id": "S030",
+          "pages": [
+            8
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [
+        "L2Q09"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT052",
+      "canonical": "M23B-Q1",
+      "group": "bayes",
+      "title": "生成式分类器学了什么",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q1",
+          "source_id": "S016",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q01"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT058",
+      "canonical": "M23B-Q7",
+      "group": "bayes",
+      "title": "智能笔上的文本NB如何改进",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q7",
+          "source_id": "S016",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [
+        "L2Q16"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT059",
+      "canonical": "M23B-Q8",
+      "group": "bayes",
+      "title": "LR与共享方差Gaussian NB",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q8",
+          "source_id": "S016",
+          "pages": [
+            5
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [
+        "L2Q13"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT001",
+      "canonical": "M20B-Q1",
+      "group": "logistic",
+      "title": "Logistic训练：哪些说法不成立？",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q1",
+          "source_id": "S013",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT012",
+      "canonical": "M20B-Q12",
+      "group": "logistic",
+      "title": "L1逻辑回归：写目标并画边界",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q12",
+          "source_id": "S013",
+          "pages": [
+            6
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt012-l1-boundary.png"
+      ]
+    },
+    {
+      "id": "MT018",
+      "canonical": "M21A-Q5",
+      "group": "logistic",
+      "title": "为什么在线性分类器上加L2？",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q5",
+          "source_id": "S012",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT024",
+      "canonical": "M21A-Q11",
+      "group": "logistic",
+      "title": "损失与正则项：α从哪里来？",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q11",
+          "source_id": "S012",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT041",
+      "canonical": "M23A-Q2",
+      "group": "logistic",
+      "title": "Logistic的概率、多分类与最优解",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q2",
+          "source_id": "S015",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q2",
+          "source_id": "S030",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT047",
+      "canonical": "M23A-Q8",
+      "group": "logistic",
+      "title": "解释Logistic目标中的两项",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q8",
+          "source_id": "S015",
+          "pages": [
+            5
+          ],
+          "marks": 10
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q8",
+          "source_id": "S030",
+          "pages": [
+            5
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT053",
+      "canonical": "M23B-Q2",
+      "group": "logistic",
+      "title": "LR与生成式模型：混合选择题",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q2",
+          "source_id": "S016",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [
+        "L2Q14"
+      ],
+      "assets": []
+    },
+    {
+      "id": "MT009",
+      "canonical": "M20B-Q9",
+      "group": "svm",
+      "title": "十万维特征、两千样本：SVM怎样提速？",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q9",
+          "source_id": "S013",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT010",
+      "canonical": "M20B-Q10",
+      "group": "svm",
+      "title": "同一张分布图，Gaussian Bayes与二次核SVM如何判断？",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q10",
+          "source_id": "S013",
+          "pages": [
+            5
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt010-distribution.png"
+      ]
+    },
+    {
+      "id": "MT016",
+      "canonical": "M21A-Q3",
+      "group": "svm",
+      "title": "核SVM：变换、存储与非向量输入",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q3",
+          "source_id": "S012",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT029",
+      "canonical": "M21B-Q3",
+      "group": "svm",
+      "title": "哪些SVM说法错误？",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q3",
+          "source_id": "S010",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT031",
+      "canonical": "M21B-Q5",
+      "group": "svm",
+      "title": "RBF距离与带宽：看近点和远点",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q5",
+          "source_id": "S010",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt031-rbf-points.png"
+      ]
+    },
+    {
+      "id": "MT042",
+      "canonical": "M23A-Q3",
+      "group": "svm",
+      "title": "SVM的基本特点",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q3",
+          "source_id": "S015",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q3",
+          "source_id": "S030",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT043",
+      "canonical": "M23A-Q4",
+      "group": "svm",
+      "title": "核SVM怎样处理非线性？",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q4",
+          "source_id": "S015",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q4",
+          "source_id": "S030",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT048",
+      "canonical": "M23A-Q9",
+      "group": "svm",
+      "title": "用一个例子讲清Kernel Trick",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q9",
+          "source_id": "S015",
+          "pages": [
+            6
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT054",
+      "canonical": "M23B-Q3",
+      "group": "svm",
+      "title": "C、支持向量与RBF的零训练误差",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q3",
+          "source_id": "S016",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT055",
+      "canonical": "M23B-Q4",
+      "group": "svm",
+      "title": "判断五个候选核是否合法",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q4",
+          "source_id": "S016",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT060",
+      "canonical": "M23B-Q9",
+      "group": "svm",
+      "title": "二次核SVM：大C与小C的边界",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q9",
+          "source_id": "S016",
+          "pages": [
+            6
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt060-data.png"
+      ]
+    },
+    {
+      "id": "MT061",
+      "canonical": "M23B-Q10",
+      "group": "svm",
+      "title": "预测内存：线性SVM与RBF SVM",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q10",
+          "source_id": "S016",
+          "pages": [
+            7
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT013",
+      "canonical": "M20B-Q13",
+      "group": "regression",
+      "title": "残差L1＋权重L2，各自在做什么？",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q13",
+          "source_id": "S013",
+          "pages": [
+            6
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT019",
+      "canonical": "M21A-Q6",
+      "group": "regression",
+      "title": "Ridge、LASSO与零系数",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q6",
+          "source_id": "S012",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT025",
+      "canonical": "M21A-Q12",
+      "group": "regression",
+      "title": "绝对残差损失对异常值有什么影响？",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q12",
+          "source_id": "S012",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT030",
+      "canonical": "M21B-Q4",
+      "group": "regression",
+      "title": "L1/L2回归的益处与措辞边界",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q4",
+          "source_id": "S010",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT037",
+      "canonical": "M21B-Q11",
+      "group": "regression",
+      "title": "线性回归为何与均值预测器表现相近？",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q11",
+          "source_id": "S010",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT045",
+      "canonical": "M23A-Q6",
+      "group": "regression",
+      "title": "特征选择：零系数、Ridge与OMP",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q6",
+          "source_id": "S015",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT050",
+      "canonical": "M23A-Q12",
+      "group": "regression",
+      "title": "缺车比车多更糟：设计非对称损失",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q12",
+          "source_id": "S015",
+          "pages": [
+            9
+          ],
+          "marks": 10
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q12",
+          "source_id": "S030",
+          "pages": [
+            9
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT057",
+      "canonical": "M23B-Q6",
+      "group": "regression",
+      "title": "同时使用L1与L2：Elastic Net",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q6",
+          "source_id": "S016",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q6",
+          "source_id": "S030",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT063",
+      "canonical": "M23B-Q12",
+      "group": "regression",
+      "title": "Huber损失：画图并解释好处",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q12",
+          "source_id": "S016",
+          "pages": [
+            9
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT006",
+      "canonical": "M20B-Q6",
+      "group": "ensemble",
+      "title": "Bagging与Boosting的基本区别",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q6",
+          "source_id": "S013",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT038",
+      "canonical": "M21B-Q12",
+      "group": "ensemble",
+      "title": "100核部署：RF与AdaBoost如何并行预测？",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q12",
+          "source_id": "S010",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT044",
+      "canonical": "M23A-Q5",
+      "group": "ensemble",
+      "title": "随机森林与Boosting的用途",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q5",
+          "source_id": "S015",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        },
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q5",
+          "source_id": "S030",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT049",
+      "canonical": "M23A-Q11",
+      "group": "ensemble",
+      "title": "在线更新AdaBoost：速度与异常值",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q11",
+          "source_id": "S015",
+          "pages": [
+            8
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT056",
+      "canonical": "M23B-Q5",
+      "group": "ensemble",
+      "title": "集成方法：树深、并行与后续轮次",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q5",
+          "source_id": "S016",
+          "pages": [
+            3
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT062",
+      "canonical": "M23B-Q11",
+      "group": "ensemble",
+      "title": "随机森林：树多了为什么仍有共同误差？",
+      "occurrences": [
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q11",
+          "source_id": "S016",
+          "pages": [
+            8
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT064",
+      "canonical": "M25A-Q7",
+      "group": "ensemble",
+      "title": "综合题：Bagging/Boosting与Huber",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q7",
+          "source_id": "S030",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT007",
+      "canonical": "M20B-Q7",
+      "group": "loss",
+      "title": "筛查任务：漏诊比误报更贵",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q7",
+          "source_id": "S013",
+          "pages": [
+            3
+          ],
+          "marks": 10
+        },
+        {
+          "paper": "M23B",
+          "label": "2023B",
+          "question": "Q13",
+          "source_id": "S016",
+          "pages": [
+            10
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT008",
+      "canonical": "M20B-Q8",
+      "group": "loss",
+      "title": "平方形分类损失为什么惩罚“太正确”？",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q8",
+          "source_id": "S013",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt008-loss.png"
+      ]
+    },
+    {
+      "id": "MT023",
+      "canonical": "M21A-Q10",
+      "group": "loss",
+      "title": "1000名受试者中只有50名阳性",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q10",
+          "source_id": "S012",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        },
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q10",
+          "source_id": "S015",
+          "pages": [
+            7
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT026",
+      "canonical": "M21A-Q13",
+      "group": "loss",
+      "title": "V形损失：最优点为何在z=1？",
+      "occurrences": [
+        {
+          "paper": "M21A",
+          "label": "2021A",
+          "question": "Q13",
+          "source_id": "S012",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt026-loss.png"
+      ]
+    },
+    {
+      "id": "MT035",
+      "canonical": "M21B-Q9",
+      "group": "loss",
+      "title": "正常邮件被大量拦截怎么办？",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q9",
+          "source_id": "S010",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT039",
+      "canonical": "M21B-Q13",
+      "group": "loss",
+      "title": "饱和的非凸分类损失",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q13",
+          "source_id": "S010",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt039-loss.png"
+      ]
+    },
+    {
+      "id": "MT051",
+      "canonical": "M23A-Q13",
+      "group": "loss",
+      "title": "负间隔也零损失：分类器会放过什么？",
+      "occurrences": [
+        {
+          "paper": "M23A",
+          "label": "2023A",
+          "question": "Q13",
+          "source_id": "S015",
+          "pages": [
+            10
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt051-loss.png"
+      ]
+    },
+    {
+      "id": "MT065",
+      "canonical": "M25A-Q9",
+      "group": "loss",
+      "title": "比较Logistic、Hinge和Exponential损失",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q9",
+          "source_id": "S030",
+          "pages": [
+            6
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt065-loss-comparison.png"
+      ]
+    },
+    {
+      "id": "MT066",
+      "canonical": "M25A-Q10",
+      "group": "neural",
+      "title": "梯度消失：为什么深度和激活函数有关？",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q10",
+          "source_id": "S030",
+          "pages": [
+            7
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT067",
+      "canonical": "M25A-Q13",
+      "group": "neural",
+      "title": "链式求导与两层网络反传",
+      "occurrences": [
+        {
+          "paper": "M25A",
+          "label": "2025A",
+          "question": "Q13",
+          "source_id": "S030",
+          "pages": [
+            10
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": [
+        "mt067-network.png"
+      ]
+    },
+    {
+      "id": "MT003",
+      "canonical": "M20B-Q3",
+      "group": "extra",
+      "title": "历史拓展：Gaussian Process的假设",
+      "occurrences": [
+        {
+          "paper": "M20B",
+          "label": "2020B",
+          "question": "Q3",
+          "source_id": "S013",
+          "pages": [
+            2
+          ],
+          "marks": 5
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    },
+    {
+      "id": "MT036",
+      "canonical": "M21B-Q10",
+      "group": "extra",
+      "title": "历史拓展：音乐地理回归，GP还是RF？",
+      "occurrences": [
+        {
+          "paper": "M21B",
+          "label": "2021B*",
+          "question": "Q10",
+          "source_id": "S010",
+          "pages": [
+            4
+          ],
+          "marks": 10
+        }
+      ],
+      "legacy_ids": [],
+      "assets": []
+    }
+  ]
+}

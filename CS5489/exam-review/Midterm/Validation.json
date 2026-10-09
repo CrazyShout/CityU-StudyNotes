@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "books": [
+    {
+      "file": "Questions.pdf",
+      "pages": 69,
+      "sha256": "1c95376ad85878da0c3ccf93fe933993f4e199f0b4af30f25b1f16058fb52a86",
+      "source_sha256": "24cfeca640aafb10d42d2c557e071449a3ad0d9c5929785fd8a6dc7c0fca99c2",
+      "portable_cross_book_links": 67
+    },
+    {
+      "file": "Answers.pdf",
+      "pages": 86,
+      "sha256": "8c68233580fbefcb9af654b26bab1308d2872139086392d5b4091848c69e3cb7",
+      "source_sha256": "c0e9c37e0405de9b7787ad73807b85c9c1d5dfd3f8984a9e31185c7e42567c09",
+      "portable_cross_book_links": 67
+    }
+  ],
+  "unique_question_answer_pairs": 67,
+  "original_question_positions": 78,
+  "independent_midterms": 6,
+  "independent_page_maps": true,
+  "verified_printed_page_references": 418,
+  "verified_html_page_references": 418,
+  "paper_index_rows": 78,
+  "legacy_aliases_per_book": 15,
+  "source_metadata_entries_checked": 14,
+  "source_hashes_verified": 0,
+  "source_archive_verification": "not_requested",
+  "numeric_checks": 50,
+  "render_evidence": "verified_current",
+  "visual_review": "Recorded separately after examining rendered pages; not inferred from automated checks."
+}
