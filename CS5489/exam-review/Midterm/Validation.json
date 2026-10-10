@@ -4,15 +4,15 @@
     {
       "file": "Questions.pdf",
       "pages": 69,
-      "sha256": "1c95376ad85878da0c3ccf93fe933993f4e199f0b4af30f25b1f16058fb52a86",
-      "source_sha256": "24cfeca640aafb10d42d2c557e071449a3ad0d9c5929785fd8a6dc7c0fca99c2",
+      "sha256": "14845becc7a8dd3ac12da6cfb1c825d19597dfdffe63911c88eefb345f75925a",
+      "source_sha256": "5d757f380828a5c68f108f92c04b41b8f4d130c83127da977c7840762109f34e",
       "portable_cross_book_links": 67
     },
     {
       "file": "Answers.pdf",
       "pages": 86,
-      "sha256": "8c68233580fbefcb9af654b26bab1308d2872139086392d5b4091848c69e3cb7",
-      "source_sha256": "c0e9c37e0405de9b7787ad73807b85c9c1d5dfd3f8984a9e31185c7e42567c09",
+      "sha256": "102882b901515dbcb50c0c2783ab54ee3b89f7d81bf6fbea0bf6f6db4edfcd0c",
+      "source_sha256": "e2b27a1d7d84f0ead96f1c04617b3a4d4796ed8f6c7b3a011462b819354529de",
       "portable_cross_book_links": 67
     }
   ],
