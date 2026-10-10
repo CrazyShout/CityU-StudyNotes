@@ -1,0 +1,140 @@
+{
+  "status": "passed",
+  "baseline_commit": "070d3db6209ffc7fa5fe5c2a863629fad9b28687",
+  "scope": "Reorder existing questions within the same nine topic groups; regenerate contents and independent page references.",
+  "stable_question_ids": 67,
+  "unchanged_complete_markdown_blocks": 134,
+  "unchanged_index_records": 67,
+  "unchanged_groups_and_papers": true,
+  "appendix_unchanged": true,
+  "unchanged_assets_tools_and_provenance_files": 34,
+  "reading_order_matches_both_contents_and_pdfs": true,
+  "pdf_question_section_comparison": {
+    "matched_question_sections": 134,
+    "different_extracted_sections": [],
+    "normalization": "Whitespace, header/footer and printed reference page digits only. Source blocks separately verified byte-identical."
+  },
+  "books": [
+    {
+      "file": "Questions.pdf",
+      "pages": 69,
+      "sha256": "14845becc7a8dd3ac12da6cfb1c825d19597dfdffe63911c88eefb345f75925a",
+      "source_sha256": "5d757f380828a5c68f108f92c04b41b8f4d130c83127da977c7840762109f34e",
+      "portable_cross_book_links": 67
+    },
+    {
+      "file": "Answers.pdf",
+      "pages": 86,
+      "sha256": "102882b901515dbcb50c0c2783ab54ee3b89f7d81bf6fbea0bf6f6db4edfcd0c",
+      "source_sha256": "e2b27a1d7d84f0ead96f1c04617b3a4d4796ed8f6c7b3a011462b819354529de",
+      "portable_cross_book_links": 67
+    }
+  ],
+  "original_question_positions": 78,
+  "independent_midterms": 6,
+  "legacy_aliases_per_book": 15,
+  "printed_page_references": 418,
+  "html_page_references": 418,
+  "numeric_checks": 50,
+  "source_archive_verification": "not_requested; unchanged provenance metadata checked",
+  "root_repository_validation": "passed",
+  "visual_review": {
+    "all_page_contact_sheets_examined": {
+      "Questions": 69,
+      "Answers": 86
+    },
+    "enlarged_pages_examined": [
+      "Answers 2 (contents)",
+      "Answers 80 (start of backpropagation)"
+    ],
+    "result": "No new clipping, overlap, missing figures or broken transitions found.",
+    "physical_print_test": false
+  },
+  "group_order": {
+    "foundations": [
+      "MT011",
+      "MT004",
+      "MT028",
+      "MT002",
+      "MT020",
+      "MT022"
+    ],
+    "bayes": [
+      "MT040",
+      "MT052",
+      "MT046",
+      "MT015",
+      "MT032",
+      "MT005",
+      "MT034",
+      "MT014",
+      "MT033",
+      "MT059",
+      "MT021",
+      "MT017",
+      "MT027",
+      "MT058"
+    ],
+    "logistic": [
+      "MT041",
+      "MT047",
+      "MT024",
+      "MT018",
+      "MT012",
+      "MT001",
+      "MT053"
+    ],
+    "svm": [
+      "MT042",
+      "MT048",
+      "MT016",
+      "MT031",
+      "MT055",
+      "MT060",
+      "MT054",
+      "MT043",
+      "MT029",
+      "MT010",
+      "MT009",
+      "MT061"
+    ],
+    "regression": [
+      "MT019",
+      "MT045",
+      "MT030",
+      "MT057",
+      "MT025",
+      "MT063",
+      "MT013",
+      "MT050",
+      "MT037"
+    ],
+    "ensemble": [
+      "MT006",
+      "MT044",
+      "MT062",
+      "MT056",
+      "MT038",
+      "MT049",
+      "MT064"
+    ],
+    "loss": [
+      "MT008",
+      "MT026",
+      "MT051",
+      "MT039",
+      "MT065",
+      "MT007",
+      "MT023",
+      "MT035"
+    ],
+    "neural": [
+      "MT067",
+      "MT066"
+    ],
+    "extra": [
+      "MT003",
+      "MT036"
+    ]
+  }
+}

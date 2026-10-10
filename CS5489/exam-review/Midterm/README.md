@@ -6,12 +6,13 @@
 |---|---|
 | 独立做题 | [题目PDF](Questions.pdf) · [题目Markdown](Questions.md) |
 | 补基础和核对答案 | [答案解析PDF](Answers.pdf) · [答案Markdown](Answers.md) |
+| 按基础到应用的顺序学习 | [组内阅读顺序](ReadingOrder.md) |
 | 按2025A等原卷顺序练习 | [原卷索引](PaperIndex.md) |
 | 查旧L2Q题号 | [旧题号对照](LegacyMap.md) |
 | 查来源及去重依据 | [材料说明](Materials.md) · [来源目录](SourceCatalog.json) |
 | 查原解差异 | [勘误说明](Issues.md) |
 
-第一次学习可从中文题意和解析开始，顺着原条件演算；复习时用题目册独立作答，再核对英文答案。两道Gaussian Process题保留在历史拓展组。本册不混入模拟专有题、期末或QE题，历史卷规则不代表本学期考试规则。
+第一次学习可顺着目录从各组的基本概念与完整示范开始，再做判断、比较和应用，沿中文题意与解析演算；复习时用题目册独立作答，再核对英文答案。两道Gaussian Process题保留在历史拓展组。本册不混入模拟专有题、期末或QE题，历史卷规则不代表本学期考试规则。
 
 ## A4与定位
 
