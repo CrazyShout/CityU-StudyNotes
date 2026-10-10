@@ -214,5 +214,29 @@
       "answer-mt060-large-c.png",
       "answer-mt060-small-c.png"
     ]
+  },
+  {
+    "file": "answer-l1-l2-geometry.png",
+    "kind": "teaching example for MT045",
+    "objective": "0.5*((w1-1.6)^2+(w2-0.4)^2)",
+    "unconstrained_minimum": [
+      1.6,
+      0.4
+    ],
+    "constraints": [
+      "abs(w1)+abs(w2)<=1",
+      "w1^2+w2^2<=1"
+    ],
+    "constrained_minima": [
+      [
+        1.0,
+        0.0
+      ],
+      [
+        0.9701425001453318,
+        0.24253562503633294
+      ]
+    ],
+    "note": "Organizer-supplied constrained examples, not original exam data. Grayscale-safe shapes and line styles identify the feasible sets, first reachable contours and minima."
   }
 ]

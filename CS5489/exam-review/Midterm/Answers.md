@@ -122,9 +122,9 @@ Possible remedies include selecting complexity by training-only cross-validation
 ### 中文讲解
 过拟合是模型把训练样本中的偶然变化也当成了普遍规律。一个极深的树可以不断切分，直到几乎给每个训练样本单独安排一个区域；它容易把训练题答对，但这些很小的区域未必适合新样本。
 
-判断时比较同一指标下的训练误差与验证误差。例如训练错1%、验证错20%，值得检查过拟合；训练和验证都错20%，则更像还没学到规律。比较之前要确认两批数据的处理方式和来源大体一致，避免把分布变化误当成纯粹的过拟合。
+训练集用于学习模型参数；验证集检查模型对未参与这次拟合的数据表现如何。分类错误率就是分错的条数除以总条数。判断过拟合时，比较同一指标下的训练误差与验证误差。例如训练错1%、验证错20%，值得检查过拟合；训练和验证都错20%，则更像还没学到规律。比较之前要确认两批数据的处理方式和来源大体一致，避免把分布变化误当成纯粹的过拟合。
 
-改进应说明动作怎样减少对偶然细节的依赖：
+交叉验证（cross-validation，CV）在训练数据内部轮流留出一部分做验证，用这些验证成绩比较不同方案；五折示例见[MT004](Answers.md#mt004)。可以尝试以下改进：
 
 1. **限制模型复杂度。** 减小树深、降低多项式次数，或用更简单的模型，让模型不能为每个训练点单独绕路。
 2. **加强合适的正则化。** 给大权重增加代价，并用训练集内部的CV选强度；惩罚过强也会把真实规律压掉。
@@ -271,7 +271,7 @@ The intended diagnosis is underfitting: the representation or linear decision ru
 A defensible choice, and the supplied answer, is **random forest**. It captures nonlinear relationships/interactions and supports feature-importance or permutation-importance analyses for inspection. A plain logistic model may miss nonlinear structure unless features are expanded. A conventional kernel SVM on 50,000 samples can incur substantial kernel computation/storage cost. These are task-based reasons, not proof that RF must be most accurate.
 
 ### 中文讲解
-这题不是让你背“哪个模型最强”，而是把选择理由对应到任务：有50,000名客户、25个特征，希望预测购买类别，同时看懂哪些特征有帮助。按配套答案，可选择随机森林（random forest，RF）。
+任务有50,000名客户、25个特征，需要预测购买类别，同时分析哪些特征有帮助。按配套答案，可选择随机森林（random forest，RF）。
 
 第一个理由是**能处理非线性和特征交互**。例如“收入高”未必单独意味着购买，可能还取决于年龄与使用频率。树在不同分支用不同条件判断，多棵树投票可以表示这类关系，不必预先手写所有交互项。
 
@@ -305,7 +305,9 @@ A）NB是Bayes决策规则的一种具体实现。B）二分类标签为0、1时
 **A and C.** C means independence **conditional on the class**. NB specifies class-conditional models and then applies the Bayes decision rule. B omits the priors: compare $p(x\mid c)p(c)$ under equal error costs. D compares a decision principle with a particular implementation; efficiency depends on the model. The rule applies to any finite number of classes, so E is false.
 
 ### 中文讲解
-先认清“规则”与“模型”的关系。Bayes决策规则告诉我们：错分代价相同时，看到$x$后选后验最大的类。NB提供一种计算这些后验的办法：已知类别后，把各特征的证据相乘，再结合类别先验。
+$x$是一条待分类记录的特征，$c$是候选类别。先验$P(c)$表示还没看这条记录时，类别$c$有多常见；类条件分布$p(x\mid c)$描述已知类别是$c$时，什么输入常见；后验$P(c\mid x)$表示看过输入$x$后，它属于$c$类的概率。竖线“$\mid$”读作“在已知……的条件下”，条件写在竖线右边。二分类的两个后验概率加起来为1。
+
+Bayes决策规则在错分代价相同时选择后验最大的类。NB通过一个具体假设计算这些后验：给定类别后，各特征独立，因而可以把各维的概率或密度相乘，再结合类别先验。
 
 二分类时，两类的未归一化分数为
 
@@ -315,7 +317,7 @@ $$s_0=p(x\mid0)P(0),\qquad s_1=p(x\mid1)P(1).$$
 
 - **A选。** NB先作条件独立的建模假设，再执行上述规则，是一种具体实现。
 - **B不选。** 补充数值：类条件密度为0.4、0.2，先验为0.1、0.9。两类分数是0.04、0.18，后验约为0.182、0.818，应选类1。单独比较密度会选错。连续量的密度值不是“恰好取这个值的概率”，这里用它比较证据。
-- **C选，但补上条件。** 独立指**给定类别之后**独立，即$p(x\mid c)=\prod_j p(x_j\mid c)$，并非在混合所有类别后各特征也独立。
+- **C选，但补上条件。** 独立指**给定类别之后**独立，即$p(x\mid c)=\prod_j p(x_j\mid c)$，其中$\prod_j$表示把每个特征$j$对应的项相乘。这个假设不要求混合所有类别后的特征也独立。
 - **D不选。** 决策规则没有规定采用什么概率模型，无法脱离模型谈它必然比NB快。
 - **E不选。** 三类、十类都可以逐一算后验再取最大值，规则不局限于二分类。
 
@@ -348,7 +350,7 @@ A）估计每一类中特征的概率分布。B）难以向分类器加入先验
 - **D正确。** 分布假设决定哪些输入在模型看来常见。若数据是二值出现信息，却用不合适的连续形状强行拟合，估计的概率和分类表现都可能受影响。
 - **E错误。** 它只比较$p(x\mid c)$，漏了$P(c)$。罕见类的密度略高，仍可能不足以抵消它很低的先验。只有先验相等等条件下，单独比较密度才等价。
 
-因此选A、D。遇到“最大类条件密度”和“最大后验”时，先检查题目是否给出了等先验；完整数值反例见[MT040](Answers.md#mt040)。
+类条件密度与后验的数值比较见[MT040](Answers.md#mt040)。
 
 **出处：** 2023B期中 Q1，原卷第2页（5分）
 
@@ -392,7 +394,13 @@ $$p(x\mid c)=\prod_{j=1}^d\frac{1}{\sqrt{2\pi\sigma_{cj}^2}}
 
 这里$\prod$表示逐项相乘，$\exp(t)=e^t$。离均值越远，平方距离越大，指数越负，密度越小。前面的系数使每个高斯密度下的总面积为1；密度是分布曲线在这个位置的高度。一个很窄区间内的概率，约等于这里的密度乘以区间宽度；整条曲线下的面积为1。因此单点密度本身不是“恰好等于这个数的概率”。
 
-**预测时把证据和先验合起来。** 比较$\pi_c p(x\mid c)$即可，因为后验共同的分母$p(x)$不改变排序。实际常取自然对数。这里$e\approx2.718$，$\log a=t$表示$a=e^t$。log严格递增，不改变大小关系，并把一串乘积改成求和。展开得到
+**预测时把证据和先验合起来。** 比较$\pi_c p(x\mid c)$即可，因为后验共同的分母$p(x)$不改变排序。实际常取自然对数。这里$e\approx2.718$，$\log q=s$表示$q=e^s$。log严格递增，不改变大小关系，并把一串乘积改成求和。先看单个特征：令$a=2\pi\sigma_{cj}^2>0$、$t=-(x_j-\mu_{cj})^2/(2\sigma_{cj}^2)$，它的密度就是$a^{-1/2}e^t$。根号分母写成负二分之一次方后，取log得到
+
+$$\log(a^{-1/2}e^t)
+=\log(a^{-1/2})+\log(e^t)
+=-\frac12\log a+t.$$
+
+这里分别用了“乘积的log等于各项log之和”“幂次可以移到log前面”及$\log(e^t)=t$。把$a,t$换回原式，再将各维相加、加上$\log\pi_c$，得到
 
 $$g_c(x)=\log\pi_c-\frac12\sum_{j=1}^d\log(2\pi\sigma_{cj}^2)
 -\frac12\sum_{j=1}^d\frac{(x_j-\mu_{cj})^2}{\sigma_{cj}^2}.$$
@@ -425,12 +433,12 @@ $$D_0=0.8^2+0.8^2=1.28,\qquad D_1=(-0.2)^2+(-0.2)^2=0.08.$$
 A）NB会最小化出错概率。B）NB不建模特征相关性，所以边界总与坐标轴对齐。C）NB不直接学习类别后验。D）NB不会过拟合。E）NB的准确率很依赖类条件分布（CCD）的选择。
 
 ### English answer
-**A, C and E in the supplied key.** Bayes optimality requires correct posteriors and equal error costs. NB learns priors and class-conditional distributions; their choice affects accuracy. Independent features do not force axis-aligned decision boundaries, and fitted NB models can overfit.
+**A, C and E in the supplied key.** Under equal error costs, choosing a class with maximal true posterior minimizes classification error. Correct posterior estimates are sufficient, but not necessary if the maximizing class is unchanged. NB learns priors and class-conditional distributions; their choice affects accuracy. Independent features do not force axis-aligned decision boundaries, and fitted NB models can overfit.
 
 ### 中文讲解
 NB的“朴素”是：**已经知道类别后**，把不同特征分别建模。例如在同一类邮件中，近似把各词的出现情况分开估计。它没有保证真实数据一定满足这个假设。
 
-- **A按原解选，但要带条件。** 在错分代价相同、后验概率正确时，选后验最大的类能使出错概率最小。若真实后验为$(0.8,0.2)$，选第一类错的概率是0.2，选第二类则是0.8。NB只有把这些概率估计准确时才达到该最优值。
+- **A按原解选，但要带条件。** 错分代价相同时，选择真实后验最大的类能使出错概率最小。若真实后验为$(0.8,0.2)$，选第一类错的概率是0.2，选第二类则是0.8。准确估计后验可以保证选中概率最大的类；即使估成$(0.6,0.4)$，仍选第一类，错误概率也还是0.2。因此“概率估计完全准确”是充分条件，关键是能否选中真实后验最大的类；NB的独立假设本身不保证这一点。
 - **B不选。** “单个类的分布轮廓”和“两类打平的位置”不是同一幅图。各特征独立使高斯轮廓不倾斜，但比较两类仍可以得到斜边界。
 - **C选。** NB先估计各类特征分布和先验，再代入Bayes公式算后验，没有直接把类别后验作为训练模型。
 - **D不选。** 小样本会使均值、方差和词概率估计不稳；碰巧没见过某个词就给它零概率，也是过度贴合训练样本的表现。可以平滑或稳定方差估计。
@@ -570,8 +578,6 @@ A）生成式分类器增加新特征维度不需要重新训练。B）生成式
 - **D错误，选。** 分布必须匹配特征含义。身高这类连续测量可以尝试高斯分布；“词是否出现”是0/1，更适合Bernoulli模型；词次数可用Multinomial模型。不存在高斯在所有场合都更好的结论。
 - **E按课程分类正确，不选。** 题中Bayes分类器走“分布与先验→后验”的路线；SVM、LR及这些树集成方法直接学习分类规则或类别概率。
 
-因此选A、C、D。答这类题要同时检查“学习对象”和“总是、无需”等绝对化表述，不能只按算法名字分类。
-
 **出处：** 2021A期中 Q1，原卷第2页（5分）
 
 **答案依据：** 2021A配套解答 / 2021A配套解答副本 Q1，随卷答案ACD（题目要求选不正确）。
@@ -630,7 +636,7 @@ Discriminative training avoids specifying a full feature distribution. A simple 
 If “shared variance” means one shared variance **per feature**, NB has $3d+1$ free parameters including the learned prior. State which model and counting convention you use.
 
 ### 中文讲解
-比较时用同一组问题问两种模型，容易凑齐有内容的五点：学什么、边界什么形状、怎样训练、能否扩展、需要多少参数。
+从学习对象、边界形状、训练方法、扩展方式和参数数量五个方面比较两种模型。
 
 **学习对象不同。** LR直接写出$P(y=1\mid x)=\sigma(w^Tx+b)$，从带标签数据学习$w,b$。Gaussian NB先学$P(y=c)$及$p(x\mid c)$，再用Bayes公式得到后验；因此前者判别式，后者生成式。
 
@@ -644,7 +650,7 @@ $$\log\frac{P(1\mid x)}{P(0\mid x)}
 $$\log\frac{P(1\mid x)}{P(0\mid x)}
 =\frac{\mu_1-\mu_0}{v}x+\frac{\mu_0^2-\mu_1^2}{2v}+\log\frac{\pi_1}{\pi_0}.$$
 
-这正是$wx+b$的形式。多维NB把各维对应项相加，得到$w^Tx+b$；若每类方差不同，平方项通常不会抵消。记$p=P(1\mid x)$，则另一类的概率为$1-p$。上式说明$\log[p/(1-p)]=f$，即$p/(1-p)=e^f$。两边乘以$1-p$并把含$p$的项移到一起，得$p(1+e^f)=e^f$，所以$p=1/(1+e^{-f})$。这个把分数$f$转成概率的函数就是sigmoid。
+这正是$wx+b$的形式。多维NB把各维对应项相加，得到$w^Tx+b$；若每类方差不同，平方项通常不会抵消。记$p=P(1\mid x)$，则另一类的概率为$1-p$。上式说明$\log[p/(1-p)]=f$，即$p/(1-p)=e^f$。两边乘以$1-p$并把含$p$的项移到一起，得$p(1+e^f)=e^f$，所以$p=1/(1+e^{-f})$。这就是sigmoid。
 
 **训练原则可都叫MLE，但最大化的量不同。** LR让给定输入后的真实标签更可信；NB让观察到的输入与类别在联合模型下更可信。NB的高斯参数可用分类后的均值、方差等估计；普通LR通常需要迭代数值优化。二者都可扩展多分类，也都能加入正则或参数先验。
 
@@ -745,8 +751,6 @@ A refers to the standard binary SVM taught in the course; multiclass wrappers or
 - **D不选。** NB并不只支持0/1特征。Gaussian NB用高斯密度描述连续测量，Bernoulli NB用出现与否，Multinomial NB常用词计数。
 - **E选。** LASSO在回归目标中加入$\lambda\sum_j|w_j|$。某些权重会被压成精确的0，预测式不再使用对应特征，这就是变量选择。具体留下哪些变量由数据及惩罚强度决定。
 
-所以选B、E。特别要分清“通常建议做”与“数学上必须做”，以及“基础二分类器”与它的多分类扩展。
-
 **出处：** 2021B*期中 Q1，原卷第2页（5分）
 
 **答案依据：** 2021B配套解答 / 2021B配套答案副本 Q1，随卷答案BE；其余选项为跨讲说明。
@@ -813,9 +817,7 @@ $$P(y=1\mid x)=\sigma(f)=\frac{1}{1+e^{-f}}.$$
 - **B正确。** Sigmoid把实数分数映射成0到1之间的数。
 - **C错误。** One-vs-rest（OvR）是“一类对其余所有类”。三类时分别训练1对其余、2对其余、3对其余，共3个二分类器，再比较分数。它不是任意画两条线分三个区域。
 - **D正确。** 输出按模型定义解释为类别概率；模型假设或拟合不佳时，概率未必在真实数据中校准准确。
-- **E错误。** 凸目标不保证每组数据都有唯一有限最优解，也不保证任意学习率的迭代都收敛。无正则且完全可分时，权重可能不断增大，参见[MT001](Answers.md#mt001)。
-
-分数经sigmoid变成概率，再经阈值变成类别。
+- **E错误。** 在附近小改参数也不能降低损失，叫局部最小；在全部可能的参数中损失最低，叫全局最小。凸目标的局部最小值也是全局最小值，但最优参数可能不止一组，最低损失也未必能在有限参数处达到。无正则且数据完全可分就是后一种情况；例子见[MT001](Answers.md#mt001)。迭代是否收敛还取决于学习率等设置。
 
 **出处：** 2023A期中 Q2，原卷第2页（5分）；2025A期中 Q2，原卷第2页（5分）
 
@@ -993,9 +995,13 @@ A）训练时只有一个局部最优解。B）必须固定学习率 $\eta$ 才�
 The supplied key selects **B and C**. A fixed learning rate is not necessary; increasing C weakens the usual penalty and does not guarantee the stated changes in either error. Training may use sigmoid probabilities while prediction thresholds the score, making D valid. **A needs an additional qualification:** convexity rules out inferior local minima, but alone does not guarantee a unique finite minimizer.
 
 ### 中文讲解
-逻辑回归先算实数分数$f(x)=w^Tx+b$，再用sigmoid函数$\sigma(f)=1/(1+e^{-f})$把它变成0到1之间的正类概率；另一类的概率是$1-\sigma(f)$。训练通过调整$w,b$，使正确标签的概率更高；学习率决定每次调整迈多大一步，正则强度决定我们多不愿意使用大权重。这三件事不要混在一起。
+逻辑回归先算实数分数$f(x)=w^Tx+b$，再用sigmoid函数$\sigma(f)=1/(1+e^{-f})$把它变成0到1之间的正类概率；另一类的概率是$1-\sigma(f)$。训练通过调整$w,b$，使正确标签的概率更高；学习率决定每次调整迈多大一步，正则强度决定我们多不愿意使用大权重。
 
-- **A按原解视为正确，但表述有条件。** 标准线性LR的负log似然是凸函数：若存在局部最小值，它不会比另一个全局最小值更差。但凸性本身不保证最小值只有一个，更不保证存在有限的最优权重。原解意在说明没有“坏的局部极小值”。
+在附近小幅改变参数，损失都不会更低，称为局部最小；在所有可能的参数中损失最低，称为全局最小。凸函数的图像不高于任意两点间的连线，因此它的局部最小值也是全局最小值。不过，最低位置可以不止一个。
+
+补充例子：$L(w_1,w_2)=w_1^2$不依赖$w_2$。只要$w_1=0$，无论$w_2$取0、2还是其他值，损失都是最小值0。这是凸目标，却有一整条同样低的“平底”。
+
+- **A按原解视为正确，但表述有条件。** 标准线性LR的负log似然是凸函数，因而没有损失更高的局部最小值；这不保证最优参数唯一，也不保证存在有限的最优权重。原解意在说明前一个性质。
 - **B错误，选。** 梯度下降写成$w_{t+1}=w_t-\eta_t\nabla L(w_t)$。这里$t$是第几次更新，$L$是训练损失；梯度$\nabla L$把各个权重的局部变化率列在一起，指出损失增加最快的方向。沿反方向走足够小的一步，损失会下降；步长太大则可能越过低点。$\eta_t$控制这一步的大小，可以固定，也可以随训练调整，没有“必须固定”的要求。
 - **C错误，选。** 常见目标为$\|w\|^2/C+\sum_i\ell_i$，增大$C$使权重惩罚变弱。模型更能贴合训练数据，但测试表现可能改善，也可能过拟合后变差；连分类错误率也不必随参数连续、严格变化。
 - **D正确。** 训练使用连续概率，便于计算损失和梯度；测试只需要类别，可以判断$f(x)>0$。因为$\sigma(0)=0.5$且sigmoid递增，分数取正与概率超过0.5等价。
@@ -1031,8 +1037,6 @@ A is false for general logistic regression; numerical optimization is required. 
 - **D正确。** 正则化强度是超参数，可用训练数据内部的CV选择，使限制强度适合新样本。
 - **E错误。** 对$\alpha\|w\|^2$求导得到$2\alpha w$，梯度更新因此多了一项把权重拉向0的作用，最优系数会改变。
 
-梯度中“数据项”和“正则项”同时作用，是理解正则化不只是稳定数值的直接方法。
-
 **出处：** 2023B期中 Q2，原卷第2页（5分）
 
 **答案依据：** 2023B随卷解答 Q2，随卷答案BCD；其余选项为跨讲说明。
@@ -1053,10 +1057,22 @@ A）可通过松弛变量处理不可分数据。B）寻找最大间隔超平面
 The supplied 2023A key selects **A and B**. Slack variables allow violations, and margin maximization is central to the objective. D and E are false. C is context-dependent: hard-margin or heavily penalized soft-margin SVMs can be sensitive to outliers, whereas the degree of sensitivity depends on C, the kernel and contamination; the bare statement is too broad to treat as a universal characteristic.
 
 ### 中文讲解
-线性SVM的边界是$w^Tx+b=0$。它希望边界与两侧关键点之间的间隔大，同时允许难处理的样本付出一定违例代价。软间隔的约束写为$y_i(w^Tx_i+b)\ge1-\xi_i$，$\xi_i\ge0$就是松弛变量。
+线性SVM用分数$f(x)=w^Tx+b$判断类别；$w$是特征权重，$b$是偏置。标签$y_i$取$+1$或$-1$，所以$y_if(x_i)>0$表示分对，负值表示分错。分界是$f(x)=0$；二维时是一条直线，SVM希望在分界两侧留出较宽的间隔。
+
+把$w,b$同时乘一个正数不会改变这条分界，所以需要固定分数尺度。通常把两侧间隔边缘的分数约定为$+1$与$-1$。对非零$w$，每一侧到分界的垂直距离为$1/\|w\|$，其中$\|w\|=\sqrt{\sum_jw_j^2}$是权重向量的长度。要求$y_if(x_i)\ge1$，表示样本不仅分对，还位于本类间隔边缘或更远处。
+
+软间隔允许这个要求有所不足，写成$y_if(x_i)\ge1-\xi_i$、$\xi_i\ge0$。松弛变量$\xi_i$记录允许的不足量；给定分数后，所需的最小值是$\max(0,1-y_if(x_i))$。补充例子：
+
+| 有符号分数$y_if(x_i)$ | 样本情况 | 最小松弛$\xi_i$ |
+|---:|---|---:|
+| 1.2 | 分对，已越过间隔边缘 | 0 |
+| 0.5 | 分对，但距分界太近 | $1-0.5=0.5$ |
+| $-0.2$ | 分错 | $1-(-0.2)=1.2$ |
+
+训练目标中的$C\sum_i\xi_i$对这些不足收费。$C$越大，模型越不愿接受违例；它与间隔大小的取舍见[MT060](Answers.md#mt060)。
 
 - **A正确。** $\xi_i=0$表示满足原间隔要求；正值允许样本进入间隔，甚至分错。因此线性不可分时也能训练软间隔模型，而非要求所有点都完全分开。
-- **B正确。** 在固定规范化尺度下，减小$\|w\|$会增大几何间隔。软间隔再把这个要求与违例损失一起优化。
+- **B正确。** 在上述尺度下，减小$\|w\|$就会增大间隔$1/\|w\|$；软间隔同时考虑违例损失。
 - **C不作为本题无条件结论选择。** 硬间隔或很大的$C$会强烈要求照顾每个点，异常点可能拉动边界；较小正$C$允许接受它的违例，影响又会不同。配套答案未选C，不能反过来理解成“SVM对异常值免疫”。
 - **D错误。** 高维输入不自动排除SVM；合适的线性求解器及正则化可以用于高维稀疏特征。效率还取决于样本数和实现。
 - **E错误。** k-means在没有类别监督的情况下聚类；SVM用已有类别标签学习分界，两者不是同一种训练过程。
@@ -1087,13 +1103,15 @@ A feature map can make data linearly separable. The kernel trick replaces mapped
 
 ![MT048 answer illustration](assets/answer-kernel-map.png)
 
-但**核技巧还多做了一步：连映射后的向量也不必真的造出来**。SVM对偶及预测所需的特征运算都可以写成内积。此例的核是
+**核技巧使我们能直接计算映射后的内积。** 多维向量的内积是把对应分量相乘再相加，例如$(1,2)$与$(3,4)$的内积为$1\times3+2\times4=11$。记号$u^Tv$中的$T$将列向量转成行向量，以完成这次相乘。一维时，内积就是普通乘法，因此本例的核为
 
 $$k(x,z)=\phi(x)\phi(z)=x^2z^2.$$
 
 假如$x=-1,z=2$，先映射再相乘得到$1\times4=4$；直接计算核也得4。两种路径得到同一个内积。对本例这样的小映射，直接构造没有负担；对于极多特征的映射，直接求核值才可能省去大量工作。
 
-预测仍然可以执行：把$f(x)=\sum_i\alpha_i y_i\phi(x_i)^T\phi(x)+b$中的内积换成$k(x_i,x)$即可。支持向量与系数承担各项贡献，不需要看到新空间的每一维。
+SVM可写成按训练样本组合分数的形式：$f(x)=\sum_i\alpha_i y_i\phi(x_i)^T\phi(x)+b$。这里$x_i$是训练样本，$y_i$是其正负标签，$\alpha_i$是训练得到的贡献系数，$b$是偏置。系数非零、仍参与预测的样本称为支持向量。
+
+把每项内积替换成$k(x_i,x)$，就能计算同一个预测分数。采用按样本系数求解的等价训练形式时，训练中的特征运算也只需这些内积，因此不必逐维构造映射后的向量。
 
 **出处：** 2023A期中 Q9，原卷第6页（10分）
 
@@ -1115,7 +1133,13 @@ A）等价于在变换后的输入上训练线性SVM。B）训练完成后不再
 **A, D and E**, with E interpreted as a possible saving relative to explicitly constructing the feature map. Nonlinear kernel prediction normally retains support vectors and coefficients, so B is false. A valid real kernel must produce symmetric positive-semidefinite Gram matrices, not merely positive entries.
 
 ### 中文讲解
-设$\phi(x)$把原输入变成一组新特征。新空间里的线性SVM需要内积$\phi(x)^T\phi(z)$，核函数直接返回这个数：$k(x,z)=\phi(x)^T\phi(z)$。我们可以不显式生成很长的$\phi(x)$，这就是核技巧。
+设$\phi(x)$把原输入变成一组新特征。内积把两组特征的对应分量相乘再相加；核函数直接返回这个结果：$k(x,z)=\phi(x)^T\phi(z)$。我们可以不显式生成很长的$\phi(x)$，这就是核技巧。
+
+把每对训练样本的核值排成一张表，得到核矩阵（Gram matrix）：第$i$行、第$j$列是$K_{ij}=k(x_i,x_j)$。例如两条样本对应
+
+$$K=\begin{pmatrix}k(x_1,x_1)&k(x_1,x_2)\\k(x_2,x_1)&k(x_2,x_2)\end{pmatrix}.$$
+
+矩阵乘一个向量，就是分别用每一行与该向量求内积；下面C的反例会用到这个运算。
 
 - **A正确。** 核SVM对应在映射后的特征空间学习线性分隔，在原空间看起来可能是曲线。
 - **B错误。** 一般非线性核预测为$f(x)=\sum_{i\in SV}\alpha_i y_i k(x_i,x)+b$。新点要与支持向量$x_i$算核值，因此通常仍需保存这些训练点及系数；其余训练点可以不参与预测。
@@ -1205,21 +1229,38 @@ C fails on one-dimensional inputs 0 and 2: its Gram matrix is [[1,1],[1,0]], wit
 $$a^TKa=\sum_{i,j}a_i a_j\phi(x_i)^T\phi(x_j)
 =\left\|\sum_i a_i\phi(x_i)\right\|^2\ge0.$$
 
-右边是一个向量的平方长度，不可能负。找到一次负值，就能证明候选函数不是所有实输入上的合法核；无需证明它对每组输入都失败。
+向量的平方长度是各分量的平方和，例如$(v_1,v_2)$的平方长度为$v_1^2+v_2^2$，所以右边不可能负。找到一次负值，就能证明候选函数不是所有实输入上的合法核；无需证明它对每组输入都失败。
 
 **A合法，但排除零向量。** 定义$\phi(x)=x/\|x\|$，就是把向量缩到长度1，方向不变。候选式等于$\phi(x)^T\phi(z)$，符合内积结构。$x=0$时分母为0，题目的原式没有定义。
 
-**B在积分有限时合法。** 对任意$a$，把求和移到积分里：
+**B在积分有限时合法。** $z$可理解为一个潜在状态，$p(x_i\mid z)$表示固定这个状态后，输入$x_i$的概率或密度。先只看两个样本，简写$p_i(z)=p(x_i\mid z)$。
 
-$$a^TKa=\int\left(\sum_i a_i p(x_i\mid z)\right)^2p(z)\,dz.$$
+对于一个固定的$z$，$i,j$各取1或2，四项对应$(1,1)$、$(1,2)$、$(2,1)$、$(2,2)$；中间两项相同，合并后为
 
-括号里的实数平方非负，概率密度$p(z)$也非负，对所有$z$累加仍非负。这可以理解成每个潜在$z$提供一维特征，再按$p(z)$加权计算内积。
+$$\begin{aligned}
+\sum_{i,j=1}^{2}a_i a_j p_i(z)p_j(z)
+&=a_1^2p_1(z)^2+2a_1a_2p_1(z)p_2(z)+a_2^2p_2(z)^2\\
+&=[a_1p_1(z)+a_2p_2(z)]^2.
+\end{aligned}$$
+
+平方项正是这样出现的。若$z$只有$z_1,z_2$两个可能状态，概率为$q_1,q_2\ge0$、$q_1+q_2=1$，令$t_r=a_1p_1(z_r)+a_2p_2(z_r)$（$r=1,2$），再对状态求和便得到$q_1t_1^2+q_2t_2^2\ge0$：每个平方非负，权重也非负。
+
+连续的$z$用积分把各位置的贡献累加。更多样本仍可按同样方式展开平方，因此对任意系数向量$a$，
+
+$$a^TKa=\int\left(\sum_i a_i p(x_i\mid z)\right)^2p(z)\,dz\ge0.$$
+
+这里$p(z)$是非负密度，$dz$表示累加时的小区间宽度。每一份贡献都非负，总和也非负；积分有限的条件保证核值是可用的有限数。
 
 **C不合法。** 只选一维点$x_1=0,x_2=2$，它们的内积分别为0、0、0、4，按候选规则得到
 
 $$K=\begin{pmatrix}1&1\\1&0\end{pmatrix}.$$
 
-取$a=(1,-2)^T$，先算$Ka=(-1,1)^T$，再算$a^TKa=1(-1)+(-2)(1)=-3<0$。这一步直接反驳半正定。
+取$a=(1,-2)^T$。先用$K$的每一行与$a$相乘：
+
+$$Ka=\begin{pmatrix}1\times1+1\times(-2)\\1\times1+0\times(-2)\end{pmatrix}
+=\begin{pmatrix}-1\\1\end{pmatrix}.$$
+
+再把$a$与这个结果求内积，得到$a^TKa=1\times(-1)+(-2)\times1=-3<0$，直接反驳半正定。
 
 **D不合法。** 单点也要满足$k(x,x)\ge0$，因为它对应自己的平方长度。取一维$x=\sqrt{3\pi/2}$，则$\sin(x^2)=\sin(3\pi/2)=-1$，已经失败。
 
@@ -1386,16 +1427,18 @@ The supplied solution expects **+1 for Gaussian Bayes and −1 for quadratic-ker
 
 **Gaussian Bayes比较概率证据。** 为两类分别拟合高斯分布，再乘类别先验。某类样本多，估出的先验通常更大；但某类分布很宽，同样的位置上密度又可能更低。因此不能只看D离哪个中心近，也不能只看哪类点多。原解在其示意拟合下预期D属于红色$+1$类。原图两类均为圆点，本题建议保留彩色。
 
-若要真正算出类别，需要每类均值$\mu_c$、协方差$\Sigma_c$和先验$\pi_c$，比较
+**二次核SVM寻找特征空间的间隔分界。** 二次特征使原空间可以出现曲线，例如把内层点围住、把外圈留在另一侧。配套草图把D放在绿色内层一侧，因此预期为$-1$。它没有先拟合两个高斯密度。
+
+精确的高斯分类需要各类均值、协方差与先验；精确的SVM曲线还依赖$C$与实际点坐标。原图没有给齐这些量，因此两类结果是配套解答的示意判断。
+
+选读：Gaussian Bayes的矩阵分数。把待判断点D的特征写成向量，$\mu_c$是$c$类各维均值，$\pi_c$是类别先验。协方差矩阵$\Sigma_c$的对角线记录各维方差，其他位置描述两维怎样一起变化。假定它正定且可逆，两类可比较
 
 $$g_c(D)=\log\pi_c-\frac12\log|\Sigma_c|
 -\frac12(D-\mu_c)^T\Sigma_c^{-1}(D-\mu_c),$$
 
-其中省略了两类共同的常数。最后一项是按各方向波动大小调整的距离；行列式项反映分布整体宽窄。原示意图未给齐这些数值，所以这里应明确写“按配套答案的预期”，不能由“红点更多”推出一般定理。
+其中省略了两类共同的常数。$\Sigma_c^{-1}$是与$\Sigma_c$相乘得到单位矩阵的逆矩阵；$|\Sigma_c|$是行列式，这里反映分布在各方向上的总体宽窄。最后的二次型按各方向的波动和关联调整距离。
 
-**二次核SVM寻找特征空间的间隔分界。** 二次特征使原空间可以出现曲线，例如把内层点围住、把外圈留在另一侧。配套草图把D放在绿色内层一侧，因此预期为$-1$。它没有先拟合两个高斯密度。
-
-作答给出两类预期结果，并解释一个来自“密度与先验”，另一个来自“核空间中的间隔边界”。精确的SVM曲线还依赖$C$与实际点坐标，单张示意图不足以唯一确定。
+若各维独立，$\Sigma_c$只有对角线上的方差$v_j$，最后的距离项便是$\sum_j(D_j-\mu_{cj})^2/v_j$，而$\log|\Sigma_c|=\sum_j\log v_j$。这就回到[MT046](Answers.md#mt046)的逐维高斯分数；完整矩阵写法还允许各维相关。
 
 **出处：** 2020B期中Quiz Q10，原卷第5页（10分）
 
@@ -1481,7 +1524,9 @@ A）训练数据越多越容易过拟合。B）LASSO的惩罚α很大时，某�
 **C, D and E** under the usual interpretation. LASSO can produce exact zeros; ridge generally shrinks coefficients continuously. Setting the penalty to zero recovers the OLS objective. A is not a general relationship. D describes typical ridge behaviour, not a theorem that a ridge coefficient can never equal zero.
 
 ### 中文讲解
-普通最小二乘（ordinary least squares，OLS）只最小化残差平方和；Ridge再加$\alpha\sum_jw_j^2$，LASSO再加$\alpha\sum_j|w_j|$。二者都控制权重，区别在于压到零附近时的行为。
+回归预测一个数值。第$i$条记录的预测为$f(x_i)$，真实值为$y_i$，残差$r_i=f(x_i)-y_i$就是带正负方向的预测误差；例如预测5、实际3，残差为2，残差平方为4。
+
+普通最小二乘（ordinary least squares，OLS）把各条残差平方后相加，最小化$\sum_i r_i^2$。Ridge再加$\alpha\sum_jw_j^2$，LASSO再加$\alpha\sum_j|w_j|$。二者都控制权重，区别在于压到零附近时的行为。
 
 - **A错误。** 更多有代表性的数据通常使估计更稳定，不能说数据越多越容易过拟合；数据来源与模型复杂度仍需考虑。
 - **B错误。** LASSO恰能使一些系数精确为0，并非只能接近0。
@@ -1519,9 +1564,17 @@ A）鼓励部分权重为零可做特征选择。B）Ridge因使用L2而能有�
 - **B错误。** Ridge惩罚平方和，通常让权重整体变小，不像LASSO那样主动产生稀疏解。
 - **C错误。** OMP（orthogonal matching pursuit）每轮挑一个与当前残差最相关的候选特征，再对已选集合重新拟合。它是在当前局面作贪心选择，没有穷举所有同样大小的特征集合，因此不保证全局最佳。
 - **D错误。** 即使特征集合相同，训练目标也可能不同。OLS只顾平方误差；Ridge加平方惩罚；LASSO加绝对值惩罚，学出的系数自然可能不同。
-- **E正确。** 在二维权重平面中，$|w_1|+|w_2|=t$是一圈菱形，尖角落在坐标轴上；损失等高线与约束边界相接时容易碰到这些角，对应某个系数为0。L2的圆形没有这种轴上尖角。
+- **E正确。** 权重平面上的一点$(w_1,w_2)$就是一组候选系数。把权重绝对值的总和限制在上限$t>0$以内，即$|w_1|+|w_2|\le t$，可选范围便是菱形内部。边界尖角落在坐标轴上，这些位置有一个系数为0。下面用一个具体损失说明最优解怎样落到尖角。
 
-若对几何解释不熟，可先用[MT019](Answers.md#mt019)的一维计算理解为什么L1会让解停在零点，再回来看菱形图景。
+补充教学目标为$L(w_1,w_2)=\frac12[(w_1-1.6)^2+(w_2-0.4)^2]$。没有约束时，最优点是$u=(1.6,0.4)$。把损失相同的参数点连起来，得到以它为中心的圆，这些圆叫损失等高线；圆越小，损失越低。
+
+左图允许$|w_1|+|w_2|\le1$，右图允许$w_1^2+w_2^2\le1$。两者都把无约束最优点排除在外。把等高线从中心向外扩大，第一条接触允许范围的圆，对应能取到的最小损失。
+
+![MT045 L1 and L2 constraint geometry](assets/answer-l1-l2-geometry.png)
+
+*整理者补充的二维约束示意。横轴为权重$w_1$，纵轴为权重$w_2$；灰色区域是可选参数，叉号$u$是无约束最优点，虚线是首次接触可选范围的损失等高线，实心圆点为约束下的最优点。*
+
+左图在菱形尖角$(1,0)$接触，第二个系数恰好为0。右图离$u$最近的圆上点位于原点指向$u$的方向，把$u$除以自身长度便能缩到半径1：$(1.6,0.4)/\sqrt{1.6^2+0.4^2}\approx(0.970,0.243)$，两个系数都非零。L1的轴上尖角有利于产生零系数；实际哪些系数为0仍取决于数据与惩罚强度。一维代数解释见[MT019](Answers.md#mt019)。
 
 **出处：** 2023A期中 Q6，原卷第3页（5分）
 
@@ -1696,7 +1749,7 @@ Absolute residual loss grows linearly, so large output errors have less influenc
 
 **权重使用L2，限制过大的系数。** $\lambda$越大，模型越不愿为降低训练误差而使用大权重，有助于稳定拟合。惩罚过强也可能欠拟合，强度仍需验证。
 
-最容易失分的是把它叫LASSO。LASSO对**权重**取绝对值以鼓励精确零系数；本题绝对值在**残差**上，权重惩罚为平方，所以通常只有收缩作用，不自动得到稀疏特征选择。在$\lambda\ge0$时目标是凸的，即局部最小值也是全局最小值；但残差为0处有尖点，不能处处直接用普通导数。
+LASSO对**权重**取绝对值以鼓励精确零系数；本题绝对值在**残差**上，权重惩罚为平方，所以通常只有收缩作用，不自动得到稀疏特征选择。在$\lambda\ge0$时目标是凸的，即局部最小值也是全局最小值；但残差为0处有尖点，不能处处直接用普通导数。
 
 **出处：** 2020B期中Quiz Q13，原卷第6页（10分）
 
@@ -1749,6 +1802,8 @@ $$L(r)=\begin{cases}c_-r^2,&r<0,\\c_+r^2,&r\ge0,\end{cases}
 Two useful directions are (1) add informative features or interactions, such as time-of-day effects interacting with weather, and (2) use a nonlinear representation/model if the relationship is not linear. Compare by validation or training-only CV. Also check excessive regularization, data alignment and optimization. The validation result alone does not prove the training least-squares solution is wrong.
 
 ### 中文讲解
+均方误差（mean squared error，MSE）把每条预测误差平方后再取平均。对$N$条验证记录，$\mathrm{MSE}=\frac1N\sum_i[f(x_i)-y_i]^2$；同一批记录上，数值越小表示平均平方误差越小。
+
 均值基线忽略所有输入，无论晴天雨天、早晨晚上，都预测训练集的平均出租车使用量。线性模型在验证集上与它的MSE差不多，说明当前模型还没有把输入中的信息转成可推广的预测收益。
 
 **建议一：补充或改善有用特征。** 使用量可能与节假日、公共交通状态有关；还可能是“雨天并且下班高峰”才特别高。可以加入有依据的额外特征或交互项，例如雨天指标乘晚高峰指标，让模型区分只下雨、只晚高峰与两者同时发生。
@@ -1878,15 +1933,13 @@ A）AdaBoost用更少的深树一定优于更多树桩。B）LR计算便宜，�
 The supplied key selects **C and E**. Trees can be fitted and evaluated independently before aggregation. Averaging more randomized trees reduces finite-ensemble variance toward a correlation-dependent limit. There is no universal superiority in A; bagging benefits most from unstable/high-variance learners, so low cost alone does not establish B. Correctly classified AdaBoost samples may receive lower relative weight but are not permanently removed.
 
 ### 中文讲解
-先看每个选项把“可能有帮助”说成了什么强度，再检查训练与预测是否被混为一谈。
-
 - **A错误。** 深树单个模型更复杂，少量深树与大量树桩的组合能力、过拟合风险和成本不同；不能只按深度和数量断言前者一定更好。
 - **B错误。** Bagging靠多个模型之间的差异来降低波动。普通LR通常比深树稳定，换一批重采样数据后模型变化可能较小；计算便宜本身不足以证明它是很有效的bagging基学习器。
 - **C正确。** 各RF树可在自己的抽样数据上独立训练；预测时也可独立算结果，再投票或平均。因此两个阶段都能并行。
 - **D错误。** AdaBoost某轮把样本分对后，通常会降低它的相对权重，但权重仍大于0，下一轮仍参与训练。以后若它又被分错，权重还可能重新升高，所以“一次分对就永久忽略”不成立。
 - **E按原解正确。** 更多随机树使有限次平均更稳定，能降低集成的方差；但有共同错误的树无法靠数量完全相互抵消，也不保证每加一棵测试误差都单调下降。
 
-因此选C、E。E中的相关性限制可以由[MT062](Answers.md#mt062)的公式直接看出。
+增加树数受到的相关性限制，见[MT062](Answers.md#mt062)的公式。
 
 **出处：** 2023B期中 Q5，原卷第3页（5分）
 
@@ -2136,9 +2189,23 @@ Logistic Regression、SVM和AdaBoost都是常见分类器。
 
 根据本题给出的图，左侧陡峭程度依次是**AdaBoost、LR、SVM**，所以按图作答为这一排序。解释要落在曲线尾部增长，而非凭算法名称背排名。
 
-**这里必须看清LR曲线的尺度。** 原图LR在$z=0$附近约为1，符合$\log_2(1+e^{-z})$或等价缩放。换底公式$\log_2 a=\ln a/\ln2$说明，这相当于把自然log损失整体乘上$1/\ln2$，曲线高度和斜率也都乘同一个数。它在远负区的斜率绝对值趋于$1/\ln2\approx1.443$；hinge在$z<1$的斜率绝对值为1。若改用常见自然log，LR在0处为$\ln2\approx0.693$，远负区斜率则趋于1，不能再用原来的严格排序理由。
+**这里必须看清LR曲线的尺度。** 原图LR在$z=0$附近约为1，符合$\log_2(1+e^{-z})$或等价缩放。换底公式$\log_2 a=\ln a/\ln2$说明，这相当于把自然log损失整体乘上$1/\ln2$，曲线高度和斜率也都乘同一个数。
 
-补充核对$z=-4$：指数损失的斜率绝对值约54.60，图示缩放LR约1.417，hinge为1，符合题图排序。改变损失缩放还会改变它与正则项的相对强度；此题结论限于给定图形，不是对所有参数下实际鲁棒性的普遍排名。
+这些斜率可以直接复算。导数表示曲线在当前位置的斜率；这里用到$\frac{d}{du}\ln u=1/u$及$\frac{d}{du}e^u=e^u$，复合函数还要乘内层的导数。指数损失为$e^{-z}$，内层$-z$的导数为$-1$，所以
+
+$$L'_{\mathrm{exp}}(z)=-e^{-z}.$$
+
+图示LR损失为$\ln(1+e^{-z})/\ln2$。先对log里面的整体求导，再乘$1+e^{-z}$的导数：
+
+$$L'_{\mathrm{LR,2}}(z)
+=\frac1{\ln2}\frac{-e^{-z}}{1+e^{-z}}
+=-\frac1{(1+e^z)\ln2}.$$
+
+Hinge在$z<1$时就是直线$1-z$，斜率为$-1$；在$z>1$时恒为0，斜率也为0。接点$z=1$有折角，不能用单个普通导数表示。这里比较的是远左侧，取斜率绝对值衡量曲线有多陡。
+
+补充代入$z=-4$：指数为$e^4\approx54.60$；图示LR为$1/[(1+e^{-4})\ln2]\approx1.417$；hinge为1，符合题图排序。当$z$继续变得很负，$e^z$趋近0，图示LR的斜率绝对值趋近$1/\ln2\approx1.443$。若改用自然log损失，就去掉了$1/\ln2$这个倍数，LR在0处的高度变为$\ln2\approx0.693$，远负区的斜率绝对值趋近1；原图中LR比hinge更陡的严格比较不能直接沿用。
+
+改变损失缩放还会改变它与正则项的相对强度，此题结论限于给定图形。链式求导的完整拆解见[MT067](Answers.md#mt067)。
 
 **出处：** 2025A期中 Q9，原卷第6页（10分）
 

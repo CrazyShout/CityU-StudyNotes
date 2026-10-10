@@ -35,6 +35,7 @@ thead{display:table-header-group}td,th{vertical-align:top}strong{font-weight:600
 .references p{font-size:inherit;line-height:inherit;margin:0 0 1mm;orphans:1;widows:1}
 .references .page-ref{font-size:8.5pt}.answers p{margin-bottom:2.5mm}
 .answers img[src$="answer-kernel-map.png"],.answers img[src$="answer-asymmetric-loss.png"],.answers img[src$="answer-huber.png"]{max-height:54mm;max-width:115mm}
+.answers img[src$="answer-l1-l2-geometry.png"]{max-height:70mm;max-width:155mm}
 .answers div.arithmatex{break-inside:avoid;position:relative}
 '''
 for kind in ['Questions','Answers']:
@@ -48,6 +49,9 @@ for kind in ['Questions','Answers']:
         im['src']=Path(os.path.relpath((source.parent/im['src']).resolve(),build)).as_posix()
         parent=im.parent;f=soup.new_tag('figure');im.extract();f.append(im);parent.insert_before(f)
         if not parent.get_text(strip=True):parent.decompose()
+        if im['src'].endswith('answer-l1-l2-geometry.png'):
+            lead=f.find_previous_sibling()
+            if lead and lead.name=='p':lead['style']='break-after:avoid'
         nxt=f.find_next_sibling()
         if nxt and nxt.name=='p' and nxt.find('em'):nxt.name='figcaption';f.append(nxt.extract())
     for a in list(soup.select('a[href]')):

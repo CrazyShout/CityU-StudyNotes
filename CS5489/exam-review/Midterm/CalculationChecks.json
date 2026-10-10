@@ -413,6 +413,155 @@
       "name": "MT066 sigmoid slope identity 1.0",
       "actual": 0.0,
       "expected": 0.0
+    },
+    {
+      "name": "MT019 residual and its square",
+      "actual": [
+        2,
+        4
+      ],
+      "expected": [
+        2,
+        4
+      ]
+    },
+    {
+      "name": "MT042 minimum slack examples",
+      "actual": [
+        0.0,
+        0.5,
+        1.2
+      ],
+      "expected": [
+        0.0,
+        0.5,
+        1.2
+      ]
+    },
+    {
+      "name": "MT048 explicit two-dimensional inner product",
+      "actual": 11.0,
+      "expected": 11.0
+    },
+    {
+      "name": "MT015 inaccurate probabilities preserve the optimal class",
+      "actual": [
+        0,
+        0
+      ],
+      "expected": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "MT015 true conditional errors for both rules",
+      "actual": [
+        0.19999999999999996,
+        0.19999999999999996
+      ],
+      "expected": [
+        0.2,
+        0.2
+      ]
+    },
+    {
+      "name": "MT001 distinct global minimizers",
+      "actual": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "expected": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "MT046 single-feature log expansion 2.0",
+      "actual": -1.1465735902799727,
+      "expected": -1.1465735902799727
+    },
+    {
+      "name": "MT046 single-feature log expansion 7.0",
+      "actual": -0.5729550745276567,
+      "expected": -0.5729550745276566
+    },
+    {
+      "name": "MT055 row-wise matrix product",
+      "actual": [
+        -1.0,
+        1.0
+      ],
+      "expected": [
+        -1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "MT055 two-state weighted-square identity",
+      "actual": 0.5200000000000002,
+      "expected": 0.5200000000000001
+    },
+    {
+      "name": "MT045 L1 optimum against independent boundary scan",
+      "actual": 0.26000000000000006,
+      "expected": 0.26000000000000006
+    },
+    {
+      "name": "MT045 L2 optimum against independent angular scan",
+      "actual": 0.21075774975293593,
+      "expected": 0.21075775329766777
+    },
+    {
+      "name": "MT045 optimal points lie on the respective constraints",
+      "actual": [
+        1.0,
+        0.9999999999999998
+      ],
+      "expected": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "MT045 plotted minima match the verified geometry",
+      "actual": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.9701425001453318,
+          0.24253562503633294
+        ]
+      ],
+      "expected": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.9701425001453318,
+          0.24253562503633294
+        ]
+      ]
+    },
+    {
+      "name": "MT065 exponential slope by finite differences",
+      "actual": -54.598150033144236,
+      "expected": -54.59815004016377
+    },
+    {
+      "name": "MT065 source-scaled logistic slope by finite differences",
+      "actual": -1.4167464249722663,
+      "expected": -1.4167464255088191
+    },
+    {
+      "name": "MT065 hinge slope by finite differences",
+      "actual": -1.0,
+      "expected": -1.000000000139778
     }
   ]
 }
