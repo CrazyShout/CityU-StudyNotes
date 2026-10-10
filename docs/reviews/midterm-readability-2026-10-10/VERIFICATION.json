@@ -1,0 +1,142 @@
+{
+  "status": "passed",
+  "baseline_commit": "08a3acda7b496c46328516b4af2d6c9192982cf6",
+  "issues_addressed": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10"
+  ],
+  "books": [
+    {
+      "file": "Questions.pdf",
+      "pages": 69,
+      "sha256": "5b8a2791e162651da85fa3feee2935e7b8c2f0534aa55be5eadf932c17775743",
+      "source_sha256": "5d757f380828a5c68f108f92c04b41b8f4d130c83127da977c7840762109f34e",
+      "portable_cross_book_links": 67
+    },
+    {
+      "file": "Answers.pdf",
+      "pages": 91,
+      "sha256": "61431bc271ac31993dbff1dd0918a24565e35871b587a1a11323c856b9ca6ef7",
+      "source_sha256": "2f5965f97a26ca4aabf99c6e116357bd0c8777dbb0f3a5d5806512abc5871964",
+      "portable_cross_book_links": 67
+    }
+  ],
+  "content_protection": {
+    "changed_answer_blocks": [
+      "MT001",
+      "MT010",
+      "MT011",
+      "MT013",
+      "MT014",
+      "MT015",
+      "MT016",
+      "MT019",
+      "MT022",
+      "MT027",
+      "MT037",
+      "MT040",
+      "MT041",
+      "MT042",
+      "MT045",
+      "MT046",
+      "MT048",
+      "MT052",
+      "MT053",
+      "MT055",
+      "MT056",
+      "MT059",
+      "MT065"
+    ],
+    "retained_complete_answer_blocks": 44,
+    "unchanged_prompt_blocks": 67,
+    "unchanged_english_answers_except_MT015": 66,
+    "unchanged_appendix": true,
+    "identity_and_source_files_unchanged": [
+      "Questions.md",
+      "QuestionIndex.json",
+      "ReadingOrder.md",
+      "LegacyMap.md",
+      "Issues.md",
+      "Materials.md",
+      "SourceCatalog.json"
+    ],
+    "original_png_files_unchanged": 17,
+    "original_figure_provenance_entries_unchanged": 17,
+    "question_pdf_pages_with_preserved_body": 69,
+    "retained_answer_pdf_sections_equal": 44,
+    "pdf_text_normalization": "Whitespace, header/footer, equivalent CJK page glyph and printed reference digits only",
+    "baseline_files_unchanged": 44
+  },
+  "unique_questions": 67,
+  "original_positions": 78,
+  "independent_papers": 6,
+  "legacy_aliases_per_book": 15,
+  "numeric_checks": 67,
+  "question_math_expressions": 96,
+  "answer_math_expressions": 904,
+  "printed_page_references": 422,
+  "html_page_references": 422,
+  "figure_cli": {
+    "teaching_mode_without_source_catalog_or_archives": "passed",
+    "repeated_generation_identical": true,
+    "asset_files_checked": 19,
+    "new_figure_entry_count": 1,
+    "full_mode_missing_arguments_exit": 2,
+    "full_archive_extraction": "not_run; printed sources are unchanged"
+  },
+  "visual_review": {
+    "all_page_contact_sheets_examined": {
+      "Answers": 91,
+      "Questions": 69
+    },
+    "final_enlarged_pages": [
+      12,
+      13,
+      20,
+      21,
+      37,
+      45,
+      46,
+      53,
+      57,
+      58,
+      81
+    ],
+    "gray_page_examined": 58,
+    "final_render_comparison": {
+      "Answers": {
+        "pages": 91,
+        "changed_pages_after_layout_fixes": [
+          20,
+          21,
+          45,
+          46,
+          57,
+          58
+        ],
+        "identical_pages": 85
+      },
+      "Questions": {
+        "pages": 69,
+        "changed_pages_after_layout_fixes": [],
+        "identical_pages": 69
+      }
+    },
+    "repairs": [
+      "MT059 orphan sentence ending",
+      "MT055 formula lead kept with the formula",
+      "MT045 explanation kept with the new figure"
+    ],
+    "physical_print_test": false
+  },
+  "source_archive_verification": "not_requested; existing source metadata unchanged",
+  "root_validation": "passed on the final working tree"
+}

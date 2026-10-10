@@ -10,12 +10,72 @@ from matplotlib.patches import Circle
 
 ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser(description=__doc__)
-p.add_argument('--poppler',required=True,help='Path to pdftoppm')
-p.add_argument('--source-dir',type=Path,required=True,help='External archive directory containing Sxxx.pdf source files')
+p.add_argument('--poppler',help='Path to pdftoppm (required for the full source-figure build)')
+p.add_argument('--source-dir',type=Path,help='External archive directory containing Sxxx.pdf source files (full build)')
+p.add_argument('--teaching-only',choices=['mt045'],help='Generate only this teaching figure; no original archives or Poppler needed')
 args=p.parse_args()
+OUT=ROOT/'assets';OUT.mkdir(exist_ok=True)
+
+def draw_mt045():
+    """A reproducible two-parameter example; all coordinates refer to weights."""
+    centre=np.array([1.6,.4])
+    minima=[np.array([1.,0.]),centre/np.linalg.norm(centre)]
+    with plt.rc_context({'font.size':11.5,'axes.spines.top':False,
+                         'axes.spines.right':False,'axes.unicode_minus':False}):
+        fig,axes=plt.subplots(1,2,figsize=(7.8,3.35))
+        for ax,kind,optimum in zip(axes,['L1','L2'],minima):
+            if kind=='L1':
+                vertices=np.array([[1.,0.],[0.,1.],[-1.,0.],[0.,-1.],[1.,0.]])
+                ax.fill(vertices[:,0],vertices[:,1],color='.92',zorder=0)
+                ax.plot(vertices[:,0],vertices[:,1],color='.15',lw=1.5)
+                title=r'$|w_1|+|w_2|\leq 1$'
+                point_label=r'$(1,\ 0)$'
+            else:
+                ax.add_patch(Circle((0,0),1,facecolor='.92',edgecolor='.15',lw=1.5,zorder=0))
+                title=r'$w_1^2+w_2^2\leq 1$'
+                point_label=r'$(0.970,\ 0.243)$'
+            radius=float(np.linalg.norm(centre-optimum))
+            for factor in [.52,.76,1.28]:
+                ax.add_patch(Circle(centre,radius*factor,fill=False,edgecolor='.72',lw=.8,ls=':'))
+            ax.add_patch(Circle(centre,radius,fill=False,edgecolor='.2',lw=1.35,ls='--'))
+            ax.plot(*centre,marker='x',color='black',ms=6,mew=1.3)
+            ax.text(centre[0]-.12,centre[1]+.08,r'$u$',ha='right',va='bottom')
+            ax.plot(*optimum,marker='o',color='black',ms=5)
+            ax.annotate(point_label,xy=optimum,xytext=(1.1,-1.03),fontsize=11.5,
+                        arrowprops={'arrowstyle':'->','color':'.2','lw':.9},ha='center',va='top')
+            ax.axhline(0,color='.75',lw=.6,zorder=-1)
+            ax.axvline(0,color='.75',lw=.6,zorder=-1)
+            ax.set(xlim=(-1.2,2.1),ylim=(-1.35,1.25),xlabel=r'$w_1$',ylabel=r'$w_2$',title=kind+': '+title)
+            ax.set_aspect('equal',adjustable='box')
+            ax.set_xticks([-1,0,1,2]);ax.set_yticks([-1,0,1])
+        fig.tight_layout(pad=.5,w_pad=1)
+        fig.savefig(OUT/'answer-l1-l2-geometry.png',dpi=220,bbox_inches='tight',facecolor='white')
+        plt.close(fig)
+    return {'file':'answer-l1-l2-geometry.png','kind':'teaching example for MT045',
+            'objective':'0.5*((w1-1.6)^2+(w2-0.4)^2)',
+            'unconstrained_minimum':centre.tolist(),
+            'constraints':['abs(w1)+abs(w2)<=1','w1^2+w2^2<=1'],
+            'constrained_minima':[point.tolist() for point in minima],
+            'note':'Organizer-supplied constrained examples, not original exam data. Grayscale-safe shapes and line styles identify the feasible sets, first reachable contours and minima.'}
+
+if args.teaching_only:
+    entry=draw_mt045()
+    manifest=OUT/'figure-provenance.json'
+    provenance=json.loads(manifest.read_text()) if manifest.exists() else []
+    for position,old in enumerate(provenance):
+        if old['file']==entry['file']:
+            provenance[position]=entry
+            break
+    else:
+        provenance.append(entry)
+    manifest.write_text(json.dumps(provenance,ensure_ascii=False,indent=2)+'\n')
+    print('Prepared MT045 teaching figure; other assets and provenance entries preserved.')
+    raise SystemExit(0)
+
+if args.source_dir is None or args.poppler is None:
+    p.error('the full build requires --source-dir and --poppler; use --teaching-only mt045 for the new teaching figure')
 CACHE=args.source_dir.resolve()
 assert CACHE.is_dir(), 'External source directory does not exist'
-OUT=ROOT/'assets';OUT.mkdir(exist_ok=True)
 # Boxes are measured on the verified 110-dpi page render; extract at 220 dpi.
 crops=[
  ('mt008-loss','S013',4,(110,365,515,370)),
@@ -104,5 +164,6 @@ for ax,name,title in zip(axes,['answer-mt060-large-c','answer-mt060-small-c'],['
 fig.tight_layout(pad=.3)
 save(fig,'answer-mt060-pair',{'kind':'side-by-side layout of the two original answer crops','source_id':'S016','source_page':6,'components':['answer-mt060-large-c.png','answer-mt060-small-c.png']})
 
+provenance.append(draw_mt045())
 (OUT/'figure-provenance.json').write_text(json.dumps(provenance,ensure_ascii=False,indent=2)+'\n')
 print('Prepared',len(provenance),'figures with source/calculate provenance.')

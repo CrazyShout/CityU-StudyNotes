@@ -16,7 +16,7 @@
 
 ## A4与定位
 
-题目册69页、答案解析册86页。两册按MT题号对应、独立分页，每题另起一页，长解析自然续页。[原卷索引](PaperIndex.md)、PDF目录与题间回指提供实际页码。A4、100%实际大小，双面建议长边翻转；题目册留有草稿空间。MT010原图及MT060答案草图靠颜色区分类别，建议保留彩色。
+题目册69页、答案解析册91页。两册按MT题号对应、独立分页，每题另起一页，长解析自然续页。[原卷索引](PaperIndex.md)、PDF目录与题间回指提供实际页码。A4、100%实际大小，双面建议长边翻转；题目册留有草稿空间。MT010原图及MT060答案草图靠颜色区分类别，建议保留彩色。
 
 ## 维护与构建
 
@@ -33,4 +33,6 @@ python scripts/validate.py
 
 普通校验不依赖原卷；需核对另存归档时使用 `tools/validate_source.py --source-dir <归档目录>`，按SourceCatalog中的ID与扩展名命名。重新提取或绘制图片还需可选的requirements-midterm-figures.txt、Poppler和外部归档，参见[材料说明](Materials.md)。
 
-[本轮逐题复核与迁入记录](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [项目首页](../../../README.md)
+仅重画MT045的L1/L2教学图时，安装绘图依赖后运行 `python CS5489/exam-review/Midterm/tools/prepare_figures.py --teaching-only mt045`。此模式不需要原卷或Poppler，只更新该图及对应的图源记录；其他题图保持。
+
+[迁入时的逐题复核](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [本次可读性修订与验证](../../../docs/reviews/midterm-readability-2026-10-10/WORKLIST.md) · [项目首页](../../../README.md)

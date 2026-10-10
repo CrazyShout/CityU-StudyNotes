@@ -93,6 +93,51 @@ for probability in [0.,.1,.25,.5,.8,1.]:
     slope=probability*(1-probability)
     check('MT066 sigmoid slope identity '+str(probability),slope,.25-(probability-.5)**2)
     assert slope<=.25
+
+# R01-R09 readability additions: independent calculations for the exact examples.
+check('MT019 residual and its square',[5-3,(5-3)**2],[2,4])
+signed=np.array([1.2,.5,-.2]);slack=np.maximum(0,1-signed)
+check('MT042 minimum slack examples',slack,[0,.5,1.2])
+assert np.all(signed+slack>=1-1e-12)
+assert np.all(signed[1:]+slack[1:]-1e-5<1)
+check('MT048 explicit two-dimensional inner product',np.array([1.,2.])@np.array([3.,4.]),11.)
+true_posterior=np.array([.8,.2]);estimated_posterior=np.array([.6,.4])
+decisions=[int(np.argmax(true_posterior)),int(np.argmax(estimated_posterior))]
+check('MT015 inaccurate probabilities preserve the optimal class',decisions,[0,0])
+check('MT015 true conditional errors for both rules',[1-true_posterior[c] for c in decisions],[.2,.2])
+check('MT001 distinct global minimizers',[0.**2+0*value for value in [0.,2.,-3.]],[0,0,0])
+for scale,exponent in [(2.,-.8),(7.,.4)]:
+    check('MT046 single-feature log expansion '+str(scale),
+          math.log(scale**(-.5)*math.exp(exponent)),-.5*math.log(scale)+exponent)
+check('MT055 row-wise matrix product',np.array([[1.,1.],[1.,0.]])@np.array([1.,-2.]),[-1.,1.])
+conditional=np.array([[.2,.6],[.8,.4]])
+state_probs=np.array([.25,.75]);coeffs=np.array([1.,-2.])
+mixture_kernel=conditional@np.diag(state_probs)@conditional.T
+quadratic=float(coeffs@mixture_kernel@coeffs)
+weighted_squares=sum(prob*float(coeffs@conditional[:,j])**2 for j,prob in enumerate(state_probs))
+check('MT055 two-state weighted-square identity',quadratic,weighted_squares)
+assert quadratic>=0
+
+centre=np.array([1.6,.4]);l1_minimum=np.array([1.,0.]);l2_minimum=centre/np.linalg.norm(centre)
+geometry_loss=lambda points:.5*np.sum((np.asarray(points)-centre)**2,axis=-1)
+t=np.linspace(0,1,10001)
+diamond=np.vstack([np.column_stack((sx*t,sy*(1-t))) for sx in [-1,1] for sy in [-1,1]])
+angles=np.linspace(0,2*np.pi,40001)
+circle=np.column_stack((np.cos(angles),np.sin(angles)))
+check('MT045 L1 optimum against independent boundary scan',geometry_loss(l1_minimum),np.min(geometry_loss(diamond)))
+check('MT045 L2 optimum against independent angular scan',geometry_loss(l2_minimum),np.min(geometry_loss(circle)),atol=1e-7)
+check('MT045 optimal points lie on the respective constraints',[np.abs(l1_minimum).sum(),l2_minimum@l2_minimum],[1,1])
+figure_entry=next(item for item in json.loads((ROOT/'assets/figure-provenance.json').read_text())
+                  if item['file']=='answer-l1-l2-geometry.png')
+check('MT045 plotted minima match the verified geometry',figure_entry['constrained_minima'],[l1_minimum,l2_minimum])
+
+for name,function,analytic in [
+        ('exponential',lambda value:math.exp(-value),-math.exp(4)),
+        ('source-scaled logistic',lambda value:math.log1p(math.exp(-value))/math.log(2),-1/((1+math.exp(-4))*math.log(2))),
+        ('hinge',lambda value:max(0.,1-value),-1.)]:
+    h=1e-6
+    numerical=(function(-4+h)-function(-4-h))/(2*h)
+    check('MT065 '+name+' slope by finite differences',analytic,numerical,atol=1e-6)
 if not args.check:
     (ROOT/'CalculationChecks.json').write_text(json.dumps({'status':'passed','checks':checks},ensure_ascii=False,indent=2)+'\n')
 print('Passed',len(checks),'numeric checks, including independent finite differences.')
