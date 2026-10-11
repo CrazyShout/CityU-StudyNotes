@@ -1,4 +1,4 @@
-"""Build and validate the two midterm books in isolation, then publish them together.
+"""Build and validate the separate and combined midterm books in isolation.
 
 Uses the current Python interpreter and --node (default: node). PLAYWRIGHT_MODULE
 and CHROME_PATH are passed through unchanged. Original exam archives are optional;
@@ -16,8 +16,10 @@ from book_support import sha256
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[2]
-OUTPUTS = ('Questions.pdf', 'Answers.pdf', 'PageIndex.json', 'PaperIndex.md',
-           'CalculationChecks.json', 'SourceValidation.json', 'Validation.json', '.build')
+SEPARATE_OUTPUTS = ('Questions.pdf', 'Answers.pdf', 'PageIndex.json', 'PaperIndex.md',
+                    'CalculationChecks.json', 'SourceValidation.json', 'Validation.json')
+COMBINED_OUTPUTS = ('Combined.md', 'Combined.pdf', 'CombinedPageIndex.json', 'CombinedValidation.json')
+OUTPUTS = SEPARATE_OUTPUTS + COMBINED_OUTPUTS + ('.build',)
 # PaperIndex is both an input (paper/question mapping) and a generated page-column output.
 GENERATED_ONLY = set(OUTPUTS) - {'PaperIndex.md'}
 
@@ -45,14 +47,14 @@ def remove(path):
         path.unlink()
 
 
-def publish(stage, destination):
+def publish(stage, destination, outputs=OUTPUTS):
     """Rollback all previous outputs on an ordinary failure or interruption."""
-    for name in OUTPUTS:
+    for name in outputs:
         assert (stage / name).exists(), ('Missing staged output', name)
     backup = Path(tempfile.mkdtemp(prefix='.midterm-publish-backup-', dir=destination.parent))
     touched = []
     try:
-        for name in OUTPUTS:
+        for name in outputs:
             target = destination / name
             had_old = target.exists()
             touched.append((name, had_old))
@@ -83,6 +85,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--node', default='node', help='Node.js executable used for Playwright')
     parser.add_argument('--source-dir', type=Path, help='Optionally verify externally held Sxxx.ext original archives')
+    parser.add_argument('--combined-only', action='store_true', help='Build the combined copy while preserving all separate-book outputs')
     args = parser.parse_args()
     assert (REPO / 'vendor/katex/katex.min.js').is_file(), 'Missing repository vendor/katex'
     node = shutil.which(args.node)
@@ -94,31 +97,39 @@ def main():
     with tempfile.TemporaryDirectory(prefix='.midterm-build-', dir=ROOT.parent) as temporary:
         stage = Path(temporary) / 'CS5489/exam-review/Midterm'
         shutil.copytree(ROOT, stage, ignore=shutil.ignore_patterns('.build', '__pycache__', '.DS_Store'))
+        if args.combined_only and (ROOT / '.build').is_dir():
+            shutil.copytree(ROOT / '.build', stage / '.build')
         assert source_snapshot(stage) == original_sources == source_snapshot(ROOT), 'Sources changed during staging; rerun the build'
         tools = stage / 'tools'
 
         def python(script, *arguments):
             subprocess.run([sys.executable, str(tools / script), *map(str, arguments)], check=True, cwd=stage)
 
-        python('verify_calculations.py')
-        python('validate_source.py', *source_args)
-        stable = False
-        for round_number in range(1, 6):
-            page_index = stage / 'PageIndex.json'
-            before = json.loads(page_index.read_text()) if page_index.exists() else {}
-            print(f'Midterm pagination round {round_number}/5', flush=True)
-            python('build_books.py', '--notes-root', REPO)
-            subprocess.run([node, str(tools / 'render_books.cjs')], check=True, cwd=stage)
-            python('finalize_books.py')
-            if json.loads(page_index.read_text()) == before:
-                stable = True
-                break
-        assert stable, 'Pagination did not stabilize within five rounds; original outputs were preserved'
-        python('update_paper_index.py')
-        python('validate_books.py', '--require-render', *source_args)
+        check_only = ['--check'] if args.combined_only else []
+        python('verify_calculations.py', *check_only)
+        python('validate_source.py', *check_only, *source_args)
+        for combined in ([True] if args.combined_only else [False, True]):
+            flags = ['--combined'] if combined else []
+            if combined:
+                python('assemble_combined.py')
+            stable = False
+            for round_number in range(1, 6):
+                page_index = stage / ('CombinedPageIndex.json' if combined else 'PageIndex.json')
+                before = json.loads(page_index.read_text()) if page_index.exists() else {}
+                print(f'Midterm {"combined" if combined else "separate"} pagination round {round_number}/5', flush=True)
+                python('build_books.py', '--notes-root', REPO, *flags)
+                subprocess.run([node, str(tools / 'render_books.cjs'), *flags], check=True, cwd=stage)
+                python('finalize_books.py', *flags)
+                if json.loads(page_index.read_text()) == before:
+                    stable = True
+                    break
+            assert stable, 'Pagination did not stabilize within five rounds; original outputs were preserved'
+            if not combined:
+                python('update_paper_index.py')
+            python('validate_books.py', '--require-render', *flags, *source_args)
         assert source_snapshot(ROOT) == original_sources, 'Sources changed during build; original outputs were preserved'
         assert output_snapshot(ROOT) == original_outputs, 'Another build changed outputs; nothing was published'
-        publish(stage, ROOT)
+        publish(stage, ROOT, COMBINED_OUTPUTS + ('.build',) if args.combined_only else OUTPUTS)
     print('Published validated midterm PDFs, stable page maps, paper index and build reports.', flush=True)
 
 

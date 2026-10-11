@@ -21,7 +21,7 @@ def compact(text):
 
 
 def reference_target(href, kind, maps):
-    if href.startswith(('Questions.md#', 'Answers.md#', 'Questions.pdf#', 'Answers.pdf#')):
+    if href.startswith(('Questions.md#', 'Answers.md#', 'Combined.md#', 'Questions.pdf#', 'Answers.pdf#', 'Combined.pdf#')):
         target, key = href.split('#', 1)
         target = Path(target).stem
     elif re.fullmatch(r'#mt\d{3}', href):

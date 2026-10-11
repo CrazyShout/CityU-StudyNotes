@@ -1,4 +1,4 @@
-"""Build three course books and two midterm books without running course experiments."""
+"""Build three course books and three midterm editions without running course experiments."""
 from pathlib import Path
 import argparse,json,subprocess,sys,os,hashlib
 from pypdf import PdfReader
@@ -30,7 +30,7 @@ for group in ['CS5489','CS5222','Foundations']:
 (ROOT/'pdf/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
 call(sys.executable,ROOT/'CS5489/exam-review/Midterm/tools/build_all.py','--node',args.node)
 lines += ['## CS5489 期中题库', '',
-          '[题目册](../CS5489/exam-review/Midterm/Questions.pdf) · [答案解析册](../CS5489/exam-review/Midterm/Answers.pdf)', '',
-          '两册按MT题号对应、分别分页；[原卷索引](../CS5489/exam-review/Midterm/PaperIndex.md)提供各自页码。[维护与构建说明](../CS5489/exam-review/Midterm/README.md)。', '']
+          '[题目册](../CS5489/exam-review/Midterm/Questions.pdf) · [答案解析册](../CS5489/exam-review/Midterm/Answers.pdf) · [题答合订本](../CS5489/exam-review/Midterm/Combined.pdf)', '',
+          '分册按MT题号对应、分别分页；[原卷索引](../CS5489/exam-review/Midterm/PaperIndex.md)提供两册页码。合订本每题后紧接答案，册末另有原卷索引。[维护与构建说明](../CS5489/exam-review/Midterm/README.md)。', '']
 (ROOT/'pdf/README.md').write_text('\n'.join(lines).rstrip()+'\n')
-print('Five PDFs and their page indexes rebuilt without executing course experiments.')
+print('Six PDFs and their page indexes rebuilt without executing course experiments.')

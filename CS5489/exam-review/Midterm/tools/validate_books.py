@@ -17,17 +17,23 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check', action='store_true', help='Validate without writing any files')
 parser.add_argument('--require-render', action='store_true', help='Also verify fresh render report and HTML printed page references')
 parser.add_argument('--source-dir', type=Path, help='Optionally verify original archive files named Sxxx.ext')
+parser.add_argument('--combined', action='store_true', help='Validate the combined reading copy and its independent page map')
 args = parser.parse_args()
+kinds = ('Combined',) if args.combined else KINDS
+map_file = ROOT / ('CombinedPageIndex.json' if args.combined else 'PageIndex.json')
+if args.combined:
+    from assemble_combined import combined_source
+    assert (ROOT / 'Combined.md').read_text() == combined_source(ROOT), 'Combined manuscript is stale'
 index = json.loads((ROOT / 'QuestionIndex.json').read_text())
-maps = json.loads((ROOT / 'PageIndex.json').read_text())
+maps = json.loads(map_file.read_text())
 ids = [question['id'].lower() for question in index['questions']]
 assert len(ids) == len(set(ids)) == index['unique_questions'] == 67
 positions = [(item['paper'], item['question']) for q in index['questions'] for item in q['occurrences']]
 assert len(positions) == len(set(positions)) == index['original_question_positions'] == 78
 assert len(index['papers']) == 6
 assert sum(len(question['legacy_ids']) for question in index['questions']) == 15
-assert set(maps) == set(KINDS)
-assert all(set(maps[kind]) == set(ids) for kind in KINDS)
+assert set(maps) == set(kinds)
+assert all(set(maps[kind]) == set(ids) for kind in kinds)
 catalog_checks = validate_catalog(ROOT, index, args.source_dir)
 books, soups = [], {}
 printed_refs = 0
@@ -41,7 +47,7 @@ def walk(items):
             yield item
 
 
-for kind in KINDS:
+for kind in kinds:
     source = (ROOT / f'{kind}.md').read_text()
     assert re.findall(r'^## (MT\d{3})', source, re.M) == [item.upper() for item in ids], (kind, 'Source order')
     soup = BeautifulSoup(markdown.markdown(source, extensions=['tables', 'toc', 'md_in_html', 'pymdownx.arithmatex'],
@@ -54,8 +60,11 @@ for kind in KINDS:
     metadata = reader.metadata or {}
     for key, path in [('/MidtermSourceSHA256', ROOT / f'{kind}.md'),
                       ('/MidtermIndexSHA256', ROOT / 'QuestionIndex.json'),
-                      ('/MidtermPageIndexSHA256', ROOT / 'PageIndex.json')]:
+                      ('/MidtermPageIndexSHA256', map_file)]:
         assert metadata.get(key) == sha256(path), (kind, 'PDF is not bound to current source/index; run tools/build_all.py', key)
+    if kind == 'Combined':
+        for name in ['Questions', 'Answers']:
+            assert metadata.get(f'/Midterm{name}SourceSHA256') == sha256(ROOT / f'{name}.md'), ('Combined input changed', name)
     outline = {re.match(r'MT\d{3}', dest['/Title'])[0].lower(): reader.get_destination_page_number(dest) + 1
                for dest in walk(reader.outline) if re.match(r'MT\d{3}', dest['/Title'])}
     assert outline == maps[kind], (kind, 'Outline/page-index mismatch')
@@ -68,13 +77,17 @@ for kind in KINDS:
         for key in [qid] + [alias.lower() for alias in question['legacy_ids']]:
             destination = reader.named_destinations.get('/' + key) or reader.named_destinations.get(key)
             assert destination and reader.get_destination_page_number(destination) + 1 == page_number, (kind, key, page_number)
-    if kind == 'Answers':
+    if kind in ('Answers', 'Combined'):
         for i, qid in enumerate(ids):
             start = maps[kind][qid] - 1
             end = maps[kind][ids[i + 1]] - 1 if i + 1 < len(ids) else len(texts)
             question_text = compact('\n'.join(texts[start:end]))
             assert question_text.count('中文对应答案') == 1, (qid, 'Missing or repeated Chinese answer in PDF')
             assert question_text.index('Englishanswer') < question_text.index('中文对应答案') < question_text.index('中文讲解'), (qid, 'PDF answer section order')
+            if kind == 'Combined':
+                labels = ['Englishquestion', '中文题意', 'Englishanswer', '中文对应答案', '中文讲解']
+                assert all(question_text.count(label) == 1 for label in labels), (qid, 'Missing or repeated combined section')
+                assert [question_text.index(label) for label in labels] == sorted(question_text.index(label) for label in labels), (qid, 'Combined section order')
     full_text = compact('\n'.join(texts))
     expected_text = Counter(item['text'] for item in refs)
     for text, count in expected_text.items():
@@ -113,16 +126,19 @@ for kind in KINDS:
     books.append({'file': file.name, 'pages': len(reader.pages), 'sha256': sha256(file),
                   'source_sha256': sha256(ROOT / f'{kind}.md'), 'portable_cross_book_links': link_count})
 
-paper_rows = re.findall(r'^\| Q\d+ \|.*$', (ROOT / 'PaperIndex.md').read_text(), re.M)
+paper_rows = re.findall(r'^\| Q\d+ \|.*$', (ROOT / ('Combined.md' if args.combined else 'PaperIndex.md')).read_text(), re.M)
 assert len(paper_rows) == 78
 for line in paper_rows:
     qid = re.search(r'\bMT\d{3}\b', line)[0].lower()
-    for kind in KINDS:
-        assert f'[{maps[kind][qid]}]({kind}.pdf#page={maps[kind][qid]})' in line, (qid, kind)
+    if args.combined:
+        assert f'](Combined.md#{qid})' in line, ('Combined paper index', qid)
+    else:
+        for kind in kinds:
+            assert f'[{maps[kind][qid]}]({kind}.pdf#page={maps[kind][qid]})' in line, (qid, kind)
 html_refs = 0
 if args.require_render:
-    reports = json.loads((ROOT / '.build/render-report.json').read_text())
-    assert {row['kind'] for row in reports} == set(KINDS) and len(reports) == 2
+    reports = json.loads((ROOT / '.build' / ('combined-render-report.json' if args.combined else 'render-report.json')).read_text())
+    assert {row['kind'] for row in reports} == set(kinds) and len(reports) == len(kinds)
     for row in reports:
         kind = row['kind']
         assert not row['mathErrors'] and not row['brokenImages'] and not row['overflow'] and not row['errors'], kind
@@ -153,5 +169,5 @@ result = {'status': 'passed', 'books': books, 'unique_question_answer_pairs': 67
           'render_evidence': 'verified_current' if args.require_render else 'not_requested',
           'visual_review': 'Recorded separately after examining rendered pages; not inferred from automated checks.'}
 if not args.check:
-    (ROOT / 'Validation.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+    (ROOT / ('CombinedValidation.json' if args.combined else 'Validation.json')).write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps(result, ensure_ascii=False))

@@ -52,6 +52,6 @@ A4、100%实际大小、每张一页；双面建议长边翻转。答案已展�
 
 ## CS5489 期中题库
 
-[题目册](../CS5489/exam-review/Midterm/Questions.pdf) · [答案解析册](../CS5489/exam-review/Midterm/Answers.pdf)
+[题目册](../CS5489/exam-review/Midterm/Questions.pdf) · [答案解析册](../CS5489/exam-review/Midterm/Answers.pdf) · [题答合订本](../CS5489/exam-review/Midterm/Combined.pdf)
 
-两册按MT题号对应、分别分页；[原卷索引](../CS5489/exam-review/Midterm/PaperIndex.md)提供各自页码。[维护与构建说明](../CS5489/exam-review/Midterm/README.md)。
+分册按MT题号对应、分别分页；[原卷索引](../CS5489/exam-review/Midterm/PaperIndex.md)提供两册页码。合订本每题后紧接答案，册末另有原卷索引。[维护与构建说明](../CS5489/exam-review/Midterm/README.md)。

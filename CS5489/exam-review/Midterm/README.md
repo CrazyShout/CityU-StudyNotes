@@ -5,6 +5,7 @@
 | 用途 | 入口 |
 |---|---|
 | 独立做题 | [题目PDF](Questions.pdf) · [题目Markdown](Questions.md) |
+| 题目后直接读答案 | [题答合订PDF](Combined.pdf) · [自动组合稿](Combined.md) |
 | 补基础和核对答案 | [答案解析PDF](Answers.pdf) · [答案Markdown](Answers.md) |
 | 按基础到应用的顺序学习 | [组内阅读顺序](ReadingOrder.md) |
 | 按2025A等原卷顺序练习 | [原卷索引](PaperIndex.md) |
@@ -18,9 +19,13 @@
 
 题目册69页、答案解析册126页。两册按MT题号对应、独立分页，每题另起一页，长解析自然续页。[原卷索引](PaperIndex.md)、PDF目录与题间回指提供实际页码。A4、100%实际大小，双面建议长边翻转；题目册留有草稿空间。MT010原图及MT060答案草图靠颜色区分类别，建议保留彩色。
 
+额外的合订本共146页，将每题的完整英文原题、中文题意、英文答案、中文对应答案和详细讲解连续编排，原题图与中文题意各保留一次。阅读顺序、MT编号、旧别名和勘误与分册一致；合订本使用自己的页码、目录和册末原卷索引，可以单独阅读或打印。
+
 ## 维护与构建
 
 当前目录是题库唯一维护源。编辑Questions.md与Answers.md，QuestionIndex.json维护题号、分组、出处与旧别名；答案中的中文题意和必要图须与题目册一致。每题的中文对应答案须按英文顺序保留全部结论、理由及条件，详细讲解继续承担基础与推导。原卷与带批注文件由持有人另行保存，构建只使用已收录的干净题图。
+
+Combined.md由两份主稿自动组合，不单独修改正文。合订本的页码在CombinedPageIndex.json中，校验记录为CombinedValidation.json；原两册继续使用PageIndex.json与Validation.json。
 
 在仓库根目录安装requirements-build.txt与npm依赖后，执行：
 
@@ -29,10 +34,12 @@ python CS5489/exam-review/Midterm/tools/build_all.py
 python scripts/validate.py
 ```
 
-根目录 `python scripts/build.py` 会生成三册课堂讲义及本题库两册。工具分别计算两册页码，重复构建直到稳定，再更新原卷索引；构建失败保留旧版完整输出。`CHROME_PATH`可指定已安装Chrome。
+根目录 `python scripts/build.py` 会生成三册课堂讲义及本题库三种版本。工具分别计算各版页码，重复构建直到稳定，再更新原卷索引；构建失败保留旧版完整输出。`CHROME_PATH`可指定已安装Chrome。
+
+只更新合订本并保留原两册输出时，运行 `python CS5489/exam-review/Midterm/tools/build_all.py --combined-only`。普通构建默认更新三种版本；`python scripts/validate.py`同时核对分册、合订本、原稿组合关系与全部链接。
 
 普通校验不依赖原卷；需核对另存归档时使用 `tools/validate_source.py --source-dir <归档目录>`，按SourceCatalog中的ID与扩展名命名。重新提取或绘制图片还需可选的requirements-midterm-figures.txt、Poppler和外部归档，参见[材料说明](Materials.md)。
 
 仅重画MT045的L1/L2教学图时，安装绘图依赖后运行 `python CS5489/exam-review/Midterm/tools/prepare_figures.py --teaching-only mt045`。此模式不需要原卷或Poppler，只更新该图及对应的图源记录；其他题图保持。
 
-[迁入时的逐题复核](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [可读性修订与验证](../../../docs/reviews/midterm-readability-2026-10-10/WORKLIST.md) · [中英答案对照复核](../../../docs/reviews/midterm-bilingual-2026-10-11/WORKLIST.md) · [项目首页](../../../README.md)
+[迁入时的逐题复核](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [可读性修订与验证](../../../docs/reviews/midterm-readability-2026-10-10/WORKLIST.md) · [中英答案对照复核](../../../docs/reviews/midterm-bilingual-2026-10-11/WORKLIST.md) · [合订本构建核对](../../../docs/reviews/midterm-combined-2026-10-11/WORKLIST.md) · [项目首页](../../../README.md)

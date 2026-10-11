@@ -27,6 +27,8 @@ jobs:
             pdf/
             CS5489/exam-review/Midterm/Questions.pdf
             CS5489/exam-review/Midterm/Answers.pdf
+            CS5489/exam-review/Midterm/Combined.pdf
+            CS5489/exam-review/Midterm/CombinedPageIndex.json
             CS5489/exam-review/Midterm/PageIndex.json
             CS5489/exam-review/Midterm/PaperIndex.md
           retention-days: 30

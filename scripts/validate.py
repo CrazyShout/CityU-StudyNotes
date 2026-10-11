@@ -131,4 +131,5 @@ for book in manifest['books']:
 midterm_tools=ROOT/'CS5489/exam-review/Midterm/tools'
 for tool in ['verify_calculations.py','validate_source.py','validate_books.py']:
     subprocess.run([sys.executable,str(midterm_tools/tool),'--check'],check=True)
-print(json.dumps({'status':'passed','major_documents':sum(d['major'] for d in docs),'sources':len(docs),'course_pdf_pages':sum(b['pages'] for b in manifest['books']),'midterm':'two books, source mapping and calculations checked','links':'all local links and anchors resolve'},ensure_ascii=False))
+subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--combined'],check=True)
+print(json.dumps({'status':'passed','major_documents':sum(d['major'] for d in docs),'sources':len(docs),'course_pdf_pages':sum(b['pages'] for b in manifest['books']),'midterm':'separate and combined books, source mapping and calculations checked','links':'all local links and anchors resolve'},ensure_ascii=False))

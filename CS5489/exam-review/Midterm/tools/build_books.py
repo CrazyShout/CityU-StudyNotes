@@ -5,11 +5,12 @@ import markdown
 from bs4 import BeautifulSoup
 ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parents[2]
-p=argparse.ArgumentParser();p.add_argument('--notes-root',type=Path,default=REPO);args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--notes-root',type=Path,default=REPO);p.add_argument('--combined',action='store_true');args=p.parse_args()
 assert (args.notes_root/'vendor/katex/katex.min.js').is_file(), 'Missing vendor/katex in notes repository'
 build=ROOT/'.build';build.mkdir(exist_ok=True)
 index=json.loads((ROOT/'QuestionIndex.json').read_text())
-page_maps=json.loads((ROOT/'PageIndex.json').read_text()) if (ROOT/'PageIndex.json').exists() else {}
+map_file=ROOT/('CombinedPageIndex.json' if args.combined else 'PageIndex.json')
+page_maps=json.loads(map_file.read_text()) if map_file.exists() else {}
 css='''@page{size:A4;margin:19mm 18mm 18mm 20mm}*{box-sizing:border-box}
 body{font-family:"PingFang SC","Noto Sans CJK SC",Arial,sans-serif;color:#111;font-size:11pt;line-height:1.58;margin:0}
 h1{font-size:22pt;line-height:1.4;margin:0 0 7mm}
@@ -38,14 +39,20 @@ thead{display:table-header-group}td,th{vertical-align:top}strong{font-weight:600
 .answers img[src$="answer-kernel-map.png"],.answers img[src$="answer-asymmetric-loss.png"],.answers img[src$="answer-huber.png"]{max-height:54mm;max-width:115mm}
 .answers img[src$="answer-l1-l2-geometry.png"]{max-height:70mm;max-width:155mm}
 .answers div.arithmatex{break-inside:avoid;position:relative}
+.combined table.paper-index{break-inside:avoid}
 '''
-for kind in ['Questions','Answers']:
+for kind in (['Combined'] if args.combined else ['Questions','Answers']):
     source=ROOT/f'{kind}.md'
     soup=BeautifulSoup(markdown.markdown(source.read_text(),extensions=['tables','toc','md_in_html','fenced_code','pymdownx.arithmatex'],extension_configs={'pymdownx.arithmatex':{'generic':True}}),'html.parser')
     for h in soup.select('h2'):
         prev=h.find_previous_sibling()
         if prev and prev.name=='p' and (a:=prev.find('a',id=re.compile('^mt\\d{3}$'))):
             h['id']=a['id'];prev.decompose()
+    if kind=='Combined':
+        for table in soup.find_all('table'):
+            heading=table.find_previous('h2')
+            if heading and heading.get_text().startswith('原卷索引'):
+                table['class']='paper-index'
     for im in list(soup.select('img')):
         im['src']=Path(os.path.relpath((source.parent/im['src']).resolve(),build)).as_posix()
         parent=im.parent;f=soup.new_tag('figure');im.extract();f.append(im);parent.insert_before(f)
@@ -57,7 +64,7 @@ for kind in ['Questions','Answers']:
         if nxt and nxt.name=='p' and nxt.find('em'):nxt.name='figcaption';f.append(nxt.extract())
     for a in list(soup.select('a[href]')):
         href=a['href'];target_kind=kind;key=None
-        if href.startswith(('Questions.md#','Answers.md#')):
+        if href.startswith(('Questions.md#','Answers.md#','Combined.md#')):
             target_kind=href.split('.md#')[0];key=href.split('#')[1]
         elif re.fullmatch(r'#mt\d{3}',href):key=href[1:]
         if key and key in page_maps.get(target_kind,{}):
@@ -65,15 +72,16 @@ for kind in ['Questions','Answers']:
             label='本册' if target_kind==kind else ('题目册' if target_kind=='Questions' else '答案册')
             ref.string=f'（{label}第{page_maps[target_kind][key]}页）'
             a.insert_after(ref)
-        if href.startswith(('Questions.md#','Answers.md#')):a['href']=href.replace('.md#','.pdf#')
+        if href.startswith(('Questions.md#','Answers.md#','Combined.md#')):a['href']=href.replace('.md#','.pdf#')
         elif '.md' in a['href']:a.replace_with(a.get_text()+'（见同目录文件）')
     for para in soup.find_all('p'):
         if para.get_text().startswith('出处：'):para['class']='exam-source'
         if para.get_text().startswith('考点：'):para['class']='topic'
         if para.get_text().startswith('原题差异 / Source note：'):para['class']='source-discrepancy'
         if para.get_text().startswith('题目（') or para.get_text().strip()=='题目 · 答案':para['class']='crosslinks'
+        if kind=='Combined' and para.get_text().startswith('返回本题'):para['class']='crosslinks'
         if para.get_text().startswith('选读：'):para['class']='optional-reading'
-    if kind=='Answers':
+    if kind in ('Answers','Combined'):
         for para in list(soup.find_all('p')):
             if not para.get_text().startswith('出处：'):continue
             refs=soup.new_tag('div',attrs={'class':'references'});para.insert_before(refs)
@@ -92,7 +100,7 @@ for kind in ['Questions','Answers']:
     for eq in soup.select('div.arithmatex'):
         before=eq.find_previous_sibling()
         if before and before.name=='p' and len(before.get_text())<180:before['class']=list(before.get('class',[]))+['equation-lead']
-    if kind=='Answers':
+    if kind in ('Answers','Combined'):
         eq_counts={}
         for eq in soup.select('div.arithmatex'):
             heading=eq.find_previous('h2');qid=heading.get('id','') if heading else ''
@@ -111,5 +119,6 @@ for kind in ['Questions','Answers']:
             space=soup.new_tag('p',attrs={'class':'notes-space'});space.string='作答与草稿 / Your answer and working';last.insert_after(space)
     vendor=(args.notes_root/'vendor/katex').resolve().as_uri()
     js=r'''renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}],throwOnError:false});document.fonts.ready.then(()=>{window.printReady=true;});'''
-    (build/f'{kind}.html').write_text(f'<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>CS5489 Midterm {kind}</title><link rel="stylesheet" href="{vendor}/katex.min.css"><style>{css}</style></head><body class="{kind.lower()}">{soup}<script src="{vendor}/katex.min.js"></script><script src="{vendor}/contrib/auto-render.min.js"></script><script>{js}</script></body></html>')
-print('Built both offline A4 intermediates from Markdown.')
+    body_class='answers combined' if kind=='Combined' else kind.lower()
+    (build/f'{kind}.html').write_text(f'<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>CS5489 Midterm {kind}</title><link rel="stylesheet" href="{vendor}/katex.min.css"><style>{css}</style></head><body class="{body_class}">{soup}<script src="{vendor}/katex.min.js"></script><script src="{vendor}/contrib/auto-render.min.js"></script><script>{js}</script></body></html>')
+print('Built requested offline A4 intermediates from Markdown.')

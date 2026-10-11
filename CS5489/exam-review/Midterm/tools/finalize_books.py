@@ -1,5 +1,6 @@
 """Finalize fresh PDF renders with portable links, stable destinations and source digests."""
 from pathlib import Path
+import argparse
 import hashlib
 import json
 import re
@@ -9,11 +10,15 @@ from pypdf.generic import NameObject, TextStringObject, DictionaryObject, ArrayO
 from book_support import KINDS, sha256
 
 ROOT = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--combined', action='store_true')
+args = parser.parse_args()
+kinds = ('Combined',) if args.combined else KINDS
 index = json.loads((ROOT / 'QuestionIndex.json').read_text())
-report_path = ROOT / '.build/render-report.json'
+report_path = ROOT / '.build' / ('combined-render-report.json' if args.combined else 'render-report.json')
 reports = json.loads(report_path.read_text())
 by_kind = {row['kind']: row for row in reports}
-assert set(by_kind) == set(KINDS), 'Both freshly rendered books are required'
+assert set(by_kind) == set(kinds), 'All requested freshly rendered books are required'
 
 
 def walk(items):
@@ -25,7 +30,7 @@ def walk(items):
 
 
 maps, readers = {}, {}
-for kind in KINDS:
+for kind in kinds:
     row = by_kind[kind]
     assert row['source_sha256'] == sha256(ROOT / f'{kind}.md'), (kind, 'Source changed since render')
     assert row['index_sha256'] == sha256(ROOT / 'QuestionIndex.json'), 'Question index changed since render'
@@ -86,11 +91,14 @@ for kind, reader in readers.items():
                          '/MidtermSourceSHA256': sha256(ROOT / f'{kind}.md'),
                          '/MidtermIndexSHA256': sha256(ROOT / 'QuestionIndex.json'),
                          '/MidtermPageIndexSHA256': map_sha})
+    if kind == 'Combined':
+        writer.add_metadata({'/MidtermQuestionsSourceSHA256': sha256(ROOT / 'Questions.md'),
+                             '/MidtermAnswersSourceSHA256': sha256(ROOT / 'Answers.md')})
     target = ROOT / f'{kind}.pdf'
     temporary = ROOT / f'.{kind}.final.pdf'
     writer.write(temporary)
     temporary.replace(target)
     by_kind[kind]['final_pdf_sha256'] = sha256(target)
-(ROOT / 'PageIndex.json').write_text(map_text)
+(ROOT / ('CombinedPageIndex.json' if args.combined else 'PageIndex.json')).write_text(map_text)
 report_path.write_text(json.dumps(reports, ensure_ascii=False, indent=2) + '\n')
-print('Finalized both books, 67 destinations and 15 legacy aliases each; source digests embedded.')
+print('Finalized requested books, 67 destinations and 15 legacy aliases each; source digests embedded.')
