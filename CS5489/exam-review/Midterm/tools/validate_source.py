@@ -29,8 +29,12 @@ for kind in ['Questions','Answers']:
     assert not re.search(r'SYMBOL TO VERIFY|ANSWER HERE|TODO|Student ID|Seat Number',s)
     for qid in ids:
         block=re.search(r'^## '+qid+r' .*?(?=\n<a id="mt|\Z)',s,re.M|re.S)[0]
-        labels=['### English question','### 中文题意'] if kind=='Questions' else ['### 中文题意','### English answer','### 中文讲解','**答案依据：**']
-        assert all(v in block for v in labels),(kind,qid)
+        labels=['### English question','### 中文题意'] if kind=='Questions' else ['### 中文题意','### English answer','### 中文对应答案','### 中文讲解','**答案依据：**']
+        assert all(block.count(v)==1 for v in labels),(kind,qid,'Missing or repeated section')
+        assert [block.index(v) for v in labels]==sorted(block.index(v) for v in labels),(kind,qid,'Section order')
+        if kind=='Answers':
+            counterpart=block.split('### 中文对应答案\n')[1].split('### 中文讲解\n')[0].strip()
+            assert re.search(r'[\u4e00-\u9fff]',counterpart),(qid,'Missing Chinese answer text')
         assert re.search(r'[\u4e00-\u9fff]',block)
     soup=BeautifulSoup(markdown.markdown(s,extensions=['tables','toc','md_in_html','pymdownx.arithmatex'],extension_configs={'pymdownx.arithmatex':{'generic':True}}),'html.parser')
     soups[kind]=soup

@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-11",
+  "base_commit": "3bc768a602664b38a30bbd0b7ad831fbfdf0e28c",
+  "status": "reviewed_and_validated",
+  "semantic_pairs_reviewed": 67,
+  "original_content_preserved_after_removing_new_sections": 67,
+  "english_answers_unchanged": 67,
+  "question_prompt_and_existing_explanation_blocks_unchanged": 67,
+  "repeated_displayed_formulas_identical_to_english": 8,
+  "layout": {
+    "body_font_pt": 11,
+    "columns": 1,
+    "question_starts_on_new_page": true,
+    "contact_pages_examined": 195,
+    "enlarged_answer_pages": [
+      15,
+      39,
+      45,
+      58,
+      117
+    ],
+    "last_repair_rechecked_page": 45,
+    "other_answer_pages_pixel_identical_after_last_repair": 125,
+    "question_pages_pixel_identical_after_last_repair": 69
+  },
+  "validation": {
+    "status": "passed",
+    "books": [
+      {
+        "file": "Questions.pdf",
+        "pages": 69,
+        "sha256": "30cd70c2fb6f43ceea9e82b59dbb4c1409e3b7489d59e55002bb4ea662d08d5d",
+        "source_sha256": "5d757f380828a5c68f108f92c04b41b8f4d130c83127da977c7840762109f34e",
+        "portable_cross_book_links": 67
+      },
+      {
+        "file": "Answers.pdf",
+        "pages": 126,
+        "sha256": "cef423551c40d82411ead87b2a3124847b97e06e2160c341fad6138adaaaab3a",
+        "source_sha256": "e1bf650fe2c5afb810bde386cdb410496dc6d3a8d873745f83c86ff32475c640",
+        "portable_cross_book_links": 67
+      }
+    ],
+    "unique_question_answer_pairs": 67,
+    "original_question_positions": 78,
+    "printed_chinese_answer_counterparts": 67,
+    "independent_midterms": 6,
+    "independent_page_maps": true,
+    "verified_printed_page_references": 422,
+    "verified_html_page_references": 422,
+    "paper_index_rows": 78,
+    "legacy_aliases_per_book": 15,
+    "source_metadata_entries_checked": 14,
+    "source_hashes_verified": 0,
+    "source_archive_verification": "not_requested",
+    "numeric_checks": 67,
+    "render_evidence": "verified_current",
+    "visual_review": "Recorded separately after examining rendered pages; not inferred from automated checks."
+  },
+  "physical_print_test": false,
+  "new_numerical_examples": false,
+  "source_archive_reverification": false
+}

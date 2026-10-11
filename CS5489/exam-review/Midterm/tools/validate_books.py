@@ -68,6 +68,13 @@ for kind in KINDS:
         for key in [qid] + [alias.lower() for alias in question['legacy_ids']]:
             destination = reader.named_destinations.get('/' + key) or reader.named_destinations.get(key)
             assert destination and reader.get_destination_page_number(destination) + 1 == page_number, (kind, key, page_number)
+    if kind == 'Answers':
+        for i, qid in enumerate(ids):
+            start = maps[kind][qid] - 1
+            end = maps[kind][ids[i + 1]] - 1 if i + 1 < len(ids) else len(texts)
+            question_text = compact('\n'.join(texts[start:end]))
+            assert question_text.count('中文对应答案') == 1, (qid, 'Missing or repeated Chinese answer in PDF')
+            assert question_text.index('Englishanswer') < question_text.index('中文对应答案') < question_text.index('中文讲解'), (qid, 'PDF answer section order')
     full_text = compact('\n'.join(texts))
     expected_text = Counter(item['text'] for item in refs)
     for text, count in expected_text.items():
@@ -139,6 +146,7 @@ if args.require_render:
 numeric = json.loads((ROOT / 'CalculationChecks.json').read_text())
 assert numeric['status'] == 'passed' and numeric['checks']
 result = {'status': 'passed', 'books': books, 'unique_question_answer_pairs': 67, 'original_question_positions': 78,
+          'printed_chinese_answer_counterparts': len(ids),
           'independent_midterms': 6, 'independent_page_maps': True, 'verified_printed_page_references': printed_refs,
           'verified_html_page_references': html_refs, 'paper_index_rows': len(paper_rows), 'legacy_aliases_per_book': 15,
           **catalog_checks, 'numeric_checks': len(numeric['checks']),

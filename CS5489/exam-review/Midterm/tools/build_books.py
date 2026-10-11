@@ -34,6 +34,7 @@ thead{display:table-header-group}td,th{vertical-align:top}strong{font-weight:600
 .references{font-size:8.5pt;line-height:1.32;color:#444;margin-top:2mm;break-inside:avoid}
 .references p{font-size:inherit;line-height:inherit;margin:0 0 1mm;orphans:1;widows:1}
 .references .page-ref{font-size:8.5pt}.answers p{margin-bottom:2.5mm}
+.answers li{break-inside:avoid}
 .answers img[src$="answer-kernel-map.png"],.answers img[src$="answer-asymmetric-loss.png"],.answers img[src$="answer-huber.png"]{max-height:54mm;max-width:115mm}
 .answers img[src$="answer-l1-l2-geometry.png"]{max-height:70mm;max-width:155mm}
 .answers div.arithmatex{break-inside:avoid;position:relative}
@@ -80,7 +81,14 @@ for kind in ['Questions','Answers']:
             while (nxt:=refs.find_next_sibling()) and nxt.name=='p' and (nxt.get_text().startswith('答案依据：') or 'crosslinks' in nxt.get('class',[])):
                 refs.append(nxt.extract())
             before=refs.find_previous_sibling()
-            if before and before.name=='p':before['style']='break-after:avoid'
+            if before and before.name in ('p','ul','ol'):
+                before['style']='break-after:avoid'
+                # Keep a short closing sentence with its preceding explanation,
+                # rather than leaving only that sentence and sources on a page.
+                if before.name=='p' and len(before.get_text())<60:
+                    previous=before.find_previous_sibling()
+                    if previous and previous.name in ('p','ul','ol'):
+                        previous['style']='break-after:avoid'
     for eq in soup.select('div.arithmatex'):
         before=eq.find_previous_sibling()
         if before and before.name=='p' and len(before.get_text())<180:before['class']=list(before.get('class',[]))+['equation-lead']

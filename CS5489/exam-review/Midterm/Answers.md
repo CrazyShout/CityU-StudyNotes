@@ -6,7 +6,7 @@
 
 各组按概念、示范、判断与应用逐步展开，阅读次序不按MT编号大小排列。按一整套卷练习可用 [原卷索引](PaperIndex.md)。模拟题、期末题和QE不混入本册。旧题规则不代表本学期考试规定。
 
-每题先给完整中文题意与必要题图，再给简洁的English answer和连续中文解析。第一次学习时，读清题意，沿中文步骤算一遍；复习时可遮住答案，用英文独立说明。标为“选读”的段落供深入理解，完成原题所需步骤都在主线。
+每题先给完整中文题意与必要题图，再给简洁的English answer及逐点对应的中文答案，随后用中文讲解基础与推理。第一次学习时，可先读中文对应答案，再沿讲解算一遍；复习时对照中英文作答，确认英文中的每个要点，再尝试独立说明。标为“选读”的段落供深入理解，完成原题所需步骤都在主线。
 
 两册按MT题号对应，各自分页；目录与题间回指提供实际页码。随卷答案有差异时，在题后简注，文末集中汇总；2025A的学生手写作答未作为标准答案。
 
@@ -119,6 +119,11 @@ Overfitting occurs when a learned model captures training-specific noise or fluc
 
 Possible remedies include selecting complexity by training-only cross-validation, stronger suitable regularization, fewer or better-selected features, a simpler model, and more representative training data. Keep the final test set outside these choices.
 
+### 中文对应答案
+过拟合是指模型学到了训练数据中特有的噪声或偶然波动，这些规律无法推广到新数据。确认训练与验证数据的来源、预处理可比较后，如果训练误差远低于验证误差，就要警惕过拟合。
+
+可尝试的办法包括：只在训练数据内部用交叉验证选择复杂度，加强合适的正则化，减少或更好地筛选特征，采用更简单的模型，以及增加有代表性的训练数据。最终测试集不参与这些选择。
+
 ### 中文讲解
 过拟合是模型把训练样本中的偶然变化也当成了普遍规律。一个极深的树可以不断切分，直到几乎给每个训练样本单独安排一个区域；它容易把训练题答对，但这些很小的区域未必适合新样本。
 
@@ -152,6 +157,9 @@ A）CV的验证部分来自训练数据。B）通过比较最终测试集表现�
 ### English answer
 **A, C and D.** Validation folds come from the training pool; the final test set is not used for tuning. After selecting C, refit on all training data, so coefficients can differ from fold-specific coefficients. A coarse candidate grid may miss a useful value, although poor test performance can have other causes.
 
+### 中文对应答案
+**A、C、D正确。** 验证折来自训练数据，最终测试集不用来调参。选定C后，要用全部训练数据重新拟合，因此得到的系数可能与各折训练出的系数不同。候选参数之间的间隔太大，可能漏掉合适的值；不过，测试表现差也可能有其他原因。
+
 ### 中文讲解
 先区分两种“参数”：$w,b$是模型从数据中学出来的权重和偏置；$C$是训练前指定的超参数，控制拟合与正则化的权衡。交叉验证比较的是不同$C$的效果，每次比较仍需要重新学习一组$w,b$。
 
@@ -183,6 +191,9 @@ A）训练集太小。B）测试集太大。C）训练与测试分布不同。D�
 ### English answer
 **A, C and D.** Too little representative training data and excessive flexibility can cause overfitting; distribution shift can also cause a gap. A large test set does not itself worsen the expected generalization error. “Too weak” normally manifests as poor training fit as well, so E is not the intended explanation for the stated pattern.
 
+### 中文对应答案
+**A、C、D正确。** 有代表性的训练数据太少，或模型过于灵活，都可能导致过拟合；训练与测试的数据分布不同，也可能造成误差差距。测试集大本身不会增大预期泛化误差。模型“太弱”通常也会表现为训练拟合差，因此E不是题述现象所指的原因。
+
 ### 中文讲解
 训练误差低表示模型能适应训练数据；测试误差高表示这套规律没有顺利推广。造成差距的原因可能在模型，也可能在数据来源。逐项看：
 
@@ -213,6 +224,9 @@ A）随机删除训练样本。B）换更复杂的模型。C）加强正则。D�
 ### English answer
 **C, D and E** are reasonable candidates. Stronger regularization can reduce excessive fitting; training-only cross-validation selects complexity; bagging can reduce the variance of unstable learners. These are possible remedies, not guaranteed improvements. Also check distribution shift and preprocessing differences.
 
+### 中文对应答案
+**C、D、E是合理的候选办法。** 加强正则化可以减轻过度拟合；在训练数据内部做交叉验证可以选择复杂度；bagging可以降低不稳定模型的方差。这些办法可能有效，但不保证一定改善表现。同时还应检查训练与测试的数据分布、预处理是否存在差异。
+
 ### 中文讲解
 题中同一个模型有两种表现：做见过的训练题很准，换成没有参与训练的测试题却不准。这通常提示过拟合（overfitting）：模型连训练数据里的偶然细节也学了进去。比如按几个客户的特殊习惯制定规则，换一批客户就失效。这里讨论的是可能有用的改进，不要求某项操作保证提分。
 
@@ -240,6 +254,9 @@ A）随机删除训练样本。B）换更复杂的模型。C）加强正则。D�
 
 ### English answer
 The intended diagnosis is underfitting: the representation or linear decision rule may be too restrictive. Two remedies are (1) add informative nonlinear or interaction features, and (2) use a suitable nonlinear classifier, such as a kernel SVM or a tree ensemble. If regularization is excessive, reducing it is another possibility. Verify optimization and label quality before attributing all poor fit to capacity.
+
+### 中文对应答案
+本题预期的判断是欠拟合：现有特征表示或线性决策规则可能过于受限。两种办法是：（1）加入有用的非线性特征或特征之间的交互项；（2）采用合适的非线性分类器，例如核SVM或树集成。若正则化过强，也可以减弱正则化。在把拟合差全部归因于模型表达能力之前，还要检查优化过程和标签质量。
 
 ### 中文讲解
 模型连训练样本都处理不好，说明它还没有充分表示训练数据中的关系。这叫欠拟合（underfitting）。本题已经给了大量训练样本，重点应放在“线性规则是否足够表达症状之间的关系”。
@@ -269,6 +286,9 @@ The intended diagnosis is underfitting: the representation or linear decision ru
 
 ### English answer
 A defensible choice, and the supplied answer, is **random forest**. It captures nonlinear relationships/interactions and supports feature-importance or permutation-importance analyses for inspection. A plain logistic model may miss nonlinear structure unless features are expanded. A conventional kernel SVM on 50,000 samples can incur substantial kernel computation/storage cost. These are task-based reasons, not proof that RF must be most accurate.
+
+### 中文对应答案
+一个合理的选择是**随机森林**，随卷答案也采用这一选择。它能够捕捉非线性关系和特征间的交互，并可通过特征重要性或置换重要性分析帮助解释模型。普通逻辑回归若不扩展特征，可能漏掉非线性结构；常规核SVM处理50,000个样本时，核计算与存储开销可能很大。这些理由说明随机森林适合该任务，但不能证明它的准确率一定最高。
 
 ### 中文讲解
 任务有50,000名客户、25个特征，需要预测购买类别，同时分析哪些特征有帮助。按配套答案，可选择随机森林（random forest，RF）。
@@ -303,6 +323,9 @@ A）NB是Bayes决策规则的一种具体实现。B）二分类标签为0、1时
 
 ### English answer
 **A and C.** C means independence **conditional on the class**. NB specifies class-conditional models and then applies the Bayes decision rule. B omits the priors: compare $p(x\mid c)p(c)$ under equal error costs. D compares a decision principle with a particular implementation; efficiency depends on the model. The rule applies to any finite number of classes, so E is false.
+
+### 中文对应答案
+**A、C正确。** C中的独立是指**给定类别后的条件独立**。NB先指定类条件模型，再应用Bayes决策规则。B漏掉了先验：错分代价相同时，应比较$p(x\mid c)p(c)$。D把一种决策原则与一种具体实现作效率比较，而计算效率取决于所用模型。该规则适用于任意有限个类别，所以E错误。
 
 ### 中文讲解
 $x$是一条待分类记录的特征，$c$是候选类别。先验$P(c)$表示还没看这条记录时，类别$c$有多常见；类条件分布$p(x\mid c)$描述已知类别是$c$时，什么输入常见；后验$P(c\mid x)$表示看过输入$x$后，它属于$c$类的概率。竖线“$\mid$”读作“在已知……的条件下”，条件写在竖线右边。二分类的两个后验概率加起来为1。
@@ -340,6 +363,9 @@ A）估计每一类中特征的概率分布。B）难以向分类器加入先验
 
 ### English answer
 **A and D.** A generative classifier models $p(x\mid c)$ and the class prior $p(c)$. It predicts using $p(c\mid x)\propto p(x\mid c)p(c)$, so maximizing only the class-conditional density is generally insufficient. Priors can encode prior information, and the construction extends to multiple classes.
+
+### 中文对应答案
+**A、D正确。** 生成式分类器对类条件分布$p(x\mid c)$和类别先验$p(c)$建模，再利用$p(c\mid x)\propto p(x\mid c)p(c)$预测。因此，一般不能只选择类条件密度最大的类别。先验可以表达已有信息，这种建模方式也适用于多分类。
 
 ### 中文讲解
 生成式分类器需要知道两件事：每类内部的数据是什么样，以及每类有多常见。以前者$p(x\mid c)$描述新输入像不像某类，以后者$P(c)$表示先验，再比较两者乘积。
@@ -381,6 +407,21 @@ Here $\mu_c\in\mathbb R^d$ and each variance is positive. Unless a shared-varian
 $$\hat y=\arg\max_{c\in\{0,1\}}\left[\log P(y=c)+\sum_{j=1}^d\log\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})\right].$$
 
 The common evidence $p(x)$ cancels in this comparison. Use a fixed rule for ties.
+
+### 中文对应答案
+(a) 假设训练样本独立同分布；**给定类别后**，各特征相互独立，且每个特征服从高斯分布。这不要求特征在不区分类别时也独立。
+
+(b) 记$\pi=P(y=1)$，则$P(y=0)=1-\pi$。对类别$c$，有
+
+$$p(x\mid y=c)=\prod_{j=1}^d\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})=\mathcal N(x;\mu_c,\operatorname{diag}(\sigma^2_{c1},\ldots,\sigma^2_{cd})).$$
+
+其中$\mu_c\in\mathbb R^d$，每个方差都大于0。除非题目指定共享方差，不同类别可以有不同的方差。
+
+(c) 错分代价相同时，选择后验概率最大的类别：
+
+$$\hat y=\arg\max_{c\in\{0,1\}}\left[\log P(y=c)+\sum_{j=1}^d\log\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})\right].$$
+
+比较时可以约去各类共同的分母$p(x)$；分数相同时，按预先固定的规则选择。
 
 ### 中文讲解
 一条样本$x=(x_1,\ldots,x_d)$含$d$个测量值，$y$是类别0或1。Gaussian NB要回答：这组测量更像哪一类？本题三问依次是“作什么假设、用什么分布、怎样作决定”。
@@ -435,6 +476,9 @@ A）NB会最小化出错概率。B）NB不建模特征相关性，所以边界�
 ### English answer
 **A, C and E in the supplied key.** Under equal error costs, choosing a class with maximal true posterior minimizes classification error. Correct posterior estimates are sufficient, but not necessary if the maximizing class is unchanged. NB learns priors and class-conditional distributions; their choice affects accuracy. Independent features do not force axis-aligned decision boundaries, and fitted NB models can overfit.
 
+### 中文对应答案
+**随卷答案选A、C、E。** 错分代价相同时，选择真实后验概率最大的类别，可以使分类错误率最低。后验估计正确是充分条件；只要后验最大的类别没有改变，就不必要求估计值完全正确。NB学习先验和类条件分布，所选分布会影响准确率。特征独立不意味着决策边界一定与坐标轴平行；拟合出的NB模型也可能过拟合。
+
 ### 中文讲解
 NB的“朴素”是：**已经知道类别后**，把不同特征分别建模。例如在同一类邮件中，近似把各词的出现情况分开估计。它没有保证真实数据一定满足这个假设。
 
@@ -472,6 +516,11 @@ A）NB只能表示线性决策面。B）Bayesian分类器显式定义后验$p(y\
 
 A, C and E are false: Gaussian NB may have quadratic boundaries, fitted distributions can overfit, and priors influence posterior scores. B is ambiguous. In the course's generative/discriminative distinction, a generative model directly specifies $p(x\mid y)$ and $p(y)$, and **derives** $p(y\mid x)$; it does not directly parameterize the conditional classifier.
 
+### 中文对应答案
+**随卷答案选D。** 错分代价相同时，使用真实后验的Bayes规则能使给定输入下的错误率最低。若拟合模型的概率估计有误，就未必能达到这个最优值。
+
+A、C、E错误：Gaussian NB可能产生二次边界；拟合的分布可能过拟合；先验会影响后验分数。B有歧义。按课程对生成式与判别式的区分，生成式模型直接指定$p(x\mid y)$和$p(y)$，再**推导出**$p(y\mid x)$，并非直接为这个条件分类模型设定参数。
+
 ### 中文讲解
 Bayes分类比较的是看到$x$后，各类的后验概率。错分代价相同时，选概率最大的类最有把握：若两类后验为0.7和0.3，选第一类的错误概率为0.3，已经比选第二类的0.7小。
 
@@ -502,6 +551,9 @@ A）学习Bayesian分类器等价于估计后验分布。B）在决策边界附�
 
 ### English answer
 **The supplied key selects A, B, C and D.** NB estimates priors and class-conditional distributions, then derives posteriors. Near-boundary label uncertainty is high: Var(Y|x)=p(1−p). Non-Gaussian NB can be nonlinear, and NB/LR can use MLE. E is false because smoothing regularizes NB. A describes the resulting posterior, not direct discriminative training.
+
+### 中文对应答案
+**随卷答案选A、B、C、D。** NB先估计先验和类条件分布，再推导后验。在决策边界附近，标签的不确定性较高，二分类时有$\operatorname{Var}(Y\mid x)=p(1-p)$。非高斯的NB可以产生非线性边界，NB和逻辑回归都可以用最大似然估计训练。E错误，因为平滑可以对NB起到正则化作用。A描述的是最终得到的后验，并不表示NB直接采用判别式训练。
 
 ### 中文讲解
 先把三个概率分清。$P(y=c)$是**先验**，表示还没看到这条输入时，类别$c$有多常见；$p(x\mid y=c)$是**类条件分布**，表示已知是$c$类时，什么输入常见；$P(y=c\mid x)$是**后验**，表示看到输入$x$以后，它属于$c$类的概率。竖线“$\mid$”可读成“在已知……的条件下”。
@@ -536,6 +588,11 @@ NB先学习前两项，再用Bayes公式得到后一项。比如先统计垃圾�
 
 Zero error requires additional separability conditions, such as disjoint class supports almost everywhere. Correct modeling alone does not guarantee this.
 
+### 中文对应答案
+**一般不成立。** 在模型设定正确时，无限数据可以消除参数估计的不确定性，却不能消除类别分布之间的重叠。如果某个输入对应的两种标签都有正的后验概率，即使采用最优的确定性决策，给定该输入时的错误概率仍为$1-\max_c P(y=c\mid x)$。
+
+要达到零错误，还需要额外的可分条件，例如各类别可能出现的输入范围，除概率为0的部分外互不重叠。仅有正确的模型设定不能保证零错误。
+
 ### 中文讲解
 题目的诱惑是把“样本无限多”理解成“所有问题都能学会”。更多数据能让我们更准确地知道各类怎样分布，却不能让本来重叠的两类自动分开。
 
@@ -569,6 +626,9 @@ A）生成式分类器增加新特征维度不需要重新训练。B）生成式
 ### English answer
 **A, C and D are incorrect.** A new feature requires learning its class-conditional behaviour; a full joint model may also require new dependency parameters. Standard supervised discriminative training requires labels. Gaussian distributions are useful assumptions, not universally superior choices. B and E follow the course's generative/discriminative distinction.
 
+### 中文对应答案
+**A、C、D错误。** 加入新特征后，需要学习它在各类别下的分布；若使用完整联合模型，还可能需要学习新的依赖关系参数。标准的有监督判别式训练需要标签。高斯分布是一种有用的建模假设，但并非对所有任务都更好。B、E符合课程对生成式与判别式模型的区分。
+
 ### 中文讲解
 生成式和判别式都要给新输入分类，区别在于先学什么。生成式分别描述“各类通常产生怎样的数据”，再比较类别；判别式直接学“输入怎样对应到标签”，不必完整描述每一类的数据分布。本题要求选**不正确**的说法。
 
@@ -599,6 +659,13 @@ A generative approach models the distribution of image features within each supp
 A discriminative approach learns $p(c\mid x)$ or a decision function directly. For a linear classifier, the weights describe which feature combinations help separate the supplied classes.
 
 Discriminative training avoids specifying a full feature distribution. A simple generative model can be effective with limited labelled data when its assumptions are appropriate; this is a modelling trade-off, not a guarantee of better accuracy.
+
+### 中文对应答案
+生成式方法学习各个已给定类别中的图像特征分布$p(x\mid c)$，以及类别先验$p(c)$，再通过Bayes规则得到分类器。学到的类条件模型描述了该类常见的特征。
+
+判别式方法直接学习$p(c\mid x)$或决策函数。在线性分类器中，权重反映哪些特征组合有助于区分这些类别。
+
+判别式训练无需指定完整的特征分布；当假设合适时，简单的生成式模型在标注数据较少的情况下也可能有效。这是建模方式之间的取舍，不能据此保证哪一种准确率更高。
 
 ### 中文讲解
 把图像表示为特征向量$x$，标签$c$是题目训练数据已经给定的类别。
@@ -634,6 +701,15 @@ Discriminative training avoids specifying a full feature distribution. A simple 
 5. For binary classification with $d$ features, LR has $d+1$ coefficients, including the intercept. Under the key's **single shared scalar variance** convention, NB has $2d+1$ class-conditional parameters: two mean vectors and one variance. A learned binary class prior adds one more free parameter, making $2d+2$ in total.
 
 If “shared variance” means one shared variance **per feature**, NB has $3d+1$ free parameters including the learned prior. State which model and counting convention you use.
+
+### 中文对应答案
+1. 当Gaussian NB在类别之间共享方差时，两种模型都能在给定特征空间中产生线性决策边界。
+2. 两者都可以用最大似然估计训练，但逻辑回归最大化标签的条件似然；NB则通过类别先验和类条件似然拟合联合模型。
+3. NB是生成式模型；逻辑回归直接建模类别后验，是判别式模型。
+4. 两者都能扩展到多分类，也都可以加入正则化或参数先验。
+5. 对具有$d$个特征的二分类任务，逻辑回归有$d+1$个系数，其中包括截距。按原解采用的**单个共享标量方差**约定，NB有$2d+1$个类条件参数，即两个均值向量和一个方差。若还学习二分类的类别先验，就再增加一个自由参数，总数为$2d+2$。
+
+如果“共享方差”指的是**每个特征各有一个类间共享的方差**，那么NB连同可学习先验共有$3d+1$个自由参数。作答时应说明采用哪种模型和计数约定。
 
 ### 中文讲解
 从学习对象、边界形状、训练方法、扩展方式和参数数量五个方面比较两种模型。
@@ -678,6 +754,11 @@ Their decision functions can share a linear form while their training objectives
 
 There is no universally most accurate choice. Performance depends on the data, whether model assumptions fit, sample size and regularization. Compare suitable candidates using held-out validation or cross-validation, and evaluate the selected procedure on an untouched test set.
 
+### 中文对应答案
+这些模型的决策函数可以具有相同的线性形式，但训练目标不同。逻辑回归最大化已观测标签的条件似然，通常还会加入正则化；标准SVM在间隔大小与hinge损失惩罚之间作权衡；Gaussian NB拟合类条件分布和类别先验，在类间共享方差时得到线性决策规则。
+
+没有哪种模型在所有任务上都最准确。表现取决于数据、模型假设是否合适、样本量和正则化。应通过留出的验证集或交叉验证比较候选方案，再用未参与选择的测试集评价最终方案。
+
 ### 中文讲解
 $f(x)=w^Tx+b$只说明预测时怎样算分数：各特征乘权重后相加，再加偏置。它没有规定训练时怎样选$w,b$。同一批点可以画出很多分隔线，不同模型用不同标准选择其中一条。
 
@@ -711,6 +792,11 @@ $f(x)=w^Tx+b$只说明预测时怎样算分数：各特征乘权重后相加，�
 
 D uses a **homogeneous** degree-2 kernel: its explicit features contain quadratic products, but no first-order terms. It does not supply the general affine boundary family. Do not replace it with $(x^Tx'+1)^2$, which is a different kernel. E remains linear in the given features; changing the regularization strength does not introduce nonlinear features.
 
+### 中文对应答案
+**随卷答案选A、B、C。** 对Gaussian NB，类间共享方差会使二次项抵消，得到线性边界；不同类别使用不同方差时，通常会留下二次项。RBF SVM和决策树桩集成既能表示简单的分隔面，也能表示非线性分隔面。
+
+D使用的是**齐次二次核**：展开后的特征包含二次乘积，但没有一次项，因此不能覆盖一般的仿射边界。不能把它替换成$(x^Tx'+1)^2$，那是另一个核。E在给定特征上仍是线性的，改变正则化强度不会引入非线性特征。
+
 ### 中文讲解
 线性边界满足$w^Tx+b=0$：二维时是一条直线，更高维对应一个超平面。非线性边界不能只用这个形式表达，例如圆弧或分段折线。题目问同一种模型换数据后，能否形成两类形状，而不是问它是否总能找到任意边界。
 
@@ -741,6 +827,11 @@ D uses a **homogeneous** degree-2 kernel: its explicit features contain quadrati
 **B and E in the supplied key.** D is false: Gaussian NB explicitly models continuous features with Gaussian densities.
 
 A refers to the standard binary SVM taught in the course; multiclass wrappers or multiclass SVM formulations are separate constructions. B assumes logistic regression on the given, untransformed feature vector. C is too strong: scaling is often helpful, especially with regularization, but is not a mathematical prerequisite. E follows from the sparsity encouraged by the L1 penalty.
+
+### 中文对应答案
+**随卷答案选B、E。** D错误：Gaussian NB就是用高斯密度对连续特征建模的。
+
+A指课程所讲的标准二分类SVM；要处理多分类，需要另外组合多个分类器，或采用多分类SVM形式。B假设逻辑回归直接使用给定、未经变换的特征向量。C说得过强：特征缩放通常有帮助，尤其是在加入正则化时，但它不是数学上的必要前提。E成立，是因为L1惩罚鼓励稀疏系数。
 
 ### 中文讲解
 这道混合选择题需要分别检查模型定义，不必把五个选项硬连成一种算法。
@@ -774,6 +865,14 @@ A refers to the standard binary SVM taught in the course; multiclass wrappers or
 
 Validate accuracy and device memory/inference cost.
 
+### 中文对应答案
+1. 尝试用词频作为输入的多项式朴素贝叶斯（Multinomial NB）。
+2. 加入筛选过的相邻双词组合，例如“not happy”。
+3. 用验证数据调整加法平滑的强度。
+4. 选择规模较小、信息量足的词表。
+
+同时验证准确率，以及设备上的内存占用和推理开销。
+
 ### 中文讲解
 Bernoulli NB把一句话变成一串0/1：词表中的词出现过记1，没出现记0。“happy”出现一次和三次，在这项特征上没有区别。词袋还忽略顺序，因此“happy”和“not happy”的组合含义不容易表达。改进要留在算力有限的词袋生成式路线内。
 
@@ -805,6 +904,9 @@ A）用类别似然除以输入的先验概率，估计类别概率。B）常用
 
 ### English answer
 **B and D.** Binary logistic regression models a conditional class probability through sigmoid. OvR with three classes fits three class-versus-rest classifiers. The probability is not computed by A's likelihood/prior division, and convexity does not guarantee a unique finite optimum for every dataset.
+
+### 中文对应答案
+**B、D正确。** 二分类逻辑回归通过sigmoid建模类别的条件概率。三分类的一对其余（OvR）方法训练三个“本类与其余类”的分类器。类别概率不是按A中的“似然除以先验”计算的；目标函数具有凸性，也不保证每个数据集都有唯一且有限的最优解。
 
 ### 中文讲解
 二分类LR先得到任意实数分数$f=w^Tx+b$，再计算
@@ -842,6 +944,9 @@ $$
 
 ### English answer
 The first term is L2 regularization; it discourages large weights. The sum is the logistic negative conditional log-likelihood for labels yᵢ∈{−1,+1}; it rewards assigning higher probability to the true label. Larger α strengthens shrinkage and may underfit; smaller α permits larger weights and may overfit. Select α by validation. Under a zero-mean isotropic Gaussian weight prior, α is proportional to the inverse prior variance.
+
+### 中文对应答案
+第一项是L2正则项，用来抑制大权重。求和项是标签$y_i\in\{-1,+1\}$时，逻辑回归的负条件对数似然；它鼓励模型给真实标签更高的概率。$\alpha$越大，权重收缩越强，可能欠拟合；$\alpha$越小，允许的权重越大，可能过拟合。应通过验证选择$\alpha$。若权重先验为零均值、各向同性的高斯分布，$\alpha$与先验方差的倒数成正比。
 
 ### 中文讲解
 题中每条记录有输入$x_i$和标签$y_i\in\{-1,+1\}$。模型先算$f(x_i)=w^Tx_i+b$；它可正可负，也可大于1，因此**不是概率**。把分数乘真实标签，得到$z_i=y_if(x_i)$：$z_i>0$说明方向正确，$z_i<0$说明方向错误。
@@ -887,6 +992,13 @@ $$
 (b) Treat α as a hyperparameter and select it by validation or cross-validation inside the training data.
 (c) L1 encourages sparse coefficients and can perform feature selection; exact zeros depend on the data and penalty strength. Keep preprocessing inside each training fold and refit after selection.
 
+### 中文对应答案
+(a) 二次项抑制大权重，从而控制模型复杂度。
+
+(b) 将$\alpha$作为超参数，在训练数据内部通过验证或交叉验证选择。
+
+(c) L1鼓励稀疏系数，因此可以用于特征选择；系数是否恰好为0，取决于数据和惩罚强度。预处理也应在各个训练折内部完成；选好设置后，再重新拟合最终模型。
+
 ### 中文讲解
 这里$X,Y$是已有训练输入与标签，$w$是要学习的权重。虽然原题把数据损失简写成$L(X,Y)$，它实际上还依赖$w$产生的预测。整个目标同时要求“解释好训练数据”和“不要使用不必要的大权重”。
 
@@ -918,6 +1030,9 @@ A）鼓励某些权重变大。B）防止过拟合。C）在SVM中等价于最�
 
 ### English answer
 The course answer is **B and D**. L2 penalizes large weights and can reduce overfitting; a zero-mean Gaussian weight prior gives a quadratic penalty under MAP. In the normalized SVM formulation, minimizing the weight norm increases the geometric margin. A and E contradict the penalty's direct effect.
+
+### 中文对应答案
+课程答案为**B、D**。L2惩罚大权重，可以减轻过拟合；在最大后验估计（MAP）中，零均值高斯权重先验会产生二次惩罚。在规范化的SVM形式下，减小权重范数会增大几何间隔。A、E与这一惩罚的直接作用相反。
 
 ### 中文讲解
 L2正则化在数据损失之外加$\alpha\|w\|^2$，其中$\|w\|^2=w_1^2+\cdots+w_d^2$。例如一个权重从2变成4，平方代价从4变成16；因此模型不能免费使用很大的权重追逐训练中的细节。
@@ -960,6 +1075,16 @@ $$
 
 In the depicted configuration, a horizontal separator is a natural sparse solution: retain x₂ and set w₁=0, so the boundary is w₂x₂+b=0. L1 encourages exact zeros; it does not guarantee an axis-parallel boundary for every dataset or C.
 
+### 中文对应答案
+对标签$y_i\in\{-1,+1\}$，一种一致的目标函数写法是
+
+$$
+(w^*,b^*)=\arg\min_{w,b}\left\{\frac1C\sum_j|w_j|+
+\sum_i\log\!\left(1+e^{-y_i(w^Tx_i+b)}\right)\right\},\quad C>0.
+$$
+
+对图中数据，水平分界线是一个自然的稀疏解：保留$x_2$，令$w_1=0$，边界为$w_2x_2+b=0$。L1鼓励系数恰好为0，但不能保证在每个数据集或每个C下，边界都与坐标轴平行。
+
 ### 中文讲解
 先给每个符号一个位置：第$i$条训练样本为$x_i$，标签$y_i\in\{-1,+1\}$；$w$是特征权重，$b$是偏置；$f(x_i)=w^Tx_i+b$是分类分数。$y_if(x_i)>0$表示分数方向和真实类别一致。
 
@@ -993,6 +1118,9 @@ A）训练时只有一个局部最优解。B）必须固定学习率 $\eta$ 才�
 
 ### English answer
 The supplied key selects **B and C**. A fixed learning rate is not necessary; increasing C weakens the usual penalty and does not guarantee the stated changes in either error. Training may use sigmoid probabilities while prediction thresholds the score, making D valid. **A needs an additional qualification:** convexity rules out inferior local minima, but alone does not guarantee a unique finite minimizer.
+
+### 中文对应答案
+随卷答案选**B、C**。学习率不必固定；在常用约定下，增大C会减弱正则惩罚，但不能保证训练误差和测试误差一定按选项所说的方向变化。训练时可以使用sigmoid概率，预测时则对分数设阈值，因此D成立。**A还需要补充条件：** 凸性排除了比全局最优解更差的局部最小点，但仅凭凸性，不能保证存在唯一且有限的最小点。
 
 ### 中文讲解
 逻辑回归先算实数分数$f(x)=w^Tx+b$，再用sigmoid函数$\sigma(f)=1/(1+e^{-f})$把它变成0到1之间的正类概率；另一类的概率是$1-\sigma(f)$。训练通过调整$w,b$，使正确标签的概率更高；学习率决定每次调整迈多大一步，正则强度决定我们多不愿意使用大权重。
@@ -1028,6 +1156,11 @@ The supplied key selects **B and C**. A fixed learning rate is not necessary; in
 
 A is false for general logistic regression; numerical optimization is required. E is false because the penalty changes the optimized coefficients, typically shrinking their magnitudes.
 
+### 中文对应答案
+**B、C、D正确。** 逻辑回归直接建模$P(y\mid x)$；生成式分类器则先建模$p(x\mid y)$和$P(y)$，再通过Bayes规则推导$P(y\mid x)$。MAP训练中的高斯参数先验对应L2惩罚，可以通过交叉验证选择其强度。
+
+A错误：一般的逻辑回归需要数值优化。E错误：惩罚项会改变优化得到的系数，通常会缩小它们的绝对值。
+
 ### 中文讲解
 先区分这里的两个“后验”。$P(y\mid x)$是在知道输入后，**类别**有多可能；$p(w\mid D)$是在知道数据集$D$后，**参数**有多可能。LR直接描述前者，给权重加先验并做MAP时才涉及后者。
 
@@ -1055,6 +1188,9 @@ A）可通过松弛变量处理不可分数据。B）寻找最大间隔超平面
 
 ### English answer
 The supplied 2023A key selects **A and B**. Slack variables allow violations, and margin maximization is central to the objective. D and E are false. C is context-dependent: hard-margin or heavily penalized soft-margin SVMs can be sensitive to outliers, whereas the degree of sensitivity depends on C, the kernel and contamination; the bare statement is too broad to treat as a universal characteristic.
+
+### 中文对应答案
+2023A随卷答案选**A、B**。松弛变量允许样本违反间隔约束，最大化间隔是SVM目标的核心。D、E错误。C是否成立取决于具体设置：硬间隔SVM或对违反约束惩罚很重的软间隔SVM，可能对异常值敏感；敏感程度取决于C、核以及数据受到异常值影响的情况，不能把这句话当作所有SVM的普遍特点。
 
 ### 中文讲解
 线性SVM用分数$f(x)=w^Tx+b$判断类别；$w$是特征权重，$b$是偏置。标签$y_i$取$+1$或$-1$，所以$y_if(x_i)>0$表示分对，负值表示分错。分界是$f(x)=0$；二维时是一条直线，SVM希望在分界两侧留出较宽的间隔。
@@ -1096,6 +1232,9 @@ The supplied 2023A key selects **A and B**. Slack variables allow violations, an
 ### English answer
 A feature map can make data linearly separable. The kernel trick replaces mapped inner products by k(x,z), without constructing the mapped vectors. For example, x=−1,+1 are positive and x=0 negative. Mapping Φ(x)=x² separates them at 0.5; its kernel is k(x,z)=x²z².
 
+### 中文对应答案
+特征映射可以让数据变得线性可分。核技巧用$k(x,z)$代替映射后向量的内积，无需实际构造这些向量。例如，$x=-1,+1$属于正类，$x=0$属于负类。映射$\Phi(x)=x^2$后，可以在0.5处设阈值分开两类；对应的核为$k(x,z)=x^2z^2$。
+
 ### 中文讲解
 考虑一维输入：$x=-1$和$x=1$属于正类，$x=0$属于负类。在原数轴上，正类夹着负类，只用一个阈值把左右分开，无法把两端同时归正、中间归负。
 
@@ -1131,6 +1270,9 @@ A）等价于在变换后的输入上训练线性SVM。B）训练完成后不再
 
 ### English answer
 **A, D and E**, with E interpreted as a possible saving relative to explicitly constructing the feature map. Nonlinear kernel prediction normally retains support vectors and coefficients, so B is false. A valid real kernel must produce symmetric positive-semidefinite Gram matrices, not merely positive entries.
+
+### 中文对应答案
+**A、D、E正确**，其中E应理解为：相对于显式构造特征映射，核技巧有可能节省存储。非线性核模型在预测时通常仍要保存支持向量及其系数，因此B错误。合法的实值核必须产生对称、半正定的Gram矩阵，不能仅要求各个元素为正。
 
 ### 中文讲解
 设$\phi(x)$把原输入变成一组新特征。内积把两组特征的对应分量相乘再相加；核函数直接返回这个结果：$k(x,z)=\phi(x)^T\phi(z)$。我们可以不显式生成很长的$\phi(x)$，这就是核技巧。
@@ -1169,6 +1311,9 @@ A）某些γ可使两者都接近1。B）某些γ可使两者都接近0。C）�
 
 ### English answer
 **A, B, C and E as printed.** For distinct points, both RBF similarities approach 1 as γ→0⁺ and 0 as γ→∞. The nearer point always has higher similarity, proving C and E. D fails: near similarity can be close to 1 while far similarity is not. The supplied key omits the true printed option C.
+
+### 中文对应答案
+**按印刷题面，A、B、C、E正确。** 对不同的点，当$\gamma\to0^+$时，两种RBF相似度都趋于1；当$\gamma\to\infty$时，都趋于0。近点的相似度始终高于远点，因此C、E成立。D不成立：近点的相似度可以接近1，而远点的相似度仍不接近1。随卷答案漏选了印刷题面中正确的C。
 
 ### 中文讲解
 RBF核把距离转换成相似度：
@@ -1220,6 +1365,16 @@ $$
 $$
 
 C fails on one-dimensional inputs 0 and 2: its Gram matrix is [[1,1],[1,0]], with negative determinant. D can have a negative diagonal, e.g. x=√(3π/2). For E, inputs 1 and 2 and coefficients (1,−1) give tanh(1)+tanh(4)−2tanh(2)≈−0.1671<0. Thus C–E are not valid on all real inputs.
+
+### 中文对应答案
+**在适当的定义域上，A、B合法。** A是非零输入归一化之后的内积。对B，假设相关积分存在，则任意系数$a_i$都满足
+
+$$
+\sum_{i,j}a_i a_j k(x_i,x_j)
+=\int\left[\sum_i a_i p(x_i\mid z)\right]^2p(z)\,dz\ge0.
+$$
+
+C有反例：取一维输入0和2，Gram矩阵为$\begin{pmatrix}1&1\\1&0\end{pmatrix}$，行列式为负。D的对角元素可能为负，例如取$x=\sqrt{3\pi/2}$。对E，取输入1、2及系数$(1,-1)$，得到$\tanh(1)+\tanh(4)-2\tanh(2)\approx-0.1671<0$。因此，C、D、E都不能在所有实数输入上作为合法核。
 
 ### 中文讲解
 核要像“某个特征空间里的内积”。取样本$x_1,\ldots,x_n$，把每对核值填成矩阵$K_{ij}=k(x_i,x_j)$。合法实核要求对称，并且对任意系数向量$a$都有$a^TKa\ge0$，这叫半正定（positive semidefinite，PSD）。
@@ -1292,6 +1447,11 @@ The intended sketches contrast a **large C**, which strongly penalizes margin vi
 
 Two limits need care: zero training error for large C requires separability in the chosen feature space. At exactly C=0, the data term disappears and w=0 minimizes the objective with unconstrained bias. This endpoint does not by itself determine the decision-boundary limit as C→0⁺; the supplied right-hand sketch illustrates a smaller positive C.
 
+### 中文对应答案
+示意图要对比两种情况：**C较大**时，违反间隔约束的代价很高，边界会弯曲以适应孤立的红点；**C为较小的正数**时，允许部分样本违反约束，换取更简单、间隔更宽的分隔方式。如果这些孤立点是噪声，后一种模型可能更容易推广到新数据，但仅凭训练图无法确定测试准确率。
+
+两个极限需要区分。大C能实现零训练误差，前提是数据在所选特征空间中可分。C恰好为0时，数据项消失，$w=0$使目标最小，偏置不受约束。仅凭这个端点，不能确定$C\to0^+$时决策边界的极限；随卷答案右图表示的是较小的正C。
+
 ### 中文讲解
 软间隔SVM的目标可写成
 
@@ -1330,6 +1490,9 @@ A）线性可分时，C设为无穷可使训练点全部分类正确。B）三�
 ### English answer
 The supplied key is **A, D and E**, but **E requires qualification**. For distinct finite inputs, an RBF kernel with positive bandwidth parameter permits interpolation in its feature space, and sufficiently strong fitting can achieve zero training error. Duplicate inputs with conflicting labels cannot be separated by any deterministic classifier, and an arbitrary finite C need not fit all labels. A refers to the separable hard-margin limit; B and C have no such guarantee.
 
+### 中文对应答案
+随卷答案为**A、D、E**，但**E需要加条件**。对于有限个互不相同的输入，带宽参数为正的RBF核允许在特征空间中插值；足够强地拟合数据时，可以达到零训练误差。若相同输入对应相互冲突的标签，任何确定性分类器都不能把它们分开；任意给定的有限C也不保证能拟合所有标签。A指可分数据的硬间隔极限；B、C没有相应保证。
+
 ### 中文讲解
 本题有一个必须保留的区别：配套答案把RBF的强表达能力简写成“总能零训练错误”，但无条件的“总能”并不成立。
 
@@ -1359,6 +1522,9 @@ A）SVM可以直接处理线性不可分的数据。B）径向基函数是常用
 
 ### English answer
 The supplied key is **B and D**. Interpret D as optimizing sample multipliers, whose nonzero values identify support vectors—not selecting them in advance. A is ambiguous under the kernel-SVM heading: nonlinear kernels can model nonlinear boundaries, whereas soft-margin tolerance alone does not make a linear SVM nonlinear. The supplied key nevertheless omits A. A feature-space reformulation does not automatically guarantee efficiency. The kernel trick avoids explicit feature construction, contrary to E's wording.
+
+### 中文对应答案
+随卷答案为**B、D**。D应理解为优化各样本的乘子，其中非零乘子对应支持向量，而不是提前选出支持向量。A放在“核SVM”题目下有歧义：非线性核能产生非线性边界，但仅靠软间隔允许违反约束，并不能让线性SVM变成非线性模型；随卷答案仍未选A。改写到特征空间并不自动保证计算更高效。核技巧避免显式构造特征，这与E的表述相反。
 
 ### 中文讲解
 这题的关键是分开三件事：原空间能否画出非线性边界、训练时优化什么、核技巧省掉什么。
@@ -1392,6 +1558,9 @@ A）核SVM不能处理线性可分数据。B）SVR中回归容忍带边界附近
 ### English answer
 **A, D and E** are the intended incorrect statements. Kernel models can also fit linearly separable data, and valid kernels can be defined on strings or sets. Support vectors are identified during fitting; training does not start by knowing which examples can be discarded. B is an informal description: nonzero dual coefficients define predictive support, and points outside the SVR tube can also be support vectors.
 
+### 中文对应答案
+本题预期的错误选项为**A、D、E**。核模型也可以拟合线性可分数据，合法核也可以定义在字符串或集合上。支持向量是在拟合过程中确定的，训练开始时并不知道哪些样本可以丢弃。B只是概括说法：预测中起作用的是非零对偶系数对应的样本，SVR容忍管道之外的点也可能是支持向量。
+
 ### 中文讲解
 支持向量（support vectors）是在训练完成后，具有非零对偶系数、会参与预测的训练样本。不能在训练前凭名称就知道哪些点可以扔掉。本题选**不正确**的表述。
 
@@ -1421,6 +1590,9 @@ A）核SVM不能处理线性可分数据。B）SVR中回归容忍带边界附近
 
 ### English answer
 The supplied solution expects **+1 for Gaussian Bayes and −1 for quadratic-kernel SVM**. Bayes compares density times prior; the SVM sketch encloses the inner negative points, including D. These are the intended schematic results: exact Gaussian parameters and SVM C are not supplied, so the plot does not uniquely determine a numerical fit.
+
+### 中文对应答案
+随卷解答预期：**Gaussian Bayes判为+1，二次核SVM判为−1。** Bayes比较类条件密度与先验的乘积；SVM示意边界包围内部的负类点，也把D点包含在内。这些是示意图所表达的判断。题目没有给出确切的高斯参数和SVM的C，因此不能从图中唯一确定一个数值拟合结果。
 
 ### 中文讲解
 先看图的结构：绿色负类在内层，红色正类分布更宽、数量更多，D靠近内层区域。题目让两种模型判断同一个D，是要比较它们决定边界的依据。
@@ -1457,6 +1629,9 @@ $$g_c(D)=\log\pi_c-\frac12\log|\Sigma_c|
 ### English answer
 Compare primal and dual formulations and use a solver suited to the data. The primal has about 100,000 weights plus a bias; the dual has 2,000 sample multipliers and a 2,000×2,000 Gram matrix. A dual method may therefore be attractive when d≫N. Also exploit sparse inputs and efficient linear-SVM implementations; validated feature reduction is another option. Variable counts alone do not guarantee a wall-clock speedup.
 
+### 中文对应答案
+比较原始形式和对偶形式，选择适合数据的求解器。原始形式约有100,000个权重和一个偏置；对偶形式有2,000个样本乘子，以及一个$2000\times2000$的Gram矩阵。因此，当$d\gg N$时，对偶方法可能更合适。还可利用输入的稀疏性和高效的线性SVM实现，或尝试经验证有效的特征降维。仅比较变量数量，不能保证实际运行时间一定缩短。
+
 ### 中文讲解
 数据有$N=2000$条、每条$d=100{,}000$个特征。线性SVM最后仍用$f(x)=w^Tx+b$预测，但求出这个模型可以走两条路线。
 
@@ -1491,6 +1666,11 @@ The two linear models tie under the standard compressed representation: d weight
 
 Under this representation, the ranking is linear(C=0.1) = linear(C=1000) < ordinary nondegenerate RBF models. The two RBF models cannot be universally ordered from C alone; their actual support-vector counts are needed. The supplied answer puts C=1000 before C=0.1 based on a presumed decrease in M, but support-vector count is not generally monotone in C.
 
+### 中文对应答案
+按标准的压缩存储方式，两个线性模型并列：都只需保存$d$个权重和一个偏置，共**1001个数**，与C无关。具有M个支持向量的核模型约需保存$M(d+1)+1$个数，包括支持向量坐标、每个支持向量的一个系数，以及一个偏置。
+
+在这种表示下，内存占用排序为：线性（C=0.1）=线性（C=1000）<通常的非退化RBF模型。两个RBF模型不能仅凭C确定先后，还要知道实际支持向量数量。原解把C=1000排在C=0.1之前，依据是支持向量数量M会减少的假设；但M一般不随C单调变化。
+
 ### 中文讲解
 题目问**预测函数占多少内存**，不是训练时需要保存多大的核矩阵。先把最终预测式写出来，再数需要存的数。
 
@@ -1522,6 +1702,9 @@ A）训练数据越多越容易过拟合。B）LASSO的惩罚α很大时，某�
 
 ### English answer
 **C, D and E** under the usual interpretation. LASSO can produce exact zeros; ridge generally shrinks coefficients continuously. Setting the penalty to zero recovers the OLS objective. A is not a general relationship. D describes typical ridge behaviour, not a theorem that a ridge coefficient can never equal zero.
+
+### 中文对应答案
+**按通常的理解，C、D、E正确。** LASSO能使部分系数恰好为0；ridge通常连续地缩小系数。把惩罚强度设为0，就恢复普通最小二乘（OLS）的目标。A不是一般成立的关系。D描述的是ridge的典型行为，并不是说ridge系数在任何情况下都不可能为0。
 
 ### 中文讲解
 回归预测一个数值。第$i$条记录的预测为$f(x_i)$，真实值为$y_i$，残差$r_i=f(x_i)-y_i$就是带正负方向的预测误差；例如预测5、实际3，残差为2，残差平方为4。
@@ -1556,6 +1739,9 @@ A）鼓励部分权重为零可做特征选择。B）Ridge因使用L2而能有�
 
 ### English answer
 **A and E.** A zero coefficient removes that feature's direct contribution; L1 geometry promotes such solutions. Ridge usually shrinks rather than exactly eliminates coefficients. OMP is greedy, not a general solver for the globally best subset. Different penalties/objectives can yield different weights even with the same feature list.
+
+### 中文对应答案
+**A、E正确。** 某个特征的系数为0，就去掉了它对预测的直接贡献；L1约束的几何形状有利于出现这类解。Ridge通常缩小系数，而不是让系数恰好为0。OMP采用贪心选择，不能一般性地求出全局最优的特征子集。即使使用相同的特征列表，不同的惩罚或目标函数也可能得到不同的权重。
 
 ### 中文讲解
 线性回归预测为$w_1x_1+\cdots+w_dx_d+b$。若$w_j=0$，第$j$个输入不会直接影响预测，因此“让一些权重恰好为0”能完成特征选择。
@@ -1595,6 +1781,9 @@ A）两者都能让优化更容易。B）两者都能使矩阵求逆更良态。
 ### English answer
 The supplied key selects **D and E**. Read D carefully: both can shrink coefficients, but **automatic exact-zero selection is characteristic of L1**, not ordinary ridge. E describes a possible generalization benefit, not a guarantee. L2 can improve a least-squares system's conditioning; L1 is nonsmooth and does not provide the same inverse-matrix argument. Weight regularization alone is not a robust residual loss.
 
+### 中文对应答案
+随卷答案选**D、E**。D需要谨慎理解：两者都能缩小系数，但**自动产生恰好为0的系数是L1的特点**，并非普通ridge的特点。E说的是可能改善泛化，并不保证一定改善。L2可以改善最小二乘系统的条件数，使求解更稳定；L1不光滑，不能套用同样的矩阵求逆论证。仅对权重加正则，并不等于采用了对异常残差稳健的损失。
+
 ### 中文讲解
 L1、L2正则化都在训练损失外增加对**权重**的惩罚。两者的共同作用是限制复杂度，具体优化方式与是否产生零系数却不同。
 
@@ -1627,6 +1816,9 @@ $$
 
 ### English answer
 **B and D in the supplied key.** L1 encourages exact zeros; L2 shrinks large weights. General Elastic Net requires numerical optimization, though special cases have explicit solutions. Equal penalty coefficients do not mean equal penalties for different weight magnitudes. Negative weights are allowed.
+
+### 中文对应答案
+**随卷答案选B、D。** L1鼓励系数恰好为0，L2抑制大权重。一般的Elastic Net需要数值优化，但特殊情形可以有显式解。两个惩罚系数相等，不意味着对不同大小的权重，两项惩罚也相等。权重可以为负。
 
 ### 中文讲解
 这个目标叫Elastic Net：把L1的稀疏作用和L2的收缩作用放在一起。对单个权重$w_j$，惩罚为$\alpha|w_j|+\beta w_j^2$，通常取$\alpha,\beta\ge0$；讨论两种作用同时存在时，两者应为正。
@@ -1661,6 +1853,9 @@ $$
 
 ### English answer
 Absolute-error loss grows linearly instead of quadratically, so very large output residuals have less relative influence than under least squares. Its residual derivative has constant magnitude away from zero, making it more robust to large y-outliers. This is a change to the data loss, not an L1 penalty on the weights, and it does not imply sparse coefficients.
+
+### 中文对应答案
+绝对误差损失随残差线性增长，而不是平方增长，因此相对于最小二乘，特别大的输出残差影响较小。除残差为0的位置外，它对残差的导数绝对值恒定，所以对输出$y$中的大异常值更稳健。这里改变的是数据损失，并不是给权重加L1惩罚，也不意味着会得到稀疏系数。
 
 ### 中文讲解
 题目只改了**数据损失**，没有加入权重正则。残差$r=f(x)-y$表示预测误差；正负表示高估或低估，绝对值表示错的大小。
@@ -1697,6 +1892,9 @@ $$
 
 ### English answer
 Draw a parabola between −1 and 1, joined smoothly to straight tails: L(0)=0, L(±1)=1/2 and L(±2)=3/2. Its residual derivative is r inside the interval and sign(r) outside. Thus extreme output residuals have bounded gradient magnitude, reducing their influence relative to squared loss. Unlike pure absolute loss, the curve is differentiable at zero and at the two joining points.
+
+### 中文对应答案
+在−1到1之间画一段抛物线，两端平滑连接直线：$L(0)=0$，$L(\pm1)=1/2$，$L(\pm2)=3/2$。损失对残差的导数，在区间内为$r$，在区间外为$\operatorname{sign}(r)$。因此，极大输出残差产生的梯度绝对值有上界，相比平方损失，其影响受到限制。与纯绝对值损失不同，Huber曲线在0及两处连接点都可导。
 
 ### 中文讲解
 先按残差$r=y-f(x)$画损失，不必先想权重。该函数在$|r|<1$时使用半平方误差，两端改为绝对值减0.5。
@@ -1740,6 +1938,9 @@ $$
 ### English answer
 Absolute residual loss grows linearly, so large output errors have less influence than under squared loss. L2 regularization discourages large coefficients and can stabilize fitting. It normally shrinks weights rather than producing the exact sparsity associated with L1 weight penalties. The loss is convex but nonsmooth at zero residual; suitable regularization can improve generalization, without guaranteeing it.
 
+### 中文对应答案
+绝对残差损失线性增长，因此大输出误差的影响比平方损失下小。L2正则化抑制大系数，可以使拟合更稳定；它通常缩小权重，而不是像L1权重惩罚那样产生恰好为0的稀疏系数。该损失是凸的，但在残差为0处不光滑。合适的正则化可能改善泛化，但不能保证一定改善。
+
 ### 中文讲解
 这个目标同时出现L1和L2，但它们作用的对象不同。预测值$w^Tx_i=\sum_jw_jx_{ij}$把各项输入乘上对应权重后相加。残差$r_i=w^Tx_i-y_i$就是预测值减真实值；$|r_i|$衡量预测错了多少，$\|w\|_2^2=\sum_jw_j^2$衡量权重整体有多大。$\arg\min_w$表示“找出使括号内总量最小的那组权重”，通常取$\lambda\ge0$。
 
@@ -1767,6 +1968,9 @@ LASSO对**权重**取绝对值以鼓励精确零系数；本题绝对值在**残
 
 ### English answer
 Define r=f(x)−y. Use L(r)=c₋r² for r<0 and L(r)=c₊r² otherwise, with c₋>c₊>0. Draw two parabolic halves meeting at zero, the negative-residual side steeper. Equal-sized shortages then cost more than surpluses.
+
+### 中文对应答案
+定义残差$r=f(x)-y$。当$r<0$时用$L(r)=c_-r^2$，否则用$L(r)=c_+r^2$，其中$c_->c_+>0$。画出两段在0处相接的抛物线，负残差一侧更陡。这样，同样数量的缺车会比车过剩受到更大的惩罚。
 
 ### 中文讲解
 预测值$f(x)$用于准备单车，真实借车量为$y$。先固定残差方向$r=f(x)-y$：$r<0$表示准备少了、会缺车；$r>0$表示多备了车。公司更怕缺车，因此**相同误差大小下，负残差应付出更高代价**。
@@ -1801,6 +2005,9 @@ $$L(r)=\begin{cases}c_-r^2,&r<0,\\c_+r^2,&r\ge0,\end{cases}
 ### English answer
 Two useful directions are (1) add informative features or interactions, such as time-of-day effects interacting with weather, and (2) use a nonlinear representation/model if the relationship is not linear. Compare by validation or training-only CV. Also check excessive regularization, data alignment and optimization. The validation result alone does not prove the training least-squares solution is wrong.
 
+### 中文对应答案
+两个值得尝试的方向是：（1）加入有用的特征或交互项，例如一天中的时段与天气之间的交互；（2）若输入与输出的关系不是线性的，就采用非线性表示或模型。通过验证集或训练数据内部的交叉验证比较效果。同时检查正则化是否过强、数据是否正确对齐，以及优化是否正常。仅凭验证结果，不能认定训练得到的最小二乘解有错。
+
 ### 中文讲解
 均方误差（mean squared error，MSE）把每条预测误差平方后再取平均。对$N$条验证记录，$\mathrm{MSE}=\frac1N\sum_i[f(x_i)-y_i]^2$；同一批记录上，数值越小表示平均平方误差越小。
 
@@ -1832,6 +2039,9 @@ A）二者都是集成方法。B）bagging是迭代建分类器，boosting的作
 
 ### English answer
 **A and E.** Bagging aggregates learners fitted to resampled data; boosting builds learners sequentially to address the current ensemble's errors or weighted loss. Neither is restricted in principle to trees. More learners do not universally cause overfitting, and boosting does not mean computational acceleration.
+
+### 中文对应答案
+**A、E正确。** Bagging汇总在重采样数据上训练出的多个模型；boosting则依次训练模型，针对当前集成的错误或加权损失进行改进。两者原则上都不限于使用决策树。模型数量增加不一定导致过拟合，boosting也不表示计算加速。
 
 ### 中文讲解
 集成学习（ensemble learning）用多个模型共同作决定。分类可以投票，回归可以平均；单个参与的模型叫基学习器。Bagging与boosting的区别主要在于这些模型怎样训练。
@@ -1865,6 +2075,9 @@ A）随机森林的单棵树基于部分特征建立。B）随机森林有学习
 ### English answer
 The course key selects **A and C**. Random forests use randomized feature candidates in their usual construction, and both ensemble families support regression as well as classification. Ordinary random forests do not use the boosting learning-rate parameter. A should not be read as requiring one permanently fixed feature subset for every split of a tree; feature sampling is commonly performed at each node.
 
+### 中文对应答案
+课程答案选**A、C**。随机森林的通常构造会随机选取候选特征；两类集成方法都可以用于回归和分类。普通随机森林不使用boosting中的学习率参数。A不能理解为一棵树的所有分裂都必须使用同一个固定特征子集；常见做法是在每个节点重新抽取候选特征。
+
 ### 中文讲解
 随机森林训练许多有随机差异的树，再汇总预测。树之间的差异既来自抽样记录，也常来自每个节点只从部分候选特征中找切分点。
 
@@ -1897,6 +2110,9 @@ $$
 
 ### English answer
 Rewrite the variance as σ²[ρ+(1−ρ)/n]. More trees reduce the averaging term, but fixed positive correlation leaves the floor ρσ². At fixed n, diversify trees using bootstrap samples and randomized feature candidates while retaining predictive strength. Lower variance alone does not guarantee lower total test error.
+
+### 中文对应答案
+将方差改写为$\sigma^2[\rho+(1-\rho)/n]$。增加树的数量可以减小平均带来的那一项，但若树之间保持固定的正相关性，方差仍有$\rho\sigma^2$这一无法通过加树消除的部分。n固定时，可以通过bootstrap重采样和随机候选特征增加树之间的差异，同时保留各棵树的预测能力。仅降低方差，不保证总测试误差一定降低。
 
 ### 中文讲解
 方差衡量预测误差随训练随机性怎样波动；相关系数$\rho$衡量两棵树是否倾向一起偏高或一起偏低。树若总以相同方向犯错，平均以后这部分错误仍会留下。
@@ -1932,6 +2148,9 @@ A）AdaBoost用更少的深树一定优于更多树桩。B）LR计算便宜，�
 ### English answer
 The supplied key selects **C and E**. Trees can be fitted and evaluated independently before aggregation. Averaging more randomized trees reduces finite-ensemble variance toward a correlation-dependent limit. There is no universal superiority in A; bagging benefits most from unstable/high-variance learners, so low cost alone does not establish B. Correctly classified AdaBoost samples may receive lower relative weight but are not permanently removed.
 
+### 中文对应答案
+随卷答案选**C、E**。各棵树可以独立训练和预测，之后再汇总结果。把更多随机树的输出取平均，可以降低集成的方差，但仍有一个由树间相关性决定的下限。A中的普遍优越性不成立；bagging主要有利于不稳定、方差高的模型，不能仅凭计算成本低就认定B成立。AdaBoost中已分类正确的样本，其相对权重可能降低，但不会被永久移除。
+
 ### 中文讲解
 - **A错误。** 深树单个模型更复杂，少量深树与大量树桩的组合能力、过拟合风险和成本不同；不能只按深度和数量断言前者一定更好。
 - **B错误。** Bagging靠多个模型之间的差异来降低波动。普通LR通常比深树稳定，换一批重采样数据后模型变化可能较小；计算便宜本身不足以证明它是很有效的bagging基学习器。
@@ -1957,6 +2176,9 @@ The supplied key selects **C and E**. Trees can be fitted and evaluated independ
 
 ### English answer
 The intended choice is **AdaBoost**, assuming its 100 weak learners are shallow and can run independently at prediction time. They can occupy the 100 cores, whereas the 10 RF trees each retain a depth-10 serial path. Under an idealized one-comparison weak-learner model this gives lower latency. Both ensembles can parallelize inference; AdaBoost's sequential training does not forbid parallel prediction. Exact speed depends on learner complexity, scheduling and aggregation overhead.
+
+### 中文对应答案
+本题预期选择**AdaBoost**，前提是它的100个弱学习器足够浅，且预测时可以独立运行。它们可以分别占用100个核心；随机森林的10棵树则各自仍有一条深度为10、需要依次执行的路径。在每个弱学习器只做一次比较的理想化模型下，AdaBoost的延迟更低。两种集成都可以并行预测；AdaBoost训练需要依次进行，并不妨碍预测并行。实际速度仍取决于学习器复杂度、调度和结果汇总的开销。
 
 ### 中文讲解
 题目给定两者准确率和总计算量相同，比较的是100核芯片上一次**预测的等待时间**。总工作量相同，不代表能够并行完成的程度相同。
@@ -1986,6 +2208,11 @@ RF有10棵深度10的树。不同树可以同时预测，但单棵树必须先�
 ### English answer
 (a) Limit the number and complexity of weak learners, and tune the learning rate to meet a validated latency/accuracy budget. A larger rate may need fewer rounds, but can destabilize learning or worsen noise sensitivity.
 (b) Conventional batch AdaBoost is not automatically an online-learning algorithm. Its exponential loss can emphasize difficult/noisy points; appending learners indefinitely also increases prediction cost. A bounded model, scheduled retraining or a method designed for streaming updates may be preferable.
+
+### 中文对应答案
+(a) 限制弱学习器的数量和复杂度，并调整学习率，通过验证找到满足延迟与准确率要求的设置。较大的学习率可能减少所需轮数，但也可能使学习不稳定，或对噪声更敏感。
+
+(b) 常规批量AdaBoost并不会自动成为在线学习算法。它的指数损失可能过分强调难分或含噪声的点；无限追加学习器也会不断增加预测开销。限制模型规模、定期重训，或采用专门支持流式更新的方法，可能更合适。
 
 ### 中文讲解
 题目同时提出“预测要及时”和“新增数据后还要更新”。第一件事关乎模型执行成本，第二件事关乎训练机制，应该分别回答。
@@ -2019,6 +2246,11 @@ AdaBoost的指数损失是$e^{-yf(x)}$。某点严重错分时，$yf(x)$很负�
 
 (b) Huber is quadratic inside |r|<1 and linear outside. Join smoothly at (±1,1/2), with tail slopes ±1. Bounded residual gradients reduce sensitivity to large output errors.
 
+### 中文对应答案
+(a) 两者都组合多个学习器。Bagging在重采样数据上独立训练各个模型；boosting则根据当前集成的错误或加权损失，依次训练后续模型。
+
+(b) Huber损失在$|r|<1$时是二次的，区间外是线性的。在$(\pm1,1/2)$处平滑连接，两侧直线的斜率分别为−1和+1。损失对残差的梯度有界，因此对大的输出误差不那么敏感。
+
 ### 中文讲解
 **(a) 联系是组合多个学习器，区别是训练怎样组织。** Bagging对训练记录重采样，各基模型分别训练，最后投票或平均。Boosting根据当前组合没处理好的部分训练下一轮，例如提高难分样本权重，再把新模型加入组合。因此bagging各模型训练可独立进行，boosting训练具有前后依赖。
 
@@ -2051,6 +2283,9 @@ AdaBoost的指数损失是$e^{-yf(x)}$。某点严重错分时，$yf(x)$很负�
 ### English answer
 The squared-shaped loss targets z=1. Large tail gradients make it sensitive to extreme errors, while scores above 1 penalize confidently correct examples unnecessarily. Both effects can make fitting less robust, especially with noisy labels.
 
+### 中文对应答案
+这个平方形损失把$z=1$作为目标。两端较大的梯度使它对极端错误敏感；分数超过1时，它又会不必要地惩罚高置信度的正确预测。这两点都可能使拟合不够稳健，尤其是在标签有噪声时。
+
 ### 中文讲解
 先读横轴$z=yf(x)$。标签$y$取$-1$或$+1$：分数与标签同号时$z>0$，分类正确；异号时$z<0$，分类错误。$z$还表示朝正确方向走了多远，而不只是对错。
 
@@ -2081,6 +2316,9 @@ The squared-shaped loss targets z=1. Large tail gradients make it sensitive to e
 ### English answer
 The loss is minimized at z=1 and grows linearly on both sides. It corrects wrong or small-margin predictions with bounded tail slopes, but also penalizes confidently correct scores above 1. The latter is unnecessary for margin classification; it does not prove universally poor accuracy.
 
+### 中文对应答案
+损失在$z=1$处最小，并向两侧线性增长。它能修正错误预测或间隔较小的预测，两端斜率的绝对值有界；但分数超过1时，也会惩罚高置信度的正确预测。后一种惩罚对基于间隔的分类没有必要，但这并不证明它在所有任务上准确率都很差。
+
 ### 中文讲解
 横轴$z=yf(x)$是有符号分数，$z<0$分错、$z>0$分对。本图最低点在1，两侧是直线，形成V形；图中左右斜率可以不同，不能未经题设就把它们设成相同数值。
 
@@ -2110,6 +2348,11 @@ The loss is minimized at z=1 and grows linearly on both sides. It corrects wrong
 A representative function with this shape is $L(z)=\max(0,-1-z)$; the vertical scale is not specified. Every −1≤z<0 example is misclassified but has zero loss, so minimizing this objective need not correct it. It is therefore unsuitable as a sole objective for enforcing correct classification.
 
 For an explicit example use f(x)=0.1x+0.5 with (x,y)=(-1,-1) and (1,+1). The signed scores are −0.4 and 0.6; both losses are zero, but the negative example is classified positive. Draw the boundary x=−5 and the two points to its right, with opposite true labels.
+
+### 中文对应答案
+具有这种形状的一个代表性函数是$L(z)=\max(0,-1-z)$；原图没有指定纵轴尺度。所有满足$-1\le z<0$的样本都被分错，却有零损失，因此最小化这个目标未必会纠正它们。它不适合作为促使模型正确分类的唯一目标。
+
+具体例子可取$f(x)=0.1x+0.5$，两个样本为$(x,y)=(-1,-1)$和$(1,+1)$。带标签的分数分别为−0.4和0.6，损失都为0，但负类样本被判成了正类。画图时，把边界画在$x=-5$，两个真实标签相反的样本都位于边界右侧。
 
 ### 中文讲解
 图中损失在$z=-1$就降到0。纵轴没有数值刻度；取左侧斜率为$-1$，可用$L(z)=\max(0,-1-z)$代表这种形状，乘上任意正常数都不改变零损失区。而二分类正确至少需要$z=yf(x)>0$，因此$-1\le z<0$这一段明明分错，却也被目标当成零损失。
@@ -2146,6 +2389,9 @@ For an explicit example use f(x)=0.1x+0.5 with (x,y)=(-1,-1) and (1,+1). The sig
 ### English answer
 The loss is zero for z≥1 and saturates at a high level for very negative z. Its left-tail slope approaches zero, limiting extreme points’ gradient influence but potentially leaving wrong predictions unrecovered. The shape is nonconvex, making optimization harder. The decreasing quantity is slope magnitude, not the loss value.
 
+### 中文对应答案
+当$z\ge1$时损失为0；当z是很大的负数时，损失在较高水平饱和。左端斜率趋于0，限制了极端样本对梯度的影响，但也可能使错误预测得不到纠正。这个形状是非凸的，优化更困难。减小的是斜率的绝对值，而不是损失值。
+
 ### 中文讲解
 仍以$z=yf(x)$为横轴。负值分错，正值分对；损失曲线的高度表示当前付出多少代价，斜率表示把分数挪一点能改变多少代价。两者要分开看。
 
@@ -2181,6 +2427,10 @@ Logistic Regression、SVM和AdaBoost都是常见分类器。
 ### English answer
 1. Logistic regression minimizes conditional log-loss, log(1+exp(−z)), usually with regularization. A soft-margin SVM minimizes a weight-norm penalty plus hinge loss max(0,1−z), balancing margin and violations.
 2. **For the far-negative-margin region in the supplied figure: AdaBoost > LR > SVM.** Exponential loss has the steepest tail, so extreme misclassifications exert the strongest gradient influence. The plotted LR tail is steeper than the hinge tail. This comparison depends on the figure’s loss scaling; it is not a universal ranking of the algorithms.
+
+### 中文对应答案
+1. 逻辑回归最小化条件对数损失$\log(1+\exp(-z))$，通常还带有正则化。软间隔SVM最小化权重范数惩罚与hinge损失$\max(0,1-z)$之和，在扩大间隔和允许违反约束之间作权衡。
+2. **在原图的远端负间隔区域，影响大小为AdaBoost > LR > SVM。** 指数损失的曲线最陡，因此极端错分样本对梯度的影响最强。图中LR左端也比hinge损失更陡。这一比较取决于图中各损失的缩放方式，不是三种算法普遍成立的排名。
 
 ### 中文讲解
 **第一问比较训练目标。** 对$y=\pm1$，设$z=yf(x)$。LR通过$\log(1+e^{-z})$让真实标签的概率更高，通常再加权重正则。软间隔SVM使用$\max(0,1-z)$加权重范数惩罚，权衡间隔与违例。LR在有限正分数处仍有小损失；hinge在$z\ge1$后恰为0。两者都可以搭配特征变换，不能回答成“一个只能线性、另一个非线性”。
@@ -2227,6 +2477,12 @@ Hinge在$z<1$时就是直线$1-z$，斜率为$-1$；在$z>1$时恒为0，斜率�
 
 Choose the threshold on validation data using sensitivity and false-positive cost. These choices favour recall but cannot guarantee zero false negatives on unseen patients.
 
+### 中文对应答案
+1. 在训练时，给阳性／癌症样本或假阴性错误更高的代价，使漏掉阳性受到更大的惩罚。
+2. 降低预测为阳性的阈值。如果规则是$f(x)>t$时判为阳性，就降低t；如果输出是经过校准的阳性概率，则可适当把概率阈值降到通常的0.5以下。
+
+应在验证数据上，结合灵敏度与假阳性的代价选择阈值。这些调整有利于提高召回率，但不能保证对未见过的患者零漏诊。
+
 ### 中文讲解
 把“阳性”定义为需要进一步确诊检查。漏掉患者叫假阴性（false negative，FN），把健康者送去进一步检查叫假阳性（false positive，FP）。本题允许一些FP来减少更昂贵的FN，因此不能只追求两种错误加起来最少。
 
@@ -2254,6 +2510,9 @@ Choose the threshold on validation data using sensitivity and false-positive cos
 
 ### English answer
 There are two distinct issues: **class imbalance** (50 positives versus 950 negatives) and **asymmetric error costs** (missing disease is more costly than sending someone for CT). Use stratified training/validation splits and positive-class weighting or appropriate resampling within training. Select a lower positive threshold using validation data, and report sensitivity/recall, specificity and the confusion matrix rather than accuracy alone. Keep the test set separate.
+
+### 中文对应答案
+这里有两个不同的问题：**类别不平衡**，即50名阳性、950名阴性；以及**错误代价不对称**，即漏诊比让人多做一次CT的代价更高。训练集和验证集应分层划分，在训练数据内部使用阳性类别加权或合适的重采样。通过验证数据选择较低的阳性阈值，报告灵敏度／召回率、特异度和混淆矩阵，不能只报告准确率。测试集单独保留。
 
 ### 中文讲解
 先检查类别比例：1000人中只有50名患者，950名非患者。若模型永远预测阴性，准确率仍是$950/1000=95\%$，但50名患者一个也找不到。因此“95%准确率”不能说明筛查有效。
@@ -2287,6 +2546,9 @@ $TP,FN$分别是查出的和漏掉的患者，$TN,FP$分别是正确放行和误
 
 ### English answer
 Increase the cost/weight of misclassifying regular email during training, and adjust the prediction threshold to favour regular email. For example, if p=P(spam|x) and spam is predicted when p>t, raise t. Collecting more representative regular-mail training data is another option. Select the tradeoff on validation data and track false positives on regular mail.
+
+### 中文对应答案
+训练时提高把正常邮件误判为垃圾邮件的代价或权重，并调整预测阈值，让模型更倾向于保留正常邮件。例如，若$p=P(\mathrm{spam}\mid x)$，且$p>t$时判为垃圾邮件，就提高t。也可以增加有代表性的正常邮件训练数据。通过验证数据选择取舍，并持续查看正常邮件被误拦截的情况。
 
 ### 中文讲解
 先把概率方向写清：设$p=P(\text{垃圾邮件}\mid x)$，当前规则是$p>t$就拦截。用户“几乎收不到邮件”意味着大量正常邮件被误判为垃圾，这类错误代价很高。
@@ -2354,6 +2616,38 @@ $$
 $$
 
 Here δ₁ and x are m-dimensional, δ₂ is n-dimensional and each column gradient is m-dimensional. For half-squared error, $\delta_2=f-y$; another loss requires its own derivative.
+
+### 中文对应答案
+(a) 令$u=(3x^2)^{1/3}+\tan(5x)$，$y=(1+e^u)^{-1}$。在$x\ne0$且$\cos(5x)\ne0$处，
+
+$$
+\frac{du}{dx}=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),\qquad
+\frac{dy}{du}=-\frac{e^u}{(1+e^u)^2}.
+$$
+
+将两个导数相乘，得到
+
+$$
+\frac{dy}{dx}=-\frac{e^u}{(1+e^u)^2}
+\left[\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x)\right].
+$$
+
+(b) 按题目允许的选择，隐藏层使用tanh，输出层使用线性函数；题目未指定的损失保留为$L(f,y)$。把$a_i$和$w_j$视为列向量：
+
+$$
+g_1=A^Tx,\quad z=\tanh(g_1),\quad
+g_2=W^Tz,\quad f=g_2,\quad L=L(f,y).
+$$
+
+令$\delta_2=\nabla_f L$，$\delta_1=(W\delta_2)\odot(1-z^2)$，则
+
+$$
+\frac{\partial L}{\partial g_1}=\delta_1,\qquad
+\frac{\partial L}{\partial a_i}=x\,\delta_{1i},\qquad
+\frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
+$$
+
+其中$\delta_1$和$x$是m维向量，$\delta_2$是n维向量，每个列参数的梯度都是m维。若损失为平方误差的一半，则$\delta_2=f-y$；若采用其他损失，需要使用相应的导数。
 
 ### 中文讲解
 导数$dy/dx$表示$x$在当前位置增加一点时，$y$变化得多快；例如$y=3x$的导数为3。多个变量参与计算时，$\partial L/\partial a$表示暂时固定其他变量，只看$a$改变对$L$的影响，称为偏导数。
@@ -2433,6 +2727,13 @@ $$\frac{\partial L}{\partial a_i}=x\,\delta_{1i}.$$
 (b) Backpropagation multiplies local Jacobians. On a scalar path, $\partial h_L/\partial h_0$ is the product of weight and activation derivatives. Sigmoid derivatives are at most 1/4; with unit weights, a path through L sigmoids has gradient magnitude at most $(1/4)^L$.
 (c) An active ReLU has derivative 1, avoiding sigmoid's saturating factor on that path. Negative ReLU inputs have derivative zero, and weights still affect the product, so ReLU is not a universal cure.
 
+### 中文对应答案
+(a) 传到前面各层的梯度可能变得很小，使这些层的参数学习得很慢。
+
+(b) 反向传播会连乘各处的局部Jacobian矩阵。在一条标量路径上，$\partial h_L/\partial h_0$是沿途权重与激活函数导数的乘积。Sigmoid的导数最大为1/4；若权重均为1，经过L个sigmoid的路径，其梯度绝对值至多为$(1/4)^L$。
+
+(c) ReLU处于激活状态时导数为1，在这条路径上避免了sigmoid带来的饱和衰减因子。但ReLU输入为负时导数为0，权重也仍会影响连乘结果，因此ReLU不能普遍解决所有梯度消失问题。
+
 ### 中文讲解
 损失$\mathcal L$衡量预测错得多严重。偏导数$\partial\mathcal L/\partial w$表示只把权重$w$调大一点时，损失会怎样变；所有参数的偏导数组成梯度。训练按$w\leftarrow w-\eta\,\partial\mathcal L/\partial w$更新，$\eta>0$是控制每步幅度的学习率。传到前面某层的梯度若很小，该层每次更新也很小，训练就很慢，这叫梯度消失，不要求梯度严格等于0。
 
@@ -2468,6 +2769,9 @@ A）GPR被定义为：将贝叶斯线性回归的线性核换成Gaussian/RBF核�
 ### English answer
 **B and C under the course’s Gaussian-likelihood and RBF-kernel assumptions.** Gaussian noise gives the usual analytic posterior; RBF gives nearby inputs higher covariance. GP kernels need not be RBF, dense inference is costly, and inputs need not be i.i.d. B’s “only” and C are not universal GP definitions.
 
+### 中文对应答案
+**在课程采用的高斯似然与RBF核假设下，B、C正确。** 高斯噪声使通常的后验有解析形式；RBF核让相近输入具有更高的协方差。GP的核不必是RBF，精确稠密推断的计算成本较高，输入也不必独立同分布。B中的“只有”以及C都不是GP的普遍定义。
+
 ### 中文讲解
 本题属于已保留的历史拓展。高斯过程（Gaussian process，GP）直接给未知函数赋予概率模型：取任意有限个输入，对应的函数值共同服从一个多元高斯分布。均值函数描述大致水平，核函数描述不同位置的函数值怎样一起变化。
 
@@ -2495,6 +2799,9 @@ A）GPR被定义为：将贝叶斯线性回归的线性核换成Gaussian/RBF核�
 
 ### English answer
 A standard GP provides a predictive mean and model-based uncertainty, useful when coverage is uneven; exact dense fitting on 10,597 samples is computationally costly, and a Gaussian likelihood can be sensitive to output outliers. RF captures nonlinear interactions and is often easier to scale, but ordinary leaf averages can still be affected by outlier targets and do not automatically provide calibrated uncertainty. Evaluate both with region-aware validation; sparse regions and out-of-range predictions remain difficult.
+
+### 中文对应答案
+标准GP提供预测均值及基于模型的不确定性，在数据覆盖不均匀时很有用。但对10,597个样本进行精确稠密拟合，计算成本很高；高斯似然也可能对输出异常值敏感。随机森林能捕捉非线性交互，通常更容易扩展到大数据，不过普通的叶节点平均值仍会受异常目标值影响，也不会自动给出经过校准的不确定性。应在验证时考虑地域划分，比较两者；样本稀少的地区和训练范围之外的预测，对它们仍然困难。
 
 ### 中文讲解
 这里输入是68维音频特征，输出是经纬度。10,597条记录分布不均，还含异常值；要比较的是模型怎样表示规律、计算成本和数据缺陷会怎样影响预测。

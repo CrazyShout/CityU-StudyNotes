@@ -16,7 +16,7 @@
     {
       "kind": "Answers",
       "questions": 67,
-      "math_expressions": 904
+      "math_expressions": 1011
     }
   ],
   "pdf_status": "requires separate render and visual verification"

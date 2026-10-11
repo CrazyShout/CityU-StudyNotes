@@ -4,20 +4,21 @@
     {
       "file": "Questions.pdf",
       "pages": 69,
-      "sha256": "5b8a2791e162651da85fa3feee2935e7b8c2f0534aa55be5eadf932c17775743",
+      "sha256": "30cd70c2fb6f43ceea9e82b59dbb4c1409e3b7489d59e55002bb4ea662d08d5d",
       "source_sha256": "5d757f380828a5c68f108f92c04b41b8f4d130c83127da977c7840762109f34e",
       "portable_cross_book_links": 67
     },
     {
       "file": "Answers.pdf",
-      "pages": 91,
-      "sha256": "61431bc271ac31993dbff1dd0918a24565e35871b587a1a11323c856b9ca6ef7",
-      "source_sha256": "2f5965f97a26ca4aabf99c6e116357bd0c8777dbb0f3a5d5806512abc5871964",
+      "pages": 126,
+      "sha256": "cef423551c40d82411ead87b2a3124847b97e06e2160c341fad6138adaaaab3a",
+      "source_sha256": "e1bf650fe2c5afb810bde386cdb410496dc6d3a8d873745f83c86ff32475c640",
       "portable_cross_book_links": 67
     }
   ],
   "unique_question_answer_pairs": 67,
   "original_question_positions": 78,
+  "printed_chinese_answer_counterparts": 67,
   "independent_midterms": 6,
   "independent_page_maps": true,
   "verified_printed_page_references": 422,
