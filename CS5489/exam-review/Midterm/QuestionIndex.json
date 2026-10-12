@@ -156,7 +156,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain",
+        "recommend"
+      ]
     },
     {
       "id": "MT004",
@@ -177,7 +182,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT028",
@@ -197,7 +204,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT002",
@@ -217,7 +226,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT020",
@@ -237,7 +248,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "diagnose",
+        "recommend"
+      ]
     },
     {
       "id": "MT022",
@@ -257,7 +273,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "compare",
+        "recommend"
+      ]
     },
     {
       "id": "MT040",
@@ -289,7 +310,9 @@
       "legacy_ids": [
         "L2Q05"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT052",
@@ -311,7 +334,9 @@
       "legacy_ids": [
         "L2Q01"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT046",
@@ -343,7 +368,11 @@
       "legacy_ids": [
         "L2Q09"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain"
+      ]
     },
     {
       "id": "MT015",
@@ -365,7 +394,9 @@
       "legacy_ids": [
         "L2Q08"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT032",
@@ -387,7 +418,9 @@
       "legacy_ids": [
         "L2Q06"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT005",
@@ -409,7 +442,9 @@
       "legacy_ids": [
         "L2Q07"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT034",
@@ -431,7 +466,12 @@
       "legacy_ids": [
         "L2Q15"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "judge",
+        "explain"
+      ]
     },
     {
       "id": "MT014",
@@ -453,7 +493,9 @@
       "legacy_ids": [
         "L2Q03"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "incorrect"
     },
     {
       "id": "MT033",
@@ -475,7 +517,12 @@
       "legacy_ids": [
         "L2Q04"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "compare",
+        "explain"
+      ]
     },
     {
       "id": "MT059",
@@ -497,7 +544,11 @@
       "legacy_ids": [
         "L2Q13"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "compare"
+      ]
     },
     {
       "id": "MT021",
@@ -519,7 +570,11 @@
       "legacy_ids": [
         "L2Q12"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "compare"
+      ]
     },
     {
       "id": "MT017",
@@ -541,7 +596,9 @@
       "legacy_ids": [
         "L2Q11"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT027",
@@ -563,7 +620,9 @@
       "legacy_ids": [
         "L2Q10"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT058",
@@ -585,7 +644,11 @@
       "legacy_ids": [
         "L2Q16"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "recommend"
+      ]
     },
     {
       "id": "MT041",
@@ -615,7 +678,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT047",
@@ -645,7 +710,11 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain"
+      ]
     },
     {
       "id": "MT024",
@@ -665,7 +734,11 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain"
+      ]
     },
     {
       "id": "MT018",
@@ -685,7 +758,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT012",
@@ -707,6 +782,12 @@
       "legacy_ids": [],
       "assets": [
         "mt012-l1-boundary.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "formulate",
+        "draw",
+        "explain"
       ]
     },
     {
@@ -727,7 +808,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "incorrect"
     },
     {
       "id": "MT053",
@@ -749,7 +832,9 @@
       "legacy_ids": [
         "L2Q14"
       ],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT042",
@@ -779,7 +864,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT048",
@@ -799,7 +886,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain",
+        "example"
+      ]
     },
     {
       "id": "MT016",
@@ -819,7 +911,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT031",
@@ -841,7 +935,9 @@
       "legacy_ids": [],
       "assets": [
         "mt031-rbf-points.png"
-      ]
+      ],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT055",
@@ -861,7 +957,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT060",
@@ -883,6 +981,12 @@
       "legacy_ids": [],
       "assets": [
         "mt060-data.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "draw",
+        "compare",
+        "explain"
       ]
     },
     {
@@ -903,7 +1007,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT043",
@@ -933,7 +1039,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT029",
@@ -953,7 +1061,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "incorrect"
     },
     {
       "id": "MT010",
@@ -975,6 +1085,11 @@
       "legacy_ids": [],
       "assets": [
         "mt010-distribution.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "interpret",
+        "compare"
       ]
     },
     {
@@ -995,7 +1110,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "recommend",
+        "explain"
+      ]
     },
     {
       "id": "MT061",
@@ -1015,7 +1135,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "rank",
+        "explain"
+      ]
     },
     {
       "id": "MT019",
@@ -1035,7 +1160,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT045",
@@ -1055,7 +1182,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT030",
@@ -1075,7 +1204,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT057",
@@ -1105,7 +1236,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT025",
@@ -1125,7 +1258,11 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain"
+      ]
     },
     {
       "id": "MT063",
@@ -1145,7 +1282,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "draw",
+        "explain"
+      ]
     },
     {
       "id": "MT013",
@@ -1165,7 +1307,11 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain"
+      ]
     },
     {
       "id": "MT050",
@@ -1195,7 +1341,13 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "design",
+        "draw",
+        "explain"
+      ]
     },
     {
       "id": "MT037",
@@ -1215,7 +1367,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "recommend",
+        "explain"
+      ]
     },
     {
       "id": "MT006",
@@ -1235,7 +1392,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT044",
@@ -1265,7 +1424,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT062",
@@ -1285,7 +1446,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "interpret",
+        "recommend"
+      ]
     },
     {
       "id": "MT056",
@@ -1305,7 +1471,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT038",
@@ -1325,7 +1493,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "compare",
+        "recommend"
+      ]
     },
     {
       "id": "MT049",
@@ -1345,7 +1518,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "recommend",
+        "judge"
+      ]
     },
     {
       "id": "MT064",
@@ -1365,7 +1543,13 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "compare",
+        "draw",
+        "explain"
+      ]
     },
     {
       "id": "MT008",
@@ -1387,6 +1571,11 @@
       "legacy_ids": [],
       "assets": [
         "mt008-loss.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "interpret",
+        "judge"
       ]
     },
     {
@@ -1409,6 +1598,11 @@
       "legacy_ids": [],
       "assets": [
         "mt026-loss.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "interpret",
+        "judge"
       ]
     },
     {
@@ -1431,6 +1625,12 @@
       "legacy_ids": [],
       "assets": [
         "mt051-loss.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "interpret",
+        "judge",
+        "draw"
       ]
     },
     {
@@ -1453,6 +1653,10 @@
       "legacy_ids": [],
       "assets": [
         "mt039-loss.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "interpret"
       ]
     },
     {
@@ -1475,6 +1679,11 @@
       "legacy_ids": [],
       "assets": [
         "mt065-loss-comparison.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "compare",
+        "rank"
       ]
     },
     {
@@ -1505,7 +1714,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "recommend",
+        "explain"
+      ]
     },
     {
       "id": "MT023",
@@ -1535,7 +1749,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "diagnose",
+        "recommend"
+      ]
     },
     {
       "id": "MT035",
@@ -1555,7 +1774,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "recommend",
+        "explain"
+      ]
     },
     {
       "id": "MT067",
@@ -1577,6 +1801,10 @@
       "legacy_ids": [],
       "assets": [
         "mt067-network.png"
+      ],
+      "response_type": "written",
+      "tasks": [
+        "derive"
       ]
     },
     {
@@ -1597,7 +1825,12 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "explain",
+        "derive"
+      ]
     },
     {
       "id": "MT003",
@@ -1617,7 +1850,9 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "multiple_select",
+      "select": "correct"
     },
     {
       "id": "MT036",
@@ -1637,7 +1872,11 @@
         }
       ],
       "legacy_ids": [],
-      "assets": []
+      "assets": [],
+      "response_type": "written",
+      "tasks": [
+        "compare"
+      ]
     }
   ]
 }

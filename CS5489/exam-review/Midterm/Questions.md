@@ -222,7 +222,7 @@ Consider a situation where you have trained a linear classification model to dia
 Suppose you are a global market analyst who needs to analyse a product line (a group of similar products with different prices) and get some insight. You want to classify your 50,000 clients according to the product they brought. You have collected 25 features on your clients, e.g. age, income, educational level, frequency of using the product, their scores on other similar products. Among Logistic Regression, kernel SVM and random forest, which classifier will you prefer to use? List 2 reasons for using your selected classifier, and 1 reason for each of the other unselected classifiers.
 
 ### 中文题意
-市场分析任务有50,000名客户，每人25个特征，例如年龄、收入、教育程度、产品使用频率和对类似产品的评分。按购买的产品分类，并希望得到业务洞见。在逻辑回归、核SVM和随机森林中选择一种。说明两个选择理由，以及另两种各一个不选理由。
+你是一名全球市场分析师，要分析一个产品系列（一组价格不同的相似产品），并获得业务洞见。你希望根据购买的产品，对50,000名客户进行分类。每位客户有25个特征，例如年龄、收入、教育程度、产品使用频率，以及对其他类似产品的评分。在逻辑回归、核SVM和随机森林中，你更倾向于选择哪一种？列出两个选择理由，并为另外两种模型各给出一个不选的理由。
 
 [题目](Questions.md#mt022) · [答案](Answers.md#mt022)
 
@@ -250,7 +250,7 @@ E) The Bayesian decision rule is only applicable to binary classification tasks.
 ### 中文题意
 哪些说法准确描述Bayes决策规则与NB的关系？多选。
 
-A）NB是Bayes决策规则的一种具体实现。B）二分类标签为0、1时，只要类0的类条件密度较大就选0。C）NB对各特征维独立建模。D）Bayes决策规则比NB计算更高效。E）Bayes决策规则只能用于二分类。
+A）NB是Bayes决策规则的一种具体实现。B）对特征为$x$、标签为$y\in\{0,1\}$的二分类任务，按Bayes决策规则，只要$p(x\mid y=0)>p(x\mid y=1)$，就选择类0。C）NB对各特征维独立建模。D）Bayes决策规则比NB计算更高效。E）Bayes决策规则只能用于二分类。
 
 [题目](Questions.md#mt040) · [答案](Answers.md#mt040)
 
@@ -402,7 +402,7 @@ Consider the following statement: If we train a Bayes classifier using infinite 
 Is this statement true or false? Give your reasons.
 
 ### 中文题意
-判断并解释：若用无限多、符合模型假设的独立训练数据来训练Bayes分类器，它在这些训练样本上的错误率将为0。
+判断下述说法是否正确，并说明理由：如果用无限多、满足全部建模假设的训练数据来训练Bayes分类器（例如，数据来自相应的类条件分布，且各样本独立采集），那么它在这些训练样本上的错误率将为0。
 
 [题目](Questions.md#mt034) · [答案](Answers.md#mt034)
 
@@ -629,13 +629,13 @@ $$
 (c) Suppose we replace $\|w\|^2$ with $\|w\|_1$. What will be the effect when training the classifier?
 
 ### 中文题意
-监督训练希望最小化
+监督训练的目标是找到最能拟合训练数据$(X,Y)$的权重。用损失函数$L$衡量拟合程度，训练目标为
 
 $$
 \hat w=\arg\min_w\{L(X,Y)+\alpha\|w\|^2\}.
 $$
 
-(a) 平方范数项的目的是什么？(b) 怎样确定α？(c) 将平方范数换成 $\|w\|_1$，训练结果可能怎样变化？
+(a) $\|w\|^2$这一项的目的是什么？(b) 怎样确定$\alpha$？(c) 将$\|w\|^2$换成$\|w\|_1$，对分类器的训练会有什么影响？
 
 [题目](Questions.md#mt024) · [答案](Answers.md#mt024)
 
@@ -1157,7 +1157,7 @@ $$
 What will be the effect of using this loss during training? Why?
 
 ### 中文题意
-线性回归 $f(x)=w^Tx+b$ 在N条记录上最小化
+考虑线性回归函数$f(x)=w^Tx+b$，在数据$(x_i,y_i)$、$i=1,\ldots,N$上训练，以预测误差的绝对值作为损失：
 
 $$
 (\hat w,\hat b)=\arg\min_{w,b}\sum_{i=1}^N|f(x_i)-y_i|.
@@ -1246,7 +1246,15 @@ $$
 Design a loss function that can help you to do the regression according to the requirements, and draw a plot. Explain how your loss achieves the desired requirements.
 
 ### 中文题意
-预测某共享单车站每天借车量，用于调度。公司认为多放一些车可以接受，但缺车会流失顾客。给定N条特征/借车量记录，线性模型 $f(x)=w^Tx+b$ 通过最小化损失和训练。设计符合要求的损失，画图并解释。
+你在一家共享单车公司工作，需要预测一个热门站点每天的借车量，供调度团队决定向该站点运送多少辆车。公司认为多送一些车可以接受，但缺车会让顾客转用其他公司的单车。
+
+已有历史训练数据$(x_i,y_i)$、$i=1,\ldots,N$，其中$x_i$是特征向量，$y_i$是借车量。线性回归函数$f(x)=w^Tx+b$通过下式训练：
+
+$$
+(\hat w,\hat b)=\arg\min_{w,b}\sum_{i=1}^N L(f(x_i),y_i).
+$$
+
+设计一个符合上述要求的损失函数，并画图。解释该损失怎样实现公司的要求。
 
 [题目](Questions.md#mt050) · [答案](Answers.md#mt050)
 
@@ -1261,7 +1269,7 @@ Design a loss function that can help you to do the regression according to the r
 Your friend wants to predict the number of taxis used in HK in one hour from various features, such as weather, time of day, day of year, etc. Your friend uses linear regression to fit the data, but finds that the mean squared error (MSE) on the validation set is about the same as a “dummy” regressor that just predicts the mean of the training data. What two pieces of advice would you give to your friend to improve their regressor? Explain why.
 
 ### 中文题意
-用天气、时段、日期等特征预测香港每小时出租车使用量。线性回归在验证集上的MSE与“永远输出训练集平均值”的基线相近。提出两个改进建议，并解释原因。
+你的朋友想用天气、一天中的时段、一年中的日期等特征，预测香港一小时内的出租车使用量。他用线性回归拟合数据，却发现模型在验证集上的均方误差（MSE），与一个始终预测训练数据平均值的“基线”回归器相近。你会提出哪两个改进建议？分别说明原因。
 
 [题目](Questions.md#mt037) · [答案](Answers.md#mt037)
 
@@ -1339,14 +1347,16 @@ $$
 (b) For a fixed number of trees n, explain some concrete methods to reduce the error variance of F.
 
 ### 中文题意
-随机森林F由n棵树组成。每棵树误差方差为σ²，任意两棵不同树的误差相关系数均为ρ。题目给出
+随机森林$F$由$n$棵树组成。单棵决策树$f$的误差方差为$\sigma^2$，两棵不同树的误差相关系数为$\rho$。森林取各树预测的平均，其误差方差为
 
 $$
-\operatorname{Var}(F)=\frac{\sigma^2}{n}
-+\frac{n-1}{n}\rho\sigma^2.
+\operatorname{Var}(F)=\operatorname{Var}\left(\frac1n\sum_{i=1}^nf_i\right)
+=\frac{\sigma^2}{n}+\frac{n-1}{n}\rho\sigma^2.
 $$
 
-(a) 树数与相关性怎样影响减少过拟合的能力？(b) 固定n时，有哪些具体降低误差方差的方法？
+(a) 解释树的数量、误差相关系数与森林减少过拟合能力的关系。
+
+(b) 固定树的数量$n$时，说明几种降低森林误差方差的具体方法。
 
 [题目](Questions.md#mt062) · [答案](Answers.md#mt062)
 

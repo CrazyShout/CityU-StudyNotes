@@ -5,6 +5,8 @@ sys.dont_write_bytecode = True
 from urllib.parse import urlsplit,unquote
 import argparse,json,re
 from book_support import validate_catalog
+from assemble_combined import question_blocks
+from question_types import validate_types
 import markdown
 from bs4 import BeautifulSoup
 ROOT=Path(__file__).resolve().parents[1]
@@ -45,6 +47,7 @@ for kind in ['Questions','Answers']:
         formulae.append({'kind':kind,'display':display,'tex':t})
     reports.append({'kind':kind,'questions':len(found),'math_expressions':len(soup.select('.arithmatex'))})
 qtext=(ROOT/'Questions.md').read_text();atext=(ROOT/'Answers.md').read_text()
+type_counts=validate_types(idx,question_blocks(qtext))
 for qid in ids:
     qb=re.search(r'^## '+qid+r' .*?(?=\n<a id="mt|\Z)',qtext,re.M|re.S)[0]
     ab=re.search(r'^## '+qid+r' .*?(?=\n<a id="mt|\Z)',atext,re.M|re.S)[0]
@@ -72,7 +75,7 @@ for kind,soup in soups.items():
         for alias in question['legacy_ids']:
             assert soup.find(id=alias.lower()), (kind,'Missing legacy alias',alias)
 assert json.loads((ROOT/'CalculationChecks.json').read_text())['status']=='passed'
-result={'status':'source_checks_passed','unique_question_answer_pairs':67,'original_positions':78,'independent_midterms':6,'legacy_aliases':15,**catalog_checks,'documents':reports,'pdf_status':'requires separate render and visual verification'}
+result={'status':'source_checks_passed','unique_question_answer_pairs':67,'original_positions':78,'independent_midterms':6,'legacy_aliases':15,'question_types':type_counts,**catalog_checks,'documents':reports,'pdf_status':'requires separate render and visual verification'}
 if not args.check:
     build=ROOT/'.build';build.mkdir(exist_ok=True)
     (build/'formulae.json').write_text(json.dumps(formulae,ensure_ascii=False)+'\n')

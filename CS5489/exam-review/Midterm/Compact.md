@@ -3,106 +3,110 @@
 
 67题：完整英文原题、中文题意、英文答案及中文对应答案。保留必要题图、作答图和成立条件，不收录详细解析。
 
+30道选择题均为多选；37道简答题包括判断说明、计算推导、作图和综合问答。题型表示作答方式，不表示难度；要求选择不正确选项的题另标“选错”。 / 30 multiple-select and 37 written-response questions; select-incorrect questions are marked separately.
+
 题目沿用基础到应用的顺序，MT编号与其他版本一致。两道Gaussian Process题为历史拓展；2021B*的年份冲突及原解差异按已有核查说明保留。目录和册末原卷索引均使用本册页码。
 
 ## 目录
 
 **学习流程与模型诊断**
 
-- [MT011 · 识别过拟合，并提出可操作的改进](#mt011)
-- [MT004 · CV选完参数后，为什么还要重新训练？](#mt004)
-- [MT028 · 训练误差低、测试误差高：可能原因](#mt028)
-- [MT002 · 训练准、测试差：哪些改进值得尝试？](#mt002)
-- [MT020 · 数据很多，训练和测试仍都差](#mt020)
-- [MT022 · 五万客户、需要解释：选择哪种分类器？](#mt022)
+- [MT011 · 识别过拟合，并提出可操作的改进〔简答〕](#mt011)
+- [MT004 · CV选完参数后，为什么还要重新训练？〔多选〕](#mt004)
+- [MT028 · 训练误差低、测试误差高：可能原因〔多选〕](#mt028)
+- [MT002 · 训练准、测试差：哪些改进值得尝试？〔多选〕](#mt002)
+- [MT020 · 数据很多，训练和测试仍都差〔简答〕](#mt020)
+- [MT022 · 五万客户、需要解释：选择哪种分类器？〔简答〕](#mt022)
 
 **Bayes、Naive Bayes与模型比较**
 
-- [MT040 · Bayes规则和Naive Bayes的关系](#mt040)
-- [MT052 · 生成式分类器学了什么](#mt052)
-- [MT046 · 完整讲出Gaussian NB](#mt046)
-- [MT015 · NB的最优性、独立性与边界](#mt015)
-- [MT032 · Bayesian classifier的性质](#mt032)
-- [MT005 · NB的学习、不确定性和正则化](#mt005)
-- [MT034 · 无限数据能消除分类错误吗](#mt034)
-- [MT014 · 生成式与判别式的区别](#mt014)
-- [MT033 · 用图像特征解释两种建模方式](#mt033)
-- [MT059 · LR与共享方差Gaussian NB](#mt059)
-- [MT021 · 同为线性分类器，学习原则有何不同](#mt021)
-- [MT017 · 哪些模型能产生不同形状的边界](#mt017)
-- [MT027 · 连续特征能否使用NB：混合选择题](#mt027)
-- [MT058 · 智能笔上的文本NB如何改进](#mt058)
+- [MT040 · Bayes规则和Naive Bayes的关系〔多选〕](#mt040)
+- [MT052 · 生成式分类器学了什么〔多选〕](#mt052)
+- [MT046 · 完整讲出Gaussian NB〔简答〕](#mt046)
+- [MT015 · NB的最优性、独立性与边界〔多选〕](#mt015)
+- [MT032 · Bayesian classifier的性质〔多选〕](#mt032)
+- [MT005 · NB的学习、不确定性和正则化〔多选〕](#mt005)
+- [MT034 · 无限数据能消除分类错误吗〔简答〕](#mt034)
+- [MT014 · 生成式与判别式的区别〔多选·选错〕](#mt014)
+- [MT033 · 用图像特征解释两种建模方式〔简答〕](#mt033)
+- [MT059 · LR与共享方差Gaussian NB〔简答〕](#mt059)
+- [MT021 · 同为线性分类器，学习原则有何不同〔简答〕](#mt021)
+- [MT017 · 哪些模型能产生不同形状的边界〔多选〕](#mt017)
+- [MT027 · 连续特征能否使用NB：混合选择题〔多选〕](#mt027)
+- [MT058 · 智能笔上的文本NB如何改进〔简答〕](#mt058)
 
 **逻辑回归与参数正则**
 
-- [MT041 · Logistic的概率、多分类与最优解](#mt041)
-- [MT047 · 解释Logistic目标中的两项](#mt047)
-- [MT024 · 损失与正则项：α从哪里来？](#mt024)
-- [MT018 · 为什么在线性分类器上加L2？](#mt018)
-- [MT012 · L1逻辑回归：写目标并画边界](#mt012)
-- [MT001 · Logistic训练：哪些说法不成立？](#mt001)
-- [MT053 · LR与生成式模型：混合选择题](#mt053)
+- [MT041 · Logistic的概率、多分类与最优解〔多选〕](#mt041)
+- [MT047 · 解释Logistic目标中的两项〔简答〕](#mt047)
+- [MT024 · 损失与正则项：α从哪里来？〔简答〕](#mt024)
+- [MT018 · 为什么在线性分类器上加L2？〔多选〕](#mt018)
+- [MT012 · L1逻辑回归：写目标并画边界〔简答〕](#mt012)
+- [MT001 · Logistic训练：哪些说法不成立？〔多选·选错〕](#mt001)
+- [MT053 · LR与生成式模型：混合选择题〔多选〕](#mt053)
 
 **SVM与核方法**
 
-- [MT042 · SVM的基本特点](#mt042)
-- [MT048 · 用一个例子讲清Kernel Trick](#mt048)
-- [MT016 · 核SVM：变换、存储与非向量输入](#mt016)
-- [MT031 · RBF距离与带宽：看近点和远点](#mt031)
-- [MT055 · 判断五个候选核是否合法](#mt055)
-- [MT060 · 二次核SVM：大C与小C的边界](#mt060)
-- [MT054 · C、支持向量与RBF的零训练误差](#mt054)
-- [MT043 · 核SVM怎样处理非线性？](#mt043)
-- [MT029 · 哪些SVM说法错误？](#mt029)
-- [MT010 · 同一张分布图，Gaussian Bayes与二次核SVM如何判断？](#mt010)
-- [MT009 · 十万维特征、两千样本：SVM怎样提速？](#mt009)
-- [MT061 · 预测内存：线性SVM与RBF SVM](#mt061)
+- [MT042 · SVM的基本特点〔多选〕](#mt042)
+- [MT048 · 用一个例子讲清Kernel Trick〔简答〕](#mt048)
+- [MT016 · 核SVM：变换、存储与非向量输入〔多选〕](#mt016)
+- [MT031 · RBF距离与带宽：看近点和远点〔多选〕](#mt031)
+- [MT055 · 判断五个候选核是否合法〔多选〕](#mt055)
+- [MT060 · 二次核SVM：大C与小C的边界〔简答〕](#mt060)
+- [MT054 · C、支持向量与RBF的零训练误差〔多选〕](#mt054)
+- [MT043 · 核SVM怎样处理非线性？〔多选〕](#mt043)
+- [MT029 · 哪些SVM说法错误？〔多选·选错〕](#mt029)
+- [MT010 · 同一张分布图，Gaussian Bayes与二次核SVM如何判断？〔简答〕](#mt010)
+- [MT009 · 十万维特征、两千样本：SVM怎样提速？〔简答〕](#mt009)
+- [MT061 · 预测内存：线性SVM与RBF SVM〔简答〕](#mt061)
 
 **回归、特征选择与残差损失**
 
-- [MT019 · Ridge、LASSO与零系数](#mt019)
-- [MT045 · 特征选择：零系数、Ridge与OMP](#mt045)
-- [MT030 · L1/L2回归的益处与措辞边界](#mt030)
-- [MT057 · 同时使用L1与L2：Elastic Net](#mt057)
-- [MT025 · 绝对残差损失对异常值有什么影响？](#mt025)
-- [MT063 · Huber损失：画图并解释好处](#mt063)
-- [MT013 · 残差L1＋权重L2，各自在做什么？](#mt013)
-- [MT050 · 缺车比车多更糟：设计非对称损失](#mt050)
-- [MT037 · 线性回归为何与均值预测器表现相近？](#mt037)
+- [MT019 · Ridge、LASSO与零系数〔多选〕](#mt019)
+- [MT045 · 特征选择：零系数、Ridge与OMP〔多选〕](#mt045)
+- [MT030 · L1/L2回归的益处与措辞边界〔多选〕](#mt030)
+- [MT057 · 同时使用L1与L2：Elastic Net〔多选〕](#mt057)
+- [MT025 · 绝对残差损失对异常值有什么影响？〔简答〕](#mt025)
+- [MT063 · Huber损失：画图并解释好处〔简答〕](#mt063)
+- [MT013 · 残差L1＋权重L2，各自在做什么？〔简答〕](#mt013)
+- [MT050 · 缺车比车多更糟：设计非对称损失〔简答〕](#mt050)
+- [MT037 · 线性回归为何与均值预测器表现相近？〔简答〕](#mt037)
 
 **集成学习**
 
-- [MT006 · Bagging与Boosting的基本区别](#mt006)
-- [MT044 · 随机森林与Boosting的用途](#mt044)
-- [MT062 · 随机森林：树多了为什么仍有共同误差？](#mt062)
-- [MT056 · 集成方法：树深、并行与后续轮次](#mt056)
-- [MT038 · 100核部署：RF与AdaBoost如何并行预测？](#mt038)
-- [MT049 · 在线更新AdaBoost：速度与异常值](#mt049)
-- [MT064 · 综合题：Bagging/Boosting与Huber](#mt064)
+- [MT006 · Bagging与Boosting的基本区别〔多选〕](#mt006)
+- [MT044 · 随机森林与Boosting的用途〔多选〕](#mt044)
+- [MT062 · 随机森林：树多了为什么仍有共同误差？〔简答〕](#mt062)
+- [MT056 · 集成方法：树深、并行与后续轮次〔多选〕](#mt056)
+- [MT038 · 100核部署：RF与AdaBoost如何并行预测？〔简答〕](#mt038)
+- [MT049 · 在线更新AdaBoost：速度与异常值〔简答〕](#mt049)
+- [MT064 · 综合题：Bagging/Boosting与Huber〔简答〕](#mt064)
 
 **分类损失图与错误代价**
 
-- [MT008 · 平方形分类损失为什么惩罚“太正确”？](#mt008)
-- [MT026 · V形损失：最优点为何在z=1？](#mt026)
-- [MT051 · 负间隔也零损失：分类器会放过什么？](#mt051)
-- [MT039 · 饱和的非凸分类损失](#mt039)
-- [MT065 · 比较Logistic、Hinge和Exponential损失](#mt065)
-- [MT007 · 筛查任务：漏诊比误报更贵](#mt007)
-- [MT023 · 1000名受试者中只有50名阳性](#mt023)
-- [MT035 · 正常邮件被大量拦截怎么办？](#mt035)
+- [MT008 · 平方形分类损失为什么惩罚“太正确”？〔简答〕](#mt008)
+- [MT026 · V形损失：最优点为何在z=1？〔简答〕](#mt026)
+- [MT051 · 负间隔也零损失：分类器会放过什么？〔简答〕](#mt051)
+- [MT039 · 饱和的非凸分类损失〔简答〕](#mt039)
+- [MT065 · 比较Logistic、Hinge和Exponential损失〔简答〕](#mt065)
+- [MT007 · 筛查任务：漏诊比误报更贵〔简答〕](#mt007)
+- [MT023 · 1000名受试者中只有50名阳性〔简答〕](#mt023)
+- [MT035 · 正常邮件被大量拦截怎么办？〔简答〕](#mt035)
 
 **神经网络与链式法则**
 
-- [MT067 · 链式求导与两层网络反传](#mt067)
-- [MT066 · 梯度消失：为什么深度和激活函数有关？](#mt066)
+- [MT067 · 链式求导与两层网络反传〔简答〕](#mt067)
+- [MT066 · 梯度消失：为什么深度和激活函数有关？〔简答〕](#mt066)
 
 **历史范围拓展：Gaussian Process**
 
-- [MT003 · 历史拓展：Gaussian Process的假设](#mt003)
-- [MT036 · 历史拓展：音乐地理回归，GP还是RF？](#mt036)
+- [MT003 · 历史拓展：Gaussian Process的假设〔多选〕](#mt003)
+- [MT036 · 历史拓展：音乐地理回归，GP还是RF？〔简答〕](#mt036)
 
 <a id="mt011"></a>
 ## MT011 · 识别过拟合，并提出可操作的改进
+
+**题型：** 简答题 / Written response · 解释、提出办法
 
 **考点：** 学习流程与模型诊断
 
@@ -117,15 +121,17 @@ What is overfitting? How do we know when it happens? Write down and describe sev
 ### English answer
 Overfitting occurs when a learned model captures training-specific noise or fluctuations that do not generalize. A much smaller training error than validation error is a warning sign, after checking that the data and preprocessing are comparable.
 
-Possible remedies include selecting complexity by training-only cross-validation, stronger suitable regularization, fewer or better-selected features, a simpler model, and more representative training data. Keep the final test set outside these choices.
+Use a simpler model to restrict the patterns it can fit; strengthen suitable regularization to discourage excessive weights; remove irrelevant features to reduce opportunities to fit noise; or collect more representative data so useful patterns recur across samples. Choose model complexity and regularization by cross-validation within the training data. Keep the final test set outside these choices.
 
 ### 中文对应答案
 过拟合是指模型学到了训练数据中特有的噪声或偶然波动，这些规律无法推广到新数据。确认训练与验证数据的来源、预处理可比较后，如果训练误差远低于验证误差，就要警惕过拟合。
 
-可尝试的办法包括：只在训练数据内部用交叉验证选择复杂度，加强合适的正则化，减少或更好地筛选特征，采用更简单的模型，以及增加有代表性的训练数据。最终测试集不参与这些选择。
+可以采用更简单的模型，限制它能拟合的模式；加强合适的正则化，抑制过大的权重；删除无关特征，减少拟合噪声的机会；或增加有代表性的数据，让真实规律在更多样本中重复出现。模型复杂度和正则强度应通过训练数据内部的交叉验证选择。最终测试集不参与这些选择。
 
 <a id="mt004"></a>
 ## MT004 · CV选完参数后，为什么还要重新训练？
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 学习流程与模型诊断
 
@@ -155,6 +161,8 @@ A）CV的验证部分来自训练数据。B）通过比较最终测试集表现�
 
 <a id="mt028"></a>
 ## MT028 · 训练误差低、测试误差高：可能原因
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 学习流程与模型诊断
 
@@ -187,6 +195,8 @@ A）训练集太小。B）测试集太大。C）训练与测试分布不同。D�
 <a id="mt002"></a>
 ## MT002 · 训练准、测试差：哪些改进值得尝试？
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** 学习流程与模型诊断
 
 **出处：** 2020B期中Quiz Q2，原卷第2页（5分）
@@ -218,6 +228,8 @@ A）随机删除训练样本。B）换更复杂的模型。C）加强正则。D�
 <a id="mt020"></a>
 ## MT020 · 数据很多，训练和测试仍都差
 
+**题型：** 简答题 / Written response · 诊断问题、提出办法
+
 **考点：** 学习流程与模型诊断
 
 **出处：** 2021A期中 Q7，原卷第3页（10分）
@@ -237,6 +249,8 @@ The intended diagnosis is underfitting: the representation or linear decision ru
 <a id="mt022"></a>
 ## MT022 · 五万客户、需要解释：选择哪种分类器？
 
+**题型：** 简答题 / Written response · 比较、提出办法
+
 **考点：** 学习流程与模型诊断
 
 **出处：** 2021A期中 Q9，原卷第3页（10分）
@@ -245,7 +259,7 @@ The intended diagnosis is underfitting: the representation or linear decision ru
 Suppose you are a global market analyst who needs to analyse a product line (a group of similar products with different prices) and get some insight. You want to classify your 50,000 clients according to the product they brought. You have collected 25 features on your clients, e.g. age, income, educational level, frequency of using the product, their scores on other similar products. Among Logistic Regression, kernel SVM and random forest, which classifier will you prefer to use? List 2 reasons for using your selected classifier, and 1 reason for each of the other unselected classifiers.
 
 ### 中文题意
-市场分析任务有50,000名客户，每人25个特征，例如年龄、收入、教育程度、产品使用频率和对类似产品的评分。按购买的产品分类，并希望得到业务洞见。在逻辑回归、核SVM和随机森林中选择一种。说明两个选择理由，以及另两种各一个不选理由。
+你是一名全球市场分析师，要分析一个产品系列（一组价格不同的相似产品），并获得业务洞见。你希望根据购买的产品，对50,000名客户进行分类。每位客户有25个特征，例如年龄、收入、教育程度、产品使用频率，以及对其他类似产品的评分。在逻辑回归、核SVM和随机森林中，你更倾向于选择哪一种？列出两个选择理由，并为另外两种模型各给出一个不选的理由。
 
 ### English answer
 A defensible choice, and the supplied answer, is **random forest**. It captures nonlinear relationships/interactions and supports feature-importance or permutation-importance analyses for inspection. A plain logistic model may miss nonlinear structure unless features are expanded. A conventional kernel SVM on 50,000 samples can incur substantial kernel computation/storage cost. These are task-based reasons, not proof that RF must be most accurate.
@@ -256,6 +270,8 @@ A defensible choice, and the supplied answer, is **random forest**. It captures 
 <a id="mt040"></a>
 <a id="l2q05"></a>
 ## MT040 · Bayes规则和Naive Bayes的关系
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -277,7 +293,7 @@ E) The Bayesian decision rule is only applicable to binary classification tasks.
 ### 中文题意
 哪些说法准确描述Bayes决策规则与NB的关系？多选。
 
-A）NB是Bayes决策规则的一种具体实现。B）二分类标签为0、1时，只要类0的类条件密度较大就选0。C）NB对各特征维独立建模。D）Bayes决策规则比NB计算更高效。E）Bayes决策规则只能用于二分类。
+A）NB是Bayes决策规则的一种具体实现。B）对特征为$x$、标签为$y\in\{0,1\}$的二分类任务，按Bayes决策规则，只要$p(x\mid y=0)>p(x\mid y=1)$，就选择类0。C）NB对各特征维独立建模。D）Bayes决策规则比NB计算更高效。E）Bayes决策规则只能用于二分类。
 
 ### English answer
 **A and C.** C means independence **conditional on the class**. NB specifies class-conditional models and then applies the Bayes decision rule. B omits the priors: compare $p(x\mid c)p(c)$ under equal error costs. D compares a decision principle with a particular implementation; efficiency depends on the model. The rule applies to any finite number of classes, so E is false.
@@ -288,6 +304,8 @@ A）NB是Bayes决策规则的一种具体实现。B）二分类标签为0、1时
 <a id="mt052"></a>
 <a id="l2q01"></a>
 ## MT052 · 生成式分类器学了什么
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -320,6 +338,8 @@ A）估计每一类中特征的概率分布。B）难以向分类器加入先验
 <a id="mt046"></a>
 <a id="l2q09"></a>
 ## MT046 · 完整讲出Gaussian NB
+
+**题型：** 简答题 / Written response · 解释
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -371,6 +391,8 @@ $$\hat y=\arg\max_{c\in\{0,1\}}\left[\log P(y=c)+\sum_{j=1}^d\log\mathcal N(x_j;
 <a id="l2q08"></a>
 ## MT015 · NB的最优性、独立性与边界
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** Bayes、Naive Bayes与模型比较
 
 **出处：** 2021A期中 Q2，原卷第2页（5分）
@@ -402,6 +424,8 @@ A）NB会最小化出错概率。B）NB不建模特征相关性，所以边界�
 <a id="mt032"></a>
 <a id="l2q06"></a>
 ## MT032 · Bayesian classifier的性质
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -439,6 +463,8 @@ A、C、E错误：Gaussian NB可能产生二次边界；拟合的分布可能过
 <a id="l2q07"></a>
 ## MT005 · NB的学习、不确定性和正则化
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** Bayes、Naive Bayes与模型比较
 
 **出处：** 2020B期中Quiz Q5，原卷第3页（5分）
@@ -462,14 +488,16 @@ E) There is no regularization in a naive Bayes classifier.
 A）学习Bayesian分类器等价于估计后验分布。B）在决策边界附近有较大预测方差，体现了合理的不确定性。C）生成分布非高斯时，NB可以是非线性分类器。D）NB与逻辑回归都可用最大似然估计参数。E）NB没有正则化。
 
 ### English answer
-**The supplied key selects A, B, C and D.** NB estimates priors and class-conditional distributions, then derives posteriors. Near-boundary label uncertainty is high: Var(Y|x)=p(1−p). Non-Gaussian NB can be nonlinear, and NB/LR can use MLE. E is false because smoothing regularizes NB. A describes the resulting posterior, not direct discriminative training.
+**The supplied key selects A, B, C and D.** NB estimates priors and class-conditional distributions, then derives posteriors. For binary $Y\in\{0,1\}$, let $p=P(Y=1\mid x)$. Then $\operatorname{Var}(Y\mid x)=p(1-p)$ is largest at $p=1/2$, the usual equal-cost decision boundary. Non-Gaussian NB can be nonlinear, and NB/LR can use MLE. E is false because smoothing regularizes NB. A describes the resulting posterior, not direct discriminative training.
 
 ### 中文对应答案
-**随卷答案选A、B、C、D。** NB先估计先验和类条件分布，再推导后验。在决策边界附近，标签的不确定性较高，二分类时有$\operatorname{Var}(Y\mid x)=p(1-p)$。非高斯的NB可以产生非线性边界，NB和逻辑回归都可以用最大似然估计训练。E错误，因为平滑可以对NB起到正则化作用。A描述的是最终得到的后验，并不表示NB直接采用判别式训练。
+**随卷答案选A、B、C、D。** NB先估计先验和类条件分布，再推导后验。对二分类标签$Y\in\{0,1\}$，令$p=P(Y=1\mid x)$，则$\operatorname{Var}(Y\mid x)=p(1-p)$在$p=1/2$时最大；这对应通常的等错分代价决策边界。非高斯的NB可以产生非线性边界，NB和逻辑回归都可以用最大似然估计训练。E错误，因为平滑可以对NB起到正则化作用。A描述的是最终得到的后验，并不表示NB直接采用判别式训练。
 
 <a id="mt034"></a>
 <a id="l2q15"></a>
 ## MT034 · 无限数据能消除分类错误吗
+
+**题型：** 简答题 / Written response · 判断并说明
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -481,7 +509,7 @@ Consider the following statement: If we train a Bayes classifier using infinite 
 Is this statement true or false? Give your reasons.
 
 ### 中文题意
-判断并解释：若用无限多、符合模型假设的独立训练数据来训练Bayes分类器，它在这些训练样本上的错误率将为0。
+判断下述说法是否正确，并说明理由：如果用无限多、满足全部建模假设的训练数据来训练Bayes分类器（例如，数据来自相应的类条件分布，且各样本独立采集），那么它在这些训练样本上的错误率将为0。
 
 ### English answer
 **False in general.** Infinite correctly modeled data can remove parameter-estimation uncertainty, but it does not remove overlap between class distributions. At an input where both labels have positive posterior probability, even the optimal deterministic decision makes errors with conditional probability $1-\max_c P(y=c\mid x)$.
@@ -496,6 +524,8 @@ Zero error requires additional separability conditions, such as disjoint class s
 <a id="mt014"></a>
 <a id="l2q03"></a>
 ## MT014 · 生成式与判别式的区别
+
+**题型：** 选择题（多选） / Multiple select · 选不正确项 / Select incorrect statements
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -529,6 +559,8 @@ A）生成式分类器增加新特征维度不需要重新训练。B）生成式
 <a id="l2q04"></a>
 ## MT033 · 用图像特征解释两种建模方式
 
+**题型：** 简答题 / Written response · 比较、解释
+
 **考点：** Bayes、Naive Bayes与模型比较
 
 **出处：** 2021B*期中 Q7，原卷第3页（10分）
@@ -556,6 +588,8 @@ Discriminative training avoids specifying a full feature distribution. A simple 
 <a id="mt059"></a>
 <a id="l2q13"></a>
 ## MT059 · LR与共享方差Gaussian NB
+
+**题型：** 简答题 / Written response · 比较
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -589,6 +623,8 @@ If “shared variance” means one shared variance **per feature**, NB has $3d+1
 <a id="l2q12"></a>
 ## MT021 · 同为线性分类器，学习原则有何不同
 
+**题型：** 简答题 / Written response · 比较
+
 **考点：** Bayes、Naive Bayes与模型比较
 
 **出处：** 2021A期中 Q8，原卷第3页（10分）
@@ -612,6 +648,8 @@ There is no universally most accurate choice. Performance depends on the data, w
 <a id="mt017"></a>
 <a id="l2q11"></a>
 ## MT017 · 哪些模型能产生不同形状的边界
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** Bayes、Naive Bayes与模型比较
 
@@ -647,6 +685,8 @@ D使用的是**齐次二次核**：展开后的特征包含二次乘积，但没
 <a id="l2q10"></a>
 ## MT027 · 连续特征能否使用NB：混合选择题
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** Bayes、Naive Bayes与模型比较
 
 **出处：** 2021B*期中 Q1，原卷第2页（5分）
@@ -681,6 +721,8 @@ A指课程所讲的标准二分类SVM；要处理多分类，需要另外组合�
 <a id="l2q16"></a>
 ## MT058 · 智能笔上的文本NB如何改进
 
+**题型：** 简答题 / Written response · 提出办法
+
 **考点：** Bayes、Naive Bayes与模型比较
 
 **出处：** 2023B期中 Q7，原卷第4页（10分）
@@ -709,6 +751,8 @@ Validate accuracy and device memory/inference cost.
 
 <a id="mt041"></a>
 ## MT041 · Logistic的概率、多分类与最优解
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 逻辑回归与参数正则
 
@@ -740,6 +784,8 @@ A）用类别似然除以输入的先验概率，估计类别概率。B）常用
 
 <a id="mt047"></a>
 ## MT047 · 解释Logistic目标中的两项
+
+**题型：** 简答题 / Written response · 解释
 
 **考点：** 逻辑回归与参数正则
 
@@ -776,6 +822,8 @@ The first term is L2 regularization; it discourages large weights. The sum is th
 <a id="mt024"></a>
 ## MT024 · 损失与正则项：α从哪里来？
 
+**题型：** 简答题 / Written response · 解释
+
 **考点：** 逻辑回归与参数正则
 
 **出处：** 2021A期中 Q11，原卷第4页（10分）
@@ -794,13 +842,13 @@ $$
 (c) Suppose we replace $\|w\|^2$ with $\|w\|_1$. What will be the effect when training the classifier?
 
 ### 中文题意
-监督训练希望最小化
+监督训练的目标是找到最能拟合训练数据$(X,Y)$的权重。用损失函数$L$衡量拟合程度，训练目标为
 
 $$
 \hat w=\arg\min_w\{L(X,Y)+\alpha\|w\|^2\}.
 $$
 
-(a) 平方范数项的目的是什么？(b) 怎样确定α？(c) 将平方范数换成 $\|w\|_1$，训练结果可能怎样变化？
+(a) $\|w\|^2$这一项的目的是什么？(b) 怎样确定$\alpha$？(c) 将$\|w\|^2$换成$\|w\|_1$，对分类器的训练会有什么影响？
 
 ### English answer
 (a) The quadratic term discourages large weights and controls complexity.
@@ -816,6 +864,8 @@ $$
 
 <a id="mt018"></a>
 ## MT018 · 为什么在线性分类器上加L2？
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 逻辑回归与参数正则
 
@@ -848,6 +898,8 @@ The course answer is **B and D**. L2 penalizes large weights and can reduce over
 <a id="mt012"></a>
 ## MT012 · L1逻辑回归：写目标并画边界
 
+**题型：** 简答题 / Written response · 列式、作图、解释
+
 **考点：** 逻辑回归与参数正则
 
 **出处：** 2020B期中Quiz Q12，原卷第6页（10分）
@@ -867,27 +919,29 @@ The course answer is **B and D**. L2 penalizes large weights and can reduce over
 (b) 观察题图，画出最可能的L1正则逻辑回归边界，并解释。可以移动或调整图中给出的红线。
 
 ### English answer
-For labels yᵢ∈{−1,+1}, one consistent objective is
+(a) For labels $y_i\in\{-1,+1\}$, one consistent objective is
 
 $$
 (w^*,b^*)=\arg\min_{w,b}\left\{\frac1C\sum_j|w_j|+
 \sum_i\log\!\left(1+e^{-y_i(w^Tx_i+b)}\right)\right\},\quad C>0.
 $$
 
-In the depicted configuration, a horizontal separator is a natural sparse solution: retain x₂ and set w₁=0, so the boundary is w₂x₂+b=0. L1 encourages exact zeros; it does not guarantee an axis-parallel boundary for every dataset or C.
+(b) Draw a horizontal line in the gap between the upper red crosses and lower blue circles, as the supplied red line does. The classes mainly differ in $x_2$, so a natural sparse solution keeps $x_2$ and sets $w_1=0$. Its boundary is $x_2=-b/w_2$ with $w_2\ne0$; the figure does not determine a unique height. L1 encourages exact zeros, but does not guarantee an axis-parallel boundary for every dataset or $C$.
 
 ### 中文对应答案
-对标签$y_i\in\{-1,+1\}$，一种一致的目标函数写法是
+(a) 对标签$y_i\in\{-1,+1\}$，一种一致的目标函数写法是
 
 $$
 (w^*,b^*)=\arg\min_{w,b}\left\{\frac1C\sum_j|w_j|+
 \sum_i\log\!\left(1+e^{-y_i(w^Tx_i+b)}\right)\right\},\quad C>0.
 $$
 
-对图中数据，水平分界线是一个自然的稀疏解：保留$x_2$，令$w_1=0$，边界为$w_2x_2+b=0$。L1鼓励系数恰好为0，但不能保证在每个数据集或每个C下，边界都与坐标轴平行。
+(b) 在上方红叉与下方蓝圈之间的空隙画水平线，题图给出的红线就是这种画法。两类主要沿$x_2$方向分开，因此一个自然的稀疏解是保留$x_2$、令$w_1=0$。边界为$x_2=-b/w_2$，其中$w_2\ne0$；原图无法确定唯一高度。L1鼓励系数恰好为0，但不能保证在每个数据集或每个$C$下，边界都与坐标轴平行。
 
 <a id="mt001"></a>
 ## MT001 · Logistic训练：哪些说法不成立？
+
+**题型：** 选择题（多选） / Multiple select · 选不正确项 / Select incorrect statements
 
 **考点：** 逻辑回归与参数正则
 
@@ -918,6 +972,8 @@ The supplied key selects **B and C**. A fixed learning rate is not necessary; in
 <a id="mt053"></a>
 <a id="l2q14"></a>
 ## MT053 · LR与生成式模型：混合选择题
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 逻辑回归与参数正则
 
@@ -952,6 +1008,8 @@ A错误：一般的逻辑回归需要数值优化。E错误：惩罚项会改变
 <a id="mt042"></a>
 ## MT042 · SVM的基本特点
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** SVM与核方法
 
 **出处：** 2023A期中 Q3，原卷第2页（5分）；2025A期中 Q3，原卷第2页（5分）
@@ -983,6 +1041,8 @@ The supplied 2023A key selects **A and B**. Slack variables allow violations, an
 <a id="mt048"></a>
 ## MT048 · 用一个例子讲清Kernel Trick
 
+**题型：** 简答题 / Written response · 解释、举例
+
 **考点：** SVM与核方法
 
 **出处：** 2023A期中 Q9，原卷第6页（10分）
@@ -1005,6 +1065,8 @@ A feature map can make data linearly separable. The kernel trick replaces mapped
 
 <a id="mt016"></a>
 ## MT016 · 核SVM：变换、存储与非向量输入
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** SVM与核方法
 
@@ -1029,13 +1091,15 @@ E) The kernel trick can reduce both the memory and computation requirements, com
 A）等价于在变换后的输入上训练线性SVM。B）训练完成后不再需要训练数据。C）输出为正的任意函数都是合法核。D）可用于字符串、集合等非向量输入。E）相比显式变换再求内积，核技巧可能减少内存与计算。
 
 ### English answer
-**A, D and E**, with E interpreted as a possible saving relative to explicitly constructing the feature map. Nonlinear kernel prediction normally retains support vectors and coefficients, so B is false. A valid real kernel must produce symmetric positive-semidefinite Gram matrices, not merely positive entries.
+**A, D and E**, with E interpreted as possible savings in memory and computation relative to explicitly constructing the feature map and taking its inner products. Nonlinear kernel prediction normally retains support vectors and coefficients, so B is false. A valid real kernel must produce symmetric positive-semidefinite Gram matrices, not merely positive entries.
 
 ### 中文对应答案
-**A、D、E正确**，其中E应理解为：相对于显式构造特征映射，核技巧有可能节省存储。非线性核模型在预测时通常仍要保存支持向量及其系数，因此B错误。合法的实值核必须产生对称、半正定的Gram矩阵，不能仅要求各个元素为正。
+**A、D、E正确**，其中E应理解为：相对于显式构造特征映射再求内积，核技巧有可能节省内存与计算。非线性核模型在预测时通常仍要保存支持向量及其系数，因此B错误。合法的实值核必须产生对称、半正定的Gram矩阵，不能仅要求各个元素为正。
 
 <a id="mt031"></a>
 ## MT031 · RBF距离与带宽：看近点和远点
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** SVM与核方法
 
@@ -1071,6 +1135,8 @@ A）某些γ可使两者都接近1。B）某些γ可使两者都接近0。C）�
 
 <a id="mt055"></a>
 ## MT055 · 判断五个候选核是否合法
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** SVM与核方法
 
@@ -1125,6 +1191,8 @@ C有反例：取一维输入0和2，Gram矩阵为$\begin{pmatrix}1&1\\1&0\end{pm
 <a id="mt060"></a>
 ## MT060 · 二次核SVM：大C与小C的边界
 
+**题型：** 简答题 / Written response · 作图、比较、解释
+
 **考点：** SVM与核方法
 
 **出处：** 2023B期中 Q9，原卷第6页（10分）
@@ -1138,14 +1206,18 @@ Consider the training data in the below figure, and the kernel SVM with quadrati
 给定题图训练点，使用二次多项式核SVM。(a) C趋于无穷时画边界。(b) C趋于0时画边界。(c) 哪个在测试数据上可能更好？每问说明理由。
 
 ### English answer
-The intended sketches contrast a **large C**, which strongly penalizes margin violations and bends the boundary to accommodate the isolated red points, with a **smaller positive C**, which accepts some violations for a simpler, wider-margin separation. If those isolated points are noise, the latter may generalize better, but a training diagram alone cannot determine test accuracy.
+(a) A **large $C$** strongly penalizes margin violations. The supplied left-hand sketch bends the boundary to accommodate the isolated red points. Zero training error in this limit requires separability in the chosen quadratic feature space.
 
-Two limits need care: zero training error for large C requires separability in the chosen feature space. At exactly C=0, the data term disappears and w=0 minimizes the objective with unconstrained bias. This endpoint does not by itself determine the decision-boundary limit as C→0⁺; the supplied right-hand sketch illustrates a smaller positive C.
+(b) A **smaller positive $C$** accepts some violations for a simpler, wider-margin separation, as in the right-hand sketch. At exactly $C=0$, the data term disappears and $w=0$ minimizes the objective with unconstrained bias. This endpoint does not by itself determine the boundary limit as $C\to0^+$; the supplied sketch illustrates a smaller positive $C$.
+
+(c) If the isolated points are noise, the smaller-$C$ boundary may generalize better. A training diagram alone cannot determine test accuracy; compare the settings on validation data.
 
 ### 中文对应答案
-示意图要对比两种情况：**C较大**时，违反间隔约束的代价很高，边界会弯曲以适应孤立的红点；**C为较小的正数**时，允许部分样本违反约束，换取更简单、间隔更宽的分隔方式。如果这些孤立点是噪声，后一种模型可能更容易推广到新数据，但仅凭训练图无法确定测试准确率。
+(a) **$C$较大**时，违反间隔约束的代价很高。随卷答案左图的边界会弯曲，以适应孤立的红点。这个极限能达到零训练误差，前提是数据在所选二次特征空间中可分。
 
-两个极限需要区分。大C能实现零训练误差，前提是数据在所选特征空间中可分。C恰好为0时，数据项消失，$w=0$使目标最小，偏置不受约束。仅凭这个端点，不能确定$C\to0^+$时决策边界的极限；随卷答案右图表示的是较小的正C。
+(b) **$C$为较小的正数**时，允许部分样本违反约束，换取更简单、间隔更宽的分隔方式，如右图。$C$恰好为0时，数据项消失，$w=0$使目标最小，偏置不受约束。仅凭这个端点，不能确定$C\to0^+$时边界的极限；随卷示意图表示的是较小的正$C$。
+
+(c) 如果这些孤立点是噪声，较小$C$的边界可能更容易推广到新数据。仅凭训练图无法确定测试准确率，应在验证数据上比较设置。
 
 ![MT060 source answer sketches](assets/answer-mt060-pair.png)
 
@@ -1153,6 +1225,8 @@ Two limits need care: zero training error for large C requires separability in t
 
 <a id="mt054"></a>
 ## MT054 · C、支持向量与RBF的零训练误差
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** SVM与核方法
 
@@ -1184,6 +1258,8 @@ The supplied key is **A, D and E**, but **E requires qualification**. For distin
 
 <a id="mt043"></a>
 ## MT043 · 核SVM怎样处理非线性？
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** SVM与核方法
 
@@ -1218,6 +1294,8 @@ The supplied key is **B and D**. Interpret D as optimizing sample multipliers, w
 <a id="mt029"></a>
 ## MT029 · 哪些SVM说法错误？
 
+**题型：** 选择题（多选） / Multiple select · 选不正确项 / Select incorrect statements
+
 **考点：** SVM与核方法
 
 **出处：** 2021B*期中 Q3，原卷第2页（5分）
@@ -1249,6 +1327,8 @@ A）核SVM不能处理线性可分数据。B）SVR中回归容忍带边界附近
 <a id="mt010"></a>
 ## MT010 · 同一张分布图，Gaussian Bayes与二次核SVM如何判断？
 
+**题型：** 简答题 / Written response · 读图或公式、比较
+
 **考点：** SVM与核方法
 
 **出处：** 2020B期中Quiz Q10，原卷第5页（10分）
@@ -1262,13 +1342,19 @@ Consider the data distribution shown in the figure below. If you train a Bayes G
 依据题图的两类训练数据，Gaussian Bayes分类器会将点D判为哪一类？换成二次多项式核SVM后呢？分别解释。红点为+1，绿点为−1。
 
 ### English answer
-The supplied solution expects **+1 for Gaussian Bayes and −1 for quadratic-kernel SVM**. Bayes compares density times prior; the SVM sketch encloses the inner negative points, including D. These are the intended schematic results: exact Gaussian parameters and SVM C are not supplied, so the plot does not uniquely determine a numerical fit.
+The supplied solution expects **+1 for Gaussian Bayes and −1 for quadratic-kernel SVM**. Bayes compares $p(D\mid c)P(c)$. The more numerous red points give a larger estimated red-class prior, which can offset a density disadvantage at D; the supplied schematic fit favours red. It is not simply a nearest-centre decision. The quadratic SVM can enclose the inner green points with a curved boundary, placing D on their negative side.
+
+These are the intended schematic results: exact Gaussian parameters and SVM $C$ are not supplied, so the plot does not uniquely determine a numerical fit.
 
 ### 中文对应答案
-随卷解答预期：**Gaussian Bayes判为+1，二次核SVM判为−1。** Bayes比较类条件密度与先验的乘积；SVM示意边界包围内部的负类点，也把D点包含在内。这些是示意图所表达的判断。题目没有给出确切的高斯参数和SVM的C，因此不能从图中唯一确定一个数值拟合结果。
+随卷解答预期：**Gaussian Bayes判为+1，二次核SVM判为−1。** Bayes比较$p(D\mid c)P(c)$。红点更多，会使估计的红类先验更大，可能抵消D处类条件密度较低的影响；随卷示意拟合最终倾向红类。它不是简单地选择最近的类别中心。二次核SVM可以用曲线包围内部绿点，把D也放在绿色负类一侧。
+
+这些是示意图所表达的判断。题目没有给出确切的高斯参数和SVM的$C$，因此不能从图中唯一确定一个数值拟合结果。
 
 <a id="mt009"></a>
 ## MT009 · 十万维特征、两千样本：SVM怎样提速？
+
+**题型：** 简答题 / Written response · 提出办法、解释
 
 **考点：** SVM与核方法
 
@@ -1288,6 +1374,8 @@ Compare primal and dual formulations and use a solver suited to the data. The pr
 
 <a id="mt061"></a>
 ## MT061 · 预测内存：线性SVM与RBF SVM
+
+**题型：** 简答题 / Written response · 排序、解释
 
 **考点：** SVM与核方法
 
@@ -1311,6 +1399,8 @@ Under this representation, the ranking is linear(C=0.1) = linear(C=1000) < ordin
 
 <a id="mt019"></a>
 ## MT019 · Ridge、LASSO与零系数
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 回归、特征选择与残差损失
 
@@ -1343,6 +1433,8 @@ A）训练数据越多越容易过拟合。B）LASSO的惩罚α很大时，某�
 <a id="mt045"></a>
 ## MT045 · 特征选择：零系数、Ridge与OMP
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** 回归、特征选择与残差损失
 
 **出处：** 2023A期中 Q6，原卷第3页（5分）
@@ -1374,6 +1466,8 @@ A）鼓励部分权重为零可做特征选择。B）Ridge因使用L2而能有�
 <a id="mt030"></a>
 ## MT030 · L1/L2回归的益处与措辞边界
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** 回归、特征选择与残差损失
 
 **出处：** 2021B*期中 Q4，原卷第2页（5分）
@@ -1404,6 +1498,8 @@ The supplied key selects **D and E**. Read D carefully: both can shrink coeffici
 
 <a id="mt057"></a>
 ## MT057 · 同时使用L1与L2：Elastic Net
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 回归、特征选择与残差损失
 
@@ -1448,6 +1544,8 @@ $$
 <a id="mt025"></a>
 ## MT025 · 绝对残差损失对异常值有什么影响？
 
+**题型：** 简答题 / Written response · 解释
+
 **考点：** 回归、特征选择与残差损失
 
 **出处：** 2021A期中 Q12，原卷第4页（10分）
@@ -1462,7 +1560,7 @@ $$
 What will be the effect of using this loss during training? Why?
 
 ### 中文题意
-线性回归 $f(x)=w^Tx+b$ 在N条记录上最小化
+考虑线性回归函数$f(x)=w^Tx+b$，在数据$(x_i,y_i)$、$i=1,\ldots,N$上训练，以预测误差的绝对值作为损失：
 
 $$
 (\hat w,\hat b)=\arg\min_{w,b}\sum_{i=1}^N|f(x_i)-y_i|.
@@ -1478,6 +1576,8 @@ Absolute-error loss grows linearly instead of quadratically, so very large outpu
 
 <a id="mt063"></a>
 ## MT063 · Huber损失：画图并解释好处
+
+**题型：** 简答题 / Written response · 作图、解释
 
 **考点：** 回归、特征选择与残差损失
 
@@ -1522,6 +1622,8 @@ Draw a parabola between −1 and 1, joined smoothly to straight tails: L(0)=0, L
 <a id="mt013"></a>
 ## MT013 · 残差L1＋权重L2，各自在做什么？
 
+**题型：** 简答题 / Written response · 解释
+
 **考点：** 回归、特征选择与残差损失
 
 **出处：** 2020B期中Quiz Q13，原卷第6页（10分）
@@ -1553,6 +1655,8 @@ Absolute residual loss grows linearly, so large output errors have less influenc
 <a id="mt050"></a>
 ## MT050 · 缺车比车多更糟：设计非对称损失
 
+**题型：** 简答题 / Written response · 设计、作图、解释
+
 **考点：** 回归、特征选择与残差损失
 
 **出处：** 2023A期中 Q12，原卷第9页（10分）；2025A期中 Q12，原卷第9页（10分）
@@ -1569,20 +1673,30 @@ $$
 Design a loss function that can help you to do the regression according to the requirements, and draw a plot. Explain how your loss achieves the desired requirements.
 
 ### 中文题意
-预测某共享单车站每天借车量，用于调度。公司认为多放一些车可以接受，但缺车会流失顾客。给定N条特征/借车量记录，线性模型 $f(x)=w^Tx+b$ 通过最小化损失和训练。设计符合要求的损失，画图并解释。
+你在一家共享单车公司工作，需要预测一个热门站点每天的借车量，供调度团队决定向该站点运送多少辆车。公司认为多送一些车可以接受，但缺车会让顾客转用其他公司的单车。
+
+已有历史训练数据$(x_i,y_i)$、$i=1,\ldots,N$，其中$x_i$是特征向量，$y_i$是借车量。线性回归函数$f(x)=w^Tx+b$通过下式训练：
+
+$$
+(\hat w,\hat b)=\arg\min_{w,b}\sum_{i=1}^N L(f(x_i),y_i).
+$$
+
+设计一个符合上述要求的损失函数，并画图。解释该损失怎样实现公司的要求。
 
 ### English answer
-Define r=f(x)−y. Use L(r)=c₋r² for r<0 and L(r)=c₊r² otherwise, with c₋>c₊>0. Draw two parabolic halves meeting at zero, the negative-residual side steeper. Equal-sized shortages then cost more than surpluses.
+Define $r=f(x)-y$. Use $L(r)=c_-r^2$ for $r<0$ and $L(r)=c_+r^2$ otherwise, with $c_->c_+>0$. Draw two parabolic halves meeting at zero, the negative-residual side steeper. Equal-sized shortages then cost more than surpluses.
 
 ### 中文对应答案
 定义残差$r=f(x)-y$。当$r<0$时用$L(r)=c_-r^2$，否则用$L(r)=c_+r^2$，其中$c_->c_+>0$。画出两段在0处相接的抛物线，负残差一侧更陡。这样，同样数量的缺车会比车过剩受到更大的惩罚。
 
 ![MT050 answer illustration](assets/answer-asymmetric-loss.png)
 
-*作图示例：取 c₋=4、c₊=1。 / Example plot with c₋=4 and c₊=1.*
+*作图示例：图中 $b=c_-=4$、$a=c_+=1$。 / Example plot with $b=c_-=4$ and $a=c_+=1$.*
 
 <a id="mt037"></a>
 ## MT037 · 线性回归为何与均值预测器表现相近？
+
+**题型：** 简答题 / Written response · 提出办法、解释
 
 **考点：** 回归、特征选择与残差损失
 
@@ -1592,16 +1706,18 @@ Define r=f(x)−y. Use L(r)=c₋r² for r<0 and L(r)=c₊r² otherwise, with c�
 Your friend wants to predict the number of taxis used in HK in one hour from various features, such as weather, time of day, day of year, etc. Your friend uses linear regression to fit the data, but finds that the mean squared error (MSE) on the validation set is about the same as a “dummy” regressor that just predicts the mean of the training data. What two pieces of advice would you give to your friend to improve their regressor? Explain why.
 
 ### 中文题意
-用天气、时段、日期等特征预测香港每小时出租车使用量。线性回归在验证集上的MSE与“永远输出训练集平均值”的基线相近。提出两个改进建议，并解释原因。
+你的朋友想用天气、一天中的时段、一年中的日期等特征，预测香港一小时内的出租车使用量。他用线性回归拟合数据，却发现模型在验证集上的均方误差（MSE），与一个始终预测训练数据平均值的“基线”回归器相近。你会提出哪两个改进建议？分别说明原因。
 
 ### English answer
-Two useful directions are (1) add informative features or interactions, such as time-of-day effects interacting with weather, and (2) use a nonlinear representation/model if the relationship is not linear. Compare by validation or training-only CV. Also check excessive regularization, data alignment and optimization. The validation result alone does not prove the training least-squares solution is wrong.
+Two useful directions are (1) add informative features or interactions, such as time-of-day effects interacting with weather, so the model can learn demand changes that the current features miss; and (2) use a nonlinear representation/model if the relationship is not linear, because an additive linear rule cannot represent curved or threshold-like demand patterns. Compare by validation or training-only CV. Also check excessive regularization, data alignment and optimization. The validation result alone does not prove the training least-squares solution is wrong.
 
 ### 中文对应答案
-两个值得尝试的方向是：（1）加入有用的特征或交互项，例如一天中的时段与天气之间的交互；（2）若输入与输出的关系不是线性的，就采用非线性表示或模型。通过验证集或训练数据内部的交叉验证比较效果。同时检查正则化是否过强、数据是否正确对齐，以及优化是否正常。仅凭验证结果，不能认定训练得到的最小二乘解有错。
+两个值得尝试的方向是：（1）加入有用的特征或交互项，例如一天中的时段与天气之间的交互，让模型学到现有特征遗漏的需求变化；（2）若输入与输出的关系不是线性的，就采用非线性表示或模型，因为简单线性相加无法表示弯曲或带阈值的需求变化。通过验证集或训练数据内部的交叉验证比较效果。同时检查正则化是否过强、数据是否正确对齐，以及优化是否正常。仅凭验证结果，不能认定训练得到的最小二乘解有错。
 
 <a id="mt006"></a>
 ## MT006 · Bagging与Boosting的基本区别
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 集成学习
 
@@ -1634,6 +1750,8 @@ A）二者都是集成方法。B）bagging是迭代建分类器，boosting的作
 <a id="mt044"></a>
 ## MT044 · 随机森林与Boosting的用途
 
+**题型：** 选择题（多选） / Multiple select
+
 **考点：** 集成学习
 
 **出处：** 2023A期中 Q5，原卷第3页（5分）；2025A期中 Q5，原卷第3页（5分）
@@ -1665,6 +1783,8 @@ The course key selects **A and C**. Random forests use randomized feature candid
 <a id="mt062"></a>
 ## MT062 · 随机森林：树多了为什么仍有共同误差？
 
+**题型：** 简答题 / Written response · 读图或公式、提出办法
+
 **考点：** 集成学习
 
 **出处：** 2023B期中 Q11，原卷第8页（10分）
@@ -1682,23 +1802,31 @@ $$
 (b) For a fixed number of trees n, explain some concrete methods to reduce the error variance of F.
 
 ### 中文题意
-随机森林F由n棵树组成。每棵树误差方差为σ²，任意两棵不同树的误差相关系数均为ρ。题目给出
+随机森林$F$由$n$棵树组成。单棵决策树$f$的误差方差为$\sigma^2$，两棵不同树的误差相关系数为$\rho$。森林取各树预测的平均，其误差方差为
 
 $$
-\operatorname{Var}(F)=\frac{\sigma^2}{n}
-+\frac{n-1}{n}\rho\sigma^2.
+\operatorname{Var}(F)=\operatorname{Var}\left(\frac1n\sum_{i=1}^nf_i\right)
+=\frac{\sigma^2}{n}+\frac{n-1}{n}\rho\sigma^2.
 $$
 
-(a) 树数与相关性怎样影响减少过拟合的能力？(b) 固定n时，有哪些具体降低误差方差的方法？
+(a) 解释树的数量、误差相关系数与森林减少过拟合能力的关系。
+
+(b) 固定树的数量$n$时，说明几种降低森林误差方差的具体方法。
 
 ### English answer
-Rewrite the variance as σ²[ρ+(1−ρ)/n]. More trees reduce the averaging term, but fixed positive correlation leaves the floor ρσ². At fixed n, diversify trees using bootstrap samples and randomized feature candidates while retaining predictive strength. Lower variance alone does not guarantee lower total test error.
+(a) Rewrite the variance as $\sigma^2[\rho+(1-\rho)/n]$. For fixed tree variance and fixed $0\le\rho\le1$, more trees reduce the second term; as $n\to\infty$, the variance approaches $\rho\sigma^2$. If $\rho=0$, it is $\sigma^2/n$; if $\rho=1$, adding trees gives no reduction. Lower correlation therefore makes averaging more effective at reducing the variance component of overfitting.
+
+(b) At fixed $n$, train trees on different bootstrap samples and randomly choose feature candidates at each split. These changes reduce shared tree errors, while each tree should retain predictive strength. Lower variance alone does not guarantee lower total test error.
 
 ### 中文对应答案
-将方差改写为$\sigma^2[\rho+(1-\rho)/n]$。增加树的数量可以减小平均带来的那一项，但若树之间保持固定的正相关性，方差仍有$\rho\sigma^2$这一无法通过加树消除的部分。n固定时，可以通过bootstrap重采样和随机候选特征增加树之间的差异，同时保留各棵树的预测能力。仅降低方差，不保证总测试误差一定降低。
+(a) 将方差改写为$\sigma^2[\rho+(1-\rho)/n]$。固定单树方差和$0\le\rho\le1$时，增加树的数量会减小第二项；当$n\to\infty$时，方差趋于$\rho\sigma^2$。若$\rho=0$，方差为$\sigma^2/n$；若$\rho=1$，再加树也不能降低方差。因此，树之间的相关性越低，平均预测越能减轻与方差有关的过拟合。
+
+(b) 固定$n$时，用不同的bootstrap样本训练各树，并在每次分裂时随机选择候选特征。这样可以减少各树共同犯的错误，同时应保留各棵树的预测能力。仅降低方差，不保证总测试误差一定降低。
 
 <a id="mt056"></a>
 ## MT056 · 集成方法：树深、并行与后续轮次
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 集成学习
 
@@ -1731,6 +1859,8 @@ The supplied key selects **C and E**. Trees can be fitted and evaluated independ
 <a id="mt038"></a>
 ## MT038 · 100核部署：RF与AdaBoost如何并行预测？
 
+**题型：** 简答题 / Written response · 比较、提出办法
+
 **考点：** 集成学习
 
 **出处：** 2021B*期中 Q12，原卷第4页（10分）
@@ -1749,6 +1879,8 @@ The intended choice is **AdaBoost**, assuming its 100 weak learners are shallow 
 
 <a id="mt049"></a>
 ## MT049 · 在线更新AdaBoost：速度与异常值
+
+**题型：** 简答题 / Written response · 提出办法、判断并说明
 
 **考点：** 集成学习
 
@@ -1771,6 +1903,8 @@ You are working on an online self-driving system that employs the Adaboost model
 
 <a id="mt064"></a>
 ## MT064 · 综合题：Bagging/Boosting与Huber
+
+**题型：** 简答题 / Written response · 比较、作图、解释
 
 **考点：** 集成学习
 
@@ -1797,14 +1931,14 @@ Draw a plot of the loss function and answer whether the loss is robust to outlie
 (b) [5分] 线性回归使用Huber损失：当 $|y_i-f(x_i)|<1$ 时为 $\frac12[y_i-f(x_i)]^2$，否则为 $|y_i-f(x_i)|-\frac12$。画图，判断是否对异常值稳健并说明理由。
 
 ### English answer
-(a) Both combine learners. Bagging fits resampled learners independently; boosting trains sequentially using the current ensemble’s errors or weighted loss.
+(a) Both combine learners. Bagging fits resampled learners independently; boosting trains sequentially using the current ensemble's errors or weighted loss.
 
-(b) Huber is quadratic inside |r|<1 and linear outside. Join smoothly at (±1,1/2), with tail slopes ±1. Bounded residual gradients reduce sensitivity to large output errors.
+(b) Let $r=y_i-f(x_i)$. Huber is quadratic inside $|r|<1$ and linear outside. Join smoothly at $(\pm1,1/2)$, with tail slopes $\pm1$. Bounded residual gradients reduce sensitivity to large output errors.
 
 ### 中文对应答案
 (a) 两者都组合多个学习器。Bagging在重采样数据上独立训练各个模型；boosting则根据当前集成的错误或加权损失，依次训练后续模型。
 
-(b) Huber损失在$|r|<1$时是二次的，区间外是线性的。在$(\pm1,1/2)$处平滑连接，两侧直线的斜率分别为−1和+1。损失对残差的梯度有界，因此对大的输出误差不那么敏感。
+(b) 令残差$r=y_i-f(x_i)$。Huber损失在$|r|<1$时是二次的，区间外是线性的。在$(\pm1,1/2)$处平滑连接，两侧直线的斜率分别为−1和+1。损失对残差的梯度有界，因此对大的输出误差不那么敏感。
 
 ![MT064 answer illustration](assets/answer-huber.png)
 
@@ -1812,6 +1946,8 @@ Draw a plot of the loss function and answer whether the loss is robust to outlie
 
 <a id="mt008"></a>
 ## MT008 · 平方形分类损失为什么惩罚“太正确”？
+
+**题型：** 简答题 / Written response · 读图或公式、判断并说明
 
 **考点：** 分类损失图与错误代价
 
@@ -1834,6 +1970,8 @@ The squared-shaped loss targets z=1. Large tail gradients make it sensitive to e
 <a id="mt026"></a>
 ## MT026 · V形损失：最优点为何在z=1？
 
+**题型：** 简答题 / Written response · 读图或公式、判断并说明
+
 **考点：** 分类损失图与错误代价
 
 **出处：** 2021A期中 Q13，原卷第4页（10分）
@@ -1854,6 +1992,8 @@ The loss is minimized at z=1 and grows linearly on both sides. It corrects wrong
 
 <a id="mt051"></a>
 ## MT051 · 负间隔也零损失：分类器会放过什么？
+
+**题型：** 简答题 / Written response · 读图或公式、判断并说明、作图
 
 **考点：** 分类损失图与错误代价
 
@@ -1884,6 +2024,8 @@ For an explicit example use f(x)=0.1x+0.5 with (x,y)=(-1,-1) and (1,+1). The sig
 <a id="mt039"></a>
 ## MT039 · 饱和的非凸分类损失
 
+**题型：** 简答题 / Written response · 读图或公式
+
 **考点：** 分类损失图与错误代价
 
 **出处：** 2021B*期中 Q13，原卷第4页（10分）
@@ -1904,6 +2046,8 @@ The loss is zero for z≥1 and saturates at a high level for very negative z. It
 
 <a id="mt065"></a>
 ## MT065 · 比较Logistic、Hinge和Exponential损失
+
+**题型：** 简答题 / Written response · 比较、排序
 
 **考点：** 分类损失图与错误代价
 
@@ -1937,6 +2081,8 @@ Logistic Regression、SVM和AdaBoost都是常见分类器。
 <a id="mt007"></a>
 ## MT007 · 筛查任务：漏诊比误报更贵
 
+**题型：** 简答题 / Written response · 提出办法、解释
+
 **考点：** 分类损失图与错误代价
 
 **出处：** 2020B期中Quiz Q7，原卷第3页（10分）；2023B期中 Q13，原卷第10页（10分）
@@ -1962,6 +2108,8 @@ Choose the threshold on validation data using sensitivity and false-positive cos
 <a id="mt023"></a>
 ## MT023 · 1000名受试者中只有50名阳性
 
+**题型：** 简答题 / Written response · 诊断问题、提出办法
+
 **考点：** 分类损失图与错误代价
 
 **出处：** 2021A期中 Q10，原卷第4页（10分）；2023A期中 Q10，原卷第7页（10分）
@@ -1981,6 +2129,8 @@ There are two distinct issues: **class imbalance** (50 positives versus 950 nega
 <a id="mt035"></a>
 ## MT035 · 正常邮件被大量拦截怎么办？
 
+**题型：** 简答题 / Written response · 提出办法、解释
+
 **考点：** 分类损失图与错误代价
 
 **出处：** 2021B*期中 Q9，原卷第4页（10分）
@@ -1992,13 +2142,15 @@ You have been asked to build a classifier for detecting junk email. You are give
 邮件分类训练集中垃圾邮件多于正常邮件。逻辑回归把大多数邮件都判成垃圾，几乎收不到邮件。提出两种修复方法并说明理由。
 
 ### English answer
-Increase the cost/weight of misclassifying regular email during training, and adjust the prediction threshold to favour regular email. For example, if p=P(spam|x) and spam is predicted when p>t, raise t. Collecting more representative regular-mail training data is another option. Select the tradeoff on validation data and track false positives on regular mail.
+Increase the cost/weight of misclassifying regular email during training, so blocking a legitimate message incurs a larger penalty. Also raise the threshold for calling an email spam: if $p=P(\mathrm{spam}\mid x)$ and spam is predicted when $p>t$, increasing $t$ requires stronger evidence before blocking a message. Collecting more representative regular-mail training data is another option. Select the tradeoff on validation data and track false positives on regular mail.
 
 ### 中文对应答案
-训练时提高把正常邮件误判为垃圾邮件的代价或权重，并调整预测阈值，让模型更倾向于保留正常邮件。例如，若$p=P(\mathrm{spam}\mid x)$，且$p>t$时判为垃圾邮件，就提高t。也可以增加有代表性的正常邮件训练数据。通过验证数据选择取舍，并持续查看正常邮件被误拦截的情况。
+训练时提高把正常邮件误判为垃圾邮件的代价或权重，让误拦正常邮件受到更大的惩罚。同时提高判为垃圾邮件的阈值：若$p=P(\mathrm{spam}\mid x)$，且$p>t$时判为垃圾邮件，那么提高$t$就要求模型有更强的证据才拦截邮件。也可以增加有代表性的正常邮件训练数据。通过验证数据选择取舍，并持续查看正常邮件被误拦截的情况。
 
 <a id="mt067"></a>
 ## MT067 · 链式求导与两层网络反传
+
+**题型：** 简答题 / Written response · 计算推导
 
 **考点：** 神经网络与链式法则
 
@@ -2035,28 +2187,44 @@ $$
 (b) 解释题图的前向过程，然后求 $\partial L/\partial a_i$、$\partial L/\partial g_1$ 和 $\partial L/\partial w_j$。题设 $A\in\mathbb R^{m\times m}$、$W\in\mathbb R^{m\times n}$；$a_i,w_j$分别表示相应矩阵中的权重向量。允许为 $g_1\to z$、$g_2\to f$ 选择合适函数。
 
 ### English answer
-(a) Let $u=(3x^2)^{1/3}+\tan(5x)$ and $y=(1+e^u)^{-1}$. Where $x\ne0$ and $\cos(5x)\ne0$,
+(a) Let $v=3x^2$, $u=v^{1/3}+\tan(5x)$ and $y=(1+e^u)^{-1}$. Where $x\ne0$ and $\cos(5x)\ne0$, the inner derivatives are
 
 $$
-\frac{du}{dx}=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),\qquad
-\frac{dy}{du}=-\frac{e^u}{(1+e^u)^2}.
+\frac{dv}{dx}=6x,\qquad
+\frac{d(v^{1/3})}{dv}=\frac13v^{-2/3},\qquad
+\frac{d\tan(5x)}{dx}=5\sec^2(5x).
 $$
 
-Multiply the two factors:
+Apply the chain rule to each part of $u$, then to $y$:
 
 $$
+\frac{du}{dx}=\frac13v^{-2/3}(6x)+5\sec^2(5x)
+=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),
+$$
+
+$$
+\frac{dy}{du}=-(1+e^u)^{-2}e^u,
+\qquad
 \frac{dy}{dx}=-\frac{e^u}{(1+e^u)^2}
 \left[\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x)\right].
 $$
 
-(b) Choose a tanh hidden layer and a linear output, as permitted, and leave the unspecified loss as $L(f,y)$. Treat aᵢ and wⱼ as columns:
+(b) Choose a tanh hidden layer and a linear output, as permitted, and leave the unspecified loss as $L(f,y)$. Treat $a_i$ and $w_j$ as columns:
 
 $$
 g_1=A^Tx,\quad z=\tanh(g_1),\quad
 g_2=W^Tz,\quad f=g_2,\quad L=L(f,y).
 $$
 
-Let $\delta_2=\nabla_f L$ and $\delta_1=(W\delta_2)\odot(1-z^2)$. Then
+Let $\delta_2=\nabla_f L$. Since $f_j=w_j^Tz$ and $dz_i/dg_{1i}=1-z_i^2$, the chain rule gives
+
+$$
+\frac{\partial L}{\partial z_i}=\sum_{j=1}^n W_{ij}\delta_{2j},\qquad
+\delta_{1i}=\frac{\partial L}{\partial g_{1i}}
+=(1-z_i^2)\sum_{j=1}^n W_{ij}\delta_{2j}.
+$$
+
+Thus $\delta_1=(W\delta_2)\odot(1-z^2)$, where $\odot$ denotes elementwise multiplication. Because $g_{1i}=a_i^Tx$ has derivative $x$ with respect to $a_i$, and $f_j=w_j^Tz$ has derivative $z$ with respect to $w_j$,
 
 $$
 \frac{\partial L}{\partial g_1}=\delta_1,\qquad
@@ -2064,19 +2232,27 @@ $$
 \frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
 $$
 
-Here δ₁ and x are m-dimensional, δ₂ is n-dimensional and each column gradient is m-dimensional. For half-squared error, $\delta_2=f-y$; another loss requires its own derivative.
+Here $\delta_1$ and $x$ are $m$-dimensional, $\delta_2$ is $n$-dimensional and each column gradient is $m$-dimensional. For half-squared error, $\delta_2=f-y$; another loss requires its own derivative.
 
 ### 中文对应答案
-(a) 令$u=(3x^2)^{1/3}+\tan(5x)$，$y=(1+e^u)^{-1}$。在$x\ne0$且$\cos(5x)\ne0$处，
+(a) 令$v=3x^2$，$u=v^{1/3}+\tan(5x)$，$y=(1+e^u)^{-1}$。在$x\ne0$且$\cos(5x)\ne0$处，内层各项的导数为
 
 $$
-\frac{du}{dx}=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),\qquad
-\frac{dy}{du}=-\frac{e^u}{(1+e^u)^2}.
+\frac{dv}{dx}=6x,\qquad
+\frac{d(v^{1/3})}{dv}=\frac13v^{-2/3},\qquad
+\frac{d\tan(5x)}{dx}=5\sec^2(5x).
 $$
 
-将两个导数相乘，得到
+先对$u$的各部分使用链式法则，再对$y$求导：
 
 $$
+\frac{du}{dx}=\frac13v^{-2/3}(6x)+5\sec^2(5x)
+=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),
+$$
+
+$$
+\frac{dy}{du}=-(1+e^u)^{-2}e^u,
+\qquad
 \frac{dy}{dx}=-\frac{e^u}{(1+e^u)^2}
 \left[\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x)\right].
 $$
@@ -2088,7 +2264,15 @@ g_1=A^Tx,\quad z=\tanh(g_1),\quad
 g_2=W^Tz,\quad f=g_2,\quad L=L(f,y).
 $$
 
-令$\delta_2=\nabla_f L$，$\delta_1=(W\delta_2)\odot(1-z^2)$，则
+令$\delta_2=\nabla_f L$。由$f_j=w_j^Tz$及$dz_i/dg_{1i}=1-z_i^2$，链式法则给出
+
+$$
+\frac{\partial L}{\partial z_i}=\sum_{j=1}^n W_{ij}\delta_{2j},\qquad
+\delta_{1i}=\frac{\partial L}{\partial g_{1i}}
+=(1-z_i^2)\sum_{j=1}^n W_{ij}\delta_{2j}.
+$$
+
+因此$\delta_1=(W\delta_2)\odot(1-z^2)$，其中$\odot$表示逐元素相乘。$g_{1i}=a_i^Tx$对$a_i$的导数是$x$，$f_j=w_j^Tz$对$w_j$的导数是$z$，所以
 
 $$
 \frac{\partial L}{\partial g_1}=\delta_1,\qquad
@@ -2096,10 +2280,12 @@ $$
 \frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
 $$
 
-其中$\delta_1$和$x$是m维向量，$\delta_2$是n维向量，每个列参数的梯度都是m维。若损失为平方误差的一半，则$\delta_2=f-y$；若采用其他损失，需要使用相应的导数。
+其中$\delta_1$和$x$是$m$维向量，$\delta_2$是$n$维向量，每个列参数的梯度都是$m$维。若损失为平方误差的一半，则$\delta_2=f-y$；若采用其他损失，需要使用相应的导数。
 
 <a id="mt066"></a>
 ## MT066 · 梯度消失：为什么深度和激活函数有关？
+
+**题型：** 简答题 / Written response · 解释、计算推导
 
 **考点：** 神经网络与链式法则
 
@@ -2129,6 +2315,8 @@ $$
 
 <a id="mt003"></a>
 ## MT003 · 历史拓展：Gaussian Process的假设
+
+**题型：** 选择题（多选） / Multiple select
 
 **考点：** 历史范围拓展：Gaussian Process
 
@@ -2162,6 +2350,8 @@ A）GPR被定义为：将贝叶斯线性回归的线性核换成Gaussian/RBF核�
 
 <a id="mt036"></a>
 ## MT036 · 历史拓展：音乐地理回归，GP还是RF？
+
+**题型：** 简答题 / Written response · 比较
 
 **考点：** 历史范围拓展：Gaussian Process
 

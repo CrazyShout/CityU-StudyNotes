@@ -49,6 +49,8 @@ thead{display:table-header-group}td,th{vertical-align:top}strong{font-weight:600
 .compact .question p{margin-bottom:2mm}
 .compact .short-question{break-inside:avoid}
 .compact .keep-answer{break-inside:avoid}
+.compact .question-type{font-size:9.5pt;padding:1mm 2mm;border-left:2pt solid #555;background:#f4f4f4;break-after:avoid}
+.compact .toc-type{display:inline-block;white-space:nowrap;font-weight:600}
 '''
 for kind in ([derived] if derived else ['Questions','Answers']):
     source=ROOT/f'{kind}.md'
@@ -73,6 +75,9 @@ for kind in ([derived] if derived else ['Questions','Answers']):
         if nxt and nxt.name=='p' and nxt.find('em'):nxt.name='figcaption';f.append(nxt.extract())
     for a in list(soup.select('a[href]')):
         href=a['href'];target_kind=kind;key=None
+        if kind=='Compact' and (marker:=re.search(r'〔[^〕]+〕$',a.get_text())):
+            label=a.get_text();a.clear();a.append(label[:marker.start()])
+            badge=soup.new_tag('span',attrs={'class':'toc-type'});badge.string=marker[0];a.append(badge)
         if href.startswith(('Questions.md#','Answers.md#','Combined.md#','Compact.md#')):
             target_kind=href.split('.md#')[0];key=href.split('#')[1]
         elif re.fullmatch(r'#mt\d{3}',href):key=href[1:]
@@ -85,6 +90,7 @@ for kind in ([derived] if derived else ['Questions','Answers']):
         elif '.md' in a['href']:a.replace_with(a.get_text()+'（见同目录文件）')
     for para in soup.find_all('p'):
         if para.get_text().startswith('出处：'):para['class']='exam-source'
+        if para.get_text().startswith('题型：'):para['class']='question-type'
         if para.get_text().startswith('考点：'):para['class']='topic'
         if para.get_text().startswith('原题差异 / Source note：'):para['class']='source-discrepancy'
         if para.get_text().startswith('题目（') or para.get_text().strip()=='题目 · 答案':para['class']='crosslinks'
@@ -108,7 +114,8 @@ for kind in ([derived] if derived else ['Questions','Answers']):
                         previous['style']='break-after:avoid'
     for eq in soup.select('div.arithmatex'):
         before=eq.find_previous_sibling()
-        if before and before.name=='p' and len(before.get_text())<180:before['class']=list(before.get('class',[]))+['equation-lead']
+        lead_limit=500 if kind=='Compact' else 180
+        if before and before.name=='p' and len(before.get_text())<lead_limit:before['class']=list(before.get('class',[]))+['equation-lead']
     if kind in ('Answers','Combined'):
         eq_counts={}
         for eq in soup.select('div.arithmatex'):

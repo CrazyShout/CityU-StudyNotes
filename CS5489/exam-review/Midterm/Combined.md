@@ -117,12 +117,12 @@ What is overfitting? How do we know when it happens? Write down and describe sev
 ### English answer
 Overfitting occurs when a learned model captures training-specific noise or fluctuations that do not generalize. A much smaller training error than validation error is a warning sign, after checking that the data and preprocessing are comparable.
 
-Possible remedies include selecting complexity by training-only cross-validation, stronger suitable regularization, fewer or better-selected features, a simpler model, and more representative training data. Keep the final test set outside these choices.
+Use a simpler model to restrict the patterns it can fit; strengthen suitable regularization to discourage excessive weights; remove irrelevant features to reduce opportunities to fit noise; or collect more representative data so useful patterns recur across samples. Choose model complexity and regularization by cross-validation within the training data. Keep the final test set outside these choices.
 
 ### 中文对应答案
 过拟合是指模型学到了训练数据中特有的噪声或偶然波动，这些规律无法推广到新数据。确认训练与验证数据的来源、预处理可比较后，如果训练误差远低于验证误差，就要警惕过拟合。
 
-可尝试的办法包括：只在训练数据内部用交叉验证选择复杂度，加强合适的正则化，减少或更好地筛选特征，采用更简单的模型，以及增加有代表性的训练数据。最终测试集不参与这些选择。
+可以采用更简单的模型，限制它能拟合的模式；加强合适的正则化，抑制过大的权重；删除无关特征，减少拟合噪声的机会；或增加有代表性的数据，让真实规律在更多样本中重复出现。模型复杂度和正则强度应通过训练数据内部的交叉验证选择。最终测试集不参与这些选择。
 
 ### 中文讲解
 过拟合是模型把训练样本中的偶然变化也当成了普遍规律。一个极深的树可以不断切分，直到几乎给每个训练样本单独安排一个区域；它容易把训练题答对，但这些很小的区域未必适合新样本。
@@ -325,7 +325,7 @@ The intended diagnosis is underfitting: the representation or linear decision ru
 Suppose you are a global market analyst who needs to analyse a product line (a group of similar products with different prices) and get some insight. You want to classify your 50,000 clients according to the product they brought. You have collected 25 features on your clients, e.g. age, income, educational level, frequency of using the product, their scores on other similar products. Among Logistic Regression, kernel SVM and random forest, which classifier will you prefer to use? List 2 reasons for using your selected classifier, and 1 reason for each of the other unselected classifiers.
 
 ### 中文题意
-市场分析任务有50,000名客户，每人25个特征，例如年龄、收入、教育程度、产品使用频率和对类似产品的评分。按购买的产品分类，并希望得到业务洞见。在逻辑回归、核SVM和随机森林中选择一种。说明两个选择理由，以及另两种各一个不选理由。
+你是一名全球市场分析师，要分析一个产品系列（一组价格不同的相似产品），并获得业务洞见。你希望根据购买的产品，对50,000名客户进行分类。每位客户有25个特征，例如年龄、收入、教育程度、产品使用频率，以及对其他类似产品的评分。在逻辑回归、核SVM和随机森林中，你更倾向于选择哪一种？列出两个选择理由，并为另外两种模型各给出一个不选的理由。
 
 ### English answer
 A defensible choice, and the supplied answer, is **random forest**. It captures nonlinear relationships/interactions and supports feature-importance or permutation-importance analyses for inspection. A plain logistic model may miss nonlinear structure unless features are expanded. A conventional kernel SVM on 50,000 samples can incur substantial kernel computation/storage cost. These are task-based reasons, not proof that RF must be most accurate.
@@ -375,7 +375,7 @@ E) The Bayesian decision rule is only applicable to binary classification tasks.
 ### 中文题意
 哪些说法准确描述Bayes决策规则与NB的关系？多选。
 
-A）NB是Bayes决策规则的一种具体实现。B）二分类标签为0、1时，只要类0的类条件密度较大就选0。C）NB对各特征维独立建模。D）Bayes决策规则比NB计算更高效。E）Bayes决策规则只能用于二分类。
+A）NB是Bayes决策规则的一种具体实现。B）对特征为$x$、标签为$y\in\{0,1\}$的二分类任务，按Bayes决策规则，只要$p(x\mid y=0)>p(x\mid y=1)$，就选择类0。C）NB对各特征维独立建模。D）Bayes决策规则比NB计算更高效。E）Bayes决策规则只能用于二分类。
 
 ### English answer
 **A and C.** C means independence **conditional on the class**. NB specifies class-conditional models and then applies the Bayes decision rule. B omits the priors: compare $p(x\mid c)p(c)$ under equal error costs. D compares a decision principle with a particular implementation; efficiency depends on the model. The rule applies to any finite number of classes, so E is false.
@@ -667,10 +667,10 @@ E) There is no regularization in a naive Bayes classifier.
 A）学习Bayesian分类器等价于估计后验分布。B）在决策边界附近有较大预测方差，体现了合理的不确定性。C）生成分布非高斯时，NB可以是非线性分类器。D）NB与逻辑回归都可用最大似然估计参数。E）NB没有正则化。
 
 ### English answer
-**The supplied key selects A, B, C and D.** NB estimates priors and class-conditional distributions, then derives posteriors. Near-boundary label uncertainty is high: Var(Y|x)=p(1−p). Non-Gaussian NB can be nonlinear, and NB/LR can use MLE. E is false because smoothing regularizes NB. A describes the resulting posterior, not direct discriminative training.
+**The supplied key selects A, B, C and D.** NB estimates priors and class-conditional distributions, then derives posteriors. For binary $Y\in\{0,1\}$, let $p=P(Y=1\mid x)$. Then $\operatorname{Var}(Y\mid x)=p(1-p)$ is largest at $p=1/2$, the usual equal-cost decision boundary. Non-Gaussian NB can be nonlinear, and NB/LR can use MLE. E is false because smoothing regularizes NB. A describes the resulting posterior, not direct discriminative training.
 
 ### 中文对应答案
-**随卷答案选A、B、C、D。** NB先估计先验和类条件分布，再推导后验。在决策边界附近，标签的不确定性较高，二分类时有$\operatorname{Var}(Y\mid x)=p(1-p)$。非高斯的NB可以产生非线性边界，NB和逻辑回归都可以用最大似然估计训练。E错误，因为平滑可以对NB起到正则化作用。A描述的是最终得到的后验，并不表示NB直接采用判别式训练。
+**随卷答案选A、B、C、D。** NB先估计先验和类条件分布，再推导后验。对二分类标签$Y\in\{0,1\}$，令$p=P(Y=1\mid x)$，则$\operatorname{Var}(Y\mid x)=p(1-p)$在$p=1/2$时最大；这对应通常的等错分代价决策边界。非高斯的NB可以产生非线性边界，NB和逻辑回归都可以用最大似然估计训练。E错误，因为平滑可以对NB起到正则化作用。A描述的是最终得到的后验，并不表示NB直接采用判别式训练。
 
 ### 中文讲解
 先把三个概率分清。$P(y=c)$是**先验**，表示还没看到这条输入时，类别$c$有多常见；$p(x\mid y=c)$是**类条件分布**，表示已知是$c$类时，什么输入常见；$P(y=c\mid x)$是**后验**，表示看到输入$x$以后，它属于$c$类的概率。竖线“$\mid$”可读成“在已知……的条件下”。
@@ -703,7 +703,7 @@ Consider the following statement: If we train a Bayes classifier using infinite 
 Is this statement true or false? Give your reasons.
 
 ### 中文题意
-判断并解释：若用无限多、符合模型假设的独立训练数据来训练Bayes分类器，它在这些训练样本上的错误率将为0。
+判断下述说法是否正确，并说明理由：如果用无限多、满足全部建模假设的训练数据来训练Bayes分类器（例如，数据来自相应的类条件分布，且各样本独立采集），那么它在这些训练样本上的错误率将为0。
 
 ### English answer
 **False in general.** Infinite correctly modeled data can remove parameter-estimation uncertainty, but it does not remove overlap between class distributions. At an input where both labels have positive posterior probability, even the optimal deterministic decision makes errors with conditional probability $1-\max_c P(y=c\mid x)$.
@@ -1190,13 +1190,13 @@ $$
 (c) Suppose we replace $\|w\|^2$ with $\|w\|_1$. What will be the effect when training the classifier?
 
 ### 中文题意
-监督训练希望最小化
+监督训练的目标是找到最能拟合训练数据$(X,Y)$的权重。用损失函数$L$衡量拟合程度，训练目标为
 
 $$
 \hat w=\arg\min_w\{L(X,Y)+\alpha\|w\|^2\}.
 $$
 
-(a) 平方范数项的目的是什么？(b) 怎样确定α？(c) 将平方范数换成 $\|w\|_1$，训练结果可能怎样变化？
+(a) $\|w\|^2$这一项的目的是什么？(b) 怎样确定$\alpha$？(c) 将$\|w\|^2$换成$\|w\|_1$，对分类器的训练会有什么影响？
 
 ### English answer
 (a) The quadratic term discourages large weights and controls complexity.
@@ -1295,24 +1295,24 @@ L2正则化在数据损失之外加$\alpha\|w\|^2$，其中$\|w\|^2=w_1^2+\cdots
 (b) 观察题图，画出最可能的L1正则逻辑回归边界，并解释。可以移动或调整图中给出的红线。
 
 ### English answer
-For labels yᵢ∈{−1,+1}, one consistent objective is
+(a) For labels $y_i\in\{-1,+1\}$, one consistent objective is
 
 $$
 (w^*,b^*)=\arg\min_{w,b}\left\{\frac1C\sum_j|w_j|+
 \sum_i\log\!\left(1+e^{-y_i(w^Tx_i+b)}\right)\right\},\quad C>0.
 $$
 
-In the depicted configuration, a horizontal separator is a natural sparse solution: retain x₂ and set w₁=0, so the boundary is w₂x₂+b=0. L1 encourages exact zeros; it does not guarantee an axis-parallel boundary for every dataset or C.
+(b) Draw a horizontal line in the gap between the upper red crosses and lower blue circles, as the supplied red line does. The classes mainly differ in $x_2$, so a natural sparse solution keeps $x_2$ and sets $w_1=0$. Its boundary is $x_2=-b/w_2$ with $w_2\ne0$; the figure does not determine a unique height. L1 encourages exact zeros, but does not guarantee an axis-parallel boundary for every dataset or $C$.
 
 ### 中文对应答案
-对标签$y_i\in\{-1,+1\}$，一种一致的目标函数写法是
+(a) 对标签$y_i\in\{-1,+1\}$，一种一致的目标函数写法是
 
 $$
 (w^*,b^*)=\arg\min_{w,b}\left\{\frac1C\sum_j|w_j|+
 \sum_i\log\!\left(1+e^{-y_i(w^Tx_i+b)}\right)\right\},\quad C>0.
 $$
 
-对图中数据，水平分界线是一个自然的稀疏解：保留$x_2$，令$w_1=0$，边界为$w_2x_2+b=0$。L1鼓励系数恰好为0，但不能保证在每个数据集或每个C下，边界都与坐标轴平行。
+(b) 在上方红叉与下方蓝圈之间的空隙画水平线，题图给出的红线就是这种画法。两类主要沿$x_2$方向分开，因此一个自然的稀疏解是保留$x_2$、令$w_1=0$。边界为$x_2=-b/w_2$，其中$w_2\ne0$；原图无法确定唯一高度。L1鼓励系数恰好为0，但不能保证在每个数据集或每个$C$下，边界都与坐标轴平行。
 
 ### 中文讲解
 先给每个符号一个位置：第$i$条训练样本为$x_i$，标签$y_i\in\{-1,+1\}$；$w$是特征权重，$b$是偏置；$f(x_i)=w^Tx_i+b$是分类分数。$y_if(x_i)>0$表示分数方向和真实类别一致。
@@ -1551,10 +1551,10 @@ E) The kernel trick can reduce both the memory and computation requirements, com
 A）等价于在变换后的输入上训练线性SVM。B）训练完成后不再需要训练数据。C）输出为正的任意函数都是合法核。D）可用于字符串、集合等非向量输入。E）相比显式变换再求内积，核技巧可能减少内存与计算。
 
 ### English answer
-**A, D and E**, with E interpreted as a possible saving relative to explicitly constructing the feature map. Nonlinear kernel prediction normally retains support vectors and coefficients, so B is false. A valid real kernel must produce symmetric positive-semidefinite Gram matrices, not merely positive entries.
+**A, D and E**, with E interpreted as possible savings in memory and computation relative to explicitly constructing the feature map and taking its inner products. Nonlinear kernel prediction normally retains support vectors and coefficients, so B is false. A valid real kernel must produce symmetric positive-semidefinite Gram matrices, not merely positive entries.
 
 ### 中文对应答案
-**A、D、E正确**，其中E应理解为：相对于显式构造特征映射，核技巧有可能节省存储。非线性核模型在预测时通常仍要保存支持向量及其系数，因此B错误。合法的实值核必须产生对称、半正定的Gram矩阵，不能仅要求各个元素为正。
+**A、D、E正确**，其中E应理解为：相对于显式构造特征映射再求内积，核技巧有可能节省内存与计算。非线性核模型在预测时通常仍要保存支持向量及其系数，因此B错误。合法的实值核必须产生对称、半正定的Gram矩阵，不能仅要求各个元素为正。
 
 ### 中文讲解
 设$\phi(x)$把原输入变成一组新特征。内积把两组特征的对应分量相乘再相加；核函数直接返回这个结果：$k(x,z)=\phi(x)^T\phi(z)$。我们可以不显式生成很长的$\phi(x)$，这就是核技巧。
@@ -1754,14 +1754,18 @@ Consider the training data in the below figure, and the kernel SVM with quadrati
 给定题图训练点，使用二次多项式核SVM。(a) C趋于无穷时画边界。(b) C趋于0时画边界。(c) 哪个在测试数据上可能更好？每问说明理由。
 
 ### English answer
-The intended sketches contrast a **large C**, which strongly penalizes margin violations and bends the boundary to accommodate the isolated red points, with a **smaller positive C**, which accepts some violations for a simpler, wider-margin separation. If those isolated points are noise, the latter may generalize better, but a training diagram alone cannot determine test accuracy.
+(a) A **large $C$** strongly penalizes margin violations. The supplied left-hand sketch bends the boundary to accommodate the isolated red points. Zero training error in this limit requires separability in the chosen quadratic feature space.
 
-Two limits need care: zero training error for large C requires separability in the chosen feature space. At exactly C=0, the data term disappears and w=0 minimizes the objective with unconstrained bias. This endpoint does not by itself determine the decision-boundary limit as C→0⁺; the supplied right-hand sketch illustrates a smaller positive C.
+(b) A **smaller positive $C$** accepts some violations for a simpler, wider-margin separation, as in the right-hand sketch. At exactly $C=0$, the data term disappears and $w=0$ minimizes the objective with unconstrained bias. This endpoint does not by itself determine the boundary limit as $C\to0^+$; the supplied sketch illustrates a smaller positive $C$.
+
+(c) If the isolated points are noise, the smaller-$C$ boundary may generalize better. A training diagram alone cannot determine test accuracy; compare the settings on validation data.
 
 ### 中文对应答案
-示意图要对比两种情况：**C较大**时，违反间隔约束的代价很高，边界会弯曲以适应孤立的红点；**C为较小的正数**时，允许部分样本违反约束，换取更简单、间隔更宽的分隔方式。如果这些孤立点是噪声，后一种模型可能更容易推广到新数据，但仅凭训练图无法确定测试准确率。
+(a) **$C$较大**时，违反间隔约束的代价很高。随卷答案左图的边界会弯曲，以适应孤立的红点。这个极限能达到零训练误差，前提是数据在所选二次特征空间中可分。
 
-两个极限需要区分。大C能实现零训练误差，前提是数据在所选特征空间中可分。C恰好为0时，数据项消失，$w=0$使目标最小，偏置不受约束。仅凭这个端点，不能确定$C\to0^+$时决策边界的极限；随卷答案右图表示的是较小的正C。
+(b) **$C$为较小的正数**时，允许部分样本违反约束，换取更简单、间隔更宽的分隔方式，如右图。$C$恰好为0时，数据项消失，$w=0$使目标最小，偏置不受约束。仅凭这个端点，不能确定$C\to0^+$时边界的极限；随卷示意图表示的是较小的正$C$。
+
+(c) 如果这些孤立点是噪声，较小$C$的边界可能更容易推广到新数据。仅凭训练图无法确定测试准确率，应在验证数据上比较设置。
 
 ### 中文讲解
 软间隔SVM的目标可写成
@@ -1942,10 +1946,14 @@ Consider the data distribution shown in the figure below. If you train a Bayes G
 依据题图的两类训练数据，Gaussian Bayes分类器会将点D判为哪一类？换成二次多项式核SVM后呢？分别解释。红点为+1，绿点为−1。
 
 ### English answer
-The supplied solution expects **+1 for Gaussian Bayes and −1 for quadratic-kernel SVM**. Bayes compares density times prior; the SVM sketch encloses the inner negative points, including D. These are the intended schematic results: exact Gaussian parameters and SVM C are not supplied, so the plot does not uniquely determine a numerical fit.
+The supplied solution expects **+1 for Gaussian Bayes and −1 for quadratic-kernel SVM**. Bayes compares $p(D\mid c)P(c)$. The more numerous red points give a larger estimated red-class prior, which can offset a density disadvantage at D; the supplied schematic fit favours red. It is not simply a nearest-centre decision. The quadratic SVM can enclose the inner green points with a curved boundary, placing D on their negative side.
+
+These are the intended schematic results: exact Gaussian parameters and SVM $C$ are not supplied, so the plot does not uniquely determine a numerical fit.
 
 ### 中文对应答案
-随卷解答预期：**Gaussian Bayes判为+1，二次核SVM判为−1。** Bayes比较类条件密度与先验的乘积；SVM示意边界包围内部的负类点，也把D点包含在内。这些是示意图所表达的判断。题目没有给出确切的高斯参数和SVM的C，因此不能从图中唯一确定一个数值拟合结果。
+随卷解答预期：**Gaussian Bayes判为+1，二次核SVM判为−1。** Bayes比较$p(D\mid c)P(c)$。红点更多，会使估计的红类先验更大，可能抵消D处类条件密度较低的影响；随卷示意拟合最终倾向红类。它不是简单地选择最近的类别中心。二次核SVM可以用曲线包围内部绿点，把D也放在绿色负类一侧。
+
+这些是示意图所表达的判断。题目没有给出确切的高斯参数和SVM的$C$，因此不能从图中唯一确定一个数值拟合结果。
 
 ### 中文讲解
 先看图的结构：绿色负类在内层，红色正类分布更宽、数量更多，D靠近内层区域。题目让两种模型判断同一个D，是要比较它们决定边界的依据。
@@ -2270,7 +2278,7 @@ $$
 What will be the effect of using this loss during training? Why?
 
 ### 中文题意
-线性回归 $f(x)=w^Tx+b$ 在N条记录上最小化
+考虑线性回归函数$f(x)=w^Tx+b$，在数据$(x_i,y_i)$、$i=1,\ldots,N$上训练，以预测误差的绝对值作为损失：
 
 $$
 (\hat w,\hat b)=\arg\min_{w,b}\sum_{i=1}^N|f(x_i)-y_i|.
@@ -2426,10 +2434,18 @@ $$
 Design a loss function that can help you to do the regression according to the requirements, and draw a plot. Explain how your loss achieves the desired requirements.
 
 ### 中文题意
-预测某共享单车站每天借车量，用于调度。公司认为多放一些车可以接受，但缺车会流失顾客。给定N条特征/借车量记录，线性模型 $f(x)=w^Tx+b$ 通过最小化损失和训练。设计符合要求的损失，画图并解释。
+你在一家共享单车公司工作，需要预测一个热门站点每天的借车量，供调度团队决定向该站点运送多少辆车。公司认为多送一些车可以接受，但缺车会让顾客转用其他公司的单车。
+
+已有历史训练数据$(x_i,y_i)$、$i=1,\ldots,N$，其中$x_i$是特征向量，$y_i$是借车量。线性回归函数$f(x)=w^Tx+b$通过下式训练：
+
+$$
+(\hat w,\hat b)=\arg\min_{w,b}\sum_{i=1}^N L(f(x_i),y_i).
+$$
+
+设计一个符合上述要求的损失函数，并画图。解释该损失怎样实现公司的要求。
 
 ### English answer
-Define r=f(x)−y. Use L(r)=c₋r² for r<0 and L(r)=c₊r² otherwise, with c₋>c₊>0. Draw two parabolic halves meeting at zero, the negative-residual side steeper. Equal-sized shortages then cost more than surpluses.
+Define $r=f(x)-y$. Use $L(r)=c_-r^2$ for $r<0$ and $L(r)=c_+r^2$ otherwise, with $c_->c_+>0$. Draw two parabolic halves meeting at zero, the negative-residual side steeper. Equal-sized shortages then cost more than surpluses.
 
 ### 中文对应答案
 定义残差$r=f(x)-y$。当$r<0$时用$L(r)=c_-r^2$，否则用$L(r)=c_+r^2$，其中$c_->c_+>0$。画出两段在0处相接的抛物线，负残差一侧更陡。这样，同样数量的缺车会比车过剩受到更大的惩罚。
@@ -2465,13 +2481,13 @@ $$L(r)=\begin{cases}c_-r^2,&r<0,\\c_+r^2,&r\ge0,\end{cases}
 Your friend wants to predict the number of taxis used in HK in one hour from various features, such as weather, time of day, day of year, etc. Your friend uses linear regression to fit the data, but finds that the mean squared error (MSE) on the validation set is about the same as a “dummy” regressor that just predicts the mean of the training data. What two pieces of advice would you give to your friend to improve their regressor? Explain why.
 
 ### 中文题意
-用天气、时段、日期等特征预测香港每小时出租车使用量。线性回归在验证集上的MSE与“永远输出训练集平均值”的基线相近。提出两个改进建议，并解释原因。
+你的朋友想用天气、一天中的时段、一年中的日期等特征，预测香港一小时内的出租车使用量。他用线性回归拟合数据，却发现模型在验证集上的均方误差（MSE），与一个始终预测训练数据平均值的“基线”回归器相近。你会提出哪两个改进建议？分别说明原因。
 
 ### English answer
-Two useful directions are (1) add informative features or interactions, such as time-of-day effects interacting with weather, and (2) use a nonlinear representation/model if the relationship is not linear. Compare by validation or training-only CV. Also check excessive regularization, data alignment and optimization. The validation result alone does not prove the training least-squares solution is wrong.
+Two useful directions are (1) add informative features or interactions, such as time-of-day effects interacting with weather, so the model can learn demand changes that the current features miss; and (2) use a nonlinear representation/model if the relationship is not linear, because an additive linear rule cannot represent curved or threshold-like demand patterns. Compare by validation or training-only CV. Also check excessive regularization, data alignment and optimization. The validation result alone does not prove the training least-squares solution is wrong.
 
 ### 中文对应答案
-两个值得尝试的方向是：（1）加入有用的特征或交互项，例如一天中的时段与天气之间的交互；（2）若输入与输出的关系不是线性的，就采用非线性表示或模型。通过验证集或训练数据内部的交叉验证比较效果。同时检查正则化是否过强、数据是否正确对齐，以及优化是否正常。仅凭验证结果，不能认定训练得到的最小二乘解有错。
+两个值得尝试的方向是：（1）加入有用的特征或交互项，例如一天中的时段与天气之间的交互，让模型学到现有特征遗漏的需求变化；（2）若输入与输出的关系不是线性的，就采用非线性表示或模型，因为简单线性相加无法表示弯曲或带阈值的需求变化。通过验证集或训练数据内部的交叉验证比较效果。同时检查正则化是否过强、数据是否正确对齐，以及优化是否正常。仅凭验证结果，不能认定训练得到的最小二乘解有错。
 
 ### 中文讲解
 均方误差（mean squared error，MSE）把每条预测误差平方后再取平均。对$N$条验证记录，$\mathrm{MSE}=\frac1N\sum_i[f(x_i)-y_i]^2$；同一批记录上，数值越小表示平均平方误差越小。
@@ -2602,20 +2618,26 @@ $$
 (b) For a fixed number of trees n, explain some concrete methods to reduce the error variance of F.
 
 ### 中文题意
-随机森林F由n棵树组成。每棵树误差方差为σ²，任意两棵不同树的误差相关系数均为ρ。题目给出
+随机森林$F$由$n$棵树组成。单棵决策树$f$的误差方差为$\sigma^2$，两棵不同树的误差相关系数为$\rho$。森林取各树预测的平均，其误差方差为
 
 $$
-\operatorname{Var}(F)=\frac{\sigma^2}{n}
-+\frac{n-1}{n}\rho\sigma^2.
+\operatorname{Var}(F)=\operatorname{Var}\left(\frac1n\sum_{i=1}^nf_i\right)
+=\frac{\sigma^2}{n}+\frac{n-1}{n}\rho\sigma^2.
 $$
 
-(a) 树数与相关性怎样影响减少过拟合的能力？(b) 固定n时，有哪些具体降低误差方差的方法？
+(a) 解释树的数量、误差相关系数与森林减少过拟合能力的关系。
+
+(b) 固定树的数量$n$时，说明几种降低森林误差方差的具体方法。
 
 ### English answer
-Rewrite the variance as σ²[ρ+(1−ρ)/n]. More trees reduce the averaging term, but fixed positive correlation leaves the floor ρσ². At fixed n, diversify trees using bootstrap samples and randomized feature candidates while retaining predictive strength. Lower variance alone does not guarantee lower total test error.
+(a) Rewrite the variance as $\sigma^2[\rho+(1-\rho)/n]$. For fixed tree variance and fixed $0\le\rho\le1$, more trees reduce the second term; as $n\to\infty$, the variance approaches $\rho\sigma^2$. If $\rho=0$, it is $\sigma^2/n$; if $\rho=1$, adding trees gives no reduction. Lower correlation therefore makes averaging more effective at reducing the variance component of overfitting.
+
+(b) At fixed $n$, train trees on different bootstrap samples and randomly choose feature candidates at each split. These changes reduce shared tree errors, while each tree should retain predictive strength. Lower variance alone does not guarantee lower total test error.
 
 ### 中文对应答案
-将方差改写为$\sigma^2[\rho+(1-\rho)/n]$。增加树的数量可以减小平均带来的那一项，但若树之间保持固定的正相关性，方差仍有$\rho\sigma^2$这一无法通过加树消除的部分。n固定时，可以通过bootstrap重采样和随机候选特征增加树之间的差异，同时保留各棵树的预测能力。仅降低方差，不保证总测试误差一定降低。
+(a) 将方差改写为$\sigma^2[\rho+(1-\rho)/n]$。固定单树方差和$0\le\rho\le1$时，增加树的数量会减小第二项；当$n\to\infty$时，方差趋于$\rho\sigma^2$。若$\rho=0$，方差为$\sigma^2/n$；若$\rho=1$，再加树也不能降低方差。因此，树之间的相关性越低，平均预测越能减轻与方差有关的过拟合。
+
+(b) 固定$n$时，用不同的bootstrap样本训练各树，并在每次分裂时随机选择候选特征。这样可以减少各树共同犯的错误，同时应保留各棵树的预测能力。仅降低方差，不保证总测试误差一定降低。
 
 ### 中文讲解
 方差衡量预测误差随训练随机性怎样波动；相关系数$\rho$衡量两棵树是否倾向一起偏高或一起偏低。树若总以相同方向犯错，平均以后这部分错误仍会留下。
@@ -2779,14 +2801,14 @@ Draw a plot of the loss function and answer whether the loss is robust to outlie
 (b) [5分] 线性回归使用Huber损失：当 $|y_i-f(x_i)|<1$ 时为 $\frac12[y_i-f(x_i)]^2$，否则为 $|y_i-f(x_i)|-\frac12$。画图，判断是否对异常值稳健并说明理由。
 
 ### English answer
-(a) Both combine learners. Bagging fits resampled learners independently; boosting trains sequentially using the current ensemble’s errors or weighted loss.
+(a) Both combine learners. Bagging fits resampled learners independently; boosting trains sequentially using the current ensemble's errors or weighted loss.
 
-(b) Huber is quadratic inside |r|<1 and linear outside. Join smoothly at (±1,1/2), with tail slopes ±1. Bounded residual gradients reduce sensitivity to large output errors.
+(b) Let $r=y_i-f(x_i)$. Huber is quadratic inside $|r|<1$ and linear outside. Join smoothly at $(\pm1,1/2)$, with tail slopes $\pm1$. Bounded residual gradients reduce sensitivity to large output errors.
 
 ### 中文对应答案
 (a) 两者都组合多个学习器。Bagging在重采样数据上独立训练各个模型；boosting则根据当前集成的错误或加权损失，依次训练后续模型。
 
-(b) Huber损失在$|r|<1$时是二次的，区间外是线性的。在$(\pm1,1/2)$处平滑连接，两侧直线的斜率分别为−1和+1。损失对残差的梯度有界，因此对大的输出误差不那么敏感。
+(b) 令残差$r=y_i-f(x_i)$。Huber损失在$|r|<1$时是二次的，区间外是线性的。在$(\pm1,1/2)$处平滑连接，两侧直线的斜率分别为−1和+1。损失对残差的梯度有界，因此对大的输出误差不那么敏感。
 
 ### 中文讲解
 **(a) 联系是组合多个学习器，区别是训练怎样组织。** Bagging对训练记录重采样，各基模型分别训练，最后投票或平均。Boosting根据当前组合没处理好的部分训练下一轮，例如提高难分样本权重，再把新模型加入组合。因此bagging各模型训练可独立进行，boosting训练具有前后依赖。
@@ -3110,10 +3132,10 @@ You have been asked to build a classifier for detecting junk email. You are give
 邮件分类训练集中垃圾邮件多于正常邮件。逻辑回归把大多数邮件都判成垃圾，几乎收不到邮件。提出两种修复方法并说明理由。
 
 ### English answer
-Increase the cost/weight of misclassifying regular email during training, and adjust the prediction threshold to favour regular email. For example, if p=P(spam|x) and spam is predicted when p>t, raise t. Collecting more representative regular-mail training data is another option. Select the tradeoff on validation data and track false positives on regular mail.
+Increase the cost/weight of misclassifying regular email during training, so blocking a legitimate message incurs a larger penalty. Also raise the threshold for calling an email spam: if $p=P(\mathrm{spam}\mid x)$ and spam is predicted when $p>t$, increasing $t$ requires stronger evidence before blocking a message. Collecting more representative regular-mail training data is another option. Select the tradeoff on validation data and track false positives on regular mail.
 
 ### 中文对应答案
-训练时提高把正常邮件误判为垃圾邮件的代价或权重，并调整预测阈值，让模型更倾向于保留正常邮件。例如，若$p=P(\mathrm{spam}\mid x)$，且$p>t$时判为垃圾邮件，就提高t。也可以增加有代表性的正常邮件训练数据。通过验证数据选择取舍，并持续查看正常邮件被误拦截的情况。
+训练时提高把正常邮件误判为垃圾邮件的代价或权重，让误拦正常邮件受到更大的惩罚。同时提高判为垃圾邮件的阈值：若$p=P(\mathrm{spam}\mid x)$，且$p>t$时判为垃圾邮件，那么提高$t$就要求模型有更强的证据才拦截邮件。也可以增加有代表性的正常邮件训练数据。通过验证数据选择取舍，并持续查看正常邮件被误拦截的情况。
 
 ### 中文讲解
 先把概率方向写清：设$p=P(\text{垃圾邮件}\mid x)$，当前规则是$p>t$就拦截。用户“几乎收不到邮件”意味着大量正常邮件被误判为垃圾，这类错误代价很高。
@@ -3168,28 +3190,44 @@ $$
 (b) 解释题图的前向过程，然后求 $\partial L/\partial a_i$、$\partial L/\partial g_1$ 和 $\partial L/\partial w_j$。题设 $A\in\mathbb R^{m\times m}$、$W\in\mathbb R^{m\times n}$；$a_i,w_j$分别表示相应矩阵中的权重向量。允许为 $g_1\to z$、$g_2\to f$ 选择合适函数。
 
 ### English answer
-(a) Let $u=(3x^2)^{1/3}+\tan(5x)$ and $y=(1+e^u)^{-1}$. Where $x\ne0$ and $\cos(5x)\ne0$,
+(a) Let $v=3x^2$, $u=v^{1/3}+\tan(5x)$ and $y=(1+e^u)^{-1}$. Where $x\ne0$ and $\cos(5x)\ne0$, the inner derivatives are
 
 $$
-\frac{du}{dx}=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),\qquad
-\frac{dy}{du}=-\frac{e^u}{(1+e^u)^2}.
+\frac{dv}{dx}=6x,\qquad
+\frac{d(v^{1/3})}{dv}=\frac13v^{-2/3},\qquad
+\frac{d\tan(5x)}{dx}=5\sec^2(5x).
 $$
 
-Multiply the two factors:
+Apply the chain rule to each part of $u$, then to $y$:
 
 $$
+\frac{du}{dx}=\frac13v^{-2/3}(6x)+5\sec^2(5x)
+=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),
+$$
+
+$$
+\frac{dy}{du}=-(1+e^u)^{-2}e^u,
+\qquad
 \frac{dy}{dx}=-\frac{e^u}{(1+e^u)^2}
 \left[\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x)\right].
 $$
 
-(b) Choose a tanh hidden layer and a linear output, as permitted, and leave the unspecified loss as $L(f,y)$. Treat aᵢ and wⱼ as columns:
+(b) Choose a tanh hidden layer and a linear output, as permitted, and leave the unspecified loss as $L(f,y)$. Treat $a_i$ and $w_j$ as columns:
 
 $$
 g_1=A^Tx,\quad z=\tanh(g_1),\quad
 g_2=W^Tz,\quad f=g_2,\quad L=L(f,y).
 $$
 
-Let $\delta_2=\nabla_f L$ and $\delta_1=(W\delta_2)\odot(1-z^2)$. Then
+Let $\delta_2=\nabla_f L$. Since $f_j=w_j^Tz$ and $dz_i/dg_{1i}=1-z_i^2$, the chain rule gives
+
+$$
+\frac{\partial L}{\partial z_i}=\sum_{j=1}^n W_{ij}\delta_{2j},\qquad
+\delta_{1i}=\frac{\partial L}{\partial g_{1i}}
+=(1-z_i^2)\sum_{j=1}^n W_{ij}\delta_{2j}.
+$$
+
+Thus $\delta_1=(W\delta_2)\odot(1-z^2)$, where $\odot$ denotes elementwise multiplication. Because $g_{1i}=a_i^Tx$ has derivative $x$ with respect to $a_i$, and $f_j=w_j^Tz$ has derivative $z$ with respect to $w_j$,
 
 $$
 \frac{\partial L}{\partial g_1}=\delta_1,\qquad
@@ -3197,19 +3235,27 @@ $$
 \frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
 $$
 
-Here δ₁ and x are m-dimensional, δ₂ is n-dimensional and each column gradient is m-dimensional. For half-squared error, $\delta_2=f-y$; another loss requires its own derivative.
+Here $\delta_1$ and $x$ are $m$-dimensional, $\delta_2$ is $n$-dimensional and each column gradient is $m$-dimensional. For half-squared error, $\delta_2=f-y$; another loss requires its own derivative.
 
 ### 中文对应答案
-(a) 令$u=(3x^2)^{1/3}+\tan(5x)$，$y=(1+e^u)^{-1}$。在$x\ne0$且$\cos(5x)\ne0$处，
+(a) 令$v=3x^2$，$u=v^{1/3}+\tan(5x)$，$y=(1+e^u)^{-1}$。在$x\ne0$且$\cos(5x)\ne0$处，内层各项的导数为
 
 $$
-\frac{du}{dx}=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),\qquad
-\frac{dy}{du}=-\frac{e^u}{(1+e^u)^2}.
+\frac{dv}{dx}=6x,\qquad
+\frac{d(v^{1/3})}{dv}=\frac13v^{-2/3},\qquad
+\frac{d\tan(5x)}{dx}=5\sec^2(5x).
 $$
 
-将两个导数相乘，得到
+先对$u$的各部分使用链式法则，再对$y$求导：
 
 $$
+\frac{du}{dx}=\frac13v^{-2/3}(6x)+5\sec^2(5x)
+=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),
+$$
+
+$$
+\frac{dy}{du}=-(1+e^u)^{-2}e^u,
+\qquad
 \frac{dy}{dx}=-\frac{e^u}{(1+e^u)^2}
 \left[\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x)\right].
 $$
@@ -3221,7 +3267,15 @@ g_1=A^Tx,\quad z=\tanh(g_1),\quad
 g_2=W^Tz,\quad f=g_2,\quad L=L(f,y).
 $$
 
-令$\delta_2=\nabla_f L$，$\delta_1=(W\delta_2)\odot(1-z^2)$，则
+令$\delta_2=\nabla_f L$。由$f_j=w_j^Tz$及$dz_i/dg_{1i}=1-z_i^2$，链式法则给出
+
+$$
+\frac{\partial L}{\partial z_i}=\sum_{j=1}^n W_{ij}\delta_{2j},\qquad
+\delta_{1i}=\frac{\partial L}{\partial g_{1i}}
+=(1-z_i^2)\sum_{j=1}^n W_{ij}\delta_{2j}.
+$$
+
+因此$\delta_1=(W\delta_2)\odot(1-z^2)$，其中$\odot$表示逐元素相乘。$g_{1i}=a_i^Tx$对$a_i$的导数是$x$，$f_j=w_j^Tz$对$w_j$的导数是$z$，所以
 
 $$
 \frac{\partial L}{\partial g_1}=\delta_1,\qquad
@@ -3229,7 +3283,7 @@ $$
 \frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
 $$
 
-其中$\delta_1$和$x$是m维向量，$\delta_2$是n维向量，每个列参数的梯度都是m维。若损失为平方误差的一半，则$\delta_2=f-y$；若采用其他损失，需要使用相应的导数。
+其中$\delta_1$和$x$是$m$维向量，$\delta_2$是$n$维向量，每个列参数的梯度都是$m$维。若损失为平方误差的一半，则$\delta_2=f-y$；若采用其他损失，需要使用相应的导数。
 
 ### 中文讲解
 导数$dy/dx$表示$x$在当前位置增加一点时，$y$变化得多快；例如$y=3x$的导数为3。多个变量参与计算时，$\partial L/\partial a$表示暂时固定其他变量，只看$a$改变对$L$的影响，称为偏导数。

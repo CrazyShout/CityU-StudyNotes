@@ -3,9 +3,9 @@
   "books": [
     {
       "file": "Compact.pdf",
-      "pages": 70,
-      "sha256": "f893ecd6aab69f17552448c02335cf5824f54bd23699400560aa43db9dbd8f66",
-      "source_sha256": "6f927c8815cdb2d22b208fab155d9708445c25585e242b2d0a0ae8edbc53ba02",
+      "pages": 74,
+      "sha256": "f32a82f46b9fa3ab78d50cbbe9825f7eaa0260d98bf89e95c1694d5a3bc76125",
+      "source_sha256": "9426d8b80b9880991589504689e68fc5a350f919464ddec2e1040a3aaedceb34",
       "portable_cross_book_links": 0
     }
   ],

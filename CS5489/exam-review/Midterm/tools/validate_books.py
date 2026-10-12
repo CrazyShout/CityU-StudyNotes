@@ -29,6 +29,7 @@ if args.combined:
     assert (ROOT / 'Combined.md').read_text() == combined_source(ROOT), 'Combined manuscript is stale'
 if args.compact:
     from assemble_compact import compact_source
+    from question_types import type_label, toc_marker
     assert (ROOT / 'Compact.md').read_text() == compact_source(ROOT), 'Compact manuscript is stale'
 index = json.loads((ROOT / 'QuestionIndex.json').read_text())
 maps = json.loads(map_file.read_text())
@@ -106,9 +107,14 @@ for kind in kinds:
         labels = ['Englishquestion', '中文题意', 'Englishanswer', '中文对应答案']
         for i, qid in enumerate(ids):
             block = body[starts[i]:starts[i + 1] if i + 1 < len(starts) else len(body)]
+            question = index['questions'][i]
+            assert compact(type_label(question)) in block, (qid, 'Printed question-type label missing or incorrect')
             assert all(block.count(label) == 1 for label in labels), (qid, 'Missing or repeated concise section')
             assert [block.index(label) for label in labels] == sorted(block.index(label) for label in labels), (qid, 'Concise section order')
             assert '中文讲解' not in block, (qid, 'Explanatory section leaked into concise edition')
+        contents = compact('\n'.join(texts[:min(maps[kind].values()) - 1]))
+        for question in index['questions']:
+            assert compact(question['id'] + ' · ' + question['title'] + '〔' + toc_marker(question) + '〕') in contents, (question['id'], 'Contents type label missing')
     full_text = compact('\n'.join(texts))
     expected_text = Counter(item['text'] for item in refs)
     for text, count in expected_text.items():
