@@ -17,13 +17,19 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check', action='store_true', help='Validate without writing any files')
 parser.add_argument('--require-render', action='store_true', help='Also verify fresh render report and HTML printed page references')
 parser.add_argument('--source-dir', type=Path, help='Optionally verify original archive files named Sxxx.ext')
-parser.add_argument('--combined', action='store_true', help='Validate the combined reading copy and its independent page map')
+edition = parser.add_mutually_exclusive_group()
+edition.add_argument('--combined', action='store_true', help='Validate the combined reading copy and its independent page map')
+edition.add_argument('--compact', action='store_true', help='Validate the concise bilingual copy and exact heading destinations')
 args = parser.parse_args()
-kinds = ('Combined',) if args.combined else KINDS
-map_file = ROOT / ('CombinedPageIndex.json' if args.combined else 'PageIndex.json')
+derived = 'Compact' if args.compact else 'Combined' if args.combined else None
+kinds = (derived,) if derived else KINDS
+map_file = ROOT / (f'{derived}PageIndex.json' if derived else 'PageIndex.json')
 if args.combined:
     from assemble_combined import combined_source
     assert (ROOT / 'Combined.md').read_text() == combined_source(ROOT), 'Combined manuscript is stale'
+if args.compact:
+    from assemble_compact import compact_source
+    assert (ROOT / 'Compact.md').read_text() == compact_source(ROOT), 'Compact manuscript is stale'
 index = json.loads((ROOT / 'QuestionIndex.json').read_text())
 maps = json.loads(map_file.read_text())
 ids = [question['id'].lower() for question in index['questions']]
@@ -62,11 +68,12 @@ for kind in kinds:
                       ('/MidtermIndexSHA256', ROOT / 'QuestionIndex.json'),
                       ('/MidtermPageIndexSHA256', map_file)]:
         assert metadata.get(key) == sha256(path), (kind, 'PDF is not bound to current source/index; run tools/build_all.py', key)
-    if kind == 'Combined':
+    if kind in ('Combined', 'Compact'):
         for name in ['Questions', 'Answers']:
-            assert metadata.get(f'/Midterm{name}SourceSHA256') == sha256(ROOT / f'{name}.md'), ('Combined input changed', name)
-    outline = {re.match(r'MT\d{3}', dest['/Title'])[0].lower(): reader.get_destination_page_number(dest) + 1
-               for dest in walk(reader.outline) if re.match(r'MT\d{3}', dest['/Title'])}
+            assert metadata.get(f'/Midterm{name}SourceSHA256') == sha256(ROOT / f'{name}.md'), (kind, 'Input changed', name)
+    heading_dests = {re.match(r'MT\d{3}', dest['/Title'])[0].lower(): dest
+                     for dest in walk(reader.outline) if re.match(r'MT\d{3}', dest['/Title'])}
+    outline = {key: reader.get_destination_page_number(dest) + 1 for key, dest in heading_dests.items()}
     assert outline == maps[kind], (kind, 'Outline/page-index mismatch')
     texts = [page.extract_text() for page in reader.pages]
     for question in index['questions']:
@@ -77,6 +84,8 @@ for kind in kinds:
         for key in [qid] + [alias.lower() for alias in question['legacy_ids']]:
             destination = reader.named_destinations.get('/' + key) or reader.named_destinations.get(key)
             assert destination and reader.get_destination_page_number(destination) + 1 == page_number, (kind, key, page_number)
+            if kind == 'Compact':
+                assert destination.get('/Type') == '/XYZ' and abs(float(destination.top) - float(heading_dests[qid].top)) < 0.001, (kind, key, 'Heading position differs')
     if kind in ('Answers', 'Combined'):
         for i, qid in enumerate(ids):
             start = maps[kind][qid] - 1
@@ -88,6 +97,18 @@ for kind in kinds:
                 labels = ['Englishquestion', '中文题意', 'Englishanswer', '中文对应答案', '中文讲解']
                 assert all(question_text.count(label) == 1 for label in labels), (qid, 'Missing or repeated combined section')
                 assert [question_text.index(label) for label in labels] == sorted(question_text.index(label) for label in labels), (qid, 'Combined section order')
+    if kind == 'Compact':
+        # Continuous layout may place multiple questions on one page. Split at
+        # unique heading text, not at the next question's page number.
+        body = compact('\n'.join(texts[min(maps[kind].values()) - 1:]))
+        starts = [body.find(compact(heading_dests[qid]['/Title'])) for qid in ids]
+        assert min(starts) >= 0 and starts == sorted(set(starts)), 'Compact PDF question headings missing or out of order'
+        labels = ['Englishquestion', '中文题意', 'Englishanswer', '中文对应答案']
+        for i, qid in enumerate(ids):
+            block = body[starts[i]:starts[i + 1] if i + 1 < len(starts) else len(body)]
+            assert all(block.count(label) == 1 for label in labels), (qid, 'Missing or repeated concise section')
+            assert [block.index(label) for label in labels] == sorted(block.index(label) for label in labels), (qid, 'Concise section order')
+            assert '中文讲解' not in block, (qid, 'Explanatory section leaked into concise edition')
     full_text = compact('\n'.join(texts))
     expected_text = Counter(item['text'] for item in refs)
     for text, count in expected_text.items():
@@ -126,8 +147,8 @@ for kind in kinds:
     books.append({'file': file.name, 'pages': len(reader.pages), 'sha256': sha256(file),
                   'source_sha256': sha256(ROOT / f'{kind}.md'), 'portable_cross_book_links': link_count})
 
-paper_text = (ROOT / ('Combined.md' if args.combined else 'PaperIndex.md')).read_text()
-if not args.combined:
+paper_text = (ROOT / (f'{derived}.md' if derived else 'PaperIndex.md')).read_text()
+if not derived:
     paper_soup = BeautifulSoup(markdown.markdown(paper_text, extensions=['tables']), 'html.parser')
     tables = paper_soup.select('table')
     assert len(tables) == len(index['papers']), 'Original-paper index must render as six tables'
@@ -139,14 +160,14 @@ paper_rows = re.findall(r'^\| Q\d+ \|.*$', paper_text, re.M)
 assert len(paper_rows) == 78
 for line in paper_rows:
     qid = re.search(r'\bMT\d{3}\b', line)[0].lower()
-    if args.combined:
-        assert f'](Combined.md#{qid})' in line, ('Combined paper index', qid)
+    if derived:
+        assert f']({derived}.md#{qid})' in line, (derived, 'Paper index', qid)
     else:
         for kind in kinds:
             assert f'[{maps[kind][qid]}]({kind}.pdf#page={maps[kind][qid]})' in line, (qid, kind)
 html_refs = 0
 if args.require_render:
-    reports = json.loads((ROOT / '.build' / ('combined-render-report.json' if args.combined else 'render-report.json')).read_text())
+    reports = json.loads((ROOT / '.build' / (f'{derived.lower()}-render-report.json' if derived else 'render-report.json')).read_text())
     assert {row['kind'] for row in reports} == set(kinds) and len(reports) == len(kinds)
     for row in reports:
         kind = row['kind']
@@ -178,5 +199,5 @@ result = {'status': 'passed', 'books': books, 'unique_question_answer_pairs': 67
           'render_evidence': 'verified_current' if args.require_render else 'not_requested',
           'visual_review': 'Recorded separately after examining rendered pages; not inferred from automated checks.'}
 if not args.check:
-    (ROOT / ('CombinedValidation.json' if args.combined else 'Validation.json')).write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+    (ROOT / (f'{derived}Validation.json' if derived else 'Validation.json')).write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
 print(json.dumps(result, ensure_ascii=False))

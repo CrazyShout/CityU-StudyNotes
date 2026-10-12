@@ -1,4 +1,4 @@
-"""Build and validate the separate and combined midterm books in isolation.
+"""Build and validate the separate, combined and concise midterm books in isolation.
 
 Uses the current Python interpreter and --node (default: node). PLAYWRIGHT_MODULE
 and CHROME_PATH are passed through unchanged. Original exam archives are optional;
@@ -19,7 +19,8 @@ REPO = ROOT.parents[2]
 SEPARATE_OUTPUTS = ('Questions.pdf', 'Answers.pdf', 'PageIndex.json', 'PaperIndex.md',
                     'CalculationChecks.json', 'SourceValidation.json', 'Validation.json')
 COMBINED_OUTPUTS = ('Combined.md', 'Combined.pdf', 'CombinedPageIndex.json', 'CombinedValidation.json')
-OUTPUTS = SEPARATE_OUTPUTS + COMBINED_OUTPUTS + ('.build',)
+COMPACT_OUTPUTS = ('Compact.md', 'Compact.pdf', 'CompactPageIndex.json', 'CompactValidation.json')
+OUTPUTS = SEPARATE_OUTPUTS + COMBINED_OUTPUTS + COMPACT_OUTPUTS + ('.build',)
 # PaperIndex is both an input (paper/question mapping) and a generated page-column output.
 GENERATED_ONLY = set(OUTPUTS) - {'PaperIndex.md'}
 
@@ -85,7 +86,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--node', default='node', help='Node.js executable used for Playwright')
     parser.add_argument('--source-dir', type=Path, help='Optionally verify externally held Sxxx.ext original archives')
-    parser.add_argument('--combined-only', action='store_true', help='Build the combined copy while preserving all separate-book outputs')
+    edition = parser.add_mutually_exclusive_group()
+    edition.add_argument('--combined-only', action='store_true', help='Build the combined copy while preserving other editions')
+    edition.add_argument('--compact-only', action='store_true', help='Build the concise bilingual copy while preserving other editions')
     args = parser.parse_args()
     assert (REPO / 'vendor/katex/katex.min.js').is_file(), 'Missing repository vendor/katex'
     node = shutil.which(args.node)
@@ -97,7 +100,8 @@ def main():
     with tempfile.TemporaryDirectory(prefix='.midterm-build-', dir=ROOT.parent) as temporary:
         stage = Path(temporary) / 'CS5489/exam-review/Midterm'
         shutil.copytree(ROOT, stage, ignore=shutil.ignore_patterns('.build', '__pycache__', '.DS_Store'))
-        if args.combined_only and (ROOT / '.build').is_dir():
+        single_edition = args.combined_only or args.compact_only
+        if single_edition and (ROOT / '.build').is_dir():
             shutil.copytree(ROOT / '.build', stage / '.build')
         assert source_snapshot(stage) == original_sources == source_snapshot(ROOT), 'Sources changed during staging; rerun the build'
         tools = stage / 'tools'
@@ -105,18 +109,19 @@ def main():
         def python(script, *arguments):
             subprocess.run([sys.executable, str(tools / script), *map(str, arguments)], check=True, cwd=stage)
 
-        check_only = ['--check'] if args.combined_only else []
+        check_only = ['--check'] if single_edition else []
         python('verify_calculations.py', *check_only)
         python('validate_source.py', *check_only, *source_args)
-        for combined in ([True] if args.combined_only else [False, True]):
-            flags = ['--combined'] if combined else []
-            if combined:
-                python('assemble_combined.py')
+        editions = ['Compact'] if args.compact_only else ['Combined'] if args.combined_only else [None, 'Combined', 'Compact']
+        for derived in editions:
+            flags = ['--' + derived.lower()] if derived else []
+            if derived:
+                python('assemble_' + derived.lower() + '.py')
             stable = False
             for round_number in range(1, 6):
-                page_index = stage / ('CombinedPageIndex.json' if combined else 'PageIndex.json')
+                page_index = stage / (f'{derived}PageIndex.json' if derived else 'PageIndex.json')
                 before = json.loads(page_index.read_text()) if page_index.exists() else {}
-                print(f'Midterm {"combined" if combined else "separate"} pagination round {round_number}/5', flush=True)
+                print(f'Midterm {derived or "separate"} pagination round {round_number}/5', flush=True)
                 python('build_books.py', '--notes-root', REPO, *flags)
                 subprocess.run([node, str(tools / 'render_books.cjs'), *flags], check=True, cwd=stage)
                 python('finalize_books.py', *flags)
@@ -124,12 +129,13 @@ def main():
                     stable = True
                     break
             assert stable, 'Pagination did not stabilize within five rounds; original outputs were preserved'
-            if not combined:
+            if not derived:
                 python('update_paper_index.py')
             python('validate_books.py', '--require-render', *flags, *source_args)
         assert source_snapshot(ROOT) == original_sources, 'Sources changed during build; original outputs were preserved'
         assert output_snapshot(ROOT) == original_outputs, 'Another build changed outputs; nothing was published'
-        publish(stage, ROOT, COMBINED_OUTPUTS + ('.build',) if args.combined_only else OUTPUTS)
+        selected = COMPACT_OUTPUTS if args.compact_only else COMBINED_OUTPUTS if args.combined_only else None
+        publish(stage, ROOT, selected + ('.build',) if selected else OUTPUTS)
     print('Published validated midterm PDFs, stable page maps, paper index and build reports.', flush=True)
 
 

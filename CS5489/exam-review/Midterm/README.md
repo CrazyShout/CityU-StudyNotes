@@ -6,6 +6,7 @@
 |---|---|
 | 独立做题 | [题目PDF](Questions.pdf) · [题目Markdown](Questions.md) |
 | 题目后直接读答案 | [题答合订PDF](Combined.pdf) · [自动组合稿](Combined.md) |
+| 快速核对中英题目与简答 | [精简双语PDF](Compact.pdf) · [自动组合稿](Compact.md)，不含详细解析 |
 | 补基础和核对答案 | [答案解析PDF](Answers.pdf) · [答案Markdown](Answers.md) |
 | 按基础到应用的顺序学习 | [组内阅读顺序](ReadingOrder.md) |
 | 按2025A等原卷顺序练习 | [原卷索引](PaperIndex.md) |
@@ -21,11 +22,15 @@
 
 额外的合订本共146页，将每题的完整英文原题、中文题意、英文答案、中文对应答案和详细讲解连续编排，原题图与中文题意各保留一次。阅读顺序、MT编号、旧别名和勘误与分册一致；合订本使用自己的页码、目录和册末原卷索引，可以单独阅读或打印。
 
+精简双语版共70页，每题只保留完整英文原题、中文题意、英文简答及中文对应答案，另保留必要题图、作答图、条件与原解差异。正文仍约11 pt，题目连续排版，短题尽量与答案同页，长题自然续页。目录、书签和原卷索引独立定位到本册，适合快速复习和核对作答。
+
 ## 维护与构建
 
 当前目录是题库唯一维护源。编辑Questions.md与Answers.md，QuestionIndex.json维护题号、分组、出处与旧别名；答案中的中文题意和必要图须与题目册一致。每题的中文对应答案须按英文顺序保留全部结论、理由及条件，详细讲解继续承担基础与推导。原卷与带批注文件由持有人另行保存，构建只使用已收录的干净题图。
 
 Combined.md由两份主稿自动组合，不单独修改正文。合订本的页码在CombinedPageIndex.json中，校验记录为CombinedValidation.json；原两册继续使用PageIndex.json与Validation.json。
+
+Compact.md同样从Questions.md与Answers.md生成，只取题干和两段简答；不单独维护另一套答案。CompactPageIndex.json与CompactValidation.json记录本册页码及验证结果。同页多个题目使用各自的PDF目的地坐标，目录链接直接定位到题目标题。
 
 在仓库根目录安装requirements-build.txt与npm依赖后，执行：
 
@@ -34,9 +39,9 @@ python CS5489/exam-review/Midterm/tools/build_all.py
 python scripts/validate.py
 ```
 
-根目录 `python scripts/build.py` 会生成三册课堂讲义及本题库三种版本。工具分别计算各版页码，重复构建直到稳定，再更新原卷索引；构建失败保留旧版完整输出。`CHROME_PATH`可指定已安装Chrome。
+根目录 `python scripts/build.py` 会生成三册课堂讲义及本题库四种版本。工具分别计算各版页码，重复构建直到稳定，再更新原卷索引；构建失败保留旧版完整输出。`CHROME_PATH`可指定已安装Chrome。
 
-只更新合订本并保留原两册输出时，运行 `python CS5489/exam-review/Midterm/tools/build_all.py --combined-only`。普通构建默认更新三种版本；`python scripts/validate.py`同时核对分册、合订本、原稿组合关系与全部链接。
+只更新合订本或精简版时，分别运行 `python CS5489/exam-review/Midterm/tools/build_all.py --combined-only` 或 `python CS5489/exam-review/Midterm/tools/build_all.py --compact-only`，保留其他版本及其检查缓存。普通构建默认更新四种版本；`python scripts/validate.py`同时核对四个版本、原稿组合关系与全部链接。
 
 普通校验不依赖原卷；需核对另存归档时使用 `tools/validate_source.py --source-dir <归档目录>`，按SourceCatalog中的ID与扩展名命名。重新提取或绘制图片还需可选的requirements-midterm-figures.txt、Poppler和外部归档，参见[材料说明](Materials.md)。
 
@@ -44,4 +49,4 @@ python scripts/validate.py
 
 仅重画MT067前向简图时，运行 `python CS5489/exam-review/Midterm/tools/prepare_figures.py --redraw-only mt067`，同样只更新所选图和图源记录。该图保留原卷的前向节点、参数箭头及方形L节点，省略反向梯度提示；不判定被省略标注是印刷还是手写。
 
-[迁入时的逐题复核](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [可读性修订与验证](../../../docs/reviews/midterm-readability-2026-10-10/WORKLIST.md) · [中英答案对照复核](../../../docs/reviews/midterm-bilingual-2026-10-11/WORKLIST.md) · [合订本构建核对](../../../docs/reviews/midterm-combined-2026-10-11/WORKLIST.md) · [原卷核查后的修订](../../../docs/reviews/midterm-source-fidelity-2026-10-12/WORKLIST.md) · [项目首页](../../../README.md)
+[迁入时的逐题复核](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [可读性修订与验证](../../../docs/reviews/midterm-readability-2026-10-10/WORKLIST.md) · [中英答案对照复核](../../../docs/reviews/midterm-bilingual-2026-10-11/WORKLIST.md) · [合订本构建核对](../../../docs/reviews/midterm-combined-2026-10-11/WORKLIST.md) · [原卷核查后的修订](../../../docs/reviews/midterm-source-fidelity-2026-10-12/WORKLIST.md) · [精简版内容与排版核对](../../../docs/reviews/midterm-compact-2026-10-12/WORKLIST.md) · [项目首页](../../../README.md)
