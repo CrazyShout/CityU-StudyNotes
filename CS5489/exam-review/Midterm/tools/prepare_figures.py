@@ -6,13 +6,15 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle
+from matplotlib.patches import Circle, Rectangle
 
 ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--poppler',help='Path to pdftoppm (required for the full source-figure build)')
 p.add_argument('--source-dir',type=Path,help='External archive directory containing Sxxx.pdf source files (full build)')
-p.add_argument('--teaching-only',choices=['mt045'],help='Generate only this teaching figure; no original archives or Poppler needed')
+selection=p.add_mutually_exclusive_group()
+selection.add_argument('--teaching-only',choices=['mt045'],help='Generate only this teaching figure; no original archives or Poppler needed')
+selection.add_argument('--redraw-only',choices=['mt067'],help='Generate only this simplified source diagram; no original archives or Poppler needed')
 args=p.parse_args()
 OUT=ROOT/'assets';OUT.mkdir(exist_ok=True)
 
@@ -58,8 +60,29 @@ def draw_mt045():
             'constrained_minima':[point.tolist() for point in minima],
             'note':'Organizer-supplied constrained examples, not original exam data. Grayscale-safe shapes and line styles identify the feasible sets, first reachable contours and minima.'}
 
-if args.teaching_only:
-    entry=draw_mt045()
+def draw_mt067():
+    """Preserve the source's forward nodes and square loss node; omit backward hints."""
+    with plt.rc_context({'font.size':10,'axes.spines.top':False,'axes.spines.right':False}):
+        fig,ax=plt.subplots(figsize=(6.3,2.05));ax.set(xlim=(-.8,6.2),ylim=(-.65,1.1));ax.axis('off')
+        for x,label in [(0,r'$g_1$'),(1.25,r'$z$'),(2.5,r'$g_2$'),(3.75,r'$f$'),(5,r'$L$')]:
+            shape=Rectangle((x-.24,-.24),.48,.48,fill=False,lw=1.3) if label==r'$L$' else Circle((x,0),.24,fill=False,lw=1.3)
+            ax.add_patch(shape);ax.text(x,0,label,ha='center',va='center',fontsize=15)
+        for start,end in [(-.7,-.24),(.24,1.01),(1.49,2.26),(2.74,3.51),(3.99,4.76)]:
+            ax.annotate('',(end,0),(start,0),arrowprops={'arrowstyle':'->','lw':1.3})
+        ax.text(-.75,0,r'$x$',ha='right',va='center',fontsize=15)
+        for x,label in [(0,r'$A$'),(2.5,r'$W$'),(5,r'$y$')]:
+            ax.text(x,.86,label,ha='center',fontsize=15);ax.annotate('',(x,.24),(x,.72),arrowprops={'arrowstyle':'->','lw':1.3})
+        fig.savefig(OUT/'mt067-network.png',dpi=180,bbox_inches='tight',facecolor='white')
+        plt.close(fig)
+    return {'file':'mt067-network.png','source_id':'S030','source_page':10,
+            'kind':'simplified redraw of the source forward graph',
+            'nodes':['x','g1','z','g2','f','L'],
+            'parameter_arrows':['A -> g1','W -> g2','y -> L'],
+            'loss_node_shape':'square',
+            'note':'Backward-gradient annotations and the return arrow visible in the scan are omitted. Their printed or handwritten origin is not asserted; the required forward nodes and parameter arrows are retained.'}
+
+if args.teaching_only or args.redraw_only:
+    entry=draw_mt045() if args.teaching_only else draw_mt067()
     manifest=OUT/'figure-provenance.json'
     provenance=json.loads(manifest.read_text()) if manifest.exists() else []
     for position,old in enumerate(provenance):
@@ -69,11 +92,11 @@ if args.teaching_only:
     else:
         provenance.append(entry)
     manifest.write_text(json.dumps(provenance,ensure_ascii=False,indent=2)+'\n')
-    print('Prepared MT045 teaching figure; other assets and provenance entries preserved.')
+    print('Prepared '+entry['file']+'; other assets and provenance entries preserved.')
     raise SystemExit(0)
 
 if args.source_dir is None or args.poppler is None:
-    p.error('the full build requires --source-dir and --poppler; use --teaching-only mt045 for the new teaching figure')
+    p.error('the full build requires --source-dir and --poppler; use --teaching-only mt045 or --redraw-only mt067 for a single figure')
 CACHE=args.source_dir.resolve()
 assert CACHE.is_dir(), 'External source directory does not exist'
 # Boxes are measured on the verified 110-dpi page render; extract at 220 dpi.
@@ -118,15 +141,7 @@ ax.text(-5.6,8.45,'Incorrectly classified',fontsize=9);ax.text(.5,8.45,'Correctl
 ax.legend(loc='center right',fontsize=8);ax.grid(alpha=.2)
 save(fig,'mt065-loss-comparison',{'source_id':'S030','source_page':6,'kind':'clean redraw of printed curves','formulae':['max(0,1-z)','log(1+exp(-z))/log(2)','exp(-z)'],'note':'LR normalization inferred from the printed curve: L(0)≈1 and a steeper far-negative tail than hinge. Handwritten annotations excluded.'})
 
-fig,ax=plt.subplots(figsize=(6.3,2.05));ax.set(xlim=(-.8,6.2),ylim=(-.65,1.1));ax.axis('off')
-for x,label in [(0,r'$g_1$'),(1.25,r'$z$'),(2.5,r'$g_2$'),(3.75,r'$f$'),(5,r'$L$')]:
-    ax.add_patch(Circle((x,0),.24,fill=False,lw=1.3));ax.text(x,0,label,ha='center',va='center',fontsize=15)
-for start,end in [(-.7,-.24),(.24,1.01),(1.49,2.26),(2.74,3.51),(3.99,4.76)]:
-    ax.annotate('',(end,0),(start,0),arrowprops={'arrowstyle':'->','lw':1.3})
-ax.text(-.75,0,r'$x$',ha='right',va='center',fontsize=15)
-for x,label in [(0,r'$A$'),(2.5,r'$W$'),(5,r'$y$')]:
-    ax.text(x,.86,label,ha='center',fontsize=15);ax.annotate('',(x,.24),(x,.72),arrowprops={'arrowstyle':'->','lw':1.3})
-save(fig,'mt067-network',{'source_id':'S030','source_page':10,'kind':'clean redraw of printed forward graph','nodes':['x','g1','z','g2','f','L'],'parameter_arrows':['A -> g1','W -> g2','y -> L'],'note':'No student gradient labels or marking included.'})
+provenance.append(draw_mt067())
 
 fig,axes=plt.subplots(1,2,figsize=(6.4,2.5))
 for ax in axes:ax.set_ylim(-.4,.4);ax.set_yticks([]);ax.grid(axis='x',alpha=.2)

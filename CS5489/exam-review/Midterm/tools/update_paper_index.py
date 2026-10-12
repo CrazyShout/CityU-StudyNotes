@@ -6,7 +6,8 @@ maps=json.loads((ROOT/'PageIndex.json').read_text())
 p=ROOT/'PaperIndex.md';text=p.read_text()
 text=text.replace('两册同一页码对应同一题。','两册按MT题号对应，分别查下表的题目页与答案页。')
 text=text.replace('| 题答PDF页 |','| 题目PDF页 | 答案PDF页 |')
-text=text.replace('|---|---|---|---:|---:|','|---|---|---|---:|---:|---:|')
+# Normalize the whole separator row; a prefix replacement adds a column on every build.
+text=re.sub(r'^\|---\|---\|---\|(?:---:\|)+$', '|---|---|---|---:|---:|---:|', text, flags=re.M)
 rows=0
 def update(m):
     global rows

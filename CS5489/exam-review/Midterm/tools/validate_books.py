@@ -126,7 +126,16 @@ for kind in kinds:
     books.append({'file': file.name, 'pages': len(reader.pages), 'sha256': sha256(file),
                   'source_sha256': sha256(ROOT / f'{kind}.md'), 'portable_cross_book_links': link_count})
 
-paper_rows = re.findall(r'^\| Q\d+ \|.*$', (ROOT / ('Combined.md' if args.combined else 'PaperIndex.md')).read_text(), re.M)
+paper_text = (ROOT / ('Combined.md' if args.combined else 'PaperIndex.md')).read_text()
+if not args.combined:
+    paper_soup = BeautifulSoup(markdown.markdown(paper_text, extensions=['tables']), 'html.parser')
+    tables = paper_soup.select('table')
+    assert len(tables) == len(index['papers']), 'Original-paper index must render as six tables'
+    for table in tables:
+        assert len(table.select('thead th')) == 6, 'Original-paper index must have six columns'
+        rows = table.select('tbody tr')
+        assert len(rows) == 13 and all(len(row.find_all('td', recursive=False)) == 6 for row in rows), 'Original-paper index has malformed rows'
+paper_rows = re.findall(r'^\| Q\d+ \|.*$', paper_text, re.M)
 assert len(paper_rows) == 78
 for line in paper_rows:
     qid = re.search(r'\bMT\d{3}\b', line)[0].lower()

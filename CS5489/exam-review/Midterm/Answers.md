@@ -1698,7 +1698,7 @@ $$1000M+M+1=1001M+1\text{ 个数}.$$
 ### 中文题意
 关于线性回归，哪些说法正确？多选。
 
-A）训练数据越多越容易过拟合。B）LASSO的惩罚α很大时，某些系数只接近零而不会恰为零。C）LASSO可用于特征选择。D）Ridge的惩罚α很大时，某些系数接近零但通常不精确为零。E）OLS是LASSO和Ridge的特殊情形。
+A）训练数据越多越容易过拟合。B）LASSO的惩罚α很大时，某些系数只接近零而不会恰为零。C）LASSO可用于特征选择。D）Ridge的惩罚α很大时，某些系数会接近零，但不会恰好为零。E）OLS是LASSO和Ridge的特殊情形。
 
 ### English answer
 **C, D and E** under the usual interpretation. LASSO can produce exact zeros; ridge generally shrinks coefficients continuously. Setting the penalty to zero recovers the OLS objective. A is not a general relationship. D describes typical ridge behaviour, not a theorem that a ridge coefficient can never equal zero.
@@ -1815,10 +1815,10 @@ $$
 它有哪些性质？多选。A）对所有权重一视同仁。B）惩罚更侧重压低大权重。C）存在闭式解。D）可同时做特征选择与收缩。E）w各元素总为正。
 
 ### English answer
-**B and D in the supplied key.** L1 encourages exact zeros; L2 shrinks large weights. General Elastic Net requires numerical optimization, though special cases have explicit solutions. Equal penalty coefficients do not mean equal penalties for different weight magnitudes. Negative weights are allowed.
+**B and D in the supplied key.** L1 encourages exact zeros; L2 shrinks large weights. General Elastic Net requires numerical optimization, though special cases have explicit solutions. The same α and β are applied to every weight, but different weight magnitudes incur different penalties. Negative weights are allowed.
 
 ### 中文对应答案
-**随卷答案选B、D。** L1鼓励系数恰好为0，L2抑制大权重。一般的Elastic Net需要数值优化，但特殊情形可以有显式解。两个惩罚系数相等，不意味着对不同大小的权重，两项惩罚也相等。权重可以为负。
+**随卷答案选B、D。** L1鼓励系数恰好为0，L2抑制大权重。一般的Elastic Net需要数值优化，但特殊情形可以有显式解。各个权重都使用相同的α和β，但大小不同的权重受到的惩罚不同。权重可以为负。
 
 ### 中文讲解
 这个目标叫Elastic Net：把L1的稀疏作用和L2的收缩作用放在一起。对单个权重$w_j$，惩罚为$\alpha|w_j|+\beta w_j^2$，通常取$\alpha,\beta\ge0$；讨论两种作用同时存在时，两者应为正。
@@ -2583,7 +2583,7 @@ $$
 
 ![MT067 original question figure](assets/mt067-network.png)
 
-*按原卷印刷计算图重绘；去除了学生手写梯度及批改，保留所有前向节点与参数箭头。 / Redrawn from the printed graph, preserving its nodes and parameter arrows.*
+*按原卷重绘的前向结构示意图；省略原图中的反向梯度提示，保留本题所需节点与参数箭头。 / Simplified forward graph redrawn from the exam; backward-gradient annotations are omitted, while the required nodes and parameter arrows are retained.*
 
 ### English answer
 (a) Let $u=(3x^2)^{1/3}+\tan(5x)$ and $y=(1+e^u)^{-1}$. Where $x\ne0$ and $\cos(5x)\ne0$,

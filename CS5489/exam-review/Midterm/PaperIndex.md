@@ -6,7 +6,7 @@
 ## 2025A期中
 
 | 原题 | 题库题号与内容 | 答案 | 分值 | 题目PDF页 | 答案PDF页 |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---|---:|---:|---:|
 | Q1 | [MT040 · Bayes规则和Naive Bayes的关系](Questions.md#mt040) | [查看](Answers.md#mt040) | 5 | [9](Questions.pdf#page=9) | [12](Answers.pdf#page=12) |
 | Q2 | [MT041 · Logistic的概率、多分类与最优解](Questions.md#mt041) | [查看](Answers.md#mt041) | 5 | [23](Questions.pdf#page=23) | [38](Answers.pdf#page=38) |
 | Q3 | [MT042 · SVM的基本特点](Questions.md#mt042) | [查看](Answers.md#mt042) | 5 | [30](Questions.pdf#page=30) | [50](Answers.pdf#page=50) |
@@ -25,7 +25,7 @@
 ## 2023B期中
 
 | 原题 | 题库题号与内容 | 答案 | 分值 | 题目PDF页 | 答案PDF页 |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---|---:|---:|---:|
 | Q1 | [MT052 · 生成式分类器学了什么](Questions.md#mt052) | [查看](Answers.md#mt052) | 5 | [10](Questions.pdf#page=10) | [14](Answers.pdf#page=14) |
 | Q2 | [MT053 · LR与生成式模型：混合选择题](Questions.md#mt053) | [查看](Answers.md#mt053) | 5 | [29](Questions.pdf#page=29) | [49](Answers.pdf#page=49) |
 | Q3 | [MT054 · C、支持向量与RBF的零训练误差](Questions.md#mt054) | [查看](Answers.md#mt054) | 5 | [36](Questions.pdf#page=36) | [63](Answers.pdf#page=63) |
@@ -44,7 +44,7 @@
 ## 2023A期中
 
 | 原题 | 题库题号与内容 | 答案 | 分值 | 题目PDF页 | 答案PDF页 |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---|---:|---:|---:|
 | Q1 | [MT040 · Bayes规则和Naive Bayes的关系](Questions.md#mt040) | [查看](Answers.md#mt040) | 5 | [9](Questions.pdf#page=9) | [12](Answers.pdf#page=12) |
 | Q2 | [MT041 · Logistic的概率、多分类与最优解](Questions.md#mt041) | [查看](Answers.md#mt041) | 5 | [23](Questions.pdf#page=23) | [38](Answers.pdf#page=38) |
 | Q3 | [MT042 · SVM的基本特点](Questions.md#mt042) | [查看](Answers.md#mt042) | 5 | [30](Questions.pdf#page=30) | [50](Answers.pdf#page=50) |
@@ -63,7 +63,7 @@
 ## 2021B*期中
 
 | 原题 | 题库题号与内容 | 答案 | 分值 | 题目PDF页 | 答案PDF页 |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---|---:|---:|---:|
 | Q1 | [MT027 · 连续特征能否使用NB：混合选择题](Questions.md#mt027) | [查看](Answers.md#mt027) | 5 | [21](Questions.pdf#page=21) | [35](Answers.pdf#page=35) |
 | Q2 | [MT028 · 训练误差低、测试误差高：可能原因](Questions.md#mt028) | [查看](Answers.md#mt028) | 5 | [5](Questions.pdf#page=5) | [6](Answers.pdf#page=6) |
 | Q3 | [MT029 · 哪些SVM说法错误？](Questions.md#mt029) | [查看](Answers.md#mt029) | 5 | [38](Questions.pdf#page=38) | [67](Answers.pdf#page=67) |
@@ -82,7 +82,7 @@
 ## 2021A期中
 
 | 原题 | 题库题号与内容 | 答案 | 分值 | 题目PDF页 | 答案PDF页 |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---|---:|---:|---:|
 | Q1 | [MT014 · 生成式与判别式的区别](Questions.md#mt014) | [查看](Answers.md#mt014) | 5 | [16](Questions.pdf#page=16) | [26](Answers.pdf#page=26) |
 | Q2 | [MT015 · NB的最优性、独立性与边界](Questions.md#mt015) | [查看](Answers.md#mt015) | 5 | [12](Questions.pdf#page=12) | [18](Answers.pdf#page=18) |
 | Q3 | [MT016 · 核SVM：变换、存储与非向量输入](Questions.md#mt016) | [查看](Answers.md#mt016) | 5 | [32](Questions.pdf#page=32) | [54](Answers.pdf#page=54) |
@@ -101,7 +101,7 @@
 ## 2020B期中Quiz
 
 | 原题 | 题库题号与内容 | 答案 | 分值 | 题目PDF页 | 答案PDF页 |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---|---:|---:|---:|
 | Q1 | [MT001 · Logistic训练：哪些说法不成立？](Questions.md#mt001) | [查看](Answers.md#mt001) | 5 | [28](Questions.pdf#page=28) | [47](Answers.pdf#page=47) |
 | Q2 | [MT002 · 训练准、测试差：哪些改进值得尝试？](Questions.md#mt002) | [查看](Answers.md#mt002) | 5 | [6](Questions.pdf#page=6) | [7](Answers.pdf#page=7) |
 | Q3 | [MT003 · 历史拓展：Gaussian Process的假设](Questions.md#mt003) | [查看](Answers.md#mt003) | 5 | [68](Questions.pdf#page=68) | [122](Answers.pdf#page=122) |

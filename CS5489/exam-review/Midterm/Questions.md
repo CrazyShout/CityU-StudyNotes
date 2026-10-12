@@ -924,6 +924,8 @@ A）线性可分时，C设为无穷可使训练点全部分类正确。B）三�
 
 **出处：** 2023A期中 Q4，原卷第3页（5分）；2025A期中 Q4，原卷第2页（5分）
 
+*题头差异：2023A含“kernel”，2025A省略该词；以下采用2023A题头，两卷选项相同。 / The 2023A heading is used below; the 2025A heading omits “kernel”. The options are identical.*
+
 ### English question
 Which statements about kernel support vector machines (SVMs) are correct? (select all that apply)
 
@@ -1041,7 +1043,7 @@ E) OLS is a special case of both LASSO and Ridge regression.
 ### 中文题意
 关于线性回归，哪些说法正确？多选。
 
-A）训练数据越多越容易过拟合。B）LASSO的惩罚α很大时，某些系数只接近零而不会恰为零。C）LASSO可用于特征选择。D）Ridge的惩罚α很大时，某些系数接近零但通常不精确为零。E）OLS是LASSO和Ridge的特殊情形。
+A）训练数据越多越容易过拟合。B）LASSO的惩罚α很大时，某些系数只接近零而不会恰为零。C）LASSO可用于特征选择。D）Ridge的惩罚α很大时，某些系数会接近零，但不会恰好为零。E）OLS是LASSO和Ridge的特殊情形。
 
 [题目](Questions.md#mt019) · [答案](Answers.md#mt019)
 
@@ -1599,7 +1601,7 @@ Hint: $A\in\mathbb R^{m\times m}$ and $W\in\mathbb R^{m\times n}$ are matrices; 
 
 ![MT067 original question figure](assets/mt067-network.png)
 
-*按原卷印刷计算图重绘；去除了学生手写梯度及批改，保留所有前向节点与参数箭头。 / Redrawn from the printed graph, preserving its nodes and parameter arrows.*
+*按原卷重绘的前向结构示意图；省略原图中的反向梯度提示，保留本题所需节点与参数箭头。 / Simplified forward graph redrawn from the exam; backward-gradient annotations are omitted, while the required nodes and parameter arrows are retained.*
 
 ### 中文题意
 (a) 用链式法则求下式对x的导数，给出详细步骤，可定义中间变量：

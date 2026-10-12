@@ -145,7 +145,7 @@
     "file": "mt067-network.png",
     "source_id": "S030",
     "source_page": 10,
-    "kind": "clean redraw of printed forward graph",
+    "kind": "simplified redraw of the source forward graph",
     "nodes": [
       "x",
       "g1",
@@ -159,7 +159,8 @@
       "W -> g2",
       "y -> L"
     ],
-    "note": "No student gradient labels or marking included."
+    "loss_node_shape": "square",
+    "note": "Backward-gradient annotations and the return arrow visible in the scan are omitted. Their printed or handwritten origin is not asserted; the required forward nodes and parameter arrows are retained."
   },
   {
     "file": "answer-kernel-map.png",

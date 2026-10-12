@@ -42,4 +42,6 @@ python scripts/validate.py
 
 仅重画MT045的L1/L2教学图时，安装绘图依赖后运行 `python CS5489/exam-review/Midterm/tools/prepare_figures.py --teaching-only mt045`。此模式不需要原卷或Poppler，只更新该图及对应的图源记录；其他题图保持。
 
-[迁入时的逐题复核](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [可读性修订与验证](../../../docs/reviews/midterm-readability-2026-10-10/WORKLIST.md) · [中英答案对照复核](../../../docs/reviews/midterm-bilingual-2026-10-11/WORKLIST.md) · [合订本构建核对](../../../docs/reviews/midterm-combined-2026-10-11/WORKLIST.md) · [项目首页](../../../README.md)
+仅重画MT067前向简图时，运行 `python CS5489/exam-review/Midterm/tools/prepare_figures.py --redraw-only mt067`，同样只更新所选图和图源记录。该图保留原卷的前向节点、参数箭头及方形L节点，省略反向梯度提示；不判定被省略标注是印刷还是手写。
+
+[迁入时的逐题复核](../../../docs/reviews/midterm-integration-2026-10-10/README.md) · [可读性修订与验证](../../../docs/reviews/midterm-readability-2026-10-10/WORKLIST.md) · [中英答案对照复核](../../../docs/reviews/midterm-bilingual-2026-10-11/WORKLIST.md) · [合订本构建核对](../../../docs/reviews/midterm-combined-2026-10-11/WORKLIST.md) · [原卷核查后的修订](../../../docs/reviews/midterm-source-fidelity-2026-10-12/WORKLIST.md) · [项目首页](../../../README.md)
