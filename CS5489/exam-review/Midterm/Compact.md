@@ -1208,20 +1208,22 @@ Consider the training data in the below figure, and the kernel SVM with quadrati
 ### English answer
 (a) A **large $C$** strongly penalizes margin violations. The supplied left-hand sketch bends the boundary to accommodate the isolated red points. Zero training error in this limit requires separability in the chosen quadratic feature space.
 
-(b) A **smaller positive $C$** accepts some violations for a simpler, wider-margin separation, as in the right-hand sketch. At exactly $C=0$, the data term disappears and $w=0$ minimizes the objective with unconstrained bias. This endpoint does not by itself determine the boundary limit as $C\to0^+$; the supplied sketch illustrates a smaller positive $C$.
+(b) For the **strict limit $C\to0^+$**, use the standard equally weighted soft-margin objective with an unpenalized bias. The figure has ten red and seven green points. Encode red as $-1$ and green as $+1$. The candidate $w=0,b=-1$ has objective $14C$, so the optimum satisfies $\|w_C\|^2\le28C$ and $w_C\to0$. Minimizing the remaining hinge loss selects $b_C\to-1$, the majority-class sign. Thus the plotted region is eventually classified entirely red, with no separating boundary inside it. The supplied right-hand curve illustrates a smaller positive $C$, not this strict limit.
 
-(c) If the isolated points are noise, the smaller-$C$ boundary may generalize better. A training diagram alone cannot determine test accuracy; compare the settings on validation data.
+(c) If the isolated points are noise, a moderate positive $C$ may generalize better than fitting them closely. This does not mean the all-red limit is best. A training diagram alone cannot determine test accuracy; choose $C$ using validation data.
 
 ### 中文对应答案
 (a) **$C$较大**时，违反间隔约束的代价很高。随卷答案左图的边界会弯曲，以适应孤立的红点。这个极限能达到零训练误差，前提是数据在所选二次特征空间中可分。
 
-(b) **$C$为较小的正数**时，允许部分样本违反约束，换取更简单、间隔更宽的分隔方式，如右图。$C$恰好为0时，数据项消失，$w=0$使目标最小，偏置不受约束。仅凭这个端点，不能确定$C\to0^+$时边界的极限；随卷示意图表示的是较小的正$C$。
+(b) 对**严格的$C\to0^+$极限**，采用各样本权重相同、偏置不受正则惩罚的标准软间隔目标。原图有10个红点、7个绿点。令红类为$-1$、绿类为$+1$，候选解$w=0,b=-1$的目标值为$14C$，因此最优解满足$\|w_C\|^2\le28C$，权重趋于0。继续使hinge损失最小，会让$b_C\to-1$，即多数类的符号。因此，图示区域最终全部判为红类，区域内不再有分隔边界。随卷右图表示较小的正$C$，不是这个严格极限。
 
-(c) 如果这些孤立点是噪声，较小$C$的边界可能更容易推广到新数据。仅凭训练图无法确定测试准确率，应在验证数据上比较设置。
+(c) 如果这些孤立点是噪声，取适中的正$C$可能比努力拟合它们更容易推广到新数据，但不能因此说全判红类的极限最好。仅凭训练图无法确定测试准确率，应在验证数据上选择$C$。
 
 ![MT060 source answer sketches](assets/answer-mt060-pair.png)
 
-*随卷答案草图 / Supplied answer sketches*
+*随卷答案草图：右图表示较小正$C$，不表示严格$C\to0^+$。 / Supplied sketches: the right plot represents a smaller positive $C$, not the strict $C\to0^+$ limit.*
+
+**原题差异 / Source note：** 原解把较小正C的分隔曲线用于C趋零；按本题标准目标，严格极限全判多数红类。 / The supplied small-positive-C sketch is not the strict limit, which predicts the majority red class under the stated standard objective.
 
 <a id="mt054"></a>
 ## MT054 · C、支持向量与RBF的零训练误差

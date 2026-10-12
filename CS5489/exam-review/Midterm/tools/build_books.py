@@ -3,11 +3,12 @@ from pathlib import Path
 import argparse,json,re,os
 import markdown
 from bs4 import BeautifulSoup
+from book_editions import ALL_KINDS, CONCISE_KINDS, add_edition_arguments
 ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parents[2]
 p=argparse.ArgumentParser();p.add_argument('--notes-root',type=Path,default=REPO)
-edition=p.add_mutually_exclusive_group();edition.add_argument('--combined',action='store_true');edition.add_argument('--compact',action='store_true');args=p.parse_args()
-derived='Compact' if args.compact else 'Combined' if args.combined else None
+add_edition_arguments(p);args=p.parse_args()
+derived=args.edition
 assert (args.notes_root/'vendor/katex/katex.min.js').is_file(), 'Missing vendor/katex in notes repository'
 build=ROOT/'.build';build.mkdir(exist_ok=True)
 index=json.loads((ROOT/'QuestionIndex.json').read_text())
@@ -59,7 +60,7 @@ for kind in ([derived] if derived else ['Questions','Answers']):
         prev=h.find_previous_sibling()
         if prev and prev.name=='p' and (a:=prev.find('a',id=re.compile('^mt\\d{3}$'))):
             h['id']=a['id'];prev.decompose()
-    if kind in ('Combined','Compact'):
+    if kind in ('Combined', *CONCISE_KINDS):
         for table in soup.find_all('table'):
             heading=table.find_previous('h2')
             if heading and heading.get_text().startswith('原卷索引'):
@@ -75,10 +76,10 @@ for kind in ([derived] if derived else ['Questions','Answers']):
         if nxt and nxt.name=='p' and nxt.find('em'):nxt.name='figcaption';f.append(nxt.extract())
     for a in list(soup.select('a[href]')):
         href=a['href'];target_kind=kind;key=None
-        if kind=='Compact' and (marker:=re.search(r'〔[^〕]+〕$',a.get_text())):
+        if kind in CONCISE_KINDS and (marker:=re.search(r'〔[^〕]+〕$',a.get_text())):
             label=a.get_text();a.clear();a.append(label[:marker.start()])
             badge=soup.new_tag('span',attrs={'class':'toc-type'});badge.string=marker[0];a.append(badge)
-        if href.startswith(('Questions.md#','Answers.md#','Combined.md#','Compact.md#')):
+        if href.startswith(tuple(name+'.md#' for name in ALL_KINDS)):
             target_kind=href.split('.md#')[0];key=href.split('#')[1]
         elif re.fullmatch(r'#mt\d{3}',href):key=href[1:]
         if key and key in page_maps.get(target_kind,{}):
@@ -86,7 +87,7 @@ for kind in ([derived] if derived else ['Questions','Answers']):
             label='本册' if target_kind==kind else ('题目册' if target_kind=='Questions' else '答案册')
             ref.string=f'（{label}第{page_maps[target_kind][key]}页）'
             a.insert_after(ref)
-        if href.startswith(('Questions.md#','Answers.md#','Combined.md#','Compact.md#')):a['href']=href.replace('.md#','.pdf#')
+        if href.startswith(tuple(name+'.md#' for name in ALL_KINDS)):a['href']=href.replace('.md#','.pdf#')
         elif '.md' in a['href']:a.replace_with(a.get_text()+'（见同目录文件）')
     for para in soup.find_all('p'):
         if para.get_text().startswith('出处：'):para['class']='exam-source'
@@ -114,7 +115,7 @@ for kind in ([derived] if derived else ['Questions','Answers']):
                         previous['style']='break-after:avoid'
     for eq in soup.select('div.arithmatex'):
         before=eq.find_previous_sibling()
-        lead_limit=500 if kind=='Compact' else 180
+        lead_limit=500 if kind in CONCISE_KINDS else 180
         if before and before.name=='p' and len(before.get_text())<lead_limit:before['class']=list(before.get('class',[]))+['equation-lead']
     if kind in ('Answers','Combined'):
         eq_counts={}
@@ -133,7 +134,7 @@ for kind in ([derived] if derived else ['Questions','Answers']):
             last=h
             while last.find_next_sibling() and last.find_next_sibling().name!='h2':last=last.find_next_sibling()
             space=soup.new_tag('p',attrs={'class':'notes-space'});space.string='作答与草稿 / Your answer and working';last.insert_after(space)
-    if kind=='Compact':
+    if kind in CONCISE_KINDS:
         for i,h in enumerate(soup.select('h2[id^="mt"]')):
             section=soup.new_tag('section',attrs={'class':'question'})
             if i==0:section['style']='break-before:page'
@@ -152,6 +153,6 @@ for kind in ([derived] if derived else ['Questions','Answers']):
                 if before and before.name=='p':before['style']='break-after:avoid'
     vendor=(args.notes_root/'vendor/katex').resolve().as_uri()
     js=r'''renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}],throwOnError:false});document.fonts.ready.then(()=>{document.querySelectorAll('.compact .question').forEach(s=>{if(s.getBoundingClientRect().height<=110*96/25.4)s.classList.add('short-question');});document.querySelectorAll('.compact-answer').forEach(s=>{if(s.getBoundingClientRect().height<=135*96/25.4)s.classList.add('keep-answer');});window.printReady=true;});'''
-    body_class='answers '+kind.lower() if kind in ('Combined','Compact') else kind.lower()
+    body_class='answers compact '+kind.lower() if kind in CONCISE_KINDS else 'answers combined' if kind=='Combined' else kind.lower()
     (build/f'{kind}.html').write_text(f'<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>CS5489 Midterm {kind}</title><link rel="stylesheet" href="{vendor}/katex.min.css"><style>{css}</style></head><body class="{body_class}">{soup}<script src="{vendor}/katex.min.js"></script><script src="{vendor}/contrib/auto-render.min.js"></script><script>{js}</script></body></html>')
 print('Built requested offline A4 intermediates from Markdown.')

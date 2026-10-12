@@ -11,30 +11,34 @@ import markdown
 from pypdf import PdfReader
 from bs4 import BeautifulSoup
 from book_support import KINDS, compact, expected_references, sha256, validate_catalog
+from book_editions import CONCISE_KINDS, add_edition_arguments, selected_questions
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check', action='store_true', help='Validate without writing any files')
 parser.add_argument('--require-render', action='store_true', help='Also verify fresh render report and HTML printed page references')
 parser.add_argument('--source-dir', type=Path, help='Optionally verify original archive files named Sxxx.ext')
-edition = parser.add_mutually_exclusive_group()
-edition.add_argument('--combined', action='store_true', help='Validate the combined reading copy and its independent page map')
-edition.add_argument('--compact', action='store_true', help='Validate the concise bilingual copy and exact heading destinations')
+add_edition_arguments(parser)
 args = parser.parse_args()
-derived = 'Compact' if args.compact else 'Combined' if args.combined else None
+derived = args.edition
 kinds = (derived,) if derived else KINDS
 map_file = ROOT / (f'{derived}PageIndex.json' if derived else 'PageIndex.json')
-if args.combined:
+if derived == 'Combined':
     from assemble_combined import combined_source
     assert (ROOT / 'Combined.md').read_text() == combined_source(ROOT), 'Combined manuscript is stale'
-if args.compact:
+if derived in CONCISE_KINDS:
     from assemble_compact import compact_source
     from question_types import type_label, toc_marker
-    assert (ROOT / 'Compact.md').read_text() == compact_source(ROOT), 'Compact manuscript is stale'
+    assert (ROOT / f'{derived}.md').read_text() == compact_source(ROOT, derived), f'{derived} manuscript is stale'
 index = json.loads((ROOT / 'QuestionIndex.json').read_text())
 maps = json.loads(map_file.read_text())
-ids = [question['id'].lower() for question in index['questions']]
-assert len(ids) == len(set(ids)) == index['unique_questions'] == 67
+all_ids = [question['id'].lower() for question in index['questions']]
+assert len(all_ids) == len(set(all_ids)) == index['unique_questions'] == 67
+questions = selected_questions(index, derived)
+ids = [question['id'].lower() for question in questions]
+selected_positions = {(item['paper'], item['question'], q['id'])
+                      for q in questions for item in q['occurrences']}
+alias_count = sum(len(question['legacy_ids']) for question in questions)
 positions = [(item['paper'], item['question']) for q in index['questions'] for item in q['occurrences']]
 assert len(positions) == len(set(positions)) == index['original_question_positions'] == 78
 assert len(index['papers']) == 6
@@ -69,7 +73,7 @@ for kind in kinds:
                       ('/MidtermIndexSHA256', ROOT / 'QuestionIndex.json'),
                       ('/MidtermPageIndexSHA256', map_file)]:
         assert metadata.get(key) == sha256(path), (kind, 'PDF is not bound to current source/index; run tools/build_all.py', key)
-    if kind in ('Combined', 'Compact'):
+    if kind in ('Combined', *CONCISE_KINDS):
         for name in ['Questions', 'Answers']:
             assert metadata.get(f'/Midterm{name}SourceSHA256') == sha256(ROOT / f'{name}.md'), (kind, 'Input changed', name)
     heading_dests = {re.match(r'MT\d{3}', dest['/Title'])[0].lower(): dest
@@ -77,7 +81,7 @@ for kind in kinds:
     outline = {key: reader.get_destination_page_number(dest) + 1 for key, dest in heading_dests.items()}
     assert outline == maps[kind], (kind, 'Outline/page-index mismatch')
     texts = [page.extract_text() for page in reader.pages]
-    for question in index['questions']:
+    for question in questions:
         qid = question['id'].lower()
         page_number = maps[kind][qid]
         assert isinstance(page_number, int) and 1 <= page_number <= len(reader.pages)
@@ -85,7 +89,7 @@ for kind in kinds:
         for key in [qid] + [alias.lower() for alias in question['legacy_ids']]:
             destination = reader.named_destinations.get('/' + key) or reader.named_destinations.get(key)
             assert destination and reader.get_destination_page_number(destination) + 1 == page_number, (kind, key, page_number)
-            if kind == 'Compact':
+            if kind in CONCISE_KINDS:
                 assert destination.get('/Type') == '/XYZ' and abs(float(destination.top) - float(heading_dests[qid].top)) < 0.001, (kind, key, 'Heading position differs')
     if kind in ('Answers', 'Combined'):
         for i, qid in enumerate(ids):
@@ -98,7 +102,7 @@ for kind in kinds:
                 labels = ['Englishquestion', '中文题意', 'Englishanswer', '中文对应答案', '中文讲解']
                 assert all(question_text.count(label) == 1 for label in labels), (qid, 'Missing or repeated combined section')
                 assert [question_text.index(label) for label in labels] == sorted(question_text.index(label) for label in labels), (qid, 'Combined section order')
-    if kind == 'Compact':
+    if kind in CONCISE_KINDS:
         # Continuous layout may place multiple questions on one page. Split at
         # unique heading text, not at the next question's page number.
         body = compact('\n'.join(texts[min(maps[kind].values()) - 1:]))
@@ -107,13 +111,13 @@ for kind in kinds:
         labels = ['Englishquestion', '中文题意', 'Englishanswer', '中文对应答案']
         for i, qid in enumerate(ids):
             block = body[starts[i]:starts[i + 1] if i + 1 < len(starts) else len(body)]
-            question = index['questions'][i]
+            question = questions[i]
             assert compact(type_label(question)) in block, (qid, 'Printed question-type label missing or incorrect')
             assert all(block.count(label) == 1 for label in labels), (qid, 'Missing or repeated concise section')
             assert [block.index(label) for label in labels] == sorted(block.index(label) for label in labels), (qid, 'Concise section order')
             assert '中文讲解' not in block, (qid, 'Explanatory section leaked into concise edition')
         contents = compact('\n'.join(texts[:min(maps[kind].values()) - 1]))
-        for question in index['questions']:
+        for question in questions:
             assert compact(question['id'] + ' · ' + question['title'] + '〔' + toc_marker(question) + '〕') in contents, (question['id'], 'Contents type label missing')
     full_text = compact('\n'.join(texts))
     expected_text = Counter(item['text'] for item in refs)
@@ -127,6 +131,7 @@ for kind in kinds:
         assert not re.search(r'Student (?:EID|ID)|Seat Number|/Users/|/home/|file://', text), (kind, 'Private data in PDF')
         for ref in page.get('/Annots', []):
             annotation = ref.get_object()
+            assert annotation.get('/Subtype') == '/Link', (kind, 'Personal or non-link annotation in generated PDF')
             action = annotation.get('/A', {})
             uri = str(action.get('/URI', ''))
             identity = str(annotation.get('/NM', ''))
@@ -163,7 +168,16 @@ if not derived:
         rows = table.select('tbody tr')
         assert len(rows) == 13 and all(len(row.find_all('td', recursive=False)) == 6 for row in rows), 'Original-paper index has malformed rows'
 paper_rows = re.findall(r'^\| Q\d+ \|.*$', paper_text, re.M)
-assert len(paper_rows) == 78
+assert len(paper_rows) == len(selected_positions)
+if derived:
+    # Verify each selected original position, not just a row count.
+    expected_rows = []
+    for paper in index['papers']:
+        entries = [(o, q) for q in questions for o in q['occurrences'] if o['paper'] == paper['id']]
+        for occurrence, question in sorted(entries, key=lambda item: int(item[0]['question'][1:])):
+            qid = question['id']
+            expected_rows.append(f"| {occurrence['question']} | [{qid}]({derived}.md#{qid.lower()}) | {occurrence['marks']} |")
+    assert paper_rows == expected_rows, (derived, 'Original-paper mapping differs from selected questions')
 for line in paper_rows:
     qid = re.search(r'\bMT\d{3}\b', line)[0].lower()
     if derived:
@@ -197,10 +211,11 @@ if args.require_render:
             html_refs += 1
 numeric = json.loads((ROOT / 'CalculationChecks.json').read_text())
 assert numeric['status'] == 'passed' and numeric['checks']
-result = {'status': 'passed', 'books': books, 'unique_question_answer_pairs': 67, 'original_question_positions': 78,
+result = {'status': 'passed', 'books': books, 'unique_question_answer_pairs': len(ids), 'original_question_positions': len(selected_positions),
           'printed_chinese_answer_counterparts': len(ids),
+          'non_link_annotations': 0,
           'independent_midterms': 6, 'independent_page_maps': True, 'verified_printed_page_references': printed_refs,
-          'verified_html_page_references': html_refs, 'paper_index_rows': len(paper_rows), 'legacy_aliases_per_book': 15,
+          'verified_html_page_references': html_refs, 'paper_index_rows': len(paper_rows), 'legacy_aliases_per_book': alias_count,
           **catalog_checks, 'numeric_checks': len(numeric['checks']),
           'render_evidence': 'verified_current' if args.require_render else 'not_requested',
           'visual_review': 'Recorded separately after examining rendered pages; not inferred from automated checks.'}

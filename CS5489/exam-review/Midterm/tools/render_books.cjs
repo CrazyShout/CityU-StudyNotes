@@ -2,11 +2,13 @@ const fs=require('fs'),path=require('path'),crypto=require('crypto');
 const sha256=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const root=path.resolve(__dirname,'..');
-const combined=process.argv.includes('--combined');
-const compact=process.argv.includes('--compact');
-if(combined&&compact)throw Error('Choose one edition');
-const derived=compact?'Compact':combined?'Combined':null;
+const editionFlags={'--combined':'Combined','--compact':'Compact','--multiple-choice':'MultipleChoice','--written-response':'WrittenResponse'};
+const selectedFlags=Object.keys(editionFlags).filter(flag=>process.argv.includes(flag));
+if(selectedFlags.length>1)throw Error('Choose one edition');
+const derived=editionFlags[selectedFlags[0]]||null;
 const index=JSON.parse(fs.readFileSync(path.join(root,'QuestionIndex.json')));
+const type={MultipleChoice:'multiple_select',WrittenResponse:'written'}[derived];
+const expectedIds=index.questions.filter(q=>!type||q.response_type===type).map(q=>q.id.toLowerCase());
 const buildDate=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Shanghai'});
 (async()=>{
  const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})});
@@ -26,7 +28,7 @@ const buildDate=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Shanghai'}
    questions:[...document.querySelectorAll('h2[id^="mt"]')].map(e=>e.id),
    math:document.querySelectorAll('.katex').length,images:document.images.length
   }));
-  if(errors.length||qa.mathErrors.length||qa.brokenImages.length||qa.overflow.length||qa.questions.length!==index.unique_questions)throw Error(JSON.stringify({kind,errors,qa}));
+  if(errors.length||qa.mathErrors.length||qa.brokenImages.length||qa.overflow.length||JSON.stringify(qa.questions)!==JSON.stringify(expectedIds))throw Error(JSON.stringify({kind,errors,qa}));
   await page.pdf({path:path.join(root,kind+'.pdf'),format:'A4',preferCSSPageSize:true,printBackground:true,outline:true,tagged:true,displayHeaderFooter:true,
    headerTemplate:'<div style="font-size:8px;color:#555;margin-left:20mm;font-family:Arial">CS5489 · Midterm · '+kind+' · '+buildDate+'</div>',
    footerTemplate:'<div style="width:100%;font-size:9px;color:#555;text-align:right;margin-right:18mm;font-family:Arial"><span class="pageNumber"></span> / <span class="totalPages"></span></div>'});

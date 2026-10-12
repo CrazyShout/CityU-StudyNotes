@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "books": {
+    "Questions.pdf": {
+      "pages": 69,
+      "sha256": "f8bab275b4f6b527eb16689418f5412ce70302192907149b2f6e3494f1d923e0"
+    },
+    "Answers.pdf": {
+      "pages": 128,
+      "sha256": "3db8f0251f574ebb27eb721f0a83bb0bd763890f6c8f25cb8b483b80219fd441"
+    },
+    "Combined.pdf": {
+      "pages": 148,
+      "sha256": "ecbc381d493c55204b5907ae848e714497b502f6b84644d07462f48606f26f09"
+    },
+    "Compact.pdf": {
+      "pages": 74,
+      "sha256": "b7be2e802bb6f0278cd4492543c8fc64596c0846c4b659718a1c9a54c2c20bb6"
+    },
+    "MultipleChoice.pdf": {
+      "pages": 33,
+      "sha256": "e7cb8a8973ac5efc68b313bdb483fa307bd047ecdc46dc98db5883d3eba6a8b6"
+    },
+    "WrittenResponse.pdf": {
+      "pages": 43,
+      "sha256": "9281a07f2806c2327431740023b8161f43bc99de8efe63467f215f4a3fc00a09"
+    }
+  },
+  "numeric_checks": 74,
+  "verified_printed_page_references": 944,
+  "verified_html_page_references": 944,
+  "non_link_annotations": 0,
+  "new_book_pages": 76,
+  "existing_book_pages_visually_checked": 37
+}

@@ -8,16 +8,16 @@ from urllib.parse import urlsplit, unquote
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import NameObject, TextStringObject, DictionaryObject, ArrayObject
 from book_support import KINDS, sha256
+from book_editions import CONCISE_KINDS, add_edition_arguments, selected_questions
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
-edition = parser.add_mutually_exclusive_group()
-edition.add_argument('--combined', action='store_true')
-edition.add_argument('--compact', action='store_true')
+add_edition_arguments(parser)
 args = parser.parse_args()
-derived = 'Compact' if args.compact else 'Combined' if args.combined else None
+derived = args.edition
 kinds = (derived,) if derived else KINDS
 index = json.loads((ROOT / 'QuestionIndex.json').read_text())
+questions = selected_questions(index, derived)
 report_path = ROOT / '.build' / (f'{derived.lower()}-render-report.json' if derived else 'render-report.json')
 reports = json.loads(report_path.read_text())
 by_kind = {row['kind']: row for row in reports}
@@ -44,7 +44,7 @@ for kind in kinds:
     headings[kind] = {re.match(r'MT\d{3}', dest['/Title'])[0].lower(): dest
                       for dest in walk(reader.outline) if re.match(r'MT\d{3}', dest['/Title'])}
     maps[kind] = {key: reader.get_destination_page_number(dest) + 1 for key, dest in headings[kind].items()}
-    assert len(maps[kind]) == index['unique_questions']
+    assert set(maps[kind]) == {q['id'].lower() for q in questions}
 map_text = json.dumps(maps, indent=2) + '\n'
 map_sha = hashlib.sha256(map_text.encode()).hexdigest()
 for kind, reader in readers.items():
@@ -52,9 +52,9 @@ for kind, reader in readers.items():
     dests = writer._root_object.get('/Dests', DictionaryObject()).get_object()
     for key, page in maps[kind].items():
         # Several concise questions can share a page; retain the heading coordinates.
-        view = list(headings[kind][key].dest_array[1:]) if kind == 'Compact' else [NameObject('/Fit')]
+        view = list(headings[kind][key].dest_array[1:]) if kind in CONCISE_KINDS else [NameObject('/Fit')]
         dests[NameObject('/' + key)] = ArrayObject([writer.pages[page - 1].indirect_reference, *view])
-    for question in index['questions']:
+    for question in questions:
         for alias in question['legacy_ids']:
             dests[NameObject('/' + alias.lower())] = dests[NameObject('/' + question['id'].lower())]
     writer._root_object[NameObject('/Dests')] = dests
@@ -93,11 +93,11 @@ for kind, reader in readers.items():
             elif str(uri).startswith('file:'):
                 raise ValueError(('Unexpected local file link', uri))
     writer.add_metadata({'/Title': f'CS5489 Midterm - {kind}', '/Author': 'Study notes compilation',
-                         '/Subject': 'Historical midterm questions with concise bilingual answers' if kind == 'Compact' else 'Historical midterm questions with bilingual explanations',
+                         '/Subject': 'Historical midterm questions with concise bilingual answers' if kind in CONCISE_KINDS else 'Historical midterm questions with bilingual explanations',
                          '/MidtermSourceSHA256': sha256(ROOT / f'{kind}.md'),
                          '/MidtermIndexSHA256': sha256(ROOT / 'QuestionIndex.json'),
                          '/MidtermPageIndexSHA256': map_sha})
-    if kind in ('Combined', 'Compact'):
+    if kind in ('Combined', *CONCISE_KINDS):
         writer.add_metadata({'/MidtermQuestionsSourceSHA256': sha256(ROOT / 'Questions.md'),
                              '/MidtermAnswersSourceSHA256': sha256(ROOT / 'Answers.md')})
     target = ROOT / f'{kind}.pdf'
@@ -107,4 +107,4 @@ for kind, reader in readers.items():
     by_kind[kind]['final_pdf_sha256'] = sha256(target)
 (ROOT / (f'{derived}PageIndex.json' if derived else 'PageIndex.json')).write_text(map_text)
 report_path.write_text(json.dumps(reports, ensure_ascii=False, indent=2) + '\n')
-print('Finalized requested books, 67 destinations and 15 legacy aliases each; source digests embedded.')
+print(f'Finalized requested books, {len(questions)} destinations each; source digests embedded.')

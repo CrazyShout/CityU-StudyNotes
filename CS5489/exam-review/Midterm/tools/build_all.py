@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 from book_support import sha256
+from book_editions import CONCISE_KINDS, EDITION_FLAGS, SPLIT_TYPES
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[2]
@@ -20,7 +21,9 @@ SEPARATE_OUTPUTS = ('Questions.pdf', 'Answers.pdf', 'PageIndex.json', 'PaperInde
                     'CalculationChecks.json', 'SourceValidation.json', 'Validation.json')
 COMBINED_OUTPUTS = ('Combined.md', 'Combined.pdf', 'CombinedPageIndex.json', 'CombinedValidation.json')
 COMPACT_OUTPUTS = ('Compact.md', 'Compact.pdf', 'CompactPageIndex.json', 'CompactValidation.json')
-OUTPUTS = SEPARATE_OUTPUTS + COMBINED_OUTPUTS + COMPACT_OUTPUTS + ('.build',)
+SPLIT_OUTPUTS = tuple(kind + suffix for kind in SPLIT_TYPES
+                      for suffix in ('.md', '.pdf', 'PageIndex.json', 'Validation.json'))
+OUTPUTS = SEPARATE_OUTPUTS + COMBINED_OUTPUTS + COMPACT_OUTPUTS + SPLIT_OUTPUTS + ('.build',)
 # PaperIndex is both an input (paper/question mapping) and a generated page-column output.
 GENERATED_ONLY = set(OUTPUTS) - {'PaperIndex.md'}
 
@@ -89,6 +92,7 @@ def main():
     edition = parser.add_mutually_exclusive_group()
     edition.add_argument('--combined-only', action='store_true', help='Build the combined copy while preserving other editions')
     edition.add_argument('--compact-only', action='store_true', help='Build the concise bilingual copy while preserving other editions')
+    edition.add_argument('--split-only', action='store_true', help='Build both question-type copies while preserving other editions')
     args = parser.parse_args()
     assert (REPO / 'vendor/katex/katex.min.js').is_file(), 'Missing repository vendor/katex'
     node = shutil.which(args.node)
@@ -100,8 +104,8 @@ def main():
     with tempfile.TemporaryDirectory(prefix='.midterm-build-', dir=ROOT.parent) as temporary:
         stage = Path(temporary) / 'CS5489/exam-review/Midterm'
         shutil.copytree(ROOT, stage, ignore=shutil.ignore_patterns('.build', '__pycache__', '.DS_Store'))
-        single_edition = args.combined_only or args.compact_only
-        if single_edition and (ROOT / '.build').is_dir():
+        partial_build = args.combined_only or args.compact_only or args.split_only
+        if partial_build and (ROOT / '.build').is_dir():
             shutil.copytree(ROOT / '.build', stage / '.build')
         assert source_snapshot(stage) == original_sources == source_snapshot(ROOT), 'Sources changed during staging; rerun the build'
         tools = stage / 'tools'
@@ -109,14 +113,17 @@ def main():
         def python(script, *arguments):
             subprocess.run([sys.executable, str(tools / script), *map(str, arguments)], check=True, cwd=stage)
 
-        check_only = ['--check'] if single_edition else []
+        check_only = ['--check'] if partial_build else []
         python('verify_calculations.py', *check_only)
         python('validate_source.py', *check_only, *source_args)
-        editions = ['Compact'] if args.compact_only else ['Combined'] if args.combined_only else [None, 'Combined', 'Compact']
+        editions = (list(SPLIT_TYPES) if args.split_only else ['Compact'] if args.compact_only
+                    else ['Combined'] if args.combined_only else [None, *EDITION_FLAGS])
         for derived in editions:
-            flags = ['--' + derived.lower()] if derived else []
-            if derived:
-                python('assemble_' + derived.lower() + '.py')
+            flags = [EDITION_FLAGS[derived]] if derived else []
+            if derived in CONCISE_KINDS:
+                python('assemble_compact.py', '--kind', derived)
+            elif derived:
+                python('assemble_combined.py')
             stable = False
             for round_number in range(1, 6):
                 page_index = stage / (f'{derived}PageIndex.json' if derived else 'PageIndex.json')
@@ -134,7 +141,8 @@ def main():
             python('validate_books.py', '--require-render', *flags, *source_args)
         assert source_snapshot(ROOT) == original_sources, 'Sources changed during build; original outputs were preserved'
         assert output_snapshot(ROOT) == original_outputs, 'Another build changed outputs; nothing was published'
-        selected = COMPACT_OUTPUTS if args.compact_only else COMBINED_OUTPUTS if args.combined_only else None
+        selected = (SPLIT_OUTPUTS if args.split_only else COMPACT_OUTPUTS if args.compact_only
+                    else COMBINED_OUTPUTS if args.combined_only else None)
         publish(stage, ROOT, selected + ('.build',) if selected else OUTPUTS)
     print('Published validated midterm PDFs, stable page maps, paper index and build reports.', flush=True)
 

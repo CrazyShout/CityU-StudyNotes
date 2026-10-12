@@ -138,6 +138,23 @@ for name,function,analytic in [
     h=1e-6
     numerical=(function(-4+h)-function(-4-h))/(2*h)
     check('MT065 '+name+' slope by finite differences',analytic,numerical,atol=1e-6)
+# MT060: exact one-dimensional quadratic-feature example with the same class
+# counts. These are teaching inputs (red x=0, green x=1), not exam coordinates.
+# For 0<C<2/7, minimizing over w and the hinge breakpoints b gives w=7C,b=-1.
+grid=np.linspace(0.,2.,100001)
+for strength in [.001,.01,.1]:
+    candidate_biases=np.column_stack((-np.ones_like(grid),1-grid))
+    objectives=.5*grid[:,None]**2+strength*(
+        10*np.maximum(0,1+candidate_biases)+7*np.maximum(0,1-grid[:,None]-candidate_biases))
+    row,col=np.unravel_index(np.argmin(objectives),objectives.shape)
+    weight,bias=grid[row],candidate_biases[row,col]
+    check('MT060 independent small-C hinge minimization '+str(strength),[weight,bias],[7*strength,-1])
+    assert weight+bias<0 and bias<0
+    assert weight**2<=28*strength
+    check('MT060 all-red candidate cost '+str(strength),strength*(10*max(0,1-1)+7*max(0,1+1)),14*strength)
+intercept_loss=lambda bias:10*max(0,1+bias)+7*max(0,1-bias)
+check('MT060 limiting bias loss',[intercept_loss(v) for v in [-2.,-1.,0.,1.,2.]],[21,14,17,20,30])
+
 if not args.check:
     (ROOT/'CalculationChecks.json').write_text(json.dumps({'status':'passed','checks':checks},ensure_ascii=False,indent=2)+'\n')
 print('Passed',len(checks),'numeric checks, including independent finite differences.')

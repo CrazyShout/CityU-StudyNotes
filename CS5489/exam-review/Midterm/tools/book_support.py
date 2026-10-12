@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import unicodedata
+from book_editions import ALL_KINDS
 
 KINDS = ('Questions', 'Answers')
 
@@ -21,7 +22,7 @@ def compact(text):
 
 
 def reference_target(href, kind, maps):
-    if href.startswith(tuple(f'{name}.{suffix}#' for name in ('Questions', 'Answers', 'Combined', 'Compact') for suffix in ('md', 'pdf'))):
+    if href.startswith(tuple(f'{name}.{suffix}#' for name in ALL_KINDS for suffix in ('md', 'pdf'))):
         target, key = href.split('#', 1)
         target = Path(target).stem
     elif re.fullmatch(r'#mt\d{3}', href):

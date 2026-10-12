@@ -133,4 +133,6 @@ for tool in ['verify_calculations.py','validate_source.py','validate_books.py']:
     subprocess.run([sys.executable,str(midterm_tools/tool),'--check'],check=True)
 subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--combined'],check=True)
 subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--compact'],check=True)
-print(json.dumps({'status':'passed','major_documents':sum(d['major'] for d in docs),'sources':len(docs),'course_pdf_pages':sum(b['pages'] for b in manifest['books']),'midterm':'all four editions, source mapping and calculations checked','links':'all local links and anchors resolve'},ensure_ascii=False))
+subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--multiple-choice'],check=True)
+subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--written-response'],check=True)
+print(json.dumps({'status':'passed','major_documents':sum(d['major'] for d in docs),'sources':len(docs),'course_pdf_pages':sum(b['pages'] for b in manifest['books']),'midterm':'all six editions, source mapping and calculations checked','links':'all local links and anchors resolve'},ensure_ascii=False))

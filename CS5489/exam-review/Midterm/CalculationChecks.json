@@ -562,6 +562,71 @@
       "name": "MT065 hinge slope by finite differences",
       "actual": -1.0,
       "expected": -1.000000000139778
+    },
+    {
+      "name": "MT060 independent small-C hinge minimization 0.001",
+      "actual": [
+        0.007,
+        -1.0
+      ],
+      "expected": [
+        0.007,
+        -1.0
+      ]
+    },
+    {
+      "name": "MT060 all-red candidate cost 0.001",
+      "actual": 0.014,
+      "expected": 0.014
+    },
+    {
+      "name": "MT060 independent small-C hinge minimization 0.01",
+      "actual": [
+        0.07,
+        -1.0
+      ],
+      "expected": [
+        0.07,
+        -1.0
+      ]
+    },
+    {
+      "name": "MT060 all-red candidate cost 0.01",
+      "actual": 0.14,
+      "expected": 0.14
+    },
+    {
+      "name": "MT060 independent small-C hinge minimization 0.1",
+      "actual": [
+        0.7000000000000001,
+        -1.0
+      ],
+      "expected": [
+        0.7000000000000001,
+        -1.0
+      ]
+    },
+    {
+      "name": "MT060 all-red candidate cost 0.1",
+      "actual": 1.4000000000000001,
+      "expected": 1.4000000000000001
+    },
+    {
+      "name": "MT060 limiting bias loss",
+      "actual": [
+        21.0,
+        14.0,
+        17.0,
+        20.0,
+        30.0
+      ],
+      "expected": [
+        21,
+        14,
+        17,
+        20,
+        30
+      ]
     }
   ]
 }

@@ -4,14 +4,15 @@
     {
       "file": "Compact.pdf",
       "pages": 74,
-      "sha256": "f32a82f46b9fa3ab78d50cbbe9825f7eaa0260d98bf89e95c1694d5a3bc76125",
-      "source_sha256": "9426d8b80b9880991589504689e68fc5a350f919464ddec2e1040a3aaedceb34",
+      "sha256": "b7be2e802bb6f0278cd4492543c8fc64596c0846c4b659718a1c9a54c2c20bb6",
+      "source_sha256": "71cb41c63c0c57815296648eefe5c686cbcca079ff06aea19dba69c5dd083931",
       "portable_cross_book_links": 0
     }
   ],
   "unique_question_answer_pairs": 67,
   "original_question_positions": 78,
   "printed_chinese_answer_counterparts": 67,
+  "non_link_annotations": 0,
   "independent_midterms": 6,
   "independent_page_maps": true,
   "verified_printed_page_references": 145,
@@ -21,7 +22,7 @@
   "source_metadata_entries_checked": 14,
   "source_hashes_verified": 0,
   "source_archive_verification": "not_requested",
-  "numeric_checks": 67,
+  "numeric_checks": 74,
   "render_evidence": "verified_current",
   "visual_review": "Recorded separately after examining rendered pages; not inferred from automated checks."
 }

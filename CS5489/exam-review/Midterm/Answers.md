@@ -1445,35 +1445,52 @@ $$a^TKa=\tanh1+\tanh4-2\tanh2
 ### English answer
 (a) A **large $C$** strongly penalizes margin violations. The supplied left-hand sketch bends the boundary to accommodate the isolated red points. Zero training error in this limit requires separability in the chosen quadratic feature space.
 
-(b) A **smaller positive $C$** accepts some violations for a simpler, wider-margin separation, as in the right-hand sketch. At exactly $C=0$, the data term disappears and $w=0$ minimizes the objective with unconstrained bias. This endpoint does not by itself determine the boundary limit as $C\to0^+$; the supplied sketch illustrates a smaller positive $C$.
+(b) For the **strict limit $C\to0^+$**, use the standard equally weighted soft-margin objective with an unpenalized bias. The figure has ten red and seven green points. Encode red as $-1$ and green as $+1$. The candidate $w=0,b=-1$ has objective $14C$, so the optimum satisfies $\|w_C\|^2\le28C$ and $w_C\to0$. Minimizing the remaining hinge loss selects $b_C\to-1$, the majority-class sign. Thus the plotted region is eventually classified entirely red, with no separating boundary inside it. The supplied right-hand curve illustrates a smaller positive $C$, not this strict limit.
 
-(c) If the isolated points are noise, the smaller-$C$ boundary may generalize better. A training diagram alone cannot determine test accuracy; compare the settings on validation data.
+(c) If the isolated points are noise, a moderate positive $C$ may generalize better than fitting them closely. This does not mean the all-red limit is best. A training diagram alone cannot determine test accuracy; choose $C$ using validation data.
 
 ### 中文对应答案
 (a) **$C$较大**时，违反间隔约束的代价很高。随卷答案左图的边界会弯曲，以适应孤立的红点。这个极限能达到零训练误差，前提是数据在所选二次特征空间中可分。
 
-(b) **$C$为较小的正数**时，允许部分样本违反约束，换取更简单、间隔更宽的分隔方式，如右图。$C$恰好为0时，数据项消失，$w=0$使目标最小，偏置不受约束。仅凭这个端点，不能确定$C\to0^+$时边界的极限；随卷示意图表示的是较小的正$C$。
+(b) 对**严格的$C\to0^+$极限**，采用各样本权重相同、偏置不受正则惩罚的标准软间隔目标。原图有10个红点、7个绿点。令红类为$-1$、绿类为$+1$，候选解$w=0,b=-1$的目标值为$14C$，因此最优解满足$\|w_C\|^2\le28C$，权重趋于0。继续使hinge损失最小，会让$b_C\to-1$，即多数类的符号。因此，图示区域最终全部判为红类，区域内不再有分隔边界。随卷右图表示较小的正$C$，不是这个严格极限。
 
-(c) 如果这些孤立点是噪声，较小$C$的边界可能更容易推广到新数据。仅凭训练图无法确定测试准确率，应在验证数据上比较设置。
+(c) 如果这些孤立点是噪声，取适中的正$C$可能比努力拟合它们更容易推广到新数据，但不能因此说全判红类的极限最好。仅凭训练图无法确定测试准确率，应在验证数据上选择$C$。
 
 ### 中文讲解
-软间隔SVM的目标可写成
+记软间隔SVM的目标值为$J_C(w,b)$：
 
-$$\frac12\|w\|^2+C\sum_i\max(0,1-y_if(x_i)).$$
+$$J_C(w,b)=\frac12\|w\|^2+C\sum_i\max(0,1-y_if(x_i)).$$
 
 第一项偏好较小权重、较宽间隔；第二项对分错或离边界太近的点收费。$C$乘在违例损失前，所以越大，模型越不愿意接受个别点的违例。
 
 **(a) 大$C$的草图。** 先看两团主数据，再看偏离主团的红点。若二次特征空间能把它们分开，大$C$会更努力照顾这些点，边界因而弯曲。原解的左图试图把那两个红点也留在红类一侧。不能泛化成“任何核、任何数据、$C$大都必然零错误”。
 
-**(b) 较小正$C$的草图。** 容忍少数点违例的代价下降，模型可以在主团之间保持较平滑、较宽间隔的分界，接受那些红点落到错误一侧。原解右图表达的是这种取舍。原题用红圆点和绿星形区分类别；下方答案草图把两类都画成圆点，因此答案草图建议保留彩色。画图时要解释哪些点被牺牲、换来了什么，而非只画两条不同曲线。
+**(b) 先回答原题的严格极限。** 这里各条样本同等计入损失，偏置$b$不受正则惩罚，核函数固定。原图有10个红点、7个绿点；令红类标签为$-1$、绿类为$+1$。分数写成$f(x)=w^T\phi(x)+b$，其中$\phi(x)$是二次核对应的特征，预测类别由分数正负决定。
 
-**(c) 测试表现取决于离群点的性质。** 若它们是标签噪声，追着它们弯曲可能过拟合，较小$C$更有希望；若它们代表真实但少见的规律，忽略它们也会犯错。应在验证数据上选$C$，不能单凭训练图保证哪条更准。
+先尝试一个很简单的模型：$w=0,b=-1$，所有输入都得到分数$-1$，全部判红。红点的$yf(x)=1$，hinge损失为0；绿点的$yf(x)=-1$，每个损失为$1-(-1)=2$。7个绿点的总损失为14，目标值就是$14C$。
 
-**这里把原图理解为大小$C$的定性比较。** 题面写$C\to0$，但仅凭示意图无法算出这一极限的精确边界，所以下图右侧表达的是较小正$C$允许部分违例的取舍。若直接设$C=0$，数据项消失，$w=0$即可最小化目标，$b$不再由数据确定；这是端点的退化情况，不能直接代替$C\to0^+$时的边界分析。
+最优解不会比这个候选解更差。目标中的hinge项又不可能为负，所以最优权重$w_C$满足
+
+$$\frac12\|w_C\|^2\le J_C(w_C,b_C)\le14C,
+\qquad \|w_C\|^2\le28C.$$
+
+因此$C\to0^+$时，$w_C$也趋于0，固定输入的分数越来越接近同一个偏置$b$。偏置该取多少，要继续比较两类的hinge损失。忽略正在趋于0的内积分数后，总损失为
+
+$$H(b)=10\max(0,1+b)+7\max(0,1-b).$$
+
+当$-1\le b\le1$时，$H(b)=17+3b$，$b$越小损失越低，最低在$b=-1$。低于$-1$后，红点已不再获益，绿点的损失却继续上升；高于1也只会让红点损失增大。因此最优偏置趋于$-1$，图示区域最终全部判为红类，不再有分开两团点的边界。画严格极限时，应把整个区域标为红类。
+
+**随卷右图对应的是较小的正$C$。** 在还未趋于零的某个正$C$下，模型可以接受少数点违例，在主团之间保留分界。这幅原解草图仍可帮助理解取舍，但不能当作严格极限。原题用红圆点和绿星形区分类别；答案草图把两类都画成圆点，建议保留彩色。
+
+**(c) 测试表现取决于离群点的性质。** 若它们是标签噪声，取适中的正$C$、允许这些点分错，可能比追着它们拟合更好；若它们代表真实但少见的规律，忽略它们也会犯错。另一方面，严格趋零会把全部绿类丢掉，不能仅凭“正则更强”就说它最好。应在验证数据上选$C$。
+
+选读：对有限训练点，令$s_i=w_C^T\phi(x_i)$，则所有$s_i\to0$。固定$w_C$时，红点的hinge折点为$b=-1-s_i$。$b$低于全部红点折点时，总损失随$b$增大而下降；越过全部红点折点、还没碰到绿点折点时，总斜率为$10-7=3>0$。因此最优$b_C$夹在这些趋于$-1$的红点折点之间，确实有$b_C\to-1$。若直接设$C=0$，整个数据项消失，$b$可以任取；这与从正数一侧趋近0不同。
 
 ![MT060 source answer sketches](assets/answer-mt060-pair.png)
 
-*左：原答案的大C草图；右：较小正C草图。极限符号的解释见本题文字。*
+*左：原答案的大C草图；右：较小正C草图，不能代表严格$C\to0^+$时全判红类的极限。*
+
+**原题差异 / Source note：** 原解把较小正C的分隔曲线用于C趋零；按本题标准目标，严格极限全判多数红类。 / The supplied small-positive-C sketch is not the strict limit, which predicts the majority red class under the stated standard objective.
 
 **出处：** 2023B期中 Q9，原卷第6页（10分）
 
@@ -2886,7 +2903,7 @@ Keep the printed question intact. Distinguish the supplied key from a correction
 | MT032 | 2021B配套解答Q6只选D；同学小抄写BD。 | 保留原解D，并说明“显式定义后验”有措辞歧义。 |
 | MT043 | 2023A Q4题头有kernel，2025A Q4没有；五个选项相同。 | 保留原解BD与题头差异；A在kernel语境下有歧义，区分软间隔容错与非线性表示能力。 |
 | MT059 | 2023B Q8原解的NB参数量为2D+1。 | 对应单个共享方差且未计可学习先验；不同参数约定另列。 |
-| MT060 | 2023B Q9写C→0，示意答案实际展示较小的正C。 | 区分小正C的示意与C=0忽略数据损失的情形。 |
+| MT060 | 2023B Q9写C→0，示意答案实际展示较小的正C。 | 按等权样本、偏置不受惩罚的标准目标，10红7绿使严格C→0⁺极限全判红类；保留原解小正C草图并区分C=0端点。 |
 | MT061 | 2023B Q10按较小C通常带来更多支持向量排序。 | 保留原解口径；一般情形须看实际支持向量数，并计入系数存储。 |
 | **MT063** | 2023B Q12答案图在残差±1处约为1，与题干公式不符。 | 按题干作图：L(±1)=0.5，L(±2)=1.5；曲线形状与光滑连接不变。 |
 | MT065 | 2025A Q9与Mock Q9同题；图中LR经过缩放。 | 按题图解释AdaBoost>LR>SVM，不把它当作不依赖尺度的普遍排序。 |
