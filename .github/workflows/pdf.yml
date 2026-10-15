@@ -11,8 +11,8 @@ jobs:
       - name: Build and check all nine native TeX editions
         uses: xu-cheng/texlive-action@22c04326a5d855880f9d39bb955138bf11c6df80 # v3
         with:
-          texlive_version: 2026
-          os: debian
+          # Image verified by Build PDFs run 38823030296.
+          docker_image: ghcr.io/xu-cheng/texlive-debian@sha256:78ac2204b8df113aca0561e8f173ad5b89ee51e90795173d2fe9bcf0fbce162e
           run: |
             apt-get update -y
             apt-get install -y python3 python3-venv libcairo2 fonts-dejavu-core fonts-noto-cjk

@@ -43,3 +43,5 @@
 首次转换证据见`migration-manifest.json`，最终源码与PDF哈希以`latex/manifest.json`为准。一次性对照脚本需要从基线提交`9ad4a45`准备原源稿快照，正常构建与CI不依赖该快照。
 
 PDF资料链接最终固定到`f7bb2979d9ec8628f09aa84c2e4b034ce920b702`，该提交已包含新版页码索引及PDF快照。固定链接后再次验证，790页文字与低分辨率栅格保持；被引用的原卷索引与当前索引原字节一致。
+
+GitHub的[完整PDF构建](https://github.com/CrazyShout/CityU-StudyNotes/actions/runs/38823030296)也已通过，九册页数与本地一致，产物已上传到该次运行。CI随后固定为这次实际使用的同一容器摘要；[远端验证记录](ci-build-verification.json)保存运行与镜像身份。PR的push和pull_request常规检查均通过。
