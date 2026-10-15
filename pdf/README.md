@@ -25,20 +25,20 @@ A4、100%实际大小、每张一页；双面建议长边翻转。答案已展�
 
 ## CS5222
 
-[下载PDF](CS5222-A4.pdf) · 88页
+[下载PDF](CS5222-A4.pdf) · 98页
 
 | 文档 | PDF页码 |
 |---|---|
-| [Chapter01](../CS5222/course-notes/Chapter01.md) | 2–18 |
-| [Chapter02](../CS5222/course-notes/Chapter02.md) | 19–34 |
-| [Chapter03](../CS5222/course-notes/Chapter03.md) | 35–43 |
-| [Tutorial01](../CS5222/course-notes/Tutorial01.md) | 44–50 |
-| [Tutorial02](../CS5222/course-notes/Tutorial02.md) | 51–57 |
-| [Tutorial03](../CS5222/course-notes/Tutorial03.md) | 58–64 |
-| [Tutorial04](../CS5222/course-notes/Tutorial04.md) | 65–68 |
-| [Tutorial05](../CS5222/course-notes/Tutorial05.md) | 69–73 |
-| [Assignment01](../CS5222/course-notes/Assignment01.md) | 74–84 |
-| [ResearchReportGuide](../CS5222/course-notes/ResearchReportGuide.md) | 85–88 |
+| [Chapter01](../CS5222/course-notes/Chapter01.md) | 2–21 |
+| [Chapter02](../CS5222/course-notes/Chapter02.md) | 22–39 |
+| [Chapter03](../CS5222/course-notes/Chapter03.md) | 40–53 |
+| [Tutorial01](../CS5222/course-notes/Tutorial01.md) | 54–60 |
+| [Tutorial02](../CS5222/course-notes/Tutorial02.md) | 61–67 |
+| [Tutorial03](../CS5222/course-notes/Tutorial03.md) | 68–74 |
+| [Tutorial04](../CS5222/course-notes/Tutorial04.md) | 75–78 |
+| [Tutorial05](../CS5222/course-notes/Tutorial05.md) | 79–83 |
+| [Assignment01](../CS5222/course-notes/Assignment01.md) | 84–94 |
+| [ResearchReportGuide](../CS5222/course-notes/ResearchReportGuide.md) | 95–98 |
 
 ## Foundations
 

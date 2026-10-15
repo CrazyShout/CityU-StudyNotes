@@ -1,0 +1,502 @@
+{
+  "date": "2026-10-16",
+  "source_ref": "2a7acccf89673683fa12bf503ff41ae850b1d491",
+  "validation": {
+    "status": "passed",
+    "major_documents": 21,
+    "sources": 27,
+    "course_pdf_pages": 351,
+    "midterm": "all six editions, source mapping and calculations checked",
+    "links": "all local links and anchors resolve"
+  },
+  "new_cs5222_checks": 18,
+  "existing_midterm_numeric_checks": 74,
+  "runtime": {
+    "python": "3.12.11",
+    "Markdown": "3.10.3",
+    "pymdown-extensions": "12.3",
+    "pypdf": "6.20.1"
+  },
+  "books": [
+    {
+      "file": "CS5489-A4.pdf",
+      "pages": 210,
+      "sha256": "2c08e7e9b724a46392c87ba9806fc7db7babfcc3b05c278b1ce01ab3b63fadac",
+      "documents": [
+        {
+          "id": "CS5489-Lecture01",
+          "start": 2,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture01.md",
+          "end": 16
+        },
+        {
+          "id": "CS5489-Lecture02",
+          "start": 17,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture02.md",
+          "end": 52
+        },
+        {
+          "id": "CS5489-Lecture03",
+          "start": 53,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture03.md",
+          "end": 79
+        },
+        {
+          "id": "CS5489-Lecture04",
+          "start": 80,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture04.md",
+          "end": 100
+        },
+        {
+          "id": "CS5489-Lecture05",
+          "start": 101,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Lecture05.md",
+          "end": 118
+        },
+        {
+          "id": "CS5489-Tutorial01",
+          "start": 119,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial01.ipynb",
+          "end": 129
+        },
+        {
+          "id": "CS5489-Tutorial02",
+          "start": 130,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial02.ipynb",
+          "end": 156
+        },
+        {
+          "id": "CS5489-Tutorial03",
+          "start": 157,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial03.ipynb",
+          "end": 172
+        },
+        {
+          "id": "CS5489-Tutorial04",
+          "start": 173,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Tutorial04.ipynb",
+          "end": 186
+        },
+        {
+          "id": "CS5489-Assignment01",
+          "start": 187,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Assignment01.md",
+          "end": 195
+        },
+        {
+          "id": "CS5489-Assignment02",
+          "start": 196,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/Assignment02.md",
+          "end": 202
+        },
+        {
+          "id": "CS5489-ExamIndex",
+          "start": 203,
+          "group": "CS5489",
+          "source": "CS5489/course-notes/ExamIndex.md",
+          "end": 210
+        }
+      ]
+    },
+    {
+      "file": "CS5222-A4.pdf",
+      "pages": 98,
+      "sha256": "f6cf4f0611d043d875a6b6ff5a30a50850627580b3bf6462fb8be7c8b2d008c6",
+      "documents": [
+        {
+          "id": "CS5222-Chapter01",
+          "start": 2,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter01.md",
+          "end": 21
+        },
+        {
+          "id": "CS5222-Chapter02",
+          "start": 22,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter02.md",
+          "end": 39
+        },
+        {
+          "id": "CS5222-Chapter03",
+          "start": 40,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter03.md",
+          "end": 53
+        },
+        {
+          "id": "CS5222-Tutorial01",
+          "start": 54,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial01.md",
+          "end": 60
+        },
+        {
+          "id": "CS5222-Tutorial02",
+          "start": 61,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial02.md",
+          "end": 67
+        },
+        {
+          "id": "CS5222-Tutorial03",
+          "start": 68,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial03.md",
+          "end": 74
+        },
+        {
+          "id": "CS5222-Tutorial04",
+          "start": 75,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial04.md",
+          "end": 78
+        },
+        {
+          "id": "CS5222-Tutorial05",
+          "start": 79,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial05.md",
+          "end": 83
+        },
+        {
+          "id": "CS5222-Assignment01",
+          "start": 84,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Assignment01.md",
+          "end": 94
+        },
+        {
+          "id": "CS5222-ResearchReportGuide",
+          "start": 95,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/ResearchReportGuide.md",
+          "end": 98
+        }
+      ]
+    },
+    {
+      "file": "Foundations-A4.pdf",
+      "pages": 43,
+      "sha256": "6fdd8d269d85fe585a767142063211a5e2d762ec9ed38aeac42edd37c6227091",
+      "documents": [
+        {
+          "id": "Foundations-MathForML",
+          "start": 2,
+          "group": "Foundations",
+          "source": "learning/foundation-notes/MathForML.md",
+          "end": 36
+        },
+        {
+          "id": "Foundations-NetworkBasics",
+          "start": 37,
+          "group": "Foundations",
+          "source": "learning/foundation-notes/NetworkBasics.md",
+          "end": 41
+        },
+        {
+          "id": "Foundations-SourceEvidence",
+          "start": 42,
+          "group": "Foundations",
+          "source": "learning/foundation-notes/SourceEvidence.md",
+          "end": 43
+        }
+      ]
+    }
+  ],
+  "scope": {
+    "baseline_files": 432,
+    "unchanged_baseline_files": 418,
+    "changed_baseline_files": [
+      "CS5222/course-notes/Chapter01.md",
+      "CS5222/course-notes/Chapter02.md",
+      "CS5222/course-notes/Chapter03.md",
+      "CS5222/course-notes/Tutorial04.md",
+      "CS5222/course-notes/Tutorial05.md",
+      "learning/course-notes-documents.json",
+      "learning/foundation-notes/NetworkBasics.md",
+      "pdf/CS5222-A4.pdf",
+      "pdf/CS5489-A4.pdf",
+      "pdf/Foundations-A4.pdf",
+      "pdf/README.md",
+      "pdf/manifest.json",
+      "requirements-build.txt",
+      "scripts/validate.py"
+    ],
+    "preexisting_maintenance_drafts_unchanged": true,
+    "midterm_all_files_unchanged": true,
+    "source_files_hash_verified": 14,
+    "old_content_protection": [
+      {
+        "file": "CS5222/course-notes/Chapter01.md",
+        "old_anchors_preserved": 17,
+        "display_formulas_unchanged": 2,
+        "old_image_references_preserved": 15
+      },
+      {
+        "file": "CS5222/course-notes/Chapter02.md",
+        "old_anchors_preserved": 32,
+        "display_formulas_unchanged": 2,
+        "old_image_references_preserved": 5
+      },
+      {
+        "file": "CS5222/course-notes/Chapter03.md",
+        "old_anchors_preserved": 24,
+        "display_formulas_unchanged": 3,
+        "old_image_references_preserved": 2
+      },
+      {
+        "file": "CS5222/course-notes/Tutorial04.md",
+        "old_anchors_preserved": 11,
+        "display_formulas_unchanged": 0,
+        "old_image_references_preserved": 1
+      },
+      {
+        "file": "CS5222/course-notes/Tutorial05.md",
+        "old_anchors_preserved": 11,
+        "display_formulas_unchanged": 0,
+        "old_image_references_preserved": 2
+      },
+      {
+        "file": "learning/foundation-notes/NetworkBasics.md",
+        "old_anchors_preserved": 10,
+        "display_formulas_unchanged": 1,
+        "old_image_references_preserved": 2
+      }
+    ]
+  },
+  "navigation": {
+    "targets": [
+      {
+        "anchor": "CS5222-Chapter01__queue-events",
+        "page": 13,
+        "heading_confirmed": true,
+        "named_destination_confirmed": false
+      },
+      {
+        "anchor": "CS5222-Chapter01__encapsulation",
+        "page": 15,
+        "heading_confirmed": true,
+        "named_destination_confirmed": false
+      },
+      {
+        "anchor": "CS5222-Chapter02__video-cdn",
+        "page": 32,
+        "heading_confirmed": true,
+        "named_destination_confirmed": true
+      },
+      {
+        "anchor": "CS5222-Chapter03__rdt",
+        "page": 43,
+        "heading_confirmed": true,
+        "named_destination_confirmed": true
+      },
+      {
+        "anchor": "CS5222-Chapter03__tcp",
+        "page": 50,
+        "heading_confirmed": true,
+        "named_destination_confirmed": true
+      },
+      {
+        "anchor": "CS5222-Chapter03___2",
+        "page": 53,
+        "heading_confirmed": true,
+        "named_destination_confirmed": true
+      }
+    ],
+    "new_foundation_cross_book_uris_match": true,
+    "extraction_note": "Normalize whitespace/NFKC and the font-mapped CJK radical ⻅ to 见 for heading lookup; target pages also inspected visually."
+  },
+  "cs5489_comparison": {
+    "pages": 210,
+    "differences_except_build_date": []
+  },
+  "browser_checks": [
+    {
+      "group": "CS5489",
+      "math_errors": [],
+      "broken_images": [],
+      "overflow": [],
+      "closed_answers": 0,
+      "small_math": []
+    },
+    {
+      "group": "CS5222",
+      "math_errors": [],
+      "broken_images": [],
+      "overflow": [],
+      "closed_answers": 0,
+      "small_math": []
+    },
+    {
+      "group": "Foundations",
+      "math_errors": [],
+      "broken_images": [],
+      "overflow": [],
+      "closed_answers": 0,
+      "small_math": []
+    }
+  ],
+  "screen_states": 14,
+  "manual_review": {
+    "cs5222_final_contact_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98
+    ],
+    "cs5222_final_detail_pages": [
+      17,
+      33,
+      45,
+      50
+    ],
+    "earlier_pass_detail_pages": [
+      13,
+      14,
+      17,
+      33,
+      34,
+      44,
+      45,
+      46,
+      50,
+      51,
+      83
+    ],
+    "gray_final_pages": [
+      45,
+      50
+    ],
+    "foundations_detail_pages": [
+      40,
+      41
+    ],
+    "physical_print": false
+  },
+  "limits": [
+    "Teacher slides: all main and Q&A text read, selected diagrams inspected; not full-resolution visual inspection of every source slide.",
+    "No course notebooks or socket experiments rerun.",
+    "No later Chapter 3 parts added.",
+    "CS5489 source and normalized PDF text unchanged except build date; not a fresh full visual review of its 210 pages.",
+    "Midterm generated churn restored to original validated files."
+  ],
+  "clean_export_validation": {
+    "status": "passed",
+    "major_documents": 21,
+    "sources": 27,
+    "course_pdf_pages": 351,
+    "midterm": "all six editions, source mapping and calculations checked",
+    "links": "all local links and anchors resolve"
+  },
+  "clean_export_excludes": [
+    "uncommitted maintenance drafts",
+    "raw teacher files",
+    "local build caches"
+  ]
+}
