@@ -153,7 +153,7 @@ UDP首部四个16bit字段为source port、destination port、length、checksum�
 
 ![Complete sender states for rdt2.2](assets/chapter03-rdt22-fsm.svg)
 
-*按Chapter 3 part 1第38–39张整理的完整发送端图。箭头写“事件 / 动作”；左边两状态等应用，右边两状态等反馈。异常反馈沿自环重传，成功反馈才切换数据编号。接收端的两状态规则见上文。*
+*按Chapter 3 part 1第38–39张整理的完整发送端图。箭头写“事件 / 动作”；Ready状态等应用，Wait for ACK状态等反馈。异常反馈沿自环重传，成功反馈才切换数据编号。接收端的两状态规则见上文。*
 
 例如双方正在处理B(1)，但它到达时损坏：接收者仍等1，回ACK0；发送者正在等ACK1，看见ACK0便重发B(1)。ACK0说的是“上一次正确收到的是0”，并没有对损坏的1作成功确认。这种单个重复ACK触发的重传属于rdt2.2模型，不是后续TCP的重复ACK算法。
 
