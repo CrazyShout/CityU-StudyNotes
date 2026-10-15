@@ -1,0 +1,287 @@
+{
+  "documents": [
+    {
+      "source": "CS5489/course-notes/Lecture01.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture01",
+      "legacy_source": "CS5489/course-notes/Lecture01.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture02.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture02",
+      "legacy_source": "CS5489/course-notes/Lecture02.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture03.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture03",
+      "legacy_source": "CS5489/course-notes/Lecture03.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture04.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture04",
+      "legacy_source": "CS5489/course-notes/Lecture04.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture05.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture05",
+      "legacy_source": "CS5489/course-notes/Lecture05.md"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial01.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial01",
+      "notebook": "CS5489/course-notes/Tutorial01.ipynb",
+      "legacy_source": "CS5489/course-notes/Tutorial01.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial02.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial02",
+      "notebook": "CS5489/course-notes/Tutorial02.ipynb",
+      "legacy_source": "CS5489/course-notes/Tutorial02.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial03.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial03",
+      "notebook": "CS5489/course-notes/Tutorial03.ipynb",
+      "legacy_source": "CS5489/course-notes/Tutorial03.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial04.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial04",
+      "notebook": "CS5489/course-notes/Tutorial04.ipynb",
+      "legacy_source": "CS5489/course-notes/Tutorial04.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Assignment01.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Assignment01",
+      "legacy_source": "CS5489/course-notes/Assignment01.md"
+    },
+    {
+      "source": "CS5489/course-notes/Assignment02.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Assignment02",
+      "legacy_source": "CS5489/course-notes/Assignment02.md"
+    },
+    {
+      "source": "CS5489/course-notes/ExamIndex.tex",
+      "course": "CS5489",
+      "major": false,
+      "print_appendix": true,
+      "id": "CS5489-ExamIndex",
+      "legacy_source": "CS5489/course-notes/ExamIndex.md"
+    },
+    {
+      "source": "CS5222/course-notes/Chapter01.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter01",
+      "legacy_source": "CS5222/course-notes/Chapter01.md"
+    },
+    {
+      "source": "CS5222/course-notes/Chapter02.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter02",
+      "legacy_source": "CS5222/course-notes/Chapter02.md"
+    },
+    {
+      "source": "CS5222/course-notes/Chapter03.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter03",
+      "legacy_source": "CS5222/course-notes/Chapter03.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial01.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial01",
+      "legacy_source": "CS5222/course-notes/Tutorial01.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial02.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial02",
+      "legacy_source": "CS5222/course-notes/Tutorial02.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial03.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial03",
+      "legacy_source": "CS5222/course-notes/Tutorial03.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial04.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial04",
+      "legacy_source": "CS5222/course-notes/Tutorial04.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial05.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial05",
+      "legacy_source": "CS5222/course-notes/Tutorial05.md"
+    },
+    {
+      "source": "CS5222/course-notes/Assignment01.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Assignment01",
+      "legacy_source": "CS5222/course-notes/Assignment01.md"
+    },
+    {
+      "source": "CS5222/course-notes/ResearchReportGuide.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-ResearchReportGuide",
+      "legacy_source": "CS5222/course-notes/ResearchReportGuide.md"
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "course": null,
+      "major": false,
+      "id": "Foundations-MathForML",
+      "legacy_source": "learning/foundation-notes/MathForML.md"
+    },
+    {
+      "source": "learning/foundation-notes/NetworkBasics.tex",
+      "course": null,
+      "major": false,
+      "id": "Foundations-NetworkBasics",
+      "legacy_source": "learning/foundation-notes/NetworkBasics.md"
+    },
+    {
+      "source": "learning/foundation-notes/SourceEvidence.tex",
+      "course": null,
+      "major": false,
+      "id": "Foundations-SourceEvidence",
+      "legacy_source": "learning/foundation-notes/SourceEvidence.md"
+    }
+  ],
+  "legacy_ids": {
+    "CS5489/course-notes/Lecture01.md": "CS5489-Lecture01",
+    "CS5489/course-notes/Lecture01.html": "CS5489-Lecture01",
+    "CS5489/course-notes/Lecture01.tex": "CS5489-Lecture01",
+    "CS5489/course-notes/Lecture02.md": "CS5489-Lecture02",
+    "CS5489/course-notes/Lecture02.html": "CS5489-Lecture02",
+    "CS5489/course-notes/Lecture02.tex": "CS5489-Lecture02",
+    "CS5489/course-notes/Lecture03.md": "CS5489-Lecture03",
+    "CS5489/course-notes/Lecture03.html": "CS5489-Lecture03",
+    "CS5489/course-notes/Lecture03.tex": "CS5489-Lecture03",
+    "CS5489/course-notes/Lecture04.md": "CS5489-Lecture04",
+    "CS5489/course-notes/Lecture04.html": "CS5489-Lecture04",
+    "CS5489/course-notes/Lecture04.tex": "CS5489-Lecture04",
+    "CS5489/course-notes/Lecture05.md": "CS5489-Lecture05",
+    "CS5489/course-notes/Lecture05.html": "CS5489-Lecture05",
+    "CS5489/course-notes/Lecture05.tex": "CS5489-Lecture05",
+    "CS5489/course-notes/Tutorial01.ipynb": "CS5489-Tutorial01",
+    "CS5489/course-notes/Tutorial01.html": "CS5489-Tutorial01",
+    "CS5489/course-notes/Tutorial01.tex": "CS5489-Tutorial01",
+    "CS5489/course-notes/Tutorial02.ipynb": "CS5489-Tutorial02",
+    "CS5489/course-notes/Tutorial02.html": "CS5489-Tutorial02",
+    "CS5489/course-notes/Tutorial02.tex": "CS5489-Tutorial02",
+    "CS5489/course-notes/Tutorial03.ipynb": "CS5489-Tutorial03",
+    "CS5489/course-notes/Tutorial03.html": "CS5489-Tutorial03",
+    "CS5489/course-notes/Tutorial03.tex": "CS5489-Tutorial03",
+    "CS5489/course-notes/Tutorial04.ipynb": "CS5489-Tutorial04",
+    "CS5489/course-notes/Tutorial04.html": "CS5489-Tutorial04",
+    "CS5489/course-notes/Tutorial04.tex": "CS5489-Tutorial04",
+    "CS5489/course-notes/Assignment01.md": "CS5489-Assignment01",
+    "CS5489/course-notes/Assignment01.html": "CS5489-Assignment01",
+    "CS5489/course-notes/Assignment01.tex": "CS5489-Assignment01",
+    "CS5489/course-notes/Assignment02.md": "CS5489-Assignment02",
+    "CS5489/course-notes/Assignment02.html": "CS5489-Assignment02",
+    "CS5489/course-notes/Assignment02.tex": "CS5489-Assignment02",
+    "CS5489/course-notes/ExamIndex.md": "CS5489-ExamIndex",
+    "CS5489/course-notes/ExamIndex.html": "CS5489-ExamIndex",
+    "CS5489/course-notes/ExamIndex.tex": "CS5489-ExamIndex",
+    "CS5222/course-notes/Chapter01.md": "CS5222-Chapter01",
+    "CS5222/course-notes/Chapter01.html": "CS5222-Chapter01",
+    "CS5222/course-notes/Chapter01.tex": "CS5222-Chapter01",
+    "CS5222/course-notes/Chapter02.md": "CS5222-Chapter02",
+    "CS5222/course-notes/Chapter02.html": "CS5222-Chapter02",
+    "CS5222/course-notes/Chapter02.tex": "CS5222-Chapter02",
+    "CS5222/course-notes/Chapter03.md": "CS5222-Chapter03",
+    "CS5222/course-notes/Chapter03.html": "CS5222-Chapter03",
+    "CS5222/course-notes/Chapter03.tex": "CS5222-Chapter03",
+    "CS5222/course-notes/Tutorial01.md": "CS5222-Tutorial01",
+    "CS5222/course-notes/Tutorial01.html": "CS5222-Tutorial01",
+    "CS5222/course-notes/Tutorial01.tex": "CS5222-Tutorial01",
+    "CS5222/course-notes/Tutorial02.md": "CS5222-Tutorial02",
+    "CS5222/course-notes/Tutorial02.html": "CS5222-Tutorial02",
+    "CS5222/course-notes/Tutorial02.tex": "CS5222-Tutorial02",
+    "CS5222/course-notes/Tutorial03.md": "CS5222-Tutorial03",
+    "CS5222/course-notes/Tutorial03.html": "CS5222-Tutorial03",
+    "CS5222/course-notes/Tutorial03.tex": "CS5222-Tutorial03",
+    "CS5222/course-notes/Tutorial04.md": "CS5222-Tutorial04",
+    "CS5222/course-notes/Tutorial04.html": "CS5222-Tutorial04",
+    "CS5222/course-notes/Tutorial04.tex": "CS5222-Tutorial04",
+    "CS5222/course-notes/Tutorial05.md": "CS5222-Tutorial05",
+    "CS5222/course-notes/Tutorial05.html": "CS5222-Tutorial05",
+    "CS5222/course-notes/Tutorial05.tex": "CS5222-Tutorial05",
+    "CS5222/course-notes/Assignment01.md": "CS5222-Assignment01",
+    "CS5222/course-notes/Assignment01.html": "CS5222-Assignment01",
+    "CS5222/course-notes/Assignment01.tex": "CS5222-Assignment01",
+    "CS5222/course-notes/ResearchReportGuide.md": "CS5222-ResearchReportGuide",
+    "CS5222/course-notes/ResearchReportGuide.html": "CS5222-ResearchReportGuide",
+    "CS5222/course-notes/ResearchReportGuide.tex": "CS5222-ResearchReportGuide",
+    "learning/foundation-notes/MathForML.md": "Foundations-MathForML",
+    "learning/foundation-notes/MathForML.html": "Foundations-MathForML",
+    "learning/foundation-notes/MathForML.tex": "Foundations-MathForML",
+    "learning/foundation-notes/NetworkBasics.md": "Foundations-NetworkBasics",
+    "learning/foundation-notes/NetworkBasics.html": "Foundations-NetworkBasics",
+    "learning/foundation-notes/NetworkBasics.tex": "Foundations-NetworkBasics",
+    "learning/foundation-notes/SourceEvidence.md": "Foundations-SourceEvidence",
+    "learning/foundation-notes/SourceEvidence.html": "Foundations-SourceEvidence",
+    "learning/foundation-notes/SourceEvidence.tex": "Foundations-SourceEvidence",
+    "CS5489/exam-review/Midterm/Questions.md": "Questions",
+    "CS5489/exam-review/Midterm/Questions.html": "Questions",
+    "CS5489/exam-review/Midterm/Questions.tex": "Questions",
+    "CS5489/exam-review/Midterm/Answers.md": "Answers",
+    "CS5489/exam-review/Midterm/Answers.html": "Answers",
+    "CS5489/exam-review/Midterm/Answers.tex": "Answers",
+    "CS5489/exam-review/Midterm/Combined.md": "Combined",
+    "CS5489/exam-review/Midterm/Combined.html": "Combined",
+    "CS5489/exam-review/Midterm/Combined.tex": "Combined",
+    "CS5489/exam-review/Midterm/Compact.md": "Compact",
+    "CS5489/exam-review/Midterm/Compact.html": "Compact",
+    "CS5489/exam-review/Midterm/Compact.tex": "Compact",
+    "CS5489/exam-review/Midterm/MultipleChoice.md": "MultipleChoice",
+    "CS5489/exam-review/Midterm/MultipleChoice.html": "MultipleChoice",
+    "CS5489/exam-review/Midterm/MultipleChoice.tex": "MultipleChoice",
+    "CS5489/exam-review/Midterm/WrittenResponse.md": "WrittenResponse",
+    "CS5489/exam-review/Midterm/WrittenResponse.html": "WrittenResponse",
+    "CS5489/exam-review/Midterm/WrittenResponse.tex": "WrittenResponse"
+  },
+  "midterm_titles": {
+    "Questions": "CS5489 · 期中题目册 / Midterm Questions",
+    "Answers": "CS5489 · 期中答案与解析 / Midterm Answers and Explanations",
+    "Combined": "CS5489 · 期中题目与答案合订本 / Midterm Questions and Answers",
+    "Compact": "CS5489 · 期中精简题答 / Concise Bilingual Questions and Answers",
+    "MultipleChoice": "CS5489 · 期中选择题与答案 / Multiple-Select Questions and Answers",
+    "WrittenResponse": "CS5489 · 期中简答题与答案 / Written-Response Questions and Answers"
+  }
+}

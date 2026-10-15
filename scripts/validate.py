@@ -1,148 +1,204 @@
-"""Validate collaborative sources, local references and committed A4 files."""
+"""Validate the sole TeX teaching source, saved experiments, nine PDFs and old links."""
 from pathlib import Path
 from urllib.parse import urlsplit,unquote
-import hashlib,json,re,subprocess,sys,importlib.util
-import markdown,nbformat
+from collections import Counter
+import argparse
+import hashlib
+import json
+import re
+import subprocess
+import sys
+import markdown
+import nbformat
+import pymupdf
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
-ROOT=Path(__file__).resolve().parents[1]
-registry=json.loads((ROOT/'learning/course-notes-documents.json').read_text());docs=registry['documents'];soups={};issues=[]
-paths={ROOT/d['source'] for d in docs}|{ROOT/'README.md',ROOT/'CONTRIBUTING.md',ROOT/'AGENTS.md'}|set((ROOT/'docs').glob('*.md'))|{ROOT/'pdf/README.md'}
-paths|=set((ROOT/'CS5489/exam-review').glob('*.md'))|set((ROOT/'CS5489/exam-review/Midterm').glob('*.md'))
-paths|=set((ROOT/'docs/reviews/midterm-integration-2026-10-10').glob('*.md'))
-for p in paths:
-    assert p.is_file(),p
-    if p.suffix=='.ipynb':
-        nb=nbformat.read(p,as_version=4);nbformat.validate(nb)
-        for c in nb.cells:
+from latex_project import (ROOT,MID,COURSES,KINDS,ALL_BOOKS,DOCS,INDEX,CONFIG,ALIASES,FIELDS,
+                           PAGE_MAP,MANIFEST,binding,output,selected,stubs,notebook_markdown,sha)
+sys.path.insert(0,str(MID/'tools'))
+from book_support import validate_catalog
+from question_types import TASK_LABELS
+
+
+def source_checks(source_dir=None):
+    registry=json.loads((ROOT/'learning/course-notes-documents.json').read_text())['documents']
+    formal=[x for x in registry if x['major'] or x.get('print_appendix') or x['course'] is None]
+    assert [x['source'] for x in formal]==[d['source'] for d in DOCS]
+    assert sum(x['major'] for x in registry)==21 and len(DOCS)==25
+    for course in COURSES[:2]:
+        stems=[Path(d['source']).stem for d in DOCS if d['course']==course and d['major']]
+        order=[0 if s.startswith(('Lecture','Chapter')) else 1 if s.startswith('Tutorial') else 2 for s in stems]
+        assert order==sorted(order),(course,'teaching order')
+    paths=[ROOT/d['source'] for d in DOCS]+list((MID/'items').rglob('*.tex'))+list((MID/'frontmatter').glob('*.tex'))
+    document_text={d['id']:(ROOT/d['source']).read_text() for d in DOCS}
+    anchors={d:set(re.findall(r'\\StudyTarget\{'+re.escape(d)+r'__([^}]+)\}',t))|{'root'} for d,t in document_text.items()}
+    anchors.update({k:set(v)|{q['id'] for q in selected(k)} for k,v in ALIASES.items()})
+    for path in paths:
+        assert path.is_file(),path
+        text=path.read_text()
+        assert not re.search(r'/Users/|file://|Student ID|Seat Number|ANSWER HERE|SYMBOL TO VERIFY',text),(path,'private path or placeholder')
+        for doc,anchor in re.findall(r'\\StudyRef\{([^}]+)\}\{([^}]+)\}',text):
+            assert doc in anchors and anchor in anchors[doc],(path,doc,anchor,'missing target')
+        for name in re.findall(r'\\Study(?:Cell)?Image\{([^}]+)\}',text):assert (ROOT/name).is_file(),(path,name)
+        for name in re.findall(r'\\StudyRepoRef\{([^}]+)\}',text):assert (ROOT/name).exists() and not name.endswith('.html'),(path,name)
+    migration=json.loads((ROOT/'docs/reviews/elegantbook-migration-2026-10-16/migration-manifest.json').read_text())
+    # Every previous course anchor, image, explicit equation number and math expression survives.
+    math_count=0
+    for rec in migration['course_documents']:
+        text=(ROOT/rec['target']).read_text();doc=rec['docid']
+        assert set(rec['anchors'])<=anchors[doc],(doc,'lost legacy anchors',set(rec['anchors'])-anchors[doc])
+        assert set(rec['images'])<=set(re.findall(r'\\Study(?:Cell)?Image\{([^}]+)\}',text)),(doc,'lost image')
+        original=[m['tex'] for m in rec['math']]
+        actual=re.findall(r'\\\[(.*?)\\\]|\\\((.*?)\\\)',text,re.S)
+        actual=[a or b for a,b in actual]
+        norm=lambda s:re.sub(r'\s+','',s).replace(r'\lt','<').replace(r'\gt','>')
+        available=Counter(norm(m) for m in actual)
+        for m in original:
+            value=norm(m);assert available[value]>0,(doc,'lost mathematical expression',m);available[value]-=1
+        math_count+=len(original)
+        oldtags=[tag for m in original for tag in re.findall(r'\\tag\{([^}]+)\}',m)]
+        newtags=re.findall(r'\\tag\{([^}]+)\}',text)
+        assert newtags==oldtags,(doc,'equation tags/order changed')
+    protected=0
+    for d in DOCS:
+        if 'notebook' not in d:continue
+        nb=nbformat.read(ROOT/d['notebook'],as_version=4);nbformat.validate(nb)
+        baseline=migration['notebooks'][d['notebook']]
+        assert nb.metadata==baseline['metadata']
+        assert len(nb.cells)==len(baseline['cells'])
+        for c,original in zip(nb.cells,baseline['cells']):
+            assert c['id']==original['id'] and c.cell_type==original['type']
+            assert c.metadata==original['metadata'],(d['notebook'],c['id'],'cell metadata changed')
             if c.cell_type=='code':
-                assert c.execution_count is not None,(p,'missing output count')
-                assert not any(o.output_type=='error' for o in c.outputs),(p,'saved error')
-                compile(c.source,str(p),'exec')
-        text='\n\n'.join(c.source for c in nb.cells if c.cell_type=='markdown')
-    else:text=p.read_text()
-    assert '/Users/' not in text and 'file://' not in text,(p,'machine-local path')
-    soup=BeautifulSoup(markdown.markdown(text,extensions=['tables','fenced_code','toc','md_in_html','pymdownx.arithmatex']), 'html.parser');soups[p.resolve()]=soup
-for p,soup in soups.items():
-    for tag in soup.select('a[href],img[src]'):
-        href=tag.get('href',tag.get('src'));u=urlsplit(href)
-        if u.scheme or u.netloc:continue
-        target=(p.parent/unquote(u.path)).resolve() if u.path else p
-        if not target.is_relative_to(ROOT) or not target.exists():issues.append((str(p.relative_to(ROOT)),href));continue
-        if u.fragment and target in soups and not soups[target].find(id=unquote(u.fragment)):
-            issues.append((str(p.relative_to(ROOT)),href,'missing anchor'))
-assert not issues,issues
-# Markdown 3.11.1 leaves this existing CJK-adjacent emphasis as literal **.
-# Check the actual manuscript rendering, not only its Markdown syntax or PDF hashes.
-assert soups[(ROOT/'CS5222/course-notes/Chapter01.md').resolve()].find(
-    'strong',string='Store-and-forward（存储转发）') is not None, (
-    'CJK-adjacent emphasis did not render; install requirements-build.txt')
-# Registered order must keep theory before tutorials and assignments in each course.
-for course in ['CS5489','CS5222']:
-    stems=[Path(d['source']).stem for d in docs if d['major'] and d['course']==course]
-    ranks=[0 if s.startswith(('Lecture','Chapter')) else 1 if s.startswith('Tutorial') else 2 for s in stems]
-    assert ranks==sorted(ranks),(course,'document ordering')
-# Lecture 2 display equations are numbered once, in reading order.
-lecture=(ROOT/'CS5489/course-notes/Lecture02.md').read_text()
-blocks=re.findall(r'\$\$(.*?)\$\$',lecture,re.S)
-# Keep later references stable when one numbered calculation gains subparts.
-supplements={14:['2.14a','2.14b','2.14c'],16:['2.16a','2.16b','2.16c'],35:['2.35a','2.35b']}
-expected_tags=[tag for i in range(1,37) for tag in ((['2.21a','2.21b'] if i==21 else [f'2.{i}'])+supplements.get(i,[]))]
-assert len(blocks)==len(expected_tags),('Lecture02 displayed equation count',len(blocks))
-equation_numbers=[]
-for block,expected in zip(blocks,expected_tags):
-    tags=re.findall(r'\\tag\{([^}]+)\}',block)
-    assert tags==[expected],('Lecture02 equation numbering',expected,tags)
-    equation_numbers.append(f'({expected})')
-# Exam links must lead to the ability they name, not merely to a valid anchor.
-for anchor in ['decision-boundaries','gaussian-nb-boundary','model-limits','qe-parameter-posterior-note']:
-    assert lecture.count(f'id="{anchor}"')==1,('Lecture02 teaching anchor',anchor)
-for anchor in ['decision-boundaries','model-limits']:
-    assert lecture.count(f'<!-- EXAM:focus-{anchor}:START -->')==1
-for stale in ['log-scores','comparison']:
-    assert f'<!-- EXAM:focus-{stale}:START -->' not in lecture
-assert '[相关MLE基础](#prior-mle) · [QE残题说明](#qe-parameter-posterior-note)' in lecture
-# Regression check: source-index links must not be stolen by new Chinese headings.
-spec=importlib.util.spec_from_file_location('notes_previews',ROOT/'CS5489/course-notes/tools/build_previews.py')
-previews=importlib.util.module_from_spec(spec);spec.loader.exec_module(previews)
-for n in [1,5]:
-    source=ROOT/f'CS5489/course-notes/Lecture{n:02}.md'
-    rendered=BeautifulSoup(previews.wrap('anchor check',previews.md(source.read_text()),source),'html.parser')
-    target=rendered.find(id='_2')
-    heading=target if target and target.name=='h2' else target.find_next('h2') if target else None
-    assert heading and '覆盖索引' in heading.get_text(),(source.name,'legacy source-index target')
+                digest=hashlib.sha256(json.dumps(dict(c),sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+                assert digest==original['sha256'],(d['notebook'],c['id'],'code/output/metadata changed')
+                assert c.execution_count is not None and not any(o.output_type=='error' for o in c.outputs)
+                compile(c.source,d['notebook'],'exec');protected+=1
+    ids=[q['id'] for q in INDEX['questions']]
+    assert len(ids)==len(set(ids))==INDEX['unique_questions']==67
+    positions=[(o['paper'],o['question']) for q in INDEX['questions'] for o in q['occurrences']]
+    assert len(positions)==len(set(positions))==78
+    assert len(INDEX['papers'])==6 and sum(len(q['legacy_ids']) for q in INDEX['questions'])==15
+    for p in INDEX['papers']:assert {q for paper,q in positions if paper==p['id']}=={f'Q{i}' for i in range(1,14)}
+    types=Counter()
+    original_questions={q['id']:q['fields'] for q in migration['questions']}
+    def expanded(path,stack=()):
+        assert path not in stack,('Cyclic TeX input',path)
+        def include(match):
+            target=(ROOT/match[1]).resolve();assert target.is_relative_to(ROOT)
+            return expanded(target,stack+(path,))
+        return re.sub(r'\\input\{\\StudyRoot/([^}]+)\}',include,path.read_text())
+    for q in INDEX['questions']:
+        files={f:expanded(MID/'items'/q['id']/(f+'.tex')) for f in FIELDS}
+        for field,record in original_questions[q['id']].items():
+            source=files[field]
+            formulas=[a or b for a,b in re.findall(r'\\\[(.*?)\\\]|\\\((.*?)\\\)',source,re.S)]
+            normal=lambda s:re.sub(r'\s+','',s).replace(r'\lt','<').replace(r'\gt','>')
+            actual=Counter(normal(s) for s in formulas)
+            for m in record['math']:
+                key=normal(m['tex']);assert actual[key]>0,(q['id'],field,'lost mathematical expression',m);actual[key]-=1
+            assert set(record['images'])<=set(re.findall(r'\\Study(?:Cell)?Image\{([^}]+)\}',source)),(q['id'],field,'lost figure')
+        english=files['question-en'];chinese=files['question-zh']
+        expected='multiple_select' if 'select all that apply' in english.lower() else 'written'
+        assert q['response_type']==expected;types[expected]+=1
+        options=re.findall(r'^([A-E])\)',english,re.M)
+        if expected=='multiple_select':
+            assert options==list('ABCDE'[:len(options)]) and len(options) in [4,5],q['id']
+            assert re.findall(r'(?<![A-Za-z])([A-E])）',chinese)==options,(q['id'],'Chinese options')
+            direction='incorrect' if re.search(r'\bnot\s+(?:true|correct)\b',english,re.I) else 'correct'
+            assert q['select']==direction
+        else:assert not options and set(q['tasks'])<=set(TASK_LABELS) and q['tasks']
+        assert re.search(r'[\u4e00-\u9fff]',files['answer-zh'])
+        assert '答案依据' in files['explanation'],q['id']
+        plain=lambda s:re.sub(r'^%[^\n]*\n','',s,flags=re.M).strip()
+        assert plain(files['answer-prompt']).startswith(plain(chinese)),(q['id'],'Chinese prompt differs')
+        qimages=set(re.findall(r'\\StudyImage\{([^}]+)\}',english+chinese))
+        assert qimages==set(re.findall(r'\\StudyImage\{([^}]+)\}',files['answer-prompt'])),(q['id'],'answer prompt images')
+    assert types=={'multiple_select':30,'written':37}
+    assert set(q['id'] for q in selected('MultipleChoice')).isdisjoint(q['id'] for q in selected('WrittenResponse'))
+    catalog=validate_catalog(MID,INDEX,source_dir)
+    subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
+    for script in [ROOT/'CS5222/course-notes/tools/depth_examples.py',MID/'tools/verify_calculations.py']:
+        subprocess.run([sys.executable,str(script),'--check'] if script.name=='verify_calculations.py' else [sys.executable,str(script)],check=True)
+    return {'major_documents':21,'formal_tex_documents':25,'protected_notebook_code_cells':protected,'preserved_course_math_expressions':math_count,'question_pairs':67,'original_positions':78,'question_types':dict(types),**catalog}
 
-subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
-# Other authored display formulas are numbered by document, not by experiment cell.
-numbered_documents={}
-for record in docs:
-    path=ROOT/record['source']
-    if path.name=='Lecture02.md':continue
-    if path.suffix=='.ipynb':
-        source='\n\n'.join(c.source for c in nbformat.read(path,as_version=4).cells if c.cell_type=='markdown')
-    else:source=path.read_text()
-    displayed=re.findall(r'\$\$(.*?)\$\$',source,re.S)
-    if not displayed:continue
-    stem=path.stem
-    if stem.startswith(('Lecture','Chapter')):prefix=str(int(stem[-2:]))
-    elif stem.startswith('Tutorial'):prefix='T'+str(int(stem[-2:]))
-    elif stem.startswith('Assignment'):prefix='A'+str(int(stem[-2:]))
-    else:prefix={'MathForML':'M','NetworkBasics':'N'}[stem]
-    inserted={
-        'CS5489/course-notes/Lecture03.md':{1:['3.1a'],6:['3.6a'],11:['3.11a','3.11b'],13:['3.13a']},
-        'CS5489/course-notes/Lecture04.md':{3:['4.3a','4.3b'],7:['4.7a'],15:['4.15a'],16:['4.16a']},
-        'CS5489/course-notes/Lecture05.md':{8:['5.8a'],9:['5.9a'],11:['5.11a']},
-    }.get(record['source'],{})
-    main_count=len(displayed)-sum(len(v) for v in inserted.values())
-    expected=[tag for i in range(1,main_count+1) for tag in [f'{prefix}.{i}']+inserted.get(i,[])]
-    actual=[]
-    for formula in displayed:
-        tags=re.findall(r'\\tag\{([^}]+)\}',formula)
-        assert len(tags)==1,(record['source'],'missing/duplicate formula tag')
-        actual+=tags
-    assert actual==expected,(record['source'],actual,expected)
-    numbered_documents[record['source']]=(prefix,expected)
 
-printed_cs=[x for x in docs if x['course']=='CS5489' and (x['major'] or x.get('print_appendix'))]
-assert printed_cs[-1]['source']=='CS5489/course-notes/ExamIndex.md'
-manifest=json.loads((ROOT/'pdf/manifest.json').read_text())
-for book in manifest['books']:
-    p=ROOT/'pdf'/book['file'];assert hashlib.sha256(p.read_bytes()).hexdigest()==book['sha256'],p
-    reader=PdfReader(p,strict=True);assert len(reader.pages)==book['pages']
-    if book['file']=='CS5222-A4.pdf':
-        document=next(d for d in book['documents'] if d['id']=='CS5222-Chapter01')
-        text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
-        assert '**Store-and-forward' not in text, 'Literal emphasis markers in CS5222 PDF; rebuild with declared dependencies'
-    if book['file']=='CS5489-A4.pdf':
-        document=next(d for d in book['documents'] if d['id']=='CS5489-Lecture02')
-        text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
-        assert not re.search(r'EXAM:(overview|focus|topics)',text),'Source markers must not appear in the PDF'
-        printed=re.findall(r'\(2\.\d+[a-z]?\)',text)
-        assert printed==equation_numbers,('Printed Lecture02 equation tags',printed)
+def publication_checks():
+    maps=json.loads(PAGE_MAP.read_text());manifest=json.loads(MANIFEST.read_text());reports={}
+    for path,expected in stubs(maps).items():assert path.read_text()==expected,('Regenerate compatibility navigation',path)
+    for d in DOCS:
+        if 'notebook' not in d:continue
+        for i,c in enumerate(nbformat.read(ROOT/d['notebook'],as_version=4).cells):
+            if c.cell_type=='markdown':assert c.source==notebook_markdown(d,i,c,maps),(d['notebook'],i,'generated Markdown differs')
+    for book in ALL_BOOKS:
+        path=output(book);meta=manifest['books'][book]
+        assert meta['sha256']==sha(path),(book,'PDF hash differs')
+        digest,files=binding(book)
+        assert meta['source_sha256']==digest and meta['inputs']==files,(book,'PDF is stale for current TeX sources')
+        reader=PdfReader(path,strict=True)
+        assert reader.metadata['/StudyNotesSourceSHA256']==digest and reader.metadata['/StudyNotesEdition']==book
+        destinations=reader.named_destinations
+        for key,page in maps[book].items():
+            assert key in destinations,(book,key,'PDF named destination missing')
+            assert reader.get_destination_page_number(destinations[key])+1==page,(book,key,'page map differs')
+        if book in KINDS:
+            for a in ALIASES[book]:assert book+'__'+a in maps[book],(book,a,'legacy alias missing')
+        with pymupdf.open(path) as pdf:
+            assert len(pdf)==meta['pages']
+            text='\n'.join(p.get_text() for p in pdf)
+            assert not re.search(r'待定页|p\.\?\?|EXAM:(overview|topics|focus)|/Users/|file://',text),(book,'unexpected printed content')
+            links=0
+            for page in pdf:
+                assert abs(page.rect.width-595.28)<2 and abs(page.rect.height-841.89)<2
+                assert not list(page.annots() or []),(book,page.number+1,'non-link annotation')
+                for link in page.get_links():
+                    links+=1;uri=link.get('uri','')
+                    assert not uri.startswith('file:') and '/Users/' not in uri
+                    if link['kind']==1:assert 0<=link['page']<len(pdf),(book,'internal link invalid',link)
+                    if '.pdf#page=' in uri:
+                        u=urlsplit(uri);target=(path.parent/unquote(u.path)).resolve();page_no=int(u.fragment.split('=',1)[1])
+                        target_book=next((b for b in ALL_BOOKS if output(b)==target),None)
+                        assert target_book and 1<=page_no<=manifest['books'][target_book]['pages'],(book,uri)
+                    if 'github.com/CrazyShout/CityU-StudyNotes/blob/' in uri:assert not urlsplit(uri).path.endswith('.html')
+            toc=pdf.get_toc()
+            assert toc,(book,'missing bookmarks')
+            if book in KINDS:
+                qtoc=[x for x in toc if re.match(r'MT\d{3} · ',x[1])]
+                assert [x[1][:5] for x in qtoc]==[q['id'] for q in selected(book)],(book,'question order/bookmarks')
+                for _,title,page in qtoc:assert page==maps[book][book+'__'+title[:5].lower()],(book,title,'bookmark destination differs')
+            else:
+                documents=[d for d in DOCS if (d['course'] or 'Foundations')==book]
+                for i,d in enumerate(documents):
+                    if (d['course'] or 'Foundations')!=book:continue
+                    assert any(x[2]==maps[book][d['id']+'__root'] for x in toc),(d['id'],'missing chapter bookmark')
+                    begin=maps[book][d['id']+'__root']
+                    end=maps[book][documents[i+1]['id']+'__root']-1 if i+1<len(documents) else len(pdf)
+                    expected=re.findall(r'\\tag\{([^}]+)\}',(ROOT/d['source']).read_text())
+                    section='\n'.join(pdf[p-1].get_text() for p in range(begin,end+1))
+                    actual=[x for x in re.findall(r'\(([A-ZTAMN0-9]+\.\d+[a-z]?)\)',section) if x in expected]
+                    assert actual==expected,(d['id'],'printed equation labels/order',actual,expected)
+            assert meta['diagnostics']['missing_glyphs']==0 and meta['diagnostics']['unresolved_references']==0
+            assert not [x for x in meta['diagnostics']['overfull_boxes'] if x>1],(book,'overfull boxes',meta['diagnostics'])
+            reports[book]={'pages':len(pdf),'links':links,'destinations':len(maps[book]),'sha256':meta['sha256']}
+    # Engineering documents and generated legacy links resolve independently of ignored HTML.
+    paths={ROOT/'README.md',ROOT/'CONTRIBUTING.md',ROOT/'AGENTS.md',ROOT/'pdf/README.md'}|set((ROOT/'docs').glob('*.md'))
+    paths|={ROOT/d['legacy_source'] for d in DOCS if d['legacy_source'].endswith('.md')}|set(MID.glob('*.md'))
+    soups={p:BeautifulSoup(markdown.markdown(p.read_text(),extensions=['tables','toc','fenced_code','md_in_html']),'html.parser') for p in paths}
+    for p,soup in soups.items():
+        assert '/Users/' not in p.read_text() and 'file://' not in p.read_text(),p
+        for a in soup.select('a[href],img[src]'):
+            uri=a.get('href',a.get('src'));u=urlsplit(uri)
+            if u.scheme or u.netloc:continue
+            dest=(p.parent/unquote(u.path)).resolve() if u.path else p
+            assert dest.is_relative_to(ROOT) and dest.exists(),(p,uri)
+            if u.fragment and dest in soups:assert soups[dest].find(id=unquote(u.fragment)),(p,uri,'missing anchor')
+    return reports
 
-    for document in book['documents']:
-        if document['source'] not in numbered_documents:continue
-        prefix,expected=numbered_documents[document['source']]
-        text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
-        printed=[n for n in re.findall(r'\(('+re.escape(prefix)+r'\.\d+[a-z]?)\)',text) if n in expected]
-        assert printed==expected,(document['source'],'printed equation numbers',printed,expected)
 
-    for page in reader.pages:
-        assert abs(float(page.mediabox.width)-595.28)<2 and abs(float(page.mediabox.height)-841.89)<2
-        for ref in page.get('/Annots',[]):
-            uri=str(ref.get_object().get('/A',{}).get('/URI',''))
-            assert not uri.startswith('file:') and '/Users/' not in uri,(p,uri)
-            if 'github.com/CrazyShout/CityU-StudyNotes/blob/' in uri:
-                assert not urlsplit(uri).path.endswith('.html'),(p,'PDF points to an ignored HTML intermediate',uri)
-            if uri.endswith('.pdf') or '.pdf#page=' in uri:
-                parsed=urlsplit(uri)
-                if not parsed.scheme:assert (p.parent/parsed.path).is_file(),uri
-subprocess.run([sys.executable,str(ROOT/'CS5222/course-notes/tools/depth_examples.py')],check=True)
-midterm_tools=ROOT/'CS5489/exam-review/Midterm/tools'
-for tool in ['verify_calculations.py','validate_source.py','validate_books.py']:
-    subprocess.run([sys.executable,str(midterm_tools/tool),'--check'],check=True)
-subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--combined'],check=True)
-subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--compact'],check=True)
-subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--multiple-choice'],check=True)
-subprocess.run([sys.executable,str(midterm_tools/'validate_books.py'),'--check','--written-response'],check=True)
-print(json.dumps({'status':'passed','major_documents':sum(d['major'] for d in docs),'sources':len(docs),'course_pdf_pages':sum(b['pages'] for b in manifest['books']),'midterm':'all six editions, source mapping and calculations checked','links':'all local links and anchors resolve'},ensure_ascii=False))
+def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--source-only',action='store_true');parser.add_argument('--source-dir',type=Path);parser.add_argument('--check',action='store_true');args=parser.parse_args()
+    report={'status':'source_checks_passed' if args.source_only else 'passed',**source_checks(args.source_dir)}
+    if not args.source_only:report['books']=publication_checks()
+    print(json.dumps(report,ensure_ascii=False))
+
+if __name__=='__main__':main()

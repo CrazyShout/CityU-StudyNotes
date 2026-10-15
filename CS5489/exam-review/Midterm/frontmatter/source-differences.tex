@@ -1,0 +1,38 @@
+
+\StudyHeading{1}{原题差异与勘误 / Source differences}
+\StudyTarget{Answers__source-differences}
+
+
+遇到题纸、参考答案或同学整理不一致时，先按题纸的条件作答，再看本页说明。正文中的简短“原题差异”注只提示会影响理解或答案的地方。
+
+
+Keep the printed question intact. Distinguish the supplied key from a correction or an explanation that needs extra assumptions.
+
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.159951\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.387632\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.452417\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+题号 & 原材料的差异 & 本册采用的处理 \\
+\midrule\endfirsthead
+题号 & 原材料的差异 & 本册采用的处理 \\
+\midrule\endhead
+\bottomrule\endfoot
+\textbf{MT031} & 2021B题纸第3页C为\ensuremath{\ge}；配套答案第2页仅列ABE。 & 按印刷题面C成立，复核为\textbf{ABCE}；保留原解ABE记录。此前本题库的\ensuremath{\le}已更正。 \\
+MT032 & 2021B配套解答Q6只选D；同学小抄写BD。 & 保留原解D，并说明“显式定义后验”有措辞歧义。 \\
+MT043 & 2023A Q4题头有kernel，2025A Q4没有；五个选项相同。 & 保留原解BD与题头差异；A在kernel语境下有歧义，区分软间隔容错与非线性表示能力。 \\
+MT059 & 2023B Q8原解的NB参数量为2D+1。 & 对应单个共享方差且未计可学习先验；不同参数约定另列。 \\
+MT060 & 2023B Q9写C\ensuremath{\to}0，示意答案实际展示较小的正C。 & 按等权样本、偏置不受惩罚的标准目标，10红7绿使严格C\ensuremath{\to}0\textsuperscript{+}极限全判红类；保留原解小正C草图并区分C=0端点。 \\
+MT061 & 2023B Q10按较小C通常带来更多支持向量排序。 & 保留原解口径；一般情形须看实际支持向量数，并计入系数存储。 \\
+\textbf{MT063} & 2023B Q12答案图在残差\ensuremath{\pm}1处约为1，与题干公式不符。 & 按题干作图：L(\ensuremath{\pm}1)=0.5，L(\ensuremath{\pm}2)=1.5；曲线形状与光滑连接不变。 \\
+MT065 & 2025A Q9与Mock Q9同题；图中LR经过缩放。 & 按题图解释AdaBoost>LR>SVM，不把它当作不依赖尺度的普遍排序。 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+
+\textbf{阅读同学整理时：} 2020B Q13原式含\ensuremath{\lambda}，本册MT013已保留。SVM消去松弛变量后，hinge项系数仍为C；若整体除C，则权重项变为1/(2C)。2025A另有梯度消失与反传题（MT066、MT067），不能沿用“Lecture5只有一道样题”的旧盘点。
+
+
+详细原卷入口见同目录Materials.md；逐项核查与同学资料中的其他问题见Issues.md。本页不改变题目编号或真题计数。

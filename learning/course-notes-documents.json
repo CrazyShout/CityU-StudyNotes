@@ -1,62 +1,66 @@
 {
   "documents": [
     {
-      "source": "CS5489/course-notes/Lecture01.md",
+      "source": "CS5489/course-notes/Lecture01.tex",
       "course": "CS5489",
       "major": true
     },
     {
-      "source": "CS5489/course-notes/Lecture02.md",
+      "source": "CS5489/course-notes/Lecture02.tex",
       "course": "CS5489",
       "major": true
     },
     {
-      "source": "CS5489/course-notes/Lecture03.md",
+      "source": "CS5489/course-notes/Lecture03.tex",
       "course": "CS5489",
       "major": true
     },
     {
-      "source": "CS5489/course-notes/Lecture04.md",
+      "source": "CS5489/course-notes/Lecture04.tex",
       "course": "CS5489",
       "major": true
     },
     {
-      "source": "CS5489/course-notes/Lecture05.md",
+      "source": "CS5489/course-notes/Lecture05.tex",
       "course": "CS5489",
       "major": true
     },
     {
-      "source": "CS5489/course-notes/Tutorial01.ipynb",
+      "source": "CS5489/course-notes/Tutorial01.tex",
+      "course": "CS5489",
+      "major": true,
+      "notebook": "CS5489/course-notes/Tutorial01.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial02.tex",
+      "course": "CS5489",
+      "major": true,
+      "notebook": "CS5489/course-notes/Tutorial02.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial03.tex",
+      "course": "CS5489",
+      "major": true,
+      "notebook": "CS5489/course-notes/Tutorial03.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial04.tex",
+      "course": "CS5489",
+      "major": true,
+      "notebook": "CS5489/course-notes/Tutorial04.ipynb"
+    },
+    {
+      "source": "CS5489/course-notes/Assignment01.tex",
       "course": "CS5489",
       "major": true
     },
     {
-      "source": "CS5489/course-notes/Tutorial02.ipynb",
+      "source": "CS5489/course-notes/Assignment02.tex",
       "course": "CS5489",
       "major": true
     },
     {
-      "source": "CS5489/course-notes/Tutorial03.ipynb",
-      "course": "CS5489",
-      "major": true
-    },
-    {
-      "source": "CS5489/course-notes/Tutorial04.ipynb",
-      "course": "CS5489",
-      "major": true
-    },
-    {
-      "source": "CS5489/course-notes/Assignment01.md",
-      "course": "CS5489",
-      "major": true
-    },
-    {
-      "source": "CS5489/course-notes/Assignment02.md",
-      "course": "CS5489",
-      "major": true
-    },
-    {
-      "source": "CS5489/course-notes/ExamIndex.md",
+      "source": "CS5489/course-notes/ExamIndex.tex",
       "course": "CS5489",
       "major": false,
       "print_appendix": true
@@ -67,52 +71,52 @@
       "major": false
     },
     {
-      "source": "CS5222/course-notes/Chapter01.md",
+      "source": "CS5222/course-notes/Chapter01.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Chapter02.md",
+      "source": "CS5222/course-notes/Chapter02.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Chapter03.md",
+      "source": "CS5222/course-notes/Chapter03.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Tutorial01.md",
+      "source": "CS5222/course-notes/Tutorial01.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Tutorial02.md",
+      "source": "CS5222/course-notes/Tutorial02.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Tutorial03.md",
+      "source": "CS5222/course-notes/Tutorial03.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Tutorial04.md",
+      "source": "CS5222/course-notes/Tutorial04.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Tutorial05.md",
+      "source": "CS5222/course-notes/Tutorial05.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/Assignment01.md",
+      "source": "CS5222/course-notes/Assignment01.tex",
       "course": "CS5222",
       "major": true
     },
     {
-      "source": "CS5222/course-notes/ResearchReportGuide.md",
+      "source": "CS5222/course-notes/ResearchReportGuide.tex",
       "course": "CS5222",
       "major": true
     },
@@ -122,22 +126,22 @@
       "major": false
     },
     {
-      "source": "learning/foundation-notes/MathForML.md",
+      "source": "learning/foundation-notes/MathForML.tex",
       "course": null,
       "major": false
     },
     {
-      "source": "learning/foundation-notes/NetworkBasics.md",
+      "source": "learning/foundation-notes/NetworkBasics.tex",
       "course": null,
       "major": false
     },
     {
-      "source": "learning/foundation-notes/SourceEvidence.md",
+      "source": "learning/foundation-notes/SourceEvidence.tex",
       "course": null,
       "major": false
     }
   ],
   "major_documents": 21,
-  "scope": "Current downloaded Canvas; collaborative Markdown and Notebook sources with A4 PDFs; no hosted HTML",
+  "scope": "Current downloaded Canvas; native LaTeX teaching sources, saved executable Notebooks and nine A4 PDFs",
   "updated": "2026-10-16"
 }

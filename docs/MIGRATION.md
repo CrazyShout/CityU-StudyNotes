@@ -23,3 +23,9 @@ Lecture2的规范复核已随PR #3合并。其余现有文档本轮按相同原�
 按用户授权，整理后的期中题答、必要配图、去重映射、原卷索引、勘误及构建校验工具迁入`CS5489/exam-review/Midterm/`，此处成为题库唯一维护源。迁入前逐题复核表达、基础台阶与原解差异，处理记录见[本轮复核](reviews/midterm-integration-2026-10-10/README.md)。
 
 原卷档案和学生批注继续由资料持有人保存，来源目录只保留可公开的身份、文件哈希与卷次关系。阅读、构建及CI无需原Course工作区。既有三册课堂PDF、Notebook代码/输出及历史考点台账未因此重建或改写。
+
+## 2026-10-16 · ElegantBook原生LaTeX
+
+全部25份教学文档与67组题答迁为原生TeX，课堂三册及期中六种版本共用固定的ElegantBook 4.7模板。LaTeX是教学正文唯一维护源；旧Markdown仅保留自动导航，四份Notebook保留40个原代码单元的源代码、执行计数、输出与元数据。README和审阅记录继续使用Markdown。
+
+旧路径与章节锚点由`latex/documents.json`、`latex/legacy-anchors.json`和最终页码映射维护。考试标注直接从公开台账生成TeX。XeLaTeX多轮稳定页码后生成PDF与书签；缺字、未解析引用或构建失败时不替换既有PDF。迁移基线、差异及实际验收见[迁移记录](reviews/elegantbook-migration-2026-10-16/WORKLIST.md)。

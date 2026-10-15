@@ -1,0 +1,26 @@
+% MT046 / answer-en — canonical editable content.
+(a) Training observations are modeled as independent and identically distributed. \textbf{Conditional on the class}, features are independent, and each feature has a Gaussian distribution. This does not require unconditional feature independence.
+
+
+(b) Let \(\pi=P(y=1)\), with \(P(y=0)=1-\pi\). For class \(c\),
+
+
+
+\[
+p(x\mid y=c)=\prod_{j=1}^d\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})=\mathcal N(x;\mu_c,\operatorname{diag}(\sigma^2_{c1},\ldots,\sigma^2_{cd})).
+\]
+
+
+Here \(\mu_c\in\mathbb R^d\) and each variance is positive. Unless a shared-variance model is specified, different classes may have different variances.
+
+
+(c) Under equal misclassification costs, select the largest posterior:
+
+
+
+\[
+\hat y=\arg\max_{c\in\{0,1\}}\left[\log P(y=c)+\sum_{j=1}^d\log\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})\right].
+\]
+
+
+The common evidence \(p(x)\) cancels in this comparison. Use a fixed rule for ties.

@@ -1,0 +1,39 @@
+% MT031 / explanation — canonical editable content.
+RBF核把距离转换成相似度：
+
+
+
+\[
+k(u,v)=e^{-\gamma\|u-v\|^2},\qquad\gamma>0.
+\]
+
+
+\(\|u-v\|^2\)是各坐标差的平方和，距离越大，指数越负，核值越小。\(\gamma\)是逆带宽：增大它，同样的距离会受到更强的衰减。图中\(x,y,z\)互不相同，且\(x\)离\(y\)近、离\(z\)远。
+
+
+
+\begin{itemize}
+
+\item \textbf{A正确。} \(\gamma\to0^+\)时，两份距离乘上\(\gamma\)都趋近0，\(e^0=1\)，所以两核值都可接近1。
+
+\item \textbf{B正确。} \(\gamma\)很大时，只要距离非零，指数都成为很大的负数，两值都可接近0。若其中两点重合，该核恒为1，但图中并非这种情况。
+
+\item \textbf{C正确。} 近点的平方距离较小，负指数较大，所以\(k(x,y)>k(x,z)\)，自然也满足印刷题面的“\(\ge\)”。
+
+\item \textbf{D错误。} 近处还很相似，不代表远处也相似。补充例子：两距离为1和10，\(\gamma=0.01\)，两值为\(e^{-0.01}\approx0.9900\)和\(e^{-1}\approx0.3679\)。
+
+\item \textbf{E正确。} 始终有\(0\le k(x,z)\le k(x,y)\)。较大的那个都已接近0，较小的那个也必接近0。
+
+\end{itemize}
+
+
+判断D、E的差别时，画一条从0到1的数轴即可：大值靠近1不能限制小值靠近1，大值靠近0却能把小值一起夹在0附近。
+
+
+\textbf{原题差异 / Source note：} 配套答案列A、B、E；题纸的\ensuremath{\ge}使C也成立，本解按题纸补C。 / The supplied key omits C, which is true as printed.
+
+
+\textbf{出处：} 2021B*期中 Q5，原卷第3页（5分）
+
+
+\textbf{答案依据：} 2021B题纸第3页、配套答案第2页及RBF公式。版本差异汇总见本册末尾。

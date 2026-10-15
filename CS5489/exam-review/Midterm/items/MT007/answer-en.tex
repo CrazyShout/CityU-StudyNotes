@@ -1,0 +1,12 @@
+% MT007 / answer-en — canonical editable content.
+
+\begin{enumerate}[start=1]
+
+\item Give positive/cancer cases or false-negative errors a larger training cost, so missing a positive is penalized more.
+
+\item Lower the threshold for predicting the positive class. If positive is predicted when f(x)>t, lower t; for a calibrated positive-class probability, lower the probability threshold below the usual 0.5 as appropriate.
+
+\end{enumerate}
+
+
+Choose the threshold on validation data using sensitivity and false-positive cost. These choices favour recall but cannot guarantee zero false negatives on unseen patients.

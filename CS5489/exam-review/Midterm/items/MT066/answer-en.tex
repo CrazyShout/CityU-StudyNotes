@@ -1,0 +1,4 @@
+% MT066 / answer-en — canonical editable content.
+(a) Gradients reaching earlier layers can become very small, so those parameters learn slowly.
+(b) Backpropagation multiplies local Jacobians. On a scalar path, \(\partial h_L/\partial h_0\) is the product of weight and activation derivatives. Sigmoid derivatives are at most 1/4; with unit weights, a path through L sigmoids has gradient magnitude at most \((1/4)^L\).
+(c) An active ReLU has derivative 1, avoiding sigmoid's saturating factor on that path. Negative ReLU inputs have derivative zero, and weights still affect the product, so ReLU is not a universal cure.

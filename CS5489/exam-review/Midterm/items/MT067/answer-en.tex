@@ -1,0 +1,64 @@
+% MT067 / answer-en — canonical editable content.
+(a) Let \(v=3x^2\), \(u=v^{1/3}+\tan(5x)\) and \(y=(1+e^u)^{-1}\). Where \(x\ne0\) and \(\cos(5x)\ne0\), the inner derivatives are
+
+
+
+\[
+\frac{dv}{dx}=6x,\qquad
+\frac{d(v^{1/3})}{dv}=\frac13v^{-2/3},\qquad
+\frac{d\tan(5x)}{dx}=5\sec^2(5x).
+\]
+
+
+Apply the chain rule to each part of \(u\), then to \(y\):
+
+
+
+\[
+\frac{du}{dx}=\frac13v^{-2/3}(6x)+5\sec^2(5x)
+=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),
+\]
+
+
+
+\[
+\frac{dy}{du}=-(1+e^u)^{-2}e^u,
+\qquad
+\frac{dy}{dx}=-\frac{e^u}{(1+e^u)^2}
+\left[\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x)\right].
+\]
+
+
+(b) Choose a tanh hidden layer and a linear output, as permitted, and leave the unspecified loss as \(L(f,y)\). Treat \(a_i\) and \(w_j\) as columns:
+
+
+
+\[
+g_1=A^Tx,\quad z=\tanh(g_1),\quad
+g_2=W^Tz,\quad f=g_2,\quad L=L(f,y).
+\]
+
+
+Let \(\delta_2=\nabla_f L\). Since \(f_j=w_j^Tz\) and \(dz_i/dg_{1i}=1-z_i^2\), the chain rule gives
+
+
+
+\[
+\frac{\partial L}{\partial z_i}=\sum_{j=1}^n W_{ij}\delta_{2j},\qquad
+\delta_{1i}=\frac{\partial L}{\partial g_{1i}}
+=(1-z_i^2)\sum_{j=1}^n W_{ij}\delta_{2j}.
+\]
+
+
+Thus \(\delta_1=(W\delta_2)\odot(1-z^2)\), where \(\odot\) denotes elementwise multiplication. Because \(g_{1i}=a_i^Tx\) has derivative \(x\) with respect to \(a_i\), and \(f_j=w_j^Tz\) has derivative \(z\) with respect to \(w_j\),
+
+
+
+\[
+\frac{\partial L}{\partial g_1}=\delta_1,\qquad
+\frac{\partial L}{\partial a_i}=x\,\delta_{1i},\qquad
+\frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
+\]
+
+
+Here \(\delta_1\) and \(x\) are \(m\)-dimensional, \(\delta_2\) is \(n\)-dimensional and each column gradient is \(m\)-dimensional. For half-squared error, \(\delta_2=f-y\); another loss requires its own derivative.

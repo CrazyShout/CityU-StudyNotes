@@ -1,0 +1,26 @@
+% MT046 / answer-zh — canonical editable content.
+(a) 假设训练样本独立同分布；\textbf{给定类别后}，各特征相互独立，且每个特征服从高斯分布。这不要求特征在不区分类别时也独立。
+
+
+(b) 记\(\pi=P(y=1)\)，则\(P(y=0)=1-\pi\)。对类别\(c\)，有
+
+
+
+\[
+p(x\mid y=c)=\prod_{j=1}^d\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})=\mathcal N(x;\mu_c,\operatorname{diag}(\sigma^2_{c1},\ldots,\sigma^2_{cd})).
+\]
+
+
+其中\(\mu_c\in\mathbb R^d\)，每个方差都大于0。除非题目指定共享方差，不同类别可以有不同的方差。
+
+
+(c) 错分代价相同时，选择后验概率最大的类别：
+
+
+
+\[
+\hat y=\arg\max_{c\in\{0,1\}}\left[\log P(y=c)+\sum_{j=1}^d\log\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})\right].
+\]
+
+
+比较时可以约去各类共同的分母\(p(x)\)；分数相同时，按预先固定的规则选择。

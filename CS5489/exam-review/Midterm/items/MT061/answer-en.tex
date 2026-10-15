@@ -1,0 +1,5 @@
+% MT061 / answer-en — canonical editable content.
+The two linear models tie under the standard compressed representation: d weights plus one bias, \textbf{1001 numbers}, independent of C. A kernel model with M support vectors stores approximately M(d+1)+1 numbers (support-vector coordinates, one coefficient each, and a bias).
+
+
+Under this representation, the ranking is linear(C=0.1) = linear(C=1000) < ordinary nondegenerate RBF models. The two RBF models cannot be universally ordered from C alone; their actual support-vector counts are needed. The supplied answer puts C=1000 before C=0.1 based on a presumed decrease in M, but support-vector count is not generally monotone in C.

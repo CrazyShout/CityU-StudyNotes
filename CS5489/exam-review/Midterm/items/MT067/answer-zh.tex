@@ -1,0 +1,64 @@
+% MT067 / answer-zh — canonical editable content.
+(a) 令\(v=3x^2\)，\(u=v^{1/3}+\tan(5x)\)，\(y=(1+e^u)^{-1}\)。在\(x\ne0\)且\(\cos(5x)\ne0\)处，内层各项的导数为
+
+
+
+\[
+\frac{dv}{dx}=6x,\qquad
+\frac{d(v^{1/3})}{dv}=\frac13v^{-2/3},\qquad
+\frac{d\tan(5x)}{dx}=5\sec^2(5x).
+\]
+
+
+先对\(u\)的各部分使用链式法则，再对\(y\)求导：
+
+
+
+\[
+\frac{du}{dx}=\frac13v^{-2/3}(6x)+5\sec^2(5x)
+=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x),
+\]
+
+
+
+\[
+\frac{dy}{du}=-(1+e^u)^{-2}e^u,
+\qquad
+\frac{dy}{dx}=-\frac{e^u}{(1+e^u)^2}
+\left[\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x)\right].
+\]
+
+
+(b) 按题目允许的选择，隐藏层使用tanh，输出层使用线性函数；题目未指定的损失保留为\(L(f,y)\)。把\(a_i\)和\(w_j\)视为列向量：
+
+
+
+\[
+g_1=A^Tx,\quad z=\tanh(g_1),\quad
+g_2=W^Tz,\quad f=g_2,\quad L=L(f,y).
+\]
+
+
+令\(\delta_2=\nabla_f L\)。由\(f_j=w_j^Tz\)及\(dz_i/dg_{1i}=1-z_i^2\)，链式法则给出
+
+
+
+\[
+\frac{\partial L}{\partial z_i}=\sum_{j=1}^n W_{ij}\delta_{2j},\qquad
+\delta_{1i}=\frac{\partial L}{\partial g_{1i}}
+=(1-z_i^2)\sum_{j=1}^n W_{ij}\delta_{2j}.
+\]
+
+
+因此\(\delta_1=(W\delta_2)\odot(1-z^2)\)，其中\(\odot\)表示逐元素相乘。\(g_{1i}=a_i^Tx\)对\(a_i\)的导数是\(x\)，\(f_j=w_j^Tz\)对\(w_j\)的导数是\(z\)，所以
+
+
+
+\[
+\frac{\partial L}{\partial g_1}=\delta_1,\qquad
+\frac{\partial L}{\partial a_i}=x\,\delta_{1i},\qquad
+\frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
+\]
+
+
+其中\(\delta_1\)和\(x\)是\(m\)维向量，\(\delta_2\)是\(n\)维向量，每个列参数的梯度都是\(m\)维。若损失为平方误差的一半，则\(\delta_2=f-y\)；若采用其他损失，需要使用相应的导数。

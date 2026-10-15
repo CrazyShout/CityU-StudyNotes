@@ -1,28 +1,6 @@
 {
-  "status": "passed",
-  "books": [
-    {
-      "file": "Combined.pdf",
-      "pages": 148,
-      "sha256": "ecbc381d493c55204b5907ae848e714497b502f6b84644d07462f48606f26f09",
-      "source_sha256": "3d13d94989674aba381a5715571297cc5c8b5e984bce79835f1ea88c2d7377ca",
-      "portable_cross_book_links": 0
-    }
-  ],
-  "unique_question_answer_pairs": 67,
-  "original_question_positions": 78,
-  "printed_chinese_answer_counterparts": 67,
-  "non_link_annotations": 0,
-  "independent_midterms": 6,
-  "independent_page_maps": true,
-  "verified_printed_page_references": 232,
-  "verified_html_page_references": 232,
-  "paper_index_rows": 78,
-  "legacy_aliases_per_book": 15,
-  "source_metadata_entries_checked": 14,
-  "source_hashes_verified": 0,
-  "source_archive_verification": "not_requested",
-  "numeric_checks": 74,
-  "render_evidence": "verified_current",
-  "visual_review": "Recorded separately after examining rendered pages; not inferred from automated checks."
+  "status": "superseded_html_report",
+  "current_manifest": "../../../latex/manifest.json",
+  "historical_report": "../../../docs/reviews/elegantbook-migration-2026-10-16/legacy-validation/CombinedValidation.json",
+  "validation_command": "python scripts/validate.py"
 }

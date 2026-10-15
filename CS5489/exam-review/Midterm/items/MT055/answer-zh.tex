@@ -1,0 +1,12 @@
+% MT055 / answer-zh — canonical editable content.
+\textbf{在适当的定义域上，A、B合法。} A是非零输入归一化之后的内积。对B，假设相关积分存在，则任意系数\(a_i\)都满足
+
+
+
+\[
+\sum_{i,j}a_i a_j k(x_i,x_j)
+=\int\left[\sum_i a_i p(x_i\mid z)\right]^2p(z)\,dz\ge0.
+\]
+
+
+C有反例：取一维输入0和2，Gram矩阵为\(\begin{pmatrix}1&1\\1&0\end{pmatrix}\)，行列式为负。D的对角元素可能为负，例如取\(x=\sqrt{3\pi/2}\)。对E，取输入1、2及系数\((1,-1)\)，得到\(\tanh(1)+\tanh(4)-2\tanh(2)\approx-0.1671<0\)。因此，C、D、E都不能在所有实数输入上作为合法核。

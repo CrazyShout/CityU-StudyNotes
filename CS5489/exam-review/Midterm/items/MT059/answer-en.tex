@@ -1,0 +1,18 @@
+% MT059 / answer-en — canonical editable content.
+
+\begin{enumerate}[start=1]
+
+\item Both can yield linear decision boundaries in the given feature space when Gaussian NB shares variances across classes.
+
+\item Both can be learned using maximum likelihood, but LR maximizes conditional label likelihood, whereas NB fits the joint model through class priors and class-conditional likelihoods.
+
+\item NB is generative; LR directly models the class posterior and is discriminative.
+
+\item Both have multiclass extensions and can incorporate regularization or parameter priors.
+
+\item For binary classification with \(d\) features, LR has \(d+1\) coefficients, including the intercept. Under the key's \textbf{single shared scalar variance} convention, NB has \(2d+1\) class-conditional parameters: two mean vectors and one variance. A learned binary class prior adds one more free parameter, making \(2d+2\) in total.
+
+\end{enumerate}
+
+
+If “shared variance” means one shared variance \textbf{per feature}, NB has \(3d+1\) free parameters including the learned prior. State which model and counting convention you use.

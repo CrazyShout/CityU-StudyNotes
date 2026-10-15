@@ -1,0 +1,30 @@
+% MT006 / explanation — canonical editable content.
+集成学习（ensemble learning）用多个模型共同作决定。分类可以投票，回归可以平均；单个参与的模型叫基学习器。Bagging与boosting的区别主要在于这些模型怎样训练。
+
+
+\textbf{Bagging让多个模型分别学习。} 从训练数据有放回地抽样，每次得到稍有不同的数据集，再各自训练模型。某些原记录会重复出现，某些不会被抽到。最后把预测汇总，用平均减弱单个模型随样本变化的波动。
+
+
+\textbf{Boosting让后续模型针对当前组合的不足继续学习。} 例如AdaBoost提高难分样本的相对权重，使下一轮更关注它们。下一轮训练因此依赖前面结果，模型贡献也常带不同权重。
+
+
+
+\begin{itemize}
+
+\item \textbf{A正确。} 两者都把多个学习器组合起来。
+
+\item \textbf{B错误。} Bagging的各模型可以独立训练；boosting中的“boost”指增强组合能力，不是保证计算加速。
+
+\item \textbf{C错误。} 树很常见，但集成方式与基模型种类是两个层面，并非原则上只能使用树或树桩。
+
+\item \textbf{D错误。} 更多模型不必然过拟合。Bagging增加模型常使平均更稳定；boosting的表现则与噪声、轮数、学习率等有关，不能给两者同一必然结论。
+
+\item \textbf{E正确。} 可以对多个boosted模型再做bagging等组合，只是实际成本与收益仍需验证。
+
+\end{itemize}
+
+
+\textbf{出处：} 2020B期中Quiz Q6，原卷第3页（5分）
+
+
+\textbf{答案依据：} 2020B期中 Q6 随卷／配套参考答案；条件与解释经复核。

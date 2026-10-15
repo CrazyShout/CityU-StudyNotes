@@ -1,0 +1,5 @@
+% MT053 / answer-zh — canonical editable content.
+\textbf{B、C、D正确。} 逻辑回归直接建模\(P(y\mid x)\)；生成式分类器则先建模\(p(x\mid y)\)和\(P(y)\)，再通过Bayes规则推导\(P(y\mid x)\)。MAP训练中的高斯参数先验对应L2惩罚，可以通过交叉验证选择其强度。
+
+
+A错误：一般的逻辑回归需要数值优化。E错误：惩罚项会改变优化得到的系数，通常会缩小它们的绝对值。
