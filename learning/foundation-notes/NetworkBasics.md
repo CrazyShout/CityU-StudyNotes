@@ -99,7 +99,7 @@ TCP提供有序字节流，应用必须自己定义消息边界；一次`send`�
 
 **English:** Preserve protocol delimiters exactly. Application messages need framing, especially over a TCP byte stream.
 
-返回：[Chapter2：HTTP报文](../../CS5222/course-notes/Chapter02.md#http) · [Tutorial3 Q1](../../CS5222/course-notes/Tutorial03.md#q1) · [Assignment1 POP3](../../CS5222/course-notes/Assignment01.md#pop3)
+返回：[Chapter2：HTTP报文](../../CS5222/course-notes/Chapter02.md#http) · [Chapter3：Telnet字节序号](../../CS5222/course-notes/Chapter03.md#tcp) · [Tutorial3 Q1](../../CS5222/course-notes/Tutorial03.md#q1) · [Assignment1 POP3](../../CS5222/course-notes/Assignment01.md#pop3)
 
 <a id="timeline"></a>
 ## 4. Timelines and pipelines｜先问“谁到哪了”，再问“用了多久”
@@ -131,7 +131,7 @@ $(4+3-1)\times2=12$ms。 / 12 ms. 第一包用3T，第2–4包每隔T到达，�
 
 **English:** Name the event before calculating its time. Pipelining overlaps work on different links; store-and-forward still requires each individual packet to arrive completely.
 
-返回：[Chapter1：存储转发](../../CS5222/course-notes/Chapter01.md#switching) · [Tutorial1 Q1](../../CS5222/course-notes/Tutorial01.md#q1) · [Assignment1 P31](../../CS5222/course-notes/Assignment01.md#p31)
+返回：[Chapter1：存储转发](../../CS5222/course-notes/Chapter01.md#switching) · [Chapter1：队列事件](../../CS5222/course-notes/Chapter01.md#queue-events) · [Chapter3：停等利用率](../../CS5222/course-notes/Chapter03.md#utilization) · [Tutorial1 Q1](../../CS5222/course-notes/Tutorial01.md#q1) · [Assignment1 P31](../../CS5222/course-notes/Assignment01.md#p31)
 
 ## 来源与复算
 

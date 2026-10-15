@@ -1,0 +1,134 @@
+{
+  "source_files": [
+    {
+      "file": "Q&A_cha1_2026_student.pptx",
+      "slides": 6,
+      "sha256": "a4dd606a14bed6285e66d59dee9a55703fef78387c05a6a481570bff3d2a0a72"
+    },
+    {
+      "file": "cs5222_cha1_2026_student.pptx",
+      "slides": 78,
+      "sha256": "e34c0915b7cf881ec1d28bbf80ab2e9c39ecb9d13b00107036e9f21aa32a43aa"
+    },
+    {
+      "file": "cs5222_cha1_2026_student_part1.pptx",
+      "slides": 49,
+      "sha256": "6d1798625c6330408371d8e98da1c558846c71306b5501f8170fd9422c2f5f0f"
+    },
+    {
+      "file": "cs5222_cha1_2026_student_part2.pptx",
+      "slides": 29,
+      "sha256": "29c7f0f190e9a8e963d7adeb9c1932ab19c13ed47eaa62b7f6acacf8841c82ac"
+    },
+    {
+      "file": "Q&A_cha2_2026_student.pptx",
+      "slides": 7,
+      "sha256": "9001fba7cdbe48df49b8c97ad4a2bff8f8d441f0bb2f8ea5689f485e78fcfc67"
+    },
+    {
+      "file": "cs5222_cha2_2026_student.pptx",
+      "slides": 107,
+      "sha256": "49c603bb0719b5c956b2b49d30c80d632a5352dca4a6b82a55323465558b9ae6"
+    },
+    {
+      "file": "cs5222_cha2_2026_student_part1.pptx",
+      "slides": 22,
+      "sha256": "4a86d6bef0456d44182c9285a26aaec4ee6cf2af82a83444d1cad76f83df9bde"
+    },
+    {
+      "file": "cs5222_cha2_2026_student_part2.pptx",
+      "slides": 43,
+      "sha256": "bb99381ca3e3765f3f99ac9808e230cb558b1a6eaa9851c42baed2efed6ed851"
+    },
+    {
+      "file": "cs5222_cha2_2026_student_part3.pptx",
+      "slides": 42,
+      "sha256": "e826cc9f71ea889ee2fcead7eb02a28877d9bd3ad5956f815025d0e623e5f54c"
+    },
+    {
+      "file": "cs5222_cha3_2026_student_part1.pptx",
+      "slides": 44,
+      "sha256": "3d6081e18061bf7c62b0711a255ce2aab80356ffa10b164cc677db081b680210"
+    },
+    {
+      "file": "cs5222_cha3_2026_student_part2.pptx",
+      "slides": 26,
+      "sha256": "465fe6d2f64d78371d8387c3aa59001827494ab5b84e05d8db91683f23a2da76"
+    },
+    {
+      "file": "Tutorial4/Tutorial-4_semA2026.pdf",
+      "sha256": "b4118edeb7e4fca5f3b5201d7430dbff2f624d0a82bb4664ccac3a5c4586ff32",
+      "review": "Original PDF text read; Tutorial 4 solution slides 9-15 read for the directly related topics."
+    },
+    {
+      "file": "Tutorial4/Tutorial-4-solution_semA2026v2.pptx",
+      "sha256": "120887d6a4bb1b2a7c1d25840634947e860a7cf4b66b7e6651ef4bb87d06bbd2",
+      "review": "Original PDF text read; Tutorial 4 solution slides 9-15 read for the directly related topics."
+    },
+    {
+      "file": "Tutorial5/tutorial-5_semA2026.pdf",
+      "sha256": "a60373239ac8b774bd7cf90d4bd55afaf2a0a246f2f898b705106ef112a7a1b9",
+      "review": "Original PDF text read; Tutorial 4 solution slides 9-15 read for the directly related topics."
+    }
+  ],
+  "part_correspondence": {
+    "Chapter1": {
+      "part1": [
+        1,
+        49
+      ],
+      "part2": [
+        50,
+        78
+      ]
+    },
+    "Chapter2": {
+      "part1": [
+        1,
+        22
+      ],
+      "part2": [
+        23,
+        65
+      ],
+      "part3": [
+        66,
+        107
+      ]
+    }
+  },
+  "text_comparison": "Each full/part slide has equal extracted text-node count; any difference is a single numeric node equal to the full/part slide number. All other text nodes match exactly.",
+  "reading_scope": "All main-slide and Q&A text read; key diagrams inspected separately. Not a claim of full-resolution visual inspection of every source slide.",
+  "part_comparison": [
+    {
+      "chapter": 1,
+      "part": 1,
+      "slides": 49,
+      "only_single_slide_number_differences": 0
+    },
+    {
+      "chapter": 1,
+      "part": 2,
+      "slides": 29,
+      "only_single_slide_number_differences": 29
+    },
+    {
+      "chapter": 2,
+      "part": 1,
+      "slides": 22,
+      "only_single_slide_number_differences": 0
+    },
+    {
+      "chapter": 2,
+      "part": 2,
+      "slides": 43,
+      "only_single_slide_number_differences": 43
+    },
+    {
+      "chapter": 2,
+      "part": 3,
+      "slides": 42,
+      "only_single_slide_number_differences": 41
+    }
+  ]
+}

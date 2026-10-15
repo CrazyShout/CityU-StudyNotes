@@ -47,7 +47,7 @@ TCP提供连接上的可靠有序字节流以及流控、拥塞控制；UDP提�
 
 先看一个普通、未连接的UDP接收socket：目的IP与目的端口标识接收socket，不同来源的数据报可以到同一个UDP socket。Chapter 3 part 1，第13张幻灯片的已建立TCP连接按四元组区分：源IP、源端口、目的IP、目的端口。因此服务器端同一个80端口可同时服务多个连接，只要四元组不同。
 
-**跟做 / Worked：** C:7532→B:80、C:26145→B:80、A:26145→B:80是三条不同TCP连接。回程分别B:80→C:7532、B:80→C:26145、B:80→A:26145。后两者客户端端口相同，客户端IP仍区分连接。 / Reverse both address-port pairs for the return direction.
+**跟做 / Worked：** 沿用Tutorial 5 Q2的端口：C:7532→B:80、C:26145→B:80、A:26145→B:80是三条不同TCP连接。回程分别B:80→C:7532、B:80→C:26145、B:80→A:26145。后两者客户端端口相同，客户端IP仍区分连接。 / Using the ports in Tutorial 5 Q2, reverse both address-port pairs for the return direction.
 
 **实现补注：** 这里比较的是课堂的普通UDP接收与已建立TCP连接。监听socket、已接受连接及connected UDP的接口细节，可在实际编程时进一步区分。
 
@@ -60,7 +60,7 @@ TCP提供连接上的可靠有序字节流以及流控、拥塞控制；UDP提�
 </details>
 
 
-来源：Chapter 3 part 1，第11张幻灯片。
+来源：Chapter 3 part 1，第9–15张幻灯片；端口数值沿用Tutorial 5 Q2，不与课件第14张的另一组端口混用。
 
 <a id="udp"></a>
 
@@ -100,26 +100,91 @@ UDP首部四个16bit字段为source port、destination port、length、checksum�
 
 ## 5. rdt1.0到rdt2.2｜每多一种故障，就多一项必要机制
 
-先看发送和接收各自负责的动作：应用通过rdt_send把数据交给发送协议；协议调用底层不可靠通道；接收方在合适时机deliver_data。有限状态机（FSM）记录“现在等什么”，箭头上方是触发事件/条件，下方是执行动作。不能把“没有动作”的转移理解为“这个事件不存在”。
+假设发送应用要依次交付数据A、B。这里先只传一个方向的应用数据，确认消息仍会反向流动。发送端看不到接收端内存，只能从收到的反馈推测对方进度；接收端也不知道自己发出的ACK有没有被正确收到。协议必须在这种信息不对称下避免漏交、错交和重复交付。
 
-rdt1.0假设底层不损坏、不丢失。发送就交下去，接收就交上来，不需要凭空增加ACK。随着信道假设变化，机制才有理由出现。
+### FSM的事件、条件与动作
 
-rdt2.0加入比特损坏：checksum检测，ACK表示收到正确数据，NAK表示重发请求。但ACK/NAK本身也可能损坏。此时发送者不知道数据到底是否已交给应用；直接重发可能导致同一条数据交付两次。
+应用调用`rdt_send(data)`把数据交给发送协议；协议用`udt_send(packet)`把包装好的包交给底层通道。某个包到达时，产生`rdt_rcv(packet)`事件；接收协议只有确定它是正确的新数据，才调用`deliver_data(data)`交给上层。
 
-rdt2.1给数据加0/1序号。接收方记录期望编号，重复包仍可回复反馈，但不能重复交付。双方状态增加，是因为必须记住这一轮在等哪个序号；“看到包”与“向上交付新数据”是两件事。
+有限状态机（finite-state machine，FSM）的圆圈记录“现在等什么”。每条箭头读成：**当前状态下发生上方事件、满足相应条件，就执行下方动作，再进入箭头终点状态**。`&&`表示条件同时成立，`||`表示至少一个成立。箭头绕回自身表示状态不变，仍可有发送反馈或重传等动作；Λ表示不执行额外动作，不表示忽略了所有状态转移。
 
-rdt2.2去掉NAK，用带编号的ACK表达接收进度：遇到损坏/非期望包，重发最近正确包的ACK。发送方据ACK的编号判断是否完成当前发送。这不等于接收方对坏数据作成功确认。
+### rdt1.0：信道可靠，双方各一个状态
+
+底层不损坏、不丢失，按课堂的正常交付顺序传送。发送端始终“等上层调用”：收到A就`make_pkt(A)`、`udt_send`，随后仍等上层，可接B。接收端始终“等下层到包”：收到包就提取数据并交付，随后继续等包。没有需要恢复的故障，因此不用ACK、序号或定时器。
+
+### rdt2.0：先解决数据损坏，再看反馈损坏
+
+加入比特损坏后，接收端用checksum检测，正确时交付并回ACK，损坏时不交付并回NAK。发送端必须保存本轮的`sndpkt`，否则收到NAK也没有原包可重传。这个版本暂假定反馈能被正确识别，且包不丢失。
+
+| 当前状态 | 收到的事件/条件 | 动作 | 下一状态 |
+|---|---|---|---|
+| 发送端：等上层 | 上层给新数据 | 封装并保存、发送 | 等ACK或NAK |
+| 发送端：等反馈 | 收到ACK | 本轮完成，允许下一份数据 | 等上层 |
+| 发送端：等反馈 | 收到NAK | 重发保存的原包 | 仍等反馈 |
+| 接收端：等下层 | 数据包校验通过 | 提取、交付、回ACK | 仍等下层 |
+| 接收端：等下层 | 数据包损坏 | 不交付、回NAK | 仍等下层 |
+
+正常时，A到达、交付、ACK返回，发送者才接B。异常时，损坏的A到达、NAK返回，发送者重发A；这次校验通过后才交付A并确认。checksum只负责识别损坏，真正恢复靠反馈和重传。
+
+问题出在ACK/NAK也可能损坏。发送者看到一条读不懂的反馈，无法分清“接收端交付A后，ACK坏了”和“接收端拒绝坏A后，NAK坏了”。不重发可能永远漏交；直接重发又可能把已经交付的A交第二次。接收端不能仅看内容是否相同，因为应用本来就可能合法地连续发送两份相同数据。
+
+### rdt2.1：序号记录的是这一轮数据身份
+
+给数据包加入交替的0/1序号。重传A仍用同一个编号，只有确认A完成，下一份新数据B才换号。发送端有四个状态：“等上层提供0号数据”“等0号包反馈”“等上层提供1号数据”“等1号包反馈”。接收端有两个状态：“等0”“等1”。
+
+发送端在等某号包反馈时，收到正确ACK就进入另一编号的等上层状态；收到NAK或损坏反馈，就重发保存的原包，状态不变。原rdt2.1图的ACK/NAK消息尚未显式携带被确认的包序号，状态名中的0/1表示发送者正在等待哪一轮。
+
+| 接收端当前状态 | 到达的数据包 | 是否交付 | 发什么反馈、下一状态 |
+|---|---|---|---|
+| 等0 | 正确的0 | 交付一次 | ACK，改等1 |
+| 等0 | 正确的1（上一轮副本） | 不交付 | ACK，仍等0 |
+| 等0 | 损坏 | 不交付 | NAK，仍等0 |
+| 等1 | 正确的1 | 交付一次 | ACK，改等0 |
+| 等1 | 正确的0（上一轮副本） | 不交付 | ACK，仍等1 |
+| 等1 | 损坏 | 不交付 | NAK，仍等1 |
+
+走一遍“ACK损坏”：A(0)正确到达，接收端交付A并改等1；ACK途中损坏，发送者仍等0号反馈，重发A(0)。接收者此时等1，认出0是上一轮副本，只再发ACK，既不交付也不切回等0。第二个ACK成功到达后，发送者才接收并发送B(1)。双方在中途分别等不同编号，正是反馈尚未同步的正常情况。
+
+### rdt2.2：让ACK带编号，便可去掉NAK
+
+接收者改成“确认最后一个正确收到的包”。等待0时，正确0到达就交付、回ACK0、改等1；损坏包或重复1到达，就回ACK1、仍等0。等待1时完全对称：正确1触发交付与ACK1，其他情况回ACK0。初始等0时，可把保存的上一确认初始化为ACK1，表示0尚未被接受，并不声称应用已经收到过一份真实的1号数据。
+
+发送者等ACK0时，只把校验通过的ACK0视为完成；ACK1或损坏ACK都使它重发0，继续等ACK0。等ACK1时交换0/1即可。图中从“等ACK0”到“等上层1”的箭头只允许接下一份数据，不会在应用尚未提供数据时凭空发出1号包。
+
+![Complete sender states for rdt2.2](assets/chapter03-rdt22-fsm.svg)
+
+*按Chapter 3 part 1第38–39张整理的完整发送端图。箭头写“事件 / 动作”；Ready状态等应用，Wait for ACK状态等反馈。异常反馈沿自环重传，成功反馈才切换数据编号。接收端的两状态规则见上文。*
+
+例如双方正在处理B(1)，但它到达时损坏：接收者仍等1，回ACK0；发送者正在等ACK1，看见ACK0便重发B(1)。ACK0说的是“上一次正确收到的是0”，并没有对损坏的1作成功确认。这种单个重复ACK触发的重传属于rdt2.2模型，不是后续TCP的重复ACK算法。
+
+**独立题 / Check：** rdt2.2中A(0)已正确交付，接收者改等1，但ACK0在途中损坏。随后重传的数据与反馈都正确到达，且无丢失或重排。依次写出发送者动作、接收者动作及双方最终状态。 / In rdt2.2, A(0) is delivered and the receiver waits for 1, but ACK0 is corrupted. The retransmitted data and its reply then arrive intact, with no loss or reordering. State both endpoints' actions and final states.
+
+<details markdown="1"><summary>答案 / Answer</summary>
+
+发送者读不懂ACK，重发A(0)，仍等ACK0。接收者等1，丢弃重复数据但补发ACK0，仍等1。发送者收到正确ACK0后进入“等上层1”。A只交付一次。 / The sender retransmits A(0) and keeps waiting for ACK0. The receiver does not redeliver it, sends ACK0 and keeps waiting for 1. The valid ACK0 moves the sender to ready-for-data-1; A is delivered once.
+
+</details>
 
 **English takeaway:** Checksums detect certain damage, acknowledgments report receiver state, and sequence numbers distinguish new data from retransmissions. Each mechanism addresses a different ambiguity.
 
 
-来源：Chapter 3 part 1，第22–27张幻灯片。
+来源：Chapter 3 part 1，第22–28张幻灯片（接口与rdt1.0）、第29–34张（rdt2.0及反馈歧义）、第35–37张（rdt2.1）、第38–39张（rdt2.2）。第39张接收端只画片段，指向“等0”的正确1号包箭头来自省略的“等1”状态，不能读成在等0时交付1。
 
 <a id="rdt3"></a>
 
 ## 6. rdt3.0｜坏消息会来，丢掉的消息可能一直不来
 
 现在让模型再面对一种故障：数据或ACK可能丢失。没有反馈时不能永远等，因此发送方启动timer，超时重发当前包。收到当前包的正确ACK后停timer并进入下一编号；损坏或错误编号的ACK不能错误推进。
+
+与rdt2.2相比，课堂rdt3.0的**接收端沿用原来的ACK编号规则，发送端改用超时控制重传**。以正在等ACK0为例：
+
+| 事件 | 发送端动作 | 状态与定时器 |
+|---|---|---|
+| 正确ACK0到达 | 停止定时器，本轮完成 | 改为等上层提供1号数据 |
+| ACK损坏或收到ACK1 | 不重传、不推进编号 | 仍等ACK0，原定时器继续运行 |
+| 定时器超时 | 重传保存的0号包，重新启动定时器 | 仍等ACK0 |
+
+所以“收到坏ACK就立即重传”不能从rdt2.2直接抄到本节。发送0号包时启动定时器，即使数据或ACK完全消失，没有任何到包事件，超时事件仍能打破等待。
 
 | 发生什么 | 发送者看见什么 | 必要行为 |
 |---|---|---|
@@ -132,6 +197,10 @@ rdt2.2去掉NAK，用带编号的ACK表达接收进度：遇到损坏/非期望�
 ![Delayed duplicate counterexample](assets/oct-alternating-bit.png)
 
 图为补充推导，时间向下。原0包被延迟，其重传先到；随后1包也完成。接收方又等0时，最早那份旧0才到。内容已经过期，但编号恰好符合期望，因此可能被重复交付。
+
+**自测 / Check：** rdt3.0发送者等ACK1时收到校验正确的ACK0，定时器尚未超时。应马上重发1、改发新0，还是继续等？ / An rdt3.0 sender waiting for ACK1 receives a valid ACK0 before timeout. Should it retransmit 1 immediately, send new data 0, or keep waiting?
+
+**答 / Answer：** 继续等ACK1，保持原定时器；超时后才重传1。 / Keep waiting with the existing timer. Retransmit packet 1 only if that timer expires.
 
 
 来源：Chapter 3 part 1，第40–44张幻灯片。
@@ -175,6 +244,16 @@ $L/R=0.08ms$，$U=0.08/30.08$，吞吐约0.2660Mbps，仍主要受等待限制�
 
 Selective Repeat（SR，选择重传）分别确认正确收到的包，缓存窗口内乱序包，每个未确认包有自己的超时逻辑。某包超时只重传该包；应用仍需按序交付，不能因为缓存里有后段就跳过前段缺口。
 
+### 窗口怎样随ACK向前移动
+
+设发送窗口N=4、序号暂不回绕，发送前base=nextseqnum=0。允许使用的编号为0–3；发完四包后nextseqnum=4。下一新包必须满足`nextseqnum < base+N`，所以此时不能再发4。这里窗口覆盖N个连续编号，不是“任何位置凑齐N个未确认包”就可以任意跳过缺口。
+
+GBN收到ACK0，便知道截至0已连续收齐，base移到1，窗口变为1–4，可以发送4。再收到ACK2，意味着1和2也已收齐，即使ACK1没有单独到达，base也可移到3；只要没有其他新包，最早未确认的是3，定时器继续为它服务。
+
+SR收到ACK0后同样可把base移到1。但若接着只收到ACK2、ACK3，发送者仅把2、3标成已确认，base仍卡在1，窗口仍为1–4。等ACK1补上，已确认的连续前缀才一次越过1、2、3，base移到4。接收端也有类似边界：2、3可以先缓存，应用须等缺失的1补齐后才能依次收到1、2、3。
+
+SR接收端对当前窗口内正确包确认并按需缓存；对上一窗口内的已交付重复包，再发相应ACK而不重复交付，帮助发送者从ACK丢失中恢复。其他窗口外的包按课堂模型忽略。发送者收到一个较大编号的SR ACK，只知道那个包收到了，不能把它当成GBN式的累计承诺。
+
 **同一场景 / Worked：** 窗口足以容纳四包，序号不回绕；依次发0、1、2、3，只丢数据1，没有其他丢失或重排。 / Both protocols have sufficient window space, with no sequence-number wraparound. Send packets 0–3; only packet 1 is lost, and all other data and ACKs arrive without reordering. GBN收到0后ACK0，收到2和3均丢弃并ACK0，超时通常重传1、2、3。SR可缓存2和3并分别ACK2/ACK3，等1补上后连续交付1、2、3。这是包序号，尚不是TCP字节ACK。
 
 ![Same loss, different receiver buffering and retransmissions](assets/chapter03-gbn-sr.png)
@@ -204,7 +283,35 @@ TCP segment序号是该段第一个数据字节的位置；累计ACK是下一期
 
 **跟做 / Worked：** seq=1000且含500byte，覆盖1000–1499；若此前均收齐，ACK1500。收到的不是“1000号包”，不能简单加1。
 
+### 沿课堂Telnet图算完三个报文段
+
 在课堂的Telnet回显例子中，两端各有自己的字节序列；回显字符属于反方向的数据，一个段可以同时携带本方向数据和对反方向的ACK。不要用一个共享计数器给整个双向连接编号。
+
+连接已建立，A下一待发送数据字节编号42，B下一待发送数据字节编号79；A正期待B的79，B正期待A的42。用户在A输入ASCII字符`C`，本例只计这个字符的1 byte，不另加回车、换行或Telnet控制数据。报文按图中顺序正确到达，没有其他数据、SYN或FIN。
+
+![Three segments in the classroom Telnet echo](assets/chapter03-telnet.svg)
+
+*按Chapter 3 part 2第22–23张的原数字整理。时间向下，仅表示先后，不按实际RTT比例。实线带数据，虚线是无数据的ACK；灰度也可区分。*
+
+1. **A发`C`：Seq=42，ACK=79，数据1 byte。** Seq属于A→B方向，这个字节占42；A发送之后下一新字节应从43开始。ACK=79描述B→A方向：A还没收到B的新数据，仍等待79。
+2. **B确认并回显：Seq=79，ACK=43，数据1 byte。** B收到A的42，下一期待43，所以写ACK43。回显的`C`是B自己发送的数据，使用B的79；不能因为字符相同就复制Seq42。这个段把数据和确认放在一起，称捎带确认（piggybacking）。
+3. **A只确认回显：Seq=43，ACK=80，数据0 byte。** A已经收到B的79，下一期待80。自己的下一个数据编号仍是43，所以空段写Seq43；它不发送新数据，也没有SYN/FIN，不消耗数据序号。若随后输入另一个单字节字符，仍从Seq43发出，而非44。
+
+因此填写一行前，先确定“是谁发送”：Seq从该端自己的发送进度取，ACK从该端对另一方向的连续接收进度取。收到对自己数据的确认，不会让自己的发送编号额外再加一次。纯ACK不占序号空间的补充依据见[RFC 9293《Transmission Control Protocol》§3.5](https://www.rfc-editor.org/rfc/rfc9293.html#section-3.5)。
+
+**独立变式 / Transfer：** 连接已建立，A下一发送字节为1000并等待B的5000，B下一发送字节为5000并等待A的1000。A在一个段中发送ASCII `OK`两个字节，B完整收到后用一个段原样回显，A最后发纯ACK。三段依次完整到达，无其他数据、SYN或FIN。填写每段的Seq、ACK、数据长度，以及A再发新数据时的Seq。 / On an established connection, A's next send byte is 1000 and it expects B's 5000; B's next send byte is 5000 and it expects A's 1000. A sends ASCII OK in one segment, B echoes both bytes in one segment, and A sends a pure ACK. All three arrive in order, with no other data, SYN or FIN. Give each segment's Seq, ACK and payload length, and A's next new-data Seq.
+
+<details markdown="1"><summary>答案 / Answer</summary>
+
+| 方向 | Seq | ACK | 数据长度 / Payload |
+|---|---:|---:|---:|
+| A→B | 1000 | 5000 | 2 byte |
+| B→A | 5000 | 1002 | 2 byte |
+| A→B | 1002 | 5002 | 0 byte |
+
+A下次新数据仍从1002开始。两个方向各增加2，纯ACK不额外增加；`OK`按ASCII是两个字节，不是一个“消息号”。 / A's next new-data Seq is 1002. Each data direction advances by two bytes, and the pure ACK consumes no sequence space.
+
+</details>
 
 **English takeaway:** A TCP sequence number locates the first payload byte; a cumulative ACK identifies the next expected byte. Each direction has its own byte sequence.
 
@@ -261,7 +368,7 @@ S是本次样本，E与S都以相同时间单位计。历史样本的影响指�
 | Chapter 3 part 1，第17–20张幻灯片 UDP与checksum | §3–4 |
 | Chapter 3 part 1，第22–27张幻灯片 可靠传输接口与FSM | §5 |
 | Chapter 3 part 1，第28–39张幻灯片 rdt1.0、2.0、2.1、2.2 | §5 |
-| Chapter 3 part 1，第40–44张幻灯片 rdt3.0与四种时序情境 | §6 |
+| Chapter 3 part 1，第40–44张幻灯片 rdt3.0、定时器、正常/数据丢失/ACK丢失时序 | §6 |
 | Chapter 3 part 2，第1–4张幻灯片 停等与流水线利用率 | §7 |
 | Chapter 3 part 2，第5–15张幻灯片 GBN/SR、窗口、状态与丢包 | §8 |
 | Chapter 3 part 2，第16张幻灯片 目录 | 当前范围提示 |

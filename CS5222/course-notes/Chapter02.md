@@ -176,6 +176,12 @@ root、TLD和权威服务器形成管理层次；本地解析器负责替你沿�
 | CNAME | 别名→规范名 | 后续仍需得到地址记录 |
 | MX | 邮件域→邮件交换服务器名 | 实际还含优先级字段；不是发往Web服务器的A记录 |
 
+例如解析器要找`video.example`的IPv4地址，先得到`video.example CNAME edge.example`，再得到`edge.example A 192.0.2.20`。第一个回答给出另一个名字，第二个才给出可连接的地址。它们可能一起出现在回答中，也可能需要继续查询；CNAME不会把视频文件一起带回来。这些名称和地址仅作教学示例。
+
+**缓存变式 / Transfer：** 解析器在t=0同时缓存上述两条记录，CNAME的TTL为300 s，A的TTL为60 s。忽略其他缓存与提前刷新，t=90 s再次询问相同地址时，哪条记录仍有效、还缺什么？ / At t=0, a resolver caches the CNAME with TTL 300 s and the A record with TTL 60 s. With no other cache or refresh, what can it reuse at t=90 s and what must it obtain again?
+
+**答 / Answer：** 别名关系还剩210 s；A记录已过期，需要重新取得`edge.example`的有效地址，不能假定旧IP仍可直接用。 / The CNAME has 210 s left. The A record has expired, so a valid address for edge.example must be obtained again.
+
 课堂的查询/响应共用结构：ID匹配事务；flags说明请求/回答、是否希望递归、是否支持递归、是否权威等；counts说明后续questions、answers、authority、additional的数量。附加区可以携带相关地址，减少后续查询，但不是任意附加记录都自动可信。
 
 新公司例子：向注册商登记域和权威服务器，父区设置委派NS，必要时有glue地址；在自己权威区添加www的地址记录。课件同页混用`networkuptopia`/`networkutopia`且www与apex不一致，是拼写/名称示意问题；真正配置时它们是不同DNS名字，必须统一，不能指望解析器猜出来。
@@ -184,9 +190,10 @@ root、TLD和权威服务器形成管理层次；本地解析器负责替你沿�
 
 **English:** Recursive resolution delegates completion; iterative resolution returns referrals. DNS records have distinct types and TTLs; a non-authoritative cached answer is not automatically an incorrect answer.
 
-来源：Chapter 2完整课件，第66–67张幻灯片；第68张幻灯片；第69张幻灯片。
+来源：Chapter 2完整课件，第63–69张幻灯片；别名链与TTL数字为教学补充。
 
 
+<a id="file-distribution"></a>
 ## 10. P2P file distribution｜新加入的人也可以带来上传能力
 
 给理想模型：服务器有F bit文件，需分发到N个peer，服务器上传u_s bit/s，peer i上传uᵢ、下载dᵢ，核心网络不额外限速，$d_{min}=\min_i d_i$。
@@ -222,17 +229,27 @@ max(10,20,40)=40s，与CS相同。 / 40 s, equal to the client-server bound. 这
 来源：Chapter 2完整课件，第71–75张幻灯片。
 
 
+<a id="bittorrent"></a>
 ## 11. BitTorrent｜先找邻居，再交换稀缺块
 
 一个torrent是交换同一文件分块的节点集合，tracker帮助发现参与者，不必亲自发送全部文件。peer加入时无块，逐渐下载并向别人上传；成员离开/加入称churn。
 
 请求块采用rarest-first，优先扩散目前邻居中少见的块，降低最后只缺同一块的风险。发送方面，课堂用“偏向近期给自己较高上传速率的四个伙伴，每10秒重评、每30秒随机尝试一个新伙伴”的tit-for-tat/optimistic unchoking例子。这里的4/10/30属于课件所述算法版本，客户端实现可能采用不同参数。随机试新伙伴避免只锁在既有关系里。
 
+具体看Alice刚加入、缺少A/B/C三个等大块的时刻。她从tracker得到邻居列表后，询问各邻居持有哪些块；假设P1持有A、B，P2持有A、B，P3持有A、C。统计可见副本数：A有3份、B有2份、C只有1份，因此先向持有C且愿意供给的P3请求C。拿到后Alice也可以向别人上传C，使稀缺块多一个来源。tracker在这个过程中帮助找人，文件块来自peer。
+
+“先请求哪个缺失块”与“把自己的上传机会分给谁”是两项决定。rarest-first回答前者，tit-for-tat与optimistic unchoking回答后者。Bob即使暂时没有给Alice上传，也可能被随机选中获得一段服务；这解释了[Tutorial 4 Q3](Tutorial04.md#q3)为什么讨论free-riding的可能性，而不保证任意不上传节点都能下载完成。
+
+**独立题 / Check：** 保持上例，Alice仍缺A/B/C。P2离开后，A、B、C在剩余邻居中各有几份，下一请求是否唯一？若P3也离开，C是否仍可立即下载？ / Alice still lacks A, B and C. After P2 leaves, count the visible copies and identify the rarest candidates. If P3 also leaves, is C immediately available from the remaining neighbors?
+
+**答 / Answer：** P1与P3共有A两份、B一份、C一份，B/C并列稀缺，题设没有指定并列选择规则。P3再离开后，剩余P1没有C，须寻找其他供给或等待。 / The counts are 2, 1 and 1. B and C tie; no tie-breaking rule is given. Without P3, C is unavailable from the remaining neighbor, so Alice needs another source or must wait.
+
 原图中的 `256Kb chunks` 表示一个分块大小的示例（Chapter 2完整课件，第76张幻灯片）；实际分块长度随torrent选择，b/B也需辨别；理解单位见基础页，不要求把这个旧示例当标准固定块长。
 
 来源：Chapter 2完整课件，第76–80张幻灯片。
 
 
+<a id="video-cdn"></a>
 ## 12. Video, DASH and CDN｜边下边播，需要的不只是平均带宽
 
 解释视频由连续图像组成；空间冗余可压缩同一帧重复信息，时间冗余利用帧间变化。不同编码码率对应不同质量/数据量，但码率不是用户网络吞吐。“4Mbps视频”指播放每秒需要约4Mbit编码数据，而不是网络必然提供4Mbps。
@@ -246,6 +263,38 @@ max(10,20,40)=40s，与CS相同。 / 40 s, equal to the client-server bound. 这
 **答 / Answer：** 18 Mbit、3秒、净增6−3=3秒，忽略请求和解码开销。 / 18 Mbit, 3 seconds to download, and 3 seconds of net buffer gain, ignoring request and decoding overhead.
 
 内容分发网络（content delivery network，CDN）把副本放在多个地理/网络位置，降低单站压力与长路径问题。Enter deep靠近接入网络、地点多；bring home集中于较少大型IXP附近集群。选择“近”往往看网络路径/负载，不只地图公里数。DASH控制表示与请求，CDN提供分发位置，二者可配合但不是同义词。原用户数、流量占比和部署地点数均为原页时期的案例。
+
+### 一次播放请求怎样找到视频块
+
+课堂末图把用户导向一份合适副本，但没有展开全部消息。下面把前面学过的HTTP、DNS与manifest接起来，给出**一种采用DNS导向的教学流程**。假设播放器已经取得视频页面，所需视频块已放在CDN节点上；示例域名不是实际服务，流程不要求所有网站都这样部署。
+
+| <span style="white-space:nowrap">顺序</span> | 谁向谁发送什么 | 这一步得到什么 |
+|---|---|---|
+| 1 | 播放器向页面指定的服务请求manifest | 得到不同码率、时间块及其URL的描述；清单本身不是视频数据 |
+| 2 | 播放器选中下一块的一档表示，解析该URL中的主机名 | 把“要哪个内容”接到“应连接哪个地址” |
+| 3 | 本地DNS解析器完成查询，CDN的DNS系统为该名字给出合适的服务地址 | CDN可结合网络位置、负载等信息导向一个节点；也可先返回别名，再解析地址 |
+| 4 | 播放器连接所获地址，按块URL发送HTTP GET | 选中的CDN节点返回这一时间块、这一档码率的数据 |
+| 5 | 播放器将块加入缓冲，同时观察下载耗时与剩余缓冲 | 为下一块调整请求时机与码率；只有可用URL或导向机制支持时，才改取其他节点 |
+
+第3步的DNS服务器只回答名字/地址信息，第4步的内容服务器才发送视频字节。一个地址还可以对应许多视频，具体对象由HTTP请求中的目标路径等信息区分。若后续块使用同一主机名、缓存地址仍有效且连接可复用，就不必每块重查完整DNS链、重建TCP连接。
+
+换码率也不必换服务器：同一CDN节点可以同时保存低、中、高质量的对应块。反过来，换到另一个副本也可以继续请求同一码率。CDN部署位置解决“从哪里供给”，DASH的客户端决策解决“下一块何时请求、选哪档”等播放问题。若部署通过HTTP重定向导向节点，客户端会先收到新URL，再向该目标请求；这是另一种实现，不应在上表中强行把两种机制都算成每次必经步骤。
+
+来源：Chapter 2完整课件，第87–92张幻灯片；DNS与HTTP导向的机制补充参见[RFC 7336《Framework for Content Distribution Network Interconnection》§2.1](https://www.rfc-editor.org/rfc/rfc7336.html#section-2.1)，上述单次播放流程为教学整理。
+
+### 保留服务器，只调码率，能否避免停顿？
+
+**独立变式 / Transfer：** 同一CDN节点提供4 s长的对齐视频块，码率可选0.5、1、2 Mbps。下一请求开始时已有3 s可播放缓冲，实际下载吞吐稳定为1 Mbps；边下边播，整块到齐才加入缓冲，无其他开销，也不切换节点。三档各下载多久、停顿多久？ / One CDN node offers aligned four-second chunks at 0.5, 1 and 2 Mbps. Start the next request with three seconds of playable buffer and a constant 1-Mbps download rate. Playback continues during download; each complete chunk becomes playable only on arrival. Ignore other overhead and keep the same node. Find download and stall times for each representation.
+
+<details markdown="1"><summary>答案 / Answer</summary>
+
+三档大小分别为2、4、8 Mbit，所以下载2、4、8 s。初始3 s缓冲能覆盖的等待有限：停顿分别为0、1、5 s。选择0.5 Mbps档时下载结束前播掉2 s，余1 s，再加入4 s块，缓冲变为5 s。选择1 Mbps虽然长期编码率等于吞吐，本题等待整块到达的条件下仍会先停1 s。
+
+Download times are 2, 4 and 8 s; stalls are 0, 1 and 5 s. At 0.5 Mbps the post-download buffer is 5 s. Matching the long-run encoding and download rates alone does not prevent the first stall with only 3 s of initial buffer.
+
+</details>
+
+音频与视频表示是否合并保存，另看[Tutorial 4 Q4](Tutorial04.md#q4)的一一配对条件；表示数量、时间块数量和CDN副本数量是不同的计数对象。
 
 **English:** Encoding rate describes media demand, while throughput describes delivery capacity. DASH adapts chunk requests; CDNs distribute replicas across serving locations.
 
@@ -274,7 +323,7 @@ python labs/socket_demo.py --self-test
 
 TCP没有消息边界：本例规定每条文本以换行结束，`sendall`发送全部bytes，接收循环直到换行，不能假设一次recv(1024)一定收到整句。UDP保留报文边界，但要保证例题报文在接收缓冲范围内。
 
-本机通信示范的执行记录见 socket-self-test.json，包括UDP、TCP和超过一次读取大小的TCP消息。它验证本机接口与消息分帧，不测量跨互联网可靠性或时延。
+运行`--self-test`可检查UDP、TCP和超过一次读取大小的TCP消息，并在本地`observations/socket-self-test.json`保存本次结果。它验证本机接口与消息分帧，不测量跨互联网可靠性或时延。
 
 **独立任务 / Try:** 将客户端文字改成`course practice`，两种协议各运行一次；再解释TCP为什么有监听与连接两个socket。 / Run both transports with this message, then explain the two server-side TCP sockets.
 

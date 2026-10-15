@@ -114,6 +114,10 @@ $$
 
 ![Original forwarding table and routing diagram](assets/chapter01-28.png)
 
+沿图做一次实际查表：到达包的目的字段是`0111`，设备找到表中`0111 → 2`这一行，把包交给2号输出链路。若该出口正在发另一个包，本包先进入相应队列；查到出口不等于已经发出。另一个包的目的字段若为`1001`，按同一张表应走1号出口。这里的四位字段是课件示意，不是完整IPv4地址。
+
+路由过程负责产生、更新这张表所需的信息；转发过程用当前表处理眼前的包。因此一个包到来时，设备不必为它重新计算整张互联网的路线。后面讲CDN把副本放近用户时，改变的是请求可能经过哪些网络；沿途各设备仍各自完成这样的局部转发。
+
 不同网络还需要相互连接。一步步构造互联网：若N个接入ISP两两直连，需N(N−1)/2条连接，扩展困难；接入ISP可以向上游购买传输服务（transit），让上游替它把流量送往更多网络；也可以与另一网络直接互联（peering）。互联网交换点（Internet Exchange Point，IXP）提供集中互联的位置。区域网络（regional network）连接一片地区，内容提供商网络（content-provider network）连接自己的服务节点。内容提供商将服务放近用户、建立自有网络，会减少对某些上游路径的依赖，从而可能缩短传输路径。原公司的例名保留为图中时代背景。
 
 ![Original network-of-networks diagram](assets/chapter01-42.png)
@@ -147,6 +151,36 @@ $$
 课堂的车队原例：10辆车，每辆收费12秒，最后一辆过第一个收费亭需120秒；100km以100km/h行驶需1小时，全部在第二亭前到齐需62分钟。Chapter 1完整课件，第48张幻灯片改为每车1分钟、车速1000km/h；首车1分钟后出发，再走6分钟，t=7分钟到第二亭，早于第10辆t=10分钟离开第一亭。两题都从第一辆开始服务计时，没让第二亭再处理一遍。
 
 队列的traffic intensity为 $\rho=La/R$，a为平均包到达率（packets/s），L为本模型固定包长。rho接近1时在常见随机排队模型中等待显著增长；rho>1长期输入超过服务能力，无限缓冲理想模型不稳定，现实有限缓冲会丢包。仅平均rho<1不能保证任意流量下没有大突发或所有等待性质都良好，课件曲线是模型直觉。
+
+<div class="short-exercise" markdown="1">
+
+<a id="queue-events"></a>
+### 从一次突发看见排队与丢包
+
+设输出链路8 Mbps，每包1000 B，发送一个包需8000/(8×10⁶)=1 ms。链路初始空闲，**等待队列只有两个位置，正在发送的包另占服务位置**。A、B、C、D在t=0同时到达，按这个顺序处理到达事件，A立即开始发送；忽略处理时延，只观察此出口，不计下一跳传播。这是教学补充例子。
+
+| 包 | 到达后的处理 | 开始发送 | 发完末位 | 排队时延 |
+|---|---|---:|---:|---:|
+| A | 立即使用空闲链路 | 0 ms | 1 ms | 0 ms |
+| B | 占第一个等待位置 | 1 ms | 2 ms | 1 ms |
+| C | 占第二个等待位置 | 2 ms | 3 ms | 2 ms |
+| D | 两个等待位置均满，丢弃 | — | — | 不进入队列 |
+
+</div>
+
+等候B、C时，链路正在把前面的包送出去；已经发出的比特仍可在介质中传播。三个过程可以重叠，但对于同一个包，自己的等待结束后才开始发送。丢弃的D不能记为“排队时延0”，因为它没有获得服务。
+
+如果每10 ms才来这样一批四包，平均输入为400包/s，$\rho=8000\times400/(8\times10^6)=0.4$，仍然每批丢D。平均供给足够，并不能让两个等待位置容纳一次到来的全部突发。
+
+**独立变式 / Transfer：** 链路2 Mbps、每包500 B，初始空闲，只有一个等待位置，不含服务位置。A、B、C在t=0按此顺序处理，A立即发送，忽略处理与传播。谁被丢弃？其余包何时开始、何时发完？ / An idle 2-Mbps link receives three 500-byte packets A, B and C at t=0 in that order. A starts immediately. There is one waiting slot, excluding the packet in service. Ignore processing and propagation. Identify the dropped packet and each accepted packet's transmission interval.
+
+<details markdown="1"><summary>答案 / Answer</summary>
+
+每包发送2 ms。A在0–2 ms发送，B等2 ms后在2–4 ms发送，C被丢弃。 / A transmits during 0–2 ms, B during 2–4 ms, and C is dropped. B's queueing delay is 2 ms.
+
+</details>
+
+来源：Chapter 1完整课件，第27、44、49、52张幻灯片的队列与有限缓冲模型；事件表与变式为补充推导。
 
 把四项接成一次完整计时（教学示范）：某节点从开始处理一个500 B的包计时。处理1 ms、排队2 ms，随后以2 Mbps发送；链路长1000 km，传播速度2×10⁸ m/s。忽略其他开销。
 
@@ -184,6 +218,7 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 来源：Chapter 1完整课件，第50–51张幻灯片；第52张幻灯片。
 
 
+<a id="encapsulation"></a>
 ## 8. Layers and encapsulation｜把一件复杂的事拆成清楚的职责
 
 老师用航空旅行解释分工：买票、托运行李、登机、起飞、航线各有职责。某一层使用下层服务，同时向上层提供服务；合理接口让内部变化不必牵动所有部分。网络分层借助清楚的责任和接口组织复杂任务。来源：Chapter 1完整课件，第58–60张幻灯片。
@@ -203,6 +238,23 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 ![Original encapsulation across source, switch, router and destination](assets/chapter01-64.png)
 
 沿原图看：端系统走完整协议栈；典型转发路由器处理到网络层，以太交换机主要处理链路层。不要由这个教学模型推断所有现实设备绝不检查更高层。每跳链路帧可更换，应用消息不因此被每个路由器当成网页程序执行。
+
+把图中的同一条消息M跟到底。设一条HTTP请求装入一个TCP段和一个IP数据报，路径为源主机→交换机→路由器→目的主机；本例没有NAT、隧道、IP分片或应用代理。$H_t$、$H_n$、$H_l$分别表示传输、网络和链路层首部，实际首部大小无需在这里猜定。
+
+| 经过哪里 | 对这份数据做什么 | 哪些内容继续向前 |
+|---|---|---|
+| <span style="white-space:nowrap">源主机</span> | 应用产生M，TCP加入$H_t$，IP加入$H_n$，链路层加入当前链路的$H_l$ | 帧承载整个IP数据报，内部仍有TCP段与M |
+| <span style="white-space:nowrap">交换机</span> | 按链路层信息选择出口，转发链路帧 | 不把TCP段当作本机网页请求处理 |
+| <span style="white-space:nowrap">路由器</span> | 从入站帧取出IP数据报，读取目的IP并查转发表，处理必要IP字段，再装入出站链路的帧 | 新链路首部服务下一段传送；本例TCP段和M仍发往原目的主机 |
+| <span style="white-space:nowrap">目的主机</span> | 逐层解释首部，IP交给TCP，TCP按连接信息交给相应应用 | HTTP程序最终读取M的请求内容 |
+
+同层协议描述的是双方如何理解报文，例如两个端点的TCP怎样确认字节；实际比特仍要经过本机下层、介质和对端下层。图中两端应用“逻辑上对话”，不表示应用层之间存在一根绕过其余各层的物理线。
+
+**自测 / Check：** 在上述无NAT、无代理模型中，路由器改用一个出站链路帧，是否就产生了一条新的HTTP请求或把TCP目的端口改成路由器的端口？ / In this model without NAT or proxies, does forwarding in a new outgoing link frame create a new HTTP request or replace the TCP destination port with a router port?
+
+**答 / Answer：** 都不会。变化发生在逐跳链路封装，HTTP请求与TCP端点仍属于原两端。 / No. The outgoing link encapsulation serves the next hop; the HTTP request and TCP endpoints remain those of the original end hosts.
+
+来源：Chapter 1完整课件，第61–65张幻灯片；逐设备表按第64张图展开。
 
 **English:** Each layer offers services to the layer above and uses services below. Encapsulation adds the information needed by the current layer.
 

@@ -7,6 +7,8 @@
 
 **按需基础：** [单位换算](../../learning/foundation-notes/NetworkBasics.md#units)、[速率与完成时间](../../learning/foundation-notes/NetworkBasics.md#timeline)。先会用“任务量÷每秒处理量”算时间。
 
+对应讲解：[分发下界](Chapter02.md#file-distribution)解释三类容量约束；[BitTorrent请求与供给](Chapter02.md#bittorrent)区分稀缺块选择和上传机会；[DASH与CDN](Chapter02.md#video-cdn)把表示、时间块、服务节点及播放缓冲接起来。
+
 | 题目 | 优先级 | 难度与卡点 | 掌握要求／依据 |
 |---|---|---|---|
 | Q1 分配方案 | 核心必会 | 中，下界还需构造达到它的方案 | 按两种瓶颈给实际速率；Tutorial 4教师解答 v2，第1–5张幻灯片 |
