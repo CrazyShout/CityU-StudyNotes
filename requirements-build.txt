@@ -1,5 +1,6 @@
 beautifulsoup4>=4.12,<5
-Markdown>=3.7,<4
+# Preserve CJK-adjacent emphasis used by the existing manuscripts (see build validation).
+Markdown==3.10.3
 nbformat>=5.10,<6
 Pygments>=2.18,<3
 pymdown-extensions>=10.12,<13

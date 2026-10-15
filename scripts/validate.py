@@ -32,6 +32,11 @@ for p,soup in soups.items():
         if u.fragment and target in soups and not soups[target].find(id=unquote(u.fragment)):
             issues.append((str(p.relative_to(ROOT)),href,'missing anchor'))
 assert not issues,issues
+# Markdown 3.11.1 leaves this existing CJK-adjacent emphasis as literal **.
+# Check the actual manuscript rendering, not only its Markdown syntax or PDF hashes.
+assert soups[(ROOT/'CS5222/course-notes/Chapter01.md').resolve()].find(
+    'strong',string='Store-and-forward（存储转发）') is not None, (
+    'CJK-adjacent emphasis did not render; install requirements-build.txt')
 # Registered order must keep theory before tutorials and assignments in each course.
 for course in ['CS5489','CS5222']:
     stems=[Path(d['source']).stem for d in docs if d['major'] and d['course']==course]
@@ -104,6 +109,10 @@ manifest=json.loads((ROOT/'pdf/manifest.json').read_text())
 for book in manifest['books']:
     p=ROOT/'pdf'/book['file'];assert hashlib.sha256(p.read_bytes()).hexdigest()==book['sha256'],p
     reader=PdfReader(p,strict=True);assert len(reader.pages)==book['pages']
+    if book['file']=='CS5222-A4.pdf':
+        document=next(d for d in book['documents'] if d['id']=='CS5222-Chapter01')
+        text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))
+        assert '**Store-and-forward' not in text, 'Literal emphasis markers in CS5222 PDF; rebuild with declared dependencies'
     if book['file']=='CS5489-A4.pdf':
         document=next(d for d in book['documents'] if d['id']=='CS5489-Lecture02')
         text='\n'.join(reader.pages[i-1].extract_text() or '' for i in range(document['start'],document['end']+1))

@@ -97,6 +97,38 @@
       ]
     }
   },
-  "text_comparison": "Full and part body text match after removing separate footer page-number nodes.",
-  "reading_scope": "All main-slide and Q&A text read; key diagrams inspected separately. Not a claim of full-resolution visual inspection of every source slide."
+  "text_comparison": "Each full/part slide has equal extracted text-node count; any difference is a single numeric node equal to the full/part slide number. All other text nodes match exactly.",
+  "reading_scope": "All main-slide and Q&A text read; key diagrams inspected separately. Not a claim of full-resolution visual inspection of every source slide.",
+  "part_comparison": [
+    {
+      "chapter": 1,
+      "part": 1,
+      "slides": 49,
+      "only_single_slide_number_differences": 0
+    },
+    {
+      "chapter": 1,
+      "part": 2,
+      "slides": 29,
+      "only_single_slide_number_differences": 29
+    },
+    {
+      "chapter": 2,
+      "part": 1,
+      "slides": 22,
+      "only_single_slide_number_differences": 0
+    },
+    {
+      "chapter": 2,
+      "part": 2,
+      "slides": 43,
+      "only_single_slide_number_differences": 43
+    },
+    {
+      "chapter": 2,
+      "part": 3,
+      "slides": 42,
+      "only_single_slide_number_differences": 41
+    }
+  ]
 }
