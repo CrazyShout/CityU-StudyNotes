@@ -168,9 +168,10 @@ def driver(book):
         previous_group=None
         for q in selected(book):
             qid=q['id']
-            if book in ['Questions','Answers','Combined']:lines += [r'\clearpage']
+            if book=='Questions' or book in ['Answers','Combined'] and q['group']!=previous_group:
+                lines += [r'\clearpage']
             if q['group']!=previous_group:
-                lines += [r'\Needspace{7\baselineskip}\phantomsection\addcontentsline{toc}{chapter}{'+escape(GROUPS[q['group']])+'}']
+                lines += [r'\Needspace{10\baselineskip}\phantomsection\addcontentsline{toc}{chapter}{'+escape(GROUPS[q['group']])+'}']
                 previous_group=q['group']
             anchors=[r'\StudyTarget{'+book+'__'+qid.lower()+'}']
             anchors += [r'\StudyTarget{'+book+'__'+a.lower()+'}' for a in q['legacy_ids']]
@@ -191,7 +192,7 @@ def driver(book):
                 else:
                     lines += field(book,qid,'concise-extra')
         if book in ['Answers','Combined']:
-            lines += [r'\clearpage']
+            lines += [r'\Needspace{8\baselineskip}']
             if book!='Answers':lines += field_targets(book,None,'source-differences')
             lines += [r'\input{\StudyRoot/CS5489/exam-review/Midterm/frontmatter/source-differences.tex}']
         lines += [r'\clearpage\StudyHeading{1}{原卷索引 / Original-paper index}',
