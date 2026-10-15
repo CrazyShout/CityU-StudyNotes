@@ -5,6 +5,8 @@ import json
 import os
 import re
 import nbformat
+from functools import lru_cache
+from html import escape as html_escape
 
 ROOT=Path(__file__).resolve().parents[1]
 MID=ROOT/'CS5489/exam-review/Midterm'
@@ -82,7 +84,27 @@ def stubs(maps):
         old=MID/(book+'.md');result[old]=compatibility_markdown(old,book,book,maps,CONFIG['midterm_titles'][book])
     return result
 
+@lru_cache(maxsize=None)
+def notebook_aliases(source,notebook,docid):
+    cells=nbformat.read(ROOT/notebook,as_version=4).cells
+    markdown_cells=[i for i,c in enumerate(cells) if c.cell_type=='markdown']
+    owner=markdown_cells[0]
+    result={i:[] for i in markdown_cells}
+    result[owner].append('root')
+    for anchor in re.findall(r'\\StudyTarget\{'+re.escape(docid)+r'__([^}]+)\}',(ROOT/source).read_text()):
+        match=re.fullmatch(r'cell-(\d+)',anchor)
+        if match:
+            position=int(match[1])-1
+            owner=max((n for n in markdown_cells if n<=position),default=markdown_cells[0])
+        result[owner].append(anchor)
+    return result
+
+
 def notebook_markdown(d,i,c,maps):
     book=d['course'] or 'Foundations';key=d['id']+'__notebook-'+c['id'];page=maps[book][key]
     source=ROOT/d['notebook'];pdf=os.path.relpath(output(book),source.parent).replace(os.sep,'/')
-    return STUB_MARKER+'\n<a id="cell-'+str(i+1)+'"></a>\n<a id="notebook-'+c['id']+'"></a>\n本单元教学说明见 [LaTeX 主稿]('+Path(d['source']).name+')；[A4 PDF 第 '+str(page)+' 页]('+pdf+'#page='+str(page)+')。代码及原有执行输出保留在此 Notebook。\n'
+    lines=[STUB_MARKER,'本单元教学说明见 [LaTeX 主稿]('+Path(d['source']).name+')；[A4 PDF 第 '+str(page)+' 页]('+pdf+'#page='+str(page)+')。代码及原有执行输出保留在此 Notebook。','']
+    for anchor in notebook_aliases(d['source'],d['notebook'],d['id'])[i]:
+        n=maps[book][d['id']+'__'+anchor]
+        lines += ['<a id="'+html_escape(anchor,quote=True)+'"></a>',f'- `{anchor}` → [第 {n} 页]({pdf}#page={n})']
+    return '\n'.join(lines)+'\n'

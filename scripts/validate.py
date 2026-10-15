@@ -128,8 +128,14 @@ def publication_checks():
     for path,expected in stubs(maps).items():assert path.read_text()==expected,('Regenerate compatibility navigation',path)
     for d in DOCS:
         if 'notebook' not in d:continue
-        for i,c in enumerate(nbformat.read(ROOT/d['notebook'],as_version=4).cells):
+        cells=nbformat.read(ROOT/d['notebook'],as_version=4).cells
+        for i,c in enumerate(cells):
             if c.cell_type=='markdown':assert c.source==notebook_markdown(d,i,c,maps),(d['notebook'],i,'generated Markdown differs')
+        navigation='\n'.join(c.source for c in cells if c.cell_type=='markdown')
+        actual=re.findall(r'<a id="([^"]+)"',navigation)
+        assert len(actual)==len(set(actual)),(d['notebook'],'duplicate navigation anchor')
+        expected=re.findall(r'\\StudyTarget\{'+re.escape(d['id'])+r'__([^}]+)\}',(ROOT/d['source']).read_text())
+        assert set(expected)<=set(actual),(d['notebook'],'legacy Notebook anchor missing')
     for book in ALL_BOOKS:
         path=output(book);meta=manifest['books'][book]
         assert meta['sha256']==sha(path),(book,'PDF hash differs')
