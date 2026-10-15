@@ -7,6 +7,8 @@
 
 基础薄弱时先补[二进制与字节](../../learning/foundation-notes/NetworkBasics.md#binary)、[时间轴](../../learning/foundation-notes/NetworkBasics.md#timeline)。Q1–3为核心必会、中等难度，检查端点方向与反码；Q4也是核心必会，但难度较高，需要构造“旧包被当新包”的具体事件顺序。优先级直接来自当前原题。
 
+做Q4前可返回[rdt双方状态与编号](Chapter03.md#rdt)、[rdt3.0定时器](Chapter03.md#rdt3)。每一步分别写发送者正在等哪个ACK、接收者正在等哪个数据编号；序号重用后才出现本题需要的歧义。这里编号标识数据包，和[TCP按字节编号](Chapter03.md#tcp)的练习不同。
+
 <a id="endpoints"></a>
 ## Q1. How is a socket identified?
 

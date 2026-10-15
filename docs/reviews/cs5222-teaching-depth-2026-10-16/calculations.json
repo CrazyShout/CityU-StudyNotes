@@ -1,0 +1,336 @@
+{
+  "status": "passed",
+  "scope": "Teaching examples and finite event traces; no network experiment or general protocol proof",
+  "checks": [
+    {
+      "name": "Queue: four-packet burst",
+      "actual": [
+        [
+          "A",
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          "B",
+          1.0,
+          2.0,
+          1.0
+        ],
+        [
+          "C",
+          2.0,
+          3.0,
+          2.0
+        ],
+        [
+          "D",
+          "dropped"
+        ]
+      ],
+      "expected": [
+        [
+          "A",
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          "B",
+          1.0,
+          2.0,
+          1.0
+        ],
+        [
+          "C",
+          2.0,
+          3.0,
+          2.0
+        ],
+        [
+          "D",
+          "dropped"
+        ]
+      ]
+    },
+    {
+      "name": "Queue: changed packet length/rate/capacity",
+      "actual": [
+        [
+          "A",
+          0.0,
+          2.0,
+          0.0
+        ],
+        [
+          "B",
+          2.0,
+          4.0,
+          2.0
+        ],
+        [
+          "C",
+          "dropped"
+        ]
+      ],
+      "expected": [
+        [
+          "A",
+          0.0,
+          2.0,
+          0.0
+        ],
+        [
+          "B",
+          2.0,
+          4.0,
+          2.0
+        ],
+        [
+          "C",
+          "dropped"
+        ]
+      ]
+    },
+    {
+      "name": "Queue: offered traffic intensity despite one dropped packet",
+      "actual": 0.4,
+      "expected": 0.4
+    },
+    {
+      "name": "DNS: independent TTL expiry",
+      "actual": [
+        210,
+        0
+      ],
+      "expected": [
+        210,
+        0
+      ]
+    },
+    {
+      "name": "BitTorrent: visible copies before departures",
+      "actual": [
+        3,
+        2,
+        1
+      ],
+      "expected": [
+        3,
+        2,
+        1
+      ]
+    },
+    {
+      "name": "BitTorrent: two tied rarest candidates",
+      "actual": [
+        2,
+        1,
+        1
+      ],
+      "expected": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "BitTorrent: rarest does not create an unavailable chunk",
+      "actual": [
+        1,
+        1,
+        0
+      ],
+      "expected": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "DASH: 0.5 Mbps representation",
+      "actual": [
+        2.0,
+        0.0,
+        5.0
+      ],
+      "expected": [
+        2.0,
+        0.0,
+        5.0
+      ]
+    },
+    {
+      "name": "DASH: 1.0 Mbps representation",
+      "actual": [
+        4.0,
+        1.0,
+        4.0
+      ],
+      "expected": [
+        4.0,
+        1.0,
+        4.0
+      ]
+    },
+    {
+      "name": "DASH: 2.0 Mbps representation",
+      "actual": [
+        8.0,
+        5.0,
+        4.0
+      ],
+      "expected": [
+        8.0,
+        5.0,
+        4.0
+      ]
+    },
+    {
+      "name": "Classroom Telnet: all transmitted fields",
+      "actual": [
+        [
+          "A->B",
+          42,
+          79,
+          1
+        ],
+        [
+          "B->A",
+          79,
+          43,
+          1
+        ],
+        [
+          "A->B",
+          43,
+          80,
+          0
+        ]
+      ],
+      "expected": [
+        [
+          "A->B",
+          42,
+          79,
+          1
+        ],
+        [
+          "B->A",
+          79,
+          43,
+          1
+        ],
+        [
+          "A->B",
+          43,
+          80,
+          0
+        ]
+      ]
+    },
+    {
+      "name": "Classroom Telnet: pure ACK does not consume sequence space",
+      "actual": 43,
+      "expected": 43
+    },
+    {
+      "name": "Independent two-byte echo: all transmitted fields",
+      "actual": [
+        [
+          "A->B",
+          1000,
+          5000,
+          2
+        ],
+        [
+          "B->A",
+          5000,
+          1002,
+          2
+        ],
+        [
+          "A->B",
+          1002,
+          5002,
+          0
+        ]
+      ],
+      "expected": [
+        [
+          "A->B",
+          1000,
+          5000,
+          2
+        ],
+        [
+          "B->A",
+          5000,
+          1002,
+          2
+        ],
+        [
+          "A->B",
+          1002,
+          5002,
+          0
+        ]
+      ]
+    },
+    {
+      "name": "Independent two-byte echo: pure ACK does not consume sequence space",
+      "actual": 1002,
+      "expected": 1002
+    },
+    {
+      "name": "SR base after ACK0, ACK2, ACK3, ACK1",
+      "actual": [
+        1,
+        1,
+        1,
+        4
+      ],
+      "expected": [
+        1,
+        1,
+        1,
+        4
+      ]
+    },
+    {
+      "name": "GBN base after cumulative ACK0 then ACK2",
+      "actual": [
+        1,
+        3
+      ],
+      "expected": [
+        1,
+        3
+      ]
+    },
+    {
+      "name": "rdt2.2 receiver: retransmitted A is not delivered twice",
+      "actual": [
+        "A",
+        "B"
+      ],
+      "expected": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "rdt2.2 receiver: feedback after new/duplicate/new packets",
+      "actual": [
+        0,
+        0,
+        1
+      ],
+      "expected": [
+        0,
+        0,
+        1
+      ]
+    }
+  ]
+}

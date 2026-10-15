@@ -128,6 +128,7 @@ for book in manifest['books']:
             if uri.endswith('.pdf') or '.pdf#page=' in uri:
                 parsed=urlsplit(uri)
                 if not parsed.scheme:assert (p.parent/parsed.path).is_file(),uri
+subprocess.run([sys.executable,str(ROOT/'CS5222/course-notes/tools/depth_examples.py')],check=True)
 midterm_tools=ROOT/'CS5489/exam-review/Midterm/tools'
 for tool in ['verify_calculations.py','validate_source.py','validate_books.py']:
     subprocess.run([sys.executable,str(midterm_tools/tool),'--check'],check=True)
