@@ -5,9 +5,9 @@
     "CS5489": {
       "file": "pdf/CS5489-A4.pdf",
       "pages": 210,
-      "sha256": "075cebaa40403263ea6aaf483a1f58e7128ba61efd768a6ab1a56fe22f464238",
+      "sha256": "8da8813a66f5612d7406eca79932011de016f51318d1012e6b424525fef6362c",
       "source_sha256": "8ad3fbc6290d9e65de2aedbbf0ca70a88eaa78c47c7f7dba210c32b4b326a43b",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/course-notes/Assignment01.tex": "f533b176581b47b035bd6c3bbd6bf4aa5f236e9b1c9238b399be1a3d45ac39b1",
         "CS5489/course-notes/Assignment02.tex": "704ca67d369e0e60ed357f7807333a410933d26ce86be33493c355c0b398f8bb",
@@ -70,9 +70,9 @@
     "CS5222": {
       "file": "pdf/CS5222-A4.pdf",
       "pages": 96,
-      "sha256": "fa72c23635bcd304ee976653b98b832526c0fc2539371c3ca435278bc82c04a1",
+      "sha256": "eec27c52b0bf10b761f5b6af185a479566b552b3564980a0d528c2884cccbae1",
       "source_sha256": "caade1de66f34b7ab5765444d92826ec83afb700de6a82107ee42b20e3bb8c60",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5222/course-notes/Assignment01.tex": "7b12a25cbe9e951da333c146a4fccc2b06122a349d620e7c3e7a8e92596789fb",
         "CS5222/course-notes/Chapter01.tex": "0f8327b74abea81fdcfab2fc71190799ff9279fbef2d872c563999b060c566d1",
@@ -142,9 +142,9 @@
     "Foundations": {
       "file": "pdf/Foundations-A4.pdf",
       "pages": 44,
-      "sha256": "4fbcc777925f41faf4def7319531a8671a7dc3433478e1e71117c25e5e61dc24",
+      "sha256": "524abc6a3be9c602cc5493bb81fbc656b5381213ae2d76dac895d19e3b7ff18a",
       "source_sha256": "abe6a5796b318d8f431067b1ec0ac7185abe4e328b36e4bd98248fc47bc7a682",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/course-notes/assets/covariance-shapes.png": "414e4e8415f5302b5bfc0b1591fe0589dce17b0dd05cceb3578399e0005c00cf",
         "CS5489/course-notes/assets/oct-batch-bias.png": "56540ef1ca54badbad75d8857baeb7f4e20e37693342f0aa4d4ebee0d83cdba3",
@@ -183,9 +183,9 @@
     "Questions": {
       "file": "CS5489/exam-review/Midterm/Questions.pdf",
       "pages": 74,
-      "sha256": "ff661bb4b84f7c86473201825cdc10905e1394f95c3adce857bb857fae7030a2",
+      "sha256": "03ef50f2de0fe6173b08cce5381583b0cf10223b8e84149a2da22f21ea6b83f3",
       "source_sha256": "9953a19078d1100c7fe40555fab19796d638292061346a5025def23350c0765e",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/exam-review/Midterm/QuestionIndex.json": "2399deab7bf4ca801be17b6f1c9d811f32af3300053830765aa7cd74e4af28e4",
         "CS5489/exam-review/Midterm/SourceCatalog.json": "1b407738bfa8fe725c923c48179ca782b7269ae1a39026315202bac93fc7da34",
@@ -418,9 +418,9 @@
     "Answers": {
       "file": "CS5489/exam-review/Midterm/Answers.pdf",
       "pages": 98,
-      "sha256": "c1a134c26d0c94b1bb2d3076ad2ab79c440876a12a819454357f076e5e2c571c",
+      "sha256": "829773963a5120d133ac8e5c2711094d1f5baa2a40de3e6b207b97fb94250988",
       "source_sha256": "69bc6a00c2536df90de7de22a85d27ae0b5194f45f13f6415b91717c07722142",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/exam-review/Midterm/QuestionIndex.json": "2399deab7bf4ca801be17b6f1c9d811f32af3300053830765aa7cd74e4af28e4",
         "CS5489/exam-review/Midterm/SourceCatalog.json": "1b407738bfa8fe725c923c48179ca782b7269ae1a39026315202bac93fc7da34",
@@ -861,9 +861,9 @@
     "Combined": {
       "file": "CS5489/exam-review/Midterm/Combined.pdf",
       "pages": 113,
-      "sha256": "5f1b814a23c0cdc64f400b5a4b42d77dedd9fdfb2526cbab62ac6a07c4fa0376",
+      "sha256": "8eb4362d12542ca589858c396fbf48520219cb2ff87d2fbcb9a6402cc57f8d1b",
       "source_sha256": "4fd7627f55b93bc04c85276b1fd0789dbf891e4018790a76e75d2ebd24a7365a",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/exam-review/Midterm/QuestionIndex.json": "2399deab7bf4ca801be17b6f1c9d811f32af3300053830765aa7cd74e4af28e4",
         "CS5489/exam-review/Midterm/SourceCatalog.json": "1b407738bfa8fe725c923c48179ca782b7269ae1a39026315202bac93fc7da34",
@@ -1304,9 +1304,9 @@
     "Compact": {
       "file": "CS5489/exam-review/Midterm/Compact.pdf",
       "pages": 76,
-      "sha256": "7d3ed9455a805a5dcae586882a901492999366417c220a6785c29a90fffc155d",
+      "sha256": "aad44ee0c7934d11cc2b61bbf103ced2bb327f1f4462b78c5081b44f44ba1afa",
       "source_sha256": "20694ff53e293add5029a8c332e6812da22b602d243853236a77a6578d03f7dd",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/exam-review/Midterm/QuestionIndex.json": "2399deab7bf4ca801be17b6f1c9d811f32af3300053830765aa7cd74e4af28e4",
         "CS5489/exam-review/Midterm/SourceCatalog.json": "1b407738bfa8fe725c923c48179ca782b7269ae1a39026315202bac93fc7da34",
@@ -1745,9 +1745,9 @@
     "MultipleChoice": {
       "file": "CS5489/exam-review/Midterm/MultipleChoice.pdf",
       "pages": 34,
-      "sha256": "c06c942e7e9445b95a965f214f535ef00b4a06435e9255b4b1c9de2f346187df",
+      "sha256": "e03f8259aeac2babca7cb8c0631f84a6f32fcf7087c41ab45a96036c7b891668",
       "source_sha256": "c7e432497a72b6dae2a96f196e2035a2bb856ac63759081777e5bf96163c6807",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/exam-review/Midterm/QuestionIndex.json": "2399deab7bf4ca801be17b6f1c9d811f32af3300053830765aa7cd74e4af28e4",
         "CS5489/exam-review/Midterm/SourceCatalog.json": "1b407738bfa8fe725c923c48179ca782b7269ae1a39026315202bac93fc7da34",
@@ -1950,9 +1950,9 @@
     "WrittenResponse": {
       "file": "CS5489/exam-review/Midterm/WrittenResponse.pdf",
       "pages": 45,
-      "sha256": "3f218d2526335874d8d8edf7c942ba7db21c7a45d2ac203ebad1a9aac7af61f7",
+      "sha256": "11f97c017c2c4b915cd6b1abe82f917a0a7bb5e7b00445601dcbd900bcdf60bf",
       "source_sha256": "1149d45a56bdd67eea47890410a9768ff01a73eff6b8fb764cadbe91cf2daa3c",
-      "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+      "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
       "inputs": {
         "CS5489/exam-review/Midterm/QuestionIndex.json": "2399deab7bf4ca801be17b6f1c9d811f32af3300053830765aa7cd74e4af28e4",
         "CS5489/exam-review/Midterm/SourceCatalog.json": "1b407738bfa8fe725c923c48179ca782b7269ae1a39026315202bac93fc7da34",

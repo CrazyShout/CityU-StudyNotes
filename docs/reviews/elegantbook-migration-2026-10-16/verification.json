@@ -1,7 +1,7 @@
 {
   "date": "2026-10-16",
   "baseline_ref": "9ad4a45ff757732342aaef2e536fae7c5a5332c1",
-  "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+  "source_ref": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
   "validation": {
     "status": "passed",
     "major_documents": 21,
@@ -22,55 +22,55 @@
         "pages": 210,
         "links": 705,
         "destinations": 644,
-        "sha256": "075cebaa40403263ea6aaf483a1f58e7128ba61efd768a6ab1a56fe22f464238"
+        "sha256": "8da8813a66f5612d7406eca79932011de016f51318d1012e6b424525fef6362c"
       },
       "CS5222": {
         "pages": 96,
         "links": 307,
         "destinations": 181,
-        "sha256": "fa72c23635bcd304ee976653b98b832526c0fc2539371c3ca435278bc82c04a1"
+        "sha256": "eec27c52b0bf10b761f5b6af185a479566b552b3564980a0d528c2884cccbae1"
       },
       "Foundations": {
         "pages": 44,
         "links": 157,
         "destinations": 87,
-        "sha256": "4fbcc777925f41faf4def7319531a8671a7dc3433478e1e71117c25e5e61dc24"
+        "sha256": "524abc6a3be9c602cc5493bb81fbc656b5381213ae2d76dac895d19e3b7ff18a"
       },
       "Questions": {
         "pages": 74,
         "links": 367,
         "destinations": 329,
-        "sha256": "ff661bb4b84f7c86473201825cdc10905e1394f95c3adce857bb857fae7030a2"
+        "sha256": "03ef50f2de0fe6173b08cce5381583b0cf10223b8e84149a2da22f21ea6b83f3"
       },
       "Answers": {
         "pages": 98,
         "links": 389,
         "destinations": 464,
-        "sha256": "c1a134c26d0c94b1bb2d3076ad2ab79c440876a12a819454357f076e5e2c571c"
+        "sha256": "829773963a5120d133ac8e5c2711094d1f5baa2a40de3e6b207b97fb94250988"
       },
       "Combined": {
         "pages": 113,
         "links": 388,
         "destinations": 539,
-        "sha256": "5f1b814a23c0cdc64f400b5a4b42d77dedd9fdfb2526cbab62ac6a07c4fa0376"
+        "sha256": "8eb4362d12542ca589858c396fbf48520219cb2ff87d2fbcb9a6402cc57f8d1b"
       },
       "Compact": {
         "pages": 76,
         "links": 366,
         "destinations": 470,
-        "sha256": "7d3ed9455a805a5dcae586882a901492999366417c220a6785c29a90fffc155d"
+        "sha256": "aad44ee0c7934d11cc2b61bbf103ced2bb327f1f4462b78c5081b44f44ba1afa"
       },
       "MultipleChoice": {
         "pages": 34,
         "links": 172,
         "destinations": 223,
-        "sha256": "c06c942e7e9445b95a965f214f535ef00b4a06435e9255b4b1c9de2f346187df"
+        "sha256": "e03f8259aeac2babca7cb8c0631f84a6f32fcf7087c41ab45a96036c7b891668"
       },
       "WrittenResponse": {
         "pages": 45,
         "links": 210,
         "destinations": 258,
-        "sha256": "3f218d2526335874d8d8edf7c942ba7db21c7a45d2ac203ebad1a9aac7af61f7"
+        "sha256": "11f97c017c2c4b915cd6b1abe82f917a0a7bb5e7b00445601dcbd900bcdf60bf"
       }
     }
   },
@@ -233,5 +233,10 @@
     "No course experiments rerun; saved code, outputs and metadata preserved.",
     "Clean exports reuse the installed TeX engine and packages, but no previous build cache or Course material.",
     "Visual review uses full contact sheets and representative detailed/grayscale pages; not physical printing."
-  ]
+  ],
+  "link_pinning": {
+    "reference": "f7bb2979d9ec8628f09aa84c2e4b034ce920b702",
+    "all_790_page_texts_and_low_resolution_rasters_unchanged": true,
+    "paper_index_at_reference_matches_current": true
+  }
 }
