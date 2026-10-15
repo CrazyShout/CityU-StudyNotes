@@ -161,7 +161,7 @@ def driver(book):
         lines += [r'\renewcommand{\StudyCoverExtra}{'+''.join(field_targets(book,None,'cover'))+'}']
         lines += [r'\StudyCover{'+escape(halves[0])+'}{'+escape(halves[1] if len(halves)>1 else '')+'}',
                   r'\input{\StudyRoot/CS5489/exam-review/Midterm/frontmatter/'+book+'.tex}',
-                  r'\tableofcontents']
+                  r'\begingroup\small\setlength{\cftbeforechapskip}{.45\baselineskip}\tableofcontents\endgroup']
         lines += field_targets(book,None,'front')
         sys.path.insert(0,str(MID/'tools'))
         from question_types import type_label
