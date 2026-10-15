@@ -1,0 +1,63 @@
+{
+  "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+  "clean_export_rebuild": true,
+  "external_sources_required": false,
+  "existing_build_cache_used": false,
+  "same_installed_tex_packages_used": true,
+  "books": {
+    "CS5489": {
+      "pages": 210,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "CS5222": {
+      "pages": 96,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "Foundations": {
+      "pages": 44,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "Questions": {
+      "pages": 74,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "Answers": {
+      "pages": 98,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "Combined": {
+      "pages": 113,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "Compact": {
+      "pages": 76,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "MultipleChoice": {
+      "pages": 34,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    },
+    "WrittenResponse": {
+      "pages": 45,
+      "same_page_maps": true,
+      "same_source_bindings": true,
+      "identical_page_rasters_at_18_dpi": true
+    }
+  }
+}

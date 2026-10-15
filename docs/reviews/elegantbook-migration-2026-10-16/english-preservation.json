@@ -1,0 +1,810 @@
+{
+  "scope": "All English question and core-answer prose, including options; exact alphanumeric sequence after math removal; all removed mathematical expressions independently checked",
+  "fields": [
+    {
+      "question": "MT011",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 107
+    },
+    {
+      "question": "MT011",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 546
+    },
+    {
+      "question": "MT004",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 473
+    },
+    {
+      "question": "MT004",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 249
+    },
+    {
+      "question": "MT028",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 335
+    },
+    {
+      "question": "MT028",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 274
+    },
+    {
+      "question": "MT002",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 361
+    },
+    {
+      "question": "MT002",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 267
+    },
+    {
+      "question": "MT020",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 330
+    },
+    {
+      "question": "MT020",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 342
+    },
+    {
+      "question": "MT022",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 481
+    },
+    {
+      "question": "MT022",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 375
+    },
+    {
+      "question": "MT040",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 529
+    },
+    {
+      "question": "MT040",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 286
+    },
+    {
+      "question": "MT052",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 371
+    },
+    {
+      "question": "MT052",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 201
+    },
+    {
+      "question": "MT046",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 261
+    },
+    {
+      "question": "MT046",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 441
+    },
+    {
+      "question": "MT015",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 420
+    },
+    {
+      "question": "MT015",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 349
+    },
+    {
+      "question": "MT032",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 348
+    },
+    {
+      "question": "MT032",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 463
+    },
+    {
+      "question": "MT005",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 474
+    },
+    {
+      "question": "MT005",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 300
+    },
+    {
+      "question": "MT034",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 282
+    },
+    {
+      "question": "MT034",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 391
+    },
+    {
+      "question": "MT014",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 587
+    },
+    {
+      "question": "MT014",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 305
+    },
+    {
+      "question": "MT033",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 260
+    },
+    {
+      "question": "MT033",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 542
+    },
+    {
+      "question": "MT059",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 165
+    },
+    {
+      "question": "MT059",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 768
+    },
+    {
+      "question": "MT021",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 243
+    },
+    {
+      "question": "MT021",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 571
+    },
+    {
+      "question": "MT017",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 406
+    },
+    {
+      "question": "MT017",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 508
+    },
+    {
+      "question": "MT027",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 338
+    },
+    {
+      "question": "MT027",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 412
+    },
+    {
+      "question": "MT058",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 518
+    },
+    {
+      "question": "MT058",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 178
+    },
+    {
+      "question": "MT041",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 557
+    },
+    {
+      "question": "MT041",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 248
+    },
+    {
+      "question": "MT047",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 268
+    },
+    {
+      "question": "MT047",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 347
+    },
+    {
+      "question": "MT024",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 275
+    },
+    {
+      "question": "MT024",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 309
+    },
+    {
+      "question": "MT018",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 411
+    },
+    {
+      "question": "MT018",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 243
+    },
+    {
+      "question": "MT012",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 375
+    },
+    {
+      "question": "MT012",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 325
+    },
+    {
+      "question": "MT001",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 495
+    },
+    {
+      "question": "MT001",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 331
+    },
+    {
+      "question": "MT053",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 566
+    },
+    {
+      "question": "MT053",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 351
+    },
+    {
+      "question": "MT042",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 314
+    },
+    {
+      "question": "MT042",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 325
+    },
+    {
+      "question": "MT048",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 102
+    },
+    {
+      "question": "MT048",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 202
+    },
+    {
+      "question": "MT016",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 412
+    },
+    {
+      "question": "MT016",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 302
+    },
+    {
+      "question": "MT031",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 327
+    },
+    {
+      "question": "MT031",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 217
+    },
+    {
+      "question": "MT055",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 161
+    },
+    {
+      "question": "MT055",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 313
+    },
+    {
+      "question": "MT060",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 223
+    },
+    {
+      "question": "MT060",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 794
+    },
+    {
+      "question": "MT054",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 528
+    },
+    {
+      "question": "MT054",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 384
+    },
+    {
+      "question": "MT043",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 460
+    },
+    {
+      "question": "MT043",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 428
+    },
+    {
+      "question": "MT029",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 423
+    },
+    {
+      "question": "MT029",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 339
+    },
+    {
+      "question": "MT010",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 214
+    },
+    {
+      "question": "MT010",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 457
+    },
+    {
+      "question": "MT009",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 252
+    },
+    {
+      "question": "MT009",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 342
+    },
+    {
+      "question": "MT061",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 331
+    },
+    {
+      "question": "MT061",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 499
+    },
+    {
+      "question": "MT019",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 421
+    },
+    {
+      "question": "MT019",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 255
+    },
+    {
+      "question": "MT045",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 543
+    },
+    {
+      "question": "MT045",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 277
+    },
+    {
+      "question": "MT030",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 406
+    },
+    {
+      "question": "MT030",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 335
+    },
+    {
+      "question": "MT057",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 293
+    },
+    {
+      "question": "MT057",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 258
+    },
+    {
+      "question": "MT025",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 194
+    },
+    {
+      "question": "MT025",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 298
+    },
+    {
+      "question": "MT063",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 129
+    },
+    {
+      "question": "MT063",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 297
+    },
+    {
+      "question": "MT013",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 202
+    },
+    {
+      "question": "MT013",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 353
+    },
+    {
+      "question": "MT050",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 678
+    },
+    {
+      "question": "MT050",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 137
+    },
+    {
+      "question": "MT037",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 353
+    },
+    {
+      "question": "MT037",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 470
+    },
+    {
+      "question": "MT006",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 349
+    },
+    {
+      "question": "MT006",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 261
+    },
+    {
+      "question": "MT044",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 350
+    },
+    {
+      "question": "MT044",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 337
+    },
+    {
+      "question": "MT062",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 344
+    },
+    {
+      "question": "MT062",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 450
+    },
+    {
+      "question": "MT056",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 530
+    },
+    {
+      "question": "MT056",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 377
+    },
+    {
+      "question": "MT038",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 466
+    },
+    {
+      "question": "MT038",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 400
+    },
+    {
+      "question": "MT049",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 335
+    },
+    {
+      "question": "MT049",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 437
+    },
+    {
+      "question": "MT064",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 199
+    },
+    {
+      "question": "MT064",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 261
+    },
+    {
+      "question": "MT008",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 178
+    },
+    {
+      "question": "MT008",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 201
+    },
+    {
+      "question": "MT026",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 153
+    },
+    {
+      "question": "MT026",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 237
+    },
+    {
+      "question": "MT051",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 213
+    },
+    {
+      "question": "MT051",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 415
+    },
+    {
+      "question": "MT039",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 117
+    },
+    {
+      "question": "MT039",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 269
+    },
+    {
+      "question": "MT065",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 319
+    },
+    {
+      "question": "MT065",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 445
+    },
+    {
+      "question": "MT007",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 472
+    },
+    {
+      "question": "MT007",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 416
+    },
+    {
+      "question": "MT023",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 415
+    },
+    {
+      "question": "MT023",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 390
+    },
+    {
+      "question": "MT035",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 325
+    },
+    {
+      "question": "MT035",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 367
+    },
+    {
+      "question": "MT067",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 460
+    },
+    {
+      "question": "MT067",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 420
+    },
+    {
+      "question": "MT066",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 259
+    },
+    {
+      "question": "MT066",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 426
+    },
+    {
+      "question": "MT003",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 523
+    },
+    {
+      "question": "MT003",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 242
+    },
+    {
+      "question": "MT036",
+      "field": "question-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 571
+    },
+    {
+      "question": "MT036",
+      "field": "answer-en",
+      "alphanumeric_sequence_preserved": true,
+      "characters": 439
+    }
+  ],
+  "failures": []
+}

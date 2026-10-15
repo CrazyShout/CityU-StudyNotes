@@ -130,5 +130,6 @@
       "before": "a0981f1b8579a80210bb7ed418209b5113be92f422d95667cae8f26b567e768d",
       "after": "6c627fd7d63ff06336a2deb989e16dab1d326faa9d190e11e40080676989ee93"
     }
-  ]
+  ],
+  "scope": "Initial Unicode and table normalization; final source hashes are in latex/manifest.json."
 }

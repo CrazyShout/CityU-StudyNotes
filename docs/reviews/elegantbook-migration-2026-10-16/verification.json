@@ -1,0 +1,237 @@
+{
+  "date": "2026-10-16",
+  "baseline_ref": "9ad4a45ff757732342aaef2e536fae7c5a5332c1",
+  "source_ref": "85cd95dfb208c68f0eab8592d177499ed2bc3312",
+  "validation": {
+    "status": "passed",
+    "major_documents": 21,
+    "formal_tex_documents": 25,
+    "protected_notebook_code_cells": 40,
+    "preserved_course_math_expressions": 1236,
+    "question_pairs": 67,
+    "original_positions": 78,
+    "question_types": {
+      "written": 37,
+      "multiple_select": 30
+    },
+    "source_metadata_entries_checked": 14,
+    "source_hashes_verified": 0,
+    "source_archive_verification": "not_requested",
+    "books": {
+      "CS5489": {
+        "pages": 210,
+        "links": 705,
+        "destinations": 644,
+        "sha256": "075cebaa40403263ea6aaf483a1f58e7128ba61efd768a6ab1a56fe22f464238"
+      },
+      "CS5222": {
+        "pages": 96,
+        "links": 307,
+        "destinations": 181,
+        "sha256": "fa72c23635bcd304ee976653b98b832526c0fc2539371c3ca435278bc82c04a1"
+      },
+      "Foundations": {
+        "pages": 44,
+        "links": 157,
+        "destinations": 87,
+        "sha256": "4fbcc777925f41faf4def7319531a8671a7dc3433478e1e71117c25e5e61dc24"
+      },
+      "Questions": {
+        "pages": 74,
+        "links": 367,
+        "destinations": 329,
+        "sha256": "ff661bb4b84f7c86473201825cdc10905e1394f95c3adce857bb857fae7030a2"
+      },
+      "Answers": {
+        "pages": 98,
+        "links": 389,
+        "destinations": 464,
+        "sha256": "c1a134c26d0c94b1bb2d3076ad2ab79c440876a12a819454357f076e5e2c571c"
+      },
+      "Combined": {
+        "pages": 113,
+        "links": 388,
+        "destinations": 539,
+        "sha256": "5f1b814a23c0cdc64f400b5a4b42d77dedd9fdfb2526cbab62ac6a07c4fa0376"
+      },
+      "Compact": {
+        "pages": 76,
+        "links": 366,
+        "destinations": 470,
+        "sha256": "7d3ed9455a805a5dcae586882a901492999366417c220a6785c29a90fffc155d"
+      },
+      "MultipleChoice": {
+        "pages": 34,
+        "links": 172,
+        "destinations": 223,
+        "sha256": "c06c942e7e9445b95a965f214f535ef00b4a06435e9255b4b1c9de2f346187df"
+      },
+      "WrittenResponse": {
+        "pages": 45,
+        "links": 210,
+        "destinations": 258,
+        "sha256": "3f218d2526335874d8d8edf7c942ba7db21c7a45d2ac203ebad1a9aac7af61f7"
+      }
+    }
+  },
+  "clean_validation": {
+    "status": "passed",
+    "major_documents": 21,
+    "formal_tex_documents": 25,
+    "protected_notebook_code_cells": 40,
+    "preserved_course_math_expressions": 1236,
+    "question_pairs": 67,
+    "original_positions": 78,
+    "question_types": {
+      "written": 37,
+      "multiple_select": 30
+    },
+    "source_metadata_entries_checked": 14,
+    "source_hashes_verified": 0,
+    "source_archive_verification": "not_requested",
+    "books": {
+      "CS5489": {
+        "pages": 210,
+        "links": 705,
+        "destinations": 644,
+        "sha256": "db8e070993c94671a6b1ef3c5abf32d33583da58f5e1371d6059eb89b892aa43"
+      },
+      "CS5222": {
+        "pages": 96,
+        "links": 307,
+        "destinations": 181,
+        "sha256": "308ca50bed9ac221a170cb99637c06fa742b75f49ae7d6e6f0a0c663a2efcb8f"
+      },
+      "Foundations": {
+        "pages": 44,
+        "links": 157,
+        "destinations": 87,
+        "sha256": "579678c2a32be47756df5cdcda95bb38cacfabed609cf0c65f59bb974476781f"
+      },
+      "Questions": {
+        "pages": 74,
+        "links": 367,
+        "destinations": 329,
+        "sha256": "dab036ca5bfc02df723acc84369500721775a716d092bc73689a6af49c8358b3"
+      },
+      "Answers": {
+        "pages": 98,
+        "links": 389,
+        "destinations": 464,
+        "sha256": "ee8a407c77d295ac7cc987951c7b68cc6d12603aebb1783376d1f9a4711167a2"
+      },
+      "Combined": {
+        "pages": 113,
+        "links": 388,
+        "destinations": 539,
+        "sha256": "e0984a9595df85523301f6357524304a00495f02a09589dc86e8614532f6f63e"
+      },
+      "Compact": {
+        "pages": 76,
+        "links": 366,
+        "destinations": 470,
+        "sha256": "695b5aea6246a32e77e56e62c087299870c6c74b94b98b1f29d79c5cd0c04fac"
+      },
+      "MultipleChoice": {
+        "pages": 34,
+        "links": 172,
+        "destinations": 223,
+        "sha256": "1a8e5245f96eb6cae58f1d0fbc6e99aae4daca74c663cfcaf9187e8ccc365113"
+      },
+      "WrittenResponse": {
+        "pages": 45,
+        "links": 210,
+        "destinations": 258,
+        "sha256": "4affed959e633e81bddcc4ddf71cc3c04fe63db31e8137da7ab342b5835b826f"
+      }
+    }
+  },
+  "runtime": {
+    "Markdown": "3.10.3",
+    "CairoSVG": "2.9.1",
+    "PyMuPDF": "1.28.2",
+    "pypdf": "6.20.1",
+    "nbformat": "5.11.1"
+  },
+  "content": {
+    "chinese_documents_exact": 25,
+    "chinese_characters": 110739,
+    "authored_code_blocks_exact": 24,
+    "english_fields_exact": 134,
+    "pdf_english_fragments_verified": 1588,
+    "protected_assets_ledgers_indexes": 167,
+    "protected_notebook_code_cells": 40
+  },
+  "checks": {
+    "cs5222_numeric_and_event": 18,
+    "midterm_numeric": 74,
+    "partial_publication_rollback": {
+      "partial_publication_rollback": "passed",
+      "verified_files": 50,
+      "replacements_before_interruption": 1
+    }
+  },
+  "visual": {
+    "full_book_contact_review": true,
+    "final_pages": 790,
+    "detail_views": {
+      "CS5489": [
+        23,
+        29,
+        65,
+        175,
+        176
+      ],
+      "CS5222": [
+        14,
+        44,
+        49
+      ],
+      "Foundations": [
+        17,
+        20,
+        40
+      ],
+      "Questions": [
+        68
+      ],
+      "Answers": [
+        46,
+        60
+      ],
+      "Combined": [
+        102
+      ],
+      "Compact": [
+        36
+      ],
+      "MultipleChoice": [
+        28
+      ],
+      "WrittenResponse": [
+        40
+      ]
+    },
+    "grayscale_views": {
+      "CS5489": [
+        23
+      ],
+      "CS5222": [
+        14
+      ],
+      "Foundations": [
+        17
+      ],
+      "Answers": [
+        46
+      ]
+    },
+    "physical_print": false
+  },
+  "limits": [
+    "No original exam archives reread; 14 public source metadata records checked only.",
+    "No course experiments rerun; saved code, outputs and metadata preserved.",
+    "Clean exports reuse the installed TeX engine and packages, but no previous build cache or Course material.",
+    "Visual review uses full contact sheets and representative detailed/grayscale pages; not physical printing."
+  ]
+}
