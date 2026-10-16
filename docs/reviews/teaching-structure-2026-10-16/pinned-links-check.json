@@ -1,0 +1,68 @@
+{
+  "page_maps_identical": true,
+  "books": {
+    "CS5489": {
+      "pages": 208,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "edf93e10c4557f86d8a365d30b5d1e742485b00284609e2bdd701b14834f21e0",
+      "poppler_100dpi_images_identical": true
+    },
+    "CS5222": {
+      "pages": 98,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "e79676462e15c32260022656ad30e7ded36d538b3810764ff7735b8bc0263d7f",
+      "poppler_100dpi_images_identical": true
+    },
+    "Foundations": {
+      "pages": 43,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "c0c7430c8ed0f607c72e14304e8f82005d22968922f8ea80a736f9267bc31b10",
+      "poppler_100dpi_images_identical": true
+    },
+    "Questions": {
+      "pages": 74,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "21b1a425dcfd477e44020df20a9cf9a92b315263ae4a7fc3dcd712595642c708",
+      "poppler_100dpi_images_identical": true
+    },
+    "Answers": {
+      "pages": 98,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "4eb5106016655a16064041071133475ad91785959d6783902c71eadc4724c0f3",
+      "poppler_100dpi_images_identical": true
+    },
+    "Combined": {
+      "pages": 111,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "a82663be39b86c0a4e736300cf161b5a613b49192bc20492be58b05c3e937648",
+      "poppler_100dpi_images_identical": true
+    },
+    "Compact": {
+      "pages": 75,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "10c0888b9b6ae9d5aae486e0a4094d95dcae8a5b6578f42a77310b0d397ae5dc",
+      "poppler_100dpi_images_identical": true
+    },
+    "MultipleChoice": {
+      "pages": 34,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "c80af2571fa88db337c6654f764e2ef23470f639d1f031ce3d4f842b63446dc9",
+      "poppler_100dpi_images_identical": true
+    },
+    "WrittenResponse": {
+      "pages": 45,
+      "text_and_36dpi_raster_identical": true,
+      "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb",
+      "sha256": "4d97655b9d7361a9d505bcdb285ec595afd81b4583c1e59bcc35788667f1fc7f",
+      "poppler_100dpi_images_identical": true
+    }
+  }
+}
