@@ -14,4 +14,4 @@
 
 628份课程及题答TeX源稿的正文和代码块保持，允许的差异仅为空段和明确列出的版式命令；见source-preservation.json。四份Notebook的40个执行单元继续由常规校验保护。本轮不重新读取原卷、不运行课堂实验。
 
-收尾：固定新页码快照的仓库回链，再更新最终验证记录和现有PR #12；不合并。
+最终九册共781页，仓库回链固定到包含本轮页码快照的`225ce257ce324ccd5aef4acd7cf1db3a46620a69`。本地完整构建、validate.py、全页Poppler/PyMuPDF渲染及PDFKit中文核对通过，见[验收记录](VERIFICATION.md)。更新现有PR #12，不合并。

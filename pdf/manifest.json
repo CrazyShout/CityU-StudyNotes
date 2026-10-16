@@ -3,7 +3,7 @@
   "books": [
     {
       "pages": 207,
-      "sha256": "43a5317df8f3eb0d680b37389fe102e92060dc962acedd4707924d5c2d58bd4a",
+      "sha256": "57596811c56f102822fe9cb26e73c1cd741738cdb2b7ba6cbe573da56a950851",
       "source_sha256": "0ed2a5763ca5b3582a50b1a4a696b5cd28e22ac204c7092cd8e1c497dca40ab0",
       "file": "CS5489-A4.pdf",
       "documents": [
@@ -95,7 +95,7 @@
     },
     {
       "pages": 94,
-      "sha256": "8f7188bdc6d9da9a109521cb59c1f5d1f4c6964db81444c86bdb336f5c178754",
+      "sha256": "943f27a45a0baa8958def5f0f424c4f8ea4b9c45f204d6feea90ae1a0fe53fb7",
       "source_sha256": "4b7ba5cca07a8331308942abd3074bb5bd9bdf121e9043c32cfee248d689ed83",
       "file": "CS5222-A4.pdf",
       "documents": [
@@ -173,7 +173,7 @@
     },
     {
       "pages": 43,
-      "sha256": "51b21a79e4fac7c341aa8e6f6a8bea70dd90790cfb6fa263ec3a84c26a8fc22f",
+      "sha256": "f4464c627557d1a0fecccf9380244cb64d221efcf2652e556f927b369bd0b7c5",
       "source_sha256": "6d5cd70c8895c852187677afdea9a17cff985d403ac9c3dcebbe758b9c7c32d6",
       "file": "Foundations-A4.pdf",
       "documents": [
