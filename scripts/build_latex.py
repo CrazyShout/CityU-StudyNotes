@@ -274,7 +274,9 @@ def refs_file(book,resources):
 def compile_book(book):
     env=dict(os.environ)
     local=ROOT/'.build/texmf'
-    if local.is_dir():env['TEXMFHOME']=str(local)
+    if local.is_dir():
+        env['TEXMFHOME']=str(local)
+        env['TEXMFVAR']=str(ROOT/'.build/texmf-var')
     env['TEXINPUTS']=str(ROOT/'latex/vendor/elegantbook')+'//:'+env.get('TEXINPUTS','')
     path=driver(book)
     folder=BUILD/book
@@ -283,6 +285,10 @@ def compile_book(book):
     result=subprocess.run(command,cwd=path.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
     (folder/'compile-output.log').write_text(result.stdout)
     if result.returncode:
+        # A failed font/PDF driver can leave a truncated auxiliary file. Keep
+        # diagnostics, but let the next repaired build regenerate these caches.
+        for suffix in ['.aux','.out','.toc']:
+            (folder/(book+suffix)).unlink(missing_ok=True)
         print(result.stdout[-2800:],file=sys.stderr)
         raise RuntimeError(f'{book}: XeLaTeX failed; see {folder}/compile-output.log')
     mapping={}
@@ -298,6 +304,15 @@ def compile_book(book):
 
 def main():
     global MAPS
+    local=ROOT/'.build/texmf'
+    var=ROOT/'.build/texmf-var'
+    if local.is_dir() and not (var/'fonts/map/pdftex/updmap/pdftex.map').is_file():
+        # Older local installations generated maps in the global user cache.
+        # Bootstrap this project's maps once, before parallel compilation.
+        env=dict(os.environ,TEXMFHOME=str(local),TEXMFVAR=str(var))
+        result=subprocess.run(['updmap-user','--force'],env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
+        (BUILD/'font-map-setup.log').write_text(result.stdout)
+        if result.returncode:raise RuntimeError('Local TeX font map setup failed; see .build/latex/font-map-setup.log')
     resources=notebook_assets()+image_assets()
     for book in BOOKS:
         driver(book);refs_file(book,resources)

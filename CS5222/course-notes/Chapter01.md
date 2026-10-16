@@ -38,10 +38,12 @@
 <a id="8-layers-and-encapsulation"></a>
 - `8-layers-and-encapsulation` → [第 17 页](../../pdf/CS5222-A4.pdf#page=17)
 <a id="9-security-and-history"></a>
-- `9-security-and-history` → [第 18 页](../../pdf/CS5222-A4.pdf#page=18)
+- `9-security-and-history` → [第 19 页](../../pdf/CS5222-A4.pdf#page=19)
 <a id="qa"></a>
 - `qa` → [第 19 页](../../pdf/CS5222-A4.pdf#page=19)
 <a id="10-chapter-1-qa"></a>
 - `10-chapter-1-qa` → [第 19 页](../../pdf/CS5222-A4.pdf#page=19)
 <a id="11"></a>
 - `11` → [第 22 页](../../pdf/CS5222-A4.pdf#page=22)
+<a id="learning-priorities"></a>
+- `learning-priorities` → [第 23 页](../../pdf/CS5222-A4.pdf#page=23)

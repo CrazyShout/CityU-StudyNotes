@@ -7,6 +7,8 @@
 \StudyRef{CS5222-Chapter01}{switching}{Chapter 1} · \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Tutorial02}{root}{下一份Tutorial}
 
 
+这份练习比较两种共享链路的方式。先为包画出逐跳时间轴，再为电路数清占用的边，最后用同时活跃人数解释统计复用。每题先固定模型条件，再计算容量或时间。
+
 按当前 原题PDF（3页） 的Q1–4逐题讲解，并对照 教师解答PPT（10页）。下文“教师结论”指该文件；推演、时间表和变式由整理者补充。所有选择题的原选项在原页图中，正文给出推理步骤。
 
 
@@ -43,10 +45,11 @@ Q4 & 核心必会 & 中；独立与组合数 & 容量和人数分布；Tutorial 
 \StudyTarget{CS5222-Tutorial01__q1-store-and-forward}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial01-01.png}
-
-
 \textbf{完整条件 / Conditions:} 一个源主机、一个分组交换机、一个目的主机；两条链路速率为R\textsubscript{1}、R\textsubscript{2}，包长L bit。存储转发，忽略排队、传播和处理时延。b问改为相同速率R，P=3个L-bit包跨N=2条链路。 / One switch connects a sender and receiver through links R\textsubscript{1} and R\textsubscript{2}. Packets contain L bits. Use store-and-forward and ignore queueing, propagation and processing. In part b, three equal packets cross two equal-rate R links.
+
+\StudyImage{CS5222/course-notes/assets/tutorial01-01.png}
+\StudyCaption{Tutorial 1原题页：Q1按链路次序排列每个包的开始发送与接收完成事件。}
+
 
 
 \textbf{a的推演：} t=0开始发送；t=L/R\textsubscript{1}时整包抵达交换机；交换机此时才开始第二段，又花L/R\textsubscript{2}。因此教师结论为
@@ -107,10 +110,11 @@ T到2T & 包2 & 包1 \\
 \StudyTarget{CS5222-Tutorial01__q2-circuit-capacity}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial01-02.png}
-
-
 \textbf{条件 / Conditions:} A、B、C、D顺时针围成四边环，每条边4条电路，一次连接在路径每条边占一条电路。 / Four switches A,B,C,D form a clockwise ring; each link supports four circuits. A connection uses one circuit on every traversed link.
+
+\StudyImage{CS5222/course-notes/assets/tutorial01-02.png}
+\StudyCaption{Tutorial 1原题页：Q2一次连接占用其路径上的每一条边，容量不能只按端点数。}
+
 
 
 \textbf{a 最大任意连接数 / Maximum arbitrary simultaneous connections:} 让每条边只承载相邻两点之间的连接，每边4个、4条边，总16，选C。上界也为16，因为全网总共16份“边电路”且每连接至少占一份，所以这个构造达到上界。
@@ -202,10 +206,11 @@ B–C–D & 2 & BC、CD \\
 \StudyTarget{CS5222-Tutorial01__q4-statistical-multiplexing}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial01-03.png}
-
-
 \textbf{条件 / Conditions:} 共享3Mbps；每人活跃时需150kbps，每人10\%时间活跃。a用电路交换；b/c用分组交换，c共有120用户。 / Users share 3 Mbps, each requiring 150 kbps when active, with activity fraction 10\%. Part a uses circuits; parts b/c use packet switching, with 120 users in c.
+
+\StudyImage{CS5222/course-notes/assets/tutorial01-03.png}
+\StudyCaption{Tutorial 1原题页：Q4先区分预留容量与同时活跃人数，再计算超额概率。}
+
 
 
 a 每用户预留150kbps，可容纳 \(3\times10^6/(150\times10^3)=20\)人，选B。不把它再除活跃比例，电路资源已经预留。

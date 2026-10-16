@@ -23,10 +23,11 @@
 \StudyTarget{CS5222-Assignment01__p6-transmission-and-propagation}
 
 
-\StudyImage{CS5222/course-notes/assets/assignment01-01.png}
-
-
 \textbf{条件 / Conditions:} 主机A、B相距m米，链路发送速率R bit/s，传播速度s m/s，包长L bit。忽略处理、排队，从A开始发送首位计时t=0。 / Hosts A and B are m metres apart; link rate is R bit/s, propagation speed s m/s, and packet length L bits. Ignore processing and queueing and start timing with the first bit.
+
+\StudyImage{CS5222/course-notes/assets/assignment01-01.png}
+\StudyCaption{Assignment 1原题页：P6分别跟踪首位与末位，保留题目给定的计时起点。}
+
 
 
 \begingroup
@@ -59,7 +60,9 @@ d_{trans}=120/56000\approx0.002142857\text{ s},\quad m\approx535714.29\text{ m}=
 \StudyImage{learning/foundation-notes/assets/network-timeline.png}
 
 
+\begin{StudyBlock}{读图条件}{示意参数与原题参数分开}
 图是帮助读事件的教学示意（参数2ms/8ms），不是g题的参数图。g的数值单独复算，避免把示意图标注抄进答案。
+\end{StudyBlock}
 
 
 \textbf{变式 / Transfer:} L=240bit、R不变，要保持两时延相等，m如何变化？ / Double packet length while keeping R and s fixed; how must m change?
@@ -84,10 +87,11 @@ m翻倍，约1071.429km。 / m doubles to about 1071.429 km. 改变的是等时�
 \StudyTarget{CS5222-Assignment01__p31-message-segmentation}
 
 
-\StudyImage{CS5222/course-notes/assets/assignment01-02.png}
-
-
 \textbf{条件 / Conditions:} 原图源\ensuremath{\to}交换机1\ensuremath{\to}交换机2\ensuremath{\to}目的，共3条2Mbps链路；消息8\ensuremath{\times}10\textsuperscript{6}bit，存储转发，忽略传播、排队和处理。分段时为800个10000bit包，题目未另加包头。 / An 8-million-bit message crosses three 2-Mbps store-and-forward links. Ignore propagation, queueing and processing. Segmentation creates 800 packets of 10000 bits each, with no additional header overhead specified.
+
+\StudyImage{CS5222/course-notes/assets/assignment01-02.png}
+\StudyCaption{Assignment 1原题页：P31比较整条消息与分段后跨三条链路的完成时间。}
+
 
 
 a 不分段，第一链路 \(8\times10^6/(2\times10^6)=4\)s；交换机必须等整条消息，3跳总\textbf{12s}。 / Without segmentation: 4 s to the first switch and 12 s to the destination.
@@ -102,7 +106,7 @@ c 第一包到目的需3\ensuremath{\times}5ms，后续799包每隔5ms到，总 
 \StudyImage{CS5222/course-notes/assets/segmentation.png}
 
 
-图中展开前几个包，末尾标出全部800包的完成时刻。
+\StudyCaption{图中展开前几个包，末尾标出全部800包的完成时刻。}
 
 
 d 其他好处：较短包给其他流量穿插机会；出现丢失时可只重传受影响部分（若上层协议支持）；较小存储/处理单位便于逐包转发。 / Segmentation enables interleaving, selective retransmission when supported, and manageable forwarding units.
@@ -133,10 +137,11 @@ e 代价：每包头部和处理开销，更多调度；可能乱序，需要识
 \StudyTarget{CS5222-Assignment01__p17-pop3}
 
 
-\StudyImage{CS5222/course-notes/assets/assignment01-03.png}
-
-
 \textbf{完整条件 / Conditions:} 已认证进入transaction，LIST给两封邮件，编号1/2、大小498/912byte；原片段已经RETR1。a为download-and-delete，b为download-and-keep，均继续到服务完成。c在b后退出，5分钟后再次登录，无新邮件，给出第二会话。 / Two messages of 498 and 912 octets are present. Finish the full download-and-delete and download-and-keep transactions, then show a second keep-mode session five minutes later with no new mail.
+
+\StudyImage{CS5222/course-notes/assets/assignment01-03.png}
+\StudyCaption{Assignment 1原题页：P17把同一次POP3事务与下一次登录的邮箱状态连起来。}
+
 
 
 原题略去若干\StudyInline{+OK}确认；下面补齐规范响应。\StudyInline{[message .\allowbreak{}.\allowbreak{}.\allowbreak{}]}只是未知邮件内容的说明占位，\textbf{不是实际发送的协议文本}。每行以CRLF结束，单独\StudyInline{.\allowbreak{}}结束多行结果。命令字大小写不影响本题含义。
@@ -267,10 +272,11 @@ S: +OK signing off
 \StudyTarget{CS5222-Assignment01__zoom-apply-protocol-ideas-with-sourceszoom}
 
 
-\StudyImage{CS5222/course-notes/assets/assignment01-04.png}
-
-
 \textbf{原问题 / Questions:} a列举三种应用层协议并解释作用；b主要client-server还是P2P；c主要传输协议及原因；d学生是否需要老师电脑IP及原因。 / Identify three application-layer protocols and their roles, explain the main architecture and transport choice, and determine whether a student needs the lecturer's host IP.
+
+\StudyImage{CS5222/course-notes/assets/assignment01-04.png}
+\StudyCaption{Assignment 1原题页：Zoom四问分别检查应用协议、架构、传输与寻址。}
+
 
 
 \textbf{核查情境：2026-09-23，普通多人Zoom Meetings、原生Zoom Workplace客户端、经Zoom云入会的默认讨论范围。} 没有实际抓取本校课堂流量，也未确认本校启用哪些企业功能。因此下述为官方资料支撑的典型架构分析，不是对某一次课堂连接的实测报告。
@@ -349,12 +355,12 @@ H.323（协议族） & 另一类标准音视频会议端点经连接器接入 & 
 
 
 
-\StudyHeading{1}{覆盖、复算与验收}
+\StudyHeading{1}{来源与完成前自查}
 \StudyTarget{CS5222-Assignment01___2}
 
 
-原PDF p1的P6(a–g)、p2的P31(a–e)及原拓扑、p3的P17(a–c)及“写到事务结束”要求、p4的Zoom(a–d)全部对应。数值和分包图由 \StudyRepoRef{CS5222/course-notes/tools/network_examples.py}{}{network\_examples.py} 复算；原题未给邮件正文，事务中使用占位说明。
+原PDF的p1–4依次对应P6(a–g)、P31(a–e)、P17(a–c)、Zoom(a–d)，保留原拓扑及完整POP3事务要求。数值与分包图由\StudyRepoRef{CS5222/course-notes/tools/network_examples.py}{}{network\_examples.py}复算；原题未给邮件正文，示范使用占位说明。
 
 
-完成前检查：每个速率/长度有单位，每段延迟不多算漏算；POP3包含两封邮件与成功结束；Zoom区分客户端/部署并注明来源时间。再回到\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N260}{已有N260–N263}复习对应知识。
+检查速率与长度的单位、每段时延的起止事件；POP3包含两封邮件和成功结束；Zoom注明客户端、部署与来源时间。再用\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N260}{已有N260–N263}复习对应知识。
 \endgroup

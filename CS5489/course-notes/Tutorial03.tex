@@ -15,10 +15,12 @@
 \StudyRef{CS5489-Lecture03}{root}{Lecture 3} · \StudyRef{CS5489-Lecture01}{arrays}{Python/NumPy} · \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录}
 
 
-依据当前 Tutorial3.ipynb 的 68 个单元，按原顺序展开。原标题为 \emph{Gender Classification from Face Images}。本笔记只把文件名提供的 0/1 当成给定基准标签，分析模型是否重现这些标注；标签与模型结果不能确立照片中人物的真实身份。参考代码和答案为整理者实现，不是教师解答。
+
 
 
 本次练习包括：45\ensuremath{\times}40 图像怎样变为向量，怎样在训练内部选 C，怎样读线性权重，怎样公平比较裁剪与自定义核。本数据很小，单次测试10张，错一张就变10个百分点，结论必须与这个限制一起读。
+
+依据当前 Tutorial3.ipynb 的 68 个单元，按原顺序展开。原标题为 \emph{Gender Classification from Face Images}。本笔记只把文件名提供的 0/1 当成给定基准标签，分析模型是否重现这些标注；标签与模型结果不能确立照片中人物的真实身份。参考代码和答案为整理者实现，不是教师解答。
 
 
 \begingroup
@@ -161,7 +163,9 @@ English: Preserve the instructor's data order and train/test split. Candidate gr
 
 \StudyTarget{CS5489-Tutorial03__cell-11}
 \StudyTarget{CS5489-Tutorial03__notebook-cdc5c15d}
-\textbf{输出怎样读 / Reading:} 先读混淆矩阵，再看错误组共有几张，最后提出能检验的原因，例如外围像素是否贡献较大。仅看一张错分图不能确定原因；后面的裁剪是一个干预比较。 / Read the confusion matrix and error count before forming hypotheses. A single misclassified image does not establish a cause; cropping provides a controlled representation comparison.
+\begin{StudyBlock}{输出解读 / Reading}{从错误计数到待检验解释}
+先读混淆矩阵，再看错误组共有几张，最后提出能检验的原因，例如外围像素是否贡献较大。仅看一张错分图不能确定原因；后面的裁剪是一个干预比较。 / Read the confusion matrix and error count before forming hypotheses. A single misclassified image does not establish a cause; cropping provides a controlled representation comparison.
+\end{StudyBlock}
 
 
 
@@ -251,7 +255,9 @@ LR的logistic loss与SVM的hinge loss对边界附近样本的处理不同，不�
 \textbf{原任务 / Task：} 实现 \(k(x,y)=\exp(-\alpha\sum_j|x_j-y_j|)\)；外层试\ensuremath{\alpha}、内层CV选C，比较结果。 / Implement the L1 kernel, select alpha and C by training-only CV, and compare results.
 
 
+\begin{StudyBlock}{跟做}{核函数的单个值与输出形状}
 例如 x=(0,1)、y=(2,1)，L1距离=2，\ensuremath{\alpha}=0.5时核值 \(e^{-1}\approx0.3679\)。训练输入(A,A)给40\ensuremath{\times}40，预测输入(B,A)给10\ensuremath{\times}40。因此函数需要一次返回两批样本之间的全部两两核值。
+\end{StudyBlock}
 
 
 原文字称它总比RBF衰减慢，需要限定距离尺度：一维同系数时 d>1 有 \(e^{-d}>e^{-d^2}\)，但0<d<1时反过来。不同维度、尺度、\ensuremath{\alpha}/\ensuremath{\gamma}不能直接套这个比较。
@@ -284,7 +290,7 @@ LR的logistic loss与SVM的hinge loss对边界附近样本的处理不同，不�
 
 
 
-\StudyHeading{1}{本轮结果解读 / Interpreting this run}
+\StudyHeading{1}{保存结果解读 / Interpreting the saved results}
 \StudyTarget{CS5489-Tutorial03__cell-23}
 \StudyTarget{CS5489-Tutorial03__notebook-57124ee0}
 \StudyTarget{CS5489-Tutorial03__interpreting-this-run}
@@ -302,7 +308,7 @@ LR的logistic loss与SVM的hinge loss对边界附近样本的处理不同，不�
 \textbf{English:} Full-image LR and linear SVM both scored 0.80 on the ten-image split. Cropped LR scored 0.80 and cropped linear SVM 0.90, despite lower CV scores. The selected L1 kernel (alpha=0.01, C=10) scored 0.875 in CV and 0.90 on the held-out split, tying the cropped linear SVM. The held-out set contains only ten images, so each changed prediction moves accuracy by ten percentage points.
 
 
-这些数值对应上述固定数据、划分和候选网格。
+这些数值来自配套Notebook的保存输出，对应上述固定数据、划分和候选网格。
 
 
 

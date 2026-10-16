@@ -26,7 +26,6 @@
 
 本讲先学会组织一次机器学习实验，再补Python、NumPy与概率工具。历史题直接支持训练／验证分工和结果诊断；编程工具的重要性来自当前Tutorial及后续课程依赖。
 
-
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.17\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}@{}}
 \toprule
@@ -39,38 +38,10 @@
 训练与验证表现诊断 & 根据证据提出下一步检查 & 3套／未见 & 未见／2套 & 关联题段；卷次待定 & \StudyRef{CS5489-Lecture01}{error-diagnosis}{讲解} \\
 \end{longtable}\endgroup
 
-
-\textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
-
-
-现有卷中未见直接考Python语法或NumPy接口的题，不能由此判断不考。深层网络和CNN曲线题只作关联入口；本讲不承担网络结构设计。
-
-
-标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture01}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+卷数按独立试卷计；“未见”不等于不考，QE卷次待定。题号、统计口径与材料身份见\StudyRef{CS5489-Lecture01}{exam-topic-index}{讲末索引}。
 % EXAM:overview:END
 
-\begingroup
-\small\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.204161\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.156127\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.213824\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.425887\linewidth-1.50000\tabcolsep\relax}@{}}
-\toprule
-主题 & 优先级 & 难度与卡点 & 掌握要求、依据 \\
-\midrule\endfirsthead
-主题 & 优先级 & 难度与卡点 & 掌握要求、依据 \\
-\midrule\endhead
-\bottomrule\endfoot
-学习任务、训练/验证/测试 & 核心必会 & 中，目标与流程不同 & 解释并画出数据流；Lecture 1 Intro，第9–26页 \\
-Python变量、容器与流程 & 核心必会 & 中，代码执行顺序 & 跟踪值、独立写小程序；Lecture1a，第15–123个单元、Tutorial1 \\
-函数与类 & 常规掌握 & 中，返回值、对象状态 & 会调用、读懂fit/predict式接口；Lecture1a，第125–153个单元 \\
-文件与表格 & 常规掌握 & 中，路径与数据类型 & 能读输入并核对；Lecture1a，第155–179个单元 \\
-数组形状、索引、广播与复制 & 核心必会 & 中至高，轴和共享数据 & 能预测输出形状与修改影响；Lecture1b，第3–120个单元 \\
-图与概率复习 & 核心必会 & 中，纵轴含义、条件方向 & 画对图、手算边缘/条件概率；Lecture1b，第122–139个单元 \\
-\end{longtable}
-\endgroup
-
-
-这些是基于当前目标与任务的学习建议，不是教师公布的必考清单；Python底层机制并不因难就自动成为本课重点。
+学习目标、难度与材料依据集中在\StudyRef{CS5489-Lecture01}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
 
 
 
@@ -88,10 +59,12 @@ Python变量、容器与流程 & 核心必会 & 中，代码执行顺序 & 跟�
 \StudyImage{CS5489/course-notes/assets/lecture01-intro-12.png}
 
 
-\emph{原课整页图。看图像\ensuremath{\to}向量\ensuremath{\to}类别这条线：784是输入特征数，不是数字类别数；像素展开保持固定顺序，不能每张图换一种排法。}
+\StudyCaption{原课整页图。看图像\ensuremath{\to}向量\ensuremath{\to}类别这条线：784是输入特征数，不是数字类别数；像素展开保持固定顺序，不能每张图换一种排法。}
 
 
+\begin{StudyBlock}{概念}{任务、经验与评价}
 Mitchell的任务表述可以拆成三个问题：\textbf{task T}做什么，\textbf{experience E}从什么经验学，\textbf{performance P}怎样衡量。识别数字时，T是分类，E是带标签的训练图，P可以是未参与训练的数据上的错误率。仅仅“看过更多数据”不保证有效学习：数据质量、采样偏差和评价方式都影响结论。
+\end{StudyBlock}
 
 
 机器学习是AI中的一类方法，也吸收统计等领域的工具。AI中的搜索、规划、知识表示不都等于机器学习；深度学习是多层神经网络方法，可用于多种学习设定，不能把它和“监督／无监督”并列成互斥的数据类型。
@@ -154,7 +127,7 @@ Mitchell的任务表述可以拆成三个问题：\textbf{task T}做什么，\te
 \StudyImage{CS5489/course-notes/assets/lecture01-pipeline-23.png}
 
 
-\emph{原课示意图中的Error=21\%用于展示评价流程。特征提取也可能学习参数：词表、均值和缩放量应由训练数据确定。}
+\StudyCaption{原课示意图中的Error=21\%用于展示评价流程。特征提取也可能学习参数：词表、均值和缩放量应由训练数据确定。}
 
 
 课堂举例比较C=0.1、1、10，对应验证错误率25\%、10\%、21\%；按这个指标选择C=1。不能随后反复看测试集、挑另一个C，再把那个测试结果称为独立验收。\textbf{Inference（推断）}是固定模型对输入作预测；“评估预测是否正确”还需要对应答案，两件事有区别。
@@ -614,6 +587,7 @@ x!表示x\ensuremath{\times}(x\ensuremath{-}1)\ensuremath{\times}…\ensuremath{
 
 
 \StudyImage{CS5489/course-notes/assets/source-poisson.png}
+\StudyCaption{离散概率质量图：横轴取整数，各圆点的高度就是相应取值的概率；点间连线只帮助观察变化。}
 
 
 连续变量用PDF，概率是区间面积，不是单点高度。原课用高斯说明均值\ensuremath{\mu}与方差\ensuremath{\sigma}\textsuperscript{2}；“p(x)叫likelihood”须看固定的是数据还是参数，单纯讲随机变量分布时更明确的词是density。
@@ -622,7 +596,7 @@ x!表示x\ensuremath{\times}(x\ensuremath{-}1)\ensuremath{\times}…\ensuremath{
 \StudyImage{CS5489/course-notes/assets/source-gaussian.png}
 
 
-\emph{两幅原课示意图：上图给整数取值的概率质量，下图给连续密度。}
+\StudyCaption{原课高斯密度图：纵轴给连续密度，区间概率要用曲线下的面积；可与前面的离散概率质量图对照。}
 
 
 用下面的联合概率表练习完整计算（来源：Lecture1b，第134个单元）：
@@ -696,6 +670,30 @@ p(y\mid x)=\frac{p(x\mid y)p(y)}{\sum_k p(x\mid k)p(k)}.\tag{1.4}
 已有微课：\href{https://crazyshout.github.io/micro-course/?lesson=ml02}{Python ML02}、\href{https://crazyshout.github.io/micro-course/?lesson=ml03}{数组 ML03}、\href{https://crazyshout.github.io/micro-course/?lesson=ml04}{投影 ML04}、\href{https://crazyshout.github.io/micro-course/?lesson=ml05}{概率 ML05}。已有卡优先复习\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M023}{M023}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M028}{M028}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M035}{M035}；算法与调试能力需要实际运行检验。
 
 
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5489-Lecture01__learning-priorities}
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.204161\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.156127\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.213824\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.425887\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 优先级 & 难度与卡点 & 掌握要求、依据 \\
+\midrule\endfirsthead
+主题 & 优先级 & 难度与卡点 & 掌握要求、依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+学习任务、训练/验证/测试 & 核心必会 & 中，目标与流程不同 & 解释并画出数据流；Lecture 1 Intro，第9–26页 \\
+Python变量、容器与流程 & 核心必会 & 中，代码执行顺序 & 跟踪值、独立写小程序；Lecture1a，第15–123个单元、Tutorial1 \\
+函数与类 & 常规掌握 & 中，返回值、对象状态 & 会调用、读懂fit/predict式接口；Lecture1a，第125–153个单元 \\
+文件与表格 & 常规掌握 & 中，路径与数据类型 & 能读输入并核对；Lecture1a，第155–179个单元 \\
+数组形状、索引、广播与复制 & 核心必会 & 中至高，轴和共享数据 & 能预测输出形状与修改影响；Lecture1b，第3–120个单元 \\
+图与概率复习 & 核心必会 & 中，纵轴含义、条件方向 & 画对图、手算边缘/条件概率；Lecture1b，第122–139个单元 \\
+\end{longtable}
+\endgroup
+
+这些是基于当前目标与任务的学习建议，不是教师公布的必考清单；Python底层机制并不因难就自动成为本课重点。
+
 % EXAM:topics:START
 \StudyHeading{1}{Historical exam map｜按考点查题源}
 \StudyTarget{CS5489-Lecture01__exam-topic-index}
@@ -706,6 +704,15 @@ p(y\mid x)=\frac{p(x\mid y)p(y)}{\sum_k p(x\mid k)p(k)}.\tag{1.4}
 
 
 
+
+\textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
+
+
+现有卷中未见直接考Python语法或NumPy接口的题，不能由此判断不考。深层网络和CNN曲线题只作关联入口；本讲不承担网络结构设计。
+
+
+标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
+题号见\StudyRef{CS5489-Lecture01}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 \StudyHeading{2}{训练、验证与最终评价}
 

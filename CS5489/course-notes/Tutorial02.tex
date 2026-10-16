@@ -15,13 +15,17 @@
 \StudyRef{CS5489-Lecture02}{root}{先读 Lecture 2} · \StudyRef{CS5489-Assignment01}{root}{Assignment 1 指南} · \StudyRepoRef{CS5489/course-notes/README.md}{}{运行说明}
 
 
+
+
+
+老师的顺序是：认识AGNews \ensuremath{\to} 建词向量 \ensuremath{\to} Bernoulli NB \ensuremath{\to} Multinomial NB \ensuremath{\to} 看错分 \ensuremath{\to} 改平滑/词表 \ensuremath{\to} 实现Poisson NB。每步先解释要解决什么，再看代码与输出。本讲义展示配套Notebook的代码与已保存输出；复现时从头运行Notebook，独立尝试题在讲义中阅读，不阻断参考代码。
+
 主要来源：Tutorial2v2.ipynb（单元从原文件第一个开始计数，包括文字与代码）；dataAG.json。以下代码与解答为按原任务编写的参考实现。
 
 
-老师的顺序是：认识AGNews \ensuremath{\to} 建词向量 \ensuremath{\to} Bernoulli NB \ensuremath{\to} Multinomial NB \ensuremath{\to} 看错分 \ensuremath{\to} 改平滑/词表 \ensuremath{\to} 实现Poisson NB。每步先解释要解决什么，再看代码与输出。默认从头运行全部代码，独立尝试题写在Markdown中，不影响运行。
-
-
-\textbf{结果口径 / Result scope：} 本教程遵循课堂任务，多次查看同一份给定test的表现，用于练习与探索。它已参与模型/参数比较，不能被称为最终独立泛化估计。下方结果由代码计算，固定种子42。
+\begin{StudyBlock}{结果口径 / Result scope}{课堂比较与独立评价}
+本教程遵循课堂任务，多次查看同一份给定test的表现，用于练习与探索。它已参与模型/参数比较，不能被称为最终独立泛化估计。下方为参考Notebook已保存的结果，采用固定种子42。
+\end{StudyBlock}
 
 
 
@@ -110,7 +114,9 @@ Poisson NB Tutorial2v2，第29–35个单元 & 核心必会 & 高：换CCD仍保
 
 \StudyTarget{CS5489-Tutorial02__cell-7}
 \StudyTarget{CS5489-Tutorial02__notebook-4db4f5dc}
-\textbf{怎样检查 / Check：} 两个计数列分别加到2000和1000；标签与四个英文名称按原顺序对应。保留文件给定的训练／测试划分。
+\begin{StudyBlock}{检查 / Check}{先核对记录数与标签}
+两个计数列分别加到2000和1000；标签与四个英文名称按原顺序对应。保留文件给定的训练／测试划分。
+\end{StudyBlock}
 
 
 \textbf{独立检查题：} 2000篇新闻、实际词表1000词，特征矩阵和标签数组各是什么形状？\\

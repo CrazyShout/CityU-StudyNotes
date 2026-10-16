@@ -17,27 +17,7 @@
 
 
 
-\begingroup
-\small\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.230315\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.144199\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.197488\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.427998\linewidth-1.50000\tabcolsep\relax}@{}}
-\toprule
-主题 & 优先级 & 难度与卡点 & 掌握要求与依据 \\
-\midrule\endfirsthead
-主题 & 优先级 & 难度与卡点 & 掌握要求与依据 \\
-\midrule\endhead
-\bottomrule\endfoot
-架构、进程、socket、TCP/UDP & 核心必会 & 中；对象/服务边界 & 解释并运行通信；Chapter 2完整课件，第4–17、94–105张幻灯片 \\
-HTTP消息与时延 & 核心必会 & 中；连接、流水线、对象数 & 解读完整请求、画RTT；Chapter 2完整课件，第19–37张幻灯片、Tutorial 3 \\
-SMTP、POP3、IMAP & 核心必会 & 中；投递和访问分开 & 写出完整事务与状态；Chapter 2完整课件，第39–51张幻灯片、Assignment 1 \\
-DNS、递归/迭代、缓存 & 核心必会 & 中；谁向谁问 & 跟踪消息与算RTT；Chapter 2完整课件，第53–69张幻灯片、Tutorial 3 \\
-P2P、BitTorrent & 常规掌握 & 中；资源下界与实际性能 & 推导三项下界，解释分块；Chapter 2完整课件，第71–80张幻灯片 \\
-视频、DASH、CDN & 常规掌握 & 中；码率/吞吐/缓冲 & 解释机制、算小例；Chapter 2完整课件，第82–92张幻灯片 \\
-\end{longtable}
-\endgroup
-
-
-优先级依据当前课件与配套任务；考试范围以教师公布的要求为准。
+学习目标、难度与材料依据集中在\StudyRef{CS5222-Chapter02}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
 
 
 
@@ -121,6 +101,7 @@ Non-persistent HTTP：每个对象新建TCP连接。简化为握手1RTT、请求
 
 
 \StudyImage{CS5222/course-notes/assets/chapter02-26.png}
+\StudyCaption{Chapter 2完整课件，第26张：非持久HTTP的连接建立与请求各需一个往返，另计文件发送时间。}
 
 
 Persistent HTTP：复用连接，后续对象省去重新握手。\textbf{持久连接不等于流水线（pipelining）}；无流水线时每次等上一请求响应后才发下一次。多个并行TCP连接又是第三个概念，可让不同对象同时等待，但占更多资源，吞吐也受共享瓶颈限制。
@@ -144,6 +125,7 @@ Persistent HTTP：复用连接，后续对象省去重新握手。\textbf{持久
 
 
 \StudyImage{CS5222/course-notes/assets/chapter02-30.png}
+\StudyCaption{Chapter 2完整课件，第30张：先定位请求行，再读各头字段，空行结束头部。}
 
 
 原HTTP/1.1文本适合观察ASCII结构；不要据此认为所有HTTP版本在传输中都用相同明文文本布局。Tutorial3将用真实题干逐项判断，IP地址未出现时应明确说无法仅从这些头字段得到，不能从Host误认浏览器地址。
@@ -198,6 +180,7 @@ SMTP通过命令/响应完成greeting、邮件传送、结束。课堂Chapter 2�
 
 
 \StudyImage{CS5222/course-notes/assets/chapter02-42.png}
+\StudyCaption{Chapter 2完整课件，第42张：沿客户端命令与服务器应答阅读SMTP事务。}
 
 
 将HTTP称pull、SMTP称push，是典型课堂使用方式；HTTP也支持客户端上传，别把类比读成协议完全禁止别的方向。邮件内容头\StudyInline{From/\allowbreak{}To/\allowbreak{}Subject}与SMTP信封命令作用不同；头部与正文之间为空行。Chapter 2完整课件，第41/45张幻灯片的7-bit ASCII是基础历史模型，附件与国际化需编码/扩展，不能说现代电子邮件只能写英文。
@@ -263,6 +246,7 @@ root、TLD和权威服务器形成管理层次；本地解析器负责替你沿�
 
 
 \StudyImage{CS5222/course-notes/assets/chapter02-61.png}
+\StudyCaption{Chapter 2完整课件，第61张：按编号配对请求与应答，再计算往返次数。}
 
 
 看图先跟数字1–8，不要把每根箭头当一个RTT：一次往返有去和回。无缓存、顺序访问root/TLD/权威时，若host\ensuremath{\leftrightarrow}local为RTT\_L，每个local\ensuremath{\leftrightarrow}远端为RTT\_r，总RTT\_L+3RTT\_r。命中local缓存、无需再验证且忽略处理时，只RTT\_L。原图也用于Tutorial3。若RTT\_L=2 ms、RTT\_r=10 ms，无缓存时为2+3\ensuremath{\times}10=32 ms；本地命中时为2 ms。
@@ -300,7 +284,9 @@ MX & 邮件域\ensuremath{\to}邮件交换服务器名 & 实际还含优先级�
 \endgroup
 
 
+\begin{StudyBlock}{完整示范}{CNAME给出名字，A记录给出地址}
 例如解析器要找\StudyInline{video.\allowbreak{}example}的IPv4地址，先得到\StudyInline{video.\allowbreak{}example CNAME edge.\allowbreak{}example}，再得到\StudyInline{edge.\allowbreak{}example A 192.\allowbreak{}0.\allowbreak{}2.\allowbreak{}20}。第一个回答给出另一个名字，第二个才给出可连接的地址。它们可能一起出现在回答中，也可能需要继续查询；CNAME不会把视频文件一起带回来。这些名称和地址仅作教学示例。
+\end{StudyBlock}
 
 
 \textbf{缓存变式 / Transfer：} 解析器在t=0同时缓存上述两条记录，CNAME的TTL为300 s，A的TTL为60 s。忽略其他缓存与提前刷新，t=90 s再次询问相同地址时，哪条记录仍有效、还缺什么？ / At t=0, a resolver caches the CNAME with TTL 300 s and the A record with TTL 60 s. With no other cache or refresh, what can it reuse at t=90 s and what must it obtain again?
@@ -391,7 +377,9 @@ max(10,20,40)=40s，与CS相同。 / 40 s, equal to the client-server bound. 这
 请求块采用rarest-first，优先扩散目前邻居中少见的块，降低最后只缺同一块的风险。发送方面，课堂用“偏向近期给自己较高上传速率的四个伙伴，每10秒重评、每30秒随机尝试一个新伙伴”的tit-for-tat/optimistic unchoking例子。这里的4/10/30属于课件所述算法版本，客户端实现可能采用不同参数。随机试新伙伴避免只锁在既有关系里。
 
 
+\begin{StudyBlock}{事件示范}{按邻居持有情况选择稀缺块}
 具体看Alice刚加入、缺少A/B/C三个等大块的时刻。她从tracker得到邻居列表后，询问各邻居持有哪些块；假设P1持有A、B，P2持有A、B，P3持有A、C。统计可见副本数：A有3份、B有2份、C只有1份，因此先向持有C且愿意供给的P3请求C。拿到后Alice也可以向别人上传C，使稀缺块多一个来源。tracker在这个过程中帮助找人，文件块来自peer。
+\end{StudyBlock}
 
 
 “先请求哪个缺失块”与“把自己的上传机会分给谁”是两项决定。rarest-first回答前者，tit-for-tat与optimistic unchoking回答后者。Bob即使暂时没有给Alice上传，也可能被随机选中获得一段服务；这解释了\StudyRef{CS5222-Tutorial04}{q3}{Tutorial 4 Q3}为什么讨论free-riding的可能性，而不保证任意不上传节点都能下载完成。
@@ -518,6 +506,7 @@ UDP路径：\StudyInline{socket(\allowbreak{}AF\_\allowbreak{}INET,\allowbreak{}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter02-97.png}
+\StudyCaption{Chapter 2完整课件，第97张：UDP客户端与服务端的调用顺序；接收方同时取得数据与发送端地址。}
 
 
 TCP路径：server创建监听socket、bind、listen；client创建socket再connect；server.accept返回\textbf{新的连接socket}；双方用该连接收发；结束关闭连接socket，监听socket可继续接新连接。Chapter 2完整课件，第102张幻灯片用源端口帮助区分连接，完整连接识别还涉及双方地址/端口与协议，不能只看一个源端口。
@@ -684,6 +673,30 @@ HTML两RTT，图片同一批两RTT，共4RTT；这是补充变式，不替换原
 \StudyRef{CS5222-Tutorial04}{root}{Tutorial4}继续练本章P2P/DASH；\StudyRef{CS5222-Tutorial05}{root}{Tutorial5}属于下一章传输层。Q\&A页面并入本章覆盖索引：Chapter 2课堂Q\&A，第1张幻灯片为封面，Chapter 2课堂Q\&A，第2–7张幻灯片对应以上六题。
 
 
+
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5222-Chapter02__learning-priorities}
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.230315\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.144199\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.197488\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.427998\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 优先级 & 难度与卡点 & 掌握要求与依据 \\
+\midrule\endfirsthead
+主题 & 优先级 & 难度与卡点 & 掌握要求与依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+架构、进程、socket、TCP/UDP & 核心必会 & 中；对象/服务边界 & 解释并运行通信；Chapter 2完整课件，第4–17、94–105张幻灯片 \\
+HTTP消息与时延 & 核心必会 & 中；连接、流水线、对象数 & 解读完整请求、画RTT；Chapter 2完整课件，第19–37张幻灯片、Tutorial 3 \\
+SMTP、POP3、IMAP & 核心必会 & 中；投递和访问分开 & 写出完整事务与状态；Chapter 2完整课件，第39–51张幻灯片、Assignment 1 \\
+DNS、递归/迭代、缓存 & 核心必会 & 中；谁向谁问 & 跟踪消息与算RTT；Chapter 2完整课件，第53–69张幻灯片、Tutorial 3 \\
+P2P、BitTorrent & 常规掌握 & 中；资源下界与实际性能 & 推导三项下界，解释分块；Chapter 2完整课件，第71–80张幻灯片 \\
+视频、DASH、CDN & 常规掌握 & 中；码率/吞吐/缓冲 & 解释机制、算小例；Chapter 2完整课件，第82–92张幻灯片 \\
+\end{longtable}
+\endgroup
+
+优先级依据当前课件与配套任务；考试范围以教师公布的要求为准。
 
 \StudyHeading{1}{15. Source coverage and cautions｜每一页有去处}
 \StudyTarget{CS5222-Chapter02__15-source-coverage-and-cautions}

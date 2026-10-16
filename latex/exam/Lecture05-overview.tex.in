@@ -12,15 +12,6 @@
 
 本讲在现有期末材料中主要对应激活、反向传播、优化与泛化；2025A期中也出现了梯度消失与链式法则。先用小网络把计算走通，再练用英文解释条件。
 
-
 @@OVERVIEW_TABLE@@
 
-
-\textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
-
-
-QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN结构、卷积尺寸、数据增强、ResNet、BatchNorm、AE/VAE和GAN不计入当前Lecture5已覆盖内容。
-
-
-标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture05}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+卷数按独立试卷计；“未见”不等于不考，QE卷次待定。题号、统计口径与材料身份见\StudyRef{CS5489-Lecture05}{exam-topic-index}{讲末索引}。

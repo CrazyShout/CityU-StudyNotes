@@ -1,0 +1,90 @@
+{
+  "status": "passed",
+  "major_documents": 21,
+  "formal_tex_documents": 25,
+  "protected_notebook_code_cells": 40,
+  "preserved_course_math_expressions": 1236,
+  "question_pairs": 67,
+  "original_positions": 78,
+  "question_types": {
+    "written": 37,
+    "multiple_select": 30
+  },
+  "source_metadata_entries_checked": 14,
+  "source_hashes_verified": 0,
+  "source_archive_verification": "not_requested",
+  "books": {
+    "CS5489": {
+      "pages": 208,
+      "links": 716,
+      "destinations": 648,
+      "unicode_fonts": 12,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "edf93e10c4557f86d8a365d30b5d1e742485b00284609e2bdd701b14834f21e0"
+    },
+    "CS5222": {
+      "pages": 98,
+      "links": 310,
+      "destinations": 184,
+      "unicode_fonts": 13,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "e79676462e15c32260022656ad30e7ded36d538b3810764ff7735b8bc0263d7f"
+    },
+    "Foundations": {
+      "pages": 43,
+      "links": 157,
+      "destinations": 87,
+      "unicode_fonts": 9,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "c0c7430c8ed0f607c72e14304e8f82005d22968922f8ea80a736f9267bc31b10"
+    },
+    "Questions": {
+      "pages": 74,
+      "links": 367,
+      "destinations": 329,
+      "unicode_fonts": 10,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "21b1a425dcfd477e44020df20a9cf9a92b315263ae4a7fc3dcd712595642c708"
+    },
+    "Answers": {
+      "pages": 98,
+      "links": 389,
+      "destinations": 464,
+      "unicode_fonts": 10,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "4eb5106016655a16064041071133475ad91785959d6783902c71eadc4724c0f3"
+    },
+    "Combined": {
+      "pages": 111,
+      "links": 388,
+      "destinations": 539,
+      "unicode_fonts": 10,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "a82663be39b86c0a4e736300cf161b5a613b49192bc20492be58b05c3e937648"
+    },
+    "Compact": {
+      "pages": 75,
+      "links": 366,
+      "destinations": 470,
+      "unicode_fonts": 10,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "10c0888b9b6ae9d5aae486e0a4094d95dcae8a5b6578f42a77310b0d397ae5dc"
+    },
+    "MultipleChoice": {
+      "pages": 34,
+      "links": 172,
+      "destinations": 223,
+      "unicode_fonts": 10,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "c80af2571fa88db337c6654f764e2ef23470f639d1f031ce3d4f842b63446dc9"
+    },
+    "WrittenResponse": {
+      "pages": 45,
+      "links": 210,
+      "destinations": 258,
+      "unicode_fonts": 10,
+      "chinese_text_parsers": "pypdf + PyMuPDF",
+      "sha256": "4d97655b9d7361a9d505bcdb285ec595afd81b4583c1e59bcc35788667f1fc7f"
+    }
+  }
+}

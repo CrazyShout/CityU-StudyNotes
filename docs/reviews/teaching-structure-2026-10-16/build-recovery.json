@@ -1,0 +1,12 @@
+{
+  "user_template_unchanged": true,
+  "template_files": 15,
+  "project_font_map": ".build/texmf-var/fonts/map/pdftex/updmap/pdftex.map",
+  "newtx_ot1_entry_found": true,
+  "build_recovery_regression": "passed",
+  "publication_rollback": {
+    "partial_publication_rollback": "passed",
+    "verified_files": 50,
+    "replacements_before_interruption": 1
+  }
+}

@@ -21,25 +21,7 @@
 \textbf{基础补课（可跳过）：} \StudyRef{Foundations-NetworkBasics}{units}{bit、byte与速率}、\StudyRef{Foundations-NetworkBasics}{binary}{二进制}、\StudyRef{Foundations-NetworkBasics}{timeline}{时间轴}。阅读时留意“第几个包”和“第几个字节”的区别，§9会具体比较。
 
 
-\begingroup
-\small\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.194140\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.151220\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.200825\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.453815\linewidth-1.50000\tabcolsep\relax}@{}}
-\toprule
-主题 & 优先级 & 难度与卡点 & 掌握要求及依据 \\
-\midrule\endfirsthead
-主题 & 优先级 & 难度与卡点 & 掌握要求及依据 \\
-\midrule\endhead
-\bottomrule\endfoot
-传输服务、复用/解复用 & 核心必会 & 中，主机/进程与端点 & 读UDP/TCP标识与回程端口；Chapter 3 part 1，第4–15张幻灯片、Tutorial 5 Q1–2 \\
-UDP与校验和 & 核心必会 & 中，回卷进位 & 手算、解释检测边界；Chapter 3 part 1，第17–20张幻灯片、Tutorial 5 Q3 \\
-rdt1.0–3.0 & 核心必会 & 高，双方状态与坏ACK & 逐事件解释、画乱序反例；Chapter 3 part 1，第22–44张幻灯片、Tutorial 5 Q4 \\
-停等与流水线 & 核心必会 & 中，忙碌时间/周期 & 计算利用率与吞吐；Chapter 3 part 2，第1–6张幻灯片 \\
-GBN与SR & 核心必会 & 高，ACK与窗口 & 画一次丢包后的行为；Chapter 3 part 2，第7–15张幻灯片 \\
-TCP序号与RTO & 核心必会 & 中，字节与估计量 & 算下一序号、累计ACK、超时；Chapter 3 part 2，第17–26张幻灯片 \\
-完整握手/流控/拥塞控制 & 后续待当前材料 & 不以“尚缺”推断不考 & 暂留历史预习，不补成教师已讲 \\
-\end{longtable}
-\endgroup
+学习目标、难度与材料依据集中在\StudyRef{CS5222-Chapter03}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
 
 
 
@@ -269,19 +251,22 @@ UDP首部四个16bit字段为source port、destination port、length、checksum�
 \StudyTarget{CS5222-Chapter03__rdt22acknak}
 
 
+\begin{StudyBlock}{协议规则}{rdt2.2的发送与接收状态}
 接收者改成“确认最后一个正确收到的包”。等待0时，正确0到达就交付、回ACK0、改等1；损坏包或重复1到达，就回ACK1、仍等0。等待1时完全对称：正确1触发交付与ACK1，其他情况回ACK0。初始等0时，可把保存的上一确认初始化为ACK1，表示0尚未被接受，并不声称应用已经收到过一份真实的1号数据。
 
 
 发送者等ACK0时，只把校验通过的ACK0视为完成；ACK1或损坏ACK都使它重发0，继续等ACK0。等ACK1时交换0/1即可。图中从“等ACK0”到“等上层1”的箭头只允许接下一份数据，不会在应用尚未提供数据时凭空发出1号包。
-
+\end{StudyBlock}
 
 \StudyImage{CS5222/course-notes/assets/chapter03-rdt22-fsm.svg}
 
 
-\emph{按Chapter 3 part 1第38–39张整理的完整发送端图。箭头写“事件 / 动作”；Ready状态等应用，Wait for ACK状态等反馈。异常反馈沿自环重传，成功反馈才切换数据编号。接收端的两状态规则见上文。}
+\StudyCaption{按Chapter 3 part 1第38–39张整理的完整发送端图。箭头写“事件 / 动作”；Ready状态等应用，Wait for ACK状态等反馈。异常反馈沿自环重传，成功反馈才切换数据编号。接收端的两状态规则见上文。}
 
 
+\begin{StudyBlock}{事件示范}{损坏的1号包为何触发ACK0}
 例如双方正在处理B(1)，但它到达时损坏：接收者仍等1，回ACK0；发送者正在等ACK1，看见ACK0便重发B(1)。ACK0说的是“上一次正确收到的是0”，并没有对损坏的1作成功确认。这种单个重复ACK触发的重传属于rdt2.2模型，不是后续TCP的重复ACK算法。
+\end{StudyBlock}
 
 
 \textbf{独立题 / Check：} rdt2.2中A(0)已正确交付，接收者改等1，但ACK0在途中损坏。随后重传的数据与反馈都正确到达，且无丢失或重排。依次写出发送者动作、接收者动作及双方最终状态。 / In rdt2.2, A(0) is delivered and the receiver waits for 1, but ACK0 is corrupted. The retransmitted data and its reply then arrive intact, with no loss or reordering. State both endpoints' actions and final states.
@@ -361,7 +346,7 @@ ACK只是很慢 & 可能提前超时 & 正确处理重复包和旧ACK \\
 \StudyImage{CS5222/course-notes/assets/oct-alternating-bit.png}
 
 
-图为补充推导，时间向下。原0包被延迟，其重传先到；随后1包也完成。接收方又等0时，最早那份旧0才到。内容已经过期，但编号恰好符合期望，因此可能被重复交付。
+\StudyCaption{图为补充推导，时间向下。原0包被延迟，其重传先到；随后1包也完成。接收方又等0时，最早那份旧0才到。内容已经过期，但编号恰好符合期望，因此可能被重复交付。}
 
 
 \textbf{自测 / Check：} rdt3.0发送者等ACK1时收到校验正确的ACK0，定时器尚未超时。应马上重发1、改发新0，还是继续等？ / An rdt3.0 sender waiting for ACK1 receives a valid ACK0 before timeout. Should it retransmit 1 immediately, send new data 0, or keep waiting?
@@ -454,7 +439,7 @@ SR接收端对当前窗口内正确包确认并按需缓存；对上一窗口内
 \StudyImage{CS5222/course-notes/assets/chapter03-gbn-sr.png}
 
 
-\emph{教学时序图：两边都只发送0–3这一批，窗口足够大，只有数据1丢失，ACK均成功，未发生序号回绕。纵向表示事件顺序，不按真实RTT比例。GBN丢弃2和3后重传1–3；SR先存好2和3，只补1。图中省略了GBN重传后的正常累计ACK。}
+\StudyCaption{教学时序图：两边都只发送0–3这一批，窗口足够大，只有数据1丢失，ACK均成功，未发生序号回绕。纵向表示事件顺序，不按真实RTT比例。GBN丢弃2和3后重传1–3；SR先存好2和3，只补1。图中省略了GBN重传后的正常累计ACK。}
 
 
 \textbf{独立题 / Check：} 第一批发0–7，只有数据6丢失，无重排、ACK无丢失，窗口足够发完这批，序号不回绕。在任何重传开始前，GBN与SR接收端分别发哪些ACK？ / In the first batch, send packets 0–7 with a sufficiently large window and no sequence-number wrap. Only data packet 6 is lost; there is no reordering or ACK loss. List each receiver's ACKs before any retransmission.
@@ -508,7 +493,7 @@ TCP segment序号是该段第一个数据字节的位置；累计ACK是下一期
 \StudyImage{CS5222/course-notes/assets/chapter03-telnet.svg}
 
 
-\emph{按Chapter 3 part 2第22–23张的原数字整理。时间向下，仅表示先后，不按实际RTT比例。实线带数据，虚线是无数据的ACK；灰度也可区分。}
+\StudyCaption{按Chapter 3 part 2第22–23张的原数字整理。时间向下，仅表示先后，不按实际RTT比例。实线带数据，虚线是无数据的ACK；灰度也可区分。}
 
 
 
@@ -580,6 +565,7 @@ E_{new}=(1-\alpha)E_{old}+\alpha S,\quad\alpha=0.125\text{为课件常用值}.\t
 S是本次样本，E与S都以相同时间单位计。历史样本的影响指数衰减。波动用DevRTT近似：\(D_{new}=(1-\beta)D_{old}+\beta|S-E|\)，课件常用\ensuremath{\beta}=0.25；超时\(RTO=E+4D\)。D不是“又一份平均RTT”，而是安全余量相关的波动量。
 
 
+\begin{StudyBlock}{完整示范}{按既定更新顺序计算RTO}
 把两项都算一次（教学例）：旧E=100 ms、旧D=10 ms，本次S=140 ms，取alpha=0.125、beta=0.25。\textbf{本例约定先更新E，再把新E代入D的式子。} / Start with E=100 ms, D=10 ms and S=140 ms, with alpha=0.125 and beta=0.25. In this teaching calculation, update E first and use the new E in the deviation update.
 
 
@@ -602,7 +588,7 @@ S是本次样本，E与S都以相同时间单位计。历史样本的影响指�
 
 
 如果题目规定D固定为10 ms，则是105+40=145 ms；若用旧E更新D，又会得到另一值。做题时要把采用的更新顺序写明，不能把不同约定的结果直接比较。
-
+\end{StudyBlock}
 
 \textbf{变式 / Transfer：} 从同样的旧E=100 ms、旧D=10 ms重新开始，S改为80 ms，仍先更新E再更新D。求E、D、RTO。 / Restart from E=100 ms and D=10 ms, but use S=80 ms. Keep the same coefficients and update order. Find the new E, D and RTO.
 
@@ -628,6 +614,31 @@ S是本次样本，E与S都以相同时间单位计。历史样本的影响指�
 
 
 最低要点 / Key points：完整端点不同；分清新数据与重传；丢失时无反馈；旧编号可能被重用；TCP确认下一个字节。 / Different endpoint tuples; distinguish new data from retransmissions; loss may produce no feedback; old numbers can be reused; TCP acknowledges the next byte.
+
+
+
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5222-Chapter03__learning-priorities}
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.194140\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.151220\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.200825\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.453815\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 优先级 & 难度与卡点 & 掌握要求及依据 \\
+\midrule\endfirsthead
+主题 & 优先级 & 难度与卡点 & 掌握要求及依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+传输服务、复用/解复用 & 核心必会 & 中，主机/进程与端点 & 读UDP/TCP标识与回程端口；Chapter 3 part 1，第4–15张幻灯片、Tutorial 5 Q1–2 \\
+UDP与校验和 & 核心必会 & 中，回卷进位 & 手算、解释检测边界；Chapter 3 part 1，第17–20张幻灯片、Tutorial 5 Q3 \\
+rdt1.0–3.0 & 核心必会 & 高，双方状态与坏ACK & 逐事件解释、画乱序反例；Chapter 3 part 1，第22–44张幻灯片、Tutorial 5 Q4 \\
+停等与流水线 & 核心必会 & 中，忙碌时间/周期 & 计算利用率与吞吐；Chapter 3 part 2，第1–6张幻灯片 \\
+GBN与SR & 核心必会 & 高，ACK与窗口 & 画一次丢包后的行为；Chapter 3 part 2，第7–15张幻灯片 \\
+TCP序号与RTO & 核心必会 & 中，字节与估计量 & 算下一序号、累计ACK、超时；Chapter 3 part 2，第17–26张幻灯片 \\
+完整握手/流控/拥塞控制 & 后续待当前材料 & 不以“尚缺”推断不考 & 暂留历史预习，不补成教师已讲 \\
+\end{longtable}
+\endgroup
 
 
 

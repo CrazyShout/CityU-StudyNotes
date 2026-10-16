@@ -18,9 +18,9 @@
 \renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.324049\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.262114\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.413837\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-卡在哪里 & 入口 & 自查（展开本节可见答案） \\
+卡在哪里 & 入口 & 自查（答案在对应小节） \\
 \midrule\endfirsthead
-卡在哪里 & 入口 & 自查（展开本节可见答案） \\
+卡在哪里 & 入口 & 自查（答案在对应小节） \\
 \midrule\endhead
 \bottomrule\endfoot
 bit、byte、Mbps分不清 & \StudyRef{Foundations-NetworkBasics}{units}{单位与数量级} & 1500 B以2 Mbps发出要多久？ \\
@@ -49,16 +49,19 @@ bit（比特）是一个二进制位，可取0或1。byte（字节）通常是8 
 \]
 
 
-\textbf{完整算例 / Worked example:} 1500 B、R=2 Mbps。先换 \(L=1500\times8=12000\) bit，再算 \(L/R=12000/(2\times10^6)=0.006\) s=6 ms。单位“bit\ensuremath{\div}bit/s”最后剩s，是一个自带报警器：如果还剩米或字节，通常哪里没对齐。
+\begin{StudyBlock}{完整示范 / Worked example}{先统一bit与秒}
+1500 B、R=2 Mbps。先换 \(L=1500\times8=12000\) bit，再算 \(L/R=12000/(2\times10^6)=0.006\) s=6 ms。单位“bit\ensuremath{\div}bit/s”最后剩s，是一个自带报警器：如果还剩米或字节，通常哪里没对齐。
+\end{StudyBlock}
 
 
 传播是另一件事。距离d=1000 km=10\textsuperscript{6}m，速度s=2\ensuremath{\times}10\textsuperscript{8}m/s，\(d/s=0.005\)s=5ms。提高链路发送速率R不等于让电磁信号速度s跟着翻倍。
 
 
 \StudyImage{learning/foundation-notes/assets/network-units.png}
+\StudyCaption{发送与传播使用不同的“数量除以速率”：上条处理比特，下条处理距离。}
 
 
-图左是“把多少bit送上路”，图右是“已经上路的bit走多远”。两个除法输出同为秒，但分子和分母的含义不同。带宽还可能在物理通信里指Hz频宽；本章说link bandwidth时通常指bit/s容量，要看上下文。
+上条是“把多少bit送上路”，下条是“已经上路的bit走多远”。两个除法输出同为秒，但分子和分母的含义不同。带宽还可能在物理通信里指Hz频宽；本章说link bandwidth时通常指bit/s容量，要看上下文。
 
 
 \textbf{变式 / Transfer:} 1000 B以10 Mbps发送，链路2000 km、传播速度2\ensuremath{\times}10\textsuperscript{8}m/s，忽略其他时延，整包到达要多久？ / Send 1000 B at 10 Mbps over 2000 km at propagation speed 2\ensuremath{\times}10\textsuperscript{8} m/s. Ignore other delays and find complete-packet arrival time.
@@ -199,7 +202,7 @@ TCP提供有序字节流，应用必须自己定义消息边界；一次\StudyIn
 \StudyImage{learning/foundation-notes/assets/network-timeline.png}
 
 
-沿图横轴读时间，纵轴区分发送端与接收端。两条斜线是首/末位轨迹，间距是发送时长；线上的位置表示比特在该时刻到达哪里。如果\ensuremath{\tau}<T，首位可以在末位离开发送端之前到达，对网络并无矛盾。
+\StudyCaption{沿图横轴读时间，纵轴区分发送端与接收端。两条斜线是首/末位轨迹，间距是发送时长；线上的位置表示比特在该时刻到达哪里。如果\ensuremath{\tau}<T，首位可以在末位离开发送端之前到达，对网络并无矛盾。}
 
 
 存储转发（store-and-forward）要求中间节点收到整包再转下一条链路。若忽略传播/排队/处理，两条相同速率链路、3个相同长度包，每包发送时间T：

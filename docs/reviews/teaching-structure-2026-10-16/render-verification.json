@@ -1,0 +1,171 @@
+{
+  "total_pages": 786,
+  "renderers": [
+    "Poppler",
+    "PyMuPDF"
+  ],
+  "render_dpi": 100,
+  "books": {
+    "CS5222": {
+      "pages": 98,
+      "pdf_sha256": "e79676462e15c32260022656ad30e7ded36d538b3810764ff7735b8bc0263d7f",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9215451158408633,
+        1.0328
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/CS5222-sheet-01.png",
+        ".build/teaching-structure/render-pinned/CS5222-sheet-02.png",
+        ".build/teaching-structure/render-pinned/CS5222-sheet-03.png",
+        ".build/teaching-structure/render-pinned/CS5222-sheet-04.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "Foundations": {
+      "pages": 43,
+      "pdf_sha256": "c0c7430c8ed0f607c72e14304e8f82005d22968922f8ea80a736f9267bc31b10",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9588172923996338,
+        1.0650592514372874
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/Foundations-sheet-01.png",
+        ".build/teaching-structure/render-pinned/Foundations-sheet-02.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "Questions": {
+      "pages": 74,
+      "pdf_sha256": "21b1a425dcfd477e44020df20a9cf9a92b315263ae4a7fc3dcd712595642c708",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8670402445236882,
+        1.0112578672103536
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/Questions-sheet-01.png",
+        ".build/teaching-structure/render-pinned/Questions-sheet-02.png",
+        ".build/teaching-structure/render-pinned/Questions-sheet-03.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "CS5489": {
+      "pages": 208,
+      "pdf_sha256": "edf93e10c4557f86d8a365d30b5d1e742485b00284609e2bdd701b14834f21e0",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8974910965821506,
+        1.057774607703281
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/CS5489-sheet-01.png",
+        ".build/teaching-structure/render-pinned/CS5489-sheet-02.png",
+        ".build/teaching-structure/render-pinned/CS5489-sheet-03.png",
+        ".build/teaching-structure/render-pinned/CS5489-sheet-04.png",
+        ".build/teaching-structure/render-pinned/CS5489-sheet-05.png",
+        ".build/teaching-structure/render-pinned/CS5489-sheet-06.png",
+        ".build/teaching-structure/render-pinned/CS5489-sheet-07.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "Answers": {
+      "pages": 98,
+      "pdf_sha256": "4eb5106016655a16064041071133475ad91785959d6783902c71eadc4724c0f3",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8672715225036954,
+        1.0182981589582398
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/Answers-sheet-01.png",
+        ".build/teaching-structure/render-pinned/Answers-sheet-02.png",
+        ".build/teaching-structure/render-pinned/Answers-sheet-03.png",
+        ".build/teaching-structure/render-pinned/Answers-sheet-04.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "Combined": {
+      "pages": 111,
+      "pdf_sha256": "a82663be39b86c0a4e736300cf161b5a613b49192bc20492be58b05c3e937648",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8676762030590985,
+        1.0248854310987956
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/Combined-sheet-01.png",
+        ".build/teaching-structure/render-pinned/Combined-sheet-02.png",
+        ".build/teaching-structure/render-pinned/Combined-sheet-03.png",
+        ".build/teaching-structure/render-pinned/Combined-sheet-04.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "MultipleChoice": {
+      "pages": 34,
+      "pdf_sha256": "c80af2571fa88db337c6654f764e2ef23470f639d1f031ce3d4f842b63446dc9",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.7975166297117516,
+        1.0087677967837754
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/MultipleChoice-sheet-01.png",
+        ".build/teaching-structure/render-pinned/MultipleChoice-sheet-02.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "Compact": {
+      "pages": 75,
+      "pdf_sha256": "10c0888b9b6ae9d5aae486e0a4094d95dcae8a5b6578f42a77310b0d397ae5dc",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8669965818070506,
+        1.0298244207488174
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/Compact-sheet-01.png",
+        ".build/teaching-structure/render-pinned/Compact-sheet-02.png",
+        ".build/teaching-structure/render-pinned/Compact-sheet-03.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    },
+    "WrittenResponse": {
+      "pages": 45,
+      "pdf_sha256": "4d97655b9d7361a9d505bcdb285ec595afd81b4583c1e59bcc35788667f1fc7f",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.7784976033553026,
+        1.0226044088400885
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-pinned/WrittenResponse-sheet-01.png",
+        ".build/teaching-structure/render-pinned/WrittenResponse-sheet-02.png"
+      ],
+      "all_pages_contact_reviewed": true,
+      "identical_to_reviewed_pre_pin_render": true
+    }
+  },
+  "grayscale_spots": {
+    "CS5489": [
+      29
+    ],
+    "CS5222": [
+      47
+    ],
+    "Foundations": [
+      38
+    ]
+  },
+  "physical_print": false,
+  "source_ref": "dcc5fb5ef144791e102824ceeb99444ebbf9e6eb"
+}

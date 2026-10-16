@@ -7,6 +7,8 @@
 \StudyRef{CS5222-Chapter02}{root}{Chapter 2} · \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Assignment01}{root}{Assignment 1}
 
 
+先从HTTP报文的具体字段找证据，再把DNS查询与网页对象请求画成时间轴。最后通过命令观察名字解析与访问结果；只有报文或测量真正给出的信息才能写成结论。
+
 依据当前 原题PDF（3页），按Problem1–4展开。教师解答共13页：Tutorial 3教师解答，第3–4张幻灯片对应Q1，Tutorial 3教师解答，第8张幻灯片对应Q2，Tutorial 3教师解答，第11–13张幻灯片对应Q3；Q4未给当前测量答案。以下保留教师结论与整理补充的区别。Q1/Q2/Q3为核心必会（中等难度，卡在字段证据与RTT条件），Q4为常规掌握的实际操作任务（需区别观察和推断）。
 
 
@@ -22,10 +24,11 @@
 \StudyTarget{CS5222-Tutorial03__problem-1-read-an-http-request}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial03-01.png}
-
-
 \textbf{任务 / Task:} 原题给出Wireshark看到的一段HTTP GET的ASCII内容，\StudyInline{<cr><lf>}代表实际单字节CR、LF。指出URL、HTTP版本、是否持久、浏览器主机IP、浏览器类型及该字段的用途。 / From the supplied HTTP GET bytes, identify the URL, version, connection preference, client IP, and user-agent type and purpose, citing the relevant fields.
+
+\StudyImage{CS5222/course-notes/assets/tutorial03-01.png}
+\StudyCaption{Tutorial 3原题页：从原始请求字段找证据；图中未给出的字段不能凭主机名补猜。}
+
 
 
 为便于定位，下面仅摘录与答案直接相关的原字段；完整报文（包括Accept各项及原拼写）见上图：
@@ -79,10 +82,11 @@ e. \textbf{Browser / 浏览器：} Tutorial 3教师解答，第4张幻灯片简�
 \StudyTarget{CS5222-Tutorial03__problem-2-dns-resolution}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial03-02.png}
-
-
 \textbf{条件 / Conditions:} client到local DNS的RTT为RTT\_L，local到其他DNS每次RTT为RTT\_r。a无任何缓存，按图依次访问root、TLD、authoritative；b所需记录已在local缓存。忽略额外处理与传输大小。 / The client-local RTT is RTT\_L; each local-remote DNS RTT is RTT\_r. Follow the figure's sequential root, TLD and authoritative queries without caches, then consider a local cache hit.
+
+\StudyImage{CS5222/course-notes/assets/tutorial03-02.png}
+\StudyCaption{Tutorial 3原题页：DNS每对去回箭头构成一次往返，先按题设判断缓存。}
+
 
 
 a 1/8合成一次client-local往返，2/3、4/5、6/7分别三次local-remote往返。总 \textbf{RTT\_L+3RTT\_r，选D}。不是8RTT，因为图上8条单向消息不能各算一次来回。
@@ -116,10 +120,11 @@ b local直接回答，有效缓存无需再查询上级，所以 \textbf{RTT\_L�
 \StudyTarget{CS5222-Tutorial03__problem-3-a-page-with-eight-objects}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial03-03.png}
-
-
 \textbf{条件 / Conditions:} 域名未缓存，顺序DNS查找代价 \(D=\sum_{i=1}^n RTT_i\)。base HTML引用同一服务器的8个很小对象；client-server RTT为RTT\textsubscript{0}，忽略发送时间。先得到HTML才能知道对象地址。 / Sequential DNS costs D=\ensuremath{\Sigma}RTT\textsubscript{i}. One base HTML file references eight small objects on the same server; server RTT is RTT\textsubscript{0} and transmission times are negligible. Object requests start after the base HTML is received.
+
+\StudyImage{CS5222/course-notes/assets/tutorial03-03.png}
+\StudyCaption{Tutorial 3原题页：先取得base HTML，再按连接与并行约定请求八个对象。}
+
 
 
 a \textbf{Non-persistent, serial / 非持久且无并行：} 共9个对象，每个1RTT握手+1RTT请求返回，所以 \textbf{D+18RTT\textsubscript{0}，选D}。
@@ -128,7 +133,9 @@ a \textbf{Non-persistent, serial / 非持久且无并行：} 共9个对象，每
 b \textbf{Non-persistent, five parallel connections / 非持久最多5并行：} HTML先用2RTT；8对象分两批（5+3），每批各2RTT，合计 \textbf{D+6RTT\textsubscript{0}，选C}。不能把HTML也塞入尚未解析出来的8对象同一批。
 
 
+\begin{StudyBlock}{模型约定}{原题采用单连接、无流水线}
 c \textbf{Persistent / 持久：} 原题未明说是否pipelining；新到Tutorial 3教师解答，第13张幻灯片明确按逐个请求计算，确认采用单连接\textbf{无流水线}。结合给出的选项，一次握手+HTML一次往返+8对象各一次，共 \textbf{D+10RTT\textsubscript{0}，选B}。若另加“拿到HTML后流水线一次发完8请求”的理想条件，则D+3RTT\textsubscript{0}；这不在原选项中。因此，答案需注明采用单连接、无流水线的约定。
+\end{StudyBlock}
 
 
 \textbf{English answer:} (a)D+18RTT\textsubscript{0}; (b)D+6RTT\textsubscript{0}; (c)D+10RTT\textsubscript{0} for non-pipelined persistent HTTP. Pipelining would change part c to D+3RTT\textsubscript{0} under the idealized model.
@@ -137,7 +144,7 @@ c \textbf{Persistent / 持久：} 原题未明说是否pipelining；新到Tutori
 \StudyImage{CS5222/course-notes/assets/http-rounds.png}
 
 
-图按握手/请求轮次计算，仅表示题目简化模型；不包括TLS、服务端处理时间、连接拥塞控制与大文件传输。
+\StudyCaption{图按握手/请求轮次计算，仅表示题目简化模型；不包括TLS、服务端处理时间、连接拥塞控制与大文件传输。}
 
 
 \textbf{变式 / Transfer:} 改为base HTML+6对象，非持久且最多4并行、其他条件不变，结果？ / Use six referenced objects and at most four parallel non-persistent connections.

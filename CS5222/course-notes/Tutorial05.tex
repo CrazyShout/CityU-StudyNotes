@@ -12,6 +12,8 @@
 \StudyRef{CS5222-Chapter03}{root}{Chapter 3（已下载部分）} · \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Tutorial04}{root}{上一份：Tutorial 4}
 
 
+Q1–2先把通信双方的地址和端口写全，Q3逐位核对反码加法，Q4再沿一次旧包重排判断协议是否仍可靠。它们依次检查“交给谁、内容是否损坏、是否误认旧数据”。
+
 依据当前原题2页，共四题；当前未下载教师解答。以下答案根据Chapter3推导，并对照历史同题核查。
 
 
@@ -36,7 +38,9 @@
 按Chapter 3 part 1，第11、13张幻灯片的普通模型：UDP接收socket看目的IP、目的端口；已建立TCP连接看源IP、源端口、目的IP、目的端口。同一个UDP接收socket可以接收多个来源的数据报，TCP按不同四元组区分连接。
 
 
+\begin{StudyBlock}{模型约定}{课件中的socket标识}
 术语“完整标识”这里按课件抽象回答；监听socket和已建立连接不同，真实系统也允许connected UDP。本题按上述课堂模型作答。
+\end{StudyBlock}
 
 
 \textbf{English answer:} The classroom UDP model uses the destination IP and destination port. An established TCP connection is identified by a four-tuple containing both endpoints. Different TCP clients can therefore share the same server port without sharing a connection.
@@ -51,10 +55,11 @@
 \StudyTarget{CS5222-Tutorial05__q2-server-replies}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial05-01.png}
-
-
 \textbf{完整条件 / Conditions：} 原图有服务器B:80；客户端C两条连接分别从7532和26145发起，客户端A一条连接从26145发起。问服务器回程segment的源/目的端口及外层IP源/目的地址。 / Read all three return paths from the server to the client processes.
+
+\StudyImage{CS5222/course-notes/assets/tutorial05-01.png}
+\StudyCaption{Tutorial 5原题页：Q2先为每条连接写出两端，再把地址与端口一起交换以得到回程。}
+
 
 
 \begingroup

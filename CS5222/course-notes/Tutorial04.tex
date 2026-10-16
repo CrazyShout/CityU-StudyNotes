@@ -12,6 +12,8 @@
 \StudyRef{CS5222-Chapter02}{root}{Chapter 2} · \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Tutorial05}{root}{下一份：Tutorial 5}
 
 
+前两题先找分发时间的下界，再说明怎样分配上传速率才能达到它；后两题分别检查BitTorrent的服务机会和DASH的音视频组合条件。
+
 依据原题2页和教师解答v2共15页，按Problem1–4。本Tutorial配套Chapter2应用层。题目单位用十进制Gbit/Mbit/kbit。
 
 
@@ -101,9 +103,12 @@ P2P仍需要服务器发出至少一份文件，至少500秒；每人下载至�
 
 
 \StudyImage{CS5222/course-notes/assets/oct-distribution.png}
+\StudyCaption{分发时间的各项容量下界；柱子的单位是秒，比较最大者。}
 
 
+\begin{StudyBlock}{读图与条件}{取最大下界，并说明可达条件}
 图中每根柱都是一个必要时间约束，最大者决定该理想模型下的瓶颈。不是把三根柱相加，因为不同资源可同时工作。原教师页的下界符号视觉上写成“>”，最短时间公式应理解为“至少”，流体理想条件下可以达到；严格大于会排除等号而与Q1的构造冲突。
+\end{StudyBlock}
 
 
 \textbf{English answer:} Client-server: max(50000,7500)=50000 s. P2P: max(500,7500,15000)=15000 s. Upload assistance reduces the aggregate bottleneck but does not remove the other constraints.

@@ -128,7 +128,9 @@ smishing\_val\_test.csv & 有表头Id、Prediction、Usage，共2986行 & 标签
 \textbf{原课核对：} Assignment1-Doc，第5个单元文字提到smishing\_test.txt，但当前代码Assignment1-Doc，第10个单元和实际下载文件使用smishing\_val\_test.txt。Assignment1-Doc，第5个单元又称标签CSV“only contains the SMS text”，也与实际三列表头不符。读取时以当前文件结构及代码为准。
 
 
+\begin{StudyBlock}{数据约定}{元数据标签与模型预测}
 Prediction这个列名在元数据中提供类别值，\textbf{并不是你刚训练出的模型预测}。当前文件的val和test部分都能读到类别数值；能看到不意味着可以用test标签选参数。保持老师明确区分的Usage含义。
+\end{StudyBlock}
 
 
 建议在训练前完成以下检查：
@@ -342,7 +344,9 @@ def evaluate_on_validation(pipeline, train_text, train_y,
 \end{enumerate}
 
 
+\begin{StudyBlock}{检查}{预测范围与训练范围}
 原任务要求生成评估文本的预测。即使最终输出覆盖val与test全部2986条，也不代表训练时可以使用全部对应标签。“预测哪些记录”和“用哪些记录选择模型”是两个不同问题。
+\end{StudyBlock}
 
 
 \textbf{伪代码 / Pseudocode}
@@ -561,4 +565,4 @@ Assignment1-Final，第7–11个单元 & §8固定流程接口与验收；实现
 \endgroup
 
 
-本指南不把历史作业的做法当作这次作业要求；跨讲方法明确标来源。主要根据当前两份模板和实际文件，指标定义另参考scikit-learn官方文档。普通概率分类的基础回到\StudyRef{CS5489-Lecture02}{root}{Lecture02.md}，完整运行示范回到\StudyRef{CS5489-Tutorial02}{root}{Tutorial02.ipynb}。
+本指南不把历史作业的做法当作这次作业要求；跨讲方法明确标来源。主要根据当前两份模板和实际文件，指标定义另参考scikit-learn官方文档。普通概率分类的基础回到\StudyRef{CS5489-Lecture02}{root}{Lecture 2：概率分类}，完整运行示范回到\StudyRef{CS5489-Tutorial02}{root}{Tutorial 2：参考代码与输出}。

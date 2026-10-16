@@ -22,6 +22,10 @@
 
 中文负责讲懂，英文标题/术语和双语题答负责对照英语课堂。必要推理可以写长，重复提醒应合并；没有删字或加例子的配额。保持现有文件名和锚点，避免旧引用失效。
 
+关键概念、完整示范或成立条件可用`StudyBlock{类型}{名称}`环境标明作用。它不自动编号、不中断正常分页，也不要求每节都使用；原来的`StudySolution`继续用于答案。图后使用`StudyCaption{图名、观察位置与必要来源}`，较长的机制解释仍留在正文。新锚点用显式`StudyTarget`，不把它隐藏在环境参数中；原公式及编号保持。不要给整章套盒子，也不要把模板示例中的演示数学当成课程内容。
+
+简单示意图可在局部TeX分组中重定义`StudyImageWidth`（默认`.96\linewidth`），只调整该图的显示上限；先确认图内标签仍可读，再检查题干、图注和后续推理的分页。原图与图像引用不改。
+
 ## 构建与实验分开
 
 构建PDF使用`requirements-build.txt`，不需要Canvas数据，也不执行Notebook。运行实验另安装`requirements-notebooks.txt`并配置`COURSE_DATA_ROOT`，见[数据说明](docs/DATA.md)。构建使用TeX Live 2026/XeLaTeX、Fandol中文字体、TeX Gyre Termes英文与newtx数学字体；安装步骤见README。页码索引由最终PDF计算。
