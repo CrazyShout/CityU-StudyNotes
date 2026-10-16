@@ -363,5 +363,12 @@
     "CS5222:51": 1.0017794594189597,
     "CS5222:52": 1.0064412602269133,
     "CS5222:53": 0.9890373789511439
+  },
+  "final_gray_recheck": {
+    "book": "CS5222",
+    "page": 47,
+    "dpi": 125,
+    "sha256": "b5d79af4b1eaa6159f5dca203f868a51942a86523be3102e21d8b6af972b973d",
+    "result": "viewed; state arrows and labels readable"
   }
 }

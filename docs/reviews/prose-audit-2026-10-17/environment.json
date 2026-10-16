@@ -1,0 +1,19 @@
+{
+  "python": "3.12.11",
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "PyMuPDF": "1.28.2",
+    "pypdf": "6.20.1",
+    "Pillow": "12.3.0"
+  },
+  "notebook_experiments_rerun": false,
+  "legacy_check_results": [
+    "scripts/verify_revision_examples.py --check: passed",
+    "docs/reviews/final-readability-2026-10-09/verify_examples.py --check: 6 cases passed",
+    "October script in ignored isolated copy: 14 numerical checks passed; 5 images generated outside tracked source"
+  ],
+  "source_ref": "d9fc0c70b9246cc4ffd9ba2204ef39a037e236af"
+}

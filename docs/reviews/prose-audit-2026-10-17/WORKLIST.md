@@ -40,4 +40,4 @@
 - [独立复算](calculations.json)：31项已有教学例；未新增课程实验结果。
 - [内容保护](preservation-candidate.json)：公式、编号、旧锚点、图片、题库和Notebook执行内容保持。
 
-源稿修订完成。最终PDF、完整验证、灰度与固定提交链接检查结果集中写入`VERIFICATION.md`；不以本工作清单代替最终验收。
+源稿修订、九份正式PDF重建、完整验证、页面及灰度检查均已完成，结果见[验收报告](VERIFICATION.md)。用户模板目录保持原样，未纳入提交。

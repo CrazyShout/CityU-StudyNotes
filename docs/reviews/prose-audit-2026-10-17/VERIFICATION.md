@@ -36,11 +36,15 @@
 
 候选版共787页：CS5489 208页、CS5222 99页、基础册43页；Questions 74页、Answers 98页、Combined 111页、Compact 75页、MultipleChoice 34页、WrittenResponse 45页。网络册比基线增加一页，用于完整自测；六种题库页数不变。
 
-全部页面经Poppler 100dpi渲染，并与PyMuPDF渲染作逐页墨迹量比较。全部31张联系图均实际查看；125个修改页候选的正文、公式、表格和代码区域按110dpi放大检查，随后对改动引起的差异再复看。另检查30个完整重点／相邻页，包含Lecture2自测、Tutorial2样本与迁移题、Assignment1/2章末、rdt2.2及网络章末、基础册密度例题和单位图。
+全部页面经Poppler 100dpi渲染，并与PyMuPDF渲染作逐页墨迹量比较。全部31张联系图均实际查看；125个修改页候选的正文、公式、表格和代码区域按110dpi放大检查，随后对改动引起的差异再复看。另检查30个完整重点／相邻页，并在最终局部换页后复看8个变化页，包含Lecture2自测、Tutorial2样本与迁移题、Assignment1/2章末、rdt2.2及网络章末、基础册密度例题和单位图。
 
 CS5489 p.50、CS5222 p.47与55、基础册p.38另做125dpi灰度抽查。重点页用Poppler与PyMuPDF对照，公式、中文、表线、状态箭头和图表标签均可辨认。跨页推导保留自然续排，原题整页图保持完整，因此图前仍可能有留白。没有通过裁剪原题、缩小正文或满页彩框消除空白。
 
-正式构建与固定源稿链接后的逐页一致性检查待写入本节。最终机器报告应以`validation.json`、`preservation.json`和`pinned-links-check.json`为准，不能把此处候选版检查等同于正式交付。
+正式九册已生成并通过`python scripts/validate.py`完整验证：中文逐页由pypdf与PyMuPDF独立提取并核对，字体及Unicode映射、原公式编号、书签、3073个链接和3202个目标定位通过检查；兼容Markdown与Notebook文字导航由构建更新。
+
+PDF内57个仓库资料链接固定到源稿提交`d9fc0c70b9246cc4ffd9ba2204ef39a037e236af`。正式PDF与已阅候选版的787页文字、100dpi渲染像素和九册页码映射逐页一致。比较器排除了旧本地缓存中额外的`Sample`烟雾测试索引；正式页码表严格只含九册，所有正式目标的键与页码完全相同。
+
+机器证据：[完整验证](validation.json)、[内容保护](preservation.json)、[视觉检查记录](render-verification.json)、[逐页一致性](pinned-links-check.json)、[固定源稿链接](published-source-links.json)。`compare_rendered.py`可用本地已阅候选PDF快照复查文字与像素；它不把像素相同解释成教学正确。
 
 ## 范围与保留问题
 

@@ -36,7 +36,15 @@ def compare(reference, candidate=False):
             if text_changed or pixels_changed:
                 report['status'] = 'differences_require_review'
     current_map = ROOT / ('.build/latex/page-maps.json' if candidate else 'latex/page-maps.json')
-    report['page_maps_equal'] = json.loads((reference/'page-maps.json').read_text()) == json.loads(current_map.read_text())
+    reference_map = json.loads((reference/'page-maps.json').read_text())
+    delivery_map = json.loads(current_map.read_text())
+    books = manifest['books']
+    # The build cache can also retain mappings for an earlier local smoke-test
+    # edition. Compare every official book; never publish those cache entries.
+    report['reference_extra_editions'] = sorted(set(reference_map) - set(books))
+    report['page_maps_equal'] = all(reference_map.get(book) == delivery_map.get(book) for book in books)
+    if not candidate:
+        report['page_maps_equal'] &= set(delivery_map) == set(books)
     if not report['page_maps_equal']:
         report['status'] = 'differences_require_review'
     return report
