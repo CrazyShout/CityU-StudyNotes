@@ -8,7 +8,7 @@
 
 
 
-\StudyHeading{1}{从同一份数据比较模型，别让实验条件悄悄换了}
+\StudyHeading{1}{线性分类、图像裁剪与核方法的对照实验}
 \StudyTarget{CS5489-Tutorial03___1}
 
 
@@ -239,7 +239,7 @@ LR的logistic loss与SVM的hinge loss对边界附近样本的处理不同，不�
 这里的比例把外围像素的系数平方相加，再除以全部系数平方和，描述的是权重集中在哪里。它没有统计这些像素让模型多分对多少张图片。裁剪前后的预测表现，需要另外比较下面的CV和测试结果。
 
 
-\textbf{变式 / Transfer:} 若改用 \StudyInline{[17:\allowbreak{}41,\allowbreak{}8:\allowbreak{}32]}，输入几维？能沿用396维权重吗？ / What dimension follows from this alternative crop, and can 396-dimensional weights be reused?
+\textbf{变式 / Transfer:} 若改用 \StudyInline{[17:\allowbreak{}41,\allowbreak{}8:\allowbreak{}32]}，输入几维？能沿用396维权重吗？ / For crop [17:41,8:32], what is the input dimension, and can 396-dimensional weights be reused?
 \textbf{答 / Answer:} 24\ensuremath{\times}24=576维；不能，特征坐标和模型需要重新匹配并训练。 / 576 dimensions; the coordinates and model must be rebuilt and refitted.
 
 
@@ -327,7 +327,7 @@ LR的logistic loss与SVM的hinge loss对边界附近样本的处理不同，不�
 
 \item \textbf{Why is C selected without test labels? / 为什么选C不看测试标签？} 防止选择过程适应测试集。 / To keep model selection from adapting to the held-out evaluation set.
 
-\item \textbf{What happens to the score if one pixel increases by 0.1? / 一个像素增加0.1，其他值不变，分数怎样变？} 改变0.1乘该像素系数；符号决定升高还是降低。 / It changes by 0.1 times that pixel coefficient; the sign determines the direction.
+\item \textbf{What happens to the score if one pixel increases by 0.1 while all other pixels stay fixed? / 一个像素增加0.1，其他值不变，分数怎样变？} 改变0.1乘该像素系数；符号决定升高还是降低。 / It changes by 0.1 times that pixel coefficient; the sign determines the direction.
 
 \item \textbf{If the L1 model ties the linear model on ten images, is it superior? / 10张上平局能证明优越吗？} 不能；需更多独立证据，也要比较复杂度。 / No; more independent evidence and complexity considerations are needed.
 
@@ -357,6 +357,3 @@ LR的logistic loss与SVM的hinge loss对边界附近样本的处理不同，不�
 64–68 & §6：L1核、手算/形状检查、\ensuremath{\alpha}/C选择、实际比较；空单元无需占位 \\
 \end{longtable}
 \endgroup
-
-
-上述结果来自本参考实现，参数和划分见§0。原题未指定唯一的最优参数。

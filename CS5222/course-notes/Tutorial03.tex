@@ -19,7 +19,7 @@
 
 
 
-\StudyHeading{1}{Problem 1. Read an HTTP request｜不知道的就明确说不知道}
+\StudyHeading{1}{Problem 1. Read an HTTP request｜从请求字段确定信息}
 \StudyTarget{CS5222-Tutorial03__q1}
 \StudyTarget{CS5222-Tutorial03__problem-1-read-an-http-request}
 
@@ -98,7 +98,7 @@ b local直接回答，有效缓存无需再查询上级，所以 \textbf{RTT\_L�
 \textbf{English answer:} (a)RTT\_L+3RTT\_r; (b)RTT\_L. Count round trips, not individual arrows, and locate the cache precisely.
 
 
-\textbf{变式 / Transfer:} RTT\_L=4ms、RTT\_r=20ms，无缓存与local命中分别多久？ / Compute both cases for these RTTs.
+\textbf{变式 / Transfer:} client到local DNS的RTT\_L=4 ms，local到root/TLD/authoritative每次RTT\_r=20 ms，查询按顺序进行，忽略处理和传输大小。无缓存与local有效缓存命中分别多久？ / The client-local RTT is 4 ms and each local-to-root/TLD/authoritative RTT is 20 ms. Queries are sequential; ignore processing and message transmission time. Find the uncached and valid local-cache-hit times.
 
 
 
@@ -115,7 +115,7 @@ b local直接回答，有效缓存无需再查询上级，所以 \textbf{RTT\_L�
 
 
 
-\StudyHeading{1}{Problem 3. A page with eight objects｜先取目录，再知道要取哪八件东西}
+\StudyHeading{1}{Problem 3. A page with eight objects｜HTML与八个对象的请求顺序}
 \StudyTarget{CS5222-Tutorial03__q3}
 \StudyTarget{CS5222-Tutorial03__problem-3-a-page-with-eight-objects}
 
@@ -134,7 +134,7 @@ b \textbf{Non-persistent, five parallel connections / 非持久最多5并行：}
 
 
 \begin{StudyBlock}{模型约定}{原题采用单连接、无流水线}
-c \textbf{Persistent / 持久：} 原题未明说是否pipelining；新到Tutorial 3教师解答，第13张幻灯片明确按逐个请求计算，确认采用单连接\textbf{无流水线}。结合给出的选项，一次握手+HTML一次往返+8对象各一次，共 \textbf{D+10RTT\textsubscript{0}，选B}。若另加“拿到HTML后流水线一次发完8请求”的理想条件，则D+3RTT\textsubscript{0}；这不在原选项中。因此，答案需注明采用单连接、无流水线的约定。
+c \textbf{Persistent / 持久：} 原题未明说是否pipelining；Tutorial 3教师解答，第13张幻灯片明确按逐个请求计算，确认采用单连接\textbf{无流水线}。结合给出的选项，一次握手+HTML一次往返+8对象各一次，共 \textbf{D+10RTT\textsubscript{0}，选B}。若另加“拿到HTML后流水线一次发完8请求”的理想条件，则D+3RTT\textsubscript{0}；这不在原选项中。因此，答案需注明采用单连接、无流水线的约定。
 \end{StudyBlock}
 
 
@@ -147,7 +147,7 @@ c \textbf{Persistent / 持久：} 原题未明说是否pipelining；新到Tutori
 \StudyCaption{图按握手/请求轮次计算，仅表示题目简化模型；不包括TLS、服务端处理时间、连接拥塞控制与大文件传输。}
 
 
-\textbf{变式 / Transfer:} 改为base HTML+6对象，非持久且最多4并行、其他条件不变，结果？ / Use six referenced objects and at most four parallel non-persistent connections.
+\textbf{变式 / Transfer:} 先取base HTML，再请求同一服务器的6个小对象，采用非持久连接且最多4条并行。DNS耗时D，服务器往返为RTT\textsubscript{0}，忽略对象发送时间。总时间是多少？ / Fetch the base HTML first, then six small objects on the same server using at most four parallel non-persistent connections. DNS costs D and the server RTT is RTT\textsubscript{0}; ignore object transmission time. Find total time.
 
 
 

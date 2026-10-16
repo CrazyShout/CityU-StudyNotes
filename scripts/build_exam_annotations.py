@@ -34,6 +34,13 @@ def table(headers,rows,weights=None):
 def targets(names):return '\n'.join(r'\StudyTarget{'+a+'}' for a in names)
 
 
+def compact_review_notes(notes, known, replacement):
+    """Condense reviewed clauses while retaining any later ledger additions."""
+    if not known <= set(notes):
+        return notes
+    return replacement + [note for note in notes if note not in known]
+
+
 def build():
     catalog=json.loads((LEDGER/'Lecture02.json').read_text());papers={p['id']:p for p in catalog['papers']};sources={s['id']:s for s in catalog['sources']}
     data={n:json.loads((LEDGER/f'Lecture{n:02}.json').read_text()) for n in range(1,6)}
@@ -84,9 +91,20 @@ def build():
                     rows.append([escape(p['label']),escape(o['question']+'／'+o['pages']),escape(flag+'：'+q['summary'])])
                 if not rows:rows=[['现有材料未见','—','本讲仍按当前课件与配套任务学习']]
                 topic_parts += [table(['试卷','原题号／页码','关系与要求'],rows,[.22,.22,.56])]
-                notes=list(dict.fromkeys(q['review_note'] for q in d['questions'] if t['id'] in q['topics'] and q.get('review_note')))
+                # A ledger note may contain several clauses repeated by other questions.
+                notes=list(dict.fromkeys(clause.strip().rstrip('。') for q in d['questions']
+                    if t['id'] in q['topics'] and q.get('review_note')
+                    for clause in q['review_note'].split('；') if clause.strip().rstrip('。')))
+                if n==1 and t['id']=='diagnosis':
+                    notes=compact_review_notes(notes, {
+                        '完整处理还需Lecture5的优化与早停', 'CNN结构不在当前Lecture1–5范围',
+                        '缺年份与独立原卷身份', 'CNN设计另需后续课', '缺年份',
+                        '不把片段数量计为卷数', '只映射一般诊断能力'}, [
+                        '完整处理还需Lecture5的优化与早停',
+                        '当前只映射通用训练/验证诊断，CNN结构设计属于后续内容',
+                        'QE题段缺年份与独立原卷身份，不按片段数计卷数'])
                 if notes:topic_parts+=[r'\textbf{题源条件：}'+escape('；'.join(notes)+'。')]
-        headers=['考点','本轮复习重点' if n==2 else '复习动作','期中' if n==2 else '期中：直接／关联','期末：直接／关联','QE记录','学习入口' if n==2 else '入口']
+        headers=['考点','复习重点' if n==2 else '复习动作','期中' if n==2 else '期中：直接／关联','期末：直接／关联','QE记录','学习入口' if n==2 else '入口']
         notices['overview']=(TEMPLATES/f'Lecture{n:02}-overview.tex.in').read_text().replace('@@OVERVIEW_TABLE@@',table(headers,overview,[.17,.23,.13,.15,.16,.16]))
         notices['topics']=(TEMPLATES/f'Lecture{n:02}-topics.tex.in').read_text().replace('@@TOPICS@@','\n\n'.join(topic_parts))
         path=ROOT/f'CS5489/course-notes/Lecture{n:02}.tex';text=path.read_text()
@@ -122,8 +140,17 @@ def build():
             role='题面及配套／随卷答案' if sid in p['answer_source_ids'] and sid in p['source_ids'] else '配套答案' if sid in p['answer_source_ids'] else '题面'
             parts += [r'\item '+escape(sources[sid]['label']+'（'+role+'；'+sid+'）。')]
         parts += [r'\end{itemize}',r'全部版本及SHA-256见\StudyRepoRef{CS5489/course-notes/exam-evidence/Lecture02.json}{}{共享材料台账}：'+escape('、'.join(dict.fromkeys(p['source_ids']+p['answer_source_ids']))+'。')]
-        notes=list(dict.fromkeys(q.get('review_note','') for n,q,o in pairs if q.get('review_note')))
-        if p['id']=='M25A':notes.insert(0,'扫描手写作答不作为标准答案；本轮只记录印刷题面要求')
+        notes=list(dict.fromkeys(clause.strip().rstrip('。') for n,q,o in pairs
+            if q.get('review_note') for clause in q['review_note'].split('；')
+            if clause.strip().rstrip('。')))
+        if p['id']=='QE-U':
+            # Year, coverage and independent-paper identity are stated before/after the table.
+            notes=compact_review_notes(notes, {
+                '缺年份与独立原卷身份', 'CNN设计另需后续课', '缺年份',
+                '不把片段数量计为卷数', '只映射一般诊断能力', 'CNN架构未在当前讲义覆盖',
+                '题段年份与卷次待定', '仅映射通用训练诊断', '图与问题跨两个原页',
+                '不使用扫描手写解答', '缺年份和独立原卷身份'}, [
+                '部分图与问题跨两个原页，须一起读取；手写解答不作为标准答案'])
         if notes:parts += [r'\textbf{核对说明：}'+escape('；'.join(notes)+'。')]
         if p['id']=='QE-U':parts+=['Apple、Bottles、CWD用来区分题段主题，不是已确认的三套独立卷。CNN架构、增强和压缩部分留待后续课件，未登记为当前已讲。']
     output[ROOT/'CS5489/course-notes/ExamIndex.tex']=(TEMPLATES/'appendix.tex.in').read_text().replace('@@PAPERS@@','\n\n'.join(parts))

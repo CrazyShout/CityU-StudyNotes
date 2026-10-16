@@ -9,7 +9,7 @@
 \StudyTarget{CS5489-Lecture01__historical-exam-map}
 
 
-题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
+题号和页码指向原题纸。完整期中题答见独立题库；期末与QE题目可按下表回查原材料。
 
 
 
@@ -21,6 +21,6 @@
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture01}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+按试卷查题及核对材料身份，见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 @@TOPICS@@

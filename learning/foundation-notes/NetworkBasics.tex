@@ -10,7 +10,7 @@
 \StudyRepoRef{CS5222/course-notes/README.md}{}{CS5222目录} · \StudyRef{Foundations-MathForML}{foundation-nav}{数学补课}
 
 
-网络计算最常见的绊脚石，不是公式复杂，而是把字节当比特、把距离当速率、把“第一个到”当“整个都到了”。这份补课只拆这些台阶，协议机制仍在 Chapter 正文讲。小算例均为教学补充。
+本篇补充网络计算中的单位、报文字节和时间轴：区分bit与byte、数据量与速率，以及首位和整包到达。协议机制见Chapter正文，小算例均为教学补充。
 
 
 \begingroup
@@ -35,7 +35,7 @@ bit、byte、Mbps分不清 & \StudyRef{Foundations-NetworkBasics}{units}{单位�
 
 
 
-\StudyHeading{1}{1. Bit, byte and rate｜仓库有多少货，和每秒搬多少货，是两件事}
+\StudyHeading{1}{1. Bit, byte and rate｜数据量、发送速率与传播速度}
 \StudyTarget{Foundations-NetworkBasics__units}
 \StudyTarget{Foundations-NetworkBasics__1-bit-byte-and-rate}
 
@@ -50,7 +50,7 @@ bit（比特）是一个二进制位，可取0或1。byte（字节）通常是8 
 
 
 \begin{StudyBlock}{完整示范 / Worked example}{先统一bit与秒}
-1500 B、R=2 Mbps。先换 \(L=1500\times8=12000\) bit，再算 \(L/R=12000/(2\times10^6)=0.006\) s=6 ms。单位“bit\ensuremath{\div}bit/s”最后剩s，是一个自带报警器：如果还剩米或字节，通常哪里没对齐。
+1500 B、R=2 Mbps。先换 \(L=1500\times8=12000\) bit，再算 \(L/R=12000/(2\times10^6)=0.006\) s=6 ms。用单位检验结果：“bit\ensuremath{\div}(bit/s)”得到s，表示所求的是时间。
 \end{StudyBlock}
 
 
@@ -58,10 +58,10 @@ bit（比特）是一个二进制位，可取0或1。byte（字节）通常是8 
 
 
 \StudyImage{learning/foundation-notes/assets/network-units.png}
-\StudyCaption{发送与传播使用不同的“数量除以速率”：上条处理比特，下条处理距离。}
+\StudyCaption{横轴是时间（ms）；上条为发送时延，下条为传播时延。}
 
 
-上条是“把多少bit送上路”，下条是“已经上路的bit走多远”。两个除法输出同为秒，但分子和分母的含义不同。带宽还可能在物理通信里指Hz频宽；本章说link bandwidth时通常指bit/s容量，要看上下文。
+本章的link bandwidth通常指bit/s容量；物理通信中的带宽也可能指Hz频宽，需要结合单位区分。
 
 
 \textbf{变式 / Transfer:} 1000 B以10 Mbps发送，链路2000 km、传播速度2\ensuremath{\times}10\textsuperscript{8}m/s，忽略其他时延，整包到达要多久？ / Send 1000 B at 10 Mbps over 2000 km at propagation speed 2\ensuremath{\times}10\textsuperscript{8} m/s. Ignore other delays and find complete-packet arrival time.
@@ -119,7 +119,7 @@ bit（比特）是一个二进制位，可取0或1。byte（字节）通常是8 
 十六进制（hexadecimal）每位代表4个二进制位，数字0–9后用A–F表示10–15。0x0D=13，0x0A=10，所以能在抓包中用紧凑的两位hex表示一个字节。\StudyInline{0x}是记号，不是额外数据。
 
 
-\textbf{变式 / Transfer:} 00001010的十进制值是多少？11000000呢？ / Convert these two binary octets to decimal.
+\textbf{变式 / Transfer:} 00001010的十进制值是多少？11000000呢？ / Convert binary octets 00001010 and 11000000 to decimal.
 
 
 
@@ -142,7 +142,7 @@ bit（比特）是一个二进制位，可取0或1。byte（字节）通常是8 
 
 
 
-\StudyHeading{1}{3. Messages and bytes｜一段报文不是一整块没有边界的文字}
+\StudyHeading{1}{3. Messages and bytes｜字段、分隔符与消息边界}
 \StudyTarget{Foundations-NetworkBasics__messages}
 \StudyTarget{Foundations-NetworkBasics__3-messages-and-bytes}
 
@@ -229,7 +229,7 @@ T–2T & 包2 & 包1 \\
 总4T，不是每包独自跑完两跳再发下一个所得6T，因为不同链路能同时处理不同包。等长包、等速率、无其他等待时，P个包经过N条链路是 \((P+N-1)T\)；有不同速率、头部开销或其他流量时要重新画时间轴。
 
 
-\textbf{变式 / Transfer:} 同样条件，4个包、3条链路，每包发送2ms，总多久？ / Four packets cross three equal-rate links, with 2 ms transmission per packet and no other delays. Find the completion time.
+\textbf{变式 / Transfer:} 4个等长包连续经过3条等速存储转发链路，每包发送2 ms，忽略传播、排队和处理，总多久？ / Four equal packets are sent consecutively across three equal-rate store-and-forward links, with 2-ms transmission per packet. Ignore propagation, queueing and processing. Find the completion time.
 
 
 

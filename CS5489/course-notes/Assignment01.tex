@@ -5,7 +5,7 @@
 
 
 
-\StudyHeading{1}{从课堂概率模型到一个可解释、可复现的短信分类实验}
+\StudyHeading{1}{短信分类的数据、评价与验证流程}
 \StudyTarget{CS5489-Assignment01___1}
 
 
@@ -102,7 +102,7 @@ Smishing是短信钓鱼，在本作业单列一类。不要因为它也具有垃
 \StudyTarget{CS5489-Assignment01__2-load-the-data}
 
 
-本次实际文件如下。TXT的内容也按CSV规则读；文本里可能有逗号，不能简单用字符串split(",")拆每一行。
+课程提供的文件如下。TXT的内容也按CSV规则读；文本里可能有逗号，不能简单用字符串split(",")拆每一行。
 
 
 \begingroup
@@ -496,38 +496,42 @@ Assignment1-Doc记录探索过程；Assignment1-Final负责重现最后的固定
 \StudyTarget{CS5489-Assignment01__9}
 
 
-\textbf{Q1 中文：} 为什么普通accuracy更高的模型，可能不符合这份作业的选择目标？\\
+\Needspace{11\baselineskip}
+\textbf{Q1 中文：} 为什么普通accuracy更高的模型，可能不符合这份作业的选择目标？
 
-\textbf{Q1 English:} Why might a model with higher ordinary accuracy be less suitable under the assignment metric?\\
+\textbf{Q1 English:} Why might a model with higher ordinary accuracy be less suitable under the assignment metric?
 
-\textbf{答：} 多数类主导整体比例；balanced accuracy看三类recall的均值，因此要比较指定指标与每类表现。\\
+\textbf{答：} 多数类主导整体比例；balanced accuracy看三类recall的均值，因此要比较指定指标与每类表现。
 
 \textbf{Answer:} Majority-class performance can dominate ordinary accuracy. The assigned metric averages class recalls, so compare balanced accuracy and per-class results.
 
 
-\textbf{Q2 中文：} 没用test标签，但把test文本放进词表拟合，是否仍影响独立评价？\\
+\Needspace{9\baselineskip}
+\textbf{Q2 中文：} 没用test标签，但把test文本放进词表拟合，是否仍影响独立评价？
 
-\textbf{Q2 English:} Does including test text in vocabulary fitting affect independent evaluation even without using its labels?\\
+\textbf{Q2 English:} Does including test text in vocabulary fitting affect independent evaluation even without using its labels?
 
-\textbf{答：} 会，表示已经利用test信息；预处理也是拟合的一部分。\\
+\textbf{答：} 会，表示已经利用test信息；预处理也是拟合的一部分。
 
 \textbf{Answer:} Yes. Representation learning used test information; preprocessing is part of fitting.
 
 
-\textbf{Q3 中文：} CSV中Id完整且预测都合法，能否证明文件正确？\\
+\Needspace{9\baselineskip}
+\textbf{Q3 中文：} CSV中Id完整且预测都合法，能否证明文件正确？
 
-\textbf{Q3 English:} Do complete IDs and valid class values prove that a prediction file is correct?\\
+\textbf{Q3 English:} Do complete IDs and valid class values prove that a prediction file is correct?
 
-\textbf{答：} 不能，还要验证每个预测是否对应同Id的原短信，以及流程是否按允许的数据训练。\\
+\textbf{答：} 不能，还要验证每个预测是否对应同Id的原短信，以及流程是否按允许的数据训练。
 
 \textbf{Answer:} No. Verify that each prediction matches the text with that ID and that the procedure used only permitted training data.
 
 
-\textbf{Q4 中文：} 本文件的51.67\%能否写进自己的作业实验结果？\\
+\Needspace{9\baselineskip}
+\textbf{Q4 中文：} 本文件的51.67\%能否写进自己的作业实验结果？
 
-\textbf{Q4 English:} Can the 51.67\% in this guide be reported as your assignment result?\\
+\textbf{Q4 English:} Can the 51.67\% in this guide be reported as your assignment result?
 
-\textbf{答：} 不能，它是人为混淆矩阵的教学计算，没有训练短信分类器。\\
+\textbf{答：} 不能，它是人为混淆矩阵的教学计算，没有训练短信分类器。
 
 \textbf{Answer:} No. It is a calculation from an artificial teaching matrix, not a trained SMS classifier's measured result.
 
@@ -565,4 +569,4 @@ Assignment1-Final，第7–11个单元 & §8固定流程接口与验收；实现
 \endgroup
 
 
-本指南不把历史作业的做法当作这次作业要求；跨讲方法明确标来源。主要根据当前两份模板和实际文件，指标定义另参考scikit-learn官方文档。普通概率分类的基础回到\StudyRef{CS5489-Lecture02}{root}{Lecture 2：概率分类}，完整运行示范回到\StudyRef{CS5489-Tutorial02}{root}{Tutorial 2：参考代码与输出}。
+本指南依据当前两份模板和所给数据文件，指标定义另参考scikit-learn官方文档。普通概率分类的基础回到\StudyRef{CS5489-Lecture02}{root}{Lecture 2：概率分类}，完整运行示范回到\StudyRef{CS5489-Tutorial02}{root}{Tutorial 2：参考代码与输出}。

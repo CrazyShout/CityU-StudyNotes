@@ -17,7 +17,7 @@
 
 
 
-学习目标、难度与材料依据集中在\StudyRef{CS5222-Chapter02}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
+学习目标与难点见\StudyRef{CS5222-Chapter02}{learning-priorities}{文末学习要求表}。
 
 
 
@@ -214,7 +214,7 @@ IMAP把邮件和文件夹等状态留在服务器，支持多设备一致访问�
 
 
 
-\StudyHeading{1}{7. DNS services and hierarchy｜通讯录不是只放在一台电脑上}
+\StudyHeading{1}{7. DNS services and hierarchy｜分布式命名与查询层次}
 \StudyTarget{CS5222-Chapter02__7-dns-services-and-hierarchy}
 
 
@@ -346,7 +346,7 @@ D_{p2p}\ge\max\left(\frac F{u_s},\frac F{d_{min}},\frac{NF}{u_s+\sum_i u_i}\righ
 \textbf{完整补算：} F=100Mbit、N=4、u\_s=10Mbps、每个d\textsubscript{i}=5Mbps、u\textsubscript{i}=2Mbps。CS下界max(40,20)=40s；P2P下界max(10,20,400/18)=22.22s。分母总上传18Mbps，不把下载速率也当上传资源加进去。
 
 
-\textbf{变式 / Transfer:} 同条件但各peer上传0，P2P下界？ / Set every peer upload rate to zero; keep all other parameters.
+\textbf{变式 / Transfer:} 沿用本节理想容量模型：F=100 Mbit、N=4、服务器上传10 Mbps、各peer下载5 Mbps且不上传。P2P分发时间下界是多少？ / In the ideal capacity model, let F=100 Mbit and N=4, with server upload 10 Mbps, each peer downloading at 5 Mbps and uploading at zero. Find the P2P distribution-time lower bound.
 
 
 
@@ -385,7 +385,7 @@ max(10,20,40)=40s，与CS相同。 / 40 s, equal to the client-server bound. 这
 “先请求哪个缺失块”与“把自己的上传机会分给谁”是两项决定。rarest-first回答前者，tit-for-tat与optimistic unchoking回答后者。Bob即使暂时没有给Alice上传，也可能被随机选中获得一段服务；这解释了\StudyRef{CS5222-Tutorial04}{q3}{Tutorial 4 Q3}为什么讨论free-riding的可能性，而不保证任意不上传节点都能下载完成。
 
 
-\textbf{独立题 / Check：} 保持上例，Alice仍缺A/B/C。P2离开后，A、B、C在剩余邻居中各有几份，下一请求是否唯一？若P3也离开，C是否仍可立即下载？ / Alice still lacks A, B and C. After P2 leaves, count the visible copies and identify the rarest candidates. If P3 also leaves, is C immediately available from the remaining neighbors?
+\textbf{独立题 / Check：} Alice缺A/B/C三个块；P1持有A、B，P2持有A、B，P3持有A、C。P2离开后，各块在剩余邻居中各有几份，下一请求是否唯一？若P3也离开，C是否仍可立即下载？ / Alice lacks A, B and C. P1 and P2 each hold A and B; P3 holds A and C. After P2 leaves, count the visible copies and identify the rarest candidates. If P3 also leaves, is C immediately available from the remaining neighbors?
 
 
 \textbf{答 / Answer：} P1与P3共有A两份、B一份、C一份，B/C并列稀缺，题设没有指定并列选择规则。P3再离开后，剩余P1没有C，须寻找其他供给或等待。 / The counts are 2, 1 and 1. B and C tie; no tie-breaking rule is given. Without P3, C is unavailable from the remaining neighbor, so Alice needs another source or must wait.
@@ -528,7 +528,7 @@ TCP没有消息边界：本例规定每条文本以换行结束，\StudyInline{s
 运行\StudyInline{--self-test}可检查UDP、TCP和超过一次读取大小的TCP消息，并在本地\StudyInline{observations/\allowbreak{}socket-self-test.\allowbreak{}json}保存本次结果。它验证本机接口与消息分帧，不测量跨互联网可靠性或时延。
 
 
-\textbf{独立任务 / Try:} 将客户端文字改成\StudyInline{course practice}，两种协议各运行一次；再解释TCP为什么有监听与连接两个socket。 / Run both transports with this message, then explain the two server-side TCP sockets.
+\textbf{独立任务 / Try:} 将客户端文字改成\StudyInline{course practice}，两种协议各运行一次；再解释TCP为什么有监听与连接两个socket。 / Run UDP and TCP with the message course practice, then explain the two server-side TCP sockets.
 
 
 
@@ -698,7 +698,7 @@ P2P、BitTorrent & 常规掌握 & 中；资源下界与实际性能 & 推导三�
 
 优先级依据当前课件与配套任务；考试范围以教师公布的要求为准。
 
-\StudyHeading{1}{15. Source coverage and cautions｜每一页有去处}
+\StudyHeading{1}{15. Source coverage and cautions｜来源覆盖与版本差异}
 \StudyTarget{CS5222-Chapter02__15-source-coverage-and-cautions}
 
 

@@ -45,7 +45,7 @@
 \textbf{English answer:} Under the instructor's packetization and source-rate sequential playout model, the delay is 4+0.128+8=12.128 ms for every bit. Complete-packet availability alone gives a position-dependent delay.
 
 
-\textbf{变式 / Transfer:} 包改128byte，其他条件不变，首位/同速播放时延？ / Double packet size to 128 bytes, keeping all rates and propagation unchanged.
+\textbf{变式 / Transfer:} 语音以128 kbps生成，每128 byte成包，链路4 Mbps、传播8 ms；接收端收齐整包后以128 kbps顺序播放。各bit从生成到播放的时延是多少？ / Voice is generated at 128 kbps in 128-byte packets, sent over a 4-Mbps link with 8-ms propagation. After receiving each full packet, the receiver plays it sequentially at 128 kbps. Find generation-to-playout delay for each bit.
 
 
 
@@ -128,7 +128,7 @@ b 给定L=1500byte=12000bit，各R=2Mbps，各s=2.5\ensuremath{\times}10\textsup
 \textbf{English answer:} Equal-rate immediate bit forwarding gives L/R plus all propagation delays, hence 46 ms. Serialization on successive links overlaps.
 
 
-\textbf{变式 / Transfer:} 四条相同速率链路，每条传播2ms，源包发送3ms，即时转发和整包存储转发分别多久？ / Four equal-rate links each propagate for 2 ms; serialization takes 3 ms. Compare immediate bit forwarding with store-and-forward for one packet.
+\textbf{变式 / Transfer:} 四条相同速率链路，每条传播2 ms，每包发送3 ms，忽略排队和处理。一个包采用即时逐位转发和整包存储转发，分别多久？ / Four equal-rate links each have 2-ms propagation and 3-ms serialization per packet. Ignore queueing and processing. Compare immediate bit forwarding with store-and-forward for one packet.
 
 
 
@@ -165,7 +165,7 @@ d_{queue}=\frac{(L-x)+nL}R.\tag{T2.2}
 若问它\textbf{完成发送}的时间，则另加L/R；若问到目的地还要加传播及后续节点条件。若出口本来空闲，就不是这条“有一个正在发送包”的场景，等待为0。
 
 
-\textbf{变式 / Transfer:} 同速同包长，当前包已发75\%，队列前面还有2包，新包排队多久？ / The current packet is 75\% transmitted and two packets are queued ahead. Find the new packet's queueing delay.
+\textbf{变式 / Transfer:} 出口按FIFO服务，所有包均为1500 byte，R=2 Mbps。当前包已发75\%，另有2包在新包前等待，新包排队多久？ / A FIFO output transmits 1500-byte packets at 2 Mbps. The current packet is 75\% transmitted and two packets are queued ahead of the new packet. Find its queueing delay.
 
 
 

@@ -43,9 +43,9 @@
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.17\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}@{}}
 \toprule
-考点 & 本轮复习重点 & 期中 & 期末：直接／关联 & QE记录 & 学习入口 \\
+考点 & 复习重点 & 期中 & 期末：直接／关联 & QE记录 & 学习入口 \\
 \midrule\endfirsthead
-考点 & 本轮复习重点 & 期中 & 期末：直接／关联 & QE记录 & 学习入口 \\
+考点 & 复习重点 & 期中 & 期末：直接／关联 & QE记录 & 学习入口 \\
 \midrule\endhead
 \bottomrule\endfoot
 生成式模型与概率分工 & 反复考查：先分清三个概率 & 6套 & 未见／未见 & 现有材料未见 & \StudyRef{CS5489-Lecture02}{generative}{讲解} \\
@@ -611,7 +611,7 @@ x&=\frac{10\pm\sqrt{16+24\log2}}{3}\\
 \textbf{English takeaway:} Write out both Gaussian log scores before subtracting them. With equal variances and priors, the normalization and prior terms cancel; subtracting the negative squared-distance terms gives \(\Delta(x)=2x-10\), with a threshold at 5 cm. When only class 2's variance increases to 4 cm\textsuperscript{2}, the normalization difference is \(-\log2\) and a quadratic term remains, giving two thresholds.
 
 
-来源：对Lecture2a高斯模型与Bayes分数的补充推导；教学参数与前面的原数据拟合值分开。\StudyRef{CS5489-ExamIndex}{root}{2021A期中Q4、2023B期中Q8的考查位置}见按卷索引。计算与绘图依据见\StudyRepoRef{docs/reviews/lecture02-teaching-2026-10-09/calculations.json}{}{本轮计算记录}。
+来源：对Lecture2a高斯模型与Bayes分数的补充推导；教学参数与前面的原数据拟合值分开。\StudyRef{CS5489-ExamIndex}{root}{2021A期中Q4、2023B期中Q8的考查位置}见按卷索引。计算与绘图依据见\StudyRepoRef{docs/reviews/lecture02-teaching-2026-10-09/calculations.json}{}{计算记录}。
 
 
 
@@ -1622,7 +1622,7 @@ p(c\mid\mathbf x)
 先遮住答案，写出中间值。
 
 
-\textbf{Q6：新花与新先验 / A flower with new priors。} 仍用第二部分的花瓣高斯参数，输入5 cm，将类1／类2先验改成0.2／0.8，错分代价相同。求两个密度、乘先验后的分数和后验。 / Use the petal-length Gaussians from Part 2 at 5 cm, with class priors 0.2/0.8 and equal error costs. Calculate densities, unnormalized scores and posteriors.
+\textbf{Q6：新花与新先验 / A flower with new priors。} 沿用\StudyRef{CS5489-Lecture02}{gaussian-mle}{花瓣高斯参数表}，输入5 cm，将类1／类2先验改成0.2／0.8，错分代价相同。求两个密度、乘先验后的分数和后验。 / Use the \StudyRef{CS5489-Lecture02}{gaussian-mle}{fitted petal-length Gaussians} at 5 cm, with class priors 0.2/0.8 and equal error costs. Calculate densities, unnormalized scores and posteriors.
 
 
 
@@ -1635,7 +1635,7 @@ p(c\mid\mathbf x)
 \end{StudySolution}
 
 
-\textbf{Q7：距离不变、先验改变 / Same distances, new priors。} 使用第四部分的无量纲点\(\mathbf x=(1,1)^T\)、零均值、\(\Sigma_A=I\)与\(\Sigma_B=\bigl(\begin{smallmatrix}1&0.5\\0.5&1\end{smallmatrix}\bigr)\)，将A／B先验改成0.8／0.2。错分代价相同，按式（2.19）求分类分数（略去共有高斯常数）、后验和类别。 / With dimensionless \(\mathbf x=(1,1)^T\), zero means, the above covariances and A/B priors 0.8/0.2, compute scores with the common Gaussian constant omitted, posteriors and class under equal error costs.
+\textbf{Q7：距离不变、先验改变 / Same distances, new priors。} 使用第四部分的无量纲点\(\mathbf x=(1,1)^T\)、零均值、\(\Sigma_A=I\)与\(\Sigma_B=\bigl(\begin{smallmatrix}1&0.5\\0.5&1\end{smallmatrix}\bigr)\)，将A／B先验改成0.8／0.2。错分代价相同，按式（2.19）求分类分数（略去共有高斯常数）、后验和类别。 / With dimensionless \(\mathbf x=(1,1)^T\), zero means, identity covariance for A, unit variances and covariance 0.5 for B, and A/B priors 0.8/0.2, compute scores with the common Gaussian constant omitted, posteriors and class under equal error costs.
 
 
 
@@ -1658,7 +1658,7 @@ g_B&=-\frac23-\frac12\log\frac34+\log0.2\approx-2.1323.
 \end{StudySolution}
 
 
-\textbf{Q8：换一封短邮件 / A different short message。} 使用第六部分固定词表、已拟合的平滑IDF、L1规则、alpha=1的词参数和相等先验，处理“meeting today today”。求计数、归一化权重、两类log分数与预测。 / Using Part 6's fixed vocabulary, fitted smoothed IDF, L1 rule, alpha=1 class parameters and equal priors, classify “meeting today today”. Show counts, weights and log scores.
+\textbf{Q8：换一封短邮件 / A different short message。} 使用\StudyRef{CS5489-Lecture02}{tfidf}{第六部分}的固定词表、已拟合的平滑IDF、L1规则、alpha=1的词参数和相等先验，处理“meeting today today”。求计数、归一化权重、两类log分数与预测。 / Using \StudyRef{CS5489-Lecture02}{tfidf}{Part 6}'s fixed vocabulary, fitted smoothed IDF, L1 rule, alpha=1 class parameters and equal priors, classify “meeting today today”. Show counts, weights and log scores.
 
 
 
@@ -1755,7 +1755,7 @@ Lecture2a第39个单元用“类1后验较大的网格点数”估计分界，�
 平滑模型名为\StudyInline{bmodels}，但第86、88个单元读取的是之前的\StudyInline{bmodel}。要分析平滑后的词排名，需读取对应对象；旧输出中的无穷log比值与零估计有关。alpha=0时，不同版本库的数值保护行为可能不同；不要将未定义的后验当作可解释概率。
 
 
-TF-IDF的平滑IDF与NB的alpha作用不同：前者调整跨文档的词权重，后者平滑类别内的词参数。本文四文档演算与单个错分邮件的版本、输入哈希和交叉检查见\StudyRepoRef{docs/reviews/lecture02-2026-10-08/calculations.json}{}{计算记录}，重算方式见\StudyRepoRef{docs/reviews/lecture02-2026-10-08/README.md}{}{本轮说明}。
+TF-IDF的平滑IDF与NB的alpha作用不同：前者调整跨文档的词权重，后者平滑类别内的词参数。四文档演算与错分邮件的\StudyRepoRef{docs/reviews/lecture02-2026-10-08/calculations.json}{}{计算记录}和\StudyRepoRef{docs/reviews/lecture02-2026-10-08/README.md}{}{复算说明}可用于核对结果。
 
 
 
@@ -1803,7 +1803,7 @@ Gaussian NB与完整高斯 & 核心必会 & 高：条件独立、协方差、三
 \StudyTarget{CS5489-Lecture02__historical-exam-map}
 
 
-各行保留原题号与原材料页码。同一卷在本表不同考点下出现，不会让该考点的卷数重复增加。材料文件、配套答案与版本差异见\StudyRef{CS5489-ExamIndex}{root}{按卷附录}。
+各行保留原题号与原材料页码。材料文件、配套答案与版本差异见\StudyRef{CS5489-ExamIndex}{root}{按卷附录}。
 
 
 
@@ -1812,7 +1812,7 @@ Gaussian NB与完整高斯 & 核心必会 & 高：条件独立、协方差、三
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号与出处见\StudyRef{CS5489-Lecture02}{exam-topic-index}{讲末考点索引}；按试卷查阅见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
+期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
 
 \StudyHeading{2}{生成式模型与概率分工}
 

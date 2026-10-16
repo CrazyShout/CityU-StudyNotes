@@ -41,7 +41,7 @@
 卷数按独立试卷计；“未见”不等于不考，QE卷次待定。题号、统计口径与材料身份见\StudyRef{CS5489-Lecture01}{exam-topic-index}{讲末索引}。
 % EXAM:overview:END
 
-学习目标、难度与材料依据集中在\StudyRef{CS5489-Lecture01}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
+学习目标与难点见\StudyRef{CS5489-Lecture01}{learning-priorities}{文末学习要求表}。
 
 
 
@@ -177,7 +177,7 @@ Mitchell的任务表述可以拆成三个问题：\textbf{task T}做什么，\te
 
 
 
-\StudyHeading{1}{4. Python and Jupyter｜一本有记忆的实验笔记}
+\StudyHeading{1}{4. Python and Jupyter｜内核状态与执行顺序}
 \StudyTarget{CS5489-Lecture01__notebook}
 \StudyTarget{CS5489-Lecture01__4-python-and-jupyter}
 
@@ -194,7 +194,7 @@ Notebook有Markdown与code两种单元；内核保存当前变量状态。单元
 \textbf{English takeaway:} Notebook state belongs to the running kernel. A clean top-to-bottom run tests whether the document is reproducible rather than dependent on earlier hidden actions.
 
 
-来源： Lecture1a，第1–14个单元、Lecture 1 Intro，第6页。
+来源：Lecture1a，第1–14个单元、Lecture 1 Intro，第6页。
 
 
 
@@ -224,7 +224,7 @@ if x == 4:      # comparison, not assignment
 \StudyInline{and/\allowbreak{}or/\allowbreak{}not}组合判断；\StudyInline{in}检查成员；\StudyInline{=\allowbreak{}=\allowbreak{}}比较值，\StudyInline{is}比较是不是同一个对象。\StudyInline{a=\allowbreak{}[1,\allowbreak{}2]; b=\allowbreak{}a; c=\allowbreak{}a[:\allowbreak{}]}中，b与a同一对象，c是另一个列表；a==c可以为真，而a is c为假。
 
 
-\textbf{Q / 题：} x=2，先执行x+=3再执行x\emph{=2，结果是什么？ / Starting with x=2, apply x+=3 and then x}=2.\\
+\textbf{Q / 题：} 初始\StudyInline{x=2}，依次执行\StudyInline{x+=3}和\StudyInline{x*=2}，结果是什么？ / From \StudyInline{x=2}, apply \StudyInline{x+=3} and then \StudyInline{x*=2}. What is the result?\\
 
 \textbf{答／Answer：} 10，按顺序先变5再变10。 / 10: first 5, then 10.
 
@@ -236,7 +236,7 @@ if x == 4:      # comparison, not assignment
 
 
 
-\StudyHeading{1}{6. Lists, tuples, strings, dictionaries, sets｜先选对装东西的方式}
+\StudyHeading{1}{6. Lists, tuples, strings, dictionaries, sets｜容器的用途与操作}
 \StudyTarget{CS5489-Lecture01__containers}
 \StudyTarget{CS5489-Lecture01__6-lists-tuples-strings-dictionaries-sets}
 
@@ -492,7 +492,7 @@ b + c   # [[2,3,4],[3,4,5]]
 
 
 
-\StudyHeading{1}{12. Brief linear algebra review｜同一个乘号前后可能是不同东西}
+\StudyHeading{1}{12. Brief linear algebra review｜内积、外积与矩阵乘法}
 \StudyTarget{CS5489-Lecture01__linear-algebra}
 \StudyTarget{CS5489-Lecture01__12-brief-linear-algebra-review}
 
@@ -700,7 +700,7 @@ Python变量、容器与流程 & 核心必会 & 中，代码执行顺序 & 跟�
 \StudyTarget{CS5489-Lecture01__historical-exam-map}
 
 
-题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
+题号和页码指向原题纸。完整期中题答见独立题库；期末与QE题目可按下表回查原材料。
 
 
 
@@ -712,7 +712,7 @@ Python变量、容器与流程 & 核心必会 & 中，代码执行顺序 & 跟�
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture01}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+按试卷查题及核对材料身份，见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 \StudyHeading{2}{训练、验证与最终评价}
 
@@ -755,7 +755,7 @@ CS5489 QE整理片段（年份未载） & Bottles (b.3)／PDF5、7（原印8–9
 CS5489 QE整理片段（年份未载） & CWD (b.3)／PDF11（原印7/9） & 关联：海豚分类中的过拟合原因与改进 \\
 \end{longtable}\endgroup
 
-\textbf{题源条件：}完整处理还需Lecture5的优化与早停；CNN结构不在当前Lecture1–5范围；缺年份与独立原卷身份；CNN设计另需后续课；缺年份；不把片段数量计为卷数；缺年份；只映射一般诊断能力。
+\textbf{题源条件：}完整处理还需Lecture5的优化与早停；当前只映射通用训练/验证诊断，CNN结构设计属于后续内容；QE题段缺年份与独立原卷身份，不按片段数计卷数。
 % EXAM:topics:END
 
 
@@ -803,4 +803,4 @@ Lecture1b，第140个单元 & 官方语言/库学习入口；运行版本见本�
 \endgroup
 
 
-原Intro中的“More data is better”需结合数据质量、采样和评价方式理解。软件版本差异在对应段落说明；学习优先级的依据见开头表格。
+软件版本差异在对应段落说明；学习优先级及其依据见\StudyRef{CS5489-Lecture01}{learning-priorities}{学习要求表}。

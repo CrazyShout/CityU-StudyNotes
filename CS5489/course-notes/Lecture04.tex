@@ -44,7 +44,7 @@ Bagging、RF与boosting & 分清训练并行与预测并行 & 4套／3套 & 未�
 % EXAM:overview:END
 
 
-学习目标、难度与材料依据集中在\StudyRef{CS5489-Lecture04}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
+学习目标与难点见\StudyRef{CS5489-Lecture04}{learning-priorities}{文末学习要求表}。
 
 
 
@@ -56,7 +56,7 @@ Bagging、RF与boosting & 分清训练并行与预测并行 & 4套／3套 & 未�
 \StudyTarget{CS5489-Lecture04__1-regression-and-the-housing-example}
 
 
-输入 \(\mathbf x\in\mathbb R^d\)，输出 \(y\in\mathbb R\)；希望学到 \(\hat y=f(\mathbf x)\)。误差 \(r_i=y_i-\hat y_i\) 叫 residual（残差）。图上的点表示实际观测，线或曲面表示模型预测；在同一个输入位置，真实值减预测值得到残差；一维图上是带正负号的竖直差，不是点到直线的最短垂直距离。
+输入 \(\mathbf x\in\mathbb R^d\)，输出 \(y\in\mathbb R\)；希望学到 \(\hat y=f(\mathbf x)\)。误差 \(r_i=y_i-\hat y_i\) 叫 residual（残差）。图上的点表示实际观测，线或曲面表示模型预测；在同一个输入位置，真实值减预测值得到残差；一维图上是带正负号的竖直差，不是点到拟合直线的最短距离。
 
 
 老师先用100个人工数据点展示斜率、截距和噪声，再用真实房屋记录预测售价。
@@ -253,7 +253,7 @@ y=\begin{pmatrix}1\\2\\2\end{pmatrix},\\[4pt]
 \textbf{对照原课：} Lecture4a，第21个单元的 \((XX^T)^{-1}X\) 是 \(X^T\) 的伪逆。数值程序通常通过解方程、QR或SVD求解，避免显式求逆；这些求解器细节可在二读时补充。
 
 
-\textbf{变式 / Transfer:} 三点改成 \((0,2),(1,3),(2,3)\)，w、b、MSE怎样变？ / Add one to every output in the worked example; how do w, b and MSE change?
+\textbf{变式 / Transfer:} 三点改成 \((0,2),(1,3),(2,3)\)，w、b、MSE怎样变？ / For the points (0,2), (1,3) and (2,3), find the OLS slope, intercept and MSE. How do they compare with the preceding example?
 
 
 
@@ -371,7 +371,7 @@ v^T(XX^T+\alpha I)v=\|X^Tv\|^2+\alpha\|v\|^2>0.\tag{4.11}
 
 
 
-\StudyHeading{1}{6. LASSO｜有时需要真的把系数变成零}
+\StudyHeading{1}{6. LASSO｜L1惩罚与零系数}
 \StudyTarget{CS5489-Lecture04__lasso}
 \StudyTarget{CS5489-Lecture04__6-lasso}
 
@@ -546,7 +546,9 @@ E=\sum_i(y_i-f(x_i))^2+\alpha_1\|w\|_1+\alpha_2\|w\|_2^2.
 \StudyCaption{异常值下的拟合对照：读曲线时同时查看哪些样本被当作内点。}
 
 
-此图采用Lecture4b，第5个单元的4487/447数据种子及Lecture4b，第13个单元的RANSAC种子1234。图中对照线说明稳健拟合的目的；成功仍依赖足够的一致点、合理模型与阈值。补充概率：若每轮独立抽取\(s\)个点，每次抽到内点的概率为\(q\)，且各次抽取相互独立，则一轮全为内点的概率为\(q^s\)；\(k\)轮至少成功一次的概率为\(1-(1-q^s)^k\)。有限数据内不放回抽样时，\(q^s\)是近似；抽中全内点还要求这些点足以拟合候选模型。
+此图采用Lecture4b，第5个单元的4487/447数据种子及Lecture4b，第13个单元的RANSAC种子1234。图中对照线说明稳健拟合的目的；成功仍依赖足够的一致点、合理模型与阈值。
+
+抽样成功率可以进一步计算：若每轮独立抽取\(s\)个点，每次抽到内点的概率为\(q\)，且各次抽取相互独立，则一轮全为内点的概率为\(q^s\)；\(k\)轮至少成功一次的概率为\(1-(1-q^s)^k\)。有限数据内不放回抽样时，\(q^s\)是近似；抽中全内点还要求这些点足以拟合候选模型。
 
 
 \begin{StudyBlock}{完整示范}{一次RANSAC候选与重拟合}
@@ -695,7 +697,7 @@ SVR在曲线两侧各留epsilon，\textbf{总带宽2epsilon}。残差的epsilon-
 \StudyCaption{SVR容忍带与对应损失：先看带宽，再看残差超出带后如何计入损失。}
 
 
-图左先看容忍带，图右看损失的平底。C决定违约代价，epsilon决定忽略多大误差，gamma决定RBF核尺度。Lecture4b，第70个单元同时搜索三者：10\ensuremath{\times}10\ensuremath{\times}10候选、5折，共5000次候选拟合。这一段说明原课的搜索流程；执行范围见文末。
+图右损失曲线的平底对应左图的容忍带。C决定违约代价，epsilon决定忽略多大误差，gamma决定RBF核尺度。Lecture4b，第70个单元同时搜索三者：10\ensuremath{\times}10\ensuremath{\times}10候选、5折，共5000次候选拟合。这一段说明原课的搜索流程；执行范围见文末。
 
 
 
@@ -870,7 +872,7 @@ Tree、RF、boosting & 常规掌握 & 中；模型怎样组合 & 解释机制、
 \StudyTarget{CS5489-Lecture04__historical-exam-map}
 
 
-题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
+题号和页码指向原题纸。完整期中题答见独立题库；期末与QE题目可按下表回查原材料。
 
 
 
@@ -882,7 +884,7 @@ Huber、非对称损失、Elastic Net和RF方差推导作为明确标识的历�
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture04}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+按试卷查题及核对材料身份，见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 \StudyHeading{2}{OLS与基线}
 
@@ -1014,7 +1016,7 @@ Mock Exam（复用2023A题面） & Q11／7 & 关联（样题）：AdaBoost训练
 % EXAM:topics:END
 
 
-\StudyHeading{1}{16. Source coverage and execution boundary｜能回查，也能知道哪些跑过}
+\StudyHeading{1}{16. Source coverage and execution boundary｜来源、保存结果与复算范围}
 \StudyTarget{CS5489-Lecture04__16-source-coverage-and-execution-boundary}
 
 

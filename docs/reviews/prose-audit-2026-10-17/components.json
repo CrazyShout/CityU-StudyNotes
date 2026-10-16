@@ -1,0 +1,3832 @@
+[
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 30,
+    "kind": "表格",
+    "text": "考点 & 复习动作 & 期中：直接／关联 & 期末：直接／关联 & QE记录 & 入口 \\\\",
+    "section": 2,
+    "page": 7,
+    "review": "保留两行考点、来源计数与当前任务优先级；精简顺序套话。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 59,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture01-intro-12.png}",
+    "section": 3,
+    "page": 7,
+    "review": "784像素图与T/E/P数字识别例衔接清楚；保留数据质量限制。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 62,
+    "kind": "图注",
+    "text": "\\StudyCaption{原课整页图。看图像\\ensuremath{\\to}向量\\ensuremath{\\to}类别这条线：784是输入特征数，不是数字类别数；像素展开保持固定顺序，不能每张图换一种排法。}",
+    "section": 3,
+    "page": 7,
+    "review": "784像素图与T/E/P数字识别例衔接清楚；保留数据质量限制。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 127,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture01-pipeline-23.png}",
+    "section": 5,
+    "page": 9,
+    "review": "C的三候选验证例与独立变式完整；预处理也拟合、inference与evaluation不同是必要区分。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 130,
+    "kind": "图注",
+    "text": "\\StudyCaption{原课示意图中的Error=21\\%用于展示评价流程。特征提取也可能学习参数：词表、均值和缩放量应由训练数据确定。}",
+    "section": 5,
+    "page": 9,
+    "review": "C的三候选验证例与独立变式完整；预处理也拟合、inference与evaluation不同是必要区分。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 213,
+    "kind": "代码块",
+    "text": "x = 3 / x = x + 1       # now 4 / if x == 4:      # comparison, not assignment",
+    "section": 8,
+    "page": 11,
+    "review": "变量绑定、整除、对象身份清楚；修复双语自测的乘号丢失。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 250,
+    "kind": "表格",
+    "text": "类型/操作 & 小例子与结果 & 容易踩的坑 \\\\",
+    "section": 9,
+    "page": 12,
+    "review": "容器表、右端排除与不可变对象条件保留；标题改为实际操作名称。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 293,
+    "kind": "代码块",
+    "text": "total = 0 / for n in range(1, 6, 2):   # 1, 3, 5 /     total += n",
+    "section": 10,
+    "page": 13,
+    "review": "逐轮total和列表推导展开不删；原16倍代码勘误与偶数变式保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 308,
+    "kind": "代码块",
+    "text": "values = [1, 3, 4] / result = [] / for x in values:",
+    "section": 10,
+    "page": 13,
+    "review": "逐轮total和列表推导展开不删；原16倍代码勘误与偶数变式保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 342,
+    "kind": "代码块",
+    "text": "def sum3(a, b=1, c=2): /     \"\"\"Return the sum of three values.\"\"\" /     return a + b + c",
+    "section": 11,
+    "page": 13,
+    "review": "MyList实例状态与类计数、print/return及原注释勘误保留；代码逐行保持。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 355,
+    "kind": "代码块",
+    "text": "class MyList: /     num = 0 /     def __init__(self):",
+    "section": 11,
+    "page": 13,
+    "review": "MyList实例状态与类计数、print/return及原注释勘误保留；代码逐行保持。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 429,
+    "kind": "代码块",
+    "text": "import numpy as np / A = np.array([[1,2,3],[4,5,6],[7,8,9]]) / A[0,1]        # 2: row 0, column 1",
+    "section": 13,
+    "page": 15,
+    "review": "四种数组属性、三维索引、行样本自测完整；不压缩成术语列表。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 470,
+    "kind": "代码块",
+    "text": "A = np.array([[1,2,3],[4,5,6]]) / b = np.array([1,2,3]) / c = np.array([[1],[2]])",
+    "section": 14,
+    "page": 15,
+    "review": "广播两组形状与反例可独立推算；变式和答案保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 551,
+    "kind": "代码块",
+    "text": "a = np.array([1,2,3,4]) / b = a / c = a[1:3]",
+    "section": 16,
+    "page": 17,
+    "review": "视图代码及shares_memory解释相互补充；保留预处理会改原数据的具体后果。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 589,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/source-poisson.png}",
+    "section": 17,
+    "page": 17,
+    "review": "PMF/PDF图、Poisson观察区间、条件表与Bayes分母正条件保留；图注未取代公式讲解。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 590,
+    "kind": "图注",
+    "text": "\\StudyCaption{离散概率质量图：横轴取整数，各圆点的高度就是相应取值的概率；点间连线只帮助观察变化。}",
+    "section": 17,
+    "page": 17,
+    "review": "PMF/PDF图、Poisson观察区间、条件表与Bayes分母正条件保留；图注未取代公式讲解。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 596,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/source-gaussian.png}",
+    "section": 17,
+    "page": 17,
+    "review": "PMF/PDF图、Poisson观察区间、条件表与Bayes分母正条件保留；图注未取代公式讲解。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 599,
+    "kind": "图注",
+    "text": "\\StudyCaption{原课高斯密度图：纵轴给连续密度，区间概率要用曲线下的面积；可与前面的离散概率质量图对照。}",
+    "section": 17,
+    "page": 17,
+    "review": "PMF/PDF图、Poisson观察区间、条件表与Bayes分母正条件保留；图注未取代公式讲解。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 608,
+    "kind": "表格",
+    "text": "p(x,y) & Y=0 & Y=1 & p(x) \\\\",
+    "section": 17,
+    "page": 17,
+    "review": "PMF/PDF图、Poisson观察区间、条件表与Bayes分母正条件保留；图注未取代公式讲解。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 679,
+    "kind": "表格",
+    "text": "主题 & 优先级 & 难度与卡点 & 掌握要求、依据 \\\\",
+    "section": 19,
+    "page": 20,
+    "review": "主题表按掌握动作与难点定位，保留来源；课程要求边界留作表注。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 724,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 21,
+    "page": 21,
+    "review": "保留原卷Q4的CV流程检索行，不改关联与题号。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 741,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 22,
+    "page": 21,
+    "review": "保留训练/验证诊断的各卷关系；生成题源条件应合并重复缺年份提醒。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture01.tex",
+    "line": 776,
+    "kind": "表格",
+    "text": "原位置 & 讲义位置／处理 \\\\",
+    "section": 23,
+    "page": 22,
+    "review": "覆盖表保留所有原单元定位；删去重复数据质量提醒并修正开头表格的旧指向。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 44,
+    "kind": "表格",
+    "text": "考点 & 复习重点 & 期中 & 期末：直接／关联 & QE记录 & 学习入口 \\\\",
+    "section": 1,
+    "page": 23,
+    "review": "10类考点与卷数由原台账生成；不把缺证据写成不考。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 81,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/Petal-sepal.jpg}",
+    "section": 3,
+    "page": 24,
+    "review": "花部位图、两类照片与记录向量互补；列向量/行数据约定明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 82,
+    "kind": "图注",
+    "text": "\\StudyCaption{花部位示意：先区分petal（花瓣）与sepal（萼片），再读后面鸢尾花记录中的长度和宽度。原图来自Lecture2a，第5个单元。}",
+    "section": 3,
+    "page": 24,
+    "review": "花部位图、两类照片与记录向量互补；列向量/行数据约定明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 88,
+    "kind": "表格",
+    "text": "Versicolor，标签1 & Virginica，标签2 \\\\",
+    "section": 3,
+    "page": 24,
+    "review": "花部位图、两类照片与记录向量互补；列向量/行数据约定明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 116,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/iris-measurements.png}",
+    "section": 3,
+    "page": 24,
+    "review": "花部位图、两类照片与记录向量互补；列向量/行数据约定明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 117,
+    "kind": "图注",
+    "text": "\\StudyCaption{两项测量组成的样本平面：先看坐标含义，再比较不同类别的分布与重叠。}",
+    "section": 3,
+    "page": 24,
+    "review": "花部位图、两类照片与记录向量互补；列向量/行数据约定明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 248,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture02-histogram-fit.png}",
+    "section": 7,
+    "page": 27,
+    "review": "直方图密度尺度、cm逆单位、面积与单点概率完整；图文用途不同。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 249,
+    "kind": "图注",
+    "text": "\\StudyCaption{花瓣长度的类内直方图与拟合密度；柱与曲线使用同一密度尺度。}",
+    "section": 7,
+    "page": 27,
+    "review": "直方图密度尺度、cm逆单位、面积与单点概率完整；图文用途不同。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 345,
+    "kind": "表格",
+    "text": "类别 & 样本数 & 均值\\ensuremath{\\mu}（cm） & MLE标准差\\ensuremath{\\sigma}（cm） \\\\",
+    "section": 8,
+    "page": 28,
+    "review": "均值/方差求导、2/4/6 cm示范、N与N-1及退化条件完整，原样保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 421,
+    "kind": "表格",
+    "text": "计算步骤 & 类1 & 类2 \\\\",
+    "section": 10,
+    "page": 30,
+    "review": "5 cm演算由密度到后验，表格显示中间值；舍入身份、归一化与读图保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 441,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/iris-density-posterior.png}",
+    "section": 10,
+    "page": 30,
+    "review": "5 cm演算由密度到后验，表格显示中间值；舍入身份、归一化与读图保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 442,
+    "kind": "图注",
+    "text": "\\StudyCaption{从类条件密度到类别后验：左右图的纵轴回答不同的问题。}",
+    "section": 10,
+    "page": 30,
+    "review": "5 cm演算由密度到后验，表格显示中间值；舍入身份、归一化与读图保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 524,
+    "kind": "表格",
+    "text": "类别 & 代入参数后的log分数 \\\\",
+    "section": 13,
+    "page": 32,
+    "review": "共享/不同方差两次展开和配平方推根都可跟算；图示预测区不替代推导。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 602,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture02-boundary-variance.png}",
+    "section": 13,
+    "page": 32,
+    "review": "共享/不同方差两次展开和配平方推根都可跟算；图示预测区不替代推导。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 605,
+    "kind": "图注",
+    "text": "\\StudyCaption{图源：本节教学高斯模型。两幅图保持均值4／6 cm和先验0.5／0.5；右图只把第二类方差从1改为4 cm\\textsuperscript{2}。上方窄条的数字表示预测类别，竖直点线标出交点；实线表示第一类，虚线表示第二类。}",
+    "section": 13,
+    "page": 32,
+    "review": "共享/不同方差两次展开和配平方推根都可跟算；图示预测区不替代推导。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 662,
+    "kind": "代码块",
+    "text": "model = naive_bayes.GaussianNB() / model.fit(trainX, trainY) / model.class_prior_  # 每类先验",
+    "section": 15,
+    "page": 34,
+    "review": "条件独立按类解释，表格参数/单位与train-only拟合及19/31先验完整。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 680,
+    "kind": "表格",
+    "text": "参数或中间值 & 类1 & 类2 \\\\",
+    "section": 15,
+    "page": 34,
+    "review": "条件独立按类解释，表格参数/单位与train-only拟合及19/31先验完整。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 788,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture02-test-errors.png}",
+    "section": 17,
+    "page": 36,
+    "review": "点A的真值/后验与整体42/50区别明确；图例和错分解释保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 789,
+    "kind": "图注",
+    "text": "\\StudyCaption{真实标签、预测边界与错分位置；空心方框标出测试错误。}",
+    "section": 17,
+    "page": 36,
+    "review": "点A的真值/后验与整体42/50区别明确；图例和错分解释保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 833,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture02-covariance-shapes.png}",
+    "section": 18,
+    "page": 37,
+    "review": "四格协方差、四图、马氏距离及行列式各补不同理解台阶，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 834,
+    "kind": "图注",
+    "text": "\\StudyCaption{同样的均值和边际方差，不同的协方差；观察等密度轮廓的倾斜方向。}",
+    "section": 18,
+    "page": 37,
+    "review": "四格协方差、四图、马氏距离及行列式各补不同理解台阶，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 906,
+    "kind": "表格",
+    "text": "项目 & A & B \\\\",
+    "section": 19,
+    "page": 39,
+    "review": "给定协方差完整求逆和三项分数，等先验/等代价、无量纲条件及答案保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 961,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/iris-model-comparison.png}",
+    "section": 20,
+    "page": 40,
+    "review": "类内外积平均、正则单位、模型接口及N-1实现差异必要；不删测试对照。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 962,
+    "kind": "图注",
+    "text": "\\StudyCaption{Gaussian NB与完整高斯模型的分类区域；测试比较的条件与结果见下文。}",
+    "section": 20,
+    "page": 40,
+    "review": "类内外积平均、正则单位、模型接口及N-1实现差异必要；不删测试对照。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1003,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/tom-mitchell-bow.jpg}",
+    "section": 22,
+    "page": 41,
+    "review": "固定词表与丢词序原例、not停用词反例具体；原词袋图保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1006,
+    "kind": "图注",
+    "text": "\\StudyCaption{图源：Lecture2b，第57个单元引用的原图。词表一旦确定，每一列的含义就固定了，训练与预测必须使用同一个顺序。}",
+    "section": 22,
+    "page": 41,
+    "review": "固定词表与丢词序原例、not停用词反例具体；原词袋图保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1026,
+    "kind": "代码块",
+    "text": "cntvect = feature_extraction.text.CountVectorizer( /     stop_words=\"english\", max_features=100 / )",
+    "section": 23,
+    "page": 41,
+    "review": "fit/transform代码与稀疏零值含义互补，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1200,
+    "kind": "表格",
+    "text": "文档 & 类别 & 内容 & 计数向量 \\\\",
+    "section": 29,
+    "page": 44,
+    "review": "四篇短文贯穿TF/IDF，文档频数和词次数区分具体，保留数据表。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1234,
+    "kind": "表格",
+    "text": "步骤 & free & offer & meeting & today \\\\",
+    "section": 29,
+    "page": 44,
+    "review": "四篇短文贯穿TF/IDF，文档频数和词次数区分具体，保留数据表。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1261,
+    "kind": "代码块",
+    "text": "tf_trans = feature_extraction.text.TfidfTransformer( /     use_idf=True, norm=\"l1\" / )",
+    "section": 30,
+    "page": 44,
+    "review": "库IDF、L1以及课堂简式差异逐步落实到相同D1，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1286,
+    "kind": "表格",
+    "text": "步骤 & free & offer & meeting & today \\\\",
+    "section": 30,
+    "page": 44,
+    "review": "库IDF、L1以及课堂简式差异逐步落实到相同D1，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1309,
+    "kind": "表格",
+    "text": "文档 & free & offer & meeting & today \\\\",
+    "section": 30,
+    "page": 44,
+    "review": "库IDF、L1以及课堂简式差异逐步落实到相同D1，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1391,
+    "kind": "表格",
+    "text": "类别与步骤 & free & offer & meeting & today \\\\",
+    "section": 32,
+    "page": 46,
+    "review": "逐列累积权重、分母6和加权log分数可跟算，保留模型概率身份。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1441,
+    "kind": "表格",
+    "text": "原课模型 & 关键设置 & 原课保存的测试准确率 \\\\",
+    "section": 33,
+    "page": 47,
+    "review": "64/72/68%三行是教师保存输出；比较两条完整流程与探索性测试限制保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1474,
+    "kind": "表格",
+    "text": "老师的英文名称 & 用途与简短例子 \\\\",
+    "section": 34,
+    "page": 47,
+    "review": "五类表示各有用途例子；模型校准限制直接关联输出，不删。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1515,
+    "kind": "表格",
+    "text": "模型 & 输入 & 各类学什么 & 对特征的主要假设 \\\\",
+    "section": 35,
+    "page": 48,
+    "review": "模型比较表汇总不同输入/参数/假设，有复习用途，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1779,
+    "kind": "表格",
+    "text": "主题 & 优先级 & 难度与主要卡点 & 学完应能做什么 \\\\",
+    "section": 44,
+    "page": 52,
+    "review": "难度和优先级表功能不同；当前/历史东莞材料身份保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1824,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 46,
+    "page": 53,
+    "review": "保留8行生成式原题映射，样题与真卷分别标识。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1848,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 47,
+    "page": 53,
+    "review": "保留先验决策的原卷题号与技能，不扩成新题。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1871,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 48,
+    "page": 54,
+    "review": "保留Gaussian NB题源表与条件独立要求。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1894,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 49,
+    "page": 54,
+    "review": "保留两套直接题与QE残题，条件未齐不计完整推导。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1913,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 50,
+    "page": 54,
+    "review": "保留共享方差/边界题和聚类关联身份。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1934,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 51,
+    "page": 55,
+    "review": "保留协方差的期中/期末关联列表与页码。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1958,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 52,
+    "page": 55,
+    "review": "保留平滑题与样题标签，计数不改。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1977,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 53,
+    "page": 55,
+    "review": "保留表示改进原题映射；实际正文已有相应例子。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 1995,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 54,
+    "page": 56,
+    "review": "保留无限数据、失配与重叠原题关系。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 2017,
+    "kind": "表格",
+    "text": "考试类型与学期 & 原题号 & 原材料页 & 要求 \\\\",
+    "section": 55,
+    "page": 56,
+    "review": "参数后验/MAP与类别后验区别必要；残题缺模型及先验说明保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture02.tex",
+    "line": 2046,
+    "kind": "表格",
+    "text": "原材料与单元 & PDF页 & 本讲义对应内容 \\\\",
+    "section": 56,
+    "page": 56,
+    "review": "149原单元覆盖及PDF页索引保留；教师输出与教学算例身份明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 25,
+    "kind": "表格",
+    "text": "考点 & 复习动作 & 期中：直接／关联 & 期末：直接／关联 & QE记录 & 入口 \\\\",
+    "section": 1,
+    "page": 58,
+    "review": "历史考点表全部计数和入口保留，精简导航套话。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 122,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture03-linear-sigmoid.png}",
+    "section": 3,
+    "page": 60,
+    "review": "±1标签、平局条件和超平面维度保留；标题去生硬搭配，图与自测不改。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 125,
+    "kind": "图注",
+    "text": "\\StudyCaption{图左按原例重绘分类边界，右边显示同一分数经sigmoid转换后的概率。左图先判断落在线的哪侧，再沿右图查这个分数对应的模型概率。}",
+    "section": 3,
+    "page": 60,
+    "review": "±1标签、平局条件和超平面维度保留；标题去生硬搭配，图与自测不改。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 300,
+    "kind": "代码块",
+    "text": "from sklearn.pipeline import make_pipeline / from sklearn.preprocessing import StandardScaler / from sklearn.linear_model import LogisticRegression",
+    "section": 8,
+    "page": 63,
+    "review": "保留原划分、训练内CV、每折Pipeline及旧接口说明；代码不改。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 428,
+    "kind": "表格",
+    "text": "原来的一项 & 代回之后 & 原因 \\\\",
+    "section": 11,
+    "page": 64,
+    "review": "约束正负号、b下界、四项代回、双重求和与两点对偶复核不可删；强对偶选读保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 581,
+    "kind": "表格",
+    "text": "最优乘子情形 & 可以可靠推出什么 \\\\",
+    "section": 13,
+    "page": 67,
+    "review": "slack正确分类反例、因子2、三类乘子边界和有限C可等硬间隔的纠正项保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 804,
+    "kind": "表格",
+    "text": "方法 & 训练在做什么 & 输出/优势 & 条件与代价 \\\\",
+    "section": 19,
+    "page": 71,
+    "review": "比较表和统一损失说明各模型实际学习对象，标题去地图比喻。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 914,
+    "kind": "表格",
+    "text": "主题 & 优先级 & 理解难度与卡点 & 应达到的能力；判断依据 \\\\",
+    "section": 23,
+    "page": 73,
+    "review": "优先级/难度表为检索用，不再增正文预告。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 960,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 25,
+    "page": 74,
+    "review": "保留三套生成/判别原题映射与直接关系。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 979,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 26,
+    "page": 74,
+    "review": "原2023B Q8先验自由参数条件保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 998,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 27,
+    "page": 74,
+    "review": "各卷logistic/MAP原题号保留，凸有限解和分数/概率勘误保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1027,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 28,
+    "page": 75,
+    "review": "重复出现的同一原题属不同考点映射，不能为去冗余删行。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1053,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 29,
+    "page": 75,
+    "review": "SVM多卷映射及极大C不能消除冲突标签的条件保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1081,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 30,
+    "page": 76,
+    "review": "核题映射含期末关联KPCA，保留当前知识覆盖边界。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1115,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 31,
+    "page": 77,
+    "review": "存储原题及C/支持向量数不单调纠正保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1136,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 32,
+    "page": 77,
+    "review": "代价、数量与阈值六组原题定位保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1158,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 33,
+    "page": 77,
+    "review": "损失曲线原题检索表有不同历史题入口，原样保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1188,
+    "kind": "表格",
+    "text": "原位置（单元号从1起） & 本文对应 & 内容处理 \\\\",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1232,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/svm-supplement-1.png}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1233,
+    "kind": "图注",
+    "text": "\\StudyCaption{SVM手写补充，第1页：对照正文的正确分类条件与几何间隔，保留原件写法。}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1236,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/svm-supplement-2.png}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1237,
+    "kind": "图注",
+    "text": "\\StudyCaption{SVM手写补充，第2页：对照正文的约束符号与弱对偶；原件疑点见前面的勘误说明。}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1240,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/svm-supplement-3.png}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1241,
+    "kind": "图注",
+    "text": "\\StudyCaption{SVM手写补充，第3页：沿乘子与约束关系阅读，并结合正文保留成立条件。}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1244,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/svm-supplement-4.png}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture03.tex",
+    "line": 1245,
+    "kind": "图注",
+    "text": "\\StudyCaption{SVM手写补充，第4页：对照正文KKT与软间隔边界，不能把单向关系当作双向必然。}",
+    "section": 34,
+    "page": 78,
+    "review": "十项已确认勘误、全部原单元及四页手写图保留；图注明确原件疑点不作为正确公式。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 28,
+    "kind": "表格",
+    "text": "考点 & 复习动作 & 期中：直接／关联 & 期末：直接／关联 & QE记录 & 入口 \\\\",
+    "section": 1,
+    "page": 81,
+    "review": "历史考点统计与技能动作保留；导航只留学习要求入口。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 71,
+    "kind": "表格",
+    "text": "原字段 & 处理后 & 单位与解释 \\\\",
+    "section": 2,
+    "page": 82,
+    "review": "mode1/2单位、12维与行采样说明完整；竖直残差区别改得更明确。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 89,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture04-housing.png}",
+    "section": 2,
+    "page": 82,
+    "review": "mode1/2单位、12维与行采样说明完整；竖直残差区别改得更明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 90,
+    "kind": "图注",
+    "text": "\\StudyCaption{房屋面积与价格的散点：比较相近面积处的价格差异。}",
+    "section": 2,
+    "page": 82,
+    "review": "mode1/2单位、12维与行采样说明完整；竖直残差区别改得更明确。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 119,
+    "kind": "表格",
+    "text": "点 & \\(x_i-\\bar x\\) & \\(y_i-\\bar y\\) & 两者乘积 & \\((x_i-\\bar x)^2\\) \\\\",
+    "section": 3,
+    "page": 82,
+    "review": "三点表到斜率/截距、SSE/MSE逐步演算保留，读者可独立跟算。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 389,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/source-l1.png}",
+    "section": 9,
+    "page": 87,
+    "review": "图的约束接触、分段导数与软阈值保留；标题直接写L1和零系数。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 391,
+    "kind": "图注",
+    "text": "\\StudyCaption{L1约束示意：菱形尖角位于坐标轴上，注意误差等高线与约束边界的接触位置。}",
+    "section": 9,
+    "page": 87,
+    "review": "图的约束接触、分段导数与软阈值保留；标题直接写L1和零系数。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 395,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/source-l2.png}",
+    "section": 9,
+    "page": 87,
+    "review": "图的约束接触、分段导数与软阈值保留；标题直接写L1和零系数。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 397,
+    "kind": "图注",
+    "text": "\\StudyCaption{L2约束示意：圆形边界没有L1的尖角，与上图比较接触点的位置。}",
+    "section": 9,
+    "page": 87,
+    "review": "图的约束接触、分段导数与软阈值保留；标题直接写L1和零系数。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 545,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture04-ransac.png}",
+    "section": 12,
+    "page": 90,
+    "review": "抽样条件、阈值单位、四点重拟合与变式完整；概率说明另起段便于跟读。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 546,
+    "kind": "图注",
+    "text": "\\StudyCaption{异常值下的拟合对照：读曲线时同时查看哪些样本被当作内点。}",
+    "section": 12,
+    "page": 90,
+    "review": "抽样条件、阈值单位、四点重拟合与变式完整；概率说明另起段便于跟读。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 561,
+    "kind": "表格",
+    "text": "x & 真值y & 候选预测 & 绝对残差 & 本轮是否内点 \\\\",
+    "section": 12,
+    "page": 90,
+    "review": "抽样条件、阈值单位、四点重拟合与变式完整；概率说明另起段便于跟读。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 696,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/lecture04-svr-tube.png}",
+    "section": 15,
+    "page": 93,
+    "review": "半宽/总宽、epsilon-insensitive原纠错保留；改图文重复为对应关系。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 697,
+    "kind": "图注",
+    "text": "\\StudyCaption{SVR容忍带与对应损失：先看带宽，再看残差超出带后如何计入损失。}",
+    "section": 15,
+    "page": 93,
+    "review": "半宽/总宽、epsilon-insensitive原纠错保留；改图文重复为对应关系。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 726,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/source-RF.jpg}",
+    "section": 16,
+    "page": 94,
+    "review": "bootstrap具体索引、回归平均与训练曲线身份保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 727,
+    "kind": "图注",
+    "text": "\\StudyCaption{原课随机森林示意：各树分别产生预测，回归时对树的输出取平均。}",
+    "section": 16,
+    "page": 94,
+    "review": "bootstrap具体索引、回归平均与训练曲线身份保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 798,
+    "kind": "表格",
+    "text": "方法 & 主要能力 & 关键代价/条件 \\\\",
+    "section": 19,
+    "page": 96,
+    "review": "模型比较表与目标log反变换条件必要，保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 851,
+    "kind": "表格",
+    "text": "主题 & 优先级 & 难度与卡点 & 掌握要求与依据 \\\\",
+    "section": 21,
+    "page": 97,
+    "review": "学习动作、难点和原课依据表有检索作用，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 896,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 23,
+    "page": 98,
+    "review": "OLS验证基线原题单行定位保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 913,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 24,
+    "page": 98,
+    "review": "Ridge/LASSO/Elastic Net各原卷关系保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 938,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 25,
+    "page": 98,
+    "review": "损失分段与非对称成本原题表保留，不混为权重正则化。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 962,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 26,
+    "page": 99,
+    "review": "分类/回归、GP关联与boosting预测并行的来源条件不可删。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 990,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 27,
+    "page": 99,
+    "review": "等方差等相关历史题与正文公式匹配，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 1007,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 28,
+    "page": 99,
+    "review": "SVR原题选项关系不扩展为新内容，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture04.tex",
+    "line": 1034,
+    "kind": "表格",
+    "text": "原课单元 & 本文对应 \\\\",
+    "section": 29,
+    "page": 100,
+    "review": "原单元、数据身份、未重跑大型搜索和已确认勘误保留；标题明确复算范围。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 33,
+    "kind": "表格",
+    "text": "考点 & 复习动作 & 期中：直接／关联 & 期末：直接／关联 & QE记录 & 入口 \\\\",
+    "section": 2,
+    "page": 101,
+    "review": "历史激活/反传/优化题范围和计数保留，期中期末身份区分。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 132,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/oct-softmax.png}",
+    "section": 4,
+    "page": 102,
+    "review": "softmax正值/归一化、稳定平移及接口说明完整；变式补原logits。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 135,
+    "kind": "图注",
+    "text": "\\StudyCaption{图把每个logit、指数和概率对应起来；柱高表示概率，不是三次独立判断，三柱总和为1。该图是上面教学数字的重绘。}",
+    "section": 4,
+    "page": 102,
+    "review": "softmax正值/归一化、稳定平移及接口说明完整；变式补原logits。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 282,
+    "kind": "表格",
+    "text": "激活 & 输出及范围 & 对u的导数 \\\\",
+    "section": 7,
+    "page": 105,
+    "review": "激活表、不可微约定及输出损失匹配保留；删除重复读图句，中文参数计数题补偏置。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 299,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/oct-activations.png}",
+    "section": 7,
+    "page": 105,
+    "review": "激活表、不可微约定及输出损失匹配保留；删除重复读图句，中文参数计数题补偏置。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 300,
+    "kind": "图注",
+    "text": "\\StudyCaption{常见激活的函数值与局部斜率；右图用于理解反向传播中的变化率。}",
+    "section": 7,
+    "page": 105,
+    "review": "激活表、不可微约定及输出损失匹配保留；删除重复读图句，中文参数计数题补偏置。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 382,
+    "kind": "表格",
+    "text": "这一步产生什么 & 计算 & 数组形状 \\\\",
+    "section": 9,
+    "page": 107,
+    "review": "逐分量到两次不同轴求和、矩阵转置与共享偏置完整保留；平均只计一次。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 496,
+    "kind": "表格",
+    "text": "回到哪里 & 为什么这样算 & 本例结果 \\\\",
+    "section": 10,
+    "page": 108,
+    "review": "同一单位矩阵网络的全部前向/反向中间量与同步更新说明保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 533,
+    "kind": "表格",
+    "text": "隐藏值 & 来自两个输出的贡献 & 合计 \\\\",
+    "section": 11,
+    "page": 109,
+    "review": "换W区分两层梯度，完整独立变式及双语表格保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 565,
+    "kind": "表格",
+    "text": "量 / Quantity & 结果 / Result \\\\",
+    "section": 11,
+    "page": 109,
+    "review": "换W区分两层梯度，完整独立变式及双语表格保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 757,
+    "kind": "表格",
+    "text": "架构 & 按层独立重算的参数数 & 原Lecture5b，第92个单元表中的测试准确率 \\\\",
+    "section": 16,
+    "page": 112,
+    "review": "MNIST各架构参数数和教师保存准确率身份清楚，表格不改。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 839,
+    "kind": "表格",
+    "text": "主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\\\",
+    "section": 18,
+    "page": 114,
+    "review": "当前Assignment2任务及未提供Tutorial5范围保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 885,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 20,
+    "page": 115,
+    "review": "输出激活原图和log零边界条件保留，表格关系不改。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 906,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 21,
+    "page": 115,
+    "review": "反传真题与样题分开，保留印刷题/手写解答身份。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 927,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 22,
+    "page": 115,
+    "review": "梯度消失原题列表及饱和区条件保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 950,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 23,
+    "page": 116,
+    "review": "表达能力/深浅比较表与正文三种能力对应，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 970,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 24,
+    "page": 116,
+    "review": "优化器原题关系和单批零梯度限制保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 990,
+    "kind": "表格",
+    "text": "试卷 & 原题号／页码 & 关系与要求 \\\\",
+    "section": 25,
+    "page": 116,
+    "review": "训练诊断与具体CNN结构覆盖分开，生成时只去完全重复条件子句。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Lecture05.tex",
+    "line": 1024,
+    "kind": "表格",
+    "text": "原课位置 & 对应讲义 \\\\",
+    "section": 26,
+    "page": 117,
+    "review": "162原单元覆盖与保存输出身份保留，补充验证脚本位置不改。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 29,
+    "kind": "表格",
+    "text": "原任务 & 优先级 & 难度与卡点 & 掌握要求与依据 \\\\",
+    "section": 1,
+    "page": 118,
+    "review": "原五项任务顺序、输出身份与学习表保留；删重复表后说明。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 63,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{363897ef}",
+    "section": 2,
+    "page": 118,
+    "review": "数据路径与输出目录指引直接服务运行，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 88,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{d5030717}",
+    "section": 3,
+    "page": 119,
+    "review": "变量状态轨迹、预期NameError及双语重启题保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 125,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{88fd2593}",
+    "section": 4,
+    "page": 120,
+    "review": "12的循环跟做、两种图轴和99/25计数保留；因子答案明确排除1及自身。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 143,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{f3a5d03f}",
+    "section": 4,
+    "page": 120,
+    "review": "12的循环跟做、两种图轴和99/25计数保留；因子答案明确排除1及自身。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 150,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{4baebf46}",
+    "section": 4,
+    "page": 120,
+    "review": "12的循环跟做、两种图轴和99/25计数保留；因子答案明确排除1及自身。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 183,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{8c598fb8}",
+    "section": 5,
+    "page": 123,
+    "review": "数据形状120×2和取前三行的题答清楚；无单位标签不推测。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 233,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{a6816ae8}",
+    "section": 6,
+    "page": 124,
+    "review": "两列完整正交化、空间重建与依赖列反例齐全，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 240,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{94a085a9}",
+    "section": 6,
+    "page": 124,
+    "review": "两列完整正交化、空间重建与依赖列反例齐全，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 260,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial01.ipynb}{129ae6f4}",
+    "section": 6,
+    "page": 124,
+    "review": "两列完整正交化、空间重建与依赖列反例齐全，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial01.tex",
+    "line": 290,
+    "kind": "表格",
+    "text": "原单元 & 本文件对应 \\\\",
+    "section": 8,
+    "page": 128,
+    "review": "47单元任务覆盖及空单元身份保留；Notebook执行单元不改。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 43,
+    "kind": "表格",
+    "text": "原任务 & 优先级 & 难度与卡点 & 学到什么程度 & 对应讲义 \\\\",
+    "section": 2,
+    "page": 129,
+    "review": "原6项任务和独立评价补充有明确身份；删无信息翻译自述。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 81,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{463f8be3}",
+    "section": 3,
+    "page": 130,
+    "review": "数据说明、环境变量与参数位置完整，代码不改。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 108,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{cfc3bf3b}",
+    "section": 4,
+    "page": 131,
+    "review": "2000/1000实际记录与原2034/1353差异保留；shape题两种语言完整。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 153,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{7823edad}",
+    "section": 5,
+    "page": 132,
+    "review": "固定词表、test仅transform、全零表示与不能重贴列名的解释必要。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 192,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{4d55c375}",
+    "section": 6,
+    "page": 134,
+    "review": "每词出现率、alpha默认身份和1次/10次不变的题完整。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 237,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{1dd7d5d7}",
+    "section": 7,
+    "page": 136,
+    "review": "两组单因素试验及默认重复行用于一致性核对，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 277,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{55907422}",
+    "section": 8,
+    "page": 138,
+    "review": "模型与表示同时变、TF-IDF非整数和参数归一含义保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 294,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{dd9ef0f1}",
+    "section": 8,
+    "page": 138,
+    "review": "模型与表示同时变、TF-IDF非整数和参数归一含义保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 321,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{1814889b}",
+    "section": 9,
+    "page": 140,
+    "review": "三个真实错分样本和观察/假设区分保留；改保存输出标题。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 372,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{6255b18c}",
+    "section": 10,
+    "page": 143,
+    "review": "曲线轴、参数范围与非单调可能性明确，不改保存结果。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 412,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{ff615da6}",
+    "section": 11,
+    "page": 144,
+    "review": "alpha固定不继承test最优、词表上限/实际列数区别保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 513,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{43b0f7e6}",
+    "section": 14,
+    "page": 147,
+    "review": "明确选用平滑率、Gamma后验均值及alpha=0分支；删重复身份自述。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 535,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{2701985a}",
+    "section": 15,
+    "page": 149,
+    "review": "四条手算数据、10/20标签与库logpmf对照保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 562,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{ac131c56}",
+    "section": 16,
+    "page": 150,
+    "review": "用默认原始计数解释Poisson的等暴露假设，不从分数推断分布成立。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 582,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{4a41fd10}",
+    "section": 16,
+    "page": 150,
+    "review": "用默认原始计数解释Poisson的等暴露假设，不从分数推断分布成立。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial02.tex",
+    "line": 659,
+    "kind": "表格",
+    "text": "原cell & 本文件位置 \\\\",
+    "section": 19,
+    "page": 155,
+    "review": "原36单元覆盖、库依据及Poisson补充身份保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 29,
+    "kind": "表格",
+    "text": "原任务 & 优先级 & 难度与卡点 & 掌握要求与依据 \\\\",
+    "section": 1,
+    "page": 156,
+    "review": "保留给定标签身份、10图每错一张变10个百分点与完整任务表；标题改实际任务。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 66,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{f09c8929}",
+    "section": 2,
+    "page": 156,
+    "review": "原顺序、80/20划分与参考候选网格分清，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 95,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{43e540ea}",
+    "section": 3,
+    "page": 157,
+    "review": "45×40到1800维、固定减0.5和同一索引必要，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 131,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{206765d3}",
+    "section": 4,
+    "page": 159,
+    "review": "5折32/8与重拟合40张、并列候选顺序说明保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 159,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{426dc86b}",
+    "section": 5,
+    "page": 160,
+    "review": "权重随亮度的分数变化、平均图只展示与错分待验证解释保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 193,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{0a040215}",
+    "section": 6,
+    "page": 163,
+    "review": "同一划分比较loss及色图尺度，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 225,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{1f58e732}",
+    "section": 7,
+    "page": 164,
+    "review": "22×18原掩码勘误、系数平方占比定义保留；英文变式补切片。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 232,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{ee1e86c2}",
+    "section": 7,
+    "page": 164,
+    "review": "22×18原掩码勘误、系数平方占比定义保留；英文变式补切片。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 273,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{617dc8d5}",
+    "section": 8,
+    "page": 167,
+    "review": "L1核的0.3679手算/矩阵形状、衰减条件及内层选择边界保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 287,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{08bfba42}",
+    "section": 8,
+    "page": 167,
+    "review": "L1核的0.3679手算/矩阵形状、衰减条件及内层选择边界保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial03.tex",
+    "line": 343,
+    "kind": "表格",
+    "text": "原单元 & 本笔记位置与处理 \\\\",
+    "section": 10,
+    "page": 170,
+    "review": "四问补固定其他像素的英文条件；覆盖索引保留，删除重复结果身份句。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 30,
+    "kind": "表格",
+    "text": "原任务 & 优先级 & 难度／卡点 & 掌握要求与依据 \\\\",
+    "section": 1,
+    "page": 171,
+    "review": "跨年需求任务、原2011/2012划分与五项学习要求保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 68,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{e7c1c92b}",
+    "section": 2,
+    "page": 171,
+    "review": "时间验证只用2011、五折和种子身份完整，不重跑实验。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 104,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{9dae4ba2}",
+    "section": 3,
+    "page": 172,
+    "review": "保留cnt组成、weekday勘误、yr恒定和编码解释；标题与泄漏说明改为直接表述。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 150,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{52826fd9}",
+    "section": 4,
+    "page": 175,
+    "review": "基线、MSE/RMSE原课差异及散点轴/残差方向保留；英文改保存结果身份。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 157,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{695d8a3c}",
+    "section": 4,
+    "page": 175,
+    "review": "基线、MSE/RMSE原课差异及散点轴/残差方向保留；英文改保存结果身份。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 204,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{b7a20806}",
+    "section": 5,
+    "page": 177,
+    "review": "相关特征、编码单位和LASSO/OMP不同约束解释保留，标题去排行榜修辞。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 250,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{6e5179af}",
+    "section": 6,
+    "page": 178,
+    "review": "训练内选LASSO与事后测试RF最佳的区别必要，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 299,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{f0d1eeb1}",
+    "section": 7,
+    "page": 180,
+    "review": "91/275时间边界、四种方案和残差正负号保留；删地图比喻和整列数字重复，明确结果身份。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 353,
+    "kind": "表格",
+    "text": "原课单元 & 本笔记位置 \\\\",
+    "section": 8,
+    "page": 183,
+    "review": "四问及关键答案中英对应；77单元映射与复算设置保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Tutorial04.tex",
+    "line": 379,
+    "kind": "Notebook代码／保存输出",
+    "text": "\\StudyNotebookCell{CS5489/course-notes/Tutorial04.ipynb}{b976a989}",
+    "section": 8,
+    "page": 183,
+    "review": "四问及关键答案中英对应；77单元映射与复算设置保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 38,
+    "kind": "表格",
+    "text": "环节 & 学习优先级 & 难度与卡点 & 掌握要求 & 依据 \\\\",
+    "section": 2,
+    "page": 184,
+    "review": "连接Lecture2/Tutorial2、数据Id与评价五环节明确，保留学习表。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 73,
+    "kind": "表格",
+    "text": "标签 & 原英文名称 & 本任务中的含义 \\\\",
+    "section": 3,
+    "page": 185,
+    "review": "三类标签及smishing独立类别条件明确，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 111,
+    "kind": "表格",
+    "text": "当前原文件 & 实际结构与规模 & 用途 \\\\",
+    "section": 4,
+    "page": 185,
+    "review": "三文件结构、元数据Prediction和Id对应是任务关键，保留；时间称谓改长期表达。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 140,
+    "kind": "代码块",
+    "text": "# 接口示意：此处不进行训练或写提交文件。 / texts_train, labels_train = read_text_data(train_path) / texts_eval, _ = read_text_data(eval_text_path)",
+    "section": 4,
+    "page": 185,
+    "review": "三文件结构、元数据Prediction和Id对应是任务关键，保留；时间称谓改长期表达。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 200,
+    "kind": "表格",
+    "text": "True \\textbackslash{} Predicted & normal & spam & smishing & 该类真实数 \\\\",
+    "section": 6,
+    "page": 186,
+    "review": "人工混淆矩阵完整双语手算及always-normal反例保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 294,
+    "kind": "代码块",
+    "text": "def load_inputs(data_dir): /     # 返回训练文本/标签、评估文本、Id/Usage元数据 /     ...",
+    "section": 8,
+    "page": 187,
+    "review": "NB基线与参数清单、代码接口只示意的范围明确，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 356,
+    "kind": "代码块",
+    "text": "load training texts and labels / load evaluation texts plus Id/Usage metadata / define a small candidate set",
+    "section": 9,
+    "page": 188,
+    "review": "train内部/val/test分工、预测范围不等于训练权限明确，保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 392,
+    "kind": "表格",
+    "text": "要比较什么 & 可以改变什么 & 应保持什么 & 需要记录什么 \\\\",
+    "section": 10,
+    "page": 189,
+    "review": "比较表按改变/保持/记录拆实验，具体而不泛泛，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment01.tex",
+    "line": 550,
+    "kind": "表格",
+    "text": "原位置 & 本指南位置／处理 \\\\",
+    "section": 14,
+    "page": 192,
+    "review": "23/11原单元索引与回链保留，删重复来源自证。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment02.tex",
+    "line": 27,
+    "kind": "表格",
+    "text": "任务 & 优先级 & 难度与卡点 & 需要掌握／当前依据 \\\\",
+    "section": 1,
+    "page": 193,
+    "review": "反传与优化轨迹两条任务线清楚，原模板/Primer与自行实验边界保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment02.tex",
+    "line": 218,
+    "kind": "表格",
+    "text": "方法 & 必要状态与更新 & 需要解释的行为 \\\\",
+    "section": 7,
+    "page": 196,
+    "review": "5种优化器状态、epsilon根号位置、moment偏差与一步动量完整，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment02.tex",
+    "line": 277,
+    "kind": "表格",
+    "text": "原任务 & 应固定／改变什么 & 结果解释 \\\\",
+    "section": 8,
+    "page": 197,
+    "review": "四函数、原初值冲突及不同epoch预算说明保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment02.tex",
+    "line": 307,
+    "kind": "表格",
+    "text": "原位置 & 问题 & 学习稿采用的解释 \\\\",
+    "section": 9,
+    "page": 198,
+    "review": "七项已确认公式/代码勘误原样保留，来源不改。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/Assignment02.tex",
+    "line": 365,
+    "kind": "表格",
+    "text": "单元／页码 & 本文位置 \\\\",
+    "section": 11,
+    "page": 199,
+    "review": "76单元与Primer四页完整定位保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 38,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 1,
+    "page": 200,
+    "review": "2020B Quiz封面与随卷答案身份保留，12行课程映射和凸有限解条件不改。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 79,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 2,
+    "page": 201,
+    "review": "2021A题纸/答案双版本只算一卷，全部原题定位保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 124,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 3,
+    "page": 201,
+    "review": "2021B*封面冲突、原始文件名身份及GP关联边界保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 171,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 4,
+    "page": 202,
+    "review": "2023A随卷答案与Mock同题对应保留；分数/概率、AdaBoost不同更新说明必要。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 213,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 5,
+    "page": 203,
+    "review": "2023B原题映射与参数计数/C支持向量数勘误保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 257,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 6,
+    "page": 204,
+    "review": "2025A批注扫描身份保留；印刷题面和手写解答声明只保留已有一处。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 298,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 7,
+    "page": 204,
+    "review": "2020B期末四页题号及GMM/KPCA关联范围保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 338,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 8,
+    "page": 205,
+    "review": "2021A期末四页与Adam/训练噪声条件保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 375,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 9,
+    "page": 206,
+    "review": "2021B期末五页及CNN未覆盖/输出激活边界保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 414,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 10,
+    "page": 206,
+    "review": "样题原Q1/Q2/Q7/Q4不重排，样题改选项需独立判断的身份保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 446,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 11,
+    "page": 207,
+    "review": "Mock复用2023A且不增加真题卷数，表中原页码不同保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5489/course-notes/ExamIndex.tex",
+    "line": 488,
+    "kind": "表格",
+    "text": "Lecture & 原题号／原页 & 考查内容 & 关系 \\\\",
+    "section": 12,
+    "page": 207,
+    "review": "QE表前缺年份/模型、表后片段不作卷数/CNN未覆盖已齐；核对注仅留跨页读取与非标准手写解答。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 31,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-04.png}",
+    "section": 1,
+    "page": 5,
+    "review": "组成与服务两个视角、原图及RFC/IETF身份保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 34,
+    "kind": "图注",
+    "text": "\\StudyCaption{看图从home network沿连接走到regional/global ISP，再到别的网络。手机、PC、服务器属于应用所在端系统；交换机和路由器服务中间转发。原Chapter 1完整课件，第5张幻灯片的联网相框、冰箱等例子说明“host不等于台式电脑”。}",
+    "section": 1,
+    "page": 5,
+    "review": "组成与服务两个视角、原图及RFC/IETF身份保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 84,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-13.png}",
+    "section": 3,
+    "page": 7,
+    "review": "DSL不同频段、家庭盒子功能、介质表与历史速率身份保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 85,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第13张：沿家庭接入路径区分本地设备与通向运营商的链路。}",
+    "section": 3,
+    "page": 7,
+    "review": "DSL不同频段、家庭盒子功能、介质表与历史速率身份保留。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 94,
+    "kind": "表格",
+    "text": "介质（Chapter 1完整课件，第17–19张幻灯片） & 信号怎样走 & 要理解的差别 \\\\",
+    "section": 3,
+    "page": 7,
+    "review": "DSL不同频段、家庭盒子功能、介质表与历史速率身份保留。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 129,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-22.png}",
+    "section": 4,
+    "page": 9,
+    "review": "电路预留/分组按需、FDM/TDM与流水线条件保留；去食堂重复类比。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 130,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第22张：电路交换按连接预留资源。}",
+    "section": 4,
+    "page": 9,
+    "review": "电路预留/分组按需、FDM/TDM与流水线条件保留；去食堂重复类比。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 133,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-23.png}",
+    "section": 4,
+    "page": 9,
+    "review": "电路预留/分组按需、FDM/TDM与流水线条件保留；去食堂重复类比。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 134,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第23张：对照FDM与TDM怎样划分共享链路资源。}",
+    "section": 4,
+    "page": 9,
+    "review": "电路预留/分组按需、FDM/TDM与流水线条件保留；去食堂重复类比。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 143,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-26.png}",
+    "section": 4,
+    "page": 9,
+    "review": "电路预留/分组按需、FDM/TDM与流水线条件保留；去食堂重复类比。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 144,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第26张：以整包接收完成作为下一跳发送的起点。}",
+    "section": 4,
+    "page": 9,
+    "review": "电路预留/分组按需、FDM/TDM与流水线条件保留；去食堂重复类比。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 178,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-28.png}",
+    "section": 6,
+    "page": 12,
+    "review": "0111查表事件、routing与forwarding区分及ISP互联保留；类比评价改具体分布式条件。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 179,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第28张：沿目的字段、转发表、输出端口读一次转发。}",
+    "section": 6,
+    "page": 12,
+    "review": "0111查表事件、routing与forwarding区分及ISP互联保留；类比评价改具体分布式条件。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 193,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-42.png}",
+    "section": 6,
+    "page": 12,
+    "review": "0111查表事件、routing与forwarding区分及ISP互联保留；类比评价改具体分布式条件。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 194,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第42张：观察端系统接入的网络与网络之间的互联。}",
+    "section": 6,
+    "page": 12,
+    "review": "0111查表事件、routing与forwarding区分及ISP互联保留；类比评价改具体分布式条件。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 221,
+    "kind": "表格",
+    "text": "项 & 发生什么 & 计算/影响 \\\\",
+    "section": 7,
+    "page": 13,
+    "review": "四类时延表、两次车队原例及rho条件完整保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 236,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-45.png}",
+    "section": 7,
+    "page": 13,
+    "review": "四类时延表、两次车队原例及rho条件完整保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 237,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第45张：分别定位处理、等待、发送和传播发生在哪里。}",
+    "section": 7,
+    "page": 13,
+    "review": "四类时延表、两次车队原例及rho条件完整保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 265,
+    "kind": "表格",
+    "text": "包 & 到达后的处理 & 开始发送 & 发完末位 & 排队时延 \\\\",
+    "section": 8,
+    "page": 14,
+    "review": "有限队列等待/服务位置、同时到达顺序、平均rho反例和双语变式保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 340,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-55.png}",
+    "section": 9,
+    "page": 16,
+    "review": "RTT观察/推断、吞吐/容量与公平共享条件保留，独立题完整。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 341,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第55张：沿端到端路径比较容量，共享链路还需分摊给同时工作的流。}",
+    "section": 9,
+    "page": 16,
+    "review": "RTT观察/推断、吞吐/容量与公平共享条件保留，独立题完整。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 375,
+    "kind": "表格",
+    "text": "Internet五层（从上向下） & 核心职责 & 课堂例子 \\\\",
+    "section": 10,
+    "page": 17,
+    "review": "航空原例、五层、无NAT逐设备封装表保留；删重复的分层泛泛总结。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 397,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-64.png}",
+    "section": 10,
+    "page": 17,
+    "review": "航空原例、五层、无NAT逐设备封装表保留；删重复的分层泛泛总结。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 398,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1完整课件，第64张：沿端系统、交换机、路由器的路径观察协议层与封装。}",
+    "section": 10,
+    "page": 17,
+    "review": "航空原例、五层、无NAT逐设备封装表保留；删重复的分层泛泛总结。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 410,
+    "kind": "表格",
+    "text": "经过哪里 & 对这份数据做什么 & 哪些内容继续向前 \\\\",
+    "section": 10,
+    "page": 17,
+    "review": "航空原例、五层、无NAT逐设备封装表保留；删重复的分层泛泛总结。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 492,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-qa-02.png}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 493,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1课堂Q\\&A，第2张：原题与选项；双语推理见本节前文。}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 496,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-qa-03.png}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 497,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1课堂Q\\&A，第3张：原题与选项；双语推理见本节前文。}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 500,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-qa-04.png}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 501,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1课堂Q\\&A，第4张：原题与选项；双语推理见本节前文。}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 504,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-qa-05.png}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 505,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1课堂Q\\&A，第5张：原题与选项；双语推理见本节前文。}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 508,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter01-qa-06.png}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 509,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 1课堂Q\\&A，第6张：原题与选项；双语推理见本节前文。}",
+    "section": 12,
+    "page": 19,
+    "review": "五道课堂题、原选项图与模型边界保留，答案身份明确。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 535,
+    "kind": "表格",
+    "text": "主题 & 优先级 & 难度与卡点 & 掌握要求；依据 \\\\",
+    "section": 14,
+    "page": 23,
+    "review": "难度/优先级与实际任务依据分开，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter01.tex",
+    "line": 558,
+    "kind": "表格",
+    "text": "原完整PPT页码 & 本文位置 & 覆盖内容 \\\\",
+    "section": 15,
+    "page": 5,
+    "review": "完整/part页码关系及Q&A覆盖保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 103,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter02-26.png}",
+    "section": 4,
+    "page": 26,
+    "review": "三种连接模型分别算6/4/3 RTT，双语独立题条件完整，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 104,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 2完整课件，第26张：非持久HTTP的连接建立与请求各需一个往返，另计文件发送时间。}",
+    "section": 4,
+    "page": 26,
+    "review": "三种连接模型分别算6/4/3 RTT，双语独立题条件完整，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 127,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter02-30.png}",
+    "section": 5,
+    "page": 28,
+    "review": "请求行/头/CRLF和版本布局边界保留，图用于字段定位。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 128,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 2完整课件，第30张：先定位请求行，再读各头字段，空行结束头部。}",
+    "section": 5,
+    "page": 28,
+    "review": "请求行/头/CRLF和版本布局边界保留，图用于字段定位。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 182,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter02-42.png}",
+    "section": 7,
+    "page": 29,
+    "review": "Alice到Bob投递链、SMTP事务/信封与消息头区别保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 183,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 2完整课件，第42张：沿客户端命令与服务器应答阅读SMTP事务。}",
+    "section": 7,
+    "page": 29,
+    "review": "Alice到Bob投递链、SMTP事务/信封与消息头区别保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 248,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter02-61.png}",
+    "section": 10,
+    "page": 31,
+    "review": "递归/迭代原图、往返计数和TTL区别保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 249,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 2完整课件，第61张：按编号配对请求与应答，再计算往返次数。}",
+    "section": 10,
+    "page": 31,
+    "review": "递归/迭代原图、往返计数和TTL区别保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 272,
+    "kind": "表格",
+    "text": "类型 & name\\ensuremath{\\to}value & 用途 \\\\",
+    "section": 11,
+    "page": 32,
+    "review": "RR表、CNAME/A链与两个TTL变式、报文字段和原拼写疑点保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 438,
+    "kind": "表格",
+    "text": "顺序 & 谁向谁发送什么 & 这一步得到什么 \\\\",
+    "section": 15,
+    "page": 36,
+    "review": "DNS导向五步流程、DNS/内容服务器和两种导向实现条件完整。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 508,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter02-97.png}",
+    "section": 17,
+    "page": 37,
+    "review": "UDP/TCP调用、UTF-8、换行分帧与运行命令保留；英文任务补消息。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 509,
+    "kind": "图注",
+    "text": "\\StudyCaption{Chapter 2完整课件，第97张：UDP客户端与服务端的调用顺序；接收方同时取得数据与发送端地址。}",
+    "section": 17,
+    "page": 37,
+    "review": "UDP/TCP调用、UTF-8、换行分帧与运行命令保留；英文任务补消息。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 516,
+    "kind": "代码块",
+    "text": "# 在本目录运行。两个终端；服务端只处理一次请求便退出。 / python labs/socket_demo.py --transport udp --role server --port 12000 / python labs/socket_demo.py --transport udp --role client --port 12000 --message 'hello network'",
+    "section": 17,
+    "page": 37,
+    "review": "UDP/TCP调用、UTF-8、换行分帧与运行命令保留；英文任务补消息。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 683,
+    "kind": "表格",
+    "text": "主题 & 优先级 & 难度与卡点 & 掌握要求与依据 \\\\",
+    "section": 26,
+    "page": 41,
+    "review": "学习能力/难度表依当前任务，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter02.tex",
+    "line": 708,
+    "kind": "表格",
+    "text": "完整PPT页 & 对应正文 & 核对重点 \\\\",
+    "section": 27,
+    "page": 41,
+    "review": "完整107页与part关系、旧版本边界保留；标题改检索用途。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 193,
+    "kind": "表格",
+    "text": "当前状态 & 收到的事件/条件 & 动作 & 下一状态 \\\\",
+    "section": 9,
+    "page": 45,
+    "review": "发送端保存包、五行状态表与损坏反馈歧义保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 229,
+    "kind": "表格",
+    "text": "接收端当前状态 & 到达的数据包 & 是否交付 & 发什么反馈、下一状态 \\\\",
+    "section": 10,
+    "page": 46,
+    "review": "四/两状态、ACK损坏事件及原反馈不带序号条件保留。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 262,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter03-rdt22-fsm.svg}",
+    "section": 11,
+    "page": 47,
+    "review": "rdt2.2编号ACK规则、完整图与双语异常事件题完整，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 265,
+    "kind": "图注",
+    "text": "\\StudyCaption{按Chapter 3 part 1第38–39张整理的完整发送端图。箭头写“事件 / 动作”；Ready状态等应用，Wait for ACK状态等反馈。异常反馈沿自环重传，成功反馈才切换数据编号。接收端的两状态规则见上文。}",
+    "section": 11,
+    "page": 47,
+    "review": "rdt2.2编号ACK规则、完整图与双语异常事件题完整，保留。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 311,
+    "kind": "表格",
+    "text": "事件 & 发送端动作 & 状态与定时器 \\\\",
+    "section": 12,
+    "page": 48,
+    "review": "rdt3.0坏ACK不立即重发、定时器和旧副本边界保留；标题改具体机制。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 331,
+    "kind": "表格",
+    "text": "发生什么 & 发送者看见什么 & 必要行为 \\\\",
+    "section": 12,
+    "page": 48,
+    "review": "rdt3.0坏ACK不立即重发、定时器和旧副本边界保留；标题改具体机制。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 348,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/oct-alternating-bit.png}",
+    "section": 12,
+    "page": 48,
+    "review": "rdt3.0坏ACK不立即重发、定时器和旧副本边界保留；标题改具体机制。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 351,
+    "kind": "图注",
+    "text": "\\StudyCaption{图为补充推导，时间向下。原0包被延迟，其重传先到；随后1包也完成。接收方又等0时，最早那份旧0才到。内容已经过期，但编号恰好符合期望，因此可能被重复交付。}",
+    "section": 12,
+    "page": 48,
+    "review": "rdt3.0坏ACK不立即重发、定时器和旧副本边界保留；标题改具体机制。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 441,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter03-gbn-sr.png}",
+    "section": 15,
+    "page": 50,
+    "review": "N=4窗口前缀、同批丢1图、丢6独立题完整，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 444,
+    "kind": "图注",
+    "text": "\\StudyCaption{教学时序图：两边都只发送0–3这一批，窗口足够大，只有数据1丢失，ACK均成功，未发生序号回绕。纵向表示事件顺序，不按真实RTT比例。GBN丢弃2和3后重传1–3；SR先存好2和3，只补1。图中省略了GBN重传后的正常累计ACK。}",
+    "section": 15,
+    "page": 50,
+    "review": "N=4窗口前缀、同批丢1图、丢6独立题完整，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 495,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/chapter03-telnet.svg}",
+    "section": 17,
+    "page": 52,
+    "review": "双向独立序列、Telnet三段与无SYN/FIN变式全部保持。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 498,
+    "kind": "图注",
+    "text": "\\StudyCaption{按Chapter 3 part 2第22–23张的原数字整理。时间向下，仅表示先后，不按实际RTT比例。实线带数据，虚线是无数据的ACK；灰度也可区分。}",
+    "section": 17,
+    "page": 52,
+    "review": "双向独立序列、Telnet三段与无SYN/FIN变式全部保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 526,
+    "kind": "表格",
+    "text": "方向 & Seq & ACK & 数据长度 / Payload \\\\",
+    "section": 17,
+    "page": 52,
+    "review": "双向独立序列、Telnet三段与无SYN/FIN变式全部保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 577,
+    "kind": "表格",
+    "text": "步骤 & 代入 & 结果 \\\\",
+    "section": 18,
+    "page": 53,
+    "review": "RTO先新E后D约定及旧E差异保留；变式补系数，结果不改。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 644,
+    "kind": "表格",
+    "text": "主题 & 优先级 & 难度与卡点 & 掌握要求及依据 \\\\",
+    "section": 20,
+    "page": 55,
+    "review": "当前范围/难点与未下载后半章身份保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Chapter03.tex",
+    "line": 670,
+    "kind": "表格",
+    "text": "原页 & 讲义位置 \\\\",
+    "section": 21,
+    "page": 56,
+    "review": "70页part覆盖及补充算例身份保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 21,
+    "kind": "表格",
+    "text": "原题 & 优先级 & 难度/卡点 & 本题检验；依据 \\\\",
+    "section": 0,
+    "page": 57,
+    "review": "保留四项任务/原题与教师身份、先修入口和学习表；删除重复依据句。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 48,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial01-01.png}",
+    "section": 1,
+    "page": 57,
+    "review": "逐跳与三包流水线表完整，保留全部图/选项；独立变式补齐模型条件。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 49,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 1原题页：Q1按链路次序排列每个包的开始发送与接收完成事件。}",
+    "section": 1,
+    "page": 57,
+    "review": "逐跳与三包流水线表完整，保留全部图/选项；独立变式补齐模型条件。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 68,
+    "kind": "表格",
+    "text": "时段 & 源\\ensuremath{\\to}交换机 & 交换机\\ensuremath{\\to}目的 \\\\",
+    "section": 1,
+    "page": 57,
+    "review": "逐跳与三包流水线表完整，保留全部图/选项；独立变式补齐模型条件。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 113,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial01-02.png}",
+    "section": 2,
+    "page": 59,
+    "review": "环路逐边上界与可达构造保留；变式补四节点拓扑。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 114,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 1原题页：Q2一次连接占用其路径上的每一条边，容量不能只按端点数。}",
+    "section": 2,
+    "page": 59,
+    "review": "环路逐边上界与可达构造保留；变式补四节点拓扑。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 130,
+    "kind": "表格",
+    "text": "路径 & 连接数 & 占用的边 \\\\",
+    "section": 2,
+    "page": 59,
+    "review": "环路逐边上界与可达构造保留；变式补四节点拓扑。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 209,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial01-03.png}",
+    "section": 4,
+    "page": 62,
+    "review": "独立活动假设、120用户二项模型和严格超额定义保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial01.tex",
+    "line": 210,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 1原题页：Q4先区分预留容量与同时活跃人数，再计算超额概率。}",
+    "section": 4,
+    "page": 62,
+    "review": "独立活动假设、120用户二项模型和严格超额定义保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial02.tex",
+    "line": 29,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial02-01.png}",
+    "section": 1,
+    "page": 64,
+    "review": "首位/可读取/同速播放三种事件条件完整保留；变式补所有速率与播放约定。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial02.tex",
+    "line": 30,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 2原题页：Q1从语音比特产生时计时，成包等待也属于端到端过程。}",
+    "section": 1,
+    "page": 64,
+    "review": "首位/可读取/同速播放三种事件条件完整保留；变式补所有速率与播放约定。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial02.tex",
+    "line": 85,
+    "kind": "表格",
+    "text": "部分 & 计算 & 结果 \\\\",
+    "section": 2,
+    "page": 66,
+    "review": "三段发送传播与两次处理表和64 ms保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial02.tex",
+    "line": 117,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial02-02.png}",
+    "section": 3,
+    "page": 67,
+    "review": "即时转发46 ms推理及不同速率边界保留；四链路题把忽略项写在题前。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial02.tex",
+    "line": 118,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 2原题页：Q3的逐位转发与Q2的存储转发使用不同的开始发送条件。}",
+    "section": 3,
+    "page": 67,
+    "review": "即时转发46 ms推理及不同速率边界保留；四链路题把忽略项写在题前。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial02.tex",
+    "line": 197,
+    "kind": "代码块",
+    "text": "traceroute -n -m 12 -q 3 -w 1 cityu.edu.hk / \\end{StudyCode} / ",
+    "section": 5,
+    "page": 68,
+    "review": "2026-09-23实测日期/参数/未到终点与星号解释保留，不改为新测量。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 29,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial03-01.png}",
+    "section": 1,
+    "page": 70,
+    "review": "完整HTTP原字段与五问边界保留；标题直接说明字段取证。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 30,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 3原题页：从原始请求字段找证据；图中未给出的字段不能凭主机名补猜。}",
+    "section": 1,
+    "page": 70,
+    "review": "完整HTTP原字段与五问边界保留；标题直接说明字段取证。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 38,
+    "kind": "代码块",
+    "text": "GET /cs453/index.html HTTP/1.1<cr><lf> / Host:gaia.cs.umass.edu<cr><lf> / User-Agent: Mozilla/5.0 ( Windows;U; Windows NT 5.1; en-US; rv:1.7.2)",
+    "section": 1,
+    "page": 70,
+    "review": "完整HTTP原字段与五问边界保留；标题直接说明字段取证。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 87,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial03-02.png}",
+    "section": 2,
+    "page": 72,
+    "review": "8箭头合4往返与缓存位置保留；变式完整双语条件。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 88,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 3原题页：DNS每对去回箭头构成一次往返，先按题设判断缓存。}",
+    "section": 2,
+    "page": 72,
+    "review": "8箭头合4往返与缓存位置保留；变式完整双语条件。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 125,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial03-03.png}",
+    "section": 3,
+    "page": 74,
+    "review": "9对象串行/5并行/无流水线条件和原答案保留；6对象变式补全部必要参数。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 126,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 3原题页：先取得base HTML，再按连接与并行约定请求八个对象。}",
+    "section": 3,
+    "page": 74,
+    "review": "9对象串行/5并行/无流水线条件和原答案保留；6对象变式补全部必要参数。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 144,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/http-rounds.png}",
+    "section": 3,
+    "page": 74,
+    "review": "9对象串行/5并行/无流水线条件和原答案保留；6对象变式补全部必要参数。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial03.tex",
+    "line": 147,
+    "kind": "图注",
+    "text": "\\StudyCaption{图按握手/请求轮次计算，仅表示题目简化模型；不包括TLS、服务端处理时间、连接拥塞控制与大文件传输。}",
+    "section": 3,
+    "page": 74,
+    "review": "9对象串行/5并行/无流水线条件和原答案保留；6对象变式补全部必要参数。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial04.tex",
+    "line": 29,
+    "kind": "表格",
+    "text": "题目 & 优先级 & 难度与卡点 & 掌握要求／依据 \\\\",
+    "section": 1,
+    "page": 77,
+    "review": "按下界/可达方案组织任务，来源和10进制单位保留；标题去供不动措辞。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial04.tex",
+    "line": 103,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/oct-distribution.png}",
+    "section": 3,
+    "page": 78,
+    "review": "CS/P2P三个容量约束及原符号勘误保留，10人变式补所有速率。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial04.tex",
+    "line": 104,
+    "kind": "图注",
+    "text": "\\StudyCaption{分发时间的各项容量下界；柱子的单位是秒，比较最大者。}",
+    "section": 3,
+    "page": 78,
+    "review": "CS/P2P三个容量约束及原符号勘误保留，10人变式补所有速率。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial05.tex",
+    "line": 60,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/tutorial05-01.png}",
+    "section": 3,
+    "page": 82,
+    "review": "完整回程表和IP/端口层次保留；英文原题和变式补端点。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial05.tex",
+    "line": 61,
+    "kind": "图注",
+    "text": "\\StudyCaption{Tutorial 5原题页：Q2先为每条连接写出两端，再把地址与端口一起交换以得到回程。}",
+    "section": 3,
+    "page": 82,
+    "review": "完整回程表和IP/端口层次保留；英文原题和变式补端点。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial05.tex",
+    "line": 68,
+    "kind": "表格",
+    "text": "对应请求 & 回程源端口 & 回程目的端口 & IP源\\ensuremath{\\to}目的 \\\\",
+    "section": 3,
+    "page": 82,
+    "review": "完整回程表和IP/端口层次保留；英文原题和变式补端点。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial05.tex",
+    "line": 114,
+    "kind": "代码块",
+    "text": "  00100011   = 35 / + 01001110   = 78 / -----------",
+    "section": 4,
+    "page": 83,
+    "review": "三个8bit字的逐位加法、卷回变式与2bit相消反例保留。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5222/course-notes/Tutorial05.tex",
+    "line": 176,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/oct-alternating-bit.png}",
+    "section": 5,
+    "page": 84,
+    "review": "四步旧包反例与英文答案保留；英文题干补协议和作图要求，序号变式明确2到4。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 28,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/assignment01-01.png}",
+    "section": 1,
+    "page": 86,
+    "review": "P6七问时刻、单位与双语表及示意参数不同完整；变式补R/s。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 29,
+    "kind": "图注",
+    "text": "\\StudyCaption{Assignment 1原题页：P6分别跟踪首位与末位，保留题目给定的计时起点。}",
+    "section": 1,
+    "page": 86,
+    "review": "P6七问时刻、单位与双语表及示意参数不同完整；变式补R/s。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 36,
+    "kind": "表格",
+    "text": "原小问 & 中文推导与答案 & English answer \\\\",
+    "section": 1,
+    "page": 86,
+    "review": "P6七问时刻、单位与双语表及示意参数不同完整；变式补R/s。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 60,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/network-timeline.png}",
+    "section": 1,
+    "page": 86,
+    "review": "P6七问时刻、单位与双语表及示意参数不同完整；变式补R/s。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 92,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/assignment01-02.png}",
+    "section": 2,
+    "page": 88,
+    "review": "三链路12s/4.01s与800包时间图保留；标题直接写流水线，变式补链路/开销。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 93,
+    "kind": "图注",
+    "text": "\\StudyCaption{Assignment 1原题页：P31比较整条消息与分段后跨三条链路的完成时间。}",
+    "section": 2,
+    "page": 88,
+    "review": "三链路12s/4.01s与800包时间图保留；标题直接写流水线，变式补链路/开销。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 106,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/segmentation.png}",
+    "section": 2,
+    "page": 88,
+    "review": "三链路12s/4.01s与800包时间图保留；标题直接写流水线，变式补链路/开销。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 109,
+    "kind": "图注",
+    "text": "\\StudyCaption{图中展开前几个包，末尾标出全部800包的完成时刻。}",
+    "section": 2,
+    "page": 88,
+    "review": "三链路12s/4.01s与800包时间图保留；标题直接写流水线，变式补链路/开销。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 142,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/assignment01-03.png}",
+    "section": 3,
+    "page": 91,
+    "review": "POP3初始状态、两邮件、占位字节与CRLF条件保留；英文补已认证和RETR1。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 143,
+    "kind": "图注",
+    "text": "\\StudyCaption{Assignment 1原题页：P17把同一次POP3事务与下一次登录的邮箱状态连起来。}",
+    "section": 3,
+    "page": 91,
+    "review": "POP3初始状态、两邮件、占位字节与CRLF条件保留；英文补已认证和RETR1。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 156,
+    "kind": "代码块",
+    "text": "C: LIST / S: +OK 2 messages (1410 octets) / S: 1 498",
+    "section": 4,
+    "page": 92,
+    "review": "完整LIST/RETR/DELE/QUIT与成功提交条件保留，原代码块不改。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 188,
+    "kind": "代码块",
+    "text": "C: LIST / S: +OK 2 messages (1410 octets) / S: 1 498",
+    "section": 5,
+    "page": 92,
+    "review": "保留两封下载和无DELE的keep事务，说明无KEEP命令有实际防错作用。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 219,
+    "kind": "代码块",
+    "text": "S: +OK POP3 server ready / C: USER <username> / S: +OK",
+    "section": 6,
+    "page": 93,
+    "review": "第二会话与UIDL条件、编号不保证固定保留；变式补两邮件大小。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 277,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5222/course-notes/assets/assignment01-04.png}",
+    "section": 7,
+    "page": 93,
+    "review": "Zoom明确2026-09-23原生云会议讨论范围和未实测边界，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 278,
+    "kind": "图注",
+    "text": "\\StudyCaption{Assignment 1原题页：Zoom四问分别检查应用协议、架构、传输与寻址。}",
+    "section": 7,
+    "page": 93,
+    "review": "Zoom明确2026-09-23原生云会议讨论范围和未实测边界，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/Assignment01.tex",
+    "line": 296,
+    "kind": "表格",
+    "text": "协议 & 功能（中文） & English explanation & 证据/适用情境 \\\\",
+    "section": 8,
+    "page": 94,
+    "review": "HTTPS/SIP/H.323各自部署情境与官方来源保留，不把房间互通当原生媒体。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/ResearchReportGuide.tex",
+    "line": 19,
+    "kind": "表格",
+    "text": "能力 & 优先级 & 难度与卡点 & 达标表现；依据 \\\\",
+    "section": 0,
+    "page": 96,
+    "review": "原任务范围Chapter1–7/排除安全、Rubric与课程入口保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/ResearchReportGuide.tex",
+    "line": 92,
+    "kind": "表格",
+    "text": "写作中的主张 & 应找的证据 & 必须检查 \\\\",
+    "section": 3,
+    "page": 97,
+    "review": "证据表、工作草稿表和AI/引用核查要求是原任务内容，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "CS5222/course-notes/ResearchReportGuide.tex",
+    "line": 178,
+    "kind": "表格",
+    "text": "原问题 & 真实记录的抓手 \\\\",
+    "section": 6,
+    "page": 98,
+    "review": "五个原反思问题与真实记录方式保持，标题简化。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "CS5222/course-notes/ResearchReportGuide.tex",
+    "line": 208,
+    "kind": "表格",
+    "text": "原任务位置 & 本指南对应 \\\\",
+    "section": 7,
+    "page": 99,
+    "review": "原三页任务及Rubric覆盖保留，删重复泛泛收尾。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 29,
+    "kind": "表格",
+    "text": "如果你卡在这里 & 从哪里补 & 用在哪些内容 \\\\",
+    "section": 1,
+    "page": 3,
+    "review": "10专题导航及5道带答案诊断题完整；中文抽样明确等可能。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 173,
+    "kind": "表格",
+    "text": "经过时间t（分钟） & 原有的水（升） & 新加入的水（升） & 总水量V（升） \\\\",
+    "section": 3,
+    "page": 5,
+    "review": "水量表到V(t)、单位/定义域解释完整，保留实例。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 215,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/tank-function.png}",
+    "section": 4,
+    "page": 6,
+    "review": "图像与斜率配合清楚；完整水箱题中英补初始量/流速。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 219,
+    "kind": "图注",
+    "text": "\\StudyCaption{看蓝线与金色虚线：从(1,3)走到(2,5)，向右1分钟，向上2升。起点的1升决定纵轴截距，注水速率决定斜率。图的适用条件仍是匀速、不漏、不溢出。}",
+    "section": 4,
+    "page": 6,
+    "review": "图像与斜率配合清楚；完整水箱题中英补初始量/流速。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 276,
+    "kind": "表格",
+    "text": "常见写法 & 此处怎样读 \\\\",
+    "section": 5,
+    "page": 7,
+    "review": "下标、求和/连乘、括号及argmax表各有作用，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 355,
+    "kind": "表格",
+    "text": "教学邮件计数 / Message counts & 含free / F & 不含free / Fᶜ & 合计 / Total \\\\",
+    "section": 8,
+    "page": 8,
+    "review": "邮件表两种条件方向保留；删猫胡子比喻，修正人/邮件指代。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 452,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/density-area.png}",
+    "section": 10,
+    "page": 9,
+    "review": "均匀密度单位、积分面积和单点限制保留；题干补区间，计数表加页码。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 455,
+    "kind": "图注",
+    "text": "\\StudyCaption{上图看金色区域：宽0.3\\ensuremath{-}0.1=0.2分钟，高2/分钟，面积0.4就是落在该区间的概率。下图的曲线是标准正态，\\ensuremath{-}1到1之间的面积约0.6827；曲线下的面积仍是概率，但不能用一根柱子的高度代替整个面积。上下图的横轴、纵轴含义各自标明。}",
+    "section": 10,
+    "page": 9,
+    "review": "均匀密度单位、积分面积和单点限制保留；题干补区间，计数表加页码。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 549,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/exp-log.png}",
+    "section": 13,
+    "page": 12,
+    "review": "e/ln图像与负对数解释完整，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 552,
+    "kind": "图注",
+    "text": "\\StudyCaption{上图的(0,1)与(1,e)，在下图变成(1,0)与(e,1)。ln(x)只接收正数；当0<x<1时，它位于横轴下方，因为e的负次幂才得到这样的数。两幅图的输入输出角色不同，纵轴范围也不同。}",
+    "section": 13,
+    "page": 12,
+    "review": "e/ln图像与负对数解释完整，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 668,
+    "kind": "表格",
+    "text": "步长h & 平均斜率4+h \\\\",
+    "section": 17,
+    "page": 15,
+    "review": "割线差商、h两侧趋近、有限步误差及图保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 689,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/secant-tangent.png}",
+    "section": 17,
+    "page": 15,
+    "review": "割线差商、h两侧趋近、有限步误差及图保持。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 692,
+    "kind": "图注",
+    "text": "\\StudyCaption{蓝线是x\\textsuperscript{2}，虚线连接两个实际曲线点，深色实线是x=2处的切线。h从1缩到0.25，割线斜率从5变成4.25，向切线斜率4靠近。切线只在附近贴合曲线，并不是整条曲线的替身。}",
+    "section": 17,
+    "page": 15,
+    "review": "割线差商、h两侧趋近、有限步误差及图保持。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 710,
+    "kind": "表格",
+    "text": "函数 & 导数 & 为什么或条件 \\\\",
+    "section": 18,
+    "page": 16,
+    "review": "规则表、1/x差商、ln有向面积解释有实质作用，不压缩。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 738,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/log-area.png}",
+    "section": 18,
+    "page": 16,
+    "review": "规则表、1/x差商、ln有向面积解释有实质作用，不压缩。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 741,
+    "kind": "图注",
+    "text": "\\StudyCaption{从1到2的蓝色面积是ln2。金色窄条是从2到2.2新增的面积；起点高度为1/2，因此用小矩形估计是0.2\\ensuremath{\\times}0.5=0.1，实际面积约0.09531。继续缩小宽度，单位宽度对应的面积变化就趋近1/2。}",
+    "section": 18,
+    "page": 16,
+    "review": "规则表、1/x差商、ln有向面积解释有实质作用，不压缩。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 838,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/likelihood-peak.png}",
+    "section": 21,
+    "page": 18,
+    "review": "驻点反例、端点和4/6序列MLE最大值检查保留；标题去找山顶前缀。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 841,
+    "kind": "图注",
+    "text": "\\StudyCaption{上下图纵轴刻度不同，但金色线都穿过最高处p=0.4。上图纵轴的\\ensuremath{\\times}10\\textsuperscript{-}\\textsuperscript{3}表示刻度还要乘0.001；图下半部的负数是对数值。读图时比较峰值的位置，而不是两图的纵轴高度。}",
+    "section": 21,
+    "page": 18,
+    "review": "驻点反例、端点和4/6序列MLE最大值检查保留；标题去找山顶前缀。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 919,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/records-vectors.png}",
+    "section": 23,
+    "page": 21,
+    "review": "行样本/列向量、转置与索引图清楚，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 922,
+    "kind": "图注",
+    "text": "\\StudyCaption{金色行是第2条记录。按行存样本和把单条样本写成列向量是两种展示约定，不是不同的数据。别把“第2行”和“第2个特征列”交换。}",
+    "section": 23,
+    "page": 21,
+    "review": "行样本/列向量、转置与索引图清楚，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1025,
+    "kind": "表格",
+    "text": "记录 & 第一维偏差 & 第二维偏差 & 偏差乘积 \\\\",
+    "section": 26,
+    "page": 23,
+    "review": "四条记录偏差乘积、外积和相关系数/独立反例完整，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1046,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/covariance-data.png}",
+    "section": 26,
+    "page": 23,
+    "review": "四条记录偏差乘积、外积和相关系数/独立反例完整，保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1049,
+    "kind": "图注",
+    "text": "\\StudyCaption{看均值交叉线把平面分成的四块：(1,1)、(4,4)贡献正乘积；(2,3)、(3,2)贡献负乘积。最后是所有偏差乘积的平均，不是只挑最像直线的两个点。这里四点是同一类别内部的教学记录。}",
+    "section": 26,
+    "page": 23,
+    "review": "四条记录偏差乘积、外积和相关系数/独立反例完整，保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1084,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/covariance-shapes.png}",
+    "section": 27,
+    "page": 25,
+    "review": "原协方差图的条件与类别内估计保留，去已核查制作自述。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1087,
+    "kind": "图注",
+    "text": "\\StudyCaption{Lecture2b，第36个单元的协方差模型：均值零、两维方差都为1，非对角元分别0、0.5、0.9、\\ensuremath{-}0.9。正值让椭圆朝一起增大的方向倾斜，负值让它朝一增一减的方向倾斜。轮廓对应马氏距离平方4。}",
+    "section": 27,
+    "page": 25,
+    "review": "原协方差图的条件与类别内估计保留，去已核查制作自述。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1121,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/determinant-area.png}",
+    "section": 28,
+    "page": 25,
+    "review": "逆的恢复例、奇异矩阵与行列式面积图完整保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1124,
+    "kind": "图注",
+    "text": "\\StudyCaption{上图单位正方形面积1，下图变换后的平行四边形面积2。两图坐标范围和纵横比例相同。|det(A)|给出面积缩放倍数；负行列式还表示方向翻转，但面积倍数取绝对值。}",
+    "section": 28,
+    "page": 25,
+    "review": "逆的恢复例、奇异矩阵与行列式面积图完整保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1230,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/binomial-users.png}",
+    "section": 30,
+    "page": 28,
+    "review": "3用户列举到二项公式、独立同p及严格超额条件保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1233,
+    "kind": "图注",
+    "text": "\\StudyCaption{看图：总人数相同，p变大时概率移向右侧；每组柱的总和仍是1。不是八种状态必然等概率，只有p=0.5时每个具体开关状态才都等概率。}",
+    "section": 30,
+    "page": 28,
+    "review": "3用户列举到二项公式、独立同p及严格超额条件保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1278,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/vector-projection.png}",
+    "section": 31,
+    "page": 29,
+    "review": "投影由正交条件推出、数字检查和span保留，删除未引入手电筒类比的提醒。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1279,
+    "kind": "图注",
+    "text": "\\StudyCaption{向量分解为沿给定方向的投影与垂直余量；先找投影点，再看剩余方向。}",
+    "section": 31,
+    "page": 29,
+    "review": "投影由正交条件推出、数字检查和span保留，删除未引入手电筒类比的提醒。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1336,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/rank-projection.png}",
+    "section": 32,
+    "page": 31,
+    "review": "重复列、无解到最小二乘、最小范数证明保留；明确A⁺是矩阵，变式补A。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1339,
+    "kind": "图注",
+    "text": "\\StudyCaption{图左把两个重复列画在同一方向，图右将无法精确拟合的y投影到列空间。看不懂“列空间”时，可把它读成“把A各列加权相加所能到达的全部地方”。}",
+    "section": 32,
+    "page": 31,
+    "review": "重复列、无解到最小二乘、最小范数证明保留；明确A⁺是矩阵，变式补A。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1355,
+    "kind": "代码块",
+    "text": "import numpy as np / A = np.array([[1.,1.],[2.,2.]]) / y = np.array([3.,5.])",
+    "section": 32,
+    "page": 31,
+    "review": "重复列、无解到最小二乘、最小范数证明保留；明确A⁺是矩阵，变式补A。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1404,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/gradient-constraint.png}",
+    "section": 33,
+    "page": 32,
+    "review": "梯度欧氏方向、步长过大反例、边界/KKT单向条件保留。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1405,
+    "kind": "图注",
+    "text": "\\StudyCaption{梯度更新与可行域：箭头表示一次候选更新，是否下降取决于步长。}",
+    "section": 33,
+    "page": 32,
+    "review": "梯度欧氏方向、步长过大反例、边界/KKT单向条件保留。",
+    "decision": "保留；已与相邻解释核对"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1471,
+    "kind": "图片",
+    "text": "\\StudyImage{CS5489/course-notes/assets/oct-batch-bias.png}",
+    "section": 34,
+    "page": 33,
+    "review": "共享b的两个贡献示意保留，删偷偷另建参数的重复说法。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1474,
+    "kind": "图注",
+    "text": "\\StudyCaption{图中两条箭头是两条导数贡献，不是两个偏置参数。连续经过两步计算时，局部影响相乘；一个量被多处使用时，各条路径的影响相加。这是链式法则在计算图中的两条基本规则。}",
+    "section": 34,
+    "page": 33,
+    "review": "共享b的两个贡献示意保留，删偷偷另建参数的重复说法。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/MathForML.tex",
+    "line": 1578,
+    "kind": "表格",
+    "text": "专题 & 当前课程需要它的位置 & 复用与补充 \\\\",
+    "section": 39,
+    "page": 35,
+    "review": "保留课程对应/脚本来源；补第10批量梯度已讲专题的遗漏索引行。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 19,
+    "kind": "表格",
+    "text": "卡在哪里 & 入口 & 自查（答案在对应小节） \\\\",
+    "section": 0,
+    "page": 37,
+    "review": "四个基础卡点与返回入口保留，开篇直接列对象。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 60,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/network-units.png}",
+    "section": 1,
+    "page": 37,
+    "review": "bit/B、十进制、发送/传播算例保留；图注定位，删除柱含义重复，带宽单位区别留正文。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 61,
+    "kind": "图注",
+    "text": "\\StudyCaption{横轴是时间（ms）；上条为发送时延，下条为传播时延。}",
+    "section": 1,
+    "page": 37,
+    "review": "bit/B、十进制、发送/传播算例保留；图注定位，删除柱含义重复，带宽单位区别留正文。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 101,
+    "kind": "表格",
+    "text": "位权 & 128 & 64 & 32 & 16 & 8 & 4 & 2 & 1 \\\\",
+    "section": 2,
+    "page": 38,
+    "review": "位权表、IPv4/端口/hex解释保持，英文变式补两组数字。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 154,
+    "kind": "代码块",
+    "text": "GET /notes.html HTTP/1.1\\r\\n / Host: example.com\\r\\n / Connection: close\\r\\n",
+    "section": 3,
+    "page": 39,
+    "review": "HTTP字节、CRLF、UTF-8与消息分帧解释完整，标题改概念。",
+    "decision": "执行内容由保护检查确认不变"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 202,
+    "kind": "图片",
+    "text": "\\StudyImage{learning/foundation-notes/assets/network-timeline.png}",
+    "section": 4,
+    "page": 40,
+    "review": "首位/末位图和3包2链路表保留，4包变式补转发条件。",
+    "decision": "原图与引用保持"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 205,
+    "kind": "图注",
+    "text": "\\StudyCaption{沿图横轴读时间，纵轴区分发送端与接收端。两条斜线是首/末位轨迹，间距是发送时长；线上的位置表示比特在该时刻到达哪里。如果\\ensuremath{\\tau}<T，首位可以在末位离开发送端之前到达，对网络并无矛盾。}",
+    "section": 4,
+    "page": 40,
+    "review": "首位/末位图和3包2链路表保留，4包变式补转发条件。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/NetworkBasics.tex",
+    "line": 214,
+    "kind": "表格",
+    "text": "时间段 & 第1条链路 & 第2条链路 \\\\",
+    "section": 4,
+    "page": 40,
+    "review": "首位/末位图和3包2链路表保留，4包变式补转发条件。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  },
+  {
+    "source": "learning/foundation-notes/SourceEvidence.tex",
+    "line": 37,
+    "kind": "表格",
+    "text": "证据 & 核对结果与可用位置 & 不能推断的结论 \\\\",
+    "section": 2,
+    "page": 42,
+    "review": "样题校区、历史作业、复习笔记、6/3卷、2021B*和QE身份保持；去制作过程自述。",
+    "decision": "修订见本区段修改记录，连同上下文二读"
+  }
+]

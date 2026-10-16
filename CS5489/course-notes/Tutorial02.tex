@@ -18,7 +18,7 @@
 
 
 
-老师的顺序是：认识AGNews \ensuremath{\to} 建词向量 \ensuremath{\to} Bernoulli NB \ensuremath{\to} Multinomial NB \ensuremath{\to} 看错分 \ensuremath{\to} 改平滑/词表 \ensuremath{\to} 实现Poisson NB。每步先解释要解决什么，再看代码与输出。本讲义展示配套Notebook的代码与已保存输出；复现时从头运行Notebook，独立尝试题在讲义中阅读，不阻断参考代码。
+老师的顺序是：认识AGNews \ensuremath{\to} 建词向量 \ensuremath{\to} Bernoulli NB \ensuremath{\to} Multinomial NB \ensuremath{\to} 看错分 \ensuremath{\to} 改平滑/词表 \ensuremath{\to} 实现Poisson NB。每步先解释要解决什么，再看代码与输出。本讲义展示配套Notebook的代码与已保存输出；复现时从头运行Notebook，再完成讲义中的独立尝试题。
 
 主要来源：Tutorial2v2.ipynb（单元从原文件第一个开始计数，包括文字与代码）；dataAG.json。以下代码与解答为按原任务编写的参考实现。
 
@@ -57,8 +57,6 @@ Poisson NB Tutorial2v2，第29–35个单元 & 核心必会 & 高：换CCD仍保
 \end{longtable}
 \endgroup
 
-
-优先级依据当前任务。英文题意为忠实整理，中文解释补足必要条件；代码、类别名称和原文件名不翻译。
 
 
 
@@ -336,10 +334,12 @@ Poisson NB Tutorial2v2，第29–35个单元 & 核心必会 & 高：换CCD仍保
 \textbf{English takeaway:} Describe the observed error first, then separate plausible explanations from verified causes. Group errors by true and predicted class to identify recurring confusions.
 
 
-\textbf{本次固定样本的读法 / Reading the current examples：}
-- Index 1描述飓风造成的保险损失，原标签Business、预测World，仅保留4个词。灾害事件与经济损失共用同一短文，可以提出“主题边界与词表截断影响判断”的假设；尚未用受控实验验证。
-- Index 3讨论消费者信心和就业，原标签World、预测Business。经济主题词使这个预测值得理解，但不能只凭主题印象把原标签改掉。
-- Index 14讨论太阳帆航天器及项目资助，原标签Sci/Tech、预测Business；两个模型后验接近。查看保留词可以帮助区分表示损失、主题重叠和模型限制这几种解释。
+\textbf{保存输出中的错分样本 / Errors in the saved outputs：}
+\begin{itemize}
+\item Index 1描述飓风造成的保险损失，原标签Business、预测World，仅保留4个词。灾害事件与经济损失共用同一短文，可以提出“主题边界与词表截断影响判断”的假设；尚未用受控实验验证。
+\item Index 3讨论消费者信心和就业，原标签World、预测Business。经济主题词使这个预测值得理解，但不能只凭主题印象把原标签改掉。
+\item Index 14讨论太阳帆航天器及项目资助，原标签Sci/Tech、预测Business；两个模型后验接近。查看保留词可以帮助区分表示损失、主题重叠和模型限制这几种解释。
+\end{itemize}
 
 
 English: Index 1 combines disaster and insurance-loss language; index 3 discusses economic confidence despite its World label; index 14 combines a spacecraft project and funding. These observations suggest explanations to test; retain the supplied evaluation labels. The retained-word output lets you inspect the representation.
@@ -483,7 +483,7 @@ p(x_j\mid c)=e^{-\mu_{j,c}}\frac{\mu_{j,c}^{x_j}}{x_j!},
 \begin{StudySolution}{选读：这个平滑公式的概率依据}
 
 
-当alpha>0，给每个率使用Gamma(shape=alpha, rate=alpha)先验，观察数据后取后验均值，就得到上式。它是本参考实现明确选用的补充约定，教师模板只提供alpha接口，没有指定该公式。后验均值与MAP是不同估计；alpha=0采用MLE分支，不解释为Gamma(0,0)先验。
+当alpha>0，给每个率使用Gamma(shape=alpha, rate=alpha)先验，观察数据后取后验均值，就得到上式。后验均值与MAP是不同估计；alpha=0采用MLE分支，不解释为Gamma(0,0)先验。
 
 
 \end{StudySolution}
@@ -611,6 +611,7 @@ NB的高后验也不自动代表经过校准的真实可信度。对错误样本
 \textbf{English:} Tune on training-internal validation, refitting preprocessing inside each fold. Evaluate the fixed choice on untouched test data. Renaming an already explored test set does not restore its independence.
 
 
+\Needspace{13\baselineskip}
 独立迁移题：某人在所有3000条新闻上先建词表，再只用2000条训练分类器。他说“模型没见过test标签，所以没泄漏”。哪里不对？\\
 
 English question: Someone fits a vocabulary on all 3000 documents but trains the classifier on only 2000. They claim there is no leakage because test labels were unused. What is wrong?\\
@@ -623,25 +624,23 @@ English answer: Test text influenced the representation. Leakage can involve unl
 
 
 
-\StudyHeading{1}{10. 回原课、练英文、再刷少量卡 / Return and recall}
+\StudyHeading{1}{10. 英文自测与复习入口 / Return and recall}
 \StudyTarget{CS5489-Tutorial02__cell-39}
 \StudyTarget{CS5489-Tutorial02__notebook-63464a43}
 \StudyTarget{CS5489-Tutorial02__10-return-and-recall}
 
 
-用英文解释三个问题，再去Markji按卡号巩固：
-- Why must the vocabulary and IDF be fitted on training data?
-- Why do Bernoulli, multinomial and Poisson smoothing have different denominators?
-- Why is the highest score in these test-set sweeps not an unbiased final result?
+\textbf{Q1 / 题：} 为何词表和IDF只能从训练数据拟合？ / Why must the vocabulary and IDF be fitted on training data?
 
+\textbf{答 / Answer：} 词表和IDF会学习输入分布，因此也必须留在训练部分。 / Vocabulary and IDF learn from input data and must be fitted within the training split.
 
-对应中文：为何词表/IDF只从训练数据拟合？三个模型的平滑分母为何不同？为何这次扫test得到的最高分不是独立最终成绩？
+\textbf{Q2 / 题：} Bernoulli、Multinomial和Poisson的平滑分母为何不同？ / Why do Bernoulli, multinomial and Poisson smoothing have different denominators?
 
+\textbf{答 / Answer：} Bernoulli对每词的两种结果平滑；Multinomial对词表中的V种结果平滑；这里Poisson的额外约定向总词次数和文档数分别加alpha。 / Bernoulli smooths two feature outcomes; multinomial smooths V token outcomes; the stated Poisson convention adds alpha to the total word count and document count.
 
-参考要点 / Key points：
-1. 中文：词表和IDF会学习输入分布，因此也必须留在训练部分。English: Vocabulary and IDF learn from input data and must be fitted within the training split.
-2. 中文：Bernoulli对每词的两种结果平滑；Multinomial对词表中的V种结果平滑；这里Poisson的额外约定向总词次数和文档数分别加alpha。English: Bernoulli smooths two feature outcomes; multinomial smooths V token outcomes; the stated Poisson convention adds alpha to the total word count and document count.
-3. 中文：test表现参与了模型和参数选择，已提供开发反馈。English: The test scores influenced model and parameter selection, so they are development feedback rather than an untouched final evaluation.
+\textbf{Q3 / 题：} 为何这次扫test得到的最高分不是独立的最终成绩？ / Why is the highest score in these test-set sweeps not an unbiased final result?
+
+\textbf{答 / Answer：} test表现参与了模型和参数选择，已提供开发反馈。 / The test scores influenced model and parameter selection, so they are development feedback rather than an untouched final evaluation.
 
 
 关联微课：\href{https://crazyshout.github.io/micro-course/?lesson=ml08}{文本NB}、\href{https://crazyshout.github.io/micro-course/?lesson=ml09}{Poisson NB}。

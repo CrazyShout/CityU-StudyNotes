@@ -44,7 +44,7 @@ SVM间隔、松弛与对偶 & 掌握间隔条件与软间隔权衡 & 6套／未�
 % EXAM:overview:END
 
 
-学习目标、难度与材料依据集中在\StudyRef{CS5489-Lecture03}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
+学习目标与难点见\StudyRef{CS5489-Lecture03}{learning-priorities}{文末学习要求表}。
 
 
 
@@ -109,7 +109,7 @@ b=\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
 
 
 
-\StudyHeading{1}{2. Linear classifier and separating hyperplane｜一张有方向的分界线}
+\StudyHeading{1}{2. Linear classifier and separating hyperplane｜线性分数与分类边界}
 \StudyTarget{CS5489-Lecture03__2-linear-classifier-and-separating-hyperplane}
 
 
@@ -145,6 +145,7 @@ b=\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
 
 
 
+\Needspace{12\baselineskip}
 \StudyHeading{1}{3. Logistic regression｜把分数翻译成概率}
 \StudyTarget{CS5489-Lecture03__logistic}
 \StudyTarget{CS5489-Lecture03__3-logistic-regression}
@@ -175,7 +176,7 @@ E(\mathbf w,b)=\sum_{i=1}^N\ell(z_i),\qquad \ell(z)=\log(1+e^{-z}).\tag{3.3}
 \]
 
 
-若真实标签 \ensuremath{-}1，分数却为 2，那么 \(z=-2\)、损失约 2.1269；同样标签配分数 \ensuremath{-}2，损失约 0.1269。损失是“对真实答案有多不买账”，不是错误样本的简单计数。即使分对但信心不足，损失仍不为零。
+若真实标签 \ensuremath{-}1，分数却为 2，那么 \(z=-2\)、损失约 2.1269；同样标签配分数 \ensuremath{-}2，损失约 0.1269。模型给真实类别的概率越低，负对数损失越大。即使分类正确，只要真实类别概率小于1，损失仍大于0。
 
 
 \textbf{English:} Logistic regression minimizes the negative conditional log-likelihood. The signed score \(yf(x)\) distinguishes correct from incorrect predictions.
@@ -201,7 +202,9 @@ E=\frac1C\|\mathbf w\|^2+\sum_i\log(1+e^{-y_i(\mathbf w^T\mathbf x_i+b)}),\qquad
 \]
 
 
-第一项惩罚大权重，第二项拟合数据。\textbf{小 \(C\)：更强正则；大 \(C\)：更弱正则。} 为什么高斯先验会产生平方惩罚？前一讲已经学过高斯的指数项。均值为零、协方差为\((C/2)I\)时，先验中与w有关的部分是\(\exp(-\|w\|^2/C)\)；取负log便得到\(\|w\|^2/C\)，其余是不随w变化的常数。最大后验估计（maximum a posteriori，MAP）同时考虑数据似然与这份先验，于是得到“数据损失＋平方惩罚”。偏置在这份公式里未被惩罚。库中的 \(1/2\)、求和/平均及 solver 约定可能不同，不应从同一个数值 C 推断不同软件必然输出同一模型。
+第一项惩罚大权重，第二项拟合数据。\textbf{小 \(C\)：更强正则；大 \(C\)：更弱正则。} 为什么高斯先验会产生平方惩罚？前一讲已经学过高斯的指数项。均值为零、协方差为\((C/2)I\)时，先验中与w有关的部分是\(\exp(-\|w\|^2/C)\)；取负log便得到\(\|w\|^2/C\)，其余是不随w变化的常数。最大后验估计（maximum a posteriori，MAP）同时考虑数据似然与这份先验，于是得到“数据损失＋平方惩罚”。偏置在这份公式里未被惩罚。
+
+实现中，库采用的 \(1/2\)、求和/平均及 solver 约定可能不同，不应从同一个数值 C 推断不同软件必然输出同一模型。
 
 
 老师说用迭代优化（Lecture3a，第52个单元）。补足最关键一步：对一个样本，
@@ -345,7 +348,7 @@ p_c=\frac{e^{f_c}}{\sum_{j=1}^K e^{f_j}},\qquad \ell=-\sum_{c=1}^K y_c\log p_c.\
 
 
 
-\StudyHeading{1}{7. Maximum margin｜不仅分开，还想留出余地}
+\StudyHeading{1}{7. Maximum margin｜间隔与距离归一化}
 \StudyTarget{CS5489-Lecture03__svm}
 \StudyTarget{CS5489-Lecture03__7-maximum-margin}
 
@@ -791,7 +794,7 @@ accuracy=1000/1010\ensuremath{\approx}99.01\%，但垃圾邮件召回率为0；�
 
 
 
-\StudyHeading{1}{14. Classification summary｜把不同方法放在同一张地图}
+\StudyHeading{1}{14. Classification summary｜比较训练目标、输出与条件}
 \StudyTarget{CS5489-Lecture03__14-classification-summary}
 
 
@@ -933,7 +936,7 @@ SVM dual、KKT & 核心必会 & 高；对谁求导、约束符号 & 跟完关键
 \StudyTarget{CS5489-Lecture03__historical-exam-map}
 
 
-题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
+题号和页码指向原题纸。完整期中题答见独立题库；期末与QE题目可按下表回查原材料。
 
 
 
@@ -945,7 +948,7 @@ SVM dual、KKT & 核心必会 & 高；对谁求导、约束符号 & 跟完关键
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture03}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+按试卷查题及核对材料身份，见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 \StudyHeading{2}{生成式与判别式}
 

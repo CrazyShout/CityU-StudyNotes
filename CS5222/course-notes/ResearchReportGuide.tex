@@ -33,7 +33,7 @@
 
 
 
-\StudyHeading{1}{1. 选题从一件事开始，不从一串热门缩写开始}
+\StudyHeading{1}{1. 从实际问题确定研究范围}
 \StudyTarget{CS5222-ResearchReportGuide__1}
 
 
@@ -58,24 +58,24 @@
 
 
 \begin{StudyBlock}{完整示范 / Worked example}{下载时间与播放缓冲}
-4秒片段编码2Mbps，数据量8Mbit；若稳定吞吐4Mbps，下载2秒。在缓冲足够、同时播放、忽略请求与解码开销时，缓冲净增加4\ensuremath{-}2=2秒。 / A four-second segment encoded at 2 Mbps contains 8 Mbit. At 4 Mbps throughput it downloads in two seconds, increasing the playable buffer by two seconds under the stated assumptions.
+4秒片段编码2Mbps，数据量8Mbit；若稳定吞吐4Mbps，下载2秒。在初始缓冲足够、下载中同时播放、整块到齐后加入缓冲且忽略请求与解码开销时，缓冲净增加4\ensuremath{-}2=2秒。 / A four-second segment encoded at 2 Mbps contains 8 Mbit. At a constant 4-Mbps download rate it arrives in two seconds. With sufficient initial buffer, playback continuing during download, whole-chunk availability on arrival and no request or decoding overhead, playable buffer grows by two seconds.
 \end{StudyBlock}
 
 
-\textbf{变式 / Transfer:} 网络降至1Mbps，同一块需几秒？若开始时只缓冲3秒会发生什么？ / At 1 Mbps, how long does the same chunk take, and what if only three seconds are buffered initially?
+\textbf{变式 / Transfer:} 一个4秒视频块按2 Mbps编码，下载吞吐稳定为1 Mbps，开始时有3秒可播放缓冲。下载中继续播放，整块到齐才可播放，忽略其他开销。下载需要多久，会停顿多久？ / A four-second chunk encoded at 2 Mbps downloads at a constant 1 Mbps, starting with three seconds of playable buffer. Playback continues during download; the chunk becomes playable only when fully received. Ignore other overhead. Find download and stall times.
 
 
 
 \begin{StudySolution}{答案 / Answer}
 
 
-下载8秒，已有缓冲只能撑3秒，理想模型中会停顿约5秒，等块到后才续播。 / Download takes eight seconds; under the simplified model, playback stalls for about five seconds. 缓冲余量和吞吐估计误差都会影响是否停顿。
+下载8秒，已有缓冲只能撑3秒，理想模型中会停顿约5秒，等块到后才续播。 / Download takes eight seconds; under the simplified model, playback stalls for about five seconds.
 
 
 \end{StudySolution}
 
 
-上面是理想模型的教学算例；实际停顿还取决于播放器策略和网络变化。
+播放器策略和实际吞吐变化会改变停顿时间。
 
 
 
@@ -112,7 +112,7 @@
 
 
 
-\StudyHeading{1}{4. 图要解释困难，不是给文字化妆}
+\StudyHeading{1}{4. 用图说明交互、结构或权衡}
 \StudyTarget{CS5222-ResearchReportGuide__4}
 
 
@@ -158,14 +158,14 @@
 \end{enumerate}
 
 
-每段先给主张，再解释机制，再放证据与条件。比如 \emph{The mechanism reduces repeated origin fetches when reusable content is available in cache} 比 \emph{It greatly improves everything} 更可核查。不要把“可能”藏起来，也不用给每句话堆三个形容词。
+每段先给主张，再解释机制，再放证据与条件。比如 \emph{The mechanism reduces repeated origin fetches when reusable content is available in cache} 比 \emph{It greatly improves everything} 更可核查。保留影响结论的条件和不确定性。
 
 
 \textbf{英文自测 / English self-check:} \emph{What changes, why does it help, and under what conditions might it not help? / 改变了什么，为何有效，何时可能无效？} 若不能脱稿回答，正文还需要补机制，而非继续增加术语。
 
 
 
-\StudyHeading{1}{6. Reflection log｜写你真的经历过的理解变化}
+\StudyHeading{1}{6. Reflection log｜记录理解怎样改变}
 \StudyTarget{CS5222-ResearchReportGuide__6-reflection-log}
 
 
@@ -221,6 +221,3 @@ p2 B：五个Reflection问题 & §6逐项对应 \\
 p2 Evaluation、p3 Rubric & 开篇能力表、§7；具体权重以原页为准 \\
 \end{longtable}
 \endgroup
-
-
-确定主题后，再围绕核心问题补充必要基础、原始来源和图示。

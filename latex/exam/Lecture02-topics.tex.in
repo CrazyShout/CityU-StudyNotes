@@ -9,7 +9,7 @@
 \StudyTarget{CS5489-Lecture02__historical-exam-map}
 
 
-各行保留原题号与原材料页码。同一卷在本表不同考点下出现，不会让该考点的卷数重复增加。材料文件、配套答案与版本差异见\StudyRef{CS5489-ExamIndex}{root}{按卷附录}。
+各行保留原题号与原材料页码。材料文件、配套答案与版本差异见\StudyRef{CS5489-ExamIndex}{root}{按卷附录}。
 
 
 
@@ -18,6 +18,6 @@
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号与出处见\StudyRef{CS5489-Lecture02}{exam-topic-index}{讲末考点索引}；按试卷查阅见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
+期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
 
 @@TOPICS@@

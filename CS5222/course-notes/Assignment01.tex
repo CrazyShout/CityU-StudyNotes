@@ -65,7 +65,7 @@ d_{trans}=120/56000\approx0.002142857\text{ s},\quad m\approx535714.29\text{ m}=
 \end{StudyBlock}
 
 
-\textbf{变式 / Transfer:} L=240bit、R不变，要保持两时延相等，m如何变化？ / Double packet length while keeping R and s fixed; how must m change?
+\textbf{变式 / Transfer:} 包长由120 bit改为240 bit，R=56 kbps、s=2.5\ensuremath{\times}10\textsuperscript{8} m/s不变。要保持发送与传播时延相等，距离m如何变化？ / Increase packet length from 120 to 240 bits, keeping R=56 kbps and s=2.5\ensuremath{\times}10\textsuperscript{8} m/s. How must distance m change to keep transmission and propagation delays equal?
 
 
 
@@ -82,7 +82,7 @@ m翻倍，约1071.429km。 / m doubles to about 1071.429 km. 改变的是等时�
 
 
 
-\StudyHeading{1}{P31. Message segmentation｜像流水线一样，让不同链路同时工作}
+\StudyHeading{1}{P31. Message segmentation｜消息分段与链路流水线}
 \StudyTarget{CS5222-Assignment01__p31}
 \StudyTarget{CS5222-Assignment01__p31-message-segmentation}
 
@@ -115,7 +115,7 @@ d 其他好处：较短包给其他流量穿插机会；出现丢失时可只重
 e 代价：每包头部和处理开销，更多调度；可能乱序，需要识别与重组；重传/超时机制增加复杂度。 / Costs include headers, per-packet processing, possible reordering, reassembly and recovery complexity. 不把“越小永远越快”当结论；本题忽略头部是有意简化。
 
 
-\textbf{变式 / Transfer:} 同消息改成400包，每包20000bit，其他不变，总多久？ / Use 400 packets of 20000 bits with the same path.
+\textbf{变式 / Transfer:} 消息分成400包，每包20000 bit，连续经过3条2 Mbps存储转发链路，忽略传播、排队、处理和包头开销。全部到达要多久？ / Send 400 packets of 20000 bits across three 2-Mbps store-and-forward links. Ignore propagation, queueing, processing and header overhead. Find total completion time.
 
 
 
@@ -132,12 +132,12 @@ e 代价：每包头部和处理开销，更多调度；可能乱序，需要识
 
 
 
-\StudyHeading{1}{P17. POP3｜完成整次事务，不只补两行}
+\StudyHeading{1}{P17. POP3｜下载、删除与会话状态}
 \StudyTarget{CS5222-Assignment01__pop3}
 \StudyTarget{CS5222-Assignment01__p17-pop3}
 
 
-\textbf{完整条件 / Conditions:} 已认证进入transaction，LIST给两封邮件，编号1/2、大小498/912byte；原片段已经RETR1。a为download-and-delete，b为download-and-keep，均继续到服务完成。c在b后退出，5分钟后再次登录，无新邮件，给出第二会话。 / Two messages of 498 and 912 octets are present. Finish the full download-and-delete and download-and-keep transactions, then show a second keep-mode session five minutes later with no new mail.
+\textbf{完整条件 / Conditions:} 已认证进入transaction，LIST给两封邮件，编号1/2、大小498/912byte；原片段已经RETR1。a为download-and-delete，b为download-and-keep，均继续到服务完成。c在b后退出，5分钟后再次登录，无新邮件，给出第二会话。 / Authentication is complete and the session is in the transaction state. LIST shows messages 1 and 2 of 498 and 912 octets; the supplied exchange has already retrieved message 1. Finish the download-and-delete and download-and-keep transactions, then show a second keep-mode session five minutes later with no new mail.
 
 \StudyImage{CS5222/course-notes/assets/assignment01-03.png}
 \StudyCaption{Assignment 1原题页：P17把同一次POP3事务与下一次登录的邮箱状态连起来。}
@@ -246,7 +246,7 @@ S: +OK signing off
 \textbf{English answer:} With no deletion and no client-side duplicate suppression, both messages are still available and can be downloaded again. State any UIDL-based client behavior explicitly.
 
 
-\textbf{变式 / Transfer:} b中仅DELE1并成功QUIT，之后无新邮件，剩多少总字节？ / Delete only message1 in part b and successfully quit. How many message octets remain?
+\textbf{变式 / Transfer:} 邮箱有两封邮件，分别为498和912 byte。仅对第一封执行DELE并成功QUIT，之后无新邮件，剩多少邮件字节？ / A mailbox contains messages of 498 and 912 octets. Mark only the first for deletion and successfully quit, with no new mail afterward. How many message octets remain?
 
 
 

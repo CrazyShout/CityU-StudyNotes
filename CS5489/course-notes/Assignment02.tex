@@ -161,14 +161,14 @@ U=(\ensuremath{-}2,3)，上游\(G_H=(4,5)\)。Leaky ReLU输出(\ensuremath{-}0.0
 \textbf{跟做 / Worked：} u=2、n=2、上游导数3。输出4；对u的损失导数为3\ensuremath{\times}4=12，对n为\(3\times4\ln2\approx8.3178\)。 / Output 4, input gradient 12, exponent gradient about 8.3178.
 
 
-\textbf{变式 / Transfer：} u=0.5、n=2、上游导数3，两个梯度的符号？ / For u=0.5, exponent n=2 and upstream derivative 3, determine the input and exponent gradients and their signs.
+\textbf{变式 / Transfer：} u=0.5、n=2、上游导数3，求对输入和指数的两个梯度及其符号。 / For u=0.5, exponent n=2 and upstream derivative 3, determine the input and exponent gradients and their signs.
 
 
 
 \begin{StudySolution}{答案 / Answer}
 
 
-对u为3；对n为\(0.75\ln0.5\approx-0.5199\)。底数在0和1之间，指数增加会让输出变小。 / The input gradient is 3; the exponent gradient is negative because increasing the exponent shrinks a base below one.
+对u为3；对n为\(0.75\ln0.5\approx-0.5199\)。底数在0和1之间，指数增加会让输出变小。 / The input gradient is 3; the exponent gradient is approximately \ensuremath{-}0.5199. It is negative because increasing the exponent shrinks a base below one.
 
 
 \end{StudySolution}
@@ -333,7 +333,22 @@ Assignment2，第71个单元与Assignment2，第72–75个单元 & 初值0.5与0
 能解释每层输入、输出和梯度形状；平均、正则和偏置一致；更新前保存反传所需权重；自定义激活只对正数取log；预测输出与原接口吻合；随机状态与数据划分记录；所有训练成绩和轨迹来自实际运行。尚未运行的实验标为“待运行”。
 
 
-\textbf{English self-check:} Explain where the batch averaging occurs, why a shared exponent receives a summed gradient, how leakage is prevented, and which variables were held fixed in an optimizer comparison.
+\textbf{Q1 / 题：} 本指南在何处计入批量平均？ / Where does this guide apply batch averaging?
+
+\textbf{答 / Answer：} 在反传入口除以批量大小一次，后续各层传回已缩放的梯度。 / Divide by batch size once at the start of backpropagation; subsequent layers propagate the scaled gradients.
+
+\textbf{Q2 / 题：} 共享指数为什么收到多个位置的梯度之和？ / Why does a shared exponent receive a sum of gradient contributions?
+
+\textbf{答 / Answer：} 同一指数用于多个激活位置，按链式法则累加各位置对它的贡献；负区与指数无关，贡献为0。 / The same exponent is used at multiple activation positions, so their chain-rule contributions add. The negative branch does not depend on the exponent and contributes zero.
+
+\Needspace{8\baselineskip}
+\textbf{Q3 / 题：} 怎样避免缩放时使用测试信息？ / How do you prevent test information from entering feature scaling?
+
+\textbf{答 / Answer：} 先划分数据，只在相应训练部分拟合缩放量，再用同一变换处理验证和测试数据。 / Split first, fit scaling on the relevant training partition, then reuse that transform for validation and test data.
+
+\textbf{Q4 / 题：} 额外设计受控优化器比较时，应固定哪些条件？ / Which conditions should be fixed in an additional controlled optimizer comparison?
+
+\textbf{答 / Answer：} 固定目标函数、初值、迭代预算、学习率与噪声设置；研究其中某项时单独改变它。原题指定的不同迭代预算仍单独报告。 / Hold the objective, initial state, iteration budget, learning rate and noise settings fixed; vary one when studying its effect. Report the original exercise's unequal iteration budgets separately.
 
 
 首轮复习沿用\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M248}{M248前向/反向/更新}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M251}{M251批量梯度}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M266}{M266动量}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M268}{M268 Adam}。可学习指数配合§4的手算例子复习。
