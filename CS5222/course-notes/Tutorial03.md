@@ -4,9 +4,9 @@
 正文已迁入 [LaTeX 主稿](Tutorial03.tex)；阅读与打印请用 [A4 PDF](../../pdf/CS5222-A4.pdf)。本页仅保留旧链接入口，由构建脚本生成。
 
 <a id="root"></a>
-- `root` → [第 66 页](../../pdf/CS5222-A4.pdf#page=66)
+- `root` → [第 67 页](../../pdf/CS5222-A4.pdf#page=67)
 <a id="tutorial-3-http-and-dns"></a>
-- `tutorial-3-http-and-dns` → [第 66 页](../../pdf/CS5222-A4.pdf#page=66)
+- `tutorial-3-http-and-dns` → [第 67 页](../../pdf/CS5222-A4.pdf#page=67)
 <a id="q1"></a>
 - `q1` → [第 67 页](../../pdf/CS5222-A4.pdf#page=67)
 <a id="problem-1-read-an-http-request"></a>

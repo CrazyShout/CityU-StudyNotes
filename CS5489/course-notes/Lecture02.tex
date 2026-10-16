@@ -107,9 +107,6 @@ Versicolor，标签1 & Virginica，标签2 \\
 
 
 数学上把测量写成列向量
-
-
-
 \[
 \mathbf{x}=(x_1,x_2)^T\in\mathbb R^2,\qquad y\in\{1,2\}.
 \tag{2.1}
@@ -154,9 +151,6 @@ Versicolor，标签1 & Virginica，标签2 \\
 
 
 两者合起来描述“种类与测量一起出现”的情况：
-
-
-
 \[
 p(\mathbf{x},y)=p(y)\,p(\mathbf{x}\mid y).
 \tag{2.2}
@@ -167,9 +161,6 @@ p(\mathbf{x},y)=p(y)\,p(\mathbf{x}\mid y).
 
 
 老师先用40\%与60\%的类别比例举例。令\(\pi=p(y=1)\)，则\(p(y=2)=1-\pi\)。把两个情况合成一行，就是
-
-
-
 \[
 p(y)=\pi^{\mathbb 1(y=1)}(1-\pi)^{\mathbb 1(y=2)}.
 \tag{2.3}
@@ -199,9 +190,6 @@ QE另问参数后验和MAP，不能当作类别决策题。
 
 
 把已经收集到的标签固定下来，尝试不同的\(\pi\)。如果这些标签独立来自同一个类别分布，整串标签的概率是各项相乘。记总数为\(N\)、两类数量为\(N_1,N_2\)，则
-
-
-
 \[
 L(\pi)=\prod_{i=1}^{N}p(y_i;\pi)=\pi^{N_1}(1-\pi)^{N_2},\qquad N=N_1+N_2.
 \tag{2.4}
@@ -212,9 +200,6 @@ L(\pi)=\prod_{i=1}^{N}p(y_i;\pi)=\pi^{N_1}(1-\pi)^{N_2},\qquad N=N_1+N_2.
 
 
 取自然对数能把乘积变成和；对数单调递增，最大值的位置保持：
-
-
-
 \[
 \ell(\pi)=\log L(\pi)=N_1\log\pi+N_2\log(1-\pi).
 \tag{2.5}
@@ -222,9 +207,6 @@ L(\pi)=\prod_{i=1}^{N}p(y_i;\pi)=\pi^{N_1}(1-\pi)^{N_2},\qquad N=N_1+N_2.
 
 
 两类都出现时，令导数为0：
-
-
-
 \[
 \begin{gathered}
 \frac{d\ell}{d\pi}=\frac{N_1}{\pi}-\frac{N_2}{1-\pi}=0,\\[0.4em]
@@ -272,9 +254,6 @@ N_1(1-\pi)=N_2\pi,\\[0.4em]
 
 
 老师选择 \textbf{Gaussian distribution / normal distribution（高斯分布／正态分布）}来建模。这样只要两个参数，就能描述中心位置和展开宽度：
-
-
-
 \[
 p(x\mid y=c)=\frac{1}{\sqrt{2\pi\sigma_c^2}}
 \exp\!\left[-\frac{(x-\mu_c)^2}{2\sigma_c^2}\right].
@@ -308,9 +287,6 @@ p(x\mid y=c)=\frac{1}{\sqrt{2\pi\sigma_c^2}}
 
 
 每个样本有一个高斯密度。把它们相乘，就得到这一组参数对全体观测的似然：
-
-
-
 \[
 L(\mu,\sigma^2)=\prod_{i=1}^N
 \frac{1}{\sqrt{2\pi\sigma^2}}
@@ -320,9 +296,6 @@ L(\mu,\sigma^2)=\prod_{i=1}^N
 
 
 现在取对数。每个样本的归一化系数都贡献\(-\tfrac12\log(2\pi\sigma^2)\)，共出现\(N\)次；指数中的项则相加。于是
-
-
-
 \[
 \ell(\mu,\sigma^2)=-\frac N2\log(2\pi\sigma^2)
 -\frac{1}{2\sigma^2}\sum_{i=1}^N(x_i-\mu)^2.
@@ -331,9 +304,6 @@ L(\mu,\sigma^2)=\prod_{i=1}^N
 
 
 固定方差，对均值求导。\((x_i-\mu)^2\)的导数是\(-2(x_i-\mu)\)，与外面的负号抵消：
-
-
-
 \[
 \begin{aligned}
 \frac{\partial\ell}{\partial\mu}&=\frac1{\sigma^2}\sum_i(x_i-\mu)=0,\\
@@ -344,9 +314,6 @@ L(\mu,\sigma^2)=\prod_{i=1}^N
 
 
 方差也能这样求。以下补齐原课省略的中间步骤：令\(v=\sigma^2\)，明确我们对\textbf{方差}求导；\(v^{-1}\)的导数为\(-v^{-2}\)：
-
-
-
 \[
 \begin{aligned}
 \frac{\partial\ell}{\partial v}&=-\frac N{2v}+\frac{\sum_i(x_i-\mu)^2}{2v^2}=0,\\
@@ -368,6 +335,7 @@ L(\mu,\sigma^2)=\prod_{i=1}^N
 上述求解要求数据并非全部相同。若所有观测都等于4 cm，方差趋近0时似然不断增大，普通的正方差高斯密度没有可直接代入的有限最优解。需要时可从\StudyRef{Foundations-MathForML}{partial-derivatives}{偏导与链式法则}补习推导。
 
 
+\Needspace{7\baselineskip}
 对原花瓣长度数据按同样方法估计：
 
 
@@ -423,9 +391,6 @@ Virginica（2） & 50 & 5.5520 & 0.5463 \\
 
 
 先算类1的密度：
-
-
-
 \[
 p(5\mid1)=\frac{\exp[-(5-4.26)^2/(2\times0.4652^2)]}
 {\sqrt{2\pi}\times0.4652}\approx0.2420\ \mathrm{cm}^{-1}.
@@ -440,9 +405,6 @@ p(5\mid1)=\frac{\exp[-(5-4.26)^2/(2\times0.4652^2)]}
 
 
 密度还需要结合类别先验。把两者相乘得到\(s_c\)，再除以全部类别分数之和：
-
-
-
 \[
 s_c=p(x\mid y=c)p(y=c),\qquad
 p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
@@ -510,9 +472,6 @@ p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
 
 
 只想选类别时，可以省掉共同分母；再对正分数取log，大小顺序也不变：
-
-
-
 \[
 \hat y=\arg\max_c p(x\mid c)p(c)
 =\arg\max_c\{\log p(x\mid c)+\log p(c)\}.
@@ -578,9 +537,6 @@ p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
 
 
 \textbf{方差相同：哪些项抵消，为什么会剩下一次式？} 两行都有\(-\tfrac12\log(2\pi)\)，相减后为0；两行也都有\(\log0.5\)，同样抵消。剩下的是两个负的距离项相减。注意，减去第一类的负项，会把它变成正项：
-
-
-
 \[
 \begin{aligned}
 \Delta(x)&=-\frac{(x-6)^2}{2}-\left[-\frac{(x-4)^2}{2}\right]\\
@@ -609,9 +565,6 @@ p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
 
 
 两类先验依然相等，先验项可以抵消；归一化项却不再相同。用第二类减第一类，归一化项之差为\(-\tfrac12[\log(8\pi)-\log(2\pi)]\)。利用\(\log a-\log b=\log(a/b)\)，它等于\(-\tfrac12\log4=-\log2\)。连同两个距离项一起相减，再展开平方、通分：
-
-
-
 \[
 \begin{aligned}
 \Delta(x)&=-\log2-\frac{(x-6)^2}{8}+\frac{(x-4)^2}{2}\\
@@ -628,9 +581,6 @@ p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
 
 
 把二次项和一次项配成平方：\((3x-10)^2=9x^2-60x+100\)。将常数移到右边，两边同时加100，便得到：
-
-
-
 \[
 \begin{aligned}
 (3x-10)^2&=16+24\log2,\\
@@ -685,9 +635,6 @@ x&=\frac{10\pm\sqrt{16+24\log2}}{3}\\
 
 
 一维模型没有使用萼片宽度。现在输入恢复为\(\mathbf x=(x_1,x_2)^T\)，我们要描述两项测量的联合分布。\textbf{Naive Bayes（朴素贝叶斯，NB）}先作一个简化：给定花的种类之后，两项测量条件独立，于是
-
-
-
 \[
 p(x_1,x_2\mid c)=p(x_1\mid c)p(x_2\mid c),\qquad
 p(\mathbf x\mid c)=\prod_{j=1}^d p(x_j\mid c).
@@ -699,9 +646,6 @@ p(\mathbf x\mid c)=\prod_{j=1}^d p(x_j\mid c).
 
 
 \textbf{Gaussian NB}把每一项测量分别建成一元高斯。类别\(c\)、特征\(j\)各有均值\(\mu_{c,j}\)和方差\(\sigma_{c,j}^2\)：
-
-
-
 \[
 \log p(\mathbf x\mid c)=\sum_{j=1}^d
 \left[-\frac12\log(2\pi\sigma_{c,j}^2)
@@ -766,9 +710,6 @@ model.var_          # 同样形状：方差
 
 
 计算方法与\StudyRef{CS5489-Lecture02}{decision-boundaries}{一维边界}相同：减去第一类的负距离项会变成加号，展开两个平方，再把含\(x_j^2\)、含\(x_j\)和不含\(x_j\)的部分分别合并：
-
-
-
 \[
 \begin{aligned}
 \delta_j(x_j)
@@ -785,9 +726,6 @@ model.var_          # 同样形状：方差
 
 
 例如一次项来自\(-2\mu_{1,j}x_j/(2\sigma_{1,j}^2)\)与\(+2\mu_{2,j}x_j/(2\sigma_{2,j}^2)\)。将平方项系数记为\(a_j\)、一次项系数记为\(b_j\)，把所有不含输入的项合成\(C\)，得到完整分数差：
-
-
-
 \[
 \begin{aligned}
 \Delta(\mathbf x)&=\sum_{j=1}^d\bigl(a_jx_j^2+b_jx_j\bigr)+C,\\[3pt]
@@ -814,9 +752,6 @@ NB的条件独立假设让各维密度可以相乘，却没有要求两个类别
 
 
 \textbf{答 / Answer：} I中两类每一维的方差相同，\(a_1=a_2=0\)；一次项系数为\((1,1/2)\)，常数为\(-1/2-1/2=-1\)。II中\(a_1=0\)、\(a_2=1/8-1/18=5/72\)，一次项系数变为\((1,2/9)\)，常数为\(-1/2-2/9-\tfrac12\log(9/4)\)。因此：
-
-
-
 \[
 \begin{aligned}
 \text{I:}\quad &x_1+\tfrac12x_2-1=0,\\[3pt]
@@ -880,9 +815,6 @@ I是直线；II可写成\(x_1\)关于\(x_2\)的二次函数，是一条抛物线
 
 
 二维 \textbf{covariance matrix（协方差矩阵）}把信息放在四个格子中：
-
-
-
 \[
 \boldsymbol\Sigma_c=
 \begin{pmatrix}
@@ -903,9 +835,6 @@ I是直线；II可写成\(x_1\)关于\(x_2\)的二次函数，是一条抛物线
 
 
 Gaussian NB对应\textbf{对角协方差}：没有倾斜的等密度椭圆。完整高斯允许非对角项，以记录这种搭配关系。它的均值向量有\(d\)项，协方差矩阵大小为\(d\times d\)；当协方差正定、各方向都保留非零波动时，密度为
-
-
-
 \[
 p(\mathbf x\mid c)=
 \frac{\exp[-\frac12(\mathbf x-\boldsymbol\mu_c)^T
@@ -922,9 +851,6 @@ p(\mathbf x\mid c)=
 
 
 分类时取log，省掉各类共有的\(-\tfrac d2\log(2\pi)\)，留下三项：
-
-
-
 \[
 \begin{aligned}
 g_c(\mathbf x)&=\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}(\mathbf x-\boldsymbol\mu_c)}_{\text{distance}}\\
@@ -941,9 +867,6 @@ g_c(\mathbf x)&=\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}
 
 
 \textbf{教学题 / Worked problem：} 两类均值为零，先验均为0.5。给定无量纲点\(\mathbf x=(1,1)^T\)和
-
-
-
 \[
 \Sigma_A=I=\begin{pmatrix}1&0\\0&1\end{pmatrix},\qquad
 \Sigma_B=\begin{pmatrix}1&0.5\\0.5&1\end{pmatrix},
@@ -965,9 +888,6 @@ g_c(\mathbf x)&=\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}
 
 
 将这个逆矩阵代入点\((1,1)^T\)的距离平方，得到：
-
-
-
 \[
 (1,1)\Sigma_B^{-1}(1,1)^T=\frac43.
 \tag{2.21b}
@@ -1013,9 +933,6 @@ g_c(\mathbf x)&=\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}
 
 
 对类别\(c\)的\(N_c\)条训练记录，理论MLE为
-
-
-
 \[
 \begin{aligned}
 \hat{\boldsymbol\mu}_c&=\frac1{N_c}\sum_{i:y_i=c}\mathbf x_i,\\
@@ -1128,9 +1045,6 @@ testX = cntvect.transform(testtext)
 
 
 \textbf{Bernoulli NB}只问一个词有没有出现。固定词\(j\)、类别\(c\)，设
-
-
-
 \[
 \pi_{j,c}=P(x_j=1\mid y=c),\qquad x_j\in\{0,1\}.
 \tag{2.23}
@@ -1141,9 +1055,6 @@ testX = cntvect.transform(testtext)
 
 
 先用两个词理解分类。如果词表是\StudyInline{[free,\allowbreak{} meeting]}，新邮件只出现free，那么在类别\(c\)下，它的概率为
-
-
-
 \[
 P([1,0]\mid c)=\pi_{\mathrm{free},c}(1-\pi_{\mathrm{meeting},c}).
 \tag{2.24}
@@ -1151,9 +1062,6 @@ P([1,0]\mid c)=\pi_{\mathrm{free},c}(1-\pi_{\mathrm{meeting},c}).
 
 
 乘法来自给定类别后的条件独立假设。第一个因子表示free出现，第二个因子表示meeting未出现。推广到大小为\(V\)的词表，每个词都要考虑出现或未出现；再加先验并取log：
-
-
-
 \[
 \log p(c)+\sum_{j=1}^{V}
 \left[x_j\log\pi_{j,c}+(1-x_j)\log(1-\pi_{j,c})\right].
@@ -1180,9 +1088,6 @@ P([1,0]\mid c)=\pi_{\mathrm{free},c}(1-\pi_{\mathrm{meeting},c}).
 % EXAM:focus-smoothing:END
 
 训练集中某类没有出现过free，只能说明有限记录里没见到。加法平滑给“出现”和“未出现”各加\(\alpha\)份虚拟计数：
-
-
-
 \[
 \tilde\pi_{j,c}=\frac{N_{j,c}+\alpha}{N_c+2\alpha},\qquad\alpha>0.
 \tag{2.26}
@@ -1196,9 +1101,6 @@ P([1,0]\mid c)=\pi_{\mathrm{free},c}(1-\pi_{\mathrm{meeting},c}).
 
 
 平滑后Spam参数为\([3/5,2/5]\)，Ham为\([1/5,3/5]\)。因此
-
-
-
 \[
 \begin{aligned}
 P([1,0]\mid S)&=\frac35\left(1-\frac25\right)=\frac9{25},\\
@@ -1228,9 +1130,6 @@ P([1,0]\mid H)&=\frac15\left(1-\frac35\right)=\frac2{25}.
 
 
 老师用对数差表达同一个比较：
-
-
-
 \[
 \log P(x_j=1\mid S)-\log P(x_j=1\mid H).
 \tag{2.28}
@@ -1252,9 +1151,6 @@ P([1,0]\mid H)&=\frac15\left(1-\frac35\right)=\frac2{25}.
 
 
 用原设置\(\alpha=0.1\)重算这一个样本，Spam相对Ham的log分数差为
-
-
-
 \[
 \underbrace{0.2412}_{\text{prior}}
 +\underbrace{0}_{\text{present words}}
@@ -1319,9 +1215,6 @@ D4 & Ham & meeting today & [0,0,1,1] \\
 
 
 老师的简式是
-
-
-
 \[
 \begin{aligned}
 \mathrm{TF}_{j,D}&=\frac{w_j}{|D|},\qquad \mathrm{IDF}(j)=\log\frac N{N_j},\\
@@ -1374,9 +1267,6 @@ testXtf = tf_trans.transform(testX)
 
 
 这个库的默认设置从\textbf{原始计数}出发，采用平滑IDF
-
-
-
 \[
 \mathrm{IDF}_{\rm lib}(j)=\log\frac{1+N}{1+N_j}+1.
 \tag{2.31}
@@ -1447,9 +1337,6 @@ D4 & 0 & 0 & 0.6017 & 0.3983 \\
 
 
 给定类别和文长，可以想象独立抽取\(L\)个词，再把顺序丢掉，保留每词次数\(x_j\)。于是\(L=\sum_jx_j\)，多项式概率为
-
-
-
 \[
 p(\mathbf x\mid c,L)=\frac{L!}{\prod_jx_j!}\prod_{j=1}^V\pi_{j,c}^{x_j},\qquad
 \sum_j\pi_{j,c}=1.
@@ -1461,9 +1348,6 @@ p(\mathbf x\mid c,L)=\frac{L!}{\prod_jx_j!}\prod_{j=1}^V\pi_{j,c}^{x_j},\qquad
 
 
 比较同一封邮件的类别时，阶乘项相同；在不另建类别文长模型的常用设定下，分类得分为
-
-
-
 \[
 \log p(c)+\sum_jx_j\log\pi_{j,c}.
 \tag{2.33}
@@ -1471,9 +1355,6 @@ p(\mathbf x\mid c,L)=\frac{L!}{\prod_jx_j!}\prod_{j=1}^V\pi_{j,c}^{x_j},\qquad
 
 
 若\(T_{j,c}\)是类别\(c\)中词\(j\)的总次数，加法平滑给出
-
-
-
 \[
 \tilde\pi_{j,c}=\frac{T_{j,c}+\alpha}{\sum_{k=1}^VT_{k,c}+V\alpha}.
 \tag{2.34}
@@ -1528,9 +1409,6 @@ Ham：每项加1，再除以6 & 0.1667 & 0.1667 & 0.3922 & 0.2745 \\
 
 
 计数为\([2,0,0,1]\)，按训练IDF转换后得到\([0.7513,0,0,0.2487]\)。两类得分为
-
-
-
 \[
 \begin{aligned}
 g_S&=\log0.5+0.7513\log0.3518+0.2487\log0.2611\\
@@ -1667,9 +1545,6 @@ Poisson NB在\StudyRef{CS5489-Tutorial02}{root}{Tutorial 2}继续练习：更换
 % EXAM:focus-model-limits:END
 
 设想两种花在\textbf{我们记录的全部测量上，分布完全相同}，而且两类各占一半。无论量到什么，测量结果都没有提供区分类别的证据。用\(f(\mathbf x)\)表示这份共同的类条件密度，用\(\pi_c\)表示类别\(c\)的先验，Bayes公式给出
-
-
-
 \[
 p(c\mid\mathbf x)
 =\frac{f(\mathbf x)\pi_c}{f(\mathbf x)(\pi_1+\pi_2)}
@@ -1767,9 +1642,6 @@ p(c\mid\mathbf x)
 
 
 距离和宽度两项之和仍为A的\(-1\)、B的\(-2/3-\tfrac12\log(3/4)\approx-0.5228\)。分别加上新的先验：
-
-
-
 \[
 \begin{aligned}
 g_A&=-1+\log0.8\approx-1.2231,\\
@@ -1836,9 +1708,6 @@ Lecture2a第39个单元用“类1后验较大的网格点数”估计分界，�
 
 
 令\(z_c\)为各类log分数，\(m=\max_c z_c\)，则
-
-
-
 \[
 \begin{aligned}
 \operatorname{logsumexp}(z)&=m+\log\sum_c e^{z_c-m},\\
@@ -1899,6 +1768,7 @@ TF-IDF的平滑IDF与NB的alpha作用不同：前者调整跨文档的词权重�
 \StudyTarget{CS5489-Lecture02__priorities-and-sources}
 
 
+\Needspace{7\baselineskip}
 学习优先级依据当前Lecture、Tutorial与Assignment，不是教师公布的必考清单。“难”与“重要”分开判断：
 
 

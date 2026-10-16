@@ -55,9 +55,6 @@ Wine实验 & 常规掌握 & 中，数据预处理与公平比较 & 真实运行�
 
 
 一批B个样本，每行d个特征。隐藏宽度h，类别数C。原NumPy模板使用行样本：
-
-
-
 \[
 \begin{gathered}X_{B\times d}\;\longmapsto\;U=XA+c\;\longmapsto\;H=\phi(U),\\
 H\;\longmapsto\;Z=HW+b\;\longmapsto\;L.\end{gathered}\tag{A2.1}
@@ -99,9 +96,6 @@ U为2\ensuremath{\times}4，Z为2\ensuremath{\times}2，隐藏权重梯度为3\e
 
 
 正则目标为 \(L=L_{data}+\frac\lambda2(\|A\|_F^2+\|W\|_F^2)\)，偏置不在模板正则项中。Output所需三项为
-
-
-
 \[
 \begin{gathered}\nabla_W L=H^TG_Z+\lambda W,\\
 \nabla_b L=\sum_i(G_Z)_{i,:},\qquad G_H=G_ZW^T.\end{gathered}\tag{A2.2}
@@ -120,9 +114,6 @@ Primer的单样本式子 \(\partial L/\partial b=\partial L/\partial z\) 可以�
 
 
 Primer主要用ReLU，原Notebook的普通隐藏层实际用Leaky ReLU：正区斜率1，负区斜率0.01。零点不可微，固定实现约定即可；数值差分测试选离0有距离的输入。
-
-
-
 \[
 \begin{gathered}G_U=G_H\odot\phi'(U),\qquad \nabla_A L=X^TG_U+\lambda A,\\
 \nabla_c L=\sum_i(G_U)_{i,:},\qquad G_X=G_UA^T.\end{gathered}\tag{A2.3}
@@ -145,9 +136,6 @@ Primer主要用ReLU，原Notebook的普通隐藏层实际用Leaky ReLU：正区�
 
 
 原\StudyInline{Hidden\_\allowbreak{}Vondrick}在正区用 \(\phi(u,n)=u^n\)，负区用0.01u；n是共享的一个标量参数，不是每个样本各有一个n。对u和n是两种不同的提问：
-
-
-
 \[
 \frac{\partial\phi}{\partial u}=nu^{n-1},\qquad
 \frac{\partial\phi}{\partial n}=u^n\log u\quad(u>0).\tag{A2.4}
@@ -158,9 +146,6 @@ Primer主要用ReLU，原Notebook的普通隐藏层实际用Leaky ReLU：正区�
 
 
 共享指数收到所有位置的贡献：
-
-
-
 \[
 \frac{\partial L}{\partial n}=\sum_{i,j}(G_H)_{ij}
 \frac{\partial\phi(U_{ij},n)}{\partial n}.\tag{A2.5}
@@ -192,9 +177,6 @@ Primer主要用ReLU，原Notebook的普通隐藏层实际用Leaky ReLU：正区�
 
 
 调试顺序：核对层形状；检查一个样本；再检查两个样本的平均与偏置；最后逐项核验有限差分。对某参数\(\theta_k\)，用中心差分
-
-
-
 \[
 g_k^{FD}=\frac{L(\theta+\varepsilon e_k)-L(\theta-\varepsilon e_k)}{2\varepsilon}\tag{A2.6}
 \]
@@ -253,9 +235,6 @@ Adam & 维护一阶、非中心二阶矩，零初始化偏差修正后更新 & t
 
 
 Adam沿原Assignment2，第52个单元：
-
-
-
 \[
 \begin{aligned}m_t&=\beta_1m_{t-1}+(1-\beta_1)\tilde g_t,\\
 v_t&=\beta_2v_{t-1}+(1-\beta_2)\tilde g_t^2.\end{aligned}\tag{A2.7}

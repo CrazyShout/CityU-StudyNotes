@@ -26,6 +26,11 @@
 \setlength{\parskip}{.35\baselineskip}
 \setlength{\parindent}{0pt}
 \setlength{\emergencystretch}{2em}
+% Keep the first/last line of a paragraph with its neighbour at page breaks.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\raggedbottom
 \setcounter{tocdepth}{1}
 \setcounter{secnumdepth}{-1}
 \setlist{nosep,leftmargin=1.8em,topsep=.35\baselineskip}
@@ -66,17 +71,19 @@
     \section*{#2}\phantomsection\addcontentsline{toc}{section}{#2}%
   \or\subsection*{#2}\or\subsubsection*{#2}\else\paragraph*{#2}\fi
 }
+\newcommand{\StudyTrimImage}[2]{%
+  \ifcsname studytrim@#1\endcsname\csname studytrim@#1\endcsname{#2}\else#2\fi}
 \newcommand{\StudyImage}[1]{%
   \par\medskip\begingroup
   \edef\StudyResolvedImage{\ifcsname studyimage@#1\endcsname\csname studyimage@#1\endcsname\else\StudyRoot/#1\fi}%
   \noindent\makebox[\linewidth][c]{%
   \adjustbox{max width=.96\linewidth,max height=.69\textheight}{%
-  \includegraphics{\StudyResolvedImage}}}\endgroup\par\medskip
+  \StudyTrimImage{#1}{\includegraphics{\StudyResolvedImage}}}}\endgroup\par\medskip
 }
 \newcommand{\StudyCellImage}[1]{%
   \begingroup
   \edef\StudyResolvedImage{\ifcsname studyimage@#1\endcsname\csname studyimage@#1\endcsname\else\StudyRoot/#1\fi}%
-  \adjustbox{max width=\linewidth,max height=.28\textheight}{\includegraphics{\StudyResolvedImage}}\endgroup}
+  \adjustbox{max width=\linewidth,max height=.28\textheight}{\StudyTrimImage{#1}{\includegraphics{\StudyResolvedImage}}}\endgroup}
 \DefineVerbatimEnvironment{StudyCode}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\small,tabsize=4,framesep=3mm,frame=leftline,rulecolor=\color{gray!55}}
 \newcommand{\StudyInline}[1]{\allowbreak{}\texttt{#1}\allowbreak{}}
 \newenvironment{StudySolution}[1]{%
@@ -87,7 +94,7 @@
   \begingroup\small\sffamily
   \ifstrequal{#1}{mid}{\colorlet{studybadge}{green!35!black}}{%
   \ifstrequal{#1}{final}{\colorlet{studybadge}{yellow!45!black}}{\colorlet{studybadge}{red!45!black}}}%
-  \textcolor{studybadge}{\rule[-.2ex]{1.2pt}{1.2em}}\enspace\textcolor{black}{#2}\quad\endgroup}
+  \mbox{\textcolor{studybadge}{\rule[-.2ex]{1.2pt}{1.2em}}\enspace\textcolor{black}{#2}}\quad\endgroup}
 \newcommand{\StudyRef}[3]{%
   \ifcsname studyref@#1@#2\endcsname
     \csname studyref@#1@#2\endcsname{#3}%

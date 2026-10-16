@@ -33,6 +33,7 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 def inputs(book):
     paths={ROOT/'latex/preamble.tex',ROOT/'latex/vendor/elegantbook/elegantbook.cls',ROOT/'latex/vendor/elegantbook/UPSTREAM.json',ROOT/'latex/books'/f'{book}.tex',ROOT/'scripts/build_latex.py',ROOT/'scripts/latex_support.py',ROOT/'scripts/latex_project.py'}
+    paths.update({ROOT/'scripts/pdf_fonts.py',ROOT/'latex/vendor/adobe-mapping/Adobe-GB1-UCS2',ROOT/'latex/vendor/adobe-mapping/UPSTREAM.json'})
     def add(path):
         if path in paths:return
         assert path.is_file(),path

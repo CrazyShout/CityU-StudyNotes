@@ -188,9 +188,6 @@ X是4\ensuremath{\times}2；非对角线描述两个特征相对于各自均值�
 
 
 把每一行相同的计算压缩成一句话，就是
-
-
-
 \[
 V(t)=2t+1.\tag{M.1}
 \]
@@ -221,9 +218,6 @@ V(t)=2t+1.\tag{M.1}
 
 
 \textbf{Slope（斜率）}是“输出变化量\ensuremath{\div}输入变化量”。大写希腊字母\ensuremath{\Delta}读作delta，在这里表示“后一个值减前一个值”：
-
-
-
 \[
 \text{slope}=\frac{\Delta V}{\Delta t}=\frac{5-3}{2-1}=2\ \text{L/min}.\tag{M.2}
 \]
@@ -250,9 +244,6 @@ English question: Under the same tank assumptions, find the volume after 2.5 min
 
 
 有三个读数1、2、4，写成x\textsubscript{1}=1、x\textsubscript{2}=2、x\textsubscript{3}=4。\textbf{Subscript（下标）}i告诉你“第几个”；x\textsubscript{2}是第二个读数，不是x乘2，也不是平方。
-
-
-
 \[
 \sum_{i=1}^{3}x_i=x_1+x_2+x_3=1+2+4=7,\tag{M.3}
 \]
@@ -268,9 +259,6 @@ English question: Under the same tank assumptions, find the volume after 2.5 min
 
 
 平方也要看括号：
-
-
-
 \[
 \sum_{i=1}^{3}x_i^2=1^2+2^2+4^2=21,
 \qquad\left(\sum_{i=1}^{3}x_i\right)^2=7^2=49.\tag{M.5}
@@ -384,18 +372,12 @@ English question: Select one message uniformly from the table. What is the proba
 
 
 第一问先把目光缩到“垃圾邮件”那一行：30封里18封含free，得到
-
-
-
 \[
 P(F\mid S)=\frac{18}{30}=0.6.\tag{M.6}
 \]
 
 
 第二问先缩到“含free”那一列：25封里18封是垃圾邮件，得到
-
-
-
 \[
 P(S\mid F)=\frac{18}{25}=0.72.\tag{M.7}
 \]
@@ -408,9 +390,6 @@ P(S\mid F)=\frac{18}{25}=0.72.\tag{M.7}
 
 
 两个条件同时满足叫交集，写成F\ensuremath{\cap}S；本例概率是18/100=0.18。由计数关系可归纳出
-
-
-
 \[
 P(F\mid S)=\frac{P(F\cap S)}{P(S)},\qquad
 P(F\cap S)=P(F\mid S)P(S),\quad P(S)>0.\tag{M.8}
@@ -463,9 +442,6 @@ P(F\cap S)=P(F\mid S)P(S),\quad P(S)>0.\tag{M.8}
 
 
 这条曲线叫 \textbf{probability density function，PDF（概率密度函数）}，写作f(x)。这里PDF是函数的缩写，不是文件格式。对于这个均匀模型：
-
-
-
 \[
 f(x)=\begin{cases}2,&0\le x\le0.5,\\0,&\text{otherwise}.\end{cases}\tag{M.9}
 \]
@@ -490,9 +466,6 @@ English question: In the uniform waiting-time model on [0,0.5] minutes, find the
 
 
 对曲线，可以把区间切成很多窄长方形，将“宽\ensuremath{\times}高”相加，越切越细。这种累计面积记为 \textbf{integral（积分）}：
-
-
-
 \[
 P(a\le X\le b)=\int_a^b f(x)\,dx.\tag{M.10}
 \]
@@ -547,9 +520,6 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 
 
 \textbf{Logarithm（对数）}把问题倒过来：“底数2的几次方等于8？”答案是3，记成log\textsubscript{2}8=3。一般定义为
-
-
-
 \[
 \log_b x=y\quad\Longleftrightarrow\quad b^y=x,
 \qquad b>0,\ b\ne1,\ x>0.\tag{M.11}
@@ -565,9 +535,6 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 
 
 \textbf{Natural logarithm（自然对数）}以特殊常数e\ensuremath{\approx}2.71828为底，写成ln(x)。对应的指数函数eˣ也写成exp(x)。它们互相反解：
-
-
-
 \[
 \ln(e^u)=u,\qquad e^{\ln x}=x\quad(x>0).\tag{M.12}
 \]
@@ -595,18 +562,12 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 
 
 设a=eᵘ、b=eᵛ，两个数都为正。指数的相乘规则给出ab=eᵘeᵛ=eᵘ\textsuperscript{+}ᵛ。对它反问“这是e的几次方”，答案就是u+v。因此
-
-
-
 \[
 \ln(ab)=\ln a+\ln b.\tag{M.13}
 \]
 
 
 同样，正数a有ln(aᵏ)=k ln(a)。例如ln(0.2\ensuremath{\times}0.5)=ln0.2+ln0.5；多个因子时，把这个规则重复使用：
-
-
-
 \[
 \ln\left(\prod_{i=1}^{N}p_i\right)=\sum_{i=1}^{N}\ln p_i,
 \qquad p_i>0.\tag{M.14}
@@ -688,9 +649,6 @@ English question: Compute log\textsubscript{2}(1/8) and log\textsubscript{2}(2\e
 
 
 我们先盯住x=2，问它附近的变化率。从x走到x+h，h表示这一步的长度，可以为正，也可以为负，但不能是0。两点间 \textbf{secant（割线）}的斜率为
-
-
-
 \[
 \frac{f(x+h)-f(x)}{h}
 =\frac{(x+h)^2-x^2}{h}
@@ -720,9 +678,6 @@ English question: Compute log\textsubscript{2}(1/8) and log\textsubscript{2}(2\e
 
 
 让h从两侧越来越接近0，斜率趋近4。这个 \textbf{limit（极限）}不是先把分母h替换成0；它问非零h靠近0时整个比值趋向哪里。这个局部变化率叫 \textbf{derivative（导数）}，可以写成f\ensuremath{\prime}(x)或df/dx：
-
-
-
 \[
 f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}h=2x.\tag{M.16}
 \]
@@ -767,9 +722,6 @@ eˣ & eˣ & 与ln互逆，结合链式法则可得 \\
 
 
 对1/x也可以直接检查差商：
-
-
-
 \[
 \frac{1/(x+h)-1/x}{h}
 =\frac{-h}{x(x+h)h}
@@ -802,9 +754,6 @@ eˣ & eˣ & 与ln互逆，结合链式法则可得 \\
 
 
 令z=3x+1，再令y=z\textsuperscript{2}。先把x变成z，再把z平方得到y。x动一点，第一道工序先把变化放大3倍；第二道工序在当前z附近再放大约2z倍。总变化率就是两段相乘：
-
-
-
 \[
 \frac{dy}{dx}=\frac{dy}{dz}\frac{dz}{dx}=2z\times3=6(3x+1).\tag{M.18}
 \]
@@ -844,9 +793,6 @@ English question: Let z=3x+1 and y=z\textsuperscript{2}. At x=1, find dy/dx and 
 
 
 如果函数有两个输入，比如E(u,v)=(u\ensuremath{-}1)\textsuperscript{2}+(v\ensuremath{-}2)\textsuperscript{2}，想知道u单独改变的影响，就先把v固定。这样的导数叫 \textbf{partial derivative（偏导）}，用弯曲的\ensuremath{\partial}写成\ensuremath{\partial}E/\ensuremath{\partial}u：
-
-
-
 \[
 \frac{\partial E}{\partial u}=2(u-1),\qquad
 \frac{\partial E}{\partial v}=2(v-2).\tag{M.19}
@@ -878,9 +824,6 @@ Lecture 2的高斯似然有\ensuremath{\mu}与\ensuremath{\sigma}\textsuperscrip
 
 
 用本讲即将看到的一个教学例子连接起来：固定10个独立标签，其中4个为类1、6个为类2。令p为候选的类1概率；改变的是p，不是重新抽标签。该固定标签序列的似然为
-
-
-
 \[
 L(p)=p^4(1-p)^6,\qquad 0\le p\le1.\tag{M.20}
 \]
@@ -903,9 +846,6 @@ English question: For the fixed independent label sequence with four class-1 and
 
 
 对0<p<1先取对数，再应用刚才的规则：
-
-
-
 \[
 \ell(p)=4\ln p+6\ln(1-p),\qquad
 \ell'(p)=\frac4p-\frac6{1-p}.\tag{M.21}
@@ -913,9 +853,6 @@ English question: For the fixed independent label sequence with four class-1 and
 
 
 令导数为0，得到4(1\ensuremath{-}p)=6p，所以p=0.4。为了判断是不是山顶，把导数合成一个分式：
-
-
-
 \[
 \ell'(p)=\frac{4-10p}{p(1-p)}.\tag{M.22}
 \]
@@ -967,9 +904,6 @@ English question: (1) Find the derivative of y=(2x\ensuremath{-}1)\textsuperscri
 
 
 假设每条记录有两个测量。把同一个类别里的四条人为教学记录写成(1,1)、(2,3)、(3,2)、(4,4)，数值均无量纲。一个 \textbf{vector（向量）}保存一条记录的有序特征；\textbf{matrix（矩阵）}则把很多数字按行列组织起来。
-
-
-
 \[
 X=\begin{pmatrix}1&1\\2&3\\3&2\\4&4\end{pmatrix}\in\mathbb R^{4\times2},
 \qquad \mathbf{x}_2=\begin{pmatrix}2\\3\end{pmatrix}\in\mathbb R^2.\tag{M.23}
@@ -998,18 +932,12 @@ X有4行、2列，写成4\ensuremath{\times}2，顺序是“行数\ensuremath{\t
 
 
 两个长度相同的向量可以做 \textbf{dot product（点积、内积）}：对应位置相乘，再求和。令u=(2,3)\textsuperscript{T}、v=(4,1)\textsuperscript{T}：
-
-
-
 \[
 \mathbf{u}^T\mathbf{v}=2\times4+3\times1=11.\tag{M.24}
 \]
 
 
 这是1\ensuremath{\times}2乘2\ensuremath{\times}1，结果为1\ensuremath{\times}1，即一个数。反过来u u\textsuperscript{T}是2\ensuremath{\times}1乘1\ensuremath{\times}2，得到2\ensuremath{\times}2的 \textbf{outer product（外积）}：
-
-
-
 \[
 \mathbf{u}\mathbf{u}^T=
 \begin{pmatrix}2\times2&2\times3\\3\times2&3\times3\end{pmatrix}
@@ -1031,9 +959,6 @@ English question: Let A=[[2,1],[0,1]] and x=(2,3)\textsuperscript{T}. Compute Ax
 
 
 第一行[2,1]与x相乘，得到2\ensuremath{\times}2+1\ensuremath{\times}3=7；第二行[0,1]与x相乘，得到0\ensuremath{\times}2+1\ensuremath{\times}3=3：
-
-
-
 \[
 A\mathbf{x}=\begin{pmatrix}7\\3\end{pmatrix}.\tag{M.26}
 \]
@@ -1061,9 +986,6 @@ A\mathbf{x}=\begin{pmatrix}7\\3\end{pmatrix}.\tag{M.26}
 
 
 先把偏差平方，再取平均，就得到这里采用的经验 \textbf{variance（方差）}：
-
-
-
 \[
 \bar x=\frac1N\sum_{i=1}^N x_i,\qquad
 v=\frac1N\sum_{i=1}^N(x_i-\bar x)^2.\tag{M.27}
@@ -1113,9 +1035,6 @@ N是观测数，x̄表示样本均值。代入得到v=(4+0+4)/3=8/3 cm\textsuper
 
 
 两个特征都高于各自均值、或都低于各自均值，乘积为正；一个高一个低，乘积为负。把这些乘积平均，得到 \textbf{covariance（协方差）}：
-
-
-
 \[
 s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
 \]
@@ -1128,9 +1047,6 @@ s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
 
 
 每列自身的方差都为(2.25+0.25+0.25+2.25)/4=1.25。把它们与协方差排进矩阵：
-
-
-
 \[
 \hat\Sigma=\begin{pmatrix}1.25&1\\1&1.25\end{pmatrix}.\tag{M.29}
 \]
@@ -1140,9 +1056,6 @@ s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
 
 
 刚学过的外积能一次记下全部偏差乘积。把第i条记录减均值得到列向量d\textsubscript{i}=x\textsubscript{i}\ensuremath{-}\ensuremath{\mu}̂，则
-
-
-
 \[
 \hat\Sigma=\frac1N\sum_{i=1}^N\mathbf{d}_i\mathbf{d}_i^T.\tag{M.30}
 \]
@@ -1184,9 +1097,6 @@ s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
 
 
 之前A把x=(2,3)\textsuperscript{T}变成了(7,3)\textsuperscript{T}。若能从结果唯一恢复原输入，这个反向操作可用 \textbf{inverse matrix（逆矩阵）}A\textsuperscript{-}\textsuperscript{1}表示。单位矩阵I只保留原向量，A\textsuperscript{-}\textsuperscript{1}A=I：
-
-
-
 \[
 I=\begin{pmatrix}1&0\\0&1\end{pmatrix},\qquad
 A^{-1}=\begin{pmatrix}1/2&-1/2\\0&1\end{pmatrix}.\tag{M.31}
@@ -1197,9 +1107,6 @@ A^{-1}=\begin{pmatrix}1/2&-1/2\\0&1\end{pmatrix}.\tag{M.31}
 
 
 对一个2\ensuremath{\times}2矩阵A=[[a,b],[c,d]]，\textbf{determinant（行列式）}为det(A)=ad\ensuremath{-}bc。若它非零，可以用
-
-
-
 \[
 A^{-1}=\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}.\tag{M.32}
 \]
@@ -1300,9 +1207,6 @@ English question: (1) Find u\textsuperscript{T}v for u=(1,2)\textsuperscript{T} 
 
 
 从n个人中选k个人：先按顺序选有 \(n(n-1)\cdots(n-k+1)\) 种，但同一组k个人的顺序有 \(k!=k(k-1)\cdots1\) 种，除掉重复：
-
-
-
 \[
 \binom nk=\frac{n!}{k!(n-k)!},\qquad 0!=1,\quad0\le k\le n.\tag{M.33}
 \]
@@ -1312,9 +1216,6 @@ English question: (1) Find u\textsuperscript{T}v for u=(1,2)\textsuperscript{T} 
 
 
 若每人\textbf{独立}以概率p活跃，特定状态“甲乙活跃、丙安静”的概率为 \(p\times p\times(1-p)\)。恰两人活跃要把三个互不重叠的状态相加，得到 \(3p^2(1-p)\)。一般地，活跃人数 \(K\sim\operatorname{Binomial}(n,p)\)：
-
-
-
 \[
 P(K=k)=\binom nk p^k(1-p)^{n-k}.\tag{M.34}
 \]
@@ -1376,9 +1277,6 @@ P(K=k)=\binom nk p^k(1-p)^{n-k}.\tag{M.34}
 
 
 怎么计算？沿u方向的点可写成 \(p=au\)。要求余下 \(r=v-au\) 与u垂直：
-
-
-
 \[
 u^T(v-au)=0\ \Rightarrow\ u^Tv-a(u^Tu)=0\ \Rightarrow\ a=\frac{u^Tv}{u^Tu}.\tag{M.35}
 \]
@@ -1434,9 +1332,6 @@ u^T(v-au)=0\ \Rightarrow\ u^Tv-a(u^Tu)=0\ \Rightarrow\ a=\frac{u^Tv}{u^Tu}.\tag{
 
 
 再把y改为(3,5)，现在第一行希望和为3，第二行希望和为2.5，两者不能都满足。最小二乘不再问“有没有精确解”，而问“哪一个可达向量离y最近”。设s=w\textsubscript{1}+w\textsubscript{2}，误差
-
-
-
 \[
 E(s)=(3-s)^2+(5-2s)^2=5s^2-26s+34.\tag{M.36}
 \]
@@ -1490,9 +1385,6 @@ w=(2,2)，预测(4,8)，残差0；仍有其他精确解，但其长度更大。 
 
 
 前面一元导数回答“x多一点，函数怎么变”。现在同时有两个参数，代价 \(E(w_1,w_2)=w_1^2+2w_2^2\)。固定w\textsubscript{2}，对w\textsubscript{1}求导得2w\textsubscript{1}；固定w\textsubscript{1}，对w\textsubscript{2}求导得4w\textsubscript{2}。把两个偏导按变量顺序装成向量：
-
-
-
 \[
 \nabla E=(2w_1,4w_2)^T.\tag{M.37}
 \]
@@ -1579,9 +1471,6 @@ g=2\ensuremath{-}x\ensuremath{\ge}0，L=(x\ensuremath{-}3)\textsuperscript{2}\en
 
 
 一条记录\(x=(x_1,x_2)\)乘矩阵A，得到输出\(u=xA+b\)。两条记录排成X的两行，仍乘同一个A。设
-
-
-
 \[
 X=\begin{bmatrix}1&2\\3&4\end{bmatrix},\quad
 G=\frac{\partial L}{\partial U}=\begin{bmatrix}1&-1\\2&0\end{bmatrix}.\tag{M.38}
@@ -1589,18 +1478,12 @@ G=\frac{\partial L}{\partial U}=\begin{bmatrix}1&-1\\2&0\end{bmatrix}.\tag{M.38}
 
 
 G每一格表示对应输出稍增一点，损失会怎样变。某权重\(A_{jk}\)同时影响所有样本的第k个输出，因此
-
-
-
 \[
 \frac{\partial L}{\partial A_{jk}}=\sum_i X_{ij}G_{ik}.\tag{M.39}
 \]
 
 
 四格分别为1\ensuremath{\times}1+3\ensuremath{\times}2=7，1\ensuremath{\times}(\ensuremath{-}1)+3\ensuremath{\times}0=\ensuremath{-}1，2\ensuremath{\times}1+4\ensuremath{\times}2=10，2\ensuremath{\times}(\ensuremath{-}1)+4\ensuremath{\times}0=\ensuremath{-}2。把这些求和排成矩阵，就是
-
-
-
 \[
 \nabla_A L=X^TG=\begin{bmatrix}7&-1\\10&-2\end{bmatrix},\qquad
 \nabla_b L=\sum_iG_{i,:}=(3,-1).\tag{M.40}
@@ -1616,9 +1499,6 @@ G每一格表示对应输出稍增一点，损失会怎样变。某权重\(A_{jk
 
 
 输入有两个分量、输出也有两个分量，Jacobian第j行第k列记\(\partial f_j/\partial x_k\)。例如\(f(x_1,x_2)=(2x_1,x_1+x_2)\)，表为
-
-
-
 \[
 J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.\tag{M.41}
 \]

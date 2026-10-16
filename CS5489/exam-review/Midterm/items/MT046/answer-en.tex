@@ -3,9 +3,6 @@
 
 
 (b) Let \(\pi=P(y=1)\), with \(P(y=0)=1-\pi\). For class \(c\),
-
-
-
 \[
 p(x\mid y=c)=\prod_{j=1}^d\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})=\mathcal N(x;\mu_c,\operatorname{diag}(\sigma^2_{c1},\ldots,\sigma^2_{cd})).
 \]
@@ -15,9 +12,6 @@ Here \(\mu_c\in\mathbb R^d\) and each variance is positive. Unless a shared-vari
 
 
 (c) Under equal misclassification costs, select the largest posterior:
-
-
-
 \[
 \hat y=\arg\max_{c\in\{0,1\}}\left[\log P(y=c)+\sum_{j=1}^d\log\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})\right].
 \]

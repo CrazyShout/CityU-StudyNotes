@@ -101,9 +101,6 @@ SVM dual、KKT & 核心必会 & 高；对谁求导、约束符号 & 跟完关键
 
 
 由Bayes公式，两类后验都除以同一个\(p(\mathbf x)\)，取比值后该分母消去。各维高斯的方差又完全相同，log密度中的归一化项也消去。留下的平方项可以沿用上一讲的方法展开：
-
-
-
 \[
 \begin{aligned}
 r(\mathbf x)&=\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}\\
@@ -121,9 +118,6 @@ r(\mathbf x)&=\log\frac{p(y=1\mid\mathbf x)}{p(y=2\mid\mathbf x)}\\
 
 
 每个\(x_j^2\)都与另一个同系数的\(x_j^2\)相减，因此只剩一次项。这里\(\|\boldsymbol\mu\|^2=\sum_j\mu_j^2\)，就是均值各分量的平方和。将一次项系数和常数分别记成：
-
-
-
 \[
 w_j=\frac{\mu_j-\nu_j}{\sigma^2},\qquad
 b=\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
@@ -192,9 +186,6 @@ b=\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
 % EXAM:focus-logistic:END
 
 “分数为 3”不直接告诉我们有多确定。Logistic Regression 用 sigmoid：
-
-
-
 \[
 \begin{gathered}\sigma(z)=\frac1{1+e^{-z}},\\[3pt]
 p(y=+1\mid\mathbf x)=\sigma(f(\mathbf x)),\\
@@ -209,9 +200,6 @@ p(y=-1\mid\mathbf x)=1-\sigma(f(\mathbf x)).\end{gathered}\tag{3.2}
 
 
 令 \(z_i=y_i f(\mathbf x_i)\)。它为正说明分对，负说明分错，零在边界。对N个独立样本，条件似然相乘，取对数后相加；最大化对数似然等价于最小化负对数：
-
-
-
 \[
 E(\mathbf w,b)=\sum_{i=1}^N\ell(z_i),\qquad \ell(z)=\log(1+e^{-z}).\tag{3.3}
 \]
@@ -238,9 +226,6 @@ E(\mathbf w,b)=\sum_{i=1}^N\ell(z_i),\qquad \ell(z)=\log(1+e^{-z}).\tag{3.3}
 % EXAM:focus-regularization:END
 
 模型可能靠很大的权重把训练点分得极其自信，但新数据稍有变化就出错。Lecture3a，第49–51个单元 给权重零均值高斯先验，协方差 \((C/2)I\)，得到课堂目标：
-
-
-
 \[
 E=\frac1C\|\mathbf w\|^2+\sum_i\log(1+e^{-y_i(\mathbf w^T\mathbf x_i+b)}),\qquad C>0.\tag{3.4}
 \]
@@ -250,9 +235,6 @@ E=\frac1C\|\mathbf w\|^2+\sum_i\log(1+e^{-y_i(\mathbf w^T\mathbf x_i+b)}),\qquad
 
 
 老师说用迭代优化（Lecture3a，第52个单元）。补足最关键一步：对一个样本，
-
-
-
 \[
 \frac{d\ell}{dz}=-\frac1{1+e^z}=-\sigma(-z),\qquad
 \nabla_{\mathbf w}\ell=-y\sigma(-yf)\mathbf x.\tag{3.5}
@@ -260,9 +242,6 @@ E=\frac1C\|\mathbf w\|^2+\sum_i\log(1+e^{-y_i(\mathbf w^T\mathbf x_i+b)}),\qquad
 
 
 第一式来自先求 \(\log u\) 的导数再乘 \(u=1+e^{-z}\) 的导数；第二式再乘 \(z=y(\mathbf w^T\mathbf x+b)\) 对权重的导数。加上正则得到
-
-
-
 \[
 \begin{aligned}\nabla_{\mathbf w}E&=\frac2C\mathbf w-\sum_i y_i\sigma(-y_if_i)\mathbf x_i,\\[3pt]
 \frac{\partial E}{\partial b}&=-\sum_i y_i\sigma(-y_if_i).\end{aligned}\tag{3.6}
@@ -291,9 +270,6 @@ E=\frac1C\|\mathbf w\|^2+\sum_i\log(1+e^{-y_i(\mathbf w^T\mathbf x_i+b)}),\qquad
 
 
 历史题还会把式（3.4）的平方惩罚换成绝对值惩罚。数据损失仍是logistic loss，改的是权重的代价：
-
-
-
 \[
 E=\sum_i\log(1+e^{-y_i f_i})+\lambda\sum_j|w_j|,\qquad\lambda>0.
 \tag{3.6a}
@@ -379,9 +355,6 @@ One-vs-rest（OvR）为每一类训练“它 versus 其他类”分类器，然�
 
 
 Softmax 则一起训练 K 组权重，\(f_c(\mathbf x)=\mathbf w_c^T\mathbf x\)（偏置可加入或吸收到常数特征）：
-
-
-
 \[
 p_c=\frac{e^{f_c}}{\sum_{j=1}^K e^{f_j}},\qquad \ell=-\sum_{c=1}^K y_c\log p_c.\tag{3.7}
 \]
@@ -419,9 +392,6 @@ p_c=\frac{e^{f_c}}{\sum_{j=1}^K e^{f_j}},\qquad \ell=-\sum_{c=1}^K y_c\log p_c.\
 
 
 线性可分、标签正确侧的前提下，选择归一化使最近点 \(y_if_i=1\)。一侧 margin 为 \(1/\|\mathbf w\|\)，两条支持平面间的\textbf{总宽度}为 \(2/\|\mathbf w\|\)。于是 hard-margin SVM：
-
-
-
 \[
 \min_{\mathbf w,b}\frac12\|\mathbf w\|^2\quad\text{s.t. } y_i(\mathbf w^T\mathbf x_i+b)\ge1\quad\forall i.\tag{3.8}
 \]
@@ -452,18 +422,12 @@ p_c=\frac{e^{f_c}}{\sum_{j=1}^K e^{f_j}},\qquad \ell=-\sum_{c=1}^K y_c\log p_c.\
 
 
 对 hard SVM，\(g_i=y_i(\mathbf w^T\mathbf x_i+b)-1\)：
-
-
-
 \[
 L(\mathbf w,b,\boldsymbol\alpha)=\frac12\mathbf w^T\mathbf w-\sum_i\alpha_i[y_i(\mathbf w^T\mathbf x_i+b)-1].\tag{3.9}
 \]
 
 
 先固定 \(\alpha\)，对原变量 \(\mathbf w,b\) 取最小值。展开与求导：
-
-
-
 \[
 \begin{aligned}L&=\frac12\mathbf w^T\mathbf w-\mathbf w^T\sum_i\alpha_iy_i\mathbf x_i\\
 &\quad-b\sum_i\alpha_i y_i+\sum_i\alpha_i.\end{aligned}\tag{3.10}
@@ -502,9 +466,6 @@ L(\mathbf w,b,\boldsymbol\alpha)=\frac12\mathbf w^T\mathbf w-\sum_i\alpha_i[y_i(
 
 
 于是，对固定乘子取到的最小值为：
-
-
-
 \[
 \begin{aligned}
 q(\boldsymbol\alpha)&=\min_{\mathbf w,b}L(\mathbf w,b,\boldsymbol\alpha)\\
@@ -515,9 +476,6 @@ q(\boldsymbol\alpha)&=\min_{\mathbf w,b}L(\mathbf w,b,\boldsymbol\alpha)\\
 
 
 负的\(1/2\)来自\(1/2-1\)。接下来展开\(\mathbf v\)的内积：左边求和选一个样本\(i\)，右边求和选一个样本\(j\)，每一对都要相乘，因此出现双重求和：
-
-
-
 \[
 \begin{aligned}
 \mathbf v^T\mathbf v
@@ -530,9 +488,6 @@ q(\boldsymbol\alpha)&=\min_{\mathbf w,b}L(\mathbf w,b,\boldsymbol\alpha)\\
 
 
 非负乘子给出的\(q\)是原最小值的下界；现在选择乘子，让这个下界尽可能大，得到对偶问题：
-
-
-
 \[
 \begin{gathered}\max_{\boldsymbol\alpha}\sum_i\alpha_i-\frac12\sum_{i,j}\alpha_i\alpha_jy_iy_j\mathbf x_i^T\mathbf x_j,\\
 \sum_i\alpha_iy_i=0,\qquad\alpha_i\ge0.\end{gathered}\tag{3.12}
@@ -623,9 +578,6 @@ q(\boldsymbol\alpha)&=\min_{\mathbf w,b}L(\mathbf w,b,\boldsymbol\alpha)\\
 
 
 有重叠/噪声时，强求所有点正确且留出间隔可能无解。为每点引入无量纲 slack \(\xi_i\ge0\)：
-
-
-
 \[
 \begin{gathered}\min_{\mathbf w,b,\boldsymbol\xi}\frac12\|\mathbf w\|^2+C\sum_i\xi_i,\\
 y_if_i\ge1-\xi_i,\quad\xi_i\ge0,\quad C>0.\end{gathered}\tag{3.13}
@@ -639,9 +591,6 @@ y_if_i\ge1-\xi_i,\quad\xi_i\ge0,\quad C>0.\end{gathered}\tag{3.13}
 
 
 对 \(\xi_i\ge0\) 引入另一个乘子 \(\gamma_i\)，\(\partial L/\partial\xi_i=C-\alpha_i-\gamma_i=0\)，故 \(0\le\alpha_i\le C\)。对偶目标形式不变，增加上界。还要同时满足两条互补松弛条件：
-
-
-
 \[
 \alpha_i(y_if_i-1+\xi_i)=0,\qquad (C-\alpha_i)\xi_i=0.
 \tag{3.13a}
@@ -759,9 +708,6 @@ RBF 核 \(k(x,x')=\exp(-\gamma\|x-x'\|^2)\)，\(\gamma>0\)。小 gamma 的相似
 
 
 \textbf{完整小例（教学补充）：} 两个无量纲训练点为0和1，取\(\gamma=\ln2\)。自己与自己的距离为0，所以对角元素都是1；两点距离为1，非对角元素为\(e^{-\ln2}=1/2\)：
-
-
-
 \[
 K=\begin{pmatrix}1&1/2\\1/2&1\end{pmatrix}.\tag{3.14}
 \]

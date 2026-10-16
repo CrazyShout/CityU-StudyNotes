@@ -436,9 +436,6 @@ English: Index 1 combines disaster and insurance-loss language; index 3 discusse
 
 
 给定类别c，特征\(x_j\)是每篇文档中词j的\textbf{非负整数计数}。模型把一篇文档作为一次计数观察，估计“这个词在该类的一篇文档里平均出现几次”：
-
-
-
 \[
 p(x_j\mid c)=e^{-\mu_{j,c}}\frac{\mu_{j,c}^{x_j}}{x_j!},
 \qquad
@@ -453,9 +450,6 @@ p(x_j\mid c)=e^{-\mu_{j,c}}\frac{\mu_{j,c}^{x_j}}{x_j!},
 
 
 各词在给定类别下的对数概率相加，得到整篇文档的对数似然：
-
-
-
 \[
 \log p(\mathbf{x}\mid c)=
 \sum_j[x_j\log\mu_{j,c}-\mu_{j,c}-\log(x_j!)].\tag{T2.2}
@@ -471,9 +465,6 @@ p(x_j\mid c)=e^{-\mu_{j,c}}\frac{\mu_{j,c}^{x_j}}{x_j!},
 
 
 分类器接口提供了alpha参数，但教师模板没有指定平滑公式（Tutorial2v2，第32个单元）。这里对alpha>0明确选用：
-
-
-
 \[
 \hat\mu_{j,c}=\frac{T_{j,c}+\alpha}{N_c+\alpha}.\tag{T2.3}
 \]
@@ -652,6 +643,7 @@ English answer: Test text influenced the representation. Leakage can involve unl
 
 
 
+\Needspace{22\baselineskip}
 \StudyHeading{2}{原文件覆盖索引 / Source coverage}
 \StudyTarget{CS5489-Tutorial02__source-coverage}
 

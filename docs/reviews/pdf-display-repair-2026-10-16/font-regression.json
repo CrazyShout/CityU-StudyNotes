@@ -1,0 +1,38 @@
+{
+  "CS5489": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /VLWLPO+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 12
+  },
+  "CS5222": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /KWVMKQ+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 13
+  },
+  "Foundations": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /RJHOXQ+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 11
+  },
+  "Questions": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /PDPUJD+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 10
+  },
+  "Answers": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /ABEEEQ+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 10
+  },
+  "Combined": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /UHKXPM+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 10
+  },
+  "Compact": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /MIRLUP+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 10
+  },
+  "MultipleChoice": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /VCBSWF+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 10
+  },
+  "WrittenResponse": {
+    "old_pdf_rejected": "Missing embedded Unicode mapping: /QMJBLB+FandolHei-Bold-Identity-H",
+    "new_embedded_unicode_fonts": 10
+  }
+}

@@ -130,9 +130,6 @@ mode2 取 GrLivArea、TotRmsAbvGrd、GarageArea、TotalBsmtSF、Fireplaces、Bed
 
 
 Ordinary least squares（OLS，普通最小二乘）最小化平方残差和：
-
-
-
 \[
 E(\mathbf w,b)=\sum_{i=1}^N[y_i-(\mathbf w^T\mathbf x_i+b)]^2.\tag{4.1}
 \]
@@ -170,9 +167,6 @@ w=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2}=\frac12,
 
 
 把各个x代入 \(\hat y=x/2+7/6\)，预测为 \((7/6,5/3,13/6)\)；真实值减预测值得残差 \((-1/6,1/3,-1/6)\)。因此
-
-
-
 \[
 \mathrm{SSE}=\frac1{36}+\frac19+\frac1{36}=\frac16,
 \qquad\mathrm{MSE}=\frac{\mathrm{SSE}}3=\frac1{18}.\tag{4.3}
@@ -185,9 +179,6 @@ w=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2}=\frac12,
 
 
 先固定斜率\(w\)，看怎样选择截距\(b\)。在\(E(w,b)=\sum_i[y_i-wx_i-b]^2\)中，每个残差对\(b\)的导数都是\(-1\)；平方求导后得到：
-
-
-
 \[
 \begin{gathered}
 \frac{\partial E}{\partial b}
@@ -202,9 +193,6 @@ b=\bar y-w\bar x.
 
 
 接着只剩斜率未知。为看清求导，记\(u_i=x_i-\bar x\)、\(v_i=y_i-\bar y\)，它们都是已经由数据算好的数。代回截距后的残差就是\(v_i-wu_i\)，将此时的误差记作\(E_c(w)\)：
-
-
-
 \[
 \begin{gathered}
 E_c(w)=\sum_i(v_i-wu_i)^2,\\
@@ -241,9 +229,6 @@ w\sum_i u_i^2=\sum_i u_i v_i.
 % EXAM:focus-ols:END
 
 三点的计算可以一次写成矩阵运算。先沿用老师“每列一个样本”的约定：给每个输入补一个常数1，让偏置也能放进权重向量。记
-
-
-
 \[
 \begin{gathered}\tilde x_i=(x_i^T,1)^T,\qquad w\in\mathbb R^{d+1},\quad y\in\mathbb R^N,\\[3pt]
 X=[\tilde x_1,\ldots,\tilde x_N]\in\mathbb R^{(d+1)\times N}.\end{gathered}\tag{4.4}
@@ -254,36 +239,24 @@ X=[\tilde x_1,\ldots,\tilde x_N]\in\mathbb R^{(d+1)\times N}.\end{gathered}\tag{
 
 
 展开目标：
-
-
-
 \[
 E=\|y-X^Tw\|^2=y^Ty-2y^TX^Tw+w^TXX^Tw.\tag{4.5}
 \]
 
 
 第一项不含w，导数0；第二项导数 \(-2Xy\)；因为 \(XX^T\) 对称，第三项导数 \(2XX^Tw\)。令梯度为0：
-
-
-
 \[
 XX^Tw=Xy.\tag{4.6}
 \]
 
 
 方程能直接求逆的条件是X的各行相互独立，即\textbf{满行秩（full row rank）}。这时：
-
-
-
 \[
 w=(XX^T)^{-1}Xy.\tag{4.7}
 \]
 
 
 用刚才的三点核对两种写法。此处把矩阵解的权重明确写成\((w,b)^T\)，避免把标量斜率\(w\)与整组参数混淆：
-
-
-
 \[
 \begin{gathered}
 X=\begin{pmatrix}0&1&2\\1&1&1\end{pmatrix},\qquad
@@ -372,9 +345,6 @@ w仍1/2，b变13/6，残差与MSE不变。 / The slope remains 0.5, the intercep
 
 
 看一个更极端的教学例子：把同一列面积重复输入两次。系数取 \((100,-99)\) 与 \((0.5,0.5)\) 时，预测相同，因为都只相当于面积乘1。前一组依赖两个大数互相抵消。Ridge在拟合误差之外，加上系数平方和作为代价：前一组是19801，后一组只有0.5，因此更偏好后一种分配。这里比较的是两组相同预测的系数；完整训练还会同时权衡预测误差。
-
-
-
 \[
 E(w)=\sum_i(y_i-f(x_i))^2+\alpha\|w\|^2,\qquad\alpha\ge0.\tag{4.8}
 \]
@@ -384,9 +354,6 @@ E(w)=\sum_i(y_i-f(x_i))^2+\alpha\|w\|^2,\qquad\alpha\ge0.\tag{4.8}
 
 
 \textbf{一维手算（无截距）：} x=(1,2)，y=(1,2)，所以 \(\sum x^2=\sum xy=5\)。目标为 \(5(1-w)^2+\alpha w^2\)，求导得
-
-
-
 \[
 10(w-1)+2\alpha w=0
 \quad\Rightarrow\quad w=\frac5{5+\alpha}.\tag{4.9}
@@ -407,18 +374,12 @@ alpha=0时回到OLS的w=1；alpha=5时w=0.5。预测离训练点更远，但系�
 
 
 若w的所有分量都受惩罚，求导得到
-
-
-
 \[
 (XX^T+\alpha I)w=Xy.\tag{4.10}
 \]
 
 
 当 \(\alpha>0\)，对任意非零向量v，
-
-
-
 \[
 v^T(XX^T+\alpha I)v=\|X^Tv\|^2+\alpha\|v\|^2>0.\tag{4.11}
 \]
@@ -443,9 +404,6 @@ v^T(XX^T+\alpha I)v=\|X^Tv\|^2+\alpha\|v\|^2>0.\tag{4.11}
 
 
 LASSO（Least Absolute Shrinkage and Selection Operator）把平方惩罚换成绝对值：
-
-
-
 \[
 E=\sum_i(y_i-f(x_i))^2+\alpha\sum_j|w_j|.\tag{4.12}
 \]
@@ -476,9 +434,6 @@ E=\sum_i(y_i-f(x_i))^2+\alpha\sum_j|w_j|.\tag{4.12}
 
 
 合起来得到
-
-
-
 \[
 w=\frac{\operatorname{sign}(t)\max(|t|-\alpha/2,0)}a.\tag{4.13}
 \]
@@ -517,9 +472,6 @@ w=\frac{\operatorname{sign}(t)\max(|t|-\alpha/2,0)}a.\tag{4.13}
 
 
 第二轮把a\textsubscript{1}也选进来。现在一起求两个系数c\textsubscript{1}、c\textsubscript{2}：
-
-
-
 \[
 c_1\begin{pmatrix}1\\0\end{pmatrix}
 +\frac{c_2}{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}
@@ -554,9 +506,6 @@ c_1\begin{pmatrix}1\\0\end{pmatrix}
 
 
 Huber损失把两种形状接起来。以无量纲残差、阈值1为例：
-
-
-
 \[
 \ell_H(r)=\begin{cases}\frac12r^2,&|r|\le1,\\|r|-\frac12,&|r|>1.\end{cases}\tag{4.15}
 \]
@@ -581,9 +530,6 @@ Huber损失把两种形状接起来。以无量纲残差、阈值1为例：
 
 
 历史题中的Elastic Net则保留平方残差，同时惩罚权重的L1与L2项。用两个非负系数把作用分开：
-
-
-
 \[
 E=\sum_i(y_i-f(x_i))^2+\alpha_1\|w\|_1+\alpha_2\|w\|_2^2.
 \tag{4.15a}
@@ -716,9 +662,6 @@ x & 真值y & 候选预测 & 绝对残差 & 本轮是否内点 \\
 
 
 新输入\(x_*\)与各训练点的核值组成\(k_*=(k(x_1,x_*),\ldots,k(x_N,x_*))^T\in\mathbb R^N\)。把移项、求系数和预测写在一起：
-
-
-
 \[
 \begin{gathered}
 \alpha w=\Phi(y-\Phi^Tw),\\[4pt]
@@ -729,9 +672,6 @@ a=(K+\alpha I_N)^{-1}y,\qquad \hat y_*=k_*^Ta.
 
 
 末行的预测为什么可以用核值相加？把\(w=\Phi a\)放回原预测式即可：
-
-
-
 \[
 \begin{aligned}
 \hat y_*&=w^T\phi(x_*)
@@ -820,9 +760,6 @@ Random Forest让多棵树使用不同的训练样本。\textbf{Bootstrap（自�
 % EXAM:focus-forest-variance:END
 
 平均能消掉一部分随机波动，但多棵树若经常一起偏高、一起偏低，这部分共同波动不会被平均掉。固定一个输入，设n棵树的随机预测各有方差\(\sigma^2\)，任意不同两棵之间的相关系数均为\(\rho\)，则平均预测的方差为
-
-
-
 \[
 \begin{aligned}\operatorname{Var}\!\left(\frac1n\sum_{j=1}^n T_j\right)
 &=\frac{n\sigma^2+n(n-1)\rho\sigma^2}{n^2}\\[3pt]
@@ -1073,7 +1010,9 @@ Mock Exam（复用2023A题面） & Q11／7 & 关联（样题）：AdaBoost训练
 
 \begingroup
 \small\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.22}
+\renewcommand{\arraystretch}{1.12}
+\setlength{\LTpre}{.35\baselineskip}
+\setlength{\LTpost}{.35\baselineskip}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.477627\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.522373\linewidth-1.00000\tabcolsep\relax}@{}}
 \toprule
 原课单元 & 本文对应 \\

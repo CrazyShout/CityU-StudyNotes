@@ -3,9 +3,6 @@
 
 
 \textbf{为什么深度会放大这个问题？} 链式法则把一条路径上的局部变化率相乘。设共有\(L\)层，\(h_l\)表示第\(l\)层输出，\(w_l,b_l\)分别是该层权重与偏置。对于一条只有标量相连的计算链，\(h_l=\sigma(w_lh_{l-1}+b_l)\)，有
-
-
-
 \[
 \frac{\partial h_L}{\partial h_0}
 =\prod_{l=1}^{L}\left[w_l\,\sigma'(w_lh_{l-1}+b_l)\right].

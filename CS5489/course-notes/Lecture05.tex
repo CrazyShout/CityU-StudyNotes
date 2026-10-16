@@ -98,9 +98,6 @@ QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN
 
 
 对真实标签 \(y_i\in\{-1,+1\}\)，有符号分数 \(z_i=y_i\mathbf w^T\mathbf x_i\)：正值通常表示方向正确，负值表示误分类。原课损失为 \(\ell(z)=\max(0,-z)\)。误分类时
-
-
-
 \[
 \frac{\partial\ell_i}{\partial\mathbf w}=-y_i\mathbf x_i,\qquad
 \mathbf w\leftarrow\mathbf w+\eta y_i\mathbf x_i.\tag{5.1}
@@ -151,9 +148,6 @@ QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN
 
 
 Softmax把实数分数变为一组和为1的数：
-
-
-
 \[
 p_j=s_j(\mathbf g)=\frac{e^{g_j}}{\sum_{k=1}^{C}e^{g_k}}.\tag{5.2}
 \]
@@ -205,9 +199,6 @@ p_j=s_j(\mathbf g)=\frac{e^{g_j}}{\sum_{k=1}^{C}e^{g_k}}.\tag{5.2}
 % EXAM:focus-cross-entropy:END
 
 用\(c_i\)表示第i个样本的真实类别编号；one-hot标记\(y_{ij}\)只在\(j=c_i\)处取1，其余为0。\(p_{ij}\)是模型给第i个样本属于第j类的概率。单样本负对数似然为
-
-
-
 \[
 L_i=-\sum_j y_{ij}\log p_{ij}=-\log p_{i,c_i}.\tag{5.3}
 \]
@@ -238,9 +229,6 @@ L_i=-\sum_j y_{ij}\log p_{ij}=-\log p_{i,c_i}.\tag{5.3}
 
 
 Softmax的每个概率都有共同分母。对 \(p_k=e^{g_k}/\sum_r e^{g_r}\) 使用商的求导法则：
-
-
-
 \[
 \begin{aligned}\frac{\partial p_k}{\partial g_j}
 &=\frac{\mathbf1[k=j]e^{g_k}\sum_r e^{g_r}-e^{g_k}e^{g_j}}{(\sum_r e^{g_r})^2}\\[4pt]
@@ -252,9 +240,6 @@ Softmax的每个概率都有共同分母。对 \(p_k=e^{g_k}/\sum_r e^{g_r}\) �
 
 
 交叉熵 \(L=-\sum_k y_k\log p_k\) 先对概率求导，再沿概率对分数的导数相乘并求和：
-
-
-
 \[
 \begin{aligned}
 \frac{\partial L}{\partial g_j}
@@ -269,9 +254,6 @@ Softmax的每个概率都有共同分母。对 \(p_k=e^{g_k}/\sum_r e^{g_r}\) �
 
 
 最后，\(g_j=\mathbf w_j^T\mathbf x\)对该类权重\(\mathbf w_j\)的导数是输入\(\mathbf x\)。与上一段的\(p_j-y_j\)相乘，得到权重梯度：
-
-
-
 \[
 \frac{\partial L}{\partial\mathbf w_j}=\mathbf x(p_j-y_j).\tag{5.6}
 \]
@@ -309,9 +291,6 @@ Softmax的每个概率都有共同分母。对 \(p_k=e^{g_k}/\sum_r e^{g_r}\) �
 
 
 为了学习中间特征，把隐藏层放到分类器前面。单隐藏层按老师列向量写法为
-
-
-
 \[
 \begin{aligned}\mathbf g_1&=\mathbf A^T\mathbf x,&\mathbf z&=h_1(\mathbf g_1),\\[3pt]
 \mathbf g_2&=\mathbf W^T\mathbf z,&\mathbf f&=h_2(\mathbf g_2).\end{aligned}\tag{5.7}
@@ -449,9 +428,6 @@ A为d\ensuremath{\times}h，c为1\ensuremath{\times}h；W为h\ensuremath{\times}
 
 
 \textbf{从输出开始。} 上一节单样本的p\ensuremath{-}y按B个样本取平均：
-
-
-
 \[
 G_Z=(P-Y)/B.\tag{5.8}
 \]
@@ -461,9 +437,6 @@ G_Z=(P-Y)/B.\tag{5.8}
 
 
 同一个权重被所有样本共用；按链式法则把各样本对它的贡献相加，再加正则项的导数：
-
-
-
 \[
 \begin{aligned}
 \frac{\partial L}{\partial W_{jk}}
@@ -475,9 +448,6 @@ G_Z=(P-Y)/B.\tag{5.8}
 
 
 矩阵乘法\((H^TG_Z)_{jk}\)恰好就是这个求和：\(H\)转置后，第\(j\)行列出所有样本的第\(j\)项隐藏特征，再与\(G_Z\)的第\(k\)列逐项相乘并相加。因此：
-
-
-
 \[
 \nabla_W L=H^TG_Z+\lambda W,\qquad
 \nabla_b L=\sum_i(G_Z)_{i,:}.\tag{5.9}
@@ -488,9 +458,6 @@ G_Z=(P-Y)/B.\tag{5.8}
 
 
 \textbf{继续回到隐藏层。} 一个隐藏值\(H_{ij}\)会影响同一样本的所有输出。改变它一点，第\(k\)个输出随之改变的比例为\(W_{jk}\)，所以需要把各输出传回的贡献相加：
-
-
-
 \[
 \begin{aligned}
 (G_H)_{ij}=\frac{\partial L}{\partial H_{ij}}
@@ -503,9 +470,6 @@ G_Z=(P-Y)/B.\tag{5.8}
 
 
 这里沿输出编号\(k\)求和；刚才求权重梯度时，沿样本编号\(i\)求和。两次转置对应不同的汇总方向。得到\(G_H\)后，激活函数再按每个位置的斜率缩放它：
-
-
-
 \[
 G_U=G_H\odot\phi'(U).\tag{5.10}
 \]
@@ -515,9 +479,6 @@ G_U=G_H\odot\phi'(U).\tag{5.10}
 
 
 \textbf{最后求输入层权重。} 与输出层同样地，累加每个样本的“输入\ensuremath{\times}本层梯度”：
-
-
-
 \[
 \begin{gathered}\nabla_A L=X^TG_U+\lambda A,\\
 \nabla_c L=\sum_i(G_U)_{i,:},\qquad G_X=G_UA^T.\end{gathered}\tag{5.11}
@@ -658,9 +619,6 @@ A的梯度形状为d\ensuremath{\times}h，c的梯度为1\ensuremath{\times}h，
 
 
 前向得到\(u=h=\hat y=0\)，所以L=1。要改\(w_1\)，沿“权重\ensuremath{\to}隐藏输入\ensuremath{\to}激活\ensuremath{\to}预测\ensuremath{\to}损失”逐段求导：
-
-
-
 \[
 \begin{aligned}
 \frac{\partial L}{\partial w_1}

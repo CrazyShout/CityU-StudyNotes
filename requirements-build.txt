@@ -6,6 +6,8 @@ Pygments>=2.18,<3
 pymdown-extensions>=10.12,<13
 Pillow>=11,<13
 pypdf>=6.10,<7
+# Parse embedded CFF fonts during the independent PDF text check.
+fonttools>=4.58,<5
 reportlab>=4.4,<5
 numpy>=1.26,<3
 CairoSVG>=2.8,<3

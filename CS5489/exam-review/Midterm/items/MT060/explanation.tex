@@ -1,8 +1,5 @@
 % MT060 / explanation — canonical editable content.
 记软间隔SVM的目标值为\(J_C(w,b)\)：
-
-
-
 \[
 J_C(w,b)=\frac12\|w\|^2+C\sum_i\max(0,1-y_if(x_i)).
 \]
@@ -21,9 +18,6 @@ J_C(w,b)=\frac12\|w\|^2+C\sum_i\max(0,1-y_if(x_i)).
 
 
 最优解不会比这个候选解更差。目标中的hinge项又不可能为负，所以最优权重\(w_C\)满足
-
-
-
 \[
 \frac12\|w_C\|^2\le J_C(w_C,b_C)\le14C,
 \qquad \|w_C\|^2\le28C.
@@ -31,9 +25,6 @@ J_C(w,b)=\frac12\|w\|^2+C\sum_i\max(0,1-y_if(x_i)).
 
 
 因此\(C\to0^+\)时，\(w_C\)也趋于0，固定输入的分数越来越接近同一个偏置\(b\)。偏置该取多少，要继续比较两类的hinge损失。忽略正在趋于0的内积分数后，总损失为
-
-
-
 \[
 H(b)=10\max(0,1+b)+7\max(0,1-b).
 \]

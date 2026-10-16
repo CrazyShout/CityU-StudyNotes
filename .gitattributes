@@ -9,3 +9,4 @@ vendor/** -whitespace
 
 # Preserve the pinned upstream template and license byte-for-byte.
 latex/vendor/elegantbook/* -whitespace
+latex/vendor/adobe-mapping/* -whitespace

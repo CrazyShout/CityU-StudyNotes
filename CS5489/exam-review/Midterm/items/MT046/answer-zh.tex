@@ -3,9 +3,6 @@
 
 
 (b) 记\(\pi=P(y=1)\)，则\(P(y=0)=1-\pi\)。对类别\(c\)，有
-
-
-
 \[
 p(x\mid y=c)=\prod_{j=1}^d\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})=\mathcal N(x;\mu_c,\operatorname{diag}(\sigma^2_{c1},\ldots,\sigma^2_{cd})).
 \]
@@ -15,9 +12,6 @@ p(x\mid y=c)=\prod_{j=1}^d\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})=\mathcal N(x;\m
 
 
 (c) 错分代价相同时，选择后验概率最大的类别：
-
-
-
 \[
 \hat y=\arg\max_{c\in\{0,1\}}\left[\log P(y=c)+\sum_{j=1}^d\log\mathcal N(x_j;\mu_{cj},\sigma^2_{cj})\right].
 \]

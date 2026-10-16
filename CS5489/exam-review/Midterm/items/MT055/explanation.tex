@@ -3,9 +3,6 @@
 
 
 为什么要检查这个量？如果核确实是内积，就有
-
-
-
 \[
 a^TKa=\sum_{i,j}a_i a_j\phi(x_i)^T\phi(x_j)
 =\left\|\sum_i a_i\phi(x_i)\right\|^2\ge0.
@@ -22,9 +19,6 @@ a^TKa=\sum_{i,j}a_i a_j\phi(x_i)^T\phi(x_j)
 
 
 对于一个固定的\(z\)，\(i,j\)各取1或2，四项对应\((1,1)\)、\((1,2)\)、\((2,1)\)、\((2,2)\)；中间两项相同，合并后为
-
-
-
 \[
 \begin{aligned}
 \sum_{i,j=1}^{2}a_i a_j p_i(z)p_j(z)
@@ -38,9 +32,6 @@ a^TKa=\sum_{i,j}a_i a_j\phi(x_i)^T\phi(x_j)
 
 
 连续的\(z\)用积分把各位置的贡献累加。更多样本仍可按同样方式展开平方，因此对任意系数向量\(a\)，
-
-
-
 \[
 a^TKa=\int\left(\sum_i a_i p(x_i\mid z)\right)^2p(z)\,dz\ge0.
 \]
@@ -50,18 +41,12 @@ a^TKa=\int\left(\sum_i a_i p(x_i\mid z)\right)^2p(z)\,dz\ge0.
 
 
 \textbf{C不合法。} 只选一维点\(x_1=0,x_2=2\)，它们的内积分别为0、0、0、4，按候选规则得到
-
-
-
 \[
 K=\begin{pmatrix}1&1\\1&0\end{pmatrix}.
 \]
 
 
 取\(a=(1,-2)^T\)。先用\(K\)的每一行与\(a\)相乘：
-
-
-
 \[
 Ka=\begin{pmatrix}1\times1+1\times(-2)\\1\times1+0\times(-2)\end{pmatrix}
 =\begin{pmatrix}-1\\1\end{pmatrix}.
@@ -75,9 +60,6 @@ Ka=\begin{pmatrix}1\times1+1\times(-2)\\1\times1+0\times(-2)\end{pmatrix}
 
 
 \textbf{E不合法。} \(\tanh\)是双曲正切函数，可按\(\tanh t=(e^t-e^{-t})/(e^t+e^{-t})\)计算。取一维点1、2，核矩阵为\(K=\begin{pmatrix}\tanh1&\tanh2\\\tanh2&\tanh4\end{pmatrix}\)。沿用前面的检查方法，取\(a=(1,-1)^T\)，得到
-
-
-
 \[
 a^TKa=\tanh1+\tanh4-2\tanh2
 \approx0.7616+0.9993-2(0.9640)=-0.1671<0.

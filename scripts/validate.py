@@ -13,6 +13,7 @@ import nbformat
 import pymupdf
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
+from pdf_fonts import check_unicode_fonts
 from latex_project import (ROOT,MID,COURSES,KINDS,ALL_BOOKS,DOCS,INDEX,CONFIG,ALIASES,FIELDS,
                            PAGE_MAP,MANIFEST,binding,output,selected,stubs,notebook_markdown,sha)
 sys.path.insert(0,str(MID/'tools'))
@@ -142,6 +143,7 @@ def publication_checks():
         digest,files=binding(book)
         assert meta['source_sha256']==digest and meta['inputs']==files,(book,'PDF is stale for current TeX sources')
         reader=PdfReader(path,strict=True)
+        unicode_fonts=check_unicode_fonts(reader)
         assert reader.metadata['/StudyNotesSourceSHA256']==digest and reader.metadata['/StudyNotesEdition']==book
         destinations=reader.named_destinations
         for key,page in maps[book].items():
@@ -155,6 +157,11 @@ def publication_checks():
             assert not re.search(r'待定页|p\.\?\?|EXAM:(overview|topics|focus)|/Users/|file://',text),(book,'unexpected printed content')
             links=0
             for page in pdf:
+                # A second parser must see every Chinese character, even without
+                # the renderer's built-in Adobe CMaps. Compare counts because
+                # table reading order legitimately differs between parsers.
+                cjk=lambda s:Counter(c for c in s if '\u3400'<=c<='\u9fff')
+                assert cjk(reader.pages[page.number].extract_text())==cjk(page.get_text()),(book,page.number+1,'Chinese text differs between independent PDF parsers')
                 assert abs(page.rect.width-595.28)<2 and abs(page.rect.height-841.89)<2
                 assert not list(page.annots() or []),(book,page.number+1,'non-link annotation')
                 for link in page.get_links():
@@ -185,7 +192,7 @@ def publication_checks():
                     assert actual==expected,(d['id'],'printed equation labels/order',actual,expected)
             assert meta['diagnostics']['missing_glyphs']==0 and meta['diagnostics']['unresolved_references']==0
             assert not [x for x in meta['diagnostics']['overfull_boxes'] if x>1],(book,'overfull boxes',meta['diagnostics'])
-            reports[book]={'pages':len(pdf),'links':links,'destinations':len(maps[book]),'sha256':meta['sha256']}
+            reports[book]={'pages':len(pdf),'links':links,'destinations':len(maps[book]),'unicode_fonts':unicode_fonts,'chinese_text_parsers':'pypdf + PyMuPDF','sha256':meta['sha256']}
     # Engineering documents and generated legacy links resolve independently of ignored HTML.
     paths={ROOT/'README.md',ROOT/'CONTRIBUTING.md',ROOT/'AGENTS.md',ROOT/'pdf/README.md'}|set((ROOT/'docs').glob('*.md'))
     paths|={ROOT/d['legacy_source'] for d in DOCS if d['legacy_source'].endswith('.md')}|set(MID.glob('*.md'))

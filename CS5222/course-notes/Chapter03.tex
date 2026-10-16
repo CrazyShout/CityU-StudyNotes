@@ -383,9 +383,6 @@ ACK只是很慢 & 可能提前超时 & 正确处理重复包和旧ACK \\
 
 
 看课堂的停等传输例子：R=1Gbps，L=8000bit，单程传播15ms，RTT=30ms，忽略ACK传输和处理。发送时间\(L/R=8\mu s=0.008ms\)。一轮从开始发包到ACK返回，耗\(RTT+L/R\)。
-
-
-
 \[
 U=\frac{L/R}{RTT+L/R}=\frac{0.008}{30.008}\approx0.000266596.\tag{3.1}
 \]
@@ -395,9 +392,6 @@ U=\frac{L/R}{RTT+L/R}=\frac{0.008}{30.008}\approx0.000266596.\tag{3.1}
 
 
 流水线允许ACK回来前连续发N个包。理想无损模型的利用率为
-
-
-
 \[
 U_N=\min\left(1,\frac{N L/R}{RTT+L/R}\right).\tag{3.2}
 \]
@@ -578,9 +572,6 @@ A下次新数据仍从1002开始。两个方向各增加2，纯ACK不额外增�
 
 
 超时设置需要权衡：过短会误重传，过长会拖慢真正丢包的恢复。SampleRTT是一次测得的往返时间，EstimatedRTT是平滑估计：
-
-
-
 \[
 E_{new}=(1-\alpha)E_{old}+\alpha S,\quad\alpha=0.125\text{为课件常用值}.\tag{3.3}
 \]

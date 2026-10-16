@@ -1,0 +1,3782 @@
+{
+  "baseline": "b32d84cd46b593e36610f4e80ddc4a869da1c9d6",
+  "files_checked": 628,
+  "modified": 67,
+  "allowed_changes": [
+    "blank paragraphs before display math",
+    "two Needspace 7 directives before Lecture2 tables",
+    "one Needspace 22 directive before Tutorial2 source index",
+    "Lecture4 source index table row and surrounding spacing",
+    "local heading spacing in CS5222 Assignment1 Zoom section"
+  ],
+  "files": [
+    {
+      "file": "CS5489/course-notes/Lecture01.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/Lecture02.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/Lecture03.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/Lecture04.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/Lecture05.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/Tutorial01.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/course-notes/Tutorial02.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/Tutorial03.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/course-notes/Tutorial04.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/course-notes/Assignment01.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/Assignment02.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/course-notes/ExamIndex.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5222/course-notes/Chapter01.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5222/course-notes/Chapter02.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5222/course-notes/Chapter03.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5222/course-notes/Tutorial01.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5222/course-notes/Tutorial02.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5222/course-notes/Tutorial03.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5222/course-notes/Tutorial04.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5222/course-notes/Tutorial05.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5222/course-notes/Assignment01.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5222/course-notes/ResearchReportGuide.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "learning/foundation-notes/MathForML.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "learning/foundation-notes/NetworkBasics.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "learning/foundation-notes/SourceEvidence.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT001/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT002/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT003/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT004/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT005/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT006/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT007/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT008/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT009/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT010/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT011/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT012/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT013/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT014/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT015/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT016/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT017/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT018/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT019/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT020/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT021/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT022/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT023/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT024/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT025/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT026/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT027/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT028/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT029/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT030/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT031/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT032/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT033/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT034/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT035/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT036/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT037/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT038/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT039/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT040/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT041/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT042/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT043/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT044/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT045/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT046/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT047/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT048/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT049/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT050/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT051/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT052/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT053/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT054/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT055/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT056/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT057/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT058/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT059/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT060/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT061/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT062/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT063/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT064/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT065/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT066/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/answer-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/answer-prompt.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/answer-provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/answer-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/concise-extra.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/explanation.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/provenance.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": false
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/question-en.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/items/MT067/question-zh.tex",
+      "content": "identical after listed layout directives",
+      "code_blocks": "identical",
+      "modified": true
+    }
+  ]
+}

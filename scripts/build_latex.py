@@ -14,6 +14,7 @@ import subprocess
 import sys
 import nbformat
 from pypdf import PdfReader, PdfWriter
+from pdf_fonts import embed_cjk_unicode, check_unicode_fonts
 from latex_support import Renderer, escape, ROOT
 
 BUILD = ROOT/'.build/latex'
@@ -109,6 +110,23 @@ def image_assets():
     for name in sorted(images):
         p=ROOT/name
         if not p.is_file():raise FileNotFoundError(p)
+        if p.suffix.lower()=='.png':
+            # Exclude only the outer pure-white canvas from print scaling.
+            # Keep every non-white pixel plus a safety margin; never edit the
+            # original figure or crop its labels/conditions.
+            from PIL import Image, ImageChops
+            with Image.open(p) as original:
+                rgb=original.convert('RGB');width,height=rgb.size
+                box=ImageChops.difference(rgb,Image.new('RGB',rgb.size,'white')).getbbox()
+            if box:
+                pad=max(8,round(min(width,height)*.01))
+                left,top,right,bottom=box
+                left=max(0,left-pad);top=max(0,top-pad)
+                right=min(width,right+pad);bottom=min(height,bottom+pad)
+                if (right-left)*(bottom-top)<.85*width*height:
+                    # Braces preserve the separators after TeX control words.
+                    trim=f'{{{left/width:.8f}\\width}} {{{(height-bottom)/height:.8f}\\height}} {{{(width-right)/width:.8f}\\width}} {{{top/height:.8f}\\height}}'
+                    definitions.append(r'\expandafter\def\csname studytrim@'+name+r'\endcsname#1{\clipbox{'+trim+r'}{#1}}')
         if p.suffix.lower()=='.svg':
             if sys.platform=='darwin' and Path('/opt/homebrew/lib/libcairo.2.dylib').exists():
                 os.environ.setdefault('DYLD_FALLBACK_LIBRARY_PATH','/opt/homebrew/lib')
@@ -296,6 +314,15 @@ def main():
         print('Cross-book page map stable:',stable,flush=True)
         if stable and round_>=1:break
     else:raise RuntimeError('Page maps did not stabilize; existing published PDFs retained')
+    # Samples and --no-publish candidates must also render independently of
+    # optional reader language packs, before anyone performs visual review.
+    for book in BOOKS:
+        path=BUILD/book/(book+'.pdf')
+        reader=PdfReader(path);writer=PdfWriter();writer.clone_document_from_reader(reader)
+        if embed_cjk_unicode(writer):
+            candidate=path.with_suffix('.unicode.pdf')
+            with candidate.open('wb') as f:writer.write(f)
+            os.replace(candidate,path)
     if BOOKS==['Sample']:return
     if ARGS.no_publish:
         print('Candidate editions compiled; published files retained.',flush=True)
@@ -351,6 +378,7 @@ def _publish():
     for book in BOOKS:
         digest,files=binding(book)
         reader=PdfReader(BUILD/book/(book+'.pdf'));writer=PdfWriter();writer.clone_document_from_reader(reader)
+        check_unicode_fonts(writer)
         writer.add_metadata({'/StudyNotesEdition':book,'/StudyNotesSourceSHA256':digest,'/StudyNotesSourceRef':SOURCE_REF,'/StudyNotesTemplate':'ElegantBook 4.7'})
         path=stage/(book+'.pdf')
         with path.open('wb') as f:writer.write(f)

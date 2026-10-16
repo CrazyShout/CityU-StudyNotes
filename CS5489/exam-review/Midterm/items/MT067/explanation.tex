@@ -6,9 +6,6 @@
 
 
 \textbf{(a) 把长表达式拆成短操作。} 这里用到三条基本求导规则：\((u^p)^{\prime}=pu^{p-1}\)、\((e^u)^{\prime}=e^u\)、\((\tan u)^{\prime}=1/\cos^2u\)，撇号都表示对各自输入\(u\)求导；三角函数角度按弧度计算。复合函数还要再乘内层输入的导数。定义
-
-
-
 \[
 s=3x^2,\quad r=s^{1/3},\quad t=5x,\quad v=\tan t,
 \quad u=r+v,\quad q=e^u,\quad y=(1+q)^{-1}.
@@ -16,9 +13,6 @@ s=3x^2,\quad r=s^{1/3},\quad t=5x,\quad v=\tan t,
 
 
 从外向内求导。倒数层给\(\partial y/\partial q=-(1+q)^{-2}\)，指数层给\(\partial q/\partial u=e^u\)，所以
-
-
-
 \[
 \frac{dy}{du}=-\frac{e^u}{(1+e^u)^2}.
 \]
@@ -35,9 +29,6 @@ s=3x^2,\quad r=s^{1/3},\quad t=5x,\quad v=\tan t,
 
 
 另一分支\(\tan t\)的导数为\(\sec^2t=1/\cos^2t\)，再乘\(dt/dx=5\)，得\(dv/dx=5\sec^2(5x)\)。于是
-
-
-
 \[
 \frac{du}{dx}=\frac{2x}{(3x^2)^{2/3}}+5\sec^2(5x).
 \]
@@ -47,18 +38,12 @@ s=3x^2,\quad r=s^{1/3},\quad t=5x,\quad v=\tan t,
 
 
 \textbf{(b) 先讲前向，每个变量都有尺寸。} 输入\(x\in\mathbb R^m\)；\(A\)有\(m\)列，每列\(a_i\)是第\(i\)个隐藏单元的输入权重。选双曲正切tanh作为隐藏激活：\(\tanh(t)=(e^t-e^{-t})/(e^t+e^{-t})\)，它把加权和压到\((-1,1)\)；选线性输出，即最后一层直接输出加权和。这两项都是原题允许自定的部分。前向为
-
-
-
 \[
 g_{1i}=a_i^Tx=\sum_{k=1}^m A_{ki}x_k,\qquad z_i=\tanh(g_{1i}).
 \]
 
 
 因此\(g_1,z\)各有\(m\)个数。\(W\)有\(n\)列，每列\(w_j\in\mathbb R^m\)连接所有隐藏单元到第\(j\)个输出：
-
-
-
 \[
 g_{2j}=w_j^Tz=\sum_{i=1}^m W_{ij}z_i,\qquad f_j=g_{2j}.
 \]
@@ -68,9 +53,6 @@ g_{2j}=w_j^Tz=\sum_{i=1}^m W_{ij}z_i,\qquad f_j=g_{2j}.
 
 
 \textbf{从输出往回传。} 记\(\delta_{2j}=\partial L/\partial f_j\)。由于输出是恒等映射，也有\(\partial L/\partial g_{2j}=\delta_{2j}\)。一个输出权重\(W_{ij}\)只在\(f_j\)中乘\(z_i\)，所以
-
-
-
 \[
 \frac{\partial L}{\partial W_{ij}}=\delta_{2j}z_i,
 \qquad \frac{\partial L}{\partial w_j}=z\,\delta_{2j}.
@@ -78,18 +60,12 @@ g_{2j}=w_j^Tz=\sum_{i=1}^m W_{ij}z_i,\qquad f_j=g_{2j}.
 
 
 第\(i\)个隐藏激活\(z_i\)会影响所有\(n\)个输出，因此必须把分支相加：
-
-
-
 \[
 \frac{\partial L}{\partial z_i}=\sum_{j=1}^{n}W_{ij}\delta_{2j}.
 \]
 
 
 tanh的局部导数为\(1-\tanh^2(g_{1i})=1-z_i^2\)，再乘它得到隐藏输入的梯度：
-
-
-
 \[
 \delta_{1i}:=\frac{\partial L}{\partial g_{1i}}
 =\left(\sum_{j=1}^{n}W_{ij}\delta_{2j}\right)(1-z_i^2).
@@ -97,9 +73,6 @@ tanh的局部导数为\(1-\tanh^2(g_{1i})=1-z_i^2\)，再乘它得到隐藏输�
 
 
 最后\(g_{1i}=a_i^Tx\)，对\(a_i\)的各分量求导分别得到对应输入\(x_k\)，所以
-
-
-
 \[
 \frac{\partial L}{\partial a_i}=x\,\delta_{1i}.
 \]

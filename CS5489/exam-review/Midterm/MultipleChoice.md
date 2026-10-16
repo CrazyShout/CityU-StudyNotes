@@ -298,7 +298,7 @@
 <a id="english-answer_19"></a>
 - `english-answer_19` → [第 22 页](MultipleChoice.pdf#page=22)
 <a id="_41"></a>
-- `_41` → [第 23 页](MultipleChoice.pdf#page=23)
+- `_41` → [第 22 页](MultipleChoice.pdf#page=22)
 <a id="MT043"></a>
 - `MT043` → [第 23 页](MultipleChoice.pdf#page=23)
 <a id="mt043"></a>
@@ -312,7 +312,7 @@
 <a id="english-answer_20"></a>
 - `english-answer_20` → [第 23 页](MultipleChoice.pdf#page=23)
 <a id="_43"></a>
-- `_43` → [第 24 页](MultipleChoice.pdf#page=24)
+- `_43` → [第 23 页](MultipleChoice.pdf#page=23)
 <a id="MT029"></a>
 - `MT029` → [第 24 页](MultipleChoice.pdf#page=24)
 <a id="mt029"></a>
