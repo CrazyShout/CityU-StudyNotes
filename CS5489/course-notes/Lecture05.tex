@@ -18,28 +18,7 @@
 \textbf{基础复习（可跳过）：} 不熟指数、求导，读\StudyRef{Foundations-MathForML}{derivatives}{对数与导数}；不熟悉矩阵求导，读\StudyRef{Foundations-MathForML}{batch-gradients}{批量梯度与计算图}。按需要选读即可。
 
 
-\begingroup
-\small\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.192232\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.161346\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.205324\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.441098\linewidth-1.50000\tabcolsep\relax}@{}}
-\toprule
-主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
-\midrule\endfirsthead
-主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
-\midrule\endhead
-\bottomrule\endfoot
-感知机及更新 & 核心必会 & 中，标签与方向 & 手算一次更新、解释收敛条件；Lecture5a，第14–39个单元 \\
-Softmax与交叉熵 & 核心必会 & 中，分数不是概率 & 计算概率与梯度；Lecture5a，第41–66个单元、作业Loss层 \\
-MLP与激活 & 核心必会 & 中，层与形状 & 解释非线性的作用、数参数；Lecture5b，第4–14个单元 \\
-反向传播 & 核心必会 & 高，转置、分支求和 & 完整走通小网络；Lecture5b，第15–21个单元、作业Section1 \\
-SGD、验证与早停 & 核心必会 & 中，数据角色 & 区分前向、求梯度、更新与选模型；Lecture5b，第22–47个单元 \\
-逼近与深度 & 常规掌握 & 高，存在性不等于可训练 & 解释定理边界；Lecture5b，第48–61个单元。证明列二读拓展 \\
-MNIST示范与权重解释 & 常规掌握 & 中，展平及可视化 & 看懂流程、参数规模和结果边界；Lecture5b，第62–95个单元 \\
-\end{longtable}
-\endgroup
-
-
-优先级依据当前课件与Assignment2。本讲暂未提供当前Tutorial5。
+学习目标、难度与材料依据集中在\StudyRef{CS5489-Lecture05}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
 
 
 % EXAM:overview:START
@@ -49,7 +28,6 @@ MNIST示范与权重解释 & 常规掌握 & 中，展平及可视化 & 看懂流
 
 
 本讲在现有期末材料中主要对应激活、反向传播、优化与泛化；2025A期中也出现了梯度消失与链式法则。先用小网络把计算走通，再练用英文解释条件。
-
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.17\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}@{}}
@@ -67,15 +45,7 @@ SGD、学习率与momentum & 结合Assignment2优化器公式 & 未见／未见 
 正则化、曲线与早停 & 不给单条曲线唯一诊断 & 未见／未见 & 3套／1套 & 关联题段；卷次待定 & \StudyRef{CS5489-Lecture05}{monitoring}{讲解} \\
 \end{longtable}\endgroup
 
-
-\textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
-
-
-QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN结构、卷积尺寸、数据增强、ResNet、BatchNorm、AE/VAE和GAN不计入当前Lecture5已覆盖内容。
-
-
-标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture05}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+卷数按独立试卷计；“未见”不等于不考，QE卷次待定。题号、统计口径与材料身份见\StudyRef{CS5489-Lecture05}{exam-topic-index}{讲末索引}。
 % EXAM:overview:END
 
 
@@ -162,7 +132,7 @@ p_j=s_j(\mathbf g)=\frac{e^{g_j}}{\sum_{k=1}^{C}e^{g_k}}.\tag{5.2}
 \StudyImage{CS5489/course-notes/assets/oct-softmax.png}
 
 
-图把每个logit、指数和概率对应起来；柱高表示概率，不是三次独立判断，三柱总和为1。该图是上面教学数字的重绘。
+\StudyCaption{图把每个logit、指数和概率对应起来；柱高表示概率，不是三次独立判断，三柱总和为1。该图是上面教学数字的重绘。}
 
 
 计算时先减去最大logit：\(e^{g_j-m}/\sum_ke^{g_k-m}\)，其中 \(m=\max_k g_k\)。所有项同乘 \(e^{-m}\)，比例不变，却避免把大分数直接指数化。PyTorch的CrossEntropyLoss接收logits，内部处理log-softmax；不要在它前面再对输出做一次softmax。
@@ -327,6 +297,7 @@ Sigmoid导数在u=0时最大，为1/4；tanh导数在u=0时为1。两者到了�
 
 
 \StudyImage{CS5489/course-notes/assets/oct-activations.png}
+\StudyCaption{常见激活的函数值与局部斜率；右图用于理解反向传播中的变化率。}
 
 
 左图看响应值，右图看局部斜率。ReLU在0处左斜率为0、右斜率为1，因此普通导数不存在。程序仍需约定在这个点传回什么值；这是计算规则，不是该点存在普通导数。回归输出可用线性层，互斥多分类输出使用logits配交叉熵。
@@ -335,7 +306,9 @@ Sigmoid导数在u=0时最大，为1/4；tanh导数在u=0时为1。两者到了�
 输出层还必须与损失匹配。比如二分类交叉熵在真类为1时是\(-\log p\)：p=0.75时约0.2877；若把一条直线截断成[0,1]并恰好输出p=0，损失就变成无穷大，不能直接套“平段导数0所以梯度0”。隐藏层ReLU可以大于1，也不能直接当类别概率。历史输出激活题要同时检查取值范围、饱和区与log的定义域。 / Check output range, saturation and the logarithm's domain together; a zero probability for the true class gives infinite cross-entropy.
 
 
-\textbf{参数例子 / Worked：} 784输入、50隐藏节点、10输出，全连接且两层都有偏置：\((784+1)50+(50+1)10=39760\)。 / Include every layer's biases, not just its weights.
+\begin{StudyBlock}{完整示范 / Worked example}{逐层计入权重与偏置}
+784输入、50隐藏节点、10输出，全连接且两层都有偏置：\((784+1)50+(50+1)10=39760\)。 / Include every layer's biases, not just its weights.
+\end{StudyBlock}
 
 
 \textbf{独立题 / Check：} 4输入、3隐藏、2输出，参数多少？ / Count parameters for a fully connected 4–3–2 network with a bias at every hidden and output unit.
@@ -494,7 +467,9 @@ A的梯度形状为d\ensuremath{\times}h，c的梯度为1\ensuremath{\times}h，
 来源：Lecture5b，第15–21个单元的链式法则与计算图；逐分量推导和批量矩阵转写为教学补充。
 
 
-\textbf{一层手算 / Worked：} \(X=\begin{bmatrix}1&2\\3&4\end{bmatrix}\)，上游梯度 \(G=\begin{bmatrix}1&-1\\2&0\end{bmatrix}\)，无正则。对\(U=XA+c\)，\(\nabla_A L=X^TG=\begin{bmatrix}7&-1\\10&-2\end{bmatrix}\)，\(\nabla_cL=(3,-1)\)。G若已来自平均损失，此处不要再除2。
+\begin{StudyBlock}{完整示范 / Worked example}{权重梯度与共享偏置梯度}
+\(X=\begin{bmatrix}1&2\\3&4\end{bmatrix}\)，上游梯度 \(G=\begin{bmatrix}1&-1\\2&0\end{bmatrix}\)，无正则。对\(U=XA+c\)，\(\nabla_A L=X^TG=\begin{bmatrix}7&-1\\10&-2\end{bmatrix}\)，\(\nabla_cL=(3,-1)\)。G若已来自平均损失，此处不要再除2。
+\end{StudyBlock}
 
 
 
@@ -855,6 +830,31 @@ A的梯度形状为d\ensuremath{\times}h，c的梯度为1\ensuremath{\times}h，
 首轮卡沿用\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M241}{M241}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M243}{M243}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M248}{M248}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M251}{M251}。先手算§4与§6，再用卡片回忆各步的作用和梯度形状。
 
 
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5489-Lecture05__learning-priorities}
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.192232\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.161346\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.205324\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.441098\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endfirsthead
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+感知机及更新 & 核心必会 & 中，标签与方向 & 手算一次更新、解释收敛条件；Lecture5a，第14–39个单元 \\
+Softmax与交叉熵 & 核心必会 & 中，分数不是概率 & 计算概率与梯度；Lecture5a，第41–66个单元、作业Loss层 \\
+MLP与激活 & 核心必会 & 中，层与形状 & 解释非线性的作用、数参数；Lecture5b，第4–14个单元 \\
+反向传播 & 核心必会 & 高，转置、分支求和 & 完整走通小网络；Lecture5b，第15–21个单元、作业Section1 \\
+SGD、验证与早停 & 核心必会 & 中，数据角色 & 区分前向、求梯度、更新与选模型；Lecture5b，第22–47个单元 \\
+逼近与深度 & 常规掌握 & 高，存在性不等于可训练 & 解释定理边界；Lecture5b，第48–61个单元。证明列二读拓展 \\
+MNIST示范与权重解释 & 常规掌握 & 中，展平及可视化 & 看懂流程、参数规模和结果边界；Lecture5b，第62–95个单元 \\
+\end{longtable}
+\endgroup
+
+优先级依据当前课件与Assignment2。本讲暂未提供当前Tutorial5。
+
 % EXAM:topics:START
 \StudyHeading{1}{Historical exam map｜按考点查题源}
 \StudyTarget{CS5489-Lecture05__exam-topic-index}
@@ -865,6 +865,15 @@ A的梯度形状为d\ensuremath{\times}h，c的梯度为1\ensuremath{\times}h，
 
 
 
+
+\textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
+
+
+QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN结构、卷积尺寸、数据增强、ResNet、BatchNorm、AE/VAE和GAN不计入当前Lecture5已覆盖内容。
+
+
+标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
+题号见\StudyRef{CS5489-Lecture05}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 \StudyHeading{2}{输出概率与交叉熵}
 

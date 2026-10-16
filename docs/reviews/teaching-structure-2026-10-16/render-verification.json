@@ -1,0 +1,161 @@
+{
+  "total_pages": 786,
+  "renderers": [
+    "Poppler",
+    "PyMuPDF"
+  ],
+  "render_dpi": 100,
+  "books": {
+    "CS5222": {
+      "pages": 98,
+      "pdf_sha256": "6875816819f0c81bd29c714a9773ddb3a552cfab205100210cafaf51b0433e83",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9215451158408633,
+        1.0328
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/CS5222-sheet-01.png",
+        ".build/teaching-structure/render-final/CS5222-sheet-02.png",
+        ".build/teaching-structure/render-final/CS5222-sheet-03.png",
+        ".build/teaching-structure/render-final/CS5222-sheet-04.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "Foundations": {
+      "pages": 43,
+      "pdf_sha256": "148baa7feaceaf38091902c6a05559ede322ffaadd4d30f4751feb779749e643",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9588172923996338,
+        1.0650592514372874
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/Foundations-sheet-01.png",
+        ".build/teaching-structure/render-final/Foundations-sheet-02.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "Questions": {
+      "pages": 74,
+      "pdf_sha256": "a2d55f720cd09ac6f28ba1d178931f8db93bde21b2cbd3ad2335fcd67d8027aa",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8670402445236882,
+        1.0112578672103536
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/Questions-sheet-01.png",
+        ".build/teaching-structure/render-final/Questions-sheet-02.png",
+        ".build/teaching-structure/render-final/Questions-sheet-03.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "CS5489": {
+      "pages": 208,
+      "pdf_sha256": "a222cdb956ae30d77028912f1537cccc21c59d033aecbcedf67a84bd9638ad2f",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8974910965821506,
+        1.057774607703281
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/CS5489-sheet-01.png",
+        ".build/teaching-structure/render-final/CS5489-sheet-02.png",
+        ".build/teaching-structure/render-final/CS5489-sheet-03.png",
+        ".build/teaching-structure/render-final/CS5489-sheet-04.png",
+        ".build/teaching-structure/render-final/CS5489-sheet-05.png",
+        ".build/teaching-structure/render-final/CS5489-sheet-06.png",
+        ".build/teaching-structure/render-final/CS5489-sheet-07.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "Answers": {
+      "pages": 98,
+      "pdf_sha256": "953973a6771492c7da5adf98109e2db36e44f0b0a5ea18b00196b10f3a84a9fe",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8672715225036954,
+        1.0182981589582398
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/Answers-sheet-01.png",
+        ".build/teaching-structure/render-final/Answers-sheet-02.png",
+        ".build/teaching-structure/render-final/Answers-sheet-03.png",
+        ".build/teaching-structure/render-final/Answers-sheet-04.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "Combined": {
+      "pages": 111,
+      "pdf_sha256": "ed2023462d7a292b92fe7987f967f1bfeff62772eab9a1f154ecc76d7acc6d7f",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8676762030590985,
+        1.0248854310987956
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/Combined-sheet-01.png",
+        ".build/teaching-structure/render-final/Combined-sheet-02.png",
+        ".build/teaching-structure/render-final/Combined-sheet-03.png",
+        ".build/teaching-structure/render-final/Combined-sheet-04.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "MultipleChoice": {
+      "pages": 34,
+      "pdf_sha256": "432cef062a5072189cbd1ed5f541762c6ed3d1b79dcd74093e64f4a8ceb9e585",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.7975166297117516,
+        1.0087677967837754
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/MultipleChoice-sheet-01.png",
+        ".build/teaching-structure/render-final/MultipleChoice-sheet-02.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "Compact": {
+      "pages": 75,
+      "pdf_sha256": "6600632efd492ceb9349e667024779f71d47b62ce8f05f26e5f59fb60c22e9b9",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8669965818070506,
+        1.0298244207488174
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/Compact-sheet-01.png",
+        ".build/teaching-structure/render-final/Compact-sheet-02.png",
+        ".build/teaching-structure/render-final/Compact-sheet-03.png"
+      ],
+      "all_pages_contact_reviewed": true
+    },
+    "WrittenResponse": {
+      "pages": 45,
+      "pdf_sha256": "19f05df507255aea48a867cb58d379655bc9b4f000fd8386810ffd9f697db65a",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.7784976033553026,
+        1.0226044088400885
+      ],
+      "sheets": [
+        ".build/teaching-structure/render-final/WrittenResponse-sheet-01.png",
+        ".build/teaching-structure/render-final/WrittenResponse-sheet-02.png"
+      ],
+      "all_pages_contact_reviewed": true
+    }
+  },
+  "grayscale_spots": {
+    "CS5489": [
+      29
+    ],
+    "CS5222": [
+      47
+    ],
+    "Foundations": [
+      38
+    ]
+  },
+  "physical_print": false
+}

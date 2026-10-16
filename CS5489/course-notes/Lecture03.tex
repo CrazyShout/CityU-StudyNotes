@@ -21,7 +21,6 @@
 
 本讲的历史题集中在Logistic目标、SVM与核方法，也经常要求根据应用代价或存储限制选择方法。复习时把“写出目标、说明条件、解释结果”连起来。
 
-
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.17\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}@{}}
 \toprule
@@ -41,40 +40,11 @@ SVM间隔、松弛与对偶 & 掌握间隔条件与软间隔权衡 & 6套／未�
 分类损失曲线 & 检查错分区是否仍被惩罚 & 5套／未见 & 未见／未见 & 未见 & \StudyRef{CS5489-Lecture03}{loss-shapes}{讲解} \\
 \end{longtable}\endgroup
 
-
-\textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
-
-
-核PCA为期末关联知识，当前尚未展开。下面登记原题涉及的能力，不表示每份历史选择题的所有选项都已成为当前课程要求；具体答案中的简化见讲末注。
-
-
-标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture03}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+卷数按独立试卷计；“未见”不等于不考，QE卷次待定。题号、统计口径与材料身份见\StudyRef{CS5489-Lecture03}{exam-topic-index}{讲末索引}。
 % EXAM:overview:END
 
 
-\begingroup
-\small\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.239281\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.140730\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.192951\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.427038\linewidth-1.50000\tabcolsep\relax}@{}}
-\toprule
-主题 & 优先级 & 理解难度与卡点 & 应达到的能力；判断依据 \\
-\midrule\endfirsthead
-主题 & 优先级 & 理解难度与卡点 & 应达到的能力；判断依据 \\
-\midrule\endhead
-\bottomrule\endfoot
-线性分数、sigmoid、logistic loss & 核心必会 & 中；标签编码、概率方向 & 手算分数、概率和损失；Lecture3a，第24–52个单元 \\
-正则化、CV、预处理 & 核心必会 & 中；训练/验证边界 & 能设计无泄漏实验；Lecture3a，第65–73个单元、Lecture3c，第7–15个单元、Tutorial 3 \\
-margin、hard/soft SVM & 核心必会 & 中至高；距离与函数值 & 解释并计算间隔、slack；Lecture3b，第11–60个单元、SVM手写补充，第1–4页 \\
-SVM dual、KKT & 核心必会 & 高；对谁求导、约束符号 & 跟完关键求导并解释乘子；Lecture3b，第37–44个单元、SVM手写补充，第2–4页 \\
-核、特征映射及参数 & 核心必会 & 中至高；隐式内积 & 手算小核矩阵、实现原任务；Lecture3b，第83–123个单元、Tutorial 3 \\
-多分类、编码、不平衡 & 常规掌握 & 中；机制与实现区分 & 选择表示与评估方法；Lecture3a，第74–99个单元、Lecture3c，第16–42个单元 \\
-强对偶的一般证明、核的一般谱理论 & 二读拓展 & 高；数学条件 & 理解适用条件；列为选读是整理者建议 \\
-\end{longtable}
-\endgroup
-
-
-优先级依据当前课件和Tutorial任务；历史考试记录另见讲末索引。
+学习目标、难度与材料依据集中在\StudyRef{CS5489-Lecture03}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
 
 
 
@@ -152,7 +122,7 @@ b=\frac{\|\boldsymbol\nu\|^2-\|\boldsymbol\mu\|^2}{2\sigma^2}
 \StudyImage{CS5489/course-notes/assets/lecture03-linear-sigmoid.png}
 
 
-图左按原例重绘分类边界，右边显示同一分数经sigmoid转换后的概率。左图先判断落在线的哪侧，再沿右图查这个分数对应的模型概率。
+\StudyCaption{图左按原例重绘分类边界，右边显示同一分数经sigmoid转换后的概率。左图先判断落在线的哪侧，再沿右图查这个分数对应的模型概率。}
 
 
 \textbf{自测 / Check:} 若 \(\mathbf w=(2,1)^T,b=-1,\mathbf x=(1,2)^T\)，分数和预测是什么？ / For w=(2,1)\textsuperscript{T}, b=\ensuremath{-}1 and x=(1,2)\textsuperscript{T}, find the linear score and predicted class.
@@ -400,7 +370,9 @@ p_c=\frac{e^{f_c}}{\sum_{j=1}^K e^{f_j}},\qquad \ell=-\sum_{c=1}^K y_c\log p_c.\
 目标让间隔大，约束保证所有点都在正确侧且不侵入间隔。单写 \(|f_i|\ge1\) 不够，它也容许把标签全部分反；SVM手写补充，第1页 中绝对值中间式必须连着“正确分类”的前提读。
 
 
-\textbf{完整小算例（补充）}：一维两点 \(x_1=-1,y_1=-1\)，\(x_2=1,y_2=1\)。约束为 \(w-b\ge1\) 和 \(w+b\ge1\)，相加得 \(w\ge1\)。最小 \(w^2/2\) 在 \(w=1,b=0\)，两点都是支持向量，一侧距离 1，总宽度 2。
+\begin{StudyBlock}{完整示范}{两个点的最大间隔}
+一维两点 \(x_1=-1,y_1=-1\)，\(x_2=1,y_2=1\)。约束为 \(w-b\ge1\) 和 \(w+b\ge1\)，相加得 \(w\ge1\)。最小 \(w^2/2\) 在 \(w=1,b=0\)，两点都是支持向量，一侧距离 1，总宽度 2。
+\end{StudyBlock}
 
 
 来源：Lecture3b，第4–26个单元。
@@ -707,14 +679,15 @@ y_if_i\ge1-\xi_i,\quad\xi_i\ge0,\quad C>0.\end{gathered}\tag{3.13}
 RBF 核 \(k(x,x')=\exp(-\gamma\|x-x'\|^2)\)，\(\gamma>0\)。小 gamma 的相似度随距离下降较慢；大 gamma 更局部，可形成复杂边界，但实际效果还取决于 C 和数据。gamma 的单位要与平方距离相抵；改变特征尺度等于改变距离含义。
 
 
-\textbf{完整小例（教学补充）：} 两个无量纲训练点为0和1，取\(\gamma=\ln2\)。自己与自己的距离为0，所以对角元素都是1；两点距离为1，非对角元素为\(e^{-\ln2}=1/2\)：
+\begin{StudyBlock}{完整示范}{从训练核矩阵到新点的核向量}
+两个无量纲训练点为0和1，取\(\gamma=\ln2\)。自己与自己的距离为0，所以对角元素都是1；两点距离为1，非对角元素为\(e^{-\ln2}=1/2\)：
 \[
 K=\begin{pmatrix}1&1/2\\1/2&1\end{pmatrix}.\tag{3.14}
 \]
 
 
 K的行列对应训练点，不是输入特征。每格告诉我们这两个点在核定义下有多相似，行和不必为1。新点0.5分别与两个训练点比较，会得到两个相同值\(e^{-(\ln2)/4}\approx0.8409\)；这两个数正是预测所需的测试到训练核向量。
-
+\end{StudyBlock}
 
 \textbf{变式 / Transfer：} 仍用0和1，把gamma改为ln4，核矩阵是什么？ / For training points 0 and 1, change gamma to ln4 and compute the RBF Gram matrix.
 
@@ -725,7 +698,9 @@ K的行列对应训练点，不是输入特征。每格告诉我们这两个点�
 课堂用20\ensuremath{\times}20组参数、5折交叉验证比较RBF模型，共2000次候选拟合，再对选定方案重拟合。参数比较使用训练内部的验证分数。
 
 
-\textbf{核的成立条件：} 一种相似度若要作为这里的实值核，必须对称，且由任意有限样本集合组成的核矩阵K都为半正定，即 \(z^TKz\ge0\) 对所有实向量z成立。它保证K能表示某个特征空间里的内积。只检查手头的一张矩阵，可以发现当前实现错误，但不能证明这个函数对所有输入都成立。
+\begin{StudyBlock}{成立条件}{对称与半正定}
+一种相似度若要作为这里的实值核，必须对称，且由任意有限样本集合组成的核矩阵K都为半正定，即 \(z^TKz\ge0\) 对所有实向量z成立。它保证K能表示某个特征空间里的内积。只检查手头的一张矩阵，可以发现当前实现错误，但不能证明这个函数对所有输入都成立。
+\end{StudyBlock}
 
 
 来源：Lecture3b，第114个单元为参数搜索，第118个单元为核条件；其中positive definite应读作positive semidefinite。
@@ -927,6 +902,31 @@ Logistic regression、SVM等方法可以写成\(\sum_i L(y_i,f(x_i))+\lambda\Ome
 先复习已有卡 \href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M143}{M143、M144、M146：SVM间隔}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M166}{M166：核技巧}；按卡号定位，卡组复习继续在 Markji。
 
 
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5489-Lecture03__learning-priorities}
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.239281\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.140730\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.192951\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.427038\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 优先级 & 理解难度与卡点 & 应达到的能力；判断依据 \\
+\midrule\endfirsthead
+主题 & 优先级 & 理解难度与卡点 & 应达到的能力；判断依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+线性分数、sigmoid、logistic loss & 核心必会 & 中；标签编码、概率方向 & 手算分数、概率和损失；Lecture3a，第24–52个单元 \\
+正则化、CV、预处理 & 核心必会 & 中；训练/验证边界 & 能设计无泄漏实验；Lecture3a，第65–73个单元、Lecture3c，第7–15个单元、Tutorial 3 \\
+margin、hard/soft SVM & 核心必会 & 中至高；距离与函数值 & 解释并计算间隔、slack；Lecture3b，第11–60个单元、SVM手写补充，第1–4页 \\
+SVM dual、KKT & 核心必会 & 高；对谁求导、约束符号 & 跟完关键求导并解释乘子；Lecture3b，第37–44个单元、SVM手写补充，第2–4页 \\
+核、特征映射及参数 & 核心必会 & 中至高；隐式内积 & 手算小核矩阵、实现原任务；Lecture3b，第83–123个单元、Tutorial 3 \\
+多分类、编码、不平衡 & 常规掌握 & 中；机制与实现区分 & 选择表示与评估方法；Lecture3a，第74–99个单元、Lecture3c，第16–42个单元 \\
+强对偶的一般证明、核的一般谱理论 & 二读拓展 & 高；数学条件 & 理解适用条件；列为选读是整理者建议 \\
+\end{longtable}
+\endgroup
+
+优先级依据当前课件和Tutorial任务；历史考试记录另见讲末索引。
+
 % EXAM:topics:START
 \StudyHeading{1}{Historical exam map｜按考点查题源}
 \StudyTarget{CS5489-Lecture03__exam-topic-index}
@@ -937,6 +937,15 @@ Logistic regression、SVM等方法可以写成\(\sum_i L(y_i,f(x_i))+\lambda\Ome
 
 
 
+
+\textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
+
+
+核PCA为期末关联知识，当前尚未展开。下面登记原题涉及的能力，不表示每份历史选择题的所有选项都已成为当前课程要求；具体答案中的简化见讲末注。
+
+
+标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
+题号见\StudyRef{CS5489-Lecture03}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 \StudyHeading{2}{生成式与判别式}
 
@@ -1218,15 +1227,19 @@ Notebook的重复绘图单元和辅助代码按概念合并。下方保留四页
 
 
 \StudyImage{CS5489/course-notes/assets/svm-supplement-1.png}
+\StudyCaption{SVM手写补充，第1页：对照正文的正确分类条件与几何间隔，保留原件写法。}
 
 
 \StudyImage{CS5489/course-notes/assets/svm-supplement-2.png}
+\StudyCaption{SVM手写补充，第2页：对照正文的约束符号与弱对偶；原件疑点见前面的勘误说明。}
 
 
 \StudyImage{CS5489/course-notes/assets/svm-supplement-3.png}
+\StudyCaption{SVM手写补充，第3页：沿乘子与约束关系阅读，并结合正文保留成立条件。}
 
 
 \StudyImage{CS5489/course-notes/assets/svm-supplement-4.png}
+\StudyCaption{SVM手写补充，第4页：对照正文KKT与软间隔边界，不能把单向关系当作双向必然。}
 
 
 \end{StudySolution}

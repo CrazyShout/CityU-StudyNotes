@@ -73,12 +73,13 @@
 }
 \newcommand{\StudyTrimImage}[2]{%
   \ifcsname studytrim@#1\endcsname\csname studytrim@#1\endcsname{#2}\else#2\fi}
+\newcommand{\StudyImageWidth}{.96\linewidth}
 \newcommand{\StudyImage}[1]{%
   \par\medskip\begingroup
   \edef\StudyResolvedImage{\ifcsname studyimage@#1\endcsname\csname studyimage@#1\endcsname\else\StudyRoot/#1\fi}%
   \noindent\makebox[\linewidth][c]{%
-  \adjustbox{max width=.96\linewidth,max height=.69\textheight}{%
-  \StudyTrimImage{#1}{\includegraphics{\StudyResolvedImage}}}}\endgroup\par\medskip
+  \adjustbox{max width=\StudyImageWidth,max height=.69\textheight}{%
+  \StudyTrimImage{#1}{\includegraphics{\StudyResolvedImage}}}}\endgroup\par\nobreak\medskip
 }
 \newcommand{\StudyCellImage}[1]{%
   \begingroup
@@ -86,6 +87,17 @@
   \adjustbox{max width=\linewidth,max height=.28\textheight}{\StudyTrimImage{#1}{\includegraphics{\StudyResolvedImage}}}\endgroup}
 \DefineVerbatimEnvironment{StudyCode}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\small,tabsize=4,framesep=3mm,frame=leftline,rulecolor=\color{gray!55}}
 \newcommand{\StudyInline}[1]{\allowbreak{}\texttt{#1}\allowbreak{}}
+% Named teaching passages stay in the normal text flow. They deliberately
+% have no chapter counter: StudyChapter uses stable, unnumbered chapters.
+\newenvironment{StudyBlock}[2]{%
+  \par\addvspace{.6\baselineskip}\Needspace{4\baselineskip}\noindent
+  {\bfseries\color{structurecolor}#1\enspace #2}\par\nobreak\smallskip
+}{\par\addvspace{.6\baselineskip}}
+% StudyImage places the no-break penalty before its trailing skip. Captions
+% remain normal paragraphs rather than floats or unbreakable page-sized boxes.
+\newcommand{\StudyCaption}[1]{%
+  \par\nobreak
+  \begingroup\small\noindent #1\par\endgroup\medskip}
 \newenvironment{StudySolution}[1]{%
   \par\medskip\Needspace{3\baselineskip}\noindent
   {\bfseries\color{structurecolor}#1}\par\nobreak\smallskip

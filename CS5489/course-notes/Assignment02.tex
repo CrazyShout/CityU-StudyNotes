@@ -89,11 +89,12 @@ U为2\ensuremath{\times}4，Z为2\ensuremath{\times}2，隐藏权重梯度为3\e
 \StudyTarget{CS5489-Assignment02__2-lossoutput}
 
 
+\begin{StudyBlock}{接口约定}{批量平均只计一次}
 原Loss.forward对B个样本取平均。对于one-hot标签矩阵Y，若P为softmax概率，应有 \(G_Z=(P-Y)/B\)。但Assignment2，第7个单元给定的Loss.backward返回未除B的P\ensuremath{-}Y。这是需要显式处理的接口约定，计算梯度时也需要与这个平均目标一致。
 
 
 两种等价实施方式是：在链条入口除B一次，后续各层正常求和；或保持模板的未归一化上游，在每个参数梯度处统一按B平均。不要在每一层都缩小传回的梯度，否则深层会多除好几次。本学习推导固定采用\textbf{入口除一次}，所有有限差分按同一个平均目标验证。若提交要求只能填TODO，应在允许的计算位置落实同等缩放，并解释采用的约定。
-
+\end{StudyBlock}
 
 正则目标为 \(L=L_{data}+\frac\lambda2(\|A\|_F^2+\|W\|_F^2)\)，偏置不在模板正则项中。Output所需三项为
 \[
@@ -123,7 +124,9 @@ Primer主要用ReLU，原Notebook的普通隐藏层实际用Leaky ReLU：正区�
 \(\odot\)为逐元素乘，不是矩阵乘。这里每个位置的激活只依赖同一位置的输入，所以将对应的两个导数相乘即可。若输出同时依赖多个输入，就需要把各条影响路径的贡献加起来。
 
 
-\textbf{手算 / Worked：} U=(\ensuremath{-}2,3)，上游\(G_H=(4,5)\)。Leaky ReLU输出(\ensuremath{-}0.02,3)，反向\(G_U=(0.04,5)\)。若错用普通ReLU，第一项会变成0，改变了原模型。 / With U=(\ensuremath{-}2,3) and upstream gradient (4,5), Leaky ReLU with negative slope 0.01 gives output (\ensuremath{-}0.02,3) and input gradient (0.04,5).
+\begin{StudyBlock}{完整示范 / Worked example}{Leaky ReLU的正向与反向}
+U=(\ensuremath{-}2,3)，上游\(G_H=(4,5)\)。Leaky ReLU输出(\ensuremath{-}0.02,3)，反向\(G_U=(0.04,5)\)。若错用普通ReLU，第一项会变成0，改变了原模型。 / With U=(\ensuremath{-}2,3) and upstream gradient (4,5), Leaky ReLU with negative slope 0.01 gives output (\ensuremath{-}0.02,3) and input gradient (0.04,5).
+\end{StudyBlock}
 
 
 
@@ -251,7 +254,9 @@ v_t&=\beta_2v_{t-1}+(1-\beta_2)\tilde g_t^2.\end{aligned}\tag{A2.7}
 第一个t不能取0，否则偏差修正分母为0。v是梯度平方的滑动平均，不是减去均值后的方差。原小标题写Adaptive Momentum Estimation，常用全称是Adaptive Moment Estimation；“best of all worlds”应当作宣传式概括，不能当任何任务都最好的定理。
 
 
-\textbf{一步手算 / Worked：} 一维二次函数\(f(\theta)=\theta^2\)，\ensuremath{\theta}=2，η=0.1。GD的梯度4，更新\ensuremath{\theta}=1.6；若上一动量v=0.2、\ensuremath{\gamma}=0.9，则新v=0.58，新\ensuremath{\theta}=1.42。 / For f(\ensuremath{\theta})=\ensuremath{\theta}\textsuperscript{2}, \ensuremath{\theta}=2 and η=0.1, GD gives \ensuremath{\theta}=1.6. With previous velocity 0.2 and momentum 0.9, the stated momentum rule gives new velocity 0.58 and \ensuremath{\theta}=1.42.
+\begin{StudyBlock}{完整示范 / Worked example}{同一梯度下的GD与动量}
+一维二次函数\(f(\theta)=\theta^2\)，\ensuremath{\theta}=2，η=0.1。GD的梯度4，更新\ensuremath{\theta}=1.6；若上一动量v=0.2、\ensuremath{\gamma}=0.9，则新v=0.58，新\ensuremath{\theta}=1.42。 / For f(\ensuremath{\theta})=\ensuremath{\theta}\textsuperscript{2}, \ensuremath{\theta}=2 and η=0.1, GD gives \ensuremath{\theta}=1.6. With previous velocity 0.2 and momentum 0.9, the stated momentum rule gives new velocity 0.58 and \ensuremath{\theta}=1.42.
+\end{StudyBlock}
 
 
 Nesterov在Assignment2，第45–46个单元用于理解“向前看一点再求梯度”，题目不要求实现；RMSProp/AdaDelta在Assignment2，第50个单元仅作简要介绍。

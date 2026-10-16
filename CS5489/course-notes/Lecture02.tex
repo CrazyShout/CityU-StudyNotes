@@ -7,6 +7,26 @@
 \textbf{从花朵测量到邮件分类}
 
 
+
+
+老师给出两个任务：根据花瓣长度和萼片宽度辨认鸢尾花；根据邮件内容判断是不是垃圾邮件。它们的输入不同，却可以用同一条思路处理：\textbf{先从已知类别的记录中估计各类的特征分布，再判断新记录更符合哪一类。}
+
+
+\StudyTarget{CS5489-Lecture02___2}
+\StudyTarget{CS5489-Lecture02__intro}
+我们先跟着一朵花走完这个过程，随后把测量值换成文字。前三部分对应Lecture2a，后三部分对应Lecture2b。上一讲的数组用于保存记录，概率用于表达判断的不确定性，Python负责估参数和计算预测。
+
+
+\textbf{基础复习（可跳过）：} \StudyRef{Foundations-MathForML}{foundation-nav}{按卡点选读符号、概率、对数、导数与矩阵}。正文仍会解释当前步骤，较长的基础推导可从这里补起。\StudyRef{CS5489-Tutorial02}{root}{Tutorial 2}继续练文本分类和Poisson NB；\StudyRef{CS5489-Assignment01}{root}{Assignment 1}用于综合练习分类流程。
+
+
+\textbf{本讲路线：} \StudyRef{CS5489-Lecture02}{classification}{记录与先验} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{observation}{高斯与估计} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{bayes-rule}{Bayes决策} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{gaussian-nb}{两项测量} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{bow}{邮件证据} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{tfidf}{词次数与权重}。最后是\StudyRef{CS5489-Lecture02}{self-check}{自测}和\StudyRef{CS5489-Lecture02}{implementation-notes}{实现选读}。
+
+
+
+
+
+
 % EXAM:overview:START
 \StudyTarget{CS5489-Lecture02___1}
 
@@ -19,7 +39,6 @@
 
 
 先把生成式模型、Bayes决策和Gaussian NB讲清楚，再练分布假设、边界与模型局限。下面的卷数用于安排练习顺序；它描述手头历史材料，不预测本学期考题。
-
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.17\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.6666666666666667\tabcolsep\relax}@{}}
@@ -41,31 +60,8 @@ MLE学习思想 & 学习思想有直接题；推导也是基础 & 2套 & 未见�
 参数后验与MAP（QE延伸） & QE延伸；补齐题面后再练完整推导 & 未见 & 未见／未见 & 题段；卷次待定 & \StudyRef{CS5489-Lecture02}{prior-mle}{相关MLE基础} · \StudyRef{CS5489-Lecture02}{qe-parameter-posterior-note}{QE残题说明} \\
 \end{longtable}\endgroup
 
-
-\textbf{统计口径：} 已辨识6套期中、3套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。
-
-
-标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号与出处见\StudyRef{CS5489-Lecture02}{exam-topic-index}{讲末考点索引}；按试卷查阅见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
+卷数按独立试卷计；“未见”不等于不考，QE卷次待定。题号、统计口径与材料身份见\StudyRef{CS5489-Lecture02}{exam-topic-index}{讲末索引}。
 % EXAM:overview:END
-
-老师给出两个任务：根据花瓣长度和萼片宽度辨认鸢尾花；根据邮件内容判断是不是垃圾邮件。它们的输入不同，却可以用同一条思路处理：\textbf{先从已知类别的记录中估计各类的特征分布，再判断新记录更符合哪一类。}
-
-
-\StudyTarget{CS5489-Lecture02___2}
-\StudyTarget{CS5489-Lecture02__intro}
-我们先跟着一朵花走完这个过程，随后把测量值换成文字。前三部分对应Lecture2a，后三部分对应Lecture2b。上一讲的数组用于保存记录，概率用于表达判断的不确定性，Python负责估参数和计算预测。
-
-
-\textbf{基础复习（可跳过）：} \StudyRef{Foundations-MathForML}{foundation-nav}{按卡点选读符号、概率、对数、导数与矩阵}。正文仍会解释当前步骤，较长的基础推导可从这里补起。\StudyRef{CS5489-Tutorial02}{root}{Tutorial 2}继续练文本分类和Poisson NB；\StudyRef{CS5489-Assignment01}{root}{Assignment 1}用于综合练习分类流程。
-
-
-\textbf{本讲路线：} \StudyRef{CS5489-Lecture02}{classification}{记录与先验} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{observation}{高斯与估计} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{bayes-rule}{Bayes决策} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{gaussian-nb}{两项测量} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{bow}{邮件证据} \ensuremath{\to} \StudyRef{CS5489-Lecture02}{tfidf}{词次数与权重}。最后是\StudyRef{CS5489-Lecture02}{self-check}{自测}和\StudyRef{CS5489-Lecture02}{implementation-notes}{实现选读}。
-
-
-
-
-
 
 \StudyHeading{1}{1. From records to models｜从花朵记录到概率模型}
 \StudyTarget{CS5489-Lecture02__part-a-bayes-classifier}
@@ -83,6 +79,7 @@ MLE学习思想 & 学习思想有直接题；推导也是基础 & 2套 & 未见�
 
 
 \StudyImage{CS5489/course-notes/assets/Petal-sepal.jpg}
+\StudyCaption{花部位示意：先区分petal（花瓣）与sepal（萼片），再读后面鸢尾花记录中的长度和宽度。原图来自Lecture2a，第5个单元。}
 
 
 \begingroup
@@ -117,6 +114,7 @@ Versicolor，标签1 & Virginica，标签2 \\
 
 
 \StudyImage{CS5489/course-notes/assets/iris-measurements.png}
+\StudyCaption{两项测量组成的样本平面：先看坐标含义，再比较不同类别的分布与重叠。}
 
 
 两类花集中在不同位置，但有些点混在一起。用一条线分开两类可能已经有用；当两边都很像时，我们还希望知道：这个判断有多大把握？于是引入概率模型。
@@ -248,6 +246,7 @@ N_1(1-\pi)=N_2\pi,\\[0.4em]
 
 
 \StudyImage{CS5489/course-notes/assets/lecture02-histogram-fit.png}
+\StudyCaption{花瓣长度的类内直方图与拟合密度；柱与曲线使用同一密度尺度。}
 
 
 图中柱子按\textbf{密度}归一化：柱子的面积相加为1。曲线用每类数据估计参数后画出。先看两幅图的峰在什么位置，再看柱子是否大致围绕曲线分布。曲线给出一个简洁的近似，并不要求每根柱子都与它吻合。
@@ -295,7 +294,7 @@ L(\mu,\sigma^2)=\prod_{i=1}^N
 \]
 
 
-现在取对数。每个样本的归一化系数都贡献\(-\tfrac12\log(2\pi\sigma^2)\)，共出现\(N\)次；指数中的项则相加。于是
+现在取对数。每个样本的归一化系数都贡献\(-\tfrac12\log(2\pi\sigma^2)\)，共出现\(N\)次；指数中的项则相加：
 \[
 \ell(\mu,\sigma^2)=-\frac N2\log(2\pi\sigma^2)
 -\frac{1}{2\sigma^2}\sum_{i=1}^N(x_i-\mu)^2.
@@ -323,7 +322,8 @@ L(\mu,\sigma^2)=\prod_{i=1}^N
 \]
 
 
-\textbf{教学算例 / Worked example.} 某类长度为2、4、6 cm，求高斯MLE的均值、方差和标准差。 / For lengths 2, 4 and 6 cm from one class, find the Gaussian MLE mean, variance and standard deviation.
+\begin{StudyBlock}{完整示范 / Worked example}{由三次测量估计高斯参数}
+某类长度为2、4、6 cm，求高斯MLE的均值、方差和标准差。 / For lengths 2, 4 and 6 cm from one class, find the Gaussian MLE mean, variance and standard deviation.
 
 
 均值为4 cm，三个偏差为\ensuremath{-}2、0、2 cm，平方偏差和为8 cm\textsuperscript{2}。因此方差是\(8/3\) cm\textsuperscript{2}，标准差是\(\sqrt{8/3}\approx1.633\) cm。这里的分母是\(N\)。若计算无偏样本方差，会改除以\(N-1\)并得到4 cm\textsuperscript{2}；那是另一种估计要求。
@@ -333,7 +333,7 @@ L(\mu,\sigma^2)=\prod_{i=1}^N
 
 
 上述求解要求数据并非全部相同。若所有观测都等于4 cm，方差趋近0时似然不断增大，普通的正方差高斯密度没有可直接代入的有限最优解。需要时可从\StudyRef{Foundations-MathForML}{partial-derivatives}{偏导与链式法则}补习推导。
-
+\end{StudyBlock}
 
 \Needspace{7\baselineskip}
 对原花瓣长度数据按同样方法估计：
@@ -439,6 +439,7 @@ p(y=c\mid x)=\frac{s_c}{\sum_{k\in\mathcal Y}s_k}.
 
 
 \StudyImage{CS5489/course-notes/assets/iris-density-posterior.png}
+\StudyCaption{从类条件密度到类别后验：左右图的纵轴回答不同的问题。}
 
 
 左图看“各类通常有哪些长度”，右图看“已知这个长度后，种类如何分配”。在右图找到横轴5 cm，两条曲线的高度就是刚算出的后验。两类后验相等处是 \textbf{decision boundary（决策边界）}；二类等代价时，两边都为0.5。
@@ -601,7 +602,7 @@ x&=\frac{10\pm\sqrt{16+24\log2}}{3}\\
 \StudyImage{CS5489/course-notes/assets/lecture02-boundary-variance.png}
 
 
-\emph{图源：本节教学高斯模型。两幅图保持均值4／6 cm和先验0.5／0.5；右图只把第二类方差从1改为4 cm\textsuperscript{2}。上方窄条的数字表示预测类别，竖直点线标出交点；实线表示第一类，虚线表示第二类。}
+\StudyCaption{图源：本节教学高斯模型。两幅图保持均值4／6 cm和先验0.5／0.5；右图只把第二类方差从1改为4 cm\textsuperscript{2}。上方窄条的数字表示预测类别，竖直点线标出交点；实线表示第一类，虚线表示第二类。}
 
 
 在这一维例子中，边界是一个或两个\textbf{分界点}，不是一条弯曲的线。到了二维，分数中的二次项才可能形成曲线；多维情形下一般对应二次曲面，具体形状还取决于其他系数。
@@ -785,6 +786,7 @@ I是直线；II可写成\(x_1\)关于\(x_2\)的二次函数，是一条抛物线
 
 
 \StudyImage{CS5489/course-notes/assets/lecture02-test-errors.png}
+\StudyCaption{真实标签、预测边界与错分位置；空心方框标出测试错误。}
 
 
 圆点是真实类1，三角是真实类2；虚线是后验0.5的分界，空心方框表示预测错误。标注A是原数据中的\((4.7,3.2)\) cm，真实类1。模型在此给类1约0.3959、类2约0.6041，因此选错了类2。这一划分共分对42/50朵，即84\%。
@@ -829,6 +831,7 @@ I是直线；II可写成\(x_1\)关于\(x_2\)的二次函数，是一条抛物线
 
 
 \StudyImage{CS5489/course-notes/assets/lecture02-covariance-shapes.png}
+\StudyCaption{同样的均值和边际方差，不同的协方差；观察等密度轮廓的倾斜方向。}
 
 
 四幅图的均值都是零，两项方差都是1，输入无量纲。左上图没有倾斜；右上到左下的正相关逐渐增强，两个坐标接近相等的组合更常见；右下图的负相关让常见组合沿反方向展开。每条曲线上各点的密度相同。绘图统一使用马氏距离平方为4的轮廓，便于比较形状。
@@ -956,6 +959,7 @@ g_c(\mathbf x)&=\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}
 
 
 \StudyImage{CS5489/course-notes/assets/iris-model-comparison.png}
+\StudyCaption{Gaussian NB与完整高斯模型的分类区域；测试比较的条件与结果见下文。}
 
 
 图中的点为训练记录。用另外50朵测试花评价，Gaussian NB分对42朵，完整高斯分对45朵。这说明完整协方差在这个划分中更适合；多估参数也更依赖样本量，结果不能直接推广到所有数据。
@@ -999,7 +1003,7 @@ g_c(\mathbf x)&=\underbrace{-\tfrac12(\mathbf x-\boldsymbol\mu_c)^T\Sigma_c^{-1}
 \StudyImage{CS5489/course-notes/assets/tom-mitchell-bow.jpg}
 
 
-图源：Lecture2b，第57个单元引用的原图。词表一旦确定，每一列的含义就固定了，训练与预测必须使用同一个顺序。
+\StudyCaption{图源：Lecture2b，第57个单元引用的原图。词表一旦确定，每一列的含义就固定了，训练与预测必须使用同一个顺序。}
 
 
 构造词表时，常将文字转为小写，并考虑删除 \textbf{stop words（停用词）}，例如the、a、on等常见词。但“常见”不等于在每个任务里都无用：把not删掉，可能让“not good”与“good”失去关键区别。预处理应服务当前任务。
@@ -1097,7 +1101,8 @@ P([1,0]\mid c)=\pi_{\mathrm{free},c}(1-\pi_{\mathrm{meeting},c}).
 分母加\(2\alpha\)是因为每个词只有出现／未出现两种结果，与类别数和词表大小无关。\(\alpha=1\)通常叫 \textbf{Laplace smoothing（拉普拉斯平滑）}。
 
 
-\textbf{独立教学题 / Worked problem：} 两类各3篇文档，词表为\StudyInline{[free,\allowbreak{} meeting]}。Spam中两个词分别出现在2、1篇；Ham中分别出现在0、2篇。取\(\alpha=1\)、相等先验，新邮件布尔向量为\StudyInline{[1,\allowbreak{}0]}。求类条件概率与Spam后验。 / Each class has three documents. Presence counts for [free, meeting] are [2,1] in Spam and [0,2] in Ham. With alpha=1 and equal priors, find both conditional probabilities and the Spam posterior for [1,0].
+\begin{StudyBlock}{完整示范 / Worked example}{出现与未出现共同参与分类}
+两类各3篇文档，词表为\StudyInline{[free,\allowbreak{} meeting]}。Spam中两个词分别出现在2、1篇；Ham中分别出现在0、2篇。取\(\alpha=1\)、相等先验，新邮件布尔向量为\StudyInline{[1,\allowbreak{}0]}。求类条件概率与Spam后验。 / Each class has three documents. Presence counts for [free, meeting] are [2,1] in Spam and [0,2] in Ham. With alpha=1 and equal priors, find both conditional probabilities and the Spam posterior for [1,0].
 
 
 平滑后Spam参数为\([3/5,2/5]\)，Ham为\([1/5,3/5]\)。因此
@@ -1114,11 +1119,7 @@ P([1,0]\mid H)&=\frac15\left(1-\frac35\right)=\frac2{25}.
 
 
 \textbf{Answer:} The conditional probabilities are 9/25 and 2/25. With equal priors, the Spam posterior is 9/11 \ensuremath{\approx} 0.8182.
-
-
-
-
-
+\end{StudyBlock}
 
 \StudyHeading{2}{Frequent and informative words｜常见与能区分，是两件事}
 \StudyTarget{CS5489-Lecture02__16-frequent-words-most-informative-words}
@@ -1364,15 +1365,15 @@ p(\mathbf x\mid c,L)=\frac{L!}{\prod_jx_j!}\prod_{j=1}^V\pi_{j,c}^{x_j},\qquad
 分母由“全部词次数”和“每个词各加一次\(\alpha\)”组成，与Bernoulli中的文档数加\(2\alpha\)不同。
 
 
-\textbf{独立教学题 / Worked problem：} 词表\StudyInline{[free,\allowbreak{} meeting]}，Spam/Ham总词计数分别为\StudyInline{[6,\allowbreak{}2]}、\StudyInline{[1,\allowbreak{}7]}。取\(\alpha=1\)、相等先验，新邮件计数\StudyInline{[2,\allowbreak{}0]}，求Spam后验。 / With vocabulary [free, meeting], class token counts are [6,2] for Spam and [1,7] for Ham. Use alpha=1 and equal priors. Find the Spam posterior for [2,0].
+\begin{StudyBlock}{完整示范 / Worked example}{重复词怎样增加计数证据}
+词表\StudyInline{[free,\allowbreak{} meeting]}，Spam/Ham总词计数分别为\StudyInline{[6,\allowbreak{}2]}、\StudyInline{[1,\allowbreak{}7]}。取\(\alpha=1\)、相等先验，新邮件计数\StudyInline{[2,\allowbreak{}0]}，求Spam后验。 / With vocabulary [free, meeting], class token counts are [6,2] for Spam and [1,7] for Ham. Use alpha=1 and equal priors. Find the Spam posterior for [2,0].
 
 
 \textbf{答 / Answer：} 平滑参数分别为\([0.7,0.3]\)、\([0.2,0.8]\)。分数中与类别有关的部分为\(0.7^2=0.49\)、\(0.2^2=0.04\)，后验为\(49/53\approx0.9245\)。 / The parameter vectors are [0.7,0.3] and [0.2,0.8]; the class-dependent factors are 0.49 and 0.04, giving Spam posterior 49/53 \ensuremath{\approx} 0.9245.
 
 
 重复free增加了计数证据。meeting的指数为0，因此没有Bernoulli那种“未出现”的补概率项。
-
-
+\end{StudyBlock}
 
 \StudyHeading{2}{Weighted features in the same classifier｜小数权重怎样进入模型}
 \StudyTarget{CS5489-Lecture02__weighted-features-in-the-same-classifier}
@@ -1806,6 +1807,12 @@ Gaussian NB与完整高斯 & 核心必会 & 高：条件独立、协方差、三
 
 
 
+
+\textbf{统计口径：} 已辨识6套期中、3套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。
+
+
+标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
+题号与出处见\StudyRef{CS5489-Lecture02}{exam-topic-index}{讲末考点索引}；按试卷查阅见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
 
 \StudyHeading{2}{生成式模型与概率分工}
 

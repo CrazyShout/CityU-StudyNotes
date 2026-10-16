@@ -7,6 +7,8 @@
 \StudyRef{CS5222-Chapter01}{delay}{Chapter 1} · \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Tutorial01}{root}{Tutorial 1} · \StudyRef{CS5222-Assignment01}{root}{Assignment 1}
 
 
+前四题练习同一件事：先确定从哪个事件计时、到哪个事件结束，再判断哪些等待可以重叠。第五题转向traceroute，练习从实际响应中区分观察与推断。
+
 依据当前 原题PDF（3页） 与 教师解答PPT（13页），按Q1–5讲解。难点是计时边界与转发模型；优先级均为核心必会，Q1/Q3中等偏难，Q2/Q4中等，Q5需实际观察与解释。优先级依据当前Tutorial。
 
 
@@ -22,16 +24,19 @@
 \StudyTarget{CS5222-Tutorial02__q1-voip}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial02-01.png}
-
-
 \textbf{完整条件 / Conditions:} A以128kbps实时生成语音比特，每64byte成一包，收集完成立即发送；链路4Mbps、传播8ms，B收完整包后还原模拟语音。问生成一个bit到它被解码的时延。 / A generates voice at 128 kbps, groups it into 64-byte packets and immediately transmits each completed packet over a 4-Mbps link with 8-ms propagation. B decodes after receiving the complete packet. Find generation-to-decoding delay.
+
+\StudyImage{CS5222/course-notes/assets/tutorial02-01.png}
+\StudyCaption{Tutorial 2原题页：Q1从语音比特产生时计时，成包等待也属于端到端过程。}
+
 
 
 先按包首位及连续流体近似计算：包长512bit；收集一包 \(512/128000=4\)ms；把包送上链路 \(512/4000000=0.128\)ms；传播8ms。首位从生成到可开始播放的延迟为 \textbf{12.128ms，选D}，与Tutorial 2教师解答，第5张幻灯片结论一致。
 
 
+\begin{StudyBlock}{计时条件}{可读取与顺序播放}
 这里“任意一位”还要区分读取与播放这两个时刻。一个包内越晚产生的bit等待成包越短；若问“该bit到达整包缓冲、可被读取”的延迟，数值随位次变化，约从12.128ms降到8.128ms。若接收端在包到齐后，\textbf{按与源相同128kbps的节奏顺序恢复/播放语音}，后面的bit在接收端也会多等相同位次时间，因此每个bit的生成到播放时延相同，都是12.128ms。教师“all bits”的说法应连着这个播放约定读。
+\end{StudyBlock}
 
 
 设第j位相对首位晚产生 \(\tau_j\)，包到达时刻T=12.128ms；可读取延迟为T\ensuremath{-}\ensuremath{\tau}\textsubscript{j}，顺序播放时刻为T+\ensuremath{\tau}\textsubscript{j}，播放延迟则(T+\ensuremath{\tau}\textsubscript{j})\ensuremath{-}\ensuremath{\tau}\textsubscript{j}=T。因此，答题前要确定问的是可读取时刻还是播放时刻。
@@ -107,10 +112,11 @@ b 给定L=1500byte=12000bit，各R=2Mbps，各s=2.5\ensuremath{\times}10\textsup
 \StudyTarget{CS5222-Tutorial02__q3-immediate-bit-forwarding}
 
 
-\StudyImage{CS5222/course-notes/assets/tutorial02-02.png}
-
-
 \textbf{条件 / Conditions:} 沿用Q2，R\textsubscript{1}=R\textsubscript{2}=R\textsubscript{3}=R、dproc=0，无排队，中间节点每收到一bit立即转发，不等整包。 / Use the Q2 path, equal rates and zero processing; each bit is forwarded immediately with no whole-packet waiting or queueing.
+
+\StudyImage{CS5222/course-notes/assets/tutorial02-02.png}
+\StudyCaption{Tutorial 2原题页：Q3的逐位转发与Q2的存储转发使用不同的开始发送条件。}
+
 
 
 首位经过各传播段，末位相对首位只落后源端一次L/R。故总为 \(L/R+\sum_i d_i/s_i\)。带Q2数字为6+20+16+4=\textbf{46ms，选D}，Tutorial 2教师解答，第8张幻灯片相同。

@@ -196,7 +196,9 @@ V(t)=2t+1.\tag{M.1}
 这里t是 \textbf{variable（变量）}，V(t)读作“时间t对应的水量”。括号表示把t送入规则，\textbf{V(t)不是V乘以t}。2t才表示2\ensuremath{\times}t；2的单位是L/min，乘以分钟后得到L，才能与原有1 L相加。
 
 
+\begin{StudyBlock}{概念}{函数与定义域}
 这样的输入—输出规则叫 \textbf{function（函数）}。在我们规定的条件下，同一个t对应一个确定的V。模型适用的输入范围叫 \textbf{domain（定义域）}；这里t\ensuremath{\ge}0，而且必须在水箱尚未溢出的阶段。
+\end{StudyBlock}
 
 
 
@@ -211,10 +213,12 @@ V(t)=2t+1.\tag{M.1}
 横轴记t，纵轴记V。点(2,5)表示“过了2分钟，共有5升水”；先读横坐标，再读纵坐标。允许半分钟之类的连续时间，所以这里可以连接成线；如果横轴是班级名称，就不能照搬这种连续解释。
 
 
+\begingroup\renewcommand{\StudyImageWidth}{.70\linewidth}
 \StudyImage{learning/foundation-notes/assets/tank-function.png}
+\endgroup
 
 
-\emph{看蓝线与金色虚线：从(1,3)走到(2,5)，向右1分钟，向上2升。起点的1升决定纵轴截距，注水速率决定斜率。图的适用条件仍是匀速、不漏、不溢出。}
+\StudyCaption{看蓝线与金色虚线：从(1,3)走到(2,5)，向右1分钟，向上2升。起点的1升决定纵轴截距，注水速率决定斜率。图的适用条件仍是匀速、不漏、不溢出。}
 
 
 \textbf{Slope（斜率）}是“输出变化量\ensuremath{\div}输入变化量”。大写希腊字母\ensuremath{\Delta}读作delta，在这里表示“后一个值减前一个值”：
@@ -226,8 +230,7 @@ V(t)=2t+1.\tag{M.1}
 这条直线到处斜率相同；曲线则可能一会儿陡、一会儿平，专题4会从这里引出导数。
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{从水量反求时间}
 中文题：保持水箱条件，求2.5分钟后的水量；如果想达到8 L，需要多久？\\
 
 English question: Under the same tank assumptions, find the volume after 2.5 minutes and the time needed to reach 8 L.
@@ -236,6 +239,7 @@ English question: Under the same tank assumptions, find the volume after 2.5 min
 先代入：V(2.5)=2\ensuremath{\times}2.5+1=6 L。反过来求时间，解2t+1=8，先减1再除以2，得到t=3.5 min。\\
 
 \textbf{English answer:} V(2.5)=6 L. Solving 2t+1=8 gives t=3.5 minutes.
+\end{StudyBlock}
 
 
 
@@ -298,7 +302,7 @@ English question: A second tank starts with 2 L and receives 3 L/min, without le
 
 
 
-\begin{StudySolution}{展开答案 / Show answer}
+\begin{StudySolution}{答案与推理 / Answer and reasoning}
 
 
 V(t)=3t+2，V(4)=14 L；和为10，积为30，平方和为4+9+25=38。平方和不是10\textsuperscript{2}。\\
@@ -364,8 +368,7 @@ V(t)=3t+2，V(4)=14 L；和为10，积为30，平方和为4+9+25=38。平方和�
 \endgroup
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{给定条件决定分母}
 中文题：仍等可能抽一封。已知它是垃圾邮件，含free的概率是多少？已知它含free，是垃圾邮件的概率又是多少？\\
 
 English question: Select one message uniformly from the table. What is the probability of containing free given spam, and the probability of spam given containing free?
@@ -387,6 +390,7 @@ P(S\mid F)=\frac{18}{25}=0.72.\tag{M.7}
 
 
 \textbf{English answer:} P(F|S)=18/30=0.6; P(S|F)=18/25=0.72. The conditioning event changes the reference group, so reversing the condition changes the question.
+\end{StudyBlock}
 
 
 两个条件同时满足叫交集，写成F\ensuremath{\cap}S；本例概率是18/100=0.18。由计数关系可归纳出
@@ -450,11 +454,10 @@ f(x)=\begin{cases}2,&0\le x\le0.5,\\0,&\text{otherwise}.\end{cases}\tag{M.9}
 \StudyImage{learning/foundation-notes/assets/density-area.png}
 
 
-\emph{上图看金色区域：宽0.3\ensuremath{-}0.1=0.2分钟，高2/分钟，面积0.4就是落在该区间的概率。下图的曲线是标准正态，\ensuremath{-}1到1之间的面积约0.6827；曲线下的面积仍是概率，但不能用一根柱子的高度代替整个面积。上下图的横轴、纵轴含义各自标明。}
+\StudyCaption{上图看金色区域：宽0.3\ensuremath{-}0.1=0.2分钟，高2/分钟，面积0.4就是落在该区间的概率。下图的曲线是标准正态，\ensuremath{-}1到1之间的面积约0.6827；曲线下的面积仍是概率，但不能用一根柱子的高度代替整个面积。上下图的横轴、纵轴含义各自标明。}
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{用面积计算等待概率}
 中文题：在上述均匀等待模型中，求0.1到0.3分钟之间的概率。密度为2是否违反“概率不超过1”？\\
 
 English question: In the uniform waiting-time model on [0,0.5] minutes, find the probability of [0.1,0.3]. Does density 2 violate the probability bound of 1?
@@ -463,6 +466,7 @@ English question: In the uniform waiting-time model on [0,0.5] minutes, find the
 答案：区间面积(0.3\ensuremath{-}0.1)\ensuremath{\times}2=0.4。密度2的单位为1/分钟，不是概率；概率是无单位的面积0.4，仍在0到1之间。\\
 
 \textbf{English answer:} The probability is (0.3\ensuremath{-}0.1)\ensuremath{\times}2=0.4. Density has units of inverse minutes; its height need not be at most one. The dimensionless probability remains within [0,1].
+\end{StudyBlock}
 
 
 对曲线，可以把区间切成很多窄长方形，将“宽\ensuremath{\times}高”相加，越切越细。这种累计面积记为 \textbf{integral（积分）}：
@@ -482,7 +486,7 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 
 
 
-\begin{StudySolution}{展开答案 / Show answer}
+\begin{StudySolution}{答案与推理 / Answer and reasoning}
 
 
 不含free的75封中有12封垃圾邮件，所以12/75=0.16。等待区间概率0.25\ensuremath{\times}2=0.5；在该连续模型中，精确单点概率为0。\\
@@ -546,7 +550,7 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 \StudyImage{learning/foundation-notes/assets/exp-log.png}
 
 
-\emph{上图的(0,1)与(1,e)，在下图变成(1,0)与(e,1)。ln(x)只接收正数；当0<x<1时，它位于横轴下方，因为e的负次幂才得到这样的数。两幅图的输入输出角色不同，纵轴范围也不同。}
+\StudyCaption{上图的(0,1)与(1,e)，在下图变成(1,0)与(e,1)。ln(x)只接收正数；当0<x<1时，它位于横轴下方，因为e的负次幂才得到这样的数。两幅图的输入输出角色不同，纵轴范围也不同。}
 
 
 例如e\textsuperscript{0}=1，所以ln1=0；0.1小于1，所以ln0.1是负数，约\ensuremath{-}2.3026。负数并不代表“负概率”：对数已经把概率换到了另一条数轴。
@@ -591,8 +595,7 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 这里的 \textbf{argmax} 返回获胜的输入参数；\textbf{max} 返回最高的函数值。刻度换了，最高的数值会变，获胜参数可以不变。底数大于1的对数都保留这种排序；如果使用0到1之间的底数，对数会递减，不能照搬这个结论。
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{取对数前后比较同一证据}
 中文题：两项独立证据在模型A下的概率为0.2、0.5，在模型B下为0.1、0.8。比较证据联合概率，和比较它的自然对数，哪一个模型的值较大？\\
 
 English question: Two independent pieces of evidence have probabilities 0.2 and 0.5 under model A, and 0.1 and 0.8 under model B. Which model has the larger joint probability, and does taking natural logs change the ordering?
@@ -601,6 +604,7 @@ English question: Two independent pieces of evidence have probabilities 0.2 and 
 先按独立假设相乘：A为0.10，B为0.08，A更大。取对数后A\ensuremath{\approx}\ensuremath{-}2.3026，B\ensuremath{\approx}\ensuremath{-}2.5257；数轴上\ensuremath{-}2.3026仍更靠右，所以A仍较大。这里比较的是对已观察证据的似然，没有计算模型本身的后验。\\
 
 \textbf{English answer:} A gives 0.10 versus B's 0.08. Their natural logs are approximately \ensuremath{-}2.3026 and \ensuremath{-}2.5257, so A remains larger. These are likelihood comparisons, not model posterior probabilities.
+\end{StudyBlock}
 
 
 电脑只能保存有限精度的数字，许多很小的数直接连乘可能被舍成0。取对数后改为加法，能减轻这种 \textbf{underflow（下溢）}。但这不能把真正的零概率变成合理的正概率；ln0没有有限实数值，程序有时用\ensuremath{-}\ensuremath{\infty}表示其极限。不要把ln0擅自换成0，因为ln1才是0。
@@ -614,7 +618,7 @@ English question: Compute log\textsubscript{2}(1/8) and log\textsubscript{2}(2\e
 
 
 
-\begin{StudySolution}{展开答案 / Show answer}
+\begin{StudySolution}{答案与推理 / Answer and reasoning}
 
 
 前两项为\ensuremath{-}3和3；ln0.3更大，因为0.3>0.2>0；不能拆开加法，左边ln6、右边ln8。\\
@@ -686,7 +690,7 @@ f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}h=2x.\tag{M.16}
 \StudyImage{learning/foundation-notes/assets/secant-tangent.png}
 
 
-\emph{蓝线是x\textsuperscript{2}，虚线连接两个实际曲线点，深色实线是x=2处的切线。h从1缩到0.25，割线斜率从5变成4.25，向切线斜率4靠近。切线只在附近贴合曲线，并不是整条曲线的替身。}
+\StudyCaption{蓝线是x\textsuperscript{2}，虚线连接两个实际曲线点，深色实线是x=2处的切线。h从1缩到0.25，割线斜率从5变成4.25，向切线斜率4靠近。切线只在附近贴合曲线，并不是整条曲线的替身。}
 
 
 因此在x=2附近，\ensuremath{\Delta}f\ensuremath{\approx}4\ensuremath{\Delta}x。比如\ensuremath{\Delta}x=0.01，近似增加0.04；实际2.01\textsuperscript{2}\ensuremath{-}2\textsuperscript{2}=0.0401。步子小时两者很接近；步子为1时近似是4，实际是5，就不能再把近似写成精确等式。
@@ -735,7 +739,7 @@ eˣ & eˣ & 与ln互逆，结合链式法则可得 \\
 \StudyImage{learning/foundation-notes/assets/log-area.png}
 
 
-\emph{从1到2的蓝色面积是ln2。金色窄条是从2到2.2新增的面积；起点高度为1/2，因此用小矩形估计是0.2\ensuremath{\times}0.5=0.1，实际面积约0.09531。继续缩小宽度，单位宽度对应的面积变化就趋近1/2。}
+\StudyCaption{从1到2的蓝色面积是ln2。金色窄条是从2到2.2新增的面积；起点高度为1/2，因此用小矩形估计是0.2\ensuremath{\times}0.5=0.1，实际面积约0.09531。继续缩小宽度，单位宽度对应的面积变化就趋近1/2。}
 
 
 对多个项相加，可以逐项求导；固定常数倍也可以提到外面。例如f(x)=3x\textsuperscript{2}+5，f\ensuremath{\prime}(x)=3\ensuremath{\times}2x+0=6x。常数不变，不表示含它的整项都不变。
@@ -762,8 +766,7 @@ eˣ & eˣ & 与ln互逆，结合链式法则可得 \\
 这叫 \textbf{chain rule（链式法则）}。dy/dz等写法在这里是变化率记号，不是任意情况下都能当普通分数约掉的字母。
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{沿两步计算应用链式法则}
 中文题：z=3x+1，y=z\textsuperscript{2}。当x=1时求dy/dx，并说明只写2z漏掉了什么。\\
 
 English question: Let z=3x+1 and y=z\textsuperscript{2}. At x=1, find dy/dx and explain what is missing if one writes only 2z.
@@ -772,6 +775,7 @@ English question: Let z=3x+1 and y=z\textsuperscript{2}. At x=1, find dy/dx and 
 先求当前位置z=4，外层变化率dy/dz=2\ensuremath{\times}4=8；内层dz/dx=3。相乘得到24。只写2z等于把第一道工序当成没有放大。\\
 
 \textbf{English answer:} z=4, dy/dz=8 and dz/dx=3, so dy/dx=24. The expression 2z alone omits the inner rate dz/dx.
+\end{StudyBlock}
 
 
 这也解释了ln(1\ensuremath{-}p)为什么求导为\ensuremath{-}1/(1\ensuremath{-}p)：外层ln的导数是1/(1\ensuremath{-}p)，内层1\ensuremath{-}p的导数是\ensuremath{-}1，必须相乘。对平方残差(x\textsubscript{i}\ensuremath{-}\ensuremath{\mu})\textsuperscript{2}关于\ensuremath{\mu}求导也是同一个套路：2(x\textsubscript{i}\ensuremath{-}\ensuremath{\mu})再乘\ensuremath{-}1。此时x\textsubscript{i}是固定的数据，变化的是\ensuremath{\mu}。
@@ -835,11 +839,10 @@ L(p)=p^4(1-p)^6,\qquad 0\le p\le1.\tag{M.20}
 \StudyImage{learning/foundation-notes/assets/likelihood-peak.png}
 
 
-\emph{上下图纵轴刻度不同，但金色线都穿过最高处p=0.4。上图纵轴的\ensuremath{\times}10\textsuperscript{-}\textsuperscript{3}表示刻度还要乘0.001；图下半部的负数是对数值。读图时比较峰值的位置，而不是两图的纵轴高度。}
+\StudyCaption{上下图纵轴刻度不同，但金色线都穿过最高处p=0.4。上图纵轴的\ensuremath{\times}10\textsuperscript{-}\textsuperscript{3}表示刻度还要乘0.001；图下半部的负数是对数值。读图时比较峰值的位置，而不是两图的纵轴高度。}
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{检查似然峰值与端点}
 中文题：对上述4个类1、6个类2的固定序列，求最大化似然的p，并说明它为什么是最大值。\\
 
 English question: For the fixed independent label sequence with four class-1 and six class-2 outcomes, find the likelihood-maximizing p and justify that it is a maximum.
@@ -859,6 +862,7 @@ English question: For the fixed independent label sequence with four class-1 and
 
 
 区间内分母为正，p<0.4时分子为正，p>0.4时分子为负，因此函数先升后降；两个端点的L都为0。由此确认0.4是最大值。\textbf{English answer:} The log-likelihood derivative is 4/p\ensuremath{-}6/(1\ensuremath{-}p), which vanishes at p=0.4. It is positive before 0.4 and negative after it, while the endpoint likelihoods are zero, so p=0.4 is the maximizer.
+\end{StudyBlock}
 
 
 老师还会使用 \textbf{second derivative（二阶导数）}：再对导数求一次导。负的二阶导数表示斜率持续减小，正的表示斜率持续增大；在可用的条件下可辅助判断峰谷。对本例，\ensuremath{\ell}\ensuremath{\prime\prime}(p)=\ensuremath{-}4/p\textsuperscript{2}\ensuremath{-}6/(1\ensuremath{-}p)\textsuperscript{2}<0，和我们刚才的判断一致。
@@ -872,7 +876,7 @@ English question: (1) Find the derivative of y=(2x\ensuremath{-}1)\textsuperscri
 
 
 
-\begin{StudySolution}{展开答案 / Show answer}
+\begin{StudySolution}{答案与推理 / Answer and reasoning}
 
 
 ① 外层2(2x\ensuremath{-}1)乘内层2，在x=3时为20。② 两个偏导为\ensuremath{-}2、\ensuremath{-}4。③ 对数似然导数\(3/p-2/(1-p)=\)\(\frac{3-5p}{p(1-p)}\)，在p=0.6变号，由正变负，端点似然为0，故最大值在0.6。\\
@@ -916,7 +920,7 @@ X有4行、2列，写成4\ensuremath{\times}2，顺序是“行数\ensuremath{\t
 \StudyImage{learning/foundation-notes/assets/records-vectors.png}
 
 
-\emph{金色行是第2条记录。按行存样本和把单条样本写成列向量是两种展示约定，不是不同的数据。别把“第2行”和“第2个特征列”交换。}
+\StudyCaption{金色行是第2条记录。按行存样本和把单条样本写成列向量是两种展示约定，不是不同的数据。别把“第2行”和“第2个特征列”交换。}
 
 
 上标T表示 \textbf{transpose（转置）}，把行列互换。例如x\textsubscript{2}\textsuperscript{T}=(2,3)是1\ensuremath{\times}2，X\textsuperscript{T}是2\ensuremath{\times}4。它不是平方，也不是把数值倒过来。写X\textsubscript{i}\textsubscript{j}时，下标i标第几行、j标第几列，因此X\textsubscript{2}\textsubscript{1}=2、X\textsubscript{2}\textsubscript{2}=3。
@@ -951,8 +955,7 @@ X有4行、2列，写成4\ensuremath{\times}2，顺序是“行数\ensuremath{\t
 对一般矩阵，(m\ensuremath{\times}n)乘(n\ensuremath{\times}k)得到(m\ensuremath{\times}k)；中间的n必须相同。输出第i行第j列，是左矩阵第i行与右矩阵第j列的点积。
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{逐行算出矩阵乘积}
 中文题：A=[[2,1],[0,1]]，x=(2,3)\textsuperscript{T}。求Ax，说明每个输出来自哪里。\\
 
 English question: Let A=[[2,1],[0,1]] and x=(2,3)\textsuperscript{T}. Compute Ax and explain the two output entries.
@@ -965,6 +968,7 @@ A\mathbf{x}=\begin{pmatrix}7\\3\end{pmatrix}.\tag{M.26}
 
 
 \textbf{English answer:} The result is (7,3)\textsuperscript{T}. Each output is a row of A dotted with the input vector.
+\end{StudyBlock}
 
 
 如果要对X的4条按行记录都应用同一个A，写XA\textsuperscript{T}，得到仍为4\ensuremath{\times}2的结果；不能把按列写的Ax原样套成AX，因为A的2列对不上X的4行。代码里NumPy的\StudyInline{@}表示矩阵乘法，\StudyInline{*}通常表示逐元素乘法，读教师代码时必须区别。
@@ -1043,7 +1047,7 @@ s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
 \StudyImage{learning/foundation-notes/assets/covariance-data.png}
 
 
-\emph{看均值交叉线把平面分成的四块：(1,1)、(4,4)贡献正乘积；(2,3)、(3,2)贡献负乘积。最后是所有偏差乘积的平均，不是只挑最像直线的两个点。这里四点是同一类别内部的教学记录。}
+\StudyCaption{看均值交叉线把平面分成的四块：(1,1)、(4,4)贡献正乘积；(2,3)、(3,2)贡献负乘积。最后是所有偏差乘积的平均，不是只挑最像直线的两个点。这里四点是同一类别内部的教学记录。}
 
 
 每列自身的方差都为(2.25+0.25+0.25+2.25)/4=1.25。把它们与协方差排进矩阵：
@@ -1081,7 +1085,7 @@ s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
 \StudyImage{CS5489/course-notes/assets/covariance-shapes.png}
 
 
-\emph{复用已核查的Lecture2b，第36个单元的矩阵图：均值零、两维方差都为1，非对角元分别0、0.5、0.9、\ensuremath{-}0.9。正值让椭圆朝一起增大的方向倾斜，负值让它朝一增一减的方向倾斜。轮廓对应马氏距离平方4。}
+\StudyCaption{复用已核查的Lecture2b，第36个单元的矩阵图：均值零、两维方差都为1，非对角元分别0、0.5、0.9、\ensuremath{-}0.9。正值让椭圆朝一起增大的方向倾斜，负值让它朝一增一减的方向倾斜。轮廓对应马氏距离平方4。}
 
 
 这张图不要求你先会计算椭圆。先看同样的横纵波动范围，如何因为“是否一起变化”而形成不同形状。课堂中需要在每个类别内部估计这个形状，不能把所有类别混起来算一次，就当作每个类别的关系。
@@ -1118,7 +1122,7 @@ A^{-1}=\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}.\tag{M.32}
 \StudyImage{learning/foundation-notes/assets/determinant-area.png}
 
 
-\emph{上图单位正方形面积1，下图变换后的平行四边形面积2。两图坐标范围和纵横比例相同。|det(A)|给出面积缩放倍数；负行列式还表示方向翻转，但面积倍数取绝对值。}
+\StudyCaption{上图单位正方形面积1，下图变换后的平行四边形面积2。两图坐标范围和纵横比例相同。|det(A)|给出面积缩放倍数；负行列式还表示方向翻转，但面积倍数取绝对值。}
 
 
 把方形四个顶点分别乘A，就得到(0,0)、(2,0)、(3,1)、(1,1)。底长2、高1，面积为2，和行列式计算相互核对。这里坐标无量纲。
@@ -1139,8 +1143,7 @@ A^{-1}=\frac1{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}.\tag{M.32}
 原课的普通满维高斯密度要求协方差矩阵 \textbf{symmetric positive definite（对称正定）}。直观地说，每个非零方向都有正方差，没有把整片分布压扁成一条线。仅仅“某个矩阵可逆”不保证它是合法的协方差矩阵。重复特征或样本不足可能产生奇异协方差，原课会讨论正则化。
 
 
-\textbf{完整例题 / Worked example}\\
-
+\begin{StudyBlock}{完整示范 / Worked example}{逐步算出协方差调整后的距离}
 中文题：无量纲偏差向量d=(1,1)\textsuperscript{T}，\ensuremath{\Sigma}=[[1,0.5],[0.5,1]]。分步求d\textsuperscript{T}\ensuremath{\Sigma}\textsuperscript{-}\textsuperscript{1}d，并与\ensuremath{\Sigma}=I比较。\\
 
 English question: For the dimensionless deviation d=(1,1)\textsuperscript{T} and \ensuremath{\Sigma}=[[1,0.5],[0.5,1]], compute d\textsuperscript{T}\ensuremath{\Sigma}\textsuperscript{-}\textsuperscript{1}d step by step and compare it with the identity-covariance case.
@@ -1161,6 +1164,7 @@ English question: For the dimensionless deviation d=(1,1)\textsuperscript{T} and
 
 
 \textbf{English answer:} det(\ensuremath{\Sigma})=0.75, \ensuremath{\Sigma}\textsuperscript{-}\textsuperscript{1}d=(2/3,2/3)\textsuperscript{T}, and d\textsuperscript{T}\ensuremath{\Sigma}\textsuperscript{-}\textsuperscript{1}d=4/3. Identity covariance gives 2. The positive-correlation model penalizes this joint deviation less.
+\end{StudyBlock}
 
 
 这叫 \textbf{squared Mahalanobis distance（马氏距离的平方）}。偏差在共同增大的方向时，正相关模型觉得它不那么意外；但分类还要考虑分布宽度与先验，完整决策继续回Lecture学习。
@@ -1177,7 +1181,7 @@ English question: (1) Find u\textsuperscript{T}v for u=(1,2)\textsuperscript{T} 
 
 
 
-\begin{StudySolution}{展开答案 / Show answer}
+\begin{StudySolution}{答案与推理 / Answer and reasoning}
 
 
 ① 点积3+8=11。② det(B)=6，B\textsuperscript{-}\textsuperscript{1}=diag(1/3,1/2)；变换为(3,4)\textsuperscript{T}，再恢复为(1,2)\textsuperscript{T}。③ 均值(1,1)\textsuperscript{T}，两列偏差平方均值都为1，交叉乘积1\ensuremath{-}1\ensuremath{-}1+1=0，所以协方差为I。仅凭有限样本的零协方差不足以证明真实过程独立，还需要分布与抽样方面的依据。\\
@@ -1227,10 +1231,12 @@ P(K=k)=\binom nk p^k(1-p)^{n-k}.\tag{M.34}
 \StudyImage{learning/foundation-notes/assets/binomial-users.png}
 
 
-看图：总人数相同，p变大时概率移向右侧；每组柱的总和仍是1。不是八种状态必然等概率，只有p=0.5时每个具体开关状态才都等概率。
+\StudyCaption{看图：总人数相同，p变大时概率移向右侧；每组柱的总和仍是1。不是八种状态必然等概率，只有p=0.5时每个具体开关状态才都等概率。}
 
 
-\textbf{完整算例（补充）}：三人、p=0.2，一条链路最多同时容纳两人的即时需求。超额恰在三人全活跃，概率 \(0.2^3=0.008\)。恰两人概率 \(3(0.2)^2(0.8)=0.096\)。两人用满容量不等于超额，题目若问“至少两人”则需相加得0.104。
+\begin{StudyBlock}{完整示范}{用满容量与超过容量}
+三人、p=0.2，一条链路最多同时容纳两人的即时需求。超额恰在三人全活跃，概率 \(0.2^3=0.008\)。恰两人概率 \(3(0.2)^2(0.8)=0.096\)。两人用满容量不等于超额，题目若问“至少两人”则需相加得0.104。
+\end{StudyBlock}
 
 
 \textbf{自查/变式 / Check and transfer:} 四个独立用户各以0.5概率活跃，容量只容纳两人，超额概率？ / Four independent users are active with probability 0.5 each. Capacity supports two users. What is the probability of excess demand?
@@ -1271,6 +1277,7 @@ P(K=k)=\binom nk p^k(1-p)^{n-k}.\tag{M.34}
 
 
 \StudyImage{learning/foundation-notes/assets/vector-projection.png}
+\StudyCaption{向量分解为沿给定方向的投影与垂直余量；先找投影点，再看剩余方向。}
 
 
 图中 \(u=(1,0),v=(2,1)\)。沿u方向只能走到横轴；离v最近的横轴点是p=(2,0)，剩下r=(0,1)垂直u。p叫v在u方向的投影（projection）。类比手电筒投影时要注意：这里是垂直投影，不是任意灯光角度的影子。
@@ -1285,7 +1292,9 @@ u^T(v-au)=0\ \Rightarrow\ u^Tv-a(u^Tu)=0\ \Rightarrow\ a=\frac{u^Tv}{u^Tu}.\tag{
 所以 \(p=(u^Tv)/(u^Tu)\,u\)。如果u已经归一化为q，分母=1，写成 \((q^Tv)q\)。向量维度必须相同，u必须非零。这个分母是长度平方，不是长度。
 
 
-\textbf{完整算例（补充）}：u=(1,1)、v=(3,1)。点积4，u长度平方2；a=2，p=(2,2)，r=(1,\ensuremath{-}1)。检查：p+r=v，u\textsuperscript{T}r=0，\(\|v\|^2=10=8+2=\|p\|^2+\|r\|^2\)。我们同时得到“方向成分”和“不在这个方向里的信息”。
+\begin{StudyBlock}{完整示范}{投影、余量与正交检查}
+u=(1,1)、v=(3,1)。点积4，u长度平方2；a=2，p=(2,2)，r=(1,\ensuremath{-}1)。检查：p+r=v，u\textsuperscript{T}r=0，\(\|v\|^2=10=8+2=\|p\|^2+\|r\|^2\)。我们同时得到“方向成分”和“不在这个方向里的信息”。
+\end{StudyBlock}
 
 
 一组向量所有线性组合形成的集合叫张成空间（span）。一条非零向量张成过原点的一条线，两条不共线向量能张成整个二维平面。Gram–Schmidt每次减去已有正交方向的投影，再将余下方向归一化；若余量为0，说明新向量没带来新方向。算法正文在Tutorial1，这里先把“减掉的是什么”讲明白。
@@ -1328,7 +1337,7 @@ u^T(v-au)=0\ \Rightarrow\ u^Tv-a(u^Tu)=0\ \Rightarrow\ a=\frac{u^Tv}{u^Tu}.\tag{
 \StudyImage{learning/foundation-notes/assets/rank-projection.png}
 
 
-图左把两个重复列画在同一方向，图右将无法精确拟合的y投影到列空间。看不懂“列空间”时，可把它读成“把A各列加权相加所能到达的全部地方”。
+\StudyCaption{图左把两个重复列画在同一方向，图右将无法精确拟合的y投影到列空间。看不懂“列空间”时，可把它读成“把A各列加权相加所能到达的全部地方”。}
 
 
 再把y改为(3,5)，现在第一行希望和为3，第二行希望和为2.5，两者不能都满足。最小二乘不再问“有没有精确解”，而问“哪一个可达向量离y最近”。设s=w\textsubscript{1}+w\textsubscript{2}，误差
@@ -1394,6 +1403,7 @@ w=(2,2)，预测(4,8)，残差0；仍有其他精确解，但其长度更大。 
 
 
 \StudyImage{learning/foundation-notes/assets/gradient-constraint.png}
+\StudyCaption{梯度更新与可行域：箭头表示一次候选更新，是否下降取决于步长。}
 
 
 图左沿椭圆等高线观察一次下降，箭头不是保证“无论走多远都下坡”。eta=1时更新到(\ensuremath{-}1,\ensuremath{-}3)，代价37，反而冲过了谷底。学习率决定步长，需要检查目标是否合理下降。
@@ -1462,7 +1472,7 @@ g=2\ensuremath{-}x\ensuremath{\ge}0，L=(x\ensuremath{-}3)\textsuperscript{2}\en
 \StudyImage{CS5489/course-notes/assets/oct-batch-bias.png}
 
 
-图中两条箭头是两条导数贡献，不是两个偏置参数。连续经过两步计算时，局部影响相乘；一个量被多处使用时，各条路径的影响相加。这是链式法则在计算图中的两条基本规则。
+\StudyCaption{图中两条箭头是两条导数贡献，不是两个偏置参数。连续经过两步计算时，局部影响相乘；一个量被多处使用时，各条路径的影响相加。这是链式法则在计算图中的两条基本规则。}
 
 
 

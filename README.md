@@ -45,7 +45,7 @@ python scripts/build.py
 python scripts/validate.py
 ```
 
-Windows激活命令为`.venv\Scripts\activate`。补包工具复用已有TeX引擎，将缺包放入被Git忽略的`.build/texmf/`，不会安装或替换整套发行版。生成流程不依赖Node、Chrome或Canvas。
+Windows激活命令为`.venv\Scripts\activate`。补包工具复用已有TeX引擎，将缺包放入被Git忽略的`.build/texmf/`，对应字体映射生成在`.build/texmf-var/`；不会安装或替换整套发行版，也不依赖其他项目生成的用户字体映射。已有旧本地补包目录时，首次构建会自动补建这份项目映射。生成流程不依赖Node、Chrome或Canvas。
 
 构建只读取现有Notebook输出，不训练模型、不运行作业。正式正文只维护`.tex`，旧Markdown和Notebook文字单元保留自动生成的定位入口；课堂三册在`pdf/`，期中六种版本及其索引在`CS5489/exam-review/Midterm/`。只构建期中题库可运行`python CS5489/exam-review/Midterm/tools/build_all.py`；加`--compact-only`只更新完整精简版，加`--split-only`只更新选择题和简答题两册。也可在Actions手动运行 **Build PDFs** 下载全部构建产物。
 

@@ -57,7 +57,9 @@
 以分块视频为\textbf{教学例}：播放每秒消耗编码数据 \ensuremath{\to} 网络吞吐会变动 \ensuremath{\to} 缓冲可能耗尽 \ensuremath{\to} 客户端按估计吞吐/缓冲选择下一块 \ensuremath{\to} 可能减少停顿，但画质也会变化。这里每条箭头都能被课程概念支持，而不是把“自适应”三个字当解释。
 
 
-\textbf{完整补算 / Worked example:} 4秒片段编码2Mbps，数据量8Mbit；若稳定吞吐4Mbps，下载2秒。在缓冲足够、同时播放、忽略请求与解码开销时，缓冲净增加4\ensuremath{-}2=2秒。 / A four-second segment encoded at 2 Mbps contains 8 Mbit. At 4 Mbps throughput it downloads in two seconds, increasing the playable buffer by two seconds under the stated assumptions.
+\begin{StudyBlock}{完整示范 / Worked example}{下载时间与播放缓冲}
+4秒片段编码2Mbps，数据量8Mbit；若稳定吞吐4Mbps，下载2秒。在缓冲足够、同时播放、忽略请求与解码开销时，缓冲净增加4\ensuremath{-}2=2秒。 / A four-second segment encoded at 2 Mbps contains 8 Mbit. At 4 Mbps throughput it downloads in two seconds, increasing the playable buffer by two seconds under the stated assumptions.
+\end{StudyBlock}
 
 
 \textbf{变式 / Transfer:} 网络降至1Mbps，同一块需几秒？若开始时只缓冲3秒会发生什么？ / At 1 Mbps, how long does the same chunk take, and what if only three seconds are buffered initially?

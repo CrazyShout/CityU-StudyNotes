@@ -17,27 +17,7 @@
 
 
 
-\begingroup
-\small\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.229910\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.142050\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.185753\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.442287\linewidth-1.50000\tabcolsep\relax}@{}}
-\toprule
-主题 & 优先级 & 难度与卡点 & 掌握要求；依据 \\
-\midrule\endfirsthead
-主题 & 优先级 & 难度与卡点 & 掌握要求；依据 \\
-\midrule\endhead
-\bottomrule\endfoot
-Internet、protocol、edge/core & 核心必会 & 低至中；设备和功能 & 用英文解释与举例；Chapter 1完整课件，第4–12张幻灯片、Q\&A \\
-交换、复用、流水线 & 核心必会 & 中；容量与时序 & 画图、手算、说明假设；Chapter 1完整课件，第20–32张幻灯片、Tutorial 1、Assignment 1 \\
-delay/loss/throughput & 核心必会 & 中；四类时延和瓶颈 & 带单位计算与解释观察；Chapter 1完整课件，第43–55张幻灯片、Tutorial 2、Assignment 1 \\
-协议分层与封装 & 核心必会 & 中；服务方向/数据路径 & 跟踪消息跨层变化；Chapter 1完整课件，第56–65张幻灯片、Q\&A \\
-接入、介质、ISP结构 & 常规掌握 & 中；共享与独占 & 比较基本机制；Chapter 1完整课件，第11–19、33–42张幻灯片 \\
-安全概念与历史 & 常规掌握 & 低；定义/时代背景 & 识别威胁、解释演进；Chapter 1完整课件，第66–78张幻灯片；当前课件内容 \\
-\end{longtable}
-\endgroup
-
-
-优先级与难度独立。当前Tutorial、Assignment和课堂题是直接依据；历史复习笔记只作辅助，不按单次出现宣称香港本学期高频或QE范围。
+学习目标、难度与材料依据集中在\StudyRef{CS5222-Chapter01}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
 
 
 
@@ -51,7 +31,7 @@ delay/loss/throughput & 核心必会 & 中；四类时延和瓶颈 & 带单位�
 \StudyImage{CS5222/course-notes/assets/chapter01-04.png}
 
 
-看图从home network沿连接走到regional/global ISP，再到别的网络。手机、PC、服务器属于应用所在端系统；交换机和路由器服务中间转发。原Chapter 1完整课件，第5张幻灯片的联网相框、冰箱等例子说明“host不等于台式电脑”。
+\StudyCaption{看图从home network沿连接走到regional/global ISP，再到别的网络。手机、PC、服务器属于应用所在端系统；交换机和路由器服务中间转发。原Chapter 1完整课件，第5张幻灯片的联网相框、冰箱等例子说明“host不等于台式电脑”。}
 
 
 服务视角（Chapter 1完整课件，第7张幻灯片）则问应用能获得什么：程序通过接口请求把数据送到远端程序，好比寄件时按规则写地址、交给邮政系统。应用不必亲自安排沿途每一个路口；但选用的传输服务决定它获得哪些保证。RFC（Request for Comments）是互联网技术文档系列；IETF（Internet Engineering Task Force，互联网工程任务组）制定许多互联网标准（Chapter 1完整课件，第6张幻灯片）；并非每一份RFC都是正式标准。
@@ -102,6 +82,7 @@ delay/loss/throughput & 核心必会 & 中；四类时延和瓶颈 & 带单位�
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-13.png}
+\StudyCaption{Chapter 1完整课件，第13张：沿家庭接入路径区分本地设备与通向运营商的链路。}
 
 
 企业以太网把主机连到交换机，再由机构路由器连ISP。无线LAN经AP共享无线介质，蜂窝接入经运营商基站。课件列出的54Mbps、3G/4G等速率是原版本的示例，不作为2026年的产品上限或购买指标；标称速率也不同于应用可得吞吐。
@@ -146,9 +127,11 @@ Circuit switching（电路交换）先预留路径上的资源，即使使用者
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-22.png}
+\StudyCaption{Chapter 1完整课件，第22张：电路交换按连接预留资源。}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-23.png}
+\StudyCaption{Chapter 1完整课件，第23张：对照FDM与TDM怎样划分共享链路资源。}
 
 
 Packet switching（分组交换）把应用消息拆成包，按需使用链路。一包发送时可用链路发送速率R，竞争者可能排队；这不表示每个并发用户都永久获得R。像食堂公共座位提高利用率，但午饭同时来的人多了还是要等，不能只记“共享比较好”。
@@ -158,6 +141,7 @@ Packet switching（分组交换）把应用消息拆成包，按需使用链路�
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-26.png}
+\StudyCaption{Chapter 1完整课件，第26张：以整包接收完成作为下一跳发送的起点。}
 
 
 三个包过两跳不是6L/R，因为后一包可在前一包进入第二链路时占用第一链路。完整时序见\StudyRef{Foundations-NetworkBasics}{timeline}{基础时间轴}与\StudyRef{CS5222-Tutorial01}{q1}{Tutorial1 Q1}。等长包、等速率、连续发送且没有额外时延时，P个包、N条链路总耗时 \((P+N-1)L/R\)。
@@ -192,9 +176,12 @@ P(K>10)=\sum_{k=11}^{35}\binom{35}{k}0.1^k0.9^{35-k}\approx0.0004243.\tag{1.1}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-28.png}
+\StudyCaption{Chapter 1完整课件，第28张：沿目的字段、转发表、输出端口读一次转发。}
 
 
+\begin{StudyBlock}{事件示范}{目的字段0111怎样选择出口}
 沿图做一次实际查表：到达包的目的字段是\StudyInline{0111}，设备找到表中\StudyInline{0111 \ensuremath{\to} 2}这一行，把包交给2号输出链路。若该出口正在发另一个包，本包先进入相应队列；查到出口不等于已经发出。另一个包的目的字段若为\StudyInline{1001}，按同一张表应走1号出口。这里的四位字段是课件示意，不是完整IPv4地址。
+\end{StudyBlock}
 
 
 路由过程负责产生、更新这张表所需的信息；转发过程用当前表处理眼前的包。因此一个包到来时，设备不必为它重新计算整张互联网的路线。后面讲CDN把副本放近用户时，改变的是请求可能经过哪些网络；沿途各设备仍各自完成这样的局部转发。
@@ -204,6 +191,7 @@ P(K>10)=\sum_{k=11}^{35}\binom{35}{k}0.1^k0.9^{35-k}\approx0.0004243.\tag{1.1}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-42.png}
+\StudyCaption{Chapter 1完整课件，第42张：观察端系统接入的网络与网络之间的互联。}
 
 
 \textbf{English:} Forwarding is a local per-packet action; routing determines paths. The Internet consists of interconnected networks with both technical and economic relationships.
@@ -246,6 +234,7 @@ Propagation & 已进入介质的信号往前走 & \(d/s\)；d m、s m/s \\
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-45.png}
+\StudyCaption{Chapter 1完整课件，第45张：分别定位处理、等待、发送和传播发生在哪里。}
 
 
 发送时延看一整包需要多久进入链路，传播时延看已经出发的信号多久走到另一端。下面用老师的车队例子，把这两个计时起点分开。
@@ -311,11 +300,12 @@ D & 两个等待位置均满，丢弃 & — & — & 不进入队列 \\
 来源：Chapter 1完整课件，第27、44、49、52张幻灯片的队列与有限缓冲模型；事件表与变式为补充推导。
 
 
+\begin{StudyBlock}{完整示范}{从开始处理到整包到达}
 把四项接成一次完整计时（教学示范）：某节点从开始处理一个500 B的包计时。处理1 ms、排队2 ms，随后以2 Mbps发送；链路长1000 km，传播速度2\ensuremath{\times}10\textsuperscript{8} m/s。忽略其他开销。
 
 
 发送部分先把500 B换成4000 bit，得到4000/(2\ensuremath{\times}10\textsuperscript{6})=2 ms；传播部分把1000 km换成10\textsuperscript{6} m，得到5 ms。从开始处理到末位到达下一节点，总共1+2+2+5=10 ms。首位到达时包可能还没收齐，所以这里明确计到末位。
-
+\end{StudyBlock}
 
 \textbf{独立变式 / Transfer:} 另一个包1000 B，R=4 Mbps，d=3000 km，s=2\ensuremath{\times}10\textsuperscript{8} m/s，处理1 ms、排队3 ms。从开始处理到整包到达下一节点需多久？ / A 1000-byte packet has a 4-Mbps link, 3000-km distance, propagation speed 2\ensuremath{\times}10\textsuperscript{8} m/s, 1-ms processing and 3-ms queueing. Find the time from processing start to complete reception at the next node.
 
@@ -348,6 +338,7 @@ D & 两个等待位置均满，丢弃 & — & — & 不进入队列 \\
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-55.png}
+\StudyCaption{Chapter 1完整课件，第55张：沿端到端路径比较容量，共享链路还需分摊给同时工作的流。}
 
 
 \textbf{自测 / Check:} 接入10Mbps、服务器20Mbps、5条流公平共享30Mbps骨干，每流瓶颈吞吐？ / Each flow has 10-Mbps access and a 20-Mbps server link; five flows fairly share a 30-Mbps backbone. Find the per-flow bottleneck rate.
@@ -404,6 +395,7 @@ Physical & 介质上的比特信号 & 铜线/光/无线信号 \\
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-64.png}
+\StudyCaption{Chapter 1完整课件，第64张：沿端系统、交换机、路由器的路径观察协议层与封装。}
 
 
 沿原图看：端系统走完整协议栈；典型转发路由器处理到网络层，以太交换机主要处理链路层。不要由这个教学模型推断所有现实设备绝不检查更高层。每跳链路帧可更换，应用消息不因此被每个路由器当成网页程序执行。
@@ -474,7 +466,7 @@ Physical & 介质上的比特信号 & 铜线/光/无线信号 \\
 \StudyTarget{CS5222-Chapter01__10-chapter-1-qa}
 
 
-以下为原题条件的双语整理，答案为依据本章的推导，原Q\&A文件没有附独立教师答案页。原图可在末尾展开。
+以下为原题条件的双语整理，答案为依据本章的推导，原Q\&A文件没有附独立教师答案页。原题页图附在本节末尾。
 
 
 
@@ -498,18 +490,23 @@ Physical & 介质上的比特信号 & 铜线/光/无线信号 \\
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-qa-02.png}
+\StudyCaption{Chapter 1课堂Q\&A，第2张：原题与选项；双语推理见本节前文。}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-qa-03.png}
+\StudyCaption{Chapter 1课堂Q\&A，第3张：原题与选项；双语推理见本节前文。}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-qa-04.png}
+\StudyCaption{Chapter 1课堂Q\&A，第4张：原题与选项；双语推理见本节前文。}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-qa-05.png}
+\StudyCaption{Chapter 1课堂Q\&A，第5张：原题与选项；双语推理见本节前文。}
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-qa-06.png}
+\StudyCaption{Chapter 1课堂Q\&A，第6张：原题与选项；双语推理见本节前文。}
 
 
 \end{StudySolution}
@@ -528,6 +525,32 @@ Physical & 介质上的比特信号 & 铜线/光/无线信号 \\
 
 首轮可选 \textbf{\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N015}{N015（分组交换）}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N025}{N025（四类时延）、N033（流量强度）}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N072}{N072（流水线）}}，再在Markji按卡号复习。微课入口：\href{https://crazyshout.github.io/micro-course/?lesson=net02}{NET02}。
 
+
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5222-Chapter01__learning-priorities}
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.229910\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.142050\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.185753\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.442287\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 优先级 & 难度与卡点 & 掌握要求；依据 \\
+\midrule\endfirsthead
+主题 & 优先级 & 难度与卡点 & 掌握要求；依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+Internet、protocol、edge/core & 核心必会 & 低至中；设备和功能 & 用英文解释与举例；Chapter 1完整课件，第4–12张幻灯片、Q\&A \\
+交换、复用、流水线 & 核心必会 & 中；容量与时序 & 画图、手算、说明假设；Chapter 1完整课件，第20–32张幻灯片、Tutorial 1、Assignment 1 \\
+delay/loss/throughput & 核心必会 & 中；四类时延和瓶颈 & 带单位计算与解释观察；Chapter 1完整课件，第43–55张幻灯片、Tutorial 2、Assignment 1 \\
+协议分层与封装 & 核心必会 & 中；服务方向/数据路径 & 跟踪消息跨层变化；Chapter 1完整课件，第56–65张幻灯片、Q\&A \\
+接入、介质、ISP结构 & 常规掌握 & 中；共享与独占 & 比较基本机制；Chapter 1完整课件，第11–19、33–42张幻灯片 \\
+安全概念与历史 & 常规掌握 & 低；定义/时代背景 & 识别威胁、解释演进；Chapter 1完整课件，第66–78张幻灯片；当前课件内容 \\
+\end{longtable}
+\endgroup
+
+优先级与难度独立。当前Tutorial、Assignment和课堂题是直接依据；历史复习笔记只作辅助，不按单次出现宣称香港本学期高频或QE范围。
+
+\StudyHeading{2}{原材料覆盖}
 
 \begingroup
 \small\setlength{\tabcolsep}{3pt}

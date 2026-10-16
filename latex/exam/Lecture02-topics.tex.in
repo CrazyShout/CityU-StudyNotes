@@ -14,4 +14,10 @@
 
 
 
+\textbf{统计口径：} 已辨识6套期中、3套期末；同一考点同卷只计一次。同卷答案、扫描件和压缩包副本不另计；模拟题另列，2021B*保留封面年份冲突说明。“未见”只表示现有材料未找到对应题。QE年份未载、原卷身份不完整，显示卷次待定。
+
+
+标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
+题号与出处见\StudyRef{CS5489-Lecture02}{exam-topic-index}{讲末考点索引}；按试卷查阅见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。期末聚类是关联选做；QE参数后验不等于本讲的类别后验。
+
 @@TOPICS@@
