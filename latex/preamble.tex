@@ -1,0 +1,138 @@
+\documentclass[11pt,lang=cn,chinesefont=nofont,mode=simple,math=newtx,color=blue]{elegantbook}
+\usepackage{longtable,array,fvextra,xurl,adjustbox,needspace}
+\usepackage[normalem]{ulem}
+\providecommand{\lt}{<}
+\providecommand{\gt}{>}
+\tracinglostchars=3
+\setCJKmainfont{FandolSong-Regular.otf}[BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]
+\setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]
+\setCJKmonofont{FandolFang-Regular.otf}
+\setmonofont{DejaVuSansMono.ttf}[BoldFont=DejaVuSansMono-Bold.ttf,ItalicFont=DejaVuSansMono-Oblique.ttf,Scale=.84]
+\geometry{a4paper,left=22mm,right=18mm,top=20mm,bottom=21mm,headheight=15pt,headsep=7mm}
+\definecolor{structurecolor}{HTML}{173F57}
+\colorlet{main}{structurecolor}
+\colorlet{second}{structurecolor}
+\colorlet{third}{structurecolor}
+\hypersetup{unicode=true,colorlinks=true,linkcolor=structurecolor,urlcolor=structurecolor,filecolor=structurecolor,citecolor=structurecolor,pdfauthor={CityU StudyNotes}}
+\makeatletter
+\renewcommand{\tableofcontents}{%
+  \hypersetup{linktoc=all,linkcolor=black}%
+  \chapter*{\contentsname}%
+  \StudyTarget{\StudyBook__contents}\StudyTarget{\StudyBook___1}%
+  \@starttoc{toc}%
+  \hypersetup{linkcolor=structurecolor}\clearpage}
+\makeatother
+\setstretch{1.25}
+\setlength{\parskip}{.35\baselineskip}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{2em}
+% Keep the first/last line of a paragraph with its neighbour at page breaks.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\raggedbottom
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{-1}
+\setlist{nosep,leftmargin=1.8em,topsep=.35\baselineskip}
+\titleformat{\chapter}[display]{\Huge\sffamily\bfseries\color{structurecolor}}{}{0pt}{}[\vspace{.4ex}\titlerule]
+\titlespacing*{\chapter}{0pt}{0pt}{22pt}
+\titleformat{\section}{\Large\sffamily\bfseries\color{structurecolor}}{}{0pt}{}
+\titleformat{\subsection}{\large\sffamily\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}{\normalsize\sffamily\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.6\baselineskip}{.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.1\baselineskip}{.35\baselineskip}
+\providecommand{\StudyBook}{Sample}
+\providecommand{\StudyRoot}{../..}
+\providecommand{\StudySourceRef}{main}
+\providecommand{\StudyDate}{2026-10-16}
+\newcommand{\StudyRunning}{\StudyBook}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{gray}\StudyRunning}
+\fancyhead[R]{\small\sffamily\color{gray}CityU StudyNotes}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\pagestyle{fancy}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[R]{\small\thepage}\renewcommand{\headrulewidth}{0pt}}
+\newwrite\StudyMap
+\AtBeginDocument{\immediate\openout\StudyMap=\jobname.pages}
+\makeatletter
+\newcommand{\StudyTarget}[1]{%
+  \hypertarget{#1}{}\label{#1}%
+  \protected@write\StudyMap{}{#1|\thepage}%
+}
+\makeatother
+\newcommand{\StudyChapter}[2]{%
+  \clearpage\renewcommand{\StudyRunning}{\ifcsname studytitle@#1\endcsname\csname studytitle@#1\endcsname\else#1\fi}%
+  \chapter*{#2}\phantomsection\addcontentsline{toc}{chapter}{#2}%
+  \StudyTarget{#1__root}%
+}
+\newcommand{\StudyHeading}[2]{%
+  \ifcase#1\relax\or
+    \section*{#2}\phantomsection\addcontentsline{toc}{section}{#2}%
+  \or\subsection*{#2}\or\subsubsection*{#2}\else\paragraph*{#2}\fi
+}
+\newcommand{\StudyTrimImage}[2]{%
+  \ifcsname studytrim@#1\endcsname\csname studytrim@#1\endcsname{#2}\else#2\fi}
+\newcommand{\StudyImage}[1]{%
+  \par\medskip\begingroup
+  \edef\StudyResolvedImage{\ifcsname studyimage@#1\endcsname\csname studyimage@#1\endcsname\else\StudyRoot/#1\fi}%
+  \noindent\makebox[\linewidth][c]{%
+  \adjustbox{max width=.96\linewidth,max height=.69\textheight}{%
+  \StudyTrimImage{#1}{\includegraphics{\StudyResolvedImage}}}}\endgroup\par\medskip
+}
+\newcommand{\StudyCellImage}[1]{%
+  \begingroup
+  \edef\StudyResolvedImage{\ifcsname studyimage@#1\endcsname\csname studyimage@#1\endcsname\else\StudyRoot/#1\fi}%
+  \adjustbox{max width=\linewidth,max height=.28\textheight}{\StudyTrimImage{#1}{\includegraphics{\StudyResolvedImage}}}\endgroup}
+\DefineVerbatimEnvironment{StudyCode}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\small,tabsize=4,framesep=3mm,frame=leftline,rulecolor=\color{gray!55}}
+\newcommand{\StudyInline}[1]{\allowbreak{}\texttt{#1}\allowbreak{}}
+\newenvironment{StudySolution}[1]{%
+  \par\medskip\Needspace{3\baselineskip}\noindent
+  {\bfseries\color{structurecolor}#1}\par\nobreak\smallskip
+}{\par\medskip}
+\newcommand{\StudyBadge}[2]{%
+  \begingroup\small\sffamily
+  \ifstrequal{#1}{mid}{\colorlet{studybadge}{green!35!black}}{%
+  \ifstrequal{#1}{final}{\colorlet{studybadge}{yellow!45!black}}{\colorlet{studybadge}{red!45!black}}}%
+  \mbox{\textcolor{studybadge}{\rule[-.2ex]{1.2pt}{1.2em}}\enspace\textcolor{black}{#2}}\quad\endgroup}
+\newcommand{\StudyRef}[3]{%
+  \ifcsname studyref@#1@#2\endcsname
+    \csname studyref@#1@#2\endcsname{#3}%
+  \else #3\textsuperscript{[待定页]}\fi}
+\newcommand{\StudyRepoRef}[3]{%
+  \href{https://github.com/CrazyShout/CityU-StudyNotes/blob/\StudySourceRef/#1\ifstrempty{#2}{}{\##2}}{#3}}
+\newcommand{\StudyNotebookCell}[2]{%
+  \ifcsname studynb@#1@#2\endcsname
+    \input{\csname studynb@#1@#2\endcsname}%
+  \else\PackageError{studynotes}{Missing saved notebook cell #2}{}\fi}
+\newcommand{\StudyCoverExtra}{}
+\newcommand{\StudyCover}[2]{%
+  \thispagestyle{empty}
+  \StudyTarget{\StudyBook__root}\StudyCoverExtra
+  \vspace*{22mm}
+  {\sffamily\large\color{structurecolor}CITYU STUDYNOTES\par}
+  \vspace{12mm}
+  {\sffamily\bfseries\Huge\color{structurecolor}#1\par}
+  \vspace{6mm}{\Large #2\par}
+  \vspace{10mm}\noindent\textcolor{structurecolor}{\rule{.42\linewidth}{1pt}}\par
+  \vspace{8mm}中文讲解 · English terminology · 双语题答\par
+  A4 单栏 · 根据已下载教师材料整理\par
+  \vfill
+  {\small 本资料用于课程学习与复习，保留原材料、历史题源与教学补充的身份。\par
+  模板：ElegantBook 4.7；版式与构建由 CityU-StudyNotes 维护。\par
+  \StudyDate\par}
+  \clearpage
+}
+\newcommand{\StudyQuestionExtra}{}
+\newcommand{\StudyQuestion}[3]{%
+  \Needspace{10\baselineskip}
+  \section*{#1 · #2}\phantomsection\addcontentsline{toc}{section}{#1 · #2}%
+  \StudyTarget{\StudyBook__#1}%
+  \StudyQuestionExtra
+  \lowercase{\def\StudyQuestionAnchor{#1}}%
+  \noindent\begin{minipage}[t]{.65\linewidth}{\small\sffamily #3}\end{minipage}\hfill
+  \begin{minipage}[t]{.33\linewidth}\raggedleft\scriptsize
+  \StudyRef{Questions}{\StudyQuestionAnchor}{题目} · \StudyRef{Answers}{\StudyQuestionAnchor}{答案}
+  \end{minipage}\par\medskip
+}
+\InputIfFileExists{\StudyRoot/.build/latex/\StudyBook/refs.tex}{}{}

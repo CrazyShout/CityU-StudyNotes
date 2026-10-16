@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/adobe-type-tools/mapping-resources-pdf",
+  "commit": "8c278562ebac7334d842723b6508d613d6019637",
+  "source": "https://raw.githubusercontent.com/adobe-type-tools/mapping-resources-pdf/8c278562ebac7334d842723b6508d613d6019637/pdf2unicode/Adobe-GB1-UCS2",
+  "license": "BSD-3-Clause; copyright and license retained in resource header",
+  "sha256": "368b40ec05568faf323cfbbddf23c60d566bbc88e366981eb6541b026381a3b8"
+}

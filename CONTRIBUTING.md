@@ -1,13 +1,15 @@
 # 贡献与维护
 
+三册资料的长期写作依据见[学习讲义的写作与打印规范](docs/PRINT_MATERIAL_STANDARDS.md)：包括内容组织、自然表达、双语与例题、A4版式、公式编号，以及历史考点提示和统计口径。
+
 ## 改哪里
 
-- 讲义正文：两门课程`course-notes/`中的Markdown；可运行练习为Notebook。
+- 讲义正文：两门课程`course-notes/`中的`.tex`；共用ElegantBook版式位于`latex/preamble.tex`。Notebook保留可运行代码和已保存输出，教学说明在同名TeX中维护。旧Markdown与Notebook文字导航由构建生成。
 - 共用补课：`learning/foundation-notes/`。只补相关先修，课堂算法仍在所属讲义讲完整。
 - 图片：就近放入`assets/`；计算图保留脚本、数据含义、参数、坐标与单位。
 - 顺序和日期：`learning/course-notes-documents.json`。登记顺序决定PDF的理论、Tutorial、Assignment顺序。
 - PDF：从源稿生成后再提交，不直接改PDF文字。
-- CS5489期中题库：`CS5489/exam-review/Midterm/`。题目与答案解析各有Markdown和PDF，按题号对应、独立分页。根目录构建和验证已包含两册；单独构建方法见该目录README。
+- CS5489期中题库：`CS5489/exam-review/Midterm/`。`items/MTxxx/`中的原生TeX分别维护中英题干、核心答案、中文推理和来源说明；六种PDF共用这些组件，按题号对应、独立分页。根目录构建和验证覆盖六种版本；单独构建方法见该目录README。
 
 ## 一次修改
 
@@ -22,9 +24,11 @@
 
 ## 构建与实验分开
 
-构建PDF使用`requirements-build.txt`，不需要Canvas数据，也不执行Notebook。运行实验另安装`requirements-notebooks.txt`并配置`COURSE_DATA_ROOT`，见[数据说明](docs/DATA.md)。不同系统的中文字体可能使分页变化，页码索引由最终PDF计算。
+构建PDF使用`requirements-build.txt`，不需要Canvas数据，也不执行Notebook。运行实验另安装`requirements-notebooks.txt`并配置`COURSE_DATA_ROOT`，见[数据说明](docs/DATA.md)。构建使用TeX Live 2026/XeLaTeX、Fandol中文字体、TeX Gyre Termes英文与newtx数学字体；安装步骤见README。页码索引由最终PDF计算。
 
 构建失败时先修源稿或依赖，保留上一次已验证PDF。不得用空白输出或假造图表绕过检查。
+
+构建会为中文字体嵌入固定的Adobe Unicode映射，保证PDF不依赖阅读器的外部语言包。`validate.py`检查嵌入字体/映射，并逐页比较pypdf与PyMuPDF提取的中文字符。交付前仍需实际渲染；缺字、映射或字体报错均不能忽略。公式前的引导句不要用空行与公式隔成两个段落。
 
 PR中的PDF若引用此次新增的计算记录，先提交源稿，再以`STUDY_NOTES_SOURCE_REF=<源稿提交SHA> python scripts/build.py`构建。这样PDF的仓库资料链接指向已存在的固定版本，不会提前指向尚未合并的main。跨册PDF链接仍为相对路径；不设置时沿用main。
 
@@ -34,10 +38,10 @@ PR中的PDF若引用此次新增的计算记录，先提交源稿，再以`STUDY
 
 ## 历史考试证据
 
-Lecture 2的公开台账为`CS5489/course-notes/exam-evidence/Lecture02.json`，保存题源元数据、考点概述和答案核查说明。2026-10-10起，用户授权将整理后的期中题目与答案解析另收入`CS5489/exam-review/Midterm/`；完整原卷档案、学生手写答案及批注仍不加入Git。每个考点按独立试卷计数，期末关联、样题和QE身份不明片段分开。更改公开台账后运行`python scripts/build_exam_annotations.py`，生成讲义标注、讲末考点表、卷末附录与counts.json；`--check`及常规验证会复算并检查一致性。
+Lecture 2的公开台账为`CS5489/course-notes/exam-evidence/Lecture02.json`，保存题源元数据、考点概述和答案核查说明。2026-10-10起，用户授权将整理后的期中题目与答案解析另收入`CS5489/exam-review/Midterm/`；完整原卷档案、学生手写答案及批注仍不加入Git。每个考点按独立试卷计数，期末关联、样题和QE身份不明片段分开。更改公开台账后运行`python scripts/build_exam_annotations.py`，从JSON台账和`latex/exam/`的TeX模板生成讲义标注、讲末考点表、卷末附录与counts.json；`--check`及常规验证会复算并检查一致性。
 
 期中解析先交代题目对象和所需概念，再沿原条件讲清判断或计算。英文答案简洁完整，中文负责连续解释；必要步骤不放入选读。不要机械给每题增加总结、答题套路或无关提醒。新算例须独立复算，保留原解冲突和成立条件。
 
 期中工具根据两册最终PDF分别生成页码，不能假设同题同页。普通CI核对仓库内主稿、映射、PDF及数值计算；持有原卷时可额外传`--source-dir`核验档案哈希，不能把元数据校验报告成重新读取了原卷。
 
-`<!-- EXAM:... -->`区块由台账生成，正文之外的原有文字与锚点保持。文档登记中的`print_appendix`将考试索引放在Assignment之后，不增加主要课堂文档数量。考点采用黑字文字标签与左侧短色条，直接写考试类别、直接／关联和卷数或待定状态；颜色只辅助区分，不表示重要程度。具体尺寸与维护约定见[考点标签样式](docs/EXAM_LABEL_STYLE.md)。
+`% EXAM:...`区块由台账生成，正文之外的原有文字与锚点保持。文档登记中的`print_appendix`将考试索引放在Assignment之后，不增加主要课堂文档数量。考点采用黑字文字标签与左侧短色条，直接写考试类别、直接／关联和卷数或待定状态；颜色只辅助区分，不表示重要程度。具体尺寸与维护约定见[考点标签样式](docs/EXAM_LABEL_STYLE.md)。

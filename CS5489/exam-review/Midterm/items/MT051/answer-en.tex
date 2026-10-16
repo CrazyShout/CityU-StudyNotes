@@ -1,0 +1,5 @@
+% MT051 / answer-en — canonical editable content.
+A representative function with this shape is \(L(z)=\max(0,-1-z)\); the vertical scale is not specified. Every \ensuremath{-}1\ensuremath{\le}z<0 example is misclassified but has zero loss, so minimizing this objective need not correct it. It is therefore unsuitable as a sole objective for enforcing correct classification.
+
+
+For an explicit example use f(x)=0.1x+0.5 with (x,y)=(-1,-1) and (1,+1). The signed scores are \ensuremath{-}0.4 and 0.6; both losses are zero, but the negative example is classified positive. Draw the boundary x=\ensuremath{-}5 and the two points to its right, with opposite true labels.

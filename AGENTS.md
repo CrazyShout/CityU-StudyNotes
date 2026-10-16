@@ -1,13 +1,15 @@
 # CityU-StudyNotes 项目入口
 
+制作或修订三册学习讲义时，另读[写作、打印与历史考点规范](docs/PRINT_MATERIAL_STANDARDS.md)。这是长期编写依据；本轮范围、完成状态和待办以当前任务及对应审阅记录为准。
+
 先读README.md、CONTRIBUTING.md及docs/MIGRATION.md。此仓库是整讲讲义和A4 PDF的唯一编辑源；旧Course/codexing中的讲义只是迁移前快照，不再双向同步或从那里覆盖本仓库。
 
 - 受众从基础开始学习，中文连续解释、英文术语、双语题答；按当前Canvas顺序，历史材料标明身份。
 - 先讲例子、对象与推理，后给来源。引用采用完整材料名和单元/页数；正文不以A12、B4–15等简称开头。
 - 理论Lecture/Chapter在前，Tutorial、Assignment/Research Report在后；正文小例题留在知识点旁。
 - 大规模修改先在docs/reviews/登记问题与进度，保留无问题段落；不以删字比例验收。
-- 保留题目条件、符号、图片、锚点。只改Notebook说明时不动代码与输出；代码变化需重跑受影响实验，真实报告结果。
-- 修改主稿，不直接修改PDF；scripts/build.py生成课堂三册及期中两册并稳定各自页码。HTML是打印中间物，不建设网页或Pages。
+- 保留题目条件、符号、图片、锚点。Notebook说明在同名TeX维护，Notebook文字单元只留自动导航；代码、输出及元数据保持。代码变化需重跑受影响实验，真实报告结果。
+- 正式教学正文只维护LaTeX主稿，不直接修改PDF；scripts/build.py使用固定ElegantBook模板生成课堂三册及期中六种版本，并稳定各自页码。旧Markdown仅为自动生成的兼容导航，不建设网页或Pages。
 - CS5489/exam-review/Midterm是整理后的期中题库唯一维护源。保留题号、原题条件、选项、必要图和来源身份；原卷档案及学生批注不随题库发布。
 - 原始Canvas文件和实验数据从本地data/或COURSE_DATA_ROOT读取；它们及个人提交文件、凭证、执行缓存不得加入Git。
 - 微课和Markji属于另一项目；本仓库不维护卡片、不生成APKG、不操作Markji。

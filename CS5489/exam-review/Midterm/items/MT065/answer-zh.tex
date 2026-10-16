@@ -1,0 +1,9 @@
+% MT065 / answer-zh — canonical editable content.
+
+\begin{enumerate}[start=1]
+
+\item 逻辑回归最小化条件对数损失\(\log(1+\exp(-z))\)，通常还带有正则化。软间隔SVM最小化权重范数惩罚与hinge损失\(\max(0,1-z)\)之和，在扩大间隔和允许违反约束之间作权衡。
+
+\item \textbf{在原图的远端负间隔区域，影响大小为AdaBoost > LR > SVM。} 指数损失的曲线最陡，因此极端错分样本对梯度的影响最强。图中LR左端也比hinge损失更陡。这一比较取决于图中各损失的缩放方式，不是三种算法普遍成立的排名。
+
+\end{enumerate}

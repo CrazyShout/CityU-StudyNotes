@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "books": [
+    {
+      "file": "Questions.pdf",
+      "pages": 69,
+      "sha256": "f8bab275b4f6b527eb16689418f5412ce70302192907149b2f6e3494f1d923e0",
+      "source_sha256": "27f64a4ea033f03021674f9f5658ef434feb8329d10658b8b47c842e6e8dbe1b",
+      "portable_cross_book_links": 67
+    },
+    {
+      "file": "Answers.pdf",
+      "pages": 128,
+      "sha256": "3db8f0251f574ebb27eb721f0a83bb0bd763890f6c8f25cb8b483b80219fd441",
+      "source_sha256": "d72be19c8bbba4e5611cff1c784a4d5e963ad180a44ab3c7538b1077fc2d025f",
+      "portable_cross_book_links": 67
+    }
+  ],
+  "unique_question_answer_pairs": 67,
+  "original_question_positions": 78,
+  "printed_chinese_answer_counterparts": 67,
+  "non_link_annotations": 0,
+  "independent_midterms": 6,
+  "independent_page_maps": true,
+  "verified_printed_page_references": 422,
+  "verified_html_page_references": 422,
+  "paper_index_rows": 78,
+  "legacy_aliases_per_book": 15,
+  "source_metadata_entries_checked": 14,
+  "source_hashes_verified": 0,
+  "source_archive_verification": "not_requested",
+  "numeric_checks": 74,
+  "render_evidence": "verified_current",
+  "visual_review": "Recorded separately after examining rendered pages; not inferred from automated checks."
+}

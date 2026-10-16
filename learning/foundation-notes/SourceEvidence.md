@@ -1,47 +1,17 @@
-# Sources and priorities｜重难点判断凭什么
+<!-- Generated compatibility navigation; edit the linked TeX source. -->
+# Foundations-SourceEvidence
 
-[CS5489目录](../../CS5489/course-notes/README.md) · [CS5222目录](../../CS5222/course-notes/README.md)
+正文已迁入 [LaTeX 主稿](SourceEvidence.tex)；阅读与打印请用 [A4 PDF](../../pdf/Foundations-A4.pdf)。本页仅保留旧链接入口，由构建脚本生成。
 
-**材料核对：当前Canvas范围截至2026-10-03；历史题映射更新至2026-10-09。** 学习优先级和理解难度分别标注：核心必会表示它支撑当前课程目标或配套任务；高难度表示需要更多推理台阶。复杂不自动等于高频考点，缺少历史题证据也不等于不考。
-
-## 当前范围由哪些原件决定
-
-CS5489目前下载到Lecture1–5、Tutorial1–4和Assignment1–2；网络课目前为Chapter1–2完整件、Chapter3的part1–2、Tutorial1–5、Assignment1和Research Report。整讲正文按当前源顺序，来源索引定位每个单元/页段。数据、代码、图片附件随所属任务归入，不独立算一讲。
-
-9月23日核对的34份Notebook/PDF/PPT文件已登记路径、SHA-256和单元/页数于历史来源清单。网络part副本与完整PPT、Lecture2的Notebook与PDF按同一教学内容对应；重复副本不增加课程范围。
-
-以下不计为当前已经有正文：CS5489 Lecture5对应Tutorial；CS5222 Chapter2早期目录中的独立FTP讲解；两门课后续尚未下载的章节与作业。Overview/Intro列出的学期路线只说明计划，不证明资料已提供。
-
-## 历史资料能帮到哪里
-
-| 证据 | 核对结果与可用位置 | 不能推断的结论 |
-|---|---|---|
-| ML sample_final_questions.docx | 封面明确CITY UNIVERSITY OF HONG KONG (DONGGUAN)、Semester A 2024/25、Sample Questions。Q2a问ridge优缺点，Q3a用正则LR学习曲线诊断，Q4a讨论不平衡，Q4b要求约束优化及dual；可辅助Lecture3/4英文解释与迁移训练 | 样题不是真实试卷；东莞不等于香港；不能推出“每年必考”或确认QE范围；该文件未直接确认教师姓名 |
-| ML Home_Assignments_1.pdf | 上轮Lecture2已核对2024日期及Ex2分布/MLE迁移，教师/校区只由仓库上下文推测；复用旧核查记录 | 不把另一个分布的历史任务改成本学期新要求 |
-| CS5222 review.docx | 是整理笔记，开头覆盖edge、交换、时延、分层，之后涉及应用协议；已核对这些相关部分。未在文件开头找到可确认年份、教师、校区的封面 | 不是官方考纲或评分答案，不能计入真题频率 |
-
-新增的实验室题库已按独立卷去重：6套期中（2020B、2021A、2021B*、2023A、2023B、2025A），3套期末（2020B、2021A、2021B）。[CS5489按卷索引](../../CS5489/course-notes/ExamIndex.md)汇总Lecture1–5对应题，各讲末按考点列题号与页码。
-
-2021B*题纸封面写2020，但题内指定的答案文件和配套解答指向2021B，保留星号。Mock复用2023A，不增加真题次数；Question Samples单列。QE整理片段无年份和完整原卷身份，不能把三个应用情境当作已确认的三套卷。同学手写答案不当作官方标准。
-
-卷数表示手头资料中的独立卷数。同一考点同卷多题只计一次，直接题与关联题分别记；同卷可出现在两列，不能相加。PCA、CNN等尚未讲到的题只标出相关基础，不计为当前完整覆盖。公开台账只保留摘要和来源身份，完整原卷及私人题答留在本地。
-
-网络旧整理笔记对Zoom直接列HTTP/WebSocket/RTP，却没有在该段给足客户端/版本与技术来源；这些记录不足以确定不同Zoom部署的协议组合。当前作业指南转为按官方资料标明原生客户端、会议室互通、云/P2P/Mesh情境。
-
-## 每项判断怎样写进讲义
-
-- **当前依据**：具体原课单元、课堂题、Tutorial或Assignment；学习目标写成“解释/计算/推导/实现”。
-- **历史依据**：明确是样题、作业还是复习笔记，写年份/校区已知与未知部分，不把副本次数当年份。
-- **整理者建议**：为补基础、降低跳步、检查边界而增加的例子/变式，明确标为教学补充。
-- **软件与协议补充**：给官方资料和查阅日期；本次实际执行/测量与原课保存输出分开。
-
-Lecture1的Python/NumPy优先级主要来自Tutorial1与后续程序依赖。Lecture3的SVM、核与代价敏感分类，Lecture4的正则化、损失与集成模型，Lecture5的反向传播与训练诊断，都已有对应历史题；其具体卷数由各讲台账生成。必要基础即使没有直接题也保留。
-
-CS5222本轮依据当前Chapter、Q&A、Tutorial与Assignment判断学习优先级，暂未做历史试卷统计；这不用于推断本学期有无期中考试。
-
-## 怎样使用来源记录
-
-Notebook保存真实执行输出；补充图保存计算脚本与参数；原题图旁给出条件，答案与推导可回查来源。原课保存输出与补充算例分别标明，具体原件位置见各文档的来源覆盖索引。
-
-
-2026-10-03材料补充：Lecture5 HTML/ZIP属于重复版本，不增加覆盖。Chapter3两个part共70页，到RTT/timeout；完整后半章仍缺。Tutorial3官方解答确认现有DNS/HTTP计算；Tutorial4的DASH按v2一一配对解释N，任意组合N²作补充。Assignment2原模板的凸性公式、批量梯度及全量预处理需按讲义注明区别；原件保持。
+<a id="root"></a>
+- `root` → [第 42 页](../../pdf/Foundations-A4.pdf#page=42)
+<a id="sources-and-priorities"></a>
+- `sources-and-priorities` → [第 42 页](../../pdf/Foundations-A4.pdf#page=42)
+<a id="_1"></a>
+- `_1` → [第 42 页](../../pdf/Foundations-A4.pdf#page=42)
+<a id="_2"></a>
+- `_2` → [第 42 页](../../pdf/Foundations-A4.pdf#page=42)
+<a id="_3"></a>
+- `_3` → [第 43 页](../../pdf/Foundations-A4.pdf#page=43)
+<a id="_4"></a>
+- `_4` → [第 43 页](../../pdf/Foundations-A4.pdf#page=43)

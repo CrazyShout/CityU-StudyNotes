@@ -1,0 +1,322 @@
+[
+  {
+    "file": "CS5222/course-notes/assets/assignment01-01.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      144,
+      121,
+      880,
+      747
+    ],
+    "white_border_fraction": 0.69,
+    "sha256": "8dce74637beb8fd4ed81043fa711aa33603db77949b552cad3fb43dd6454e831",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/assignment01-02.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      144,
+      128,
+      870,
+      1208
+    ],
+    "white_border_fraction": 0.472,
+    "sha256": "c01c3b5505e2a75d1b40fbc036ab28adf1af7b6b3969939da34c5493df191789",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/assignment01-03.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      145,
+      121,
+      870,
+      1115
+    ],
+    "white_border_fraction": 0.515,
+    "sha256": "06198b9a7d28698137200790c5bce5648dfeae7c6ea8448f78c6538d9d35862a",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/assignment01-04.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      145,
+      121,
+      879,
+      377
+    ],
+    "white_border_fraction": 0.874,
+    "sha256": "2b5e9f7fe3e1e319e43dec18bb0da61cccd62d212af5246f47011becd0aed2c8",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/chapter01-28.png",
+    "size": [
+      1450,
+      1088
+    ],
+    "box": [
+      64,
+      89,
+      1387,
+      1073
+    ],
+    "white_border_fraction": 0.175,
+    "sha256": "b704cfe7ac42a7de1363f7f73486489d5bb857411e009d720e25c69b2a736784",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/chapter02-42.png",
+    "size": [
+      1450,
+      1088
+    ],
+    "box": [
+      76,
+      67,
+      1386,
+      1073
+    ],
+    "white_border_fraction": 0.165,
+    "sha256": "dc3679fbb620483c44f6ade9afaf24c427e8623c53c3cf0568b82020e817d478",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial01-01.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      123,
+      116,
+      913,
+      1084
+    ],
+    "white_border_fraction": 0.485,
+    "sha256": "55781a74c6f7dc8f2f9f156a75ec22008e175412166e2963d6ab0c6f47874556",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial01-02.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      123,
+      116,
+      913,
+      1248
+    ],
+    "white_border_fraction": 0.398,
+    "sha256": "1e2d72fcd697a65c0f38a1fd1bd0c20ced8fc0388696ea3418392f1eb13d10ac",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial01-03.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      122,
+      116,
+      913,
+      1022
+    ],
+    "white_border_fraction": 0.518,
+    "sha256": "04c2ac662500e3145dca0a739bd47732332bcd0f1eaf35982c0dcc1acf03b787",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial02-01.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      123,
+      116,
+      913,
+      1241
+    ],
+    "white_border_fraction": 0.402,
+    "sha256": "f62341ad046792d821e1a90e52b2da15334e002873fecb2b4d385069fe5cb791",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial02-02.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      122,
+      116,
+      913,
+      894
+    ],
+    "white_border_fraction": 0.586,
+    "sha256": "e8fbc2de6d8cfbcce7fd99eb9b5d6f6334d3bfff774e2c2c7b62020e9e2fbe1f",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial03-01.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      152,
+      116,
+      898,
+      783
+    ],
+    "white_border_fraction": 0.665,
+    "sha256": "362a908017ad4524f049ebe55e46f05770cb2d8ab7fd60e21573f8e82390ded9",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial03-02.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      144,
+      116,
+      913,
+      1173
+    ],
+    "white_border_fraction": 0.453,
+    "sha256": "394e7ac53f4f96f2a0c1bc503f524587cef569a66de4364a254098b926ec2fcf",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial03-03.png",
+    "size": [
+      1025,
+      1450
+    ],
+    "box": [
+      144,
+      116,
+      913,
+      1108
+    ],
+    "white_border_fraction": 0.487,
+    "sha256": "9f62560a8dab8a4ab7a47b91dcfefca1c208b46dd396786f8226c18dcc9efb5d",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5222/course-notes/assets/tutorial05-01.png",
+    "size": [
+      1190,
+      1684
+    ],
+    "box": [
+      142,
+      135,
+      1064,
+      1398
+    ],
+    "white_border_fraction": 0.419,
+    "sha256": "5f55209697f9b64e658421a6ff3a6a580e12803436dcde7799e478adcb234431",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5489/course-notes/assets/oct-batch-bias.png",
+    "size": [
+      1099,
+      523
+    ],
+    "box": [
+      108,
+      80,
+      942,
+      452
+    ],
+    "white_border_fraction": 0.46,
+    "sha256": "56540ef1ca54badbad75d8857baeb7f4e20e37693342f0aa4d4ebee0d83cdba3",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5489/exam-review/Midterm/assets/answer-mt060-pair.png",
+    "size": [
+      1155,
+      504
+    ],
+    "box": [
+      61,
+      9,
+      1081,
+      484
+    ],
+    "white_border_fraction": 0.168,
+    "sha256": "fe64e4f07ce53cfd04b15a9560a83798d8c300d8645ea092e2677fed5351fbf3",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5489/exam-review/Midterm/assets/mt031-rbf-points.png",
+    "size": [
+      710,
+      260
+    ],
+    "box": [
+      9,
+      21,
+      688,
+      236
+    ],
+    "white_border_fraction": 0.209,
+    "sha256": "35ec213a3679fe474ace9419be9782ceee8d043abb303175f4ee0a56ac7efc83",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "CS5489/exam-review/Midterm/assets/mt067-network.png",
+    "size": [
+      931,
+      320
+    ],
+    "box": [
+      9,
+      20,
+      804,
+      246
+    ],
+    "white_border_fraction": 0.397,
+    "sha256": "4eb380a5a5ff9bdf31bba20571c4185742e62f349fbbad284fdfddf856bd3a43",
+    "original_bytes": "unchanged"
+  },
+  {
+    "file": "learning/foundation-notes/assets/records-vectors.png",
+    "size": [
+      1136,
+      650
+    ],
+    "box": [
+      17,
+      37,
+      1060,
+      567
+    ],
+    "white_border_fraction": 0.251,
+    "sha256": "003d8c59f07f557d38d79ee01c6f2872ef454fbabd5616df5ff693683e0674ee",
+    "original_bytes": "unchanged"
+  }
+]

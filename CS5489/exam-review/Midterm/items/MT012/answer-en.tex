@@ -1,0 +1,9 @@
+% MT012 / answer-en — canonical editable content.
+(a) For labels \(y_i\in\{-1,+1\}\), one consistent objective is
+\[
+(w^*,b^*)=\arg\min_{w,b}\left\{\frac1C\sum_j|w_j|+
+\sum_i\log\!\left(1+e^{-y_i(w^Tx_i+b)}\right)\right\},\quad C>0.
+\]
+
+
+(b) Draw a horizontal line in the gap between the upper red crosses and lower blue circles, as the supplied red line does. The classes mainly differ in \(x_2\), so a natural sparse solution keeps \(x_2\) and sets \(w_1=0\). Its boundary is \(x_2=-b/w_2\) with \(w_2\ne0\); the figure does not determine a unique height. L1 encourages exact zeros, but does not guarantee an axis-parallel boundary for every dataset or \(C\).

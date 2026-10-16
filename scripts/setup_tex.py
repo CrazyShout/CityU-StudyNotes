@@ -1,0 +1,20 @@
+"""Reuse an installed TeX Live engine and add the declared packages to a local user tree."""
+from pathlib import Path
+import argparse
+import os
+import shutil
+import subprocess
+ROOT=Path(__file__).resolve().parents[1]
+p=argparse.ArgumentParser(description=__doc__)
+p.add_argument('--repository',default='https://ctan.math.illinois.edu/systems/texlive/tlnet')
+a=p.parse_args()
+for executable in ['xelatex','tlmgr','updmap-user']:
+    if not shutil.which(executable):raise SystemExit('Install TeX Live 2026 / MacTeX first: missing '+executable)
+folder=ROOT/'.build/texmf';env=dict(os.environ,TEXMFHOME=str(folder))
+if not (folder/'tlpkg/texlive.tlpdb').exists():
+    subprocess.run(['tlmgr','--usertree',str(folder),'init-usertree'],env=env,check=True)
+packages=[x for x in (ROOT/'latex/texlive-packages.txt').read_text().splitlines() if x and not x.startswith('#')]
+subprocess.run(['tlmgr','--usermode','--usertree',str(folder),'--repository',a.repository,'install',*packages],env=env,check=True)
+# A new package can change an existing map; an unchanged cfg alone is insufficient.
+subprocess.run(['updmap-user','--force'],env=env,check=True)
+print('Use scripts/build.py; it discovers the project-local TeX tree automatically.')

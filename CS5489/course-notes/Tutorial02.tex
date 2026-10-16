@@ -1,0 +1,676 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+
+\StudyChapter{CS5489-Tutorial02}{Tutorial 2 · Text Document Classification with Naive Bayes}
+\StudyTarget{CS5489-Tutorial02__cell-1}
+\StudyTarget{CS5489-Tutorial02__notebook-8eba226b}
+\StudyTarget{CS5489-Tutorial02__tutorial-2-text-document-classification-with-naive-bayes}
+
+
+
+\StudyHeading{1}{按老师原任务，跑通新闻分类并解释结果}
+\StudyTarget{CS5489-Tutorial02___1}
+
+
+\StudyRef{CS5489-Lecture02}{root}{先读 Lecture 2} · \StudyRef{CS5489-Assignment01}{root}{Assignment 1 指南} · \StudyRepoRef{CS5489/course-notes/README.md}{}{运行说明}
+
+
+主要来源：Tutorial2v2.ipynb（单元从原文件第一个开始计数，包括文字与代码）；dataAG.json。以下代码与解答为按原任务编写的参考实现。
+
+
+老师的顺序是：认识AGNews \ensuremath{\to} 建词向量 \ensuremath{\to} Bernoulli NB \ensuremath{\to} Multinomial NB \ensuremath{\to} 看错分 \ensuremath{\to} 改平滑/词表 \ensuremath{\to} 实现Poisson NB。每步先解释要解决什么，再看代码与输出。默认从头运行全部代码，独立尝试题写在Markdown中，不影响运行。
+
+
+\textbf{结果口径 / Result scope：} 本教程遵循课堂任务，多次查看同一份给定test的表现，用于练习与探索。它已参与模型/参数比较，不能被称为最终独立泛化估计。下方结果由代码计算，固定种子42。
+
+
+
+
+
+\StudyHeading{1}{学习地图 / Goal}
+\StudyTarget{CS5489-Tutorial02__cell-2}
+\StudyTarget{CS5489-Tutorial02__notebook-b57b1fd3}
+\StudyTarget{CS5489-Tutorial02__goal}
+
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.310893\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.131956\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.187821\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.198449\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.170881\linewidth-1.60000\tabcolsep\relax}@{}}
+\toprule
+原任务 & 优先级 & 难度与卡点 & 学到什么程度 & 对应讲义 \\
+\midrule\endfirsthead
+原任务 & 优先级 & 难度与卡点 & 学到什么程度 & 对应讲义 \\
+\midrule\endhead
+\bottomrule\endfoot
+数据与词向量 Tutorial2v2，第4–12个单元 & 核心必会 & 中：文档、词、矩阵轴 & 能建立固定词表并避免泄漏 & \StudyRef{CS5489-Lecture02}{bow}{词袋与词表} \\
+Bernoulli NB Tutorial2v2，第13–16个单元 & 核心必会 & 中：出现/未出现 & 会训练、计算指标、解释词概率 & \StudyRef{CS5489-Lecture02}{bernoulli}{Bernoulli与平滑} \\
+Multinomial NB Tutorial2v2，第17–20个单元 & 核心必会 & 中：计数与TF-IDF & 会比较表示，解释参数含义 & \StudyRef{CS5489-Lecture02}{tfidf}{词次数与TF-IDF} \\
+错分 Tutorial2v2，第21–24个单元 & 核心必会 & 中：观察不等于原因 & 会提出可核验解释 & \StudyRef{CS5489-Lecture02}{words}{错分解释} \\
+两种参数实验 Tutorial2v2，第25–28个单元 & 核心必会 & 中：受控比较 & 会画曲线、说明比较条件 & \StudyRef{CS5489-Lecture02}{vectorizer}{表示}与\StudyRef{CS5489-Lecture02}{smoothing}{平滑} \\
+Poisson NB Tutorial2v2，第29–35个单元 & 核心必会 & 高：换CCD仍保留Bayes外框 & 会估计、算log分数并归一化 & \StudyRef{CS5489-Lecture02}{log-scores}{log分数}；本文件§8 \\
+严格验证方案 & 常规掌握 & 中：开发与最终评估分开 & 能重画实验流程 & 方法补充，非改写原题 \\
+\end{longtable}
+\endgroup
+
+
+优先级依据当前任务。英文题意为忠实整理，中文解释补足必要条件；代码、类别名称和原文件名不翻译。
+
+
+
+
+
+\StudyHeading{1}{0. Setup｜只在这里改实验设置}
+\StudyTarget{CS5489-Tutorial02__cell-3}
+\StudyTarget{CS5489-Tutorial02__notebook-5acce117}
+\StudyTarget{CS5489-Tutorial02__0-setup}
+
+
+在README所述独立环境中运行。先按\StudyRepoRef{docs/DATA.md}{}{数据说明}放置Canvas数据，仓库不附带数据集。AGNEWS\_PATH默认读取仓库data目录下的对应文件，也可用COURSE\_DATA\_ROOT指定数据根目录。
+
+
+\textbf{English:} Prepare the Canvas data using the data guide; datasets are not bundled. Configure parameters and the data path here, using data/ by default or COURSE\_DATA\_ROOT for another data root.
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-4}
+\StudyTarget{CS5489-Tutorial02__notebook-463f8be3}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{463f8be3}
+
+
+
+
+
+\StudyHeading{1}{1. Load and inspect data｜先数清楚，再训练}
+\StudyTarget{CS5489-Tutorial02__cell-5}
+\StudyTarget{CS5489-Tutorial02__notebook-9ea2182a}
+\StudyTarget{CS5489-Tutorial02__1-load-and-inspect-data}
+
+
+\textbf{原任务 / Task：} 载入dataAG.json，检查训练/测试规模和四类标签，查看文本。\\
+
+\textbf{English:} Load dataAG.json, inspect split sizes and class counts, and examine the text records.
+
+
+一条字典是一篇新闻，text是字符串、label是0到3的已有标签。下面仅显示各类计数和一条截短样本，完整数据留在原文件。Tutorial2v2，第6个单元写2034/1353，但本次给定文件实际为2000/1000；以读到的文件为准，差异明确保留。
+
+
+来源：Tutorial2v2，第4–9个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-6}
+\StudyTarget{CS5489-Tutorial02__notebook-cfc3bf3b}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{cfc3bf3b}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-7}
+\StudyTarget{CS5489-Tutorial02__notebook-4db4f5dc}
+\textbf{怎样检查 / Check：} 两个计数列分别加到2000和1000；标签与四个英文名称按原顺序对应。保留文件给定的训练／测试划分。
+
+
+\textbf{独立检查题：} 2000篇新闻、实际词表1000词，特征矩阵和标签数组各是什么形状？\\
+
+\textbf{English question:} For 2000 documents and an actual vocabulary of 1000 terms, what are the shapes of the feature matrix and label array?\\
+
+\textbf{答案：} X为(2000,1000)，y为(2000,)；每篇文档一行，每个词一列。若1000只是词表上限，实际列数仍应读取vectorizer。\\
+
+\textbf{English answer:} X has shape (2000,1000) and y has shape (2000,). Documents are rows and vocabulary terms are columns. If 1000 is only a requested cap, inspect the fitted vocabulary for the actual column count.
+
+
+
+
+
+\StudyHeading{1}{2. Build document vectors｜把词表当成一把固定的尺子}
+\StudyTarget{CS5489-Tutorial02__cell-8}
+\StudyTarget{CS5489-Tutorial02__notebook-8e68331b}
+\StudyTarget{CS5489-Tutorial02__2-build-document-vectors}
+
+
+\textbf{原任务 / Task：} 从训练文本建词表，再转换两份数据，自己选择词表大小。\\
+
+\textbf{English:} Build a vocabulary from training documents and transform both splits using that vocabulary.
+
+
+默认最多1000词，沿课堂例子使用英文停用词、默认小写化。fit\_transform只作用于train；test只transform。test中独有的词会被忽略。下面先保留原始整数计数：Bernoulli会二值化，Poisson也需要这些计数；不要稍后用TF-IDF覆盖count\_train这个变量。
+
+
+来源：Tutorial2v2，第10–12个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-9}
+\StudyTarget{CS5489-Tutorial02__notebook-7823edad}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{7823edad}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-10}
+\StudyTarget{CS5489-Tutorial02__notebook-07cb0437}
+\textbf{怎样读 / Interpretation：} 稀疏表示省略存储零元素，未出现这个事实仍由模型处理。停用词和词表截断之后，原文非空也可能得到全零行；这不等于读取失败。
+
+
+\textbf{常见错误 / Pitfall：} 对test重新fit会使坐标改变并引入泄漏。把训练列名贴到一个独立拟合的test矩阵上，不会修复这个问题。\\
+
+\textbf{English takeaway:} The vocabulary is learned from training text and then held fixed. A zero vector after preprocessing can be a legitimate representation outcome.
+
+
+
+
+
+\StudyHeading{1}{3. Bernoulli Naive Bayes｜先问有没有，不问重复几次}
+\StudyTarget{CS5489-Tutorial02__cell-11}
+\StudyTarget{CS5489-Tutorial02__notebook-36da2ad2}
+\StudyTarget{CS5489-Tutorial02__3-bernoulli-naive-bayes}
+
+
+\textbf{原任务 / Task：} 训练Bernoulli NB、报告测试accuracy，并查看每类高概率词。\\
+
+\textbf{English:} Train Bernoulli NB, report test accuracy and inspect high-probability words for each class.
+
+
+用alpha=1作本次默认值；这不是老师规定的最优参数。BernoulliNB的binarize=0.0把正计数变成1。其文档得分同时考虑出现与未出现；先回看\StudyRef{CS5489-Lecture02}{bernoulli}{Lecture 2：Bernoulli与平滑}中的手算，理解为什么分母是\(N_c+2\alpha\)。
+
+
+来源：Tutorial2v2，第13–16个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-12}
+\StudyTarget{CS5489-Tutorial02__notebook-4d55c375}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{4d55c375}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-13}
+\StudyTarget{CS5489-Tutorial02__notebook-b34b5612}
+\textbf{解释 / Interpretation：} 每行的概率参数是“该类文档含这个词”的概率，这个排序反映类内出现率。几类都常见的词可能排得很前，却不擅长区分类别。
+
+
+\textbf{自查：} 同一文档中market从1次变10次，保持已训练模型、词表和其他词不变，这个Bernoulli预测会改变吗？\\
+
+\textbf{English question:} In one document, change the count of market from 1 to 10 while keeping the fitted model, vocabulary and other word counts fixed. Does this Bernoulli prediction change?\\
+
+\textbf{答案：} 不会，二值化后输入相同。\\
+
+\textbf{English answer:} No. The binary presence vector stays the same.
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-14}
+\StudyTarget{CS5489-Tutorial02__notebook-a9db50c8}
+
+
+
+
+\StudyHeading{2}{3.1 Bernoulli parameter comparison｜比较平滑与词表规模}
+\StudyTarget{CS5489-Tutorial02__31-bernoulli-parameter-comparisont13}
+\StudyTarget{CS5489-Tutorial02__31-bernoulli-parameter-comparison}
+
+
+老师还要求尝试alpha和max\_features。保持同一数据划分：第一组固定词表上限1000，只改alpha；第二组固定alpha=1，只改词表上限。分别观察平滑与表示规模怎样影响结果。
+
+
+来源：Tutorial2v2，第13个单元。
+
+
+\textbf{English:} Vary alpha with a fixed 1000-word cap, then vary the vocabulary cap with alpha fixed at 1. Fit each vocabulary on training text only. These are two separate one-factor sweeps.
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-15}
+\StudyTarget{CS5489-Tutorial02__notebook-1dd7d5d7}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{1dd7d5d7}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-16}
+\StudyTarget{CS5489-Tutorial02__notebook-6f1ac53f}
+\textbf{如何解释 / Interpretation：} 在Vary=alpha的行内比较平滑，再在Vary=vocabulary的行内比较词表规模。同时查看实际词表列：上限不一定就是最终词数。默认设置在两组中重复出现，用来核对两条流程是否一致，不算两次独立实验。
+
+
+\textbf{English:} Compare settings within each sweep and report the actual vocabulary size. The repeated default setting checks consistency between the two paths.
+
+
+
+
+
+\StudyHeading{1}{4. Multinomial Naive Bayes model｜让非负权重进入另一个模型}
+\StudyTarget{CS5489-Tutorial02__cell-17}
+\StudyTarget{CS5489-Tutorial02__notebook-7f24c703}
+\StudyTarget{CS5489-Tutorial02__4-multinomial-naive-bayes-model}
+
+
+\textbf{原任务 / Task：} 使用TF-IDF表示训练Multinomial NB，比较表现，并查看各类高权重词。\\
+
+\textbf{English:} Train Multinomial NB on TF-IDF features, compare accuracy, and inspect the learned word parameters.
+
+
+沿Lecture2b，第91个单元设置norm="l1"，并显式保留默认smooth\_idf=True。IDF只从train拟合。非零文档变换后各项和为1；全零文档仍为0。TF-IDF是非负分数权重，不是Poisson整数计数，也不应硬套阶乘形式的整数多项式PMF。
+
+
+此处从Bernoulli/count换到Multinomial/TF-IDF，\textbf{同时改变了模型与表示}。可以比较两条完整流程，但不能把差异全归因于“分类器更好”。相关数学见\StudyRef{CS5489-Lecture02}{tfidf}{Lecture 2：词次数与权重}。
+
+
+来源：Tutorial2v2，第17–20个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-18}
+\StudyTarget{CS5489-Tutorial02__notebook-55907422}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{55907422}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-19}
+\StudyTarget{CS5489-Tutorial02__notebook-b0af3813}
+\textbf{检查 / Check：} Multinomial各词参数在每个类别内和为1；Bernoulli每词是一个独立二元试验，其出现率无需跨词相加为1。这里输入是TF-IDF，高参数值说明该词在同类文档中累积的TF-IDF权重较大；这些小数权重与原始出现次数不同。
+
+
+\textbf{English takeaway:} The comparison is between complete representation–model pipelines. TF-IDF must reuse training IDF, and fractional weights are a practical model input rather than literal integer counts.
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-20}
+\StudyTarget{CS5489-Tutorial02__notebook-dd9ef0f1}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{dd9ef0f1}
+
+
+
+
+
+\StudyHeading{1}{5. Misclassified documents｜分错了什么？哪些解释只是猜想？}
+\StudyTarget{CS5489-Tutorial02__cell-21}
+\StudyTarget{CS5489-Tutorial02__notebook-1ac711d3}
+\StudyTarget{CS5489-Tutorial02__5-misclassified-documents}
+
+
+\textbf{原任务 / Task：} 查看错分新闻，并给出可能的原因。\\
+
+\textbf{English:} Inspect misclassified documents and suggest plausible reasons.
+
+
+先看混淆矩阵：行是真实类别，列是预测类别，每行总数应等于该类test文档数。再看MNB流程前3条错分，记录索引、真值、预测、短文本和模型后验。错误类别可能语义接近、文本包含多类词、关键词被截断、表示丢失关系，或者标签本身值得核查；这些都要由具体证据支持。
+
+
+来源：Tutorial2v2，第21–24个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-22}
+\StudyTarget{CS5489-Tutorial02__notebook-1814889b}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{1814889b}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-23}
+\StudyTarget{CS5489-Tutorial02__notebook-e13936ae}
+\textbf{怎样写答案 / How to explain:} “这条新闻被预测为Business，我在原文看到商业词汇”是观察；“如果保留某个短语就一定能修正”是待验证假设。可以先查词表是否保留该词，再用只改变表示的对照实验检验解释。
+
+
+把错分按真实类别和预测类别分组，看看模型主要混淆了哪些主题。如何为正式评价另留数据，见§9。
+
+
+\textbf{English takeaway:} Describe the observed error first, then separate plausible explanations from verified causes. Group errors by true and predicted class to identify recurring confusions.
+
+
+\textbf{本次固定样本的读法 / Reading the current examples：}
+- Index 1描述飓风造成的保险损失，原标签Business、预测World，仅保留4个词。灾害事件与经济损失共用同一短文，可以提出“主题边界与词表截断影响判断”的假设；尚未用受控实验验证。
+- Index 3讨论消费者信心和就业，原标签World、预测Business。经济主题词使这个预测值得理解，但不能只凭主题印象把原标签改掉。
+- Index 14讨论太阳帆航天器及项目资助，原标签Sci/Tech、预测Business；两个模型后验接近。查看保留词可以帮助区分表示损失、主题重叠和模型限制这几种解释。
+
+
+English: Index 1 combines disaster and insurance-loss language; index 3 discusses economic confidence despite its World label; index 14 combines a spacecraft project and funding. These observations suggest explanations to test; retain the supplied evaluation labels. The retained-word output lets you inspect the representation.
+
+
+
+
+
+\StudyHeading{1}{6. Effect of smoothing｜只改alpha，画一条能解释的曲线}
+\StudyTarget{CS5489-Tutorial02__cell-24}
+\StudyTarget{CS5489-Tutorial02__notebook-876bbe2b}
+\StudyTarget{CS5489-Tutorial02__6-effect-of-smoothingalpha}
+
+
+\textbf{原任务 / Task：} 用Multinomial TF-IDF模型画accuracy随alpha变化，并找本次网格中的最好值。\\
+
+\textbf{English:} Plot Multinomial TF-IDF accuracy against alpha and identify the best tested setting.
+
+
+固定划分、词表和TF-IDF变换，仅改变alpha。横轴使用对数刻度，因为候选跨了两个数量级；纵轴为accuracy。表里同时保留训练表现，帮助检查拟合与测试不一定同步。记录候选范围和对应最高点，便于复查曲线。
+
+
+来源：Tutorial2v2，第25–26个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-25}
+\StudyTarget{CS5489-Tutorial02__notebook-6255b18c}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{6255b18c}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-26}
+\StudyTarget{CS5489-Tutorial02__notebook-7ed08e4d}
+\textbf{自查：} 在其他设置固定时，alpha越大，测试accuracy是否一定越高？\\
+
+\textbf{English question:} With other settings fixed, must a larger alpha produce higher test accuracy?\\
+
+\textbf{答案：} 不一定。平滑缓解稀疏估计，但过强时可能抹平类别差异；本次曲线的形状要由实际输出回答。\\
+
+\textbf{English answer:} No. Smoothing stabilizes sparse estimates, but excessive smoothing can suppress useful class differences. Describe the measured curve rather than assuming a monotonic improvement.
+
+
+
+
+
+\StudyHeading{1}{7. Effect of vocabulary size｜更多词，真的提供更多有效证据吗？}
+\StudyTarget{CS5489-Tutorial02__cell-27}
+\StudyTarget{CS5489-Tutorial02__notebook-21b9bd84}
+\StudyTarget{CS5489-Tutorial02__7-effect-of-vocabulary-size}
+
+
+\textbf{原任务 / Task：} 画accuracy随词表上限变化，并找当前网格中的最好值。\\
+
+\textbf{English:} Plot accuracy against vocabulary limit and identify the best tested limit.
+
+
+为单独观察词表，这一组将alpha固定为默认1，\textbf{不继承上一组用test挑出的best\_alpha}。每个上限都仅从train重建词表与IDF，再应用到test。请求上限和实际大小一起报告；各词表坐标不同，因此每次都要重新拟合模型。
+
+
+来源：Tutorial2v2，第27–28个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-28}
+\StudyTarget{CS5489-Tutorial02__notebook-ff615da6}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{ff615da6}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-29}
+\StudyTarget{CS5489-Tutorial02__notebook-0314f13a}
+\textbf{怎样读曲线 / Reading the curve:} 增加词表可能保留更多主题线索，也会引入稀有词。结合实际词数观察准确率是上升、持平还是下降，并与默认1000词的结果比较。这一组固定alpha，因此两条曲线分别展示单因素变化，没有测试所有alpha与词表上限的组合。
+
+
+\textbf{English:} Compare each point with the default 1000-word cap and inspect the actual vocabulary size. Alpha is fixed here; the two curves do not form a joint parameter search.
+
+
+
+
+
+\StudyHeading{1}{8. Poisson Naive Bayes｜外框不变，换掉词计数的分布}
+\StudyTarget{CS5489-Tutorial02__cell-30}
+\StudyTarget{CS5489-Tutorial02__notebook-ad085e10}
+\StudyTarget{CS5489-Tutorial02__8-poisson-naive-bayes}
+
+
+\textbf{原任务 / Task：} 用Poisson分布建模每类、每词的计数，按老师给的接口实现分类器，再与前两种流程比较。\\
+
+\textbf{English:} Implement Poisson NB for raw word counts using the provided class interface, then compare it with the previous pipelines.
+
+
+
+\StudyHeading{2}{8.1 参数估计与log分数}
+\StudyTarget{CS5489-Tutorial02__81-log}
+
+
+给定类别c，特征\(x_j\)是每篇文档中词j的\textbf{非负整数计数}。模型把一篇文档作为一次计数观察，估计“这个词在该类的一篇文档里平均出现几次”：
+\[
+p(x_j\mid c)=e^{-\mu_{j,c}}\frac{\mu_{j,c}^{x_j}}{x_j!},
+\qquad
+\hat\mu^{MLE}_{j,c}=\frac{T_{j,c}}{N_c}.\tag{T2.1}
+\]
+
+
+\(T_{j,c}\)是该类所有文档的词j计数之和；\(N_c\)是该类文档数。这里\(\mu\)不要求跨词和为1，分母不是全类的总词数。这里没有按各篇文档长度单独调整平均次数；如果文章长短差别很大，这个假设可能不合适。
+
+
+对正率求导可得到MLE：与\(\mu\)有关的log似然是\(T\log\mu-N_c\mu\)，导数\(T/\mu-N_c=0\)。T=0时最大值在边界\(\mu=0\)，不是除以零得到的内点解。
+
+
+各词在给定类别下的对数概率相加，得到整篇文档的对数似然：
+\[
+\log p(\mathbf{x}\mid c)=
+\sum_j[x_j\log\mu_{j,c}-\mu_{j,c}-\log(x_j!)].\tag{T2.2}
+\]
+
+
+加上类别的对数先验\(\log p(c)\)后，便可比较各类得分；需要后验概率时，再用\StudyRef{CS5489-Lecture02}{log-scores}{Lecture 2：log分数}的logsumexp归一化。阶乘项对同一文档的所有类相同，选类别时可消去；参考实现保留它，以便与scipy的logpmf逐项校验。
+
+
+
+\StudyHeading{2}{8.2 模板未定义的alpha：明确采用一个补充约定}
+\StudyTarget{CS5489-Tutorial02__82-alpha}
+
+
+分类器接口提供了alpha参数，但教师模板没有指定平滑公式（Tutorial2v2，第32个单元）。这里对alpha>0明确选用：
+\[
+\hat\mu_{j,c}=\frac{T_{j,c}+\alpha}{N_c+\alpha}.\tag{T2.3}
+\]
+
+
+分子在观察到的总次数上加alpha，分母在文档数上也加alpha。可以先把它理解成加入一份“平均每篇出现1次”的先验信息，alpha控制这份信息的权重。本实现将alpha=0定义为不平滑。
+
+
+
+\begin{StudySolution}{选读：这个平滑公式的概率依据}
+
+
+当alpha>0，给每个率使用Gamma(shape=alpha, rate=alpha)先验，观察数据后取后验均值，就得到上式。它是本参考实现明确选用的补充约定，教师模板只提供alpha接口，没有指定该公式。后验均值与MAP是不同估计；alpha=0采用MLE分支，不解释为Gamma(0,0)先验。
+
+
+\end{StudySolution}
+
+
+\textbf{教学手算 / Worked:} 某词在同类4篇文档计数[0,0,0,0]。MLE=0；alpha=1时，按上述约定，后验均值=(0+1)/(4+1)=0.2。\\
+
+\textbf{English worked example:} A word has counts [0,0,0,0] in four same-class documents. Its MLE rate is 0; with alpha=1, the specified posterior-mean rate is (0+1)/(4+1)=0.2. The zero MLE would assign zero probability to every positive future count.
+
+
+\textbf{你来试：} 同类4篇计数[0,1,0,3]，alpha=1，按上述约定求MLE与平滑率。\\
+
+\textbf{English question:} A word has counts [0,1,0,3] in four same-class documents. With alpha=1 and the convention above, find its MLE rate and smoothed rate.\\
+
+\textbf{答案：} MLE=4/4=1；平滑率=5/5=1。两个值恰好相同，不代表平滑不起作用于其他数据；先验均值在此也是1。\\
+
+\textbf{English answer:} The MLE rate is 4/4=1 and the smoothed rate is 5/5=1. They coincide because the observed mean equals the prior mean; smoothing can still change estimates for other data.
+
+
+来源：Tutorial2v2，第29–35个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-31}
+\StudyTarget{CS5489-Tutorial02__notebook-43b0f7e6}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{43b0f7e6}
+
+
+
+
+
+\StudyHeading{2}{8.3 先用四条小数据检查，再跑整份新闻}
+\StudyTarget{CS5489-Tutorial02__cell-32}
+\StudyTarget{CS5489-Tutorial02__notebook-a8f9f1b0}
+\StudyTarget{CS5489-Tutorial02__83}
+
+
+训练计数为[[1,0],[3,2],[0,2],[0,4]]，前两条是类10、后两条是类20。alpha=1时，两类率应为[5/3,1]和[1/3,7/3]，先验各0.5。本实现用classes\_保存真实标签，避免原骨架“标签必须从0连续编号”的隐含限制；AGNews的0–3标签不因此改变。
+
+
+\textbf{English:} Check the fitted rates, likelihoods and normalization on a tiny known example before trusting dataset-level accuracy. Nonconsecutive labels test the label mapping separately.
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-33}
+\StudyTarget{CS5489-Tutorial02__notebook-2701985a}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{2701985a}
+
+
+
+
+
+\StudyHeading{2}{8.4 在原始新闻计数上运行 / Test the count model}
+\StudyTarget{CS5489-Tutorial02__cell-34}
+\StudyTarget{CS5489-Tutorial02__notebook-7ae764ba}
+\StudyTarget{CS5489-Tutorial02__84-test-the-count-model}
+
+
+\textbf{原任务 / Task：} 在数据集上测试Poisson NB，比较它是否适合文档。\\
+
+\textbf{English:} Test Poisson NB on the dataset, compare the pipelines and discuss its suitability for documents.
+
+
+这里使用默认1000词的原始count\_train/count\_test，alpha=1；Poisson模型需要整数计数。各类词率无需和为1，因为它们是每文档的计数均值。
+
+
+来源：Tutorial2v2，第33–35个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-35}
+\StudyTarget{CS5489-Tutorial02__notebook-ac131c56}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{ac131c56}
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-36}
+\StudyTarget{CS5489-Tutorial02__notebook-b2c98b2c}
+\textbf{怎样回答“适不适合”？} 先引用这次表里的表现，再回到假设：这里的Poisson模型把每篇文档当作同样大小的一次观察，没有按文长调整计数率，并假设给定类别后各词计数独立；文档长短、词的共现与实际计数波动可能挑战这些假设。某次accuracy高或低都不能证明所有文档服从或不服从Poisson。
+
+
+\textbf{English answer framework:} “Under the stated preprocessing, vocabulary and smoothing, the measured accuracy is … . This supports a comparison of these pipelines on this dataset. Equal document exposure and conditional count independence remain modeling assumptions; the score alone does not validate them.”
+
+
+NB的高后验也不自动代表经过校准的真实可信度。对错误样本和每类表现的检查与总accuracy互补。
+
+
+
+
+\StudyTarget{CS5489-Tutorial02__cell-37}
+\StudyTarget{CS5489-Tutorial02__notebook-4a41fd10}
+\StudyNotebookCell{CS5489/course-notes/Tutorial02.ipynb}{4a41fd10}
+
+
+
+
+
+\StudyHeading{1}{9. 如果要严格评价泛化，流程怎样改？ / A separate evaluation protocol}
+\StudyTarget{CS5489-Tutorial02__cell-38}
+\StudyTarget{CS5489-Tutorial02__notebook-e2257726}
+\StudyTarget{CS5489-Tutorial02__9-a-separate-evaluation-protocol}
+
+
+\textbf{方法补充：} 若目标是评价选定流程的泛化能力，可采用以下设计：
+
+
+
+\begin{enumerate}[start=1]
+
+\item 从给定train内部再划训练/验证，或做内层CV。
+
+\item 每折分别拟合词表、IDF和模型；把这些步骤放在同一Pipeline中。
+
+\item 在验证上选择表示、alpha和词表规模，固定方案后重拟合。
+
+\item 最后才评估此前未参与开发的test。若本文件已经用test反复探索，不能事后把同一次分数改名为“独立测试”；需要新的未触碰数据或另一个预先明确的评估设计。
+
+\end{enumerate}
+
+
+\textbf{English:} Tune on training-internal validation, refitting preprocessing inside each fold. Evaluate the fixed choice on untouched test data. Renaming an already explored test set does not restore its independence.
+
+
+独立迁移题：某人在所有3000条新闻上先建词表，再只用2000条训练分类器。他说“模型没见过test标签，所以没泄漏”。哪里不对？\\
+
+English question: Someone fits a vocabulary on all 3000 documents but trains the classifier on only 2000. They claim there is no leakage because test labels were unused. What is wrong?\\
+
+答案：测试文本已经参与特征选择；无标签信息也会影响表示。验证目标若是对新数据泛化，预处理也必须只从对应训练部分学习。\\
+
+English answer: Test text influenced the representation. Leakage can involve unlabeled inputs; vocabulary learning must stay within the corresponding training split.
+
+
+
+
+
+\StudyHeading{1}{10. 回原课、练英文、再刷少量卡 / Return and recall}
+\StudyTarget{CS5489-Tutorial02__cell-39}
+\StudyTarget{CS5489-Tutorial02__notebook-63464a43}
+\StudyTarget{CS5489-Tutorial02__10-return-and-recall}
+
+
+用英文解释三个问题，再去Markji按卡号巩固：
+- Why must the vocabulary and IDF be fitted on training data?
+- Why do Bernoulli, multinomial and Poisson smoothing have different denominators?
+- Why is the highest score in these test-set sweeps not an unbiased final result?
+
+
+对应中文：为何词表/IDF只从训练数据拟合？三个模型的平滑分母为何不同？为何这次扫test得到的最高分不是独立最终成绩？
+
+
+参考要点 / Key points：
+1. 中文：词表和IDF会学习输入分布，因此也必须留在训练部分。English: Vocabulary and IDF learn from input data and must be fitted within the training split.
+2. 中文：Bernoulli对每词的两种结果平滑；Multinomial对词表中的V种结果平滑；这里Poisson的额外约定向总词次数和文档数分别加alpha。English: Bernoulli smooths two feature outcomes; multinomial smooths V token outcomes; the stated Poisson convention adds alpha to the total word count and document count.
+3. 中文：test表现参与了模型和参数选择，已提供开发反馈。English: The test scores influenced model and parameter selection, so they are development feedback rather than an untouched final evaluation.
+
+
+关联微课：\href{https://crazyshout.github.io/micro-course/?lesson=ml08}{文本NB}、\href{https://crazyshout.github.io/micro-course/?lesson=ml09}{Poisson NB}。
+现有卡：\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M078}{M078稀疏表示}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M110}{M110调参比较}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M112}{M112 Poisson率}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5489-M115}{M115平滑解释}。长实现仍需完整重做，不只背卡片输出。
+
+
+
+\Needspace{22\baselineskip}
+\StudyHeading{2}{原文件覆盖索引 / Source coverage}
+\StudyTarget{CS5489-Tutorial02__source-coverage}
+
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.512563\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.487437\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原cell & 本文件位置 \\
+\midrule\endfirsthead
+原cell & 本文件位置 \\
+\midrule\endhead
+\bottomrule\endfoot
+Tutorial2v2，第1–4个单元 & 开头、§0；Tutorial2v2，第1个单元为空白/导言，设置与路径 \\
+Tutorial2v2，第5–9个单元 & §1 数据、规模、类别和文本 \\
+Tutorial2v2，第10–12个单元 & §2 固定词表与矩阵 \\
+Tutorial2v2，第13–16个单元 & §3 Bernoulli、前10词及alpha/词表的单因素比较 \\
+Tutorial2v2，第17–20个单元 & §4 Multinomial TF-IDF与前10词 \\
+Tutorial2v2，第21–24个单元 & §5 错分检查；填空题由解释框架和实测样本承接 \\
+Tutorial2v2，第25–26个单元 & §6 alpha曲线 \\
+Tutorial2v2，第27–28个单元 & §7 词表曲线 \\
+Tutorial2v2，第29–32个单元 & §8.1–8.3 公式、约定、实现和手算检查 \\
+Tutorial2v2，第33–35个单元 & §8.4 数据测试与模型讨论 \\
+Tutorial2v2，第36个单元 & 空单元，无独立教学内容 \\
+\end{longtable}
+\endgroup
+
+
+参考原理以老师材料和\StudyRef{CS5489-Lecture02}{root}{Lecture02}为主。库行为另核对\href{https://scikit-learn.org/stable/modules/naive\_bayes.html}{scikit-learn NB}、\href{https://scikit-learn.org/stable/modules/generated/sklearn.feature\_extraction.text.TfidfTransformer.html}{TF-IDF参数}。Poisson补充的Gamma后验均值沿用已核对的M115说明，不是模板定义的公式。

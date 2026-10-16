@@ -1,0 +1,13 @@
+{
+  "project": "ElegantLaTeX/ElegantBook",
+  "version": "4.7",
+  "date": "2026-05-01",
+  "class_url": "https://ctan.math.illinois.edu/macros/latex/contrib/elegantbook/elegantbook.cls",
+  "license_url": "https://github.com/ElegantLaTeX/ElegantBook/blob/8b90c11e4a5ffd9d1e07174011303c133093d09c/License",
+  "license": "LPPL-1.3c-or-later",
+  "files": {
+    "elegantbook.cls": "d2cdb802b3de46b1d659d1a8eb36979aecd761402d3e95296936f433f97549eb",
+    "License": "5f05fcf6ef25a6c31bccd2df7c0c46b23107bbeb2ce5cdba74efb5cc357f4dbb"
+  },
+  "local_modifications": false
+}

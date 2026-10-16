@@ -1,36 +1,7 @@
-"""Build three course books and six midterm editions without running course experiments."""
+"""Build all nine native ElegantBook PDFs without executing notebooks."""
 from pathlib import Path
-import argparse,json,subprocess,sys,os,hashlib
-from pypdf import PdfReader
+import subprocess
+import sys
 ROOT=Path(__file__).resolve().parents[1]
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('--node',default='node');p.add_argument('--finalize-python',default=sys.executable);args=p.parse_args()
-run=ROOT/'.build/reports';run.mkdir(parents=True,exist_ok=True)
-def call(*cmd):subprocess.run([str(x) for x in cmd],cwd=ROOT,check=True)
-call(sys.executable,ROOT/'scripts/build_exam_annotations.py','--check')
-call(sys.executable,ROOT/'CS5489/course-notes/tools/build_previews.py')
-for iteration in range(5):
-    paths=[ROOT/'.build/print'/f for f in ['page-map.json','anchor-map.json']]
-    old=[p.read_bytes() if p.exists() else b'' for p in paths]
-    call(sys.executable,ROOT/'scripts/build_course_print.py')
-    call(args.node,ROOT/'scripts/render_course_print.cjs',run)
-    call(sys.executable,ROOT/'scripts/index_course_print.py')
-    if old==[p.read_bytes() for p in paths]:break
-else:raise RuntimeError('Pagination did not stabilize')
-call(args.finalize_python,ROOT/'scripts/index_course_print.py','--finalize')
-page_map=json.loads((ROOT/'.build/print/page-map.json').read_text())
-manifest={'updated':json.loads((ROOT/'learning/course-notes-documents.json').read_text())['updated'],'books':[]}
-lines=['# A4 PDFs','','A4、100%实际大小、每张一页；双面建议长边翻转。答案已展开。颜色区分权重/类别的图建议彩印。','','[项目首页](../README.md) · [源稿与贡献方法](../CONTRIBUTING.md)','']
-for group in ['CS5489','CS5222','Foundations']:
-    file=ROOT/'pdf'/(group+'-A4.pdf');n=len(PdfReader(file,strict=True).pages)
-    docs=[{'id':k,**v} for k,v in page_map.items() if v['group']==group]
-    manifest['books'].append({'file':file.name,'pages':n,'sha256':hashlib.sha256(file.read_bytes()).hexdigest(),'documents':docs})
-    lines += [f'## {group}', '', f'[下载PDF]({file.name}) · {n}页','','| 文档 | PDF页码 |','|---|---|']
-    for d in docs:lines.append(f"| [{d['id'].split('-',1)[1]}](../{d['source']}) | {d['start']}–{d['end']} |")
-    lines.append('')
-(ROOT/'pdf/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-call(sys.executable,ROOT/'CS5489/exam-review/Midterm/tools/build_all.py','--node',args.node)
-lines += ['## CS5489 期中题库', '',
-          '[题目册](../CS5489/exam-review/Midterm/Questions.pdf) · [答案解析册](../CS5489/exam-review/Midterm/Answers.pdf) · [题答合订本](../CS5489/exam-review/Midterm/Combined.pdf) · [精简双语版](../CS5489/exam-review/Midterm/Compact.pdf) · [选择题与答案](../CS5489/exam-review/Midterm/MultipleChoice.pdf) · [简答题与答案](../CS5489/exam-review/Midterm/WrittenResponse.pdf)', '',
-          '分册按MT题号对应、分别分页；[原卷索引](../CS5489/exam-review/Midterm/PaperIndex.md)提供两册页码。合订本每题后紧接完整答案解析；精简版及两个题型分册保留中英题目与简答，这些版本均有独立原卷索引。[维护与构建说明](../CS5489/exam-review/Midterm/README.md)。', '']
-(ROOT/'pdf/README.md').write_text('\n'.join(lines).rstrip()+'\n')
-print('Nine PDFs and their page indexes rebuilt without executing course experiments.')
+subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
+subprocess.run([sys.executable,str(ROOT/'scripts/build_latex.py'),*sys.argv[1:]],cwd=ROOT,check=True)

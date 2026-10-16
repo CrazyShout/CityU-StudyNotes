@@ -1,0 +1,356 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+
+\StudyChapter{CS5489-Tutorial03}{Tutorial 3 · Linear classifiers, cropping and an L1 kernel}
+\StudyTarget{CS5489-Tutorial03__cell-1}
+\StudyTarget{CS5489-Tutorial03__notebook-f38d67cd}
+\StudyTarget{CS5489-Tutorial03__tutorial-3-linear-classifiers-cropping-and-an-l1-kernel}
+
+
+
+\StudyHeading{1}{从同一份数据比较模型，别让实验条件悄悄换了}
+\StudyTarget{CS5489-Tutorial03___1}
+
+
+\StudyRef{CS5489-Lecture03}{root}{Lecture 3} · \StudyRef{CS5489-Lecture01}{arrays}{Python/NumPy} · \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录}
+
+
+依据当前 Tutorial3.ipynb 的 68 个单元，按原顺序展开。原标题为 \emph{Gender Classification from Face Images}。本笔记只把文件名提供的 0/1 当成给定基准标签，分析模型是否重现这些标注；标签与模型结果不能确立照片中人物的真实身份。参考代码和答案为整理者实现，不是教师解答。
+
+
+本次练习包括：45\ensuremath{\times}40 图像怎样变为向量，怎样在训练内部选 C，怎样读线性权重，怎样公平比较裁剪与自定义核。本数据很小，单次测试10张，错一张就变10个百分点，结论必须与这个限制一起读。
+
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.357578\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.165009\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.189005\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.288408\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+原任务 & 优先级 & 难度与卡点 & 掌握要求与依据 \\
+\midrule\endfirsthead
+原任务 & 优先级 & 难度与卡点 & 掌握要求与依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+Tutorial3，第4–16个单元 加载、展平、划分 & 核心必会 & 中；轴和顺序 & 核对形状、标签规则、同一批索引 \\
+Tutorial3，第17–40个单元 LR/SVM & 核心必会 & 中；CV与测试 & 完成训练、评估、权重及错误分析 \\
+Tutorial3，第41–63个单元 裁剪 & 核心必会 & 中；掩码尺寸 & 保持样本划分，检查改变的只有表示 \\
+Tutorial3，第64–68个单元 自定义核 & 核心必会 & 高；两层参数循环 & 检查核矩阵形状、用CV选择\ensuremath{\alpha}/C \\
+\end{longtable}
+\endgroup
+
+
+优先级依据当前原任务。数学卡点可选读\StudyRef{Foundations-MathForML}{vectors-covariance}{矩阵}和\StudyRef{Foundations-MathForML}{projection}{长度与距离}。
+
+
+
+
+
+\StudyHeading{1}{0. Parameters and provenance｜将实验约定写在最前面}
+\StudyTarget{CS5489-Tutorial03__cell-2}
+\StudyTarget{CS5489-Tutorial03__notebook-e963b424}
+\StudyTarget{CS5489-Tutorial03__0-parameters-and-provenance}
+
+
+保留原 \StudyInline{np.\allowbreak{}random.\allowbreak{}seed(\allowbreak{}100)\allowbreak{}} 和 80/20、\StudyInline{random\_\allowbreak{}state=\allowbreak{}4487} 划分；图像沿用ZIP中的顺序。原任务未规定候选网格，本参考实现选择 C=10\textasciicircum{}-3,…,10\textasciicircum{}3（7个值），\ensuremath{\alpha}=0.001/0.01/0.1/1，5折分层CV、shuffle=True、seed42。所有模型使用相同折划分。
+
+
+English: Preserve the instructor's data order and train/test split. Candidate grids and shuffled stratified CV are explicit reference-implementation choices.
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-3}
+\StudyTarget{CS5489-Tutorial03__notebook-f09c8929}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{f09c8929}
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-4}
+\StudyTarget{CS5489-Tutorial03__notebook-29941840}
+
+
+
+
+\StudyHeading{1}{1. Load and inspect｜一行不是一个像素，而是一张图}
+\StudyTarget{CS5489-Tutorial03__data-input}
+\StudyTarget{CS5489-Tutorial03__1-load-and-inspect}
+
+
+\textbf{原任务 / Task：} 从ZIP内存读取图像，展示，展平、减0.5并划分。 / Load PNGs from ZIP without extracting, inspect them, flatten, center by 0.5, and split.
+
+
+45行\ensuremath{\times}40列=1800个像素。\StudyInline{reshape(\allowbreak{}50,\allowbreak{}-1)\allowbreak{}}后50行仍是50张图。原文件名首字母m映射1，否则映射0；这里只复现给定标签编码，并检查确实只有预期的m/f命名。
+
+
+来源：Tutorial3，第4–16个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-5}
+\StudyTarget{CS5489-Tutorial03__notebook-43e540ea}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{43e540ea}
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-6}
+\StudyTarget{CS5489-Tutorial03__notebook-33150b45}
+固定减0.5不需要从测试数据估计任何量，所以可以在划分前做。这里不额外加标准化，以对应原任务；若以后加入估计均值/标准差的变换，必须放在每折训练的Pipeline里。
+
+
+\textbf{自查 / Check:} 为什么不能裁剪后重新随机划分再比较？ / Why not randomly split again after cropping?
+\textbf{答 / Answer:} 差异会同时包含表示变化与样本难度变化，无法归因。 / The comparison would confound representation changes with different test examples.
+
+
+
+
+
+\StudyHeading{1}{2. Logistic regression｜选C只看训练内部的验证表现}
+\StudyTarget{CS5489-Tutorial03__cell-7}
+\StudyTarget{CS5489-Tutorial03__notebook-e1130e25}
+\StudyTarget{CS5489-Tutorial03__2-logistic-regressionc}
+
+
+\textbf{原任务 / Task：} CV选择C，报告训练和测试准确率。 / Select C using CV and report train/test accuracy.
+
+
+代码先在40张训练图内部做5折，每折32训练/8验证；最佳C再用40张重训。测试10张从不参与选C。候选并列时GridSearchCV采用候选顺序中的第一个，这是执行约定，不是更小C一定更好的证明。
+
+
+来源：Tutorial3，第17–22个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-8}
+\StudyTarget{CS5489-Tutorial03__notebook-206765d3}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{206765d3}
+
+
+
+
+
+\StudyHeading{1}{3. Weight image and errors｜权重回答的是“哪些像素推动分数”}
+\StudyTarget{CS5489-Tutorial03__cell-9}
+\StudyTarget{CS5489-Tutorial03__notebook-0e4fabdf}
+\StudyTarget{CS5489-Tutorial03__3-weight-image-and-errors}
+
+
+\textbf{原任务 / Task：} 显示w、正确/错分样本并解释。 / Visualize coefficients and correct/incorrect benchmark predictions.
+
+
+\(f(x)=\sum_jw_jx_j+b\)。正w配较亮像素，或负w配较暗像素，都能使给定标签1的分数增加。例如其他像素不变时，一个像素变亮0.1，它对分数的改变量就是0.1w。相关像素可能分摊权重，因此读图时也要看周围区域的共同变化。标签含义与研究范围沿用开头说明。
+
+
+平均图沿用老师的全部数据展示，仅用来观察图像，不进入训练（Tutorial3，第16个单元）；这里同样展示完整平均图并明确它不是模型输入变换。错误分组只表示与给定基准标签是否一致。
+
+
+来源：Tutorial3，第23–29个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-10}
+\StudyTarget{CS5489-Tutorial03__notebook-426dc86b}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{426dc86b}
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-11}
+\StudyTarget{CS5489-Tutorial03__notebook-cdc5c15d}
+\textbf{输出怎样读 / Reading:} 先读混淆矩阵，再看错误组共有几张，最后提出能检验的原因，例如外围像素是否贡献较大。仅看一张错分图不能确定原因；后面的裁剪是一个干预比较。 / Read the confusion matrix and error count before forming hypotheses. A single misclassified image does not establish a cause; cropping provides a controlled representation comparison.
+
+
+
+
+
+\StudyHeading{1}{4. Linear SVM｜换目标，保持数据不变}
+\StudyTarget{CS5489-Tutorial03__cell-12}
+\StudyTarget{CS5489-Tutorial03__notebook-d9837fee}
+\StudyTarget{CS5489-Tutorial03__4-linear-svm}
+
+
+\textbf{原任务 / Task：} 在相同划分上训练线性SVM，CV选C，比较准确率、权重和错误。 / Repeat with a linear SVM on the same split and compare accuracy, weights, and errors.
+
+
+LR的logistic loss与SVM的hinge loss对边界附近样本的处理不同，不能期望w完全一致。系数绝对大小也不能脱离目标函数与C直接比较。以下统一色图含义，分别标注各图的数值范围。
+
+
+来源：Tutorial3，第30–40个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-13}
+\StudyTarget{CS5489-Tutorial03__notebook-0a040215}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{0a040215}
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-14}
+\StudyTarget{CS5489-Tutorial03__notebook-3fb01d2b}
+\textbf{English:} Different losses and regularization settings can produce different coefficient patterns. Similar performance does not imply identical decision rules.
+
+
+
+
+
+\StudyHeading{1}{5. Crop the same images｜先查尺寸，再解释性能}
+\StudyTarget{CS5489-Tutorial03__cell-15}
+\StudyTarget{CS5489-Tutorial03__notebook-0e9ba631}
+\StudyTarget{CS5489-Tutorial03__5-crop-the-same-images}
+
+
+\textbf{原任务 / Task：} 使用掩码、同一划分，重训LR/SVM并解释变化。 / Crop with the given mask, preserve the split, and repeat LR/SVM experiments.
+
+
+当前实际代码是 \StudyInline{[18:\allowbreak{}40,\allowbreak{}11:\allowbreak{}29]}，Python右端不含：高22、宽18，共396维。原Tutorial3，第44个单元仍说24\ensuremath{\times}24、576维，对应被注释掉的旧掩码，不是本次实际输入。裁剪既减少外围信息，也可能丢掉有用信号，效果由后面的比较检验。
+
+
+来源：Tutorial3，第41–63个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-16}
+\StudyTarget{CS5489-Tutorial03__notebook-1f58e732}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{1f58e732}
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-17}
+\StudyTarget{CS5489-Tutorial03__notebook-ee1e86c2}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{ee1e86c2}
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-18}
+\StudyTarget{CS5489-Tutorial03__notebook-790a4087}
+这里的比例把外围像素的系数平方相加，再除以全部系数平方和，描述的是权重集中在哪里。它没有统计这些像素让模型多分对多少张图片。裁剪前后的预测表现，需要另外比较下面的CV和测试结果。
+
+
+\textbf{变式 / Transfer:} 若改用 \StudyInline{[17:\allowbreak{}41,\allowbreak{}8:\allowbreak{}32]}，输入几维？能沿用396维权重吗？ / What dimension follows from this alternative crop, and can 396-dimensional weights be reused?
+\textbf{答 / Answer:} 24\ensuremath{\times}24=576维；不能，特征坐标和模型需要重新匹配并训练。 / 576 dimensions; the coordinates and model must be rebuilt and refitted.
+
+
+
+
+
+\StudyHeading{1}{6. Custom kernel｜先用两个小向量检查，再接入SVM}
+\StudyTarget{CS5489-Tutorial03__cell-19}
+\StudyTarget{CS5489-Tutorial03__notebook-c512898c}
+\StudyTarget{CS5489-Tutorial03__6-custom-kernelsvm}
+
+
+\textbf{原任务 / Task：} 实现 \(k(x,y)=\exp(-\alpha\sum_j|x_j-y_j|)\)；外层试\ensuremath{\alpha}、内层CV选C，比较结果。 / Implement the L1 kernel, select alpha and C by training-only CV, and compare results.
+
+
+例如 x=(0,1)、y=(2,1)，L1距离=2，\ensuremath{\alpha}=0.5时核值 \(e^{-1}\approx0.3679\)。训练输入(A,A)给40\ensuremath{\times}40，预测输入(B,A)给10\ensuremath{\times}40。因此函数需要一次返回两批样本之间的全部两两核值。
+
+
+原文字称它总比RBF衰减慢，需要限定距离尺度：一维同系数时 d>1 有 \(e^{-d}>e^{-d^2}\)，但0<d<1时反过来。不同维度、尺度、\ensuremath{\alpha}/\ensuremath{\gamma}不能直接套这个比较。
+
+
+来源：Tutorial3，第64–68个单元。
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-20}
+\StudyTarget{CS5489-Tutorial03__notebook-617dc8d5}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{617dc8d5}
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-21}
+\StudyTarget{CS5489-Tutorial03__notebook-28d182c2}
+同一CV折反复比较\ensuremath{\alpha}和C是训练内部调参，本身允许；选出的最高CV分数会带有选择乐观性，不能把它当无偏泛化估计。\StudyInline{SVC}的非线性核没有可直接reshape为输入图像的普通w；不能把线性权重图代码硬套上去。
+
+
+
+
+\StudyTarget{CS5489-Tutorial03__cell-22}
+\StudyTarget{CS5489-Tutorial03__notebook-08bfba42}
+\StudyNotebookCell{CS5489/course-notes/Tutorial03.ipynb}{08bfba42}
+
+
+
+
+
+\StudyHeading{1}{本轮结果解读 / Interpreting this run}
+\StudyTarget{CS5489-Tutorial03__cell-23}
+\StudyTarget{CS5489-Tutorial03__notebook-57124ee0}
+\StudyTarget{CS5489-Tutorial03__interpreting-this-run}
+
+
+保存结果后出现的单独整数是 \StudyInline{write\_\allowbreak{}text} 返回的写入字符数，不是模型得分。 / The standalone integer after saving is the character count returned by \StudyInline{write\_\allowbreak{}text}, not a model score.
+
+
+完整图像的LR与线性SVM在10张测试图上均为0.80（2张与给定标签不一致），两组系数方向余弦约0.944，说明规则相似但并不相同。外围被裁掉部分占完整图系数平方和约95.2\%/96.3\%；它表示系数平方主要集中在外围，具体定义见裁剪部分。
+
+
+裁剪后LR测试仍0.80、SVM为0.90，但其CV分别从0.90降到0.85/0.825。这个不一致提醒我们：单个10张测试划分波动很大，不能只凭多分对一张就宣布裁剪普遍更优。L1核选择\ensuremath{\alpha}=0.01、C=10，CV=0.875、测试0.90，与裁剪线性SVM测试相同；没有在这份测试上进一步提高。
+
+
+\textbf{English:} Full-image LR and linear SVM both scored 0.80 on the ten-image split. Cropped LR scored 0.80 and cropped linear SVM 0.90, despite lower CV scores. The selected L1 kernel (alpha=0.01, C=10) scored 0.875 in CV and 0.90 on the held-out split, tying the cropped linear SVM. The held-out set contains only ten images, so each changed prediction moves accuracy by ten percentage points.
+
+
+这些数值对应上述固定数据、划分和候选网格。
+
+
+
+
+
+\StudyHeading{1}{7. Independent explanation and source coverage｜合上代码，说清实验}
+\StudyTarget{CS5489-Tutorial03__cell-24}
+\StudyTarget{CS5489-Tutorial03__notebook-9e469b32}
+\StudyTarget{CS5489-Tutorial03__7-independent-explanation-and-source-coverage}
+
+
+
+\begin{enumerate}[start=1]
+
+\item \textbf{How are 45\ensuremath{\times}40 pixels converted to the model input? / 怎样转成输入？} 每图按一致顺序展平为1800维，一行一图；训练预测顺序相同。 / Flatten consistently into 1800 features per image.
+
+\item \textbf{Why is C selected without test labels? / 为什么选C不看测试标签？} 防止选择过程适应测试集。 / To keep model selection from adapting to the held-out evaluation set.
+
+\item \textbf{What happens to the score if one pixel increases by 0.1? / 一个像素增加0.1，其他值不变，分数怎样变？} 改变0.1乘该像素系数；符号决定升高还是降低。 / It changes by 0.1 times that pixel coefficient; the sign determines the direction.
+
+\item \textbf{If the L1 model ties the linear model on ten images, is it superior? / 10张上平局能证明优越吗？} 不能；需更多独立证据，也要比较复杂度。 / No; more independent evidence and complexity considerations are needed.
+
+\end{enumerate}
+
+
+参考\href{https://crazyshout.github.io/micro-course/?lesson=ml12}{已有微课}与Lecture3末尾的卡片入口。先能解释实验中的每个选择，再刷卡记住原则。
+
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.311078\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.688922\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原单元 & 本笔记位置与处理 \\
+\midrule\endfirsthead
+原单元 & 本笔记位置与处理 \\
+\midrule\endhead
+\bottomrule\endfoot
+1–3 & 开篇、§0：封面与原随机种子 \\
+4–16 & §1：ZIP、尺寸、全部图、展平、中心化、固定划分；平均图仅展示 \\
+17–22 & §2：LR、CV和训练/测试输出 \\
+23–29 & §3：权重、错分/正确组、限制与待验证原因 \\
+30–40 & §4：SVM同条件比较、权重方向与错误 \\
+41–50 & §5：实际22\ensuremath{\times}18掩码、396维、同一索引、平均图 \\
+51–63 & §5：裁剪LR/SVM、性能、权重、独立变式 \\
+64–68 & §6：L1核、手算/形状检查、\ensuremath{\alpha}/C选择、实际比较；空单元无需占位 \\
+\end{longtable}
+\endgroup
+
+
+上述结果来自本参考实现，参数和划分见§0。原题未指定唯一的最优参数。

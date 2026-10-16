@@ -1,0 +1,8 @@
+% MT060 / answer-en — canonical editable content.
+(a) A \textbf{large \(C\)} strongly penalizes margin violations. The supplied left-hand sketch bends the boundary to accommodate the isolated red points. Zero training error in this limit requires separability in the chosen quadratic feature space.
+
+
+(b) For the \textbf{strict limit \(C\to0^+\)}, use the standard equally weighted soft-margin objective with an unpenalized bias. The figure has ten red and seven green points. Encode red as \(-1\) and green as \(+1\). The candidate \(w=0,b=-1\) has objective \(14C\), so the optimum satisfies \(\|w_C\|^2\le28C\) and \(w_C\to0\). Minimizing the remaining hinge loss selects \(b_C\to-1\), the majority-class sign. Thus the plotted region is eventually classified entirely red, with no separating boundary inside it. The supplied right-hand curve illustrates a smaller positive \(C\), not this strict limit.
+
+
+(c) If the isolated points are noise, a moderate positive \(C\) may generalize better than fitting them closely. This does not mean the all-red limit is best. A training diagram alone cannot determine test accuracy; choose \(C\) using validation data.

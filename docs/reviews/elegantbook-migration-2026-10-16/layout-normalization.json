@@ -1,0 +1,135 @@
+{
+  "rules": [
+    "Unicode mathematical characters use equivalent native TeX glyphs; executable code blocks excluded",
+    "Remove duplicate bottom rule from longtable foot",
+    "Long inline quotient typeset as an equivalent fraction"
+  ],
+  "files": [
+    {
+      "path": "CS5489/course-notes/Lecture01.tex",
+      "before": "bb82e87f3e6223684dccd01a99d84d6e80fca36aff10006a8d80d20cbe8b3b38",
+      "after": "829ff912713a01e197bd931ab9fadc6442a706f7bbfdef2da5a62ff8f2046c18"
+    },
+    {
+      "path": "CS5489/course-notes/Lecture02.tex",
+      "before": "1c550b6f612acc2508930df58510546709ba0afac95e3f3f2c51dea64f9a6184",
+      "after": "93c0d5f0aca66eb12712e1026c2f35616d24b099b98829c18cd440e82b362e7e"
+    },
+    {
+      "path": "CS5489/course-notes/Lecture03.tex",
+      "before": "e99f72116aa2ba294e2d0b80da81c18ed7a4aeef1926e89fbde84289af48c8d2",
+      "after": "09bf622532736de5c5a01129a0ac71509a1d2861936a273ebc8d92224f1ebaf4"
+    },
+    {
+      "path": "CS5489/course-notes/Lecture04.tex",
+      "before": "287f8f2d78f66e376ce8a24ee8f0b8732634f3d2958c225a6b9aea50810ce574",
+      "after": "ff0ef5df29bd623d950ea25e15ec2a45495cb42b0f3ea2f417e6c448881202f2"
+    },
+    {
+      "path": "CS5489/course-notes/Lecture05.tex",
+      "before": "7a21592d6cb52d80f4e140a2e754aa40aaa70acc1216b8f508557efd2e005bd7",
+      "after": "66f80ac514d716083f05a28bdf96b252a51b17367eedffd5d2ae4dd6fe600a86"
+    },
+    {
+      "path": "CS5489/course-notes/Tutorial01.tex",
+      "before": "da3ae04bf21cfd1e1b2160d14dae08561c7e8051a3bfd2d7a068918f459f6033",
+      "after": "f0115f2f8594df42548e1ae10231b7b6a236f9503d370cda199c70780d88f66f"
+    },
+    {
+      "path": "CS5489/course-notes/Tutorial02.tex",
+      "before": "ba55678bd6f75d2f17cdc19bab8c6ea4942cdaf4f408342db2d2b22eb1539b10",
+      "after": "98bd2b997e615a68dfeeac9d358ad7866d3acb19814debc8a7924bebb84ea086"
+    },
+    {
+      "path": "CS5489/course-notes/Tutorial03.tex",
+      "before": "674db0939df5718fb84410f951b4d881d78b4e16360b57ed6f74ff4f6823fac9",
+      "after": "bb38aebab52c8ff728ea91e5ce322cae6bd3537f85f598fab35236b34ff99f0e"
+    },
+    {
+      "path": "CS5489/course-notes/Tutorial04.tex",
+      "before": "72c23328cfbf575cbe53e910e49388a56cd93d99a6148f99e6c1dd5f8b5e0412",
+      "after": "1570f9952c4c06fda9dfaa4dc10fbbe2b27956c124f83caf305ef1c21d2464f4"
+    },
+    {
+      "path": "CS5489/course-notes/Assignment01.tex",
+      "before": "1b662d91eadd8ba4900c5ae70b1f88f364d14a1bf0f6a09ea00afb8b0766d1a4",
+      "after": "f0540530839085fb0cf85e1f517f9f546e2929c86b3af9992eaf9e5b290113cd"
+    },
+    {
+      "path": "CS5489/course-notes/Assignment02.tex",
+      "before": "9607b0a93748e7cad5e6e48581260f5cca0be0dcb32395fa66c89afd1723d1e4",
+      "after": "950ec3c30f40d07fac04bd6c3c35f78bd066a4d44ec1a7e464eecc5956713ecc"
+    },
+    {
+      "path": "CS5222/course-notes/Chapter01.tex",
+      "before": "26c2d479386e178bbdf3e7c7fa3413ae67866ff3f316c376095b22ee9ac2fdf2",
+      "after": "e7ec7d84ab5f9834a1d66a21e3e017d86c2ca99cead8c2902e4babbba05f2bf9"
+    },
+    {
+      "path": "CS5222/course-notes/Chapter02.tex",
+      "before": "0a84870fa4c77e2ca2593358a1e600848f85e3b926a5369d228fec9491877abb",
+      "after": "b85b004877931aa47bb855c4f52ffa6613d01b0c60619c9d85b246c29e97b953"
+    },
+    {
+      "path": "CS5222/course-notes/Chapter03.tex",
+      "before": "2fffe785f033e4f05219b14e5a178e685fcced9b7945b4180740b3663a20cd18",
+      "after": "58e11404aca5d1d77a854a90133c62bdad3eefacaea2cd89e2f235e7715cd5fb"
+    },
+    {
+      "path": "CS5222/course-notes/Tutorial01.tex",
+      "before": "a73ca3ef878fa3fb0ff80cc5d4a68a2ef26a8739035bb4844eee7a277bbde3f1",
+      "after": "d5c89b11e995463e544062d62b76056f4433fd39f53394a6eea63d43785fec36"
+    },
+    {
+      "path": "CS5222/course-notes/Tutorial02.tex",
+      "before": "bf2387ed91ccfcfdaa16eb1c9a9203e6a14e93cc1ddad16144dcbd4b9a4e8ed6",
+      "after": "ef99e266ea1a7c0750a9f63e2a7fadc604954486fb8b0e27e4a37ab305f41dc8"
+    },
+    {
+      "path": "CS5222/course-notes/Tutorial04.tex",
+      "before": "b0672cd4e5de19eeda87ad8e4fa5aa6a36c99eed48e9b6d3a05d190361ccbf9a",
+      "after": "114d992d9274359c6d29a53184df229e3cf64f502061f1a8aca37068ffb153c7"
+    },
+    {
+      "path": "CS5222/course-notes/Tutorial05.tex",
+      "before": "4d8da8e1317baac24b2a2ffcdacf6f2b9c83529d38a4011b68ea0d72ab1f8bd8",
+      "after": "1dba14ae0839349fa2e608b8f9d36b71e2754f0ceca4f70bfd450f6ef5cbc7a7"
+    },
+    {
+      "path": "CS5222/course-notes/Assignment01.tex",
+      "before": "861466d7537bd9ea24e2afca54e328374934eafedebad05c57e269fc8b033e40",
+      "after": "e495e9f8d4801cd4c5642f3226a322dca7a39244b39dc5e814063167d4f52135"
+    },
+    {
+      "path": "CS5222/course-notes/ResearchReportGuide.tex",
+      "before": "b56d48028965ccde82e69d4351128613762db7c565bfce5eee15e774800337f1",
+      "after": "578b47b133f486fa914245f4e4d7f44aeb74a5f904086f875fceda12b8468810"
+    },
+    {
+      "path": "learning/foundation-notes/MathForML.tex",
+      "before": "82d02948ce3043ec727509a74c23e96788ed22335a6dd5b9d557f457fbdf50f5",
+      "after": "36bf6a417ab5371a2e643241a22dfed051968ac4064ddef2ced34e5fdf4d1561"
+    },
+    {
+      "path": "learning/foundation-notes/NetworkBasics.tex",
+      "before": "d8cbce553003b11d1933f6b33aabd5a2748933a5dfc5a20bddf52bfdc636ad60",
+      "after": "9b2cc5b68a54c8408faa346a1692a951d29bf84f3ad8f37c88e99afc0b77c1c0"
+    },
+    {
+      "path": "learning/foundation-notes/SourceEvidence.tex",
+      "before": "7f980d7f92e9ce3d090ddf3fbef899003dc85d515e57644061b3b9b771973cbb",
+      "after": "f8e1569e7bdf8451fa0b965dd0410e2f4353f57595c122b5c99880f484951caf"
+    },
+    {
+      "path": "CS5489/exam-review/Midterm/items/MT051/explanation.tex",
+      "before": "8c34d3846ce109bd88e02dd69722bb1dfe8f2ad649605a2cb7d39fa4e40ecd3c",
+      "after": "a648e9c08ca17e4dae099cd6b29ff7befecd863e22e331e76e68dd91bfc09f39"
+    },
+    {
+      "path": "CS5489/exam-review/Midterm/items/MT042/explanation.tex",
+      "before": "a0981f1b8579a80210bb7ed418209b5113be92f422d95667cae8f26b567e768d",
+      "after": "6c627fd7d63ff06336a2deb989e16dab1d326faa9d190e11e40080676989ee93"
+    }
+  ],
+  "scope": "Initial Unicode and table normalization; final source hashes are in latex/manifest.json."
+}

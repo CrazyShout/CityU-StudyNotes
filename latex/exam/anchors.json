@@ -1,0 +1,279 @@
+{
+  "1": {
+    "overview": [
+      "CS5489-Lecture01__exam-review",
+      "CS5489-Lecture01__exam-focus"
+    ],
+    "focus-pipeline": [],
+    "focus-error-diagnosis": [],
+    "topics": [
+      "CS5489-Lecture01__exam-topic-index",
+      "CS5489-Lecture01__historical-exam-map",
+      "CS5489-Lecture01___3",
+      "CS5489-Lecture01___4"
+    ],
+    "topic_titles": {
+      "\\StudyHeading{2}{训练、验证与最终评价}": [
+        "CS5489-Lecture01___3"
+      ],
+      "\\StudyHeading{2}{训练与验证表现诊断}": [
+        "CS5489-Lecture01___4"
+      ]
+    }
+  },
+  "2": {
+    "overview": [
+      "CS5489-Lecture02___1",
+      "CS5489-Lecture02__exam-review",
+      "CS5489-Lecture02__exam-focus"
+    ],
+    "focus-generative": [],
+    "focus-prior-mle": [],
+    "focus-bayes-rule": [],
+    "focus-decision-boundaries": [],
+    "focus-gaussian-nb": [],
+    "focus-full-gaussian": [],
+    "focus-bow": [],
+    "focus-smoothing": [],
+    "focus-model-limits": [],
+    "topics": [
+      "CS5489-Lecture02__exam-topic-index",
+      "CS5489-Lecture02__historical-exam-map",
+      "CS5489-Lecture02___1-2",
+      "CS5489-Lecture02__bayes",
+      "CS5489-Lecture02__gaussian-nb-2",
+      "CS5489-Lecture02__mle",
+      "CS5489-Lecture02___2-2",
+      "CS5489-Lecture02___3-2",
+      "CS5489-Lecture02___4",
+      "CS5489-Lecture02__nb",
+      "CS5489-Lecture02___5",
+      "CS5489-Lecture02__qe-parameter-posterior-note",
+      "CS5489-Lecture02__mapqe"
+    ],
+    "topic_titles": {
+      "\\StudyHeading{2}{生成式模型与概率分工}": [
+        "CS5489-Lecture02___1-2"
+      ],
+      "\\StudyHeading{2}{Bayes决策与先验作用}": [
+        "CS5489-Lecture02__bayes"
+      ],
+      "\\StudyHeading{2}{条件独立与Gaussian NB}": [
+        "CS5489-Lecture02__gaussian-nb-2"
+      ],
+      "\\StudyHeading{2}{MLE学习思想}": [
+        "CS5489-Lecture02__mle"
+      ],
+      "\\StudyHeading{2}{线性与非线性边界}": [
+        "CS5489-Lecture02___2-2"
+      ],
+      "\\StudyHeading{2}{协方差与高斯形状}": [
+        "CS5489-Lecture02___3-2"
+      ],
+      "\\StudyHeading{2}{平滑与正则化}": [
+        "CS5489-Lecture02___4"
+      ],
+      "\\StudyHeading{2}{文本表示与NB改进}": [
+        "CS5489-Lecture02__nb"
+      ],
+      "\\StudyHeading{2}{误差、不确定性与模型局限}": [
+        "CS5489-Lecture02___5"
+      ],
+      "\\StudyHeading{2}{参数后验与MAP（QE延伸）}": [
+        "CS5489-Lecture02__qe-parameter-posterior-note",
+        "CS5489-Lecture02__mapqe"
+      ]
+    }
+  },
+  "3": {
+    "overview": [
+      "CS5489-Lecture03__exam-review",
+      "CS5489-Lecture03__exam-focus"
+    ],
+    "focus-linear": [],
+    "focus-logistic": [],
+    "focus-regularization": [],
+    "focus-svm": [],
+    "focus-kernels": [],
+    "focus-model-cost": [],
+    "focus-cost-threshold": [],
+    "focus-loss-shapes": [],
+    "focus-parameter-count": [],
+    "topics": [
+      "CS5489-Lecture03__exam-topic-index",
+      "CS5489-Lecture03__historical-exam-map",
+      "CS5489-Lecture03___6",
+      "CS5489-Lecture03___7",
+      "CS5489-Lecture03__logistic-2",
+      "CS5489-Lecture03__mapcv",
+      "CS5489-Lecture03__svm-2",
+      "CS5489-Lecture03___8",
+      "CS5489-Lecture03___9",
+      "CS5489-Lecture03___10",
+      "CS5489-Lecture03___11"
+    ],
+    "topic_titles": {
+      "\\StudyHeading{2}{生成式与判别式}": [
+        "CS5489-Lecture03___6"
+      ],
+      "\\StudyHeading{2}{模型参数计数}": [
+        "CS5489-Lecture03___7"
+      ],
+      "\\StudyHeading{2}{Logistic似然与优化}": [
+        "CS5489-Lecture03__logistic-2"
+      ],
+      "\\StudyHeading{2}{正则化、MAP与CV}": [
+        "CS5489-Lecture03__mapcv"
+      ],
+      "\\StudyHeading{2}{SVM间隔、松弛与对偶}": [
+        "CS5489-Lecture03__svm-2"
+      ],
+      "\\StudyHeading{2}{核技巧与合法性}": [
+        "CS5489-Lecture03___8"
+      ],
+      "\\StudyHeading{2}{求解维度与预测存储}": [
+        "CS5489-Lecture03___9"
+      ],
+      "\\StudyHeading{2}{不平衡、代价与阈值}": [
+        "CS5489-Lecture03___10"
+      ],
+      "\\StudyHeading{2}{分类损失曲线}": [
+        "CS5489-Lecture03___11"
+      ]
+    }
+  },
+  "4": {
+    "overview": [
+      "CS5489-Lecture04__exam-review",
+      "CS5489-Lecture04__exam-focus"
+    ],
+    "focus-ols": [],
+    "focus-ridge": [],
+    "focus-regression-losses": [],
+    "focus-kernel-regression": [],
+    "focus-ensembles": [],
+    "focus-forest-variance": [],
+    "topics": [
+      "CS5489-Lecture04__exam-topic-index",
+      "CS5489-Lecture04__historical-exam-map",
+      "CS5489-Lecture04__ols-2",
+      "CS5489-Lecture04__ridgelasso",
+      "CS5489-Lecture04___5",
+      "CS5489-Lecture04__baggingrfboosting",
+      "CS5489-Lecture04___6",
+      "CS5489-Lecture04__svr"
+    ],
+    "topic_titles": {
+      "\\StudyHeading{2}{OLS与基线}": [
+        "CS5489-Lecture04__ols-2"
+      ],
+      "\\StudyHeading{2}{Ridge、LASSO与特征选择}": [
+        "CS5489-Lecture04__ridgelasso"
+      ],
+      "\\StudyHeading{2}{稳健与非对称残差损失}": [
+        "CS5489-Lecture04___5"
+      ],
+      "\\StudyHeading{2}{Bagging、RF与boosting}": [
+        "CS5489-Lecture04__baggingrfboosting"
+      ],
+      "\\StudyHeading{2}{树间相关性与平均方差}": [
+        "CS5489-Lecture04___6"
+      ],
+      "\\StudyHeading{2}{核回归与SVR}": [
+        "CS5489-Lecture04__svr"
+      ]
+    }
+  },
+  "5": {
+    "overview": [
+      "CS5489-Lecture05__exam-review",
+      "CS5489-Lecture05__exam-focus"
+    ],
+    "focus-cross-entropy": [],
+    "focus-vanishing-gradient": [],
+    "focus-batch-backprop": [],
+    "focus-training": [],
+    "focus-monitoring": [],
+    "focus-capacity": [],
+    "topics": [
+      "CS5489-Lecture05__exam-topic-index",
+      "CS5489-Lecture05__historical-exam-map",
+      "CS5489-Lecture05___6",
+      "CS5489-Lecture05___7",
+      "CS5489-Lecture05___8",
+      "CS5489-Lecture05__mlp-2",
+      "CS5489-Lecture05__sgdmomentum",
+      "CS5489-Lecture05___9"
+    ],
+    "topic_titles": {
+      "\\StudyHeading{2}{输出概率与交叉熵}": [
+        "CS5489-Lecture05___6"
+      ],
+      "\\StudyHeading{2}{链式法则与反向传播}": [
+        "CS5489-Lecture05___7"
+      ],
+      "\\StudyHeading{2}{激活函数与梯度消失}": [
+        "CS5489-Lecture05___8"
+      ],
+      "\\StudyHeading{2}{MLP表达能力与深浅比较}": [
+        "CS5489-Lecture05__mlp-2"
+      ],
+      "\\StudyHeading{2}{SGD、学习率与momentum}": [
+        "CS5489-Lecture05__sgdmomentum"
+      ],
+      "\\StudyHeading{2}{正则化、曲线与早停}": [
+        "CS5489-Lecture05___9"
+      ]
+    }
+  },
+  "appendix": {
+    "\\StudyHeading{1}{2020B期中Quiz}": [
+      "CS5489-ExamIndex__paper-m20b",
+      "CS5489-ExamIndex__2020bquiz"
+    ],
+    "\\StudyHeading{1}{2021A期中}": [
+      "CS5489-ExamIndex__paper-m21a",
+      "CS5489-ExamIndex__2021a"
+    ],
+    "\\StudyHeading{1}{2021B*期中}": [
+      "CS5489-ExamIndex__paper-m21b",
+      "CS5489-ExamIndex__2021b"
+    ],
+    "\\StudyHeading{1}{2023A期中}": [
+      "CS5489-ExamIndex__paper-m23a",
+      "CS5489-ExamIndex__2023a"
+    ],
+    "\\StudyHeading{1}{2023B期中}": [
+      "CS5489-ExamIndex__paper-m23b",
+      "CS5489-ExamIndex__2023b"
+    ],
+    "\\StudyHeading{1}{2025A期中}": [
+      "CS5489-ExamIndex__paper-m25a",
+      "CS5489-ExamIndex__2025a"
+    ],
+    "\\StudyHeading{1}{2020B期末}": [
+      "CS5489-ExamIndex__paper-f20b",
+      "CS5489-ExamIndex__2020b"
+    ],
+    "\\StudyHeading{1}{2021A期末}": [
+      "CS5489-ExamIndex__paper-f21a",
+      "CS5489-ExamIndex__2021a_1"
+    ],
+    "\\StudyHeading{1}{2021B期末}": [
+      "CS5489-ExamIndex__paper-f21b",
+      "CS5489-ExamIndex__2021b_1"
+    ],
+    "\\StudyHeading{1}{Question Samples（年份未载）}": [
+      "CS5489-ExamIndex__paper-sample",
+      "CS5489-ExamIndex__question-samples"
+    ],
+    "\\StudyHeading{1}{Mock Exam（复用2023A题面）}": [
+      "CS5489-ExamIndex__paper-mock",
+      "CS5489-ExamIndex__mock-exam2023a"
+    ],
+    "\\StudyHeading{1}{CS5489 QE整理片段（年份未载）}": [
+      "CS5489-ExamIndex__paper-qe-u",
+      "CS5489-ExamIndex__cs5489-qe"
+    ]
+  }
+}

@@ -1,0 +1,7802 @@
+{
+  "Questions": {
+    "cs5489-midterm-questions": {
+      "qid": null,
+      "field": "cover"
+    },
+    "_1": {
+      "qid": null,
+      "field": "contents"
+    },
+    "mt011": {
+      "qid": "MT011",
+      "field": "title"
+    },
+    "english-question": {
+      "qid": "MT011",
+      "field": "question-en"
+    },
+    "_2": {
+      "qid": "MT011",
+      "field": "question-zh"
+    },
+    "mt004": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "mt004-cv": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "english-question_1": {
+      "qid": "MT004",
+      "field": "question-en"
+    },
+    "_3": {
+      "qid": "MT004",
+      "field": "question-zh"
+    },
+    "mt028": {
+      "qid": "MT028",
+      "field": "title"
+    },
+    "english-question_2": {
+      "qid": "MT028",
+      "field": "question-en"
+    },
+    "_4": {
+      "qid": "MT028",
+      "field": "question-zh"
+    },
+    "mt002": {
+      "qid": "MT002",
+      "field": "title"
+    },
+    "english-question_3": {
+      "qid": "MT002",
+      "field": "question-en"
+    },
+    "_5": {
+      "qid": "MT002",
+      "field": "question-zh"
+    },
+    "mt020": {
+      "qid": "MT020",
+      "field": "title"
+    },
+    "english-question_4": {
+      "qid": "MT020",
+      "field": "question-en"
+    },
+    "_6": {
+      "qid": "MT020",
+      "field": "question-zh"
+    },
+    "mt022": {
+      "qid": "MT022",
+      "field": "title"
+    },
+    "english-question_5": {
+      "qid": "MT022",
+      "field": "question-en"
+    },
+    "_7": {
+      "qid": "MT022",
+      "field": "question-zh"
+    },
+    "mt040": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "l2q05": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "mt040-bayesnaive-bayes": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "english-question_6": {
+      "qid": "MT040",
+      "field": "question-en"
+    },
+    "_8": {
+      "qid": "MT040",
+      "field": "question-zh"
+    },
+    "mt052": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "l2q01": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "english-question_7": {
+      "qid": "MT052",
+      "field": "question-en"
+    },
+    "_9": {
+      "qid": "MT052",
+      "field": "question-zh"
+    },
+    "mt046": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "l2q09": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "mt046-gaussian-nb": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "english-question_8": {
+      "qid": "MT046",
+      "field": "question-en"
+    },
+    "_10": {
+      "qid": "MT046",
+      "field": "question-zh"
+    },
+    "mt015": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "l2q08": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "mt015-nb": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "english-question_9": {
+      "qid": "MT015",
+      "field": "question-en"
+    },
+    "_11": {
+      "qid": "MT015",
+      "field": "question-zh"
+    },
+    "mt032": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "l2q06": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "mt032-bayesian-classifier": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "english-question_10": {
+      "qid": "MT032",
+      "field": "question-en"
+    },
+    "_12": {
+      "qid": "MT032",
+      "field": "question-zh"
+    },
+    "mt005": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "l2q07": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "mt005-nb": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "english-question_11": {
+      "qid": "MT005",
+      "field": "question-en"
+    },
+    "_13": {
+      "qid": "MT005",
+      "field": "question-zh"
+    },
+    "mt034": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "l2q15": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "english-question_12": {
+      "qid": "MT034",
+      "field": "question-en"
+    },
+    "_14": {
+      "qid": "MT034",
+      "field": "question-zh"
+    },
+    "mt014": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "l2q03": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "english-question_13": {
+      "qid": "MT014",
+      "field": "question-en"
+    },
+    "_15": {
+      "qid": "MT014",
+      "field": "question-zh"
+    },
+    "mt033": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "l2q04": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "english-question_14": {
+      "qid": "MT033",
+      "field": "question-en"
+    },
+    "_16": {
+      "qid": "MT033",
+      "field": "question-zh"
+    },
+    "mt059": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "l2q13": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "mt059-lrgaussian-nb": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "english-question_15": {
+      "qid": "MT059",
+      "field": "question-en"
+    },
+    "_17": {
+      "qid": "MT059",
+      "field": "question-zh"
+    },
+    "mt021": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "l2q12": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "english-question_16": {
+      "qid": "MT021",
+      "field": "question-en"
+    },
+    "_18": {
+      "qid": "MT021",
+      "field": "question-zh"
+    },
+    "mt017": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "l2q11": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "english-question_17": {
+      "qid": "MT017",
+      "field": "question-en"
+    },
+    "_19": {
+      "qid": "MT017",
+      "field": "question-zh"
+    },
+    "mt027": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "l2q10": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "mt027-nb": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "english-question_18": {
+      "qid": "MT027",
+      "field": "question-en"
+    },
+    "_20": {
+      "qid": "MT027",
+      "field": "question-zh"
+    },
+    "mt058": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "l2q16": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "mt058-nb": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "english-question_19": {
+      "qid": "MT058",
+      "field": "question-en"
+    },
+    "_21": {
+      "qid": "MT058",
+      "field": "question-zh"
+    },
+    "mt041": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "mt041-logistic": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "english-question_20": {
+      "qid": "MT041",
+      "field": "question-en"
+    },
+    "_22": {
+      "qid": "MT041",
+      "field": "question-zh"
+    },
+    "mt047": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "mt047-logistic": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "english-question_21": {
+      "qid": "MT047",
+      "field": "question-en"
+    },
+    "_23": {
+      "qid": "MT047",
+      "field": "question-zh"
+    },
+    "mt024": {
+      "qid": "MT024",
+      "field": "title"
+    },
+    "english-question_22": {
+      "qid": "MT024",
+      "field": "question-en"
+    },
+    "_24": {
+      "qid": "MT024",
+      "field": "question-zh"
+    },
+    "mt018": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "mt018-l2": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "english-question_23": {
+      "qid": "MT018",
+      "field": "question-en"
+    },
+    "_25": {
+      "qid": "MT018",
+      "field": "question-zh"
+    },
+    "mt012": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "mt012-l1": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "english-question_24": {
+      "qid": "MT012",
+      "field": "question-en"
+    },
+    "_26": {
+      "qid": "MT012",
+      "field": "question-zh"
+    },
+    "mt001": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "mt001-logistic": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "english-question_25": {
+      "qid": "MT001",
+      "field": "question-en"
+    },
+    "_27": {
+      "qid": "MT001",
+      "field": "question-zh"
+    },
+    "mt053": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "l2q14": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "mt053-lr": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "english-question_26": {
+      "qid": "MT053",
+      "field": "question-en"
+    },
+    "_28": {
+      "qid": "MT053",
+      "field": "question-zh"
+    },
+    "mt042": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "mt042-svm": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "english-question_27": {
+      "qid": "MT042",
+      "field": "question-en"
+    },
+    "_29": {
+      "qid": "MT042",
+      "field": "question-zh"
+    },
+    "mt048": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "mt048-kernel-trick": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "english-question_28": {
+      "qid": "MT048",
+      "field": "question-en"
+    },
+    "_30": {
+      "qid": "MT048",
+      "field": "question-zh"
+    },
+    "mt016": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "mt016-svm": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "english-question_29": {
+      "qid": "MT016",
+      "field": "question-en"
+    },
+    "_31": {
+      "qid": "MT016",
+      "field": "question-zh"
+    },
+    "mt031": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "mt031-rbf": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "english-question_30": {
+      "qid": "MT031",
+      "field": "question-en"
+    },
+    "_32": {
+      "qid": "MT031",
+      "field": "question-zh"
+    },
+    "mt055": {
+      "qid": "MT055",
+      "field": "title"
+    },
+    "english-question_31": {
+      "qid": "MT055",
+      "field": "question-en"
+    },
+    "_33": {
+      "qid": "MT055",
+      "field": "question-zh"
+    },
+    "mt060": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "mt060-svmcc": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "english-question_32": {
+      "qid": "MT060",
+      "field": "question-en"
+    },
+    "_34": {
+      "qid": "MT060",
+      "field": "question-zh"
+    },
+    "mt054": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "mt054-crbf": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "english-question_33": {
+      "qid": "MT054",
+      "field": "question-en"
+    },
+    "_35": {
+      "qid": "MT054",
+      "field": "question-zh"
+    },
+    "mt043": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "mt043-svm": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "english-question_34": {
+      "qid": "MT043",
+      "field": "question-en"
+    },
+    "_36": {
+      "qid": "MT043",
+      "field": "question-zh"
+    },
+    "mt029": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "mt029-svm": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "english-question_35": {
+      "qid": "MT029",
+      "field": "question-en"
+    },
+    "_37": {
+      "qid": "MT029",
+      "field": "question-zh"
+    },
+    "mt010": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "mt010-gaussian-bayessvm": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "english-question_36": {
+      "qid": "MT010",
+      "field": "question-en"
+    },
+    "_38": {
+      "qid": "MT010",
+      "field": "question-zh"
+    },
+    "mt009": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "mt009-svm": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "english-question_37": {
+      "qid": "MT009",
+      "field": "question-en"
+    },
+    "_39": {
+      "qid": "MT009",
+      "field": "question-zh"
+    },
+    "mt061": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "mt061-svmrbf-svm": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "english-question_38": {
+      "qid": "MT061",
+      "field": "question-en"
+    },
+    "_40": {
+      "qid": "MT061",
+      "field": "question-zh"
+    },
+    "mt019": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "mt019-ridgelasso": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "english-question_39": {
+      "qid": "MT019",
+      "field": "question-en"
+    },
+    "_41": {
+      "qid": "MT019",
+      "field": "question-zh"
+    },
+    "mt045": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "mt045-ridgeomp": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "english-question_40": {
+      "qid": "MT045",
+      "field": "question-en"
+    },
+    "_42": {
+      "qid": "MT045",
+      "field": "question-zh"
+    },
+    "mt030": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "mt030-l1l2": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "english-question_41": {
+      "qid": "MT030",
+      "field": "question-en"
+    },
+    "_43": {
+      "qid": "MT030",
+      "field": "question-zh"
+    },
+    "mt057": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "mt057-l1l2elastic-net": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "english-question_42": {
+      "qid": "MT057",
+      "field": "question-en"
+    },
+    "_44": {
+      "qid": "MT057",
+      "field": "question-zh"
+    },
+    "mt025": {
+      "qid": "MT025",
+      "field": "title"
+    },
+    "english-question_43": {
+      "qid": "MT025",
+      "field": "question-en"
+    },
+    "_45": {
+      "qid": "MT025",
+      "field": "question-zh"
+    },
+    "mt063": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "mt063-huber": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "english-question_44": {
+      "qid": "MT063",
+      "field": "question-en"
+    },
+    "_46": {
+      "qid": "MT063",
+      "field": "question-zh"
+    },
+    "mt013": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "mt013-l1l2": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "english-question_45": {
+      "qid": "MT013",
+      "field": "question-en"
+    },
+    "_47": {
+      "qid": "MT013",
+      "field": "question-zh"
+    },
+    "mt050": {
+      "qid": "MT050",
+      "field": "title"
+    },
+    "english-question_46": {
+      "qid": "MT050",
+      "field": "question-en"
+    },
+    "_48": {
+      "qid": "MT050",
+      "field": "question-zh"
+    },
+    "mt037": {
+      "qid": "MT037",
+      "field": "title"
+    },
+    "english-question_47": {
+      "qid": "MT037",
+      "field": "question-en"
+    },
+    "_49": {
+      "qid": "MT037",
+      "field": "question-zh"
+    },
+    "mt006": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "mt006-baggingboosting": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "english-question_48": {
+      "qid": "MT006",
+      "field": "question-en"
+    },
+    "_50": {
+      "qid": "MT006",
+      "field": "question-zh"
+    },
+    "mt044": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "mt044-boosting": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "english-question_49": {
+      "qid": "MT044",
+      "field": "question-en"
+    },
+    "_51": {
+      "qid": "MT044",
+      "field": "question-zh"
+    },
+    "mt062": {
+      "qid": "MT062",
+      "field": "title"
+    },
+    "english-question_50": {
+      "qid": "MT062",
+      "field": "question-en"
+    },
+    "_52": {
+      "qid": "MT062",
+      "field": "question-zh"
+    },
+    "mt056": {
+      "qid": "MT056",
+      "field": "title"
+    },
+    "english-question_51": {
+      "qid": "MT056",
+      "field": "question-en"
+    },
+    "_53": {
+      "qid": "MT056",
+      "field": "question-zh"
+    },
+    "mt038": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "mt038-100rfadaboost": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "english-question_52": {
+      "qid": "MT038",
+      "field": "question-en"
+    },
+    "_54": {
+      "qid": "MT038",
+      "field": "question-zh"
+    },
+    "mt049": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "mt049-adaboost": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "english-question_53": {
+      "qid": "MT049",
+      "field": "question-en"
+    },
+    "_55": {
+      "qid": "MT049",
+      "field": "question-zh"
+    },
+    "mt064": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "mt064-baggingboostinghuber": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "english-question_54": {
+      "qid": "MT064",
+      "field": "question-en"
+    },
+    "_56": {
+      "qid": "MT064",
+      "field": "question-zh"
+    },
+    "mt008": {
+      "qid": "MT008",
+      "field": "title"
+    },
+    "english-question_55": {
+      "qid": "MT008",
+      "field": "question-en"
+    },
+    "_57": {
+      "qid": "MT008",
+      "field": "question-zh"
+    },
+    "mt026": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "mt026-vz1": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "english-question_56": {
+      "qid": "MT026",
+      "field": "question-en"
+    },
+    "_58": {
+      "qid": "MT026",
+      "field": "question-zh"
+    },
+    "mt051": {
+      "qid": "MT051",
+      "field": "title"
+    },
+    "english-question_57": {
+      "qid": "MT051",
+      "field": "question-en"
+    },
+    "_59": {
+      "qid": "MT051",
+      "field": "question-zh"
+    },
+    "mt039": {
+      "qid": "MT039",
+      "field": "title"
+    },
+    "english-question_58": {
+      "qid": "MT039",
+      "field": "question-en"
+    },
+    "_60": {
+      "qid": "MT039",
+      "field": "question-zh"
+    },
+    "mt065": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "mt065-logistichingeexponential": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "english-question_59": {
+      "qid": "MT065",
+      "field": "question-en"
+    },
+    "_61": {
+      "qid": "MT065",
+      "field": "question-zh"
+    },
+    "mt007": {
+      "qid": "MT007",
+      "field": "title"
+    },
+    "english-question_60": {
+      "qid": "MT007",
+      "field": "question-en"
+    },
+    "_62": {
+      "qid": "MT007",
+      "field": "question-zh"
+    },
+    "mt023": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "mt023-100050": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "english-question_61": {
+      "qid": "MT023",
+      "field": "question-en"
+    },
+    "_63": {
+      "qid": "MT023",
+      "field": "question-zh"
+    },
+    "mt035": {
+      "qid": "MT035",
+      "field": "title"
+    },
+    "english-question_62": {
+      "qid": "MT035",
+      "field": "question-en"
+    },
+    "_64": {
+      "qid": "MT035",
+      "field": "question-zh"
+    },
+    "mt067": {
+      "qid": "MT067",
+      "field": "title"
+    },
+    "english-question_63": {
+      "qid": "MT067",
+      "field": "question-en"
+    },
+    "_65": {
+      "qid": "MT067",
+      "field": "question-zh"
+    },
+    "mt066": {
+      "qid": "MT066",
+      "field": "title"
+    },
+    "english-question_64": {
+      "qid": "MT066",
+      "field": "question-en"
+    },
+    "_66": {
+      "qid": "MT066",
+      "field": "question-zh"
+    },
+    "mt003": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "mt003-gaussian-process": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "english-question_65": {
+      "qid": "MT003",
+      "field": "question-en"
+    },
+    "_67": {
+      "qid": "MT003",
+      "field": "question-zh"
+    },
+    "mt036": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "mt036-gprf": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "english-question_66": {
+      "qid": "MT036",
+      "field": "question-en"
+    },
+    "_68": {
+      "qid": "MT036",
+      "field": "question-zh"
+    },
+    "root": {
+      "qid": null,
+      "field": "cover-root"
+    }
+  },
+  "Answers": {
+    "cs5489-midterm-answers-and-explanations": {
+      "qid": null,
+      "field": "cover"
+    },
+    "_1": {
+      "qid": null,
+      "field": "contents"
+    },
+    "mt011": {
+      "qid": "MT011",
+      "field": "title"
+    },
+    "_2": {
+      "qid": "MT011",
+      "field": "answer-prompt"
+    },
+    "english-answer": {
+      "qid": "MT011",
+      "field": "answer-en"
+    },
+    "_3": {
+      "qid": "MT011",
+      "field": "answer-zh"
+    },
+    "_4": {
+      "qid": "MT011",
+      "field": "explanation"
+    },
+    "mt004": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "mt004-cv": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "_5": {
+      "qid": "MT004",
+      "field": "answer-prompt"
+    },
+    "english-answer_1": {
+      "qid": "MT004",
+      "field": "answer-en"
+    },
+    "_6": {
+      "qid": "MT004",
+      "field": "answer-zh"
+    },
+    "_7": {
+      "qid": "MT004",
+      "field": "explanation"
+    },
+    "mt028": {
+      "qid": "MT028",
+      "field": "title"
+    },
+    "_8": {
+      "qid": "MT028",
+      "field": "answer-prompt"
+    },
+    "english-answer_2": {
+      "qid": "MT028",
+      "field": "answer-en"
+    },
+    "_9": {
+      "qid": "MT028",
+      "field": "answer-zh"
+    },
+    "_10": {
+      "qid": "MT028",
+      "field": "explanation"
+    },
+    "mt002": {
+      "qid": "MT002",
+      "field": "title"
+    },
+    "_11": {
+      "qid": "MT002",
+      "field": "answer-prompt"
+    },
+    "english-answer_3": {
+      "qid": "MT002",
+      "field": "answer-en"
+    },
+    "_12": {
+      "qid": "MT002",
+      "field": "answer-zh"
+    },
+    "_13": {
+      "qid": "MT002",
+      "field": "explanation"
+    },
+    "mt020": {
+      "qid": "MT020",
+      "field": "title"
+    },
+    "_14": {
+      "qid": "MT020",
+      "field": "answer-prompt"
+    },
+    "english-answer_4": {
+      "qid": "MT020",
+      "field": "answer-en"
+    },
+    "_15": {
+      "qid": "MT020",
+      "field": "answer-zh"
+    },
+    "_16": {
+      "qid": "MT020",
+      "field": "explanation"
+    },
+    "mt022": {
+      "qid": "MT022",
+      "field": "title"
+    },
+    "_17": {
+      "qid": "MT022",
+      "field": "answer-prompt"
+    },
+    "english-answer_5": {
+      "qid": "MT022",
+      "field": "answer-en"
+    },
+    "_18": {
+      "qid": "MT022",
+      "field": "answer-zh"
+    },
+    "_19": {
+      "qid": "MT022",
+      "field": "explanation"
+    },
+    "mt040": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "l2q05": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "mt040-bayesnaive-bayes": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "_20": {
+      "qid": "MT040",
+      "field": "answer-prompt"
+    },
+    "english-answer_6": {
+      "qid": "MT040",
+      "field": "answer-en"
+    },
+    "_21": {
+      "qid": "MT040",
+      "field": "answer-zh"
+    },
+    "_22": {
+      "qid": "MT040",
+      "field": "explanation"
+    },
+    "mt052": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "l2q01": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "_23": {
+      "qid": "MT052",
+      "field": "answer-prompt"
+    },
+    "english-answer_7": {
+      "qid": "MT052",
+      "field": "answer-en"
+    },
+    "_24": {
+      "qid": "MT052",
+      "field": "answer-zh"
+    },
+    "_25": {
+      "qid": "MT052",
+      "field": "explanation"
+    },
+    "mt046": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "l2q09": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "mt046-gaussian-nb": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "_26": {
+      "qid": "MT046",
+      "field": "answer-prompt"
+    },
+    "english-answer_8": {
+      "qid": "MT046",
+      "field": "answer-en"
+    },
+    "_27": {
+      "qid": "MT046",
+      "field": "answer-zh"
+    },
+    "_28": {
+      "qid": "MT046",
+      "field": "explanation"
+    },
+    "mt015": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "l2q08": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "mt015-nb": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "_29": {
+      "qid": "MT015",
+      "field": "answer-prompt"
+    },
+    "english-answer_9": {
+      "qid": "MT015",
+      "field": "answer-en"
+    },
+    "_30": {
+      "qid": "MT015",
+      "field": "answer-zh"
+    },
+    "_31": {
+      "qid": "MT015",
+      "field": "explanation"
+    },
+    "mt032": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "l2q06": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "mt032-bayesian-classifier": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "_32": {
+      "qid": "MT032",
+      "field": "answer-prompt"
+    },
+    "english-answer_10": {
+      "qid": "MT032",
+      "field": "answer-en"
+    },
+    "_33": {
+      "qid": "MT032",
+      "field": "answer-zh"
+    },
+    "_34": {
+      "qid": "MT032",
+      "field": "explanation"
+    },
+    "mt005": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "l2q07": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "mt005-nb": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "_35": {
+      "qid": "MT005",
+      "field": "answer-prompt"
+    },
+    "english-answer_11": {
+      "qid": "MT005",
+      "field": "answer-en"
+    },
+    "_36": {
+      "qid": "MT005",
+      "field": "answer-zh"
+    },
+    "_37": {
+      "qid": "MT005",
+      "field": "explanation"
+    },
+    "mt034": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "l2q15": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "_38": {
+      "qid": "MT034",
+      "field": "answer-prompt"
+    },
+    "english-answer_12": {
+      "qid": "MT034",
+      "field": "answer-en"
+    },
+    "_39": {
+      "qid": "MT034",
+      "field": "answer-zh"
+    },
+    "_40": {
+      "qid": "MT034",
+      "field": "explanation"
+    },
+    "mt014": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "l2q03": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "_41": {
+      "qid": "MT014",
+      "field": "answer-prompt"
+    },
+    "english-answer_13": {
+      "qid": "MT014",
+      "field": "answer-en"
+    },
+    "_42": {
+      "qid": "MT014",
+      "field": "answer-zh"
+    },
+    "_43": {
+      "qid": "MT014",
+      "field": "explanation"
+    },
+    "mt033": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "l2q04": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "_44": {
+      "qid": "MT033",
+      "field": "answer-prompt"
+    },
+    "english-answer_14": {
+      "qid": "MT033",
+      "field": "answer-en"
+    },
+    "_45": {
+      "qid": "MT033",
+      "field": "answer-zh"
+    },
+    "_46": {
+      "qid": "MT033",
+      "field": "explanation"
+    },
+    "mt059": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "l2q13": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "mt059-lrgaussian-nb": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "_47": {
+      "qid": "MT059",
+      "field": "answer-prompt"
+    },
+    "english-answer_15": {
+      "qid": "MT059",
+      "field": "answer-en"
+    },
+    "_48": {
+      "qid": "MT059",
+      "field": "answer-zh"
+    },
+    "_49": {
+      "qid": "MT059",
+      "field": "explanation"
+    },
+    "mt021": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "l2q12": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "_50": {
+      "qid": "MT021",
+      "field": "answer-prompt"
+    },
+    "english-answer_16": {
+      "qid": "MT021",
+      "field": "answer-en"
+    },
+    "_51": {
+      "qid": "MT021",
+      "field": "answer-zh"
+    },
+    "_52": {
+      "qid": "MT021",
+      "field": "explanation"
+    },
+    "mt017": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "l2q11": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "_53": {
+      "qid": "MT017",
+      "field": "answer-prompt"
+    },
+    "english-answer_17": {
+      "qid": "MT017",
+      "field": "answer-en"
+    },
+    "_54": {
+      "qid": "MT017",
+      "field": "answer-zh"
+    },
+    "_55": {
+      "qid": "MT017",
+      "field": "explanation"
+    },
+    "mt027": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "l2q10": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "mt027-nb": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "_56": {
+      "qid": "MT027",
+      "field": "answer-prompt"
+    },
+    "english-answer_18": {
+      "qid": "MT027",
+      "field": "answer-en"
+    },
+    "_57": {
+      "qid": "MT027",
+      "field": "answer-zh"
+    },
+    "_58": {
+      "qid": "MT027",
+      "field": "explanation"
+    },
+    "mt058": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "l2q16": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "mt058-nb": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "_59": {
+      "qid": "MT058",
+      "field": "answer-prompt"
+    },
+    "english-answer_19": {
+      "qid": "MT058",
+      "field": "answer-en"
+    },
+    "_60": {
+      "qid": "MT058",
+      "field": "answer-zh"
+    },
+    "_61": {
+      "qid": "MT058",
+      "field": "explanation"
+    },
+    "mt041": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "mt041-logistic": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "_62": {
+      "qid": "MT041",
+      "field": "answer-prompt"
+    },
+    "english-answer_20": {
+      "qid": "MT041",
+      "field": "answer-en"
+    },
+    "_63": {
+      "qid": "MT041",
+      "field": "answer-zh"
+    },
+    "_64": {
+      "qid": "MT041",
+      "field": "explanation"
+    },
+    "mt047": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "mt047-logistic": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "_65": {
+      "qid": "MT047",
+      "field": "answer-prompt"
+    },
+    "english-answer_21": {
+      "qid": "MT047",
+      "field": "answer-en"
+    },
+    "_66": {
+      "qid": "MT047",
+      "field": "answer-zh"
+    },
+    "_67": {
+      "qid": "MT047",
+      "field": "explanation"
+    },
+    "mt024": {
+      "qid": "MT024",
+      "field": "title"
+    },
+    "_68": {
+      "qid": "MT024",
+      "field": "answer-prompt"
+    },
+    "english-answer_22": {
+      "qid": "MT024",
+      "field": "answer-en"
+    },
+    "_69": {
+      "qid": "MT024",
+      "field": "answer-zh"
+    },
+    "_70": {
+      "qid": "MT024",
+      "field": "explanation"
+    },
+    "mt018": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "mt018-l2": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "_71": {
+      "qid": "MT018",
+      "field": "answer-prompt"
+    },
+    "english-answer_23": {
+      "qid": "MT018",
+      "field": "answer-en"
+    },
+    "_72": {
+      "qid": "MT018",
+      "field": "answer-zh"
+    },
+    "_73": {
+      "qid": "MT018",
+      "field": "explanation"
+    },
+    "mt012": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "mt012-l1": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "_74": {
+      "qid": "MT012",
+      "field": "answer-prompt"
+    },
+    "english-answer_24": {
+      "qid": "MT012",
+      "field": "answer-en"
+    },
+    "_75": {
+      "qid": "MT012",
+      "field": "answer-zh"
+    },
+    "_76": {
+      "qid": "MT012",
+      "field": "explanation"
+    },
+    "mt001": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "mt001-logistic": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "_77": {
+      "qid": "MT001",
+      "field": "answer-prompt"
+    },
+    "english-answer_25": {
+      "qid": "MT001",
+      "field": "answer-en"
+    },
+    "_78": {
+      "qid": "MT001",
+      "field": "answer-zh"
+    },
+    "_79": {
+      "qid": "MT001",
+      "field": "explanation"
+    },
+    "mt053": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "l2q14": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "mt053-lr": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "_80": {
+      "qid": "MT053",
+      "field": "answer-prompt"
+    },
+    "english-answer_26": {
+      "qid": "MT053",
+      "field": "answer-en"
+    },
+    "_81": {
+      "qid": "MT053",
+      "field": "answer-zh"
+    },
+    "_82": {
+      "qid": "MT053",
+      "field": "explanation"
+    },
+    "mt042": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "mt042-svm": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "_83": {
+      "qid": "MT042",
+      "field": "answer-prompt"
+    },
+    "english-answer_27": {
+      "qid": "MT042",
+      "field": "answer-en"
+    },
+    "_84": {
+      "qid": "MT042",
+      "field": "answer-zh"
+    },
+    "_85": {
+      "qid": "MT042",
+      "field": "explanation"
+    },
+    "mt048": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "mt048-kernel-trick": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "_86": {
+      "qid": "MT048",
+      "field": "answer-prompt"
+    },
+    "english-answer_28": {
+      "qid": "MT048",
+      "field": "answer-en"
+    },
+    "_87": {
+      "qid": "MT048",
+      "field": "answer-zh"
+    },
+    "_88": {
+      "qid": "MT048",
+      "field": "explanation"
+    },
+    "mt016": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "mt016-svm": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "_89": {
+      "qid": "MT016",
+      "field": "answer-prompt"
+    },
+    "english-answer_29": {
+      "qid": "MT016",
+      "field": "answer-en"
+    },
+    "_90": {
+      "qid": "MT016",
+      "field": "answer-zh"
+    },
+    "_91": {
+      "qid": "MT016",
+      "field": "explanation"
+    },
+    "mt031": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "mt031-rbf": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "_92": {
+      "qid": "MT031",
+      "field": "answer-prompt"
+    },
+    "english-answer_30": {
+      "qid": "MT031",
+      "field": "answer-en"
+    },
+    "_93": {
+      "qid": "MT031",
+      "field": "answer-zh"
+    },
+    "_94": {
+      "qid": "MT031",
+      "field": "explanation"
+    },
+    "mt055": {
+      "qid": "MT055",
+      "field": "title"
+    },
+    "_95": {
+      "qid": "MT055",
+      "field": "answer-prompt"
+    },
+    "english-answer_31": {
+      "qid": "MT055",
+      "field": "answer-en"
+    },
+    "_96": {
+      "qid": "MT055",
+      "field": "answer-zh"
+    },
+    "_97": {
+      "qid": "MT055",
+      "field": "explanation"
+    },
+    "mt060": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "mt060-svmcc": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "_98": {
+      "qid": "MT060",
+      "field": "answer-prompt"
+    },
+    "english-answer_32": {
+      "qid": "MT060",
+      "field": "answer-en"
+    },
+    "_99": {
+      "qid": "MT060",
+      "field": "answer-zh"
+    },
+    "_100": {
+      "qid": "MT060",
+      "field": "explanation"
+    },
+    "mt054": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "mt054-crbf": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "_101": {
+      "qid": "MT054",
+      "field": "answer-prompt"
+    },
+    "english-answer_33": {
+      "qid": "MT054",
+      "field": "answer-en"
+    },
+    "_102": {
+      "qid": "MT054",
+      "field": "answer-zh"
+    },
+    "_103": {
+      "qid": "MT054",
+      "field": "explanation"
+    },
+    "mt043": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "mt043-svm": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "_104": {
+      "qid": "MT043",
+      "field": "answer-prompt"
+    },
+    "english-answer_34": {
+      "qid": "MT043",
+      "field": "answer-en"
+    },
+    "_105": {
+      "qid": "MT043",
+      "field": "answer-zh"
+    },
+    "_106": {
+      "qid": "MT043",
+      "field": "explanation"
+    },
+    "mt029": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "mt029-svm": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "_107": {
+      "qid": "MT029",
+      "field": "answer-prompt"
+    },
+    "english-answer_35": {
+      "qid": "MT029",
+      "field": "answer-en"
+    },
+    "_108": {
+      "qid": "MT029",
+      "field": "answer-zh"
+    },
+    "_109": {
+      "qid": "MT029",
+      "field": "explanation"
+    },
+    "mt010": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "mt010-gaussian-bayessvm": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "_110": {
+      "qid": "MT010",
+      "field": "answer-prompt"
+    },
+    "english-answer_36": {
+      "qid": "MT010",
+      "field": "answer-en"
+    },
+    "_111": {
+      "qid": "MT010",
+      "field": "answer-zh"
+    },
+    "_112": {
+      "qid": "MT010",
+      "field": "explanation"
+    },
+    "mt009": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "mt009-svm": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "_113": {
+      "qid": "MT009",
+      "field": "answer-prompt"
+    },
+    "english-answer_37": {
+      "qid": "MT009",
+      "field": "answer-en"
+    },
+    "_114": {
+      "qid": "MT009",
+      "field": "answer-zh"
+    },
+    "_115": {
+      "qid": "MT009",
+      "field": "explanation"
+    },
+    "mt061": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "mt061-svmrbf-svm": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "_116": {
+      "qid": "MT061",
+      "field": "answer-prompt"
+    },
+    "english-answer_38": {
+      "qid": "MT061",
+      "field": "answer-en"
+    },
+    "_117": {
+      "qid": "MT061",
+      "field": "answer-zh"
+    },
+    "_118": {
+      "qid": "MT061",
+      "field": "explanation"
+    },
+    "mt019": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "mt019-ridgelasso": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "_119": {
+      "qid": "MT019",
+      "field": "answer-prompt"
+    },
+    "english-answer_39": {
+      "qid": "MT019",
+      "field": "answer-en"
+    },
+    "_120": {
+      "qid": "MT019",
+      "field": "answer-zh"
+    },
+    "_121": {
+      "qid": "MT019",
+      "field": "explanation"
+    },
+    "mt045": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "mt045-ridgeomp": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "_122": {
+      "qid": "MT045",
+      "field": "answer-prompt"
+    },
+    "english-answer_40": {
+      "qid": "MT045",
+      "field": "answer-en"
+    },
+    "_123": {
+      "qid": "MT045",
+      "field": "answer-zh"
+    },
+    "_124": {
+      "qid": "MT045",
+      "field": "explanation"
+    },
+    "mt030": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "mt030-l1l2": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "_125": {
+      "qid": "MT030",
+      "field": "answer-prompt"
+    },
+    "english-answer_41": {
+      "qid": "MT030",
+      "field": "answer-en"
+    },
+    "_126": {
+      "qid": "MT030",
+      "field": "answer-zh"
+    },
+    "_127": {
+      "qid": "MT030",
+      "field": "explanation"
+    },
+    "mt057": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "mt057-l1l2elastic-net": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "_128": {
+      "qid": "MT057",
+      "field": "answer-prompt"
+    },
+    "english-answer_42": {
+      "qid": "MT057",
+      "field": "answer-en"
+    },
+    "_129": {
+      "qid": "MT057",
+      "field": "answer-zh"
+    },
+    "_130": {
+      "qid": "MT057",
+      "field": "explanation"
+    },
+    "mt025": {
+      "qid": "MT025",
+      "field": "title"
+    },
+    "_131": {
+      "qid": "MT025",
+      "field": "answer-prompt"
+    },
+    "english-answer_43": {
+      "qid": "MT025",
+      "field": "answer-en"
+    },
+    "_132": {
+      "qid": "MT025",
+      "field": "answer-zh"
+    },
+    "_133": {
+      "qid": "MT025",
+      "field": "explanation"
+    },
+    "mt063": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "mt063-huber": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "_134": {
+      "qid": "MT063",
+      "field": "answer-prompt"
+    },
+    "english-answer_44": {
+      "qid": "MT063",
+      "field": "answer-en"
+    },
+    "_135": {
+      "qid": "MT063",
+      "field": "answer-zh"
+    },
+    "_136": {
+      "qid": "MT063",
+      "field": "explanation"
+    },
+    "mt013": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "mt013-l1l2": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "_137": {
+      "qid": "MT013",
+      "field": "answer-prompt"
+    },
+    "english-answer_45": {
+      "qid": "MT013",
+      "field": "answer-en"
+    },
+    "_138": {
+      "qid": "MT013",
+      "field": "answer-zh"
+    },
+    "_139": {
+      "qid": "MT013",
+      "field": "explanation"
+    },
+    "mt050": {
+      "qid": "MT050",
+      "field": "title"
+    },
+    "_140": {
+      "qid": "MT050",
+      "field": "answer-prompt"
+    },
+    "english-answer_46": {
+      "qid": "MT050",
+      "field": "answer-en"
+    },
+    "_141": {
+      "qid": "MT050",
+      "field": "answer-zh"
+    },
+    "_142": {
+      "qid": "MT050",
+      "field": "explanation"
+    },
+    "mt037": {
+      "qid": "MT037",
+      "field": "title"
+    },
+    "_143": {
+      "qid": "MT037",
+      "field": "answer-prompt"
+    },
+    "english-answer_47": {
+      "qid": "MT037",
+      "field": "answer-en"
+    },
+    "_144": {
+      "qid": "MT037",
+      "field": "answer-zh"
+    },
+    "_145": {
+      "qid": "MT037",
+      "field": "explanation"
+    },
+    "mt006": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "mt006-baggingboosting": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "_146": {
+      "qid": "MT006",
+      "field": "answer-prompt"
+    },
+    "english-answer_48": {
+      "qid": "MT006",
+      "field": "answer-en"
+    },
+    "_147": {
+      "qid": "MT006",
+      "field": "answer-zh"
+    },
+    "_148": {
+      "qid": "MT006",
+      "field": "explanation"
+    },
+    "mt044": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "mt044-boosting": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "_149": {
+      "qid": "MT044",
+      "field": "answer-prompt"
+    },
+    "english-answer_49": {
+      "qid": "MT044",
+      "field": "answer-en"
+    },
+    "_150": {
+      "qid": "MT044",
+      "field": "answer-zh"
+    },
+    "_151": {
+      "qid": "MT044",
+      "field": "explanation"
+    },
+    "mt062": {
+      "qid": "MT062",
+      "field": "title"
+    },
+    "_152": {
+      "qid": "MT062",
+      "field": "answer-prompt"
+    },
+    "english-answer_50": {
+      "qid": "MT062",
+      "field": "answer-en"
+    },
+    "_153": {
+      "qid": "MT062",
+      "field": "answer-zh"
+    },
+    "_154": {
+      "qid": "MT062",
+      "field": "explanation"
+    },
+    "mt056": {
+      "qid": "MT056",
+      "field": "title"
+    },
+    "_155": {
+      "qid": "MT056",
+      "field": "answer-prompt"
+    },
+    "english-answer_51": {
+      "qid": "MT056",
+      "field": "answer-en"
+    },
+    "_156": {
+      "qid": "MT056",
+      "field": "answer-zh"
+    },
+    "_157": {
+      "qid": "MT056",
+      "field": "explanation"
+    },
+    "mt038": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "mt038-100rfadaboost": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "_158": {
+      "qid": "MT038",
+      "field": "answer-prompt"
+    },
+    "english-answer_52": {
+      "qid": "MT038",
+      "field": "answer-en"
+    },
+    "_159": {
+      "qid": "MT038",
+      "field": "answer-zh"
+    },
+    "_160": {
+      "qid": "MT038",
+      "field": "explanation"
+    },
+    "mt049": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "mt049-adaboost": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "_161": {
+      "qid": "MT049",
+      "field": "answer-prompt"
+    },
+    "english-answer_53": {
+      "qid": "MT049",
+      "field": "answer-en"
+    },
+    "_162": {
+      "qid": "MT049",
+      "field": "answer-zh"
+    },
+    "_163": {
+      "qid": "MT049",
+      "field": "explanation"
+    },
+    "mt064": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "mt064-baggingboostinghuber": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "_164": {
+      "qid": "MT064",
+      "field": "answer-prompt"
+    },
+    "english-answer_54": {
+      "qid": "MT064",
+      "field": "answer-en"
+    },
+    "_165": {
+      "qid": "MT064",
+      "field": "answer-zh"
+    },
+    "_166": {
+      "qid": "MT064",
+      "field": "explanation"
+    },
+    "mt008": {
+      "qid": "MT008",
+      "field": "title"
+    },
+    "_167": {
+      "qid": "MT008",
+      "field": "answer-prompt"
+    },
+    "english-answer_55": {
+      "qid": "MT008",
+      "field": "answer-en"
+    },
+    "_168": {
+      "qid": "MT008",
+      "field": "answer-zh"
+    },
+    "_169": {
+      "qid": "MT008",
+      "field": "explanation"
+    },
+    "mt026": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "mt026-vz1": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "_170": {
+      "qid": "MT026",
+      "field": "answer-prompt"
+    },
+    "english-answer_56": {
+      "qid": "MT026",
+      "field": "answer-en"
+    },
+    "_171": {
+      "qid": "MT026",
+      "field": "answer-zh"
+    },
+    "_172": {
+      "qid": "MT026",
+      "field": "explanation"
+    },
+    "mt051": {
+      "qid": "MT051",
+      "field": "title"
+    },
+    "_173": {
+      "qid": "MT051",
+      "field": "answer-prompt"
+    },
+    "english-answer_57": {
+      "qid": "MT051",
+      "field": "answer-en"
+    },
+    "_174": {
+      "qid": "MT051",
+      "field": "answer-zh"
+    },
+    "_175": {
+      "qid": "MT051",
+      "field": "explanation"
+    },
+    "mt039": {
+      "qid": "MT039",
+      "field": "title"
+    },
+    "_176": {
+      "qid": "MT039",
+      "field": "answer-prompt"
+    },
+    "english-answer_58": {
+      "qid": "MT039",
+      "field": "answer-en"
+    },
+    "_177": {
+      "qid": "MT039",
+      "field": "answer-zh"
+    },
+    "_178": {
+      "qid": "MT039",
+      "field": "explanation"
+    },
+    "mt065": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "mt065-logistichingeexponential": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "_179": {
+      "qid": "MT065",
+      "field": "answer-prompt"
+    },
+    "english-answer_59": {
+      "qid": "MT065",
+      "field": "answer-en"
+    },
+    "_180": {
+      "qid": "MT065",
+      "field": "answer-zh"
+    },
+    "_181": {
+      "qid": "MT065",
+      "field": "explanation"
+    },
+    "mt007": {
+      "qid": "MT007",
+      "field": "title"
+    },
+    "_182": {
+      "qid": "MT007",
+      "field": "answer-prompt"
+    },
+    "english-answer_60": {
+      "qid": "MT007",
+      "field": "answer-en"
+    },
+    "_183": {
+      "qid": "MT007",
+      "field": "answer-zh"
+    },
+    "_184": {
+      "qid": "MT007",
+      "field": "explanation"
+    },
+    "mt023": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "mt023-100050": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "_185": {
+      "qid": "MT023",
+      "field": "answer-prompt"
+    },
+    "english-answer_61": {
+      "qid": "MT023",
+      "field": "answer-en"
+    },
+    "_186": {
+      "qid": "MT023",
+      "field": "answer-zh"
+    },
+    "_187": {
+      "qid": "MT023",
+      "field": "explanation"
+    },
+    "mt035": {
+      "qid": "MT035",
+      "field": "title"
+    },
+    "_188": {
+      "qid": "MT035",
+      "field": "answer-prompt"
+    },
+    "english-answer_62": {
+      "qid": "MT035",
+      "field": "answer-en"
+    },
+    "_189": {
+      "qid": "MT035",
+      "field": "answer-zh"
+    },
+    "_190": {
+      "qid": "MT035",
+      "field": "explanation"
+    },
+    "mt067": {
+      "qid": "MT067",
+      "field": "title"
+    },
+    "_191": {
+      "qid": "MT067",
+      "field": "answer-prompt"
+    },
+    "english-answer_63": {
+      "qid": "MT067",
+      "field": "answer-en"
+    },
+    "_192": {
+      "qid": "MT067",
+      "field": "answer-zh"
+    },
+    "_193": {
+      "qid": "MT067",
+      "field": "explanation"
+    },
+    "mt066": {
+      "qid": "MT066",
+      "field": "title"
+    },
+    "_194": {
+      "qid": "MT066",
+      "field": "answer-prompt"
+    },
+    "english-answer_64": {
+      "qid": "MT066",
+      "field": "answer-en"
+    },
+    "_195": {
+      "qid": "MT066",
+      "field": "answer-zh"
+    },
+    "_196": {
+      "qid": "MT066",
+      "field": "explanation"
+    },
+    "mt003": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "mt003-gaussian-process": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "_197": {
+      "qid": "MT003",
+      "field": "answer-prompt"
+    },
+    "english-answer_65": {
+      "qid": "MT003",
+      "field": "answer-en"
+    },
+    "_198": {
+      "qid": "MT003",
+      "field": "answer-zh"
+    },
+    "_199": {
+      "qid": "MT003",
+      "field": "explanation"
+    },
+    "mt036": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "mt036-gprf": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "_200": {
+      "qid": "MT036",
+      "field": "answer-prompt"
+    },
+    "english-answer_66": {
+      "qid": "MT036",
+      "field": "answer-en"
+    },
+    "_201": {
+      "qid": "MT036",
+      "field": "answer-zh"
+    },
+    "_202": {
+      "qid": "MT036",
+      "field": "explanation"
+    },
+    "source-differences": {
+      "qid": null,
+      "field": "source-differences"
+    },
+    "root": {
+      "qid": null,
+      "field": "cover-root"
+    }
+  },
+  "Combined": {
+    "cs5489-midterm-questions-and-answers": {
+      "qid": null,
+      "field": "cover"
+    },
+    "_1": {
+      "qid": null,
+      "field": "contents"
+    },
+    "mt011": {
+      "qid": "MT011",
+      "field": "title"
+    },
+    "english-question": {
+      "qid": "MT011",
+      "field": "question-en"
+    },
+    "_2": {
+      "qid": "MT011",
+      "field": "question-zh"
+    },
+    "english-answer": {
+      "qid": "MT011",
+      "field": "answer-en"
+    },
+    "_3": {
+      "qid": "MT011",
+      "field": "answer-zh"
+    },
+    "_4": {
+      "qid": "MT011",
+      "field": "explanation"
+    },
+    "mt004": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "mt004-cv": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "english-question_1": {
+      "qid": "MT004",
+      "field": "question-en"
+    },
+    "_5": {
+      "qid": "MT004",
+      "field": "question-zh"
+    },
+    "english-answer_1": {
+      "qid": "MT004",
+      "field": "answer-en"
+    },
+    "_6": {
+      "qid": "MT004",
+      "field": "answer-zh"
+    },
+    "_7": {
+      "qid": "MT004",
+      "field": "explanation"
+    },
+    "mt028": {
+      "qid": "MT028",
+      "field": "title"
+    },
+    "english-question_2": {
+      "qid": "MT028",
+      "field": "question-en"
+    },
+    "_8": {
+      "qid": "MT028",
+      "field": "question-zh"
+    },
+    "english-answer_2": {
+      "qid": "MT028",
+      "field": "answer-en"
+    },
+    "_9": {
+      "qid": "MT028",
+      "field": "answer-zh"
+    },
+    "_10": {
+      "qid": "MT028",
+      "field": "explanation"
+    },
+    "mt002": {
+      "qid": "MT002",
+      "field": "title"
+    },
+    "english-question_3": {
+      "qid": "MT002",
+      "field": "question-en"
+    },
+    "_11": {
+      "qid": "MT002",
+      "field": "question-zh"
+    },
+    "english-answer_3": {
+      "qid": "MT002",
+      "field": "answer-en"
+    },
+    "_12": {
+      "qid": "MT002",
+      "field": "answer-zh"
+    },
+    "_13": {
+      "qid": "MT002",
+      "field": "explanation"
+    },
+    "mt020": {
+      "qid": "MT020",
+      "field": "title"
+    },
+    "english-question_4": {
+      "qid": "MT020",
+      "field": "question-en"
+    },
+    "_14": {
+      "qid": "MT020",
+      "field": "question-zh"
+    },
+    "english-answer_4": {
+      "qid": "MT020",
+      "field": "answer-en"
+    },
+    "_15": {
+      "qid": "MT020",
+      "field": "answer-zh"
+    },
+    "_16": {
+      "qid": "MT020",
+      "field": "explanation"
+    },
+    "mt022": {
+      "qid": "MT022",
+      "field": "title"
+    },
+    "english-question_5": {
+      "qid": "MT022",
+      "field": "question-en"
+    },
+    "_17": {
+      "qid": "MT022",
+      "field": "question-zh"
+    },
+    "english-answer_5": {
+      "qid": "MT022",
+      "field": "answer-en"
+    },
+    "_18": {
+      "qid": "MT022",
+      "field": "answer-zh"
+    },
+    "_19": {
+      "qid": "MT022",
+      "field": "explanation"
+    },
+    "mt040": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "l2q05": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "mt040-bayesnaive-bayes": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "english-question_6": {
+      "qid": "MT040",
+      "field": "question-en"
+    },
+    "_20": {
+      "qid": "MT040",
+      "field": "question-zh"
+    },
+    "english-answer_6": {
+      "qid": "MT040",
+      "field": "answer-en"
+    },
+    "_21": {
+      "qid": "MT040",
+      "field": "answer-zh"
+    },
+    "_22": {
+      "qid": "MT040",
+      "field": "explanation"
+    },
+    "mt052": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "l2q01": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "english-question_7": {
+      "qid": "MT052",
+      "field": "question-en"
+    },
+    "_23": {
+      "qid": "MT052",
+      "field": "question-zh"
+    },
+    "english-answer_7": {
+      "qid": "MT052",
+      "field": "answer-en"
+    },
+    "_24": {
+      "qid": "MT052",
+      "field": "answer-zh"
+    },
+    "_25": {
+      "qid": "MT052",
+      "field": "explanation"
+    },
+    "mt046": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "l2q09": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "mt046-gaussian-nb": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "english-question_8": {
+      "qid": "MT046",
+      "field": "question-en"
+    },
+    "_26": {
+      "qid": "MT046",
+      "field": "question-zh"
+    },
+    "english-answer_8": {
+      "qid": "MT046",
+      "field": "answer-en"
+    },
+    "_27": {
+      "qid": "MT046",
+      "field": "answer-zh"
+    },
+    "_28": {
+      "qid": "MT046",
+      "field": "explanation"
+    },
+    "mt015": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "l2q08": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "mt015-nb": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "english-question_9": {
+      "qid": "MT015",
+      "field": "question-en"
+    },
+    "_29": {
+      "qid": "MT015",
+      "field": "question-zh"
+    },
+    "english-answer_9": {
+      "qid": "MT015",
+      "field": "answer-en"
+    },
+    "_30": {
+      "qid": "MT015",
+      "field": "answer-zh"
+    },
+    "_31": {
+      "qid": "MT015",
+      "field": "explanation"
+    },
+    "mt032": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "l2q06": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "mt032-bayesian-classifier": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "english-question_10": {
+      "qid": "MT032",
+      "field": "question-en"
+    },
+    "_32": {
+      "qid": "MT032",
+      "field": "question-zh"
+    },
+    "english-answer_10": {
+      "qid": "MT032",
+      "field": "answer-en"
+    },
+    "_33": {
+      "qid": "MT032",
+      "field": "answer-zh"
+    },
+    "_34": {
+      "qid": "MT032",
+      "field": "explanation"
+    },
+    "mt005": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "l2q07": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "mt005-nb": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "english-question_11": {
+      "qid": "MT005",
+      "field": "question-en"
+    },
+    "_35": {
+      "qid": "MT005",
+      "field": "question-zh"
+    },
+    "english-answer_11": {
+      "qid": "MT005",
+      "field": "answer-en"
+    },
+    "_36": {
+      "qid": "MT005",
+      "field": "answer-zh"
+    },
+    "_37": {
+      "qid": "MT005",
+      "field": "explanation"
+    },
+    "mt034": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "l2q15": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "english-question_12": {
+      "qid": "MT034",
+      "field": "question-en"
+    },
+    "_38": {
+      "qid": "MT034",
+      "field": "question-zh"
+    },
+    "english-answer_12": {
+      "qid": "MT034",
+      "field": "answer-en"
+    },
+    "_39": {
+      "qid": "MT034",
+      "field": "answer-zh"
+    },
+    "_40": {
+      "qid": "MT034",
+      "field": "explanation"
+    },
+    "mt014": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "l2q03": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "english-question_13": {
+      "qid": "MT014",
+      "field": "question-en"
+    },
+    "_41": {
+      "qid": "MT014",
+      "field": "question-zh"
+    },
+    "english-answer_13": {
+      "qid": "MT014",
+      "field": "answer-en"
+    },
+    "_42": {
+      "qid": "MT014",
+      "field": "answer-zh"
+    },
+    "_43": {
+      "qid": "MT014",
+      "field": "explanation"
+    },
+    "mt033": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "l2q04": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "english-question_14": {
+      "qid": "MT033",
+      "field": "question-en"
+    },
+    "_44": {
+      "qid": "MT033",
+      "field": "question-zh"
+    },
+    "english-answer_14": {
+      "qid": "MT033",
+      "field": "answer-en"
+    },
+    "_45": {
+      "qid": "MT033",
+      "field": "answer-zh"
+    },
+    "_46": {
+      "qid": "MT033",
+      "field": "explanation"
+    },
+    "mt059": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "l2q13": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "mt059-lrgaussian-nb": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "english-question_15": {
+      "qid": "MT059",
+      "field": "question-en"
+    },
+    "_47": {
+      "qid": "MT059",
+      "field": "question-zh"
+    },
+    "english-answer_15": {
+      "qid": "MT059",
+      "field": "answer-en"
+    },
+    "_48": {
+      "qid": "MT059",
+      "field": "answer-zh"
+    },
+    "_49": {
+      "qid": "MT059",
+      "field": "explanation"
+    },
+    "mt021": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "l2q12": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "english-question_16": {
+      "qid": "MT021",
+      "field": "question-en"
+    },
+    "_50": {
+      "qid": "MT021",
+      "field": "question-zh"
+    },
+    "english-answer_16": {
+      "qid": "MT021",
+      "field": "answer-en"
+    },
+    "_51": {
+      "qid": "MT021",
+      "field": "answer-zh"
+    },
+    "_52": {
+      "qid": "MT021",
+      "field": "explanation"
+    },
+    "mt017": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "l2q11": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "english-question_17": {
+      "qid": "MT017",
+      "field": "question-en"
+    },
+    "_53": {
+      "qid": "MT017",
+      "field": "question-zh"
+    },
+    "english-answer_17": {
+      "qid": "MT017",
+      "field": "answer-en"
+    },
+    "_54": {
+      "qid": "MT017",
+      "field": "answer-zh"
+    },
+    "_55": {
+      "qid": "MT017",
+      "field": "explanation"
+    },
+    "mt027": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "l2q10": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "mt027-nb": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "english-question_18": {
+      "qid": "MT027",
+      "field": "question-en"
+    },
+    "_56": {
+      "qid": "MT027",
+      "field": "question-zh"
+    },
+    "english-answer_18": {
+      "qid": "MT027",
+      "field": "answer-en"
+    },
+    "_57": {
+      "qid": "MT027",
+      "field": "answer-zh"
+    },
+    "_58": {
+      "qid": "MT027",
+      "field": "explanation"
+    },
+    "mt058": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "l2q16": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "mt058-nb": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "english-question_19": {
+      "qid": "MT058",
+      "field": "question-en"
+    },
+    "_59": {
+      "qid": "MT058",
+      "field": "question-zh"
+    },
+    "english-answer_19": {
+      "qid": "MT058",
+      "field": "answer-en"
+    },
+    "_60": {
+      "qid": "MT058",
+      "field": "answer-zh"
+    },
+    "_61": {
+      "qid": "MT058",
+      "field": "explanation"
+    },
+    "mt041": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "mt041-logistic": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "english-question_20": {
+      "qid": "MT041",
+      "field": "question-en"
+    },
+    "_62": {
+      "qid": "MT041",
+      "field": "question-zh"
+    },
+    "english-answer_20": {
+      "qid": "MT041",
+      "field": "answer-en"
+    },
+    "_63": {
+      "qid": "MT041",
+      "field": "answer-zh"
+    },
+    "_64": {
+      "qid": "MT041",
+      "field": "explanation"
+    },
+    "mt047": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "mt047-logistic": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "english-question_21": {
+      "qid": "MT047",
+      "field": "question-en"
+    },
+    "_65": {
+      "qid": "MT047",
+      "field": "question-zh"
+    },
+    "english-answer_21": {
+      "qid": "MT047",
+      "field": "answer-en"
+    },
+    "_66": {
+      "qid": "MT047",
+      "field": "answer-zh"
+    },
+    "_67": {
+      "qid": "MT047",
+      "field": "explanation"
+    },
+    "mt024": {
+      "qid": "MT024",
+      "field": "title"
+    },
+    "english-question_22": {
+      "qid": "MT024",
+      "field": "question-en"
+    },
+    "_68": {
+      "qid": "MT024",
+      "field": "question-zh"
+    },
+    "english-answer_22": {
+      "qid": "MT024",
+      "field": "answer-en"
+    },
+    "_69": {
+      "qid": "MT024",
+      "field": "answer-zh"
+    },
+    "_70": {
+      "qid": "MT024",
+      "field": "explanation"
+    },
+    "mt018": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "mt018-l2": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "english-question_23": {
+      "qid": "MT018",
+      "field": "question-en"
+    },
+    "_71": {
+      "qid": "MT018",
+      "field": "question-zh"
+    },
+    "english-answer_23": {
+      "qid": "MT018",
+      "field": "answer-en"
+    },
+    "_72": {
+      "qid": "MT018",
+      "field": "answer-zh"
+    },
+    "_73": {
+      "qid": "MT018",
+      "field": "explanation"
+    },
+    "mt012": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "mt012-l1": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "english-question_24": {
+      "qid": "MT012",
+      "field": "question-en"
+    },
+    "_74": {
+      "qid": "MT012",
+      "field": "question-zh"
+    },
+    "english-answer_24": {
+      "qid": "MT012",
+      "field": "answer-en"
+    },
+    "_75": {
+      "qid": "MT012",
+      "field": "answer-zh"
+    },
+    "_76": {
+      "qid": "MT012",
+      "field": "explanation"
+    },
+    "mt001": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "mt001-logistic": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "english-question_25": {
+      "qid": "MT001",
+      "field": "question-en"
+    },
+    "_77": {
+      "qid": "MT001",
+      "field": "question-zh"
+    },
+    "english-answer_25": {
+      "qid": "MT001",
+      "field": "answer-en"
+    },
+    "_78": {
+      "qid": "MT001",
+      "field": "answer-zh"
+    },
+    "_79": {
+      "qid": "MT001",
+      "field": "explanation"
+    },
+    "mt053": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "l2q14": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "mt053-lr": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "english-question_26": {
+      "qid": "MT053",
+      "field": "question-en"
+    },
+    "_80": {
+      "qid": "MT053",
+      "field": "question-zh"
+    },
+    "english-answer_26": {
+      "qid": "MT053",
+      "field": "answer-en"
+    },
+    "_81": {
+      "qid": "MT053",
+      "field": "answer-zh"
+    },
+    "_82": {
+      "qid": "MT053",
+      "field": "explanation"
+    },
+    "mt042": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "mt042-svm": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "english-question_27": {
+      "qid": "MT042",
+      "field": "question-en"
+    },
+    "_83": {
+      "qid": "MT042",
+      "field": "question-zh"
+    },
+    "english-answer_27": {
+      "qid": "MT042",
+      "field": "answer-en"
+    },
+    "_84": {
+      "qid": "MT042",
+      "field": "answer-zh"
+    },
+    "_85": {
+      "qid": "MT042",
+      "field": "explanation"
+    },
+    "mt048": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "mt048-kernel-trick": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "english-question_28": {
+      "qid": "MT048",
+      "field": "question-en"
+    },
+    "_86": {
+      "qid": "MT048",
+      "field": "question-zh"
+    },
+    "english-answer_28": {
+      "qid": "MT048",
+      "field": "answer-en"
+    },
+    "_87": {
+      "qid": "MT048",
+      "field": "answer-zh"
+    },
+    "_88": {
+      "qid": "MT048",
+      "field": "explanation"
+    },
+    "mt016": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "mt016-svm": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "english-question_29": {
+      "qid": "MT016",
+      "field": "question-en"
+    },
+    "_89": {
+      "qid": "MT016",
+      "field": "question-zh"
+    },
+    "english-answer_29": {
+      "qid": "MT016",
+      "field": "answer-en"
+    },
+    "_90": {
+      "qid": "MT016",
+      "field": "answer-zh"
+    },
+    "_91": {
+      "qid": "MT016",
+      "field": "explanation"
+    },
+    "mt031": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "mt031-rbf": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "english-question_30": {
+      "qid": "MT031",
+      "field": "question-en"
+    },
+    "_92": {
+      "qid": "MT031",
+      "field": "question-zh"
+    },
+    "english-answer_30": {
+      "qid": "MT031",
+      "field": "answer-en"
+    },
+    "_93": {
+      "qid": "MT031",
+      "field": "answer-zh"
+    },
+    "_94": {
+      "qid": "MT031",
+      "field": "explanation"
+    },
+    "mt055": {
+      "qid": "MT055",
+      "field": "title"
+    },
+    "english-question_31": {
+      "qid": "MT055",
+      "field": "question-en"
+    },
+    "_95": {
+      "qid": "MT055",
+      "field": "question-zh"
+    },
+    "english-answer_31": {
+      "qid": "MT055",
+      "field": "answer-en"
+    },
+    "_96": {
+      "qid": "MT055",
+      "field": "answer-zh"
+    },
+    "_97": {
+      "qid": "MT055",
+      "field": "explanation"
+    },
+    "mt060": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "mt060-svmcc": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "english-question_32": {
+      "qid": "MT060",
+      "field": "question-en"
+    },
+    "_98": {
+      "qid": "MT060",
+      "field": "question-zh"
+    },
+    "english-answer_32": {
+      "qid": "MT060",
+      "field": "answer-en"
+    },
+    "_99": {
+      "qid": "MT060",
+      "field": "answer-zh"
+    },
+    "_100": {
+      "qid": "MT060",
+      "field": "explanation"
+    },
+    "mt054": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "mt054-crbf": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "english-question_33": {
+      "qid": "MT054",
+      "field": "question-en"
+    },
+    "_101": {
+      "qid": "MT054",
+      "field": "question-zh"
+    },
+    "english-answer_33": {
+      "qid": "MT054",
+      "field": "answer-en"
+    },
+    "_102": {
+      "qid": "MT054",
+      "field": "answer-zh"
+    },
+    "_103": {
+      "qid": "MT054",
+      "field": "explanation"
+    },
+    "mt043": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "mt043-svm": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "english-question_34": {
+      "qid": "MT043",
+      "field": "question-en"
+    },
+    "_104": {
+      "qid": "MT043",
+      "field": "question-zh"
+    },
+    "english-answer_34": {
+      "qid": "MT043",
+      "field": "answer-en"
+    },
+    "_105": {
+      "qid": "MT043",
+      "field": "answer-zh"
+    },
+    "_106": {
+      "qid": "MT043",
+      "field": "explanation"
+    },
+    "mt029": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "mt029-svm": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "english-question_35": {
+      "qid": "MT029",
+      "field": "question-en"
+    },
+    "_107": {
+      "qid": "MT029",
+      "field": "question-zh"
+    },
+    "english-answer_35": {
+      "qid": "MT029",
+      "field": "answer-en"
+    },
+    "_108": {
+      "qid": "MT029",
+      "field": "answer-zh"
+    },
+    "_109": {
+      "qid": "MT029",
+      "field": "explanation"
+    },
+    "mt010": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "mt010-gaussian-bayessvm": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "english-question_36": {
+      "qid": "MT010",
+      "field": "question-en"
+    },
+    "_110": {
+      "qid": "MT010",
+      "field": "question-zh"
+    },
+    "english-answer_36": {
+      "qid": "MT010",
+      "field": "answer-en"
+    },
+    "_111": {
+      "qid": "MT010",
+      "field": "answer-zh"
+    },
+    "_112": {
+      "qid": "MT010",
+      "field": "explanation"
+    },
+    "mt009": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "mt009-svm": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "english-question_37": {
+      "qid": "MT009",
+      "field": "question-en"
+    },
+    "_113": {
+      "qid": "MT009",
+      "field": "question-zh"
+    },
+    "english-answer_37": {
+      "qid": "MT009",
+      "field": "answer-en"
+    },
+    "_114": {
+      "qid": "MT009",
+      "field": "answer-zh"
+    },
+    "_115": {
+      "qid": "MT009",
+      "field": "explanation"
+    },
+    "mt061": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "mt061-svmrbf-svm": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "english-question_38": {
+      "qid": "MT061",
+      "field": "question-en"
+    },
+    "_116": {
+      "qid": "MT061",
+      "field": "question-zh"
+    },
+    "english-answer_38": {
+      "qid": "MT061",
+      "field": "answer-en"
+    },
+    "_117": {
+      "qid": "MT061",
+      "field": "answer-zh"
+    },
+    "_118": {
+      "qid": "MT061",
+      "field": "explanation"
+    },
+    "mt019": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "mt019-ridgelasso": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "english-question_39": {
+      "qid": "MT019",
+      "field": "question-en"
+    },
+    "_119": {
+      "qid": "MT019",
+      "field": "question-zh"
+    },
+    "english-answer_39": {
+      "qid": "MT019",
+      "field": "answer-en"
+    },
+    "_120": {
+      "qid": "MT019",
+      "field": "answer-zh"
+    },
+    "_121": {
+      "qid": "MT019",
+      "field": "explanation"
+    },
+    "mt045": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "mt045-ridgeomp": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "english-question_40": {
+      "qid": "MT045",
+      "field": "question-en"
+    },
+    "_122": {
+      "qid": "MT045",
+      "field": "question-zh"
+    },
+    "english-answer_40": {
+      "qid": "MT045",
+      "field": "answer-en"
+    },
+    "_123": {
+      "qid": "MT045",
+      "field": "answer-zh"
+    },
+    "_124": {
+      "qid": "MT045",
+      "field": "explanation"
+    },
+    "mt030": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "mt030-l1l2": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "english-question_41": {
+      "qid": "MT030",
+      "field": "question-en"
+    },
+    "_125": {
+      "qid": "MT030",
+      "field": "question-zh"
+    },
+    "english-answer_41": {
+      "qid": "MT030",
+      "field": "answer-en"
+    },
+    "_126": {
+      "qid": "MT030",
+      "field": "answer-zh"
+    },
+    "_127": {
+      "qid": "MT030",
+      "field": "explanation"
+    },
+    "mt057": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "mt057-l1l2elastic-net": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "english-question_42": {
+      "qid": "MT057",
+      "field": "question-en"
+    },
+    "_128": {
+      "qid": "MT057",
+      "field": "question-zh"
+    },
+    "english-answer_42": {
+      "qid": "MT057",
+      "field": "answer-en"
+    },
+    "_129": {
+      "qid": "MT057",
+      "field": "answer-zh"
+    },
+    "_130": {
+      "qid": "MT057",
+      "field": "explanation"
+    },
+    "mt025": {
+      "qid": "MT025",
+      "field": "title"
+    },
+    "english-question_43": {
+      "qid": "MT025",
+      "field": "question-en"
+    },
+    "_131": {
+      "qid": "MT025",
+      "field": "question-zh"
+    },
+    "english-answer_43": {
+      "qid": "MT025",
+      "field": "answer-en"
+    },
+    "_132": {
+      "qid": "MT025",
+      "field": "answer-zh"
+    },
+    "_133": {
+      "qid": "MT025",
+      "field": "explanation"
+    },
+    "mt063": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "mt063-huber": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "english-question_44": {
+      "qid": "MT063",
+      "field": "question-en"
+    },
+    "_134": {
+      "qid": "MT063",
+      "field": "question-zh"
+    },
+    "english-answer_44": {
+      "qid": "MT063",
+      "field": "answer-en"
+    },
+    "_135": {
+      "qid": "MT063",
+      "field": "answer-zh"
+    },
+    "_136": {
+      "qid": "MT063",
+      "field": "explanation"
+    },
+    "mt013": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "mt013-l1l2": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "english-question_45": {
+      "qid": "MT013",
+      "field": "question-en"
+    },
+    "_137": {
+      "qid": "MT013",
+      "field": "question-zh"
+    },
+    "english-answer_45": {
+      "qid": "MT013",
+      "field": "answer-en"
+    },
+    "_138": {
+      "qid": "MT013",
+      "field": "answer-zh"
+    },
+    "_139": {
+      "qid": "MT013",
+      "field": "explanation"
+    },
+    "mt050": {
+      "qid": "MT050",
+      "field": "title"
+    },
+    "english-question_46": {
+      "qid": "MT050",
+      "field": "question-en"
+    },
+    "_140": {
+      "qid": "MT050",
+      "field": "question-zh"
+    },
+    "english-answer_46": {
+      "qid": "MT050",
+      "field": "answer-en"
+    },
+    "_141": {
+      "qid": "MT050",
+      "field": "answer-zh"
+    },
+    "_142": {
+      "qid": "MT050",
+      "field": "explanation"
+    },
+    "mt037": {
+      "qid": "MT037",
+      "field": "title"
+    },
+    "english-question_47": {
+      "qid": "MT037",
+      "field": "question-en"
+    },
+    "_143": {
+      "qid": "MT037",
+      "field": "question-zh"
+    },
+    "english-answer_47": {
+      "qid": "MT037",
+      "field": "answer-en"
+    },
+    "_144": {
+      "qid": "MT037",
+      "field": "answer-zh"
+    },
+    "_145": {
+      "qid": "MT037",
+      "field": "explanation"
+    },
+    "mt006": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "mt006-baggingboosting": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "english-question_48": {
+      "qid": "MT006",
+      "field": "question-en"
+    },
+    "_146": {
+      "qid": "MT006",
+      "field": "question-zh"
+    },
+    "english-answer_48": {
+      "qid": "MT006",
+      "field": "answer-en"
+    },
+    "_147": {
+      "qid": "MT006",
+      "field": "answer-zh"
+    },
+    "_148": {
+      "qid": "MT006",
+      "field": "explanation"
+    },
+    "mt044": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "mt044-boosting": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "english-question_49": {
+      "qid": "MT044",
+      "field": "question-en"
+    },
+    "_149": {
+      "qid": "MT044",
+      "field": "question-zh"
+    },
+    "english-answer_49": {
+      "qid": "MT044",
+      "field": "answer-en"
+    },
+    "_150": {
+      "qid": "MT044",
+      "field": "answer-zh"
+    },
+    "_151": {
+      "qid": "MT044",
+      "field": "explanation"
+    },
+    "mt062": {
+      "qid": "MT062",
+      "field": "title"
+    },
+    "english-question_50": {
+      "qid": "MT062",
+      "field": "question-en"
+    },
+    "_152": {
+      "qid": "MT062",
+      "field": "question-zh"
+    },
+    "english-answer_50": {
+      "qid": "MT062",
+      "field": "answer-en"
+    },
+    "_153": {
+      "qid": "MT062",
+      "field": "answer-zh"
+    },
+    "_154": {
+      "qid": "MT062",
+      "field": "explanation"
+    },
+    "mt056": {
+      "qid": "MT056",
+      "field": "title"
+    },
+    "english-question_51": {
+      "qid": "MT056",
+      "field": "question-en"
+    },
+    "_155": {
+      "qid": "MT056",
+      "field": "question-zh"
+    },
+    "english-answer_51": {
+      "qid": "MT056",
+      "field": "answer-en"
+    },
+    "_156": {
+      "qid": "MT056",
+      "field": "answer-zh"
+    },
+    "_157": {
+      "qid": "MT056",
+      "field": "explanation"
+    },
+    "mt038": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "mt038-100rfadaboost": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "english-question_52": {
+      "qid": "MT038",
+      "field": "question-en"
+    },
+    "_158": {
+      "qid": "MT038",
+      "field": "question-zh"
+    },
+    "english-answer_52": {
+      "qid": "MT038",
+      "field": "answer-en"
+    },
+    "_159": {
+      "qid": "MT038",
+      "field": "answer-zh"
+    },
+    "_160": {
+      "qid": "MT038",
+      "field": "explanation"
+    },
+    "mt049": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "mt049-adaboost": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "english-question_53": {
+      "qid": "MT049",
+      "field": "question-en"
+    },
+    "_161": {
+      "qid": "MT049",
+      "field": "question-zh"
+    },
+    "english-answer_53": {
+      "qid": "MT049",
+      "field": "answer-en"
+    },
+    "_162": {
+      "qid": "MT049",
+      "field": "answer-zh"
+    },
+    "_163": {
+      "qid": "MT049",
+      "field": "explanation"
+    },
+    "mt064": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "mt064-baggingboostinghuber": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "english-question_54": {
+      "qid": "MT064",
+      "field": "question-en"
+    },
+    "_164": {
+      "qid": "MT064",
+      "field": "question-zh"
+    },
+    "english-answer_54": {
+      "qid": "MT064",
+      "field": "answer-en"
+    },
+    "_165": {
+      "qid": "MT064",
+      "field": "answer-zh"
+    },
+    "_166": {
+      "qid": "MT064",
+      "field": "explanation"
+    },
+    "mt008": {
+      "qid": "MT008",
+      "field": "title"
+    },
+    "english-question_55": {
+      "qid": "MT008",
+      "field": "question-en"
+    },
+    "_167": {
+      "qid": "MT008",
+      "field": "question-zh"
+    },
+    "english-answer_55": {
+      "qid": "MT008",
+      "field": "answer-en"
+    },
+    "_168": {
+      "qid": "MT008",
+      "field": "answer-zh"
+    },
+    "_169": {
+      "qid": "MT008",
+      "field": "explanation"
+    },
+    "mt026": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "mt026-vz1": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "english-question_56": {
+      "qid": "MT026",
+      "field": "question-en"
+    },
+    "_170": {
+      "qid": "MT026",
+      "field": "question-zh"
+    },
+    "english-answer_56": {
+      "qid": "MT026",
+      "field": "answer-en"
+    },
+    "_171": {
+      "qid": "MT026",
+      "field": "answer-zh"
+    },
+    "_172": {
+      "qid": "MT026",
+      "field": "explanation"
+    },
+    "mt051": {
+      "qid": "MT051",
+      "field": "title"
+    },
+    "english-question_57": {
+      "qid": "MT051",
+      "field": "question-en"
+    },
+    "_173": {
+      "qid": "MT051",
+      "field": "question-zh"
+    },
+    "english-answer_57": {
+      "qid": "MT051",
+      "field": "answer-en"
+    },
+    "_174": {
+      "qid": "MT051",
+      "field": "answer-zh"
+    },
+    "_175": {
+      "qid": "MT051",
+      "field": "explanation"
+    },
+    "mt039": {
+      "qid": "MT039",
+      "field": "title"
+    },
+    "english-question_58": {
+      "qid": "MT039",
+      "field": "question-en"
+    },
+    "_176": {
+      "qid": "MT039",
+      "field": "question-zh"
+    },
+    "english-answer_58": {
+      "qid": "MT039",
+      "field": "answer-en"
+    },
+    "_177": {
+      "qid": "MT039",
+      "field": "answer-zh"
+    },
+    "_178": {
+      "qid": "MT039",
+      "field": "explanation"
+    },
+    "mt065": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "mt065-logistichingeexponential": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "english-question_59": {
+      "qid": "MT065",
+      "field": "question-en"
+    },
+    "_179": {
+      "qid": "MT065",
+      "field": "question-zh"
+    },
+    "english-answer_59": {
+      "qid": "MT065",
+      "field": "answer-en"
+    },
+    "_180": {
+      "qid": "MT065",
+      "field": "answer-zh"
+    },
+    "_181": {
+      "qid": "MT065",
+      "field": "explanation"
+    },
+    "mt007": {
+      "qid": "MT007",
+      "field": "title"
+    },
+    "english-question_60": {
+      "qid": "MT007",
+      "field": "question-en"
+    },
+    "_182": {
+      "qid": "MT007",
+      "field": "question-zh"
+    },
+    "english-answer_60": {
+      "qid": "MT007",
+      "field": "answer-en"
+    },
+    "_183": {
+      "qid": "MT007",
+      "field": "answer-zh"
+    },
+    "_184": {
+      "qid": "MT007",
+      "field": "explanation"
+    },
+    "mt023": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "mt023-100050": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "english-question_61": {
+      "qid": "MT023",
+      "field": "question-en"
+    },
+    "_185": {
+      "qid": "MT023",
+      "field": "question-zh"
+    },
+    "english-answer_61": {
+      "qid": "MT023",
+      "field": "answer-en"
+    },
+    "_186": {
+      "qid": "MT023",
+      "field": "answer-zh"
+    },
+    "_187": {
+      "qid": "MT023",
+      "field": "explanation"
+    },
+    "mt035": {
+      "qid": "MT035",
+      "field": "title"
+    },
+    "english-question_62": {
+      "qid": "MT035",
+      "field": "question-en"
+    },
+    "_188": {
+      "qid": "MT035",
+      "field": "question-zh"
+    },
+    "english-answer_62": {
+      "qid": "MT035",
+      "field": "answer-en"
+    },
+    "_189": {
+      "qid": "MT035",
+      "field": "answer-zh"
+    },
+    "_190": {
+      "qid": "MT035",
+      "field": "explanation"
+    },
+    "mt067": {
+      "qid": "MT067",
+      "field": "title"
+    },
+    "english-question_63": {
+      "qid": "MT067",
+      "field": "question-en"
+    },
+    "_191": {
+      "qid": "MT067",
+      "field": "question-zh"
+    },
+    "english-answer_63": {
+      "qid": "MT067",
+      "field": "answer-en"
+    },
+    "_192": {
+      "qid": "MT067",
+      "field": "answer-zh"
+    },
+    "_193": {
+      "qid": "MT067",
+      "field": "explanation"
+    },
+    "mt066": {
+      "qid": "MT066",
+      "field": "title"
+    },
+    "english-question_64": {
+      "qid": "MT066",
+      "field": "question-en"
+    },
+    "_194": {
+      "qid": "MT066",
+      "field": "question-zh"
+    },
+    "english-answer_64": {
+      "qid": "MT066",
+      "field": "answer-en"
+    },
+    "_195": {
+      "qid": "MT066",
+      "field": "answer-zh"
+    },
+    "_196": {
+      "qid": "MT066",
+      "field": "explanation"
+    },
+    "mt003": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "mt003-gaussian-process": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "english-question_65": {
+      "qid": "MT003",
+      "field": "question-en"
+    },
+    "_197": {
+      "qid": "MT003",
+      "field": "question-zh"
+    },
+    "english-answer_65": {
+      "qid": "MT003",
+      "field": "answer-en"
+    },
+    "_198": {
+      "qid": "MT003",
+      "field": "answer-zh"
+    },
+    "_199": {
+      "qid": "MT003",
+      "field": "explanation"
+    },
+    "mt036": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "mt036-gprf": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "english-question_66": {
+      "qid": "MT036",
+      "field": "question-en"
+    },
+    "_200": {
+      "qid": "MT036",
+      "field": "question-zh"
+    },
+    "english-answer_66": {
+      "qid": "MT036",
+      "field": "answer-en"
+    },
+    "_201": {
+      "qid": "MT036",
+      "field": "answer-zh"
+    },
+    "_202": {
+      "qid": "MT036",
+      "field": "explanation"
+    },
+    "source-differences": {
+      "qid": null,
+      "field": "source-differences"
+    },
+    "original-paper-index": {
+      "qid": null,
+      "field": "paper-index-start"
+    },
+    "2020bquiz": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M20B"
+    },
+    "2021a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21A"
+    },
+    "2021b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21B"
+    },
+    "2023a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23A"
+    },
+    "2023b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23B"
+    },
+    "2025a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M25A"
+    },
+    "root": {
+      "qid": null,
+      "field": "cover-root"
+    }
+  },
+  "Compact": {
+    "cs5489-concise-bilingual-questions-and-answers": {
+      "qid": null,
+      "field": "cover"
+    },
+    "_1": {
+      "qid": null,
+      "field": "contents"
+    },
+    "mt011": {
+      "qid": "MT011",
+      "field": "title"
+    },
+    "english-question": {
+      "qid": "MT011",
+      "field": "question-en"
+    },
+    "_2": {
+      "qid": "MT011",
+      "field": "question-zh"
+    },
+    "english-answer": {
+      "qid": "MT011",
+      "field": "answer-en"
+    },
+    "_3": {
+      "qid": "MT011",
+      "field": "answer-zh"
+    },
+    "mt004": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "mt004-cv": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "english-question_1": {
+      "qid": "MT004",
+      "field": "question-en"
+    },
+    "_4": {
+      "qid": "MT004",
+      "field": "question-zh"
+    },
+    "english-answer_1": {
+      "qid": "MT004",
+      "field": "answer-en"
+    },
+    "_5": {
+      "qid": "MT004",
+      "field": "answer-zh"
+    },
+    "mt028": {
+      "qid": "MT028",
+      "field": "title"
+    },
+    "english-question_2": {
+      "qid": "MT028",
+      "field": "question-en"
+    },
+    "_6": {
+      "qid": "MT028",
+      "field": "question-zh"
+    },
+    "english-answer_2": {
+      "qid": "MT028",
+      "field": "answer-en"
+    },
+    "_7": {
+      "qid": "MT028",
+      "field": "answer-zh"
+    },
+    "mt002": {
+      "qid": "MT002",
+      "field": "title"
+    },
+    "english-question_3": {
+      "qid": "MT002",
+      "field": "question-en"
+    },
+    "_8": {
+      "qid": "MT002",
+      "field": "question-zh"
+    },
+    "english-answer_3": {
+      "qid": "MT002",
+      "field": "answer-en"
+    },
+    "_9": {
+      "qid": "MT002",
+      "field": "answer-zh"
+    },
+    "mt020": {
+      "qid": "MT020",
+      "field": "title"
+    },
+    "english-question_4": {
+      "qid": "MT020",
+      "field": "question-en"
+    },
+    "_10": {
+      "qid": "MT020",
+      "field": "question-zh"
+    },
+    "english-answer_4": {
+      "qid": "MT020",
+      "field": "answer-en"
+    },
+    "_11": {
+      "qid": "MT020",
+      "field": "answer-zh"
+    },
+    "mt022": {
+      "qid": "MT022",
+      "field": "title"
+    },
+    "english-question_5": {
+      "qid": "MT022",
+      "field": "question-en"
+    },
+    "_12": {
+      "qid": "MT022",
+      "field": "question-zh"
+    },
+    "english-answer_5": {
+      "qid": "MT022",
+      "field": "answer-en"
+    },
+    "_13": {
+      "qid": "MT022",
+      "field": "answer-zh"
+    },
+    "mt040": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "l2q05": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "mt040-bayesnaive-bayes": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "english-question_6": {
+      "qid": "MT040",
+      "field": "question-en"
+    },
+    "_14": {
+      "qid": "MT040",
+      "field": "question-zh"
+    },
+    "english-answer_6": {
+      "qid": "MT040",
+      "field": "answer-en"
+    },
+    "_15": {
+      "qid": "MT040",
+      "field": "answer-zh"
+    },
+    "mt052": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "l2q01": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "english-question_7": {
+      "qid": "MT052",
+      "field": "question-en"
+    },
+    "_16": {
+      "qid": "MT052",
+      "field": "question-zh"
+    },
+    "english-answer_7": {
+      "qid": "MT052",
+      "field": "answer-en"
+    },
+    "_17": {
+      "qid": "MT052",
+      "field": "answer-zh"
+    },
+    "mt046": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "l2q09": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "mt046-gaussian-nb": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "english-question_8": {
+      "qid": "MT046",
+      "field": "question-en"
+    },
+    "_18": {
+      "qid": "MT046",
+      "field": "question-zh"
+    },
+    "english-answer_8": {
+      "qid": "MT046",
+      "field": "answer-en"
+    },
+    "_19": {
+      "qid": "MT046",
+      "field": "answer-zh"
+    },
+    "mt015": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "l2q08": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "mt015-nb": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "english-question_9": {
+      "qid": "MT015",
+      "field": "question-en"
+    },
+    "_20": {
+      "qid": "MT015",
+      "field": "question-zh"
+    },
+    "english-answer_9": {
+      "qid": "MT015",
+      "field": "answer-en"
+    },
+    "_21": {
+      "qid": "MT015",
+      "field": "answer-zh"
+    },
+    "mt032": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "l2q06": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "mt032-bayesian-classifier": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "english-question_10": {
+      "qid": "MT032",
+      "field": "question-en"
+    },
+    "_22": {
+      "qid": "MT032",
+      "field": "question-zh"
+    },
+    "english-answer_10": {
+      "qid": "MT032",
+      "field": "answer-en"
+    },
+    "_23": {
+      "qid": "MT032",
+      "field": "answer-zh"
+    },
+    "mt005": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "l2q07": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "mt005-nb": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "english-question_11": {
+      "qid": "MT005",
+      "field": "question-en"
+    },
+    "_24": {
+      "qid": "MT005",
+      "field": "question-zh"
+    },
+    "english-answer_11": {
+      "qid": "MT005",
+      "field": "answer-en"
+    },
+    "_25": {
+      "qid": "MT005",
+      "field": "answer-zh"
+    },
+    "mt034": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "l2q15": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "english-question_12": {
+      "qid": "MT034",
+      "field": "question-en"
+    },
+    "_26": {
+      "qid": "MT034",
+      "field": "question-zh"
+    },
+    "english-answer_12": {
+      "qid": "MT034",
+      "field": "answer-en"
+    },
+    "_27": {
+      "qid": "MT034",
+      "field": "answer-zh"
+    },
+    "mt014": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "l2q03": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "english-question_13": {
+      "qid": "MT014",
+      "field": "question-en"
+    },
+    "_28": {
+      "qid": "MT014",
+      "field": "question-zh"
+    },
+    "english-answer_13": {
+      "qid": "MT014",
+      "field": "answer-en"
+    },
+    "_29": {
+      "qid": "MT014",
+      "field": "answer-zh"
+    },
+    "mt033": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "l2q04": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "english-question_14": {
+      "qid": "MT033",
+      "field": "question-en"
+    },
+    "_30": {
+      "qid": "MT033",
+      "field": "question-zh"
+    },
+    "english-answer_14": {
+      "qid": "MT033",
+      "field": "answer-en"
+    },
+    "_31": {
+      "qid": "MT033",
+      "field": "answer-zh"
+    },
+    "mt059": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "l2q13": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "mt059-lrgaussian-nb": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "english-question_15": {
+      "qid": "MT059",
+      "field": "question-en"
+    },
+    "_32": {
+      "qid": "MT059",
+      "field": "question-zh"
+    },
+    "english-answer_15": {
+      "qid": "MT059",
+      "field": "answer-en"
+    },
+    "_33": {
+      "qid": "MT059",
+      "field": "answer-zh"
+    },
+    "mt021": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "l2q12": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "english-question_16": {
+      "qid": "MT021",
+      "field": "question-en"
+    },
+    "_34": {
+      "qid": "MT021",
+      "field": "question-zh"
+    },
+    "english-answer_16": {
+      "qid": "MT021",
+      "field": "answer-en"
+    },
+    "_35": {
+      "qid": "MT021",
+      "field": "answer-zh"
+    },
+    "mt017": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "l2q11": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "english-question_17": {
+      "qid": "MT017",
+      "field": "question-en"
+    },
+    "_36": {
+      "qid": "MT017",
+      "field": "question-zh"
+    },
+    "english-answer_17": {
+      "qid": "MT017",
+      "field": "answer-en"
+    },
+    "_37": {
+      "qid": "MT017",
+      "field": "answer-zh"
+    },
+    "mt027": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "l2q10": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "mt027-nb": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "english-question_18": {
+      "qid": "MT027",
+      "field": "question-en"
+    },
+    "_38": {
+      "qid": "MT027",
+      "field": "question-zh"
+    },
+    "english-answer_18": {
+      "qid": "MT027",
+      "field": "answer-en"
+    },
+    "_39": {
+      "qid": "MT027",
+      "field": "answer-zh"
+    },
+    "mt058": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "l2q16": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "mt058-nb": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "english-question_19": {
+      "qid": "MT058",
+      "field": "question-en"
+    },
+    "_40": {
+      "qid": "MT058",
+      "field": "question-zh"
+    },
+    "english-answer_19": {
+      "qid": "MT058",
+      "field": "answer-en"
+    },
+    "_41": {
+      "qid": "MT058",
+      "field": "answer-zh"
+    },
+    "mt041": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "mt041-logistic": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "english-question_20": {
+      "qid": "MT041",
+      "field": "question-en"
+    },
+    "_42": {
+      "qid": "MT041",
+      "field": "question-zh"
+    },
+    "english-answer_20": {
+      "qid": "MT041",
+      "field": "answer-en"
+    },
+    "_43": {
+      "qid": "MT041",
+      "field": "answer-zh"
+    },
+    "mt047": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "mt047-logistic": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "english-question_21": {
+      "qid": "MT047",
+      "field": "question-en"
+    },
+    "_44": {
+      "qid": "MT047",
+      "field": "question-zh"
+    },
+    "english-answer_21": {
+      "qid": "MT047",
+      "field": "answer-en"
+    },
+    "_45": {
+      "qid": "MT047",
+      "field": "answer-zh"
+    },
+    "mt024": {
+      "qid": "MT024",
+      "field": "title"
+    },
+    "english-question_22": {
+      "qid": "MT024",
+      "field": "question-en"
+    },
+    "_46": {
+      "qid": "MT024",
+      "field": "question-zh"
+    },
+    "english-answer_22": {
+      "qid": "MT024",
+      "field": "answer-en"
+    },
+    "_47": {
+      "qid": "MT024",
+      "field": "answer-zh"
+    },
+    "mt018": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "mt018-l2": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "english-question_23": {
+      "qid": "MT018",
+      "field": "question-en"
+    },
+    "_48": {
+      "qid": "MT018",
+      "field": "question-zh"
+    },
+    "english-answer_23": {
+      "qid": "MT018",
+      "field": "answer-en"
+    },
+    "_49": {
+      "qid": "MT018",
+      "field": "answer-zh"
+    },
+    "mt012": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "mt012-l1": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "english-question_24": {
+      "qid": "MT012",
+      "field": "question-en"
+    },
+    "_50": {
+      "qid": "MT012",
+      "field": "question-zh"
+    },
+    "english-answer_24": {
+      "qid": "MT012",
+      "field": "answer-en"
+    },
+    "_51": {
+      "qid": "MT012",
+      "field": "answer-zh"
+    },
+    "mt001": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "mt001-logistic": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "english-question_25": {
+      "qid": "MT001",
+      "field": "question-en"
+    },
+    "_52": {
+      "qid": "MT001",
+      "field": "question-zh"
+    },
+    "english-answer_25": {
+      "qid": "MT001",
+      "field": "answer-en"
+    },
+    "_53": {
+      "qid": "MT001",
+      "field": "answer-zh"
+    },
+    "mt053": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "l2q14": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "mt053-lr": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "english-question_26": {
+      "qid": "MT053",
+      "field": "question-en"
+    },
+    "_54": {
+      "qid": "MT053",
+      "field": "question-zh"
+    },
+    "english-answer_26": {
+      "qid": "MT053",
+      "field": "answer-en"
+    },
+    "_55": {
+      "qid": "MT053",
+      "field": "answer-zh"
+    },
+    "mt042": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "mt042-svm": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "english-question_27": {
+      "qid": "MT042",
+      "field": "question-en"
+    },
+    "_56": {
+      "qid": "MT042",
+      "field": "question-zh"
+    },
+    "english-answer_27": {
+      "qid": "MT042",
+      "field": "answer-en"
+    },
+    "_57": {
+      "qid": "MT042",
+      "field": "answer-zh"
+    },
+    "mt048": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "mt048-kernel-trick": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "english-question_28": {
+      "qid": "MT048",
+      "field": "question-en"
+    },
+    "_58": {
+      "qid": "MT048",
+      "field": "question-zh"
+    },
+    "english-answer_28": {
+      "qid": "MT048",
+      "field": "answer-en"
+    },
+    "_59": {
+      "qid": "MT048",
+      "field": "answer-zh"
+    },
+    "mt016": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "mt016-svm": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "english-question_29": {
+      "qid": "MT016",
+      "field": "question-en"
+    },
+    "_60": {
+      "qid": "MT016",
+      "field": "question-zh"
+    },
+    "english-answer_29": {
+      "qid": "MT016",
+      "field": "answer-en"
+    },
+    "_61": {
+      "qid": "MT016",
+      "field": "answer-zh"
+    },
+    "mt031": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "mt031-rbf": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "english-question_30": {
+      "qid": "MT031",
+      "field": "question-en"
+    },
+    "_62": {
+      "qid": "MT031",
+      "field": "question-zh"
+    },
+    "english-answer_30": {
+      "qid": "MT031",
+      "field": "answer-en"
+    },
+    "_63": {
+      "qid": "MT031",
+      "field": "answer-zh"
+    },
+    "mt055": {
+      "qid": "MT055",
+      "field": "title"
+    },
+    "english-question_31": {
+      "qid": "MT055",
+      "field": "question-en"
+    },
+    "_64": {
+      "qid": "MT055",
+      "field": "question-zh"
+    },
+    "english-answer_31": {
+      "qid": "MT055",
+      "field": "answer-en"
+    },
+    "_65": {
+      "qid": "MT055",
+      "field": "answer-zh"
+    },
+    "mt060": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "mt060-svmcc": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "english-question_32": {
+      "qid": "MT060",
+      "field": "question-en"
+    },
+    "_66": {
+      "qid": "MT060",
+      "field": "question-zh"
+    },
+    "english-answer_32": {
+      "qid": "MT060",
+      "field": "answer-en"
+    },
+    "_67": {
+      "qid": "MT060",
+      "field": "answer-zh"
+    },
+    "mt054": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "mt054-crbf": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "english-question_33": {
+      "qid": "MT054",
+      "field": "question-en"
+    },
+    "_68": {
+      "qid": "MT054",
+      "field": "question-zh"
+    },
+    "english-answer_33": {
+      "qid": "MT054",
+      "field": "answer-en"
+    },
+    "_69": {
+      "qid": "MT054",
+      "field": "answer-zh"
+    },
+    "mt043": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "mt043-svm": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "english-question_34": {
+      "qid": "MT043",
+      "field": "question-en"
+    },
+    "_70": {
+      "qid": "MT043",
+      "field": "question-zh"
+    },
+    "english-answer_34": {
+      "qid": "MT043",
+      "field": "answer-en"
+    },
+    "_71": {
+      "qid": "MT043",
+      "field": "answer-zh"
+    },
+    "mt029": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "mt029-svm": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "english-question_35": {
+      "qid": "MT029",
+      "field": "question-en"
+    },
+    "_72": {
+      "qid": "MT029",
+      "field": "question-zh"
+    },
+    "english-answer_35": {
+      "qid": "MT029",
+      "field": "answer-en"
+    },
+    "_73": {
+      "qid": "MT029",
+      "field": "answer-zh"
+    },
+    "mt010": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "mt010-gaussian-bayessvm": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "english-question_36": {
+      "qid": "MT010",
+      "field": "question-en"
+    },
+    "_74": {
+      "qid": "MT010",
+      "field": "question-zh"
+    },
+    "english-answer_36": {
+      "qid": "MT010",
+      "field": "answer-en"
+    },
+    "_75": {
+      "qid": "MT010",
+      "field": "answer-zh"
+    },
+    "mt009": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "mt009-svm": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "english-question_37": {
+      "qid": "MT009",
+      "field": "question-en"
+    },
+    "_76": {
+      "qid": "MT009",
+      "field": "question-zh"
+    },
+    "english-answer_37": {
+      "qid": "MT009",
+      "field": "answer-en"
+    },
+    "_77": {
+      "qid": "MT009",
+      "field": "answer-zh"
+    },
+    "mt061": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "mt061-svmrbf-svm": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "english-question_38": {
+      "qid": "MT061",
+      "field": "question-en"
+    },
+    "_78": {
+      "qid": "MT061",
+      "field": "question-zh"
+    },
+    "english-answer_38": {
+      "qid": "MT061",
+      "field": "answer-en"
+    },
+    "_79": {
+      "qid": "MT061",
+      "field": "answer-zh"
+    },
+    "mt019": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "mt019-ridgelasso": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "english-question_39": {
+      "qid": "MT019",
+      "field": "question-en"
+    },
+    "_80": {
+      "qid": "MT019",
+      "field": "question-zh"
+    },
+    "english-answer_39": {
+      "qid": "MT019",
+      "field": "answer-en"
+    },
+    "_81": {
+      "qid": "MT019",
+      "field": "answer-zh"
+    },
+    "mt045": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "mt045-ridgeomp": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "english-question_40": {
+      "qid": "MT045",
+      "field": "question-en"
+    },
+    "_82": {
+      "qid": "MT045",
+      "field": "question-zh"
+    },
+    "english-answer_40": {
+      "qid": "MT045",
+      "field": "answer-en"
+    },
+    "_83": {
+      "qid": "MT045",
+      "field": "answer-zh"
+    },
+    "mt030": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "mt030-l1l2": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "english-question_41": {
+      "qid": "MT030",
+      "field": "question-en"
+    },
+    "_84": {
+      "qid": "MT030",
+      "field": "question-zh"
+    },
+    "english-answer_41": {
+      "qid": "MT030",
+      "field": "answer-en"
+    },
+    "_85": {
+      "qid": "MT030",
+      "field": "answer-zh"
+    },
+    "mt057": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "mt057-l1l2elastic-net": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "english-question_42": {
+      "qid": "MT057",
+      "field": "question-en"
+    },
+    "_86": {
+      "qid": "MT057",
+      "field": "question-zh"
+    },
+    "english-answer_42": {
+      "qid": "MT057",
+      "field": "answer-en"
+    },
+    "_87": {
+      "qid": "MT057",
+      "field": "answer-zh"
+    },
+    "mt025": {
+      "qid": "MT025",
+      "field": "title"
+    },
+    "english-question_43": {
+      "qid": "MT025",
+      "field": "question-en"
+    },
+    "_88": {
+      "qid": "MT025",
+      "field": "question-zh"
+    },
+    "english-answer_43": {
+      "qid": "MT025",
+      "field": "answer-en"
+    },
+    "_89": {
+      "qid": "MT025",
+      "field": "answer-zh"
+    },
+    "mt063": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "mt063-huber": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "english-question_44": {
+      "qid": "MT063",
+      "field": "question-en"
+    },
+    "_90": {
+      "qid": "MT063",
+      "field": "question-zh"
+    },
+    "english-answer_44": {
+      "qid": "MT063",
+      "field": "answer-en"
+    },
+    "_91": {
+      "qid": "MT063",
+      "field": "answer-zh"
+    },
+    "mt013": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "mt013-l1l2": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "english-question_45": {
+      "qid": "MT013",
+      "field": "question-en"
+    },
+    "_92": {
+      "qid": "MT013",
+      "field": "question-zh"
+    },
+    "english-answer_45": {
+      "qid": "MT013",
+      "field": "answer-en"
+    },
+    "_93": {
+      "qid": "MT013",
+      "field": "answer-zh"
+    },
+    "mt050": {
+      "qid": "MT050",
+      "field": "title"
+    },
+    "english-question_46": {
+      "qid": "MT050",
+      "field": "question-en"
+    },
+    "_94": {
+      "qid": "MT050",
+      "field": "question-zh"
+    },
+    "english-answer_46": {
+      "qid": "MT050",
+      "field": "answer-en"
+    },
+    "_95": {
+      "qid": "MT050",
+      "field": "answer-zh"
+    },
+    "mt037": {
+      "qid": "MT037",
+      "field": "title"
+    },
+    "english-question_47": {
+      "qid": "MT037",
+      "field": "question-en"
+    },
+    "_96": {
+      "qid": "MT037",
+      "field": "question-zh"
+    },
+    "english-answer_47": {
+      "qid": "MT037",
+      "field": "answer-en"
+    },
+    "_97": {
+      "qid": "MT037",
+      "field": "answer-zh"
+    },
+    "mt006": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "mt006-baggingboosting": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "english-question_48": {
+      "qid": "MT006",
+      "field": "question-en"
+    },
+    "_98": {
+      "qid": "MT006",
+      "field": "question-zh"
+    },
+    "english-answer_48": {
+      "qid": "MT006",
+      "field": "answer-en"
+    },
+    "_99": {
+      "qid": "MT006",
+      "field": "answer-zh"
+    },
+    "mt044": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "mt044-boosting": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "english-question_49": {
+      "qid": "MT044",
+      "field": "question-en"
+    },
+    "_100": {
+      "qid": "MT044",
+      "field": "question-zh"
+    },
+    "english-answer_49": {
+      "qid": "MT044",
+      "field": "answer-en"
+    },
+    "_101": {
+      "qid": "MT044",
+      "field": "answer-zh"
+    },
+    "mt062": {
+      "qid": "MT062",
+      "field": "title"
+    },
+    "english-question_50": {
+      "qid": "MT062",
+      "field": "question-en"
+    },
+    "_102": {
+      "qid": "MT062",
+      "field": "question-zh"
+    },
+    "english-answer_50": {
+      "qid": "MT062",
+      "field": "answer-en"
+    },
+    "_103": {
+      "qid": "MT062",
+      "field": "answer-zh"
+    },
+    "mt056": {
+      "qid": "MT056",
+      "field": "title"
+    },
+    "english-question_51": {
+      "qid": "MT056",
+      "field": "question-en"
+    },
+    "_104": {
+      "qid": "MT056",
+      "field": "question-zh"
+    },
+    "english-answer_51": {
+      "qid": "MT056",
+      "field": "answer-en"
+    },
+    "_105": {
+      "qid": "MT056",
+      "field": "answer-zh"
+    },
+    "mt038": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "mt038-100rfadaboost": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "english-question_52": {
+      "qid": "MT038",
+      "field": "question-en"
+    },
+    "_106": {
+      "qid": "MT038",
+      "field": "question-zh"
+    },
+    "english-answer_52": {
+      "qid": "MT038",
+      "field": "answer-en"
+    },
+    "_107": {
+      "qid": "MT038",
+      "field": "answer-zh"
+    },
+    "mt049": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "mt049-adaboost": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "english-question_53": {
+      "qid": "MT049",
+      "field": "question-en"
+    },
+    "_108": {
+      "qid": "MT049",
+      "field": "question-zh"
+    },
+    "english-answer_53": {
+      "qid": "MT049",
+      "field": "answer-en"
+    },
+    "_109": {
+      "qid": "MT049",
+      "field": "answer-zh"
+    },
+    "mt064": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "mt064-baggingboostinghuber": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "english-question_54": {
+      "qid": "MT064",
+      "field": "question-en"
+    },
+    "_110": {
+      "qid": "MT064",
+      "field": "question-zh"
+    },
+    "english-answer_54": {
+      "qid": "MT064",
+      "field": "answer-en"
+    },
+    "_111": {
+      "qid": "MT064",
+      "field": "answer-zh"
+    },
+    "mt008": {
+      "qid": "MT008",
+      "field": "title"
+    },
+    "english-question_55": {
+      "qid": "MT008",
+      "field": "question-en"
+    },
+    "_112": {
+      "qid": "MT008",
+      "field": "question-zh"
+    },
+    "english-answer_55": {
+      "qid": "MT008",
+      "field": "answer-en"
+    },
+    "_113": {
+      "qid": "MT008",
+      "field": "answer-zh"
+    },
+    "mt026": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "mt026-vz1": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "english-question_56": {
+      "qid": "MT026",
+      "field": "question-en"
+    },
+    "_114": {
+      "qid": "MT026",
+      "field": "question-zh"
+    },
+    "english-answer_56": {
+      "qid": "MT026",
+      "field": "answer-en"
+    },
+    "_115": {
+      "qid": "MT026",
+      "field": "answer-zh"
+    },
+    "mt051": {
+      "qid": "MT051",
+      "field": "title"
+    },
+    "english-question_57": {
+      "qid": "MT051",
+      "field": "question-en"
+    },
+    "_116": {
+      "qid": "MT051",
+      "field": "question-zh"
+    },
+    "english-answer_57": {
+      "qid": "MT051",
+      "field": "answer-en"
+    },
+    "_117": {
+      "qid": "MT051",
+      "field": "answer-zh"
+    },
+    "mt039": {
+      "qid": "MT039",
+      "field": "title"
+    },
+    "english-question_58": {
+      "qid": "MT039",
+      "field": "question-en"
+    },
+    "_118": {
+      "qid": "MT039",
+      "field": "question-zh"
+    },
+    "english-answer_58": {
+      "qid": "MT039",
+      "field": "answer-en"
+    },
+    "_119": {
+      "qid": "MT039",
+      "field": "answer-zh"
+    },
+    "mt065": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "mt065-logistichingeexponential": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "english-question_59": {
+      "qid": "MT065",
+      "field": "question-en"
+    },
+    "_120": {
+      "qid": "MT065",
+      "field": "question-zh"
+    },
+    "english-answer_59": {
+      "qid": "MT065",
+      "field": "answer-en"
+    },
+    "_121": {
+      "qid": "MT065",
+      "field": "answer-zh"
+    },
+    "mt007": {
+      "qid": "MT007",
+      "field": "title"
+    },
+    "english-question_60": {
+      "qid": "MT007",
+      "field": "question-en"
+    },
+    "_122": {
+      "qid": "MT007",
+      "field": "question-zh"
+    },
+    "english-answer_60": {
+      "qid": "MT007",
+      "field": "answer-en"
+    },
+    "_123": {
+      "qid": "MT007",
+      "field": "answer-zh"
+    },
+    "mt023": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "mt023-100050": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "english-question_61": {
+      "qid": "MT023",
+      "field": "question-en"
+    },
+    "_124": {
+      "qid": "MT023",
+      "field": "question-zh"
+    },
+    "english-answer_61": {
+      "qid": "MT023",
+      "field": "answer-en"
+    },
+    "_125": {
+      "qid": "MT023",
+      "field": "answer-zh"
+    },
+    "mt035": {
+      "qid": "MT035",
+      "field": "title"
+    },
+    "english-question_62": {
+      "qid": "MT035",
+      "field": "question-en"
+    },
+    "_126": {
+      "qid": "MT035",
+      "field": "question-zh"
+    },
+    "english-answer_62": {
+      "qid": "MT035",
+      "field": "answer-en"
+    },
+    "_127": {
+      "qid": "MT035",
+      "field": "answer-zh"
+    },
+    "mt067": {
+      "qid": "MT067",
+      "field": "title"
+    },
+    "english-question_63": {
+      "qid": "MT067",
+      "field": "question-en"
+    },
+    "_128": {
+      "qid": "MT067",
+      "field": "question-zh"
+    },
+    "english-answer_63": {
+      "qid": "MT067",
+      "field": "answer-en"
+    },
+    "_129": {
+      "qid": "MT067",
+      "field": "answer-zh"
+    },
+    "mt066": {
+      "qid": "MT066",
+      "field": "title"
+    },
+    "english-question_64": {
+      "qid": "MT066",
+      "field": "question-en"
+    },
+    "_130": {
+      "qid": "MT066",
+      "field": "question-zh"
+    },
+    "english-answer_64": {
+      "qid": "MT066",
+      "field": "answer-en"
+    },
+    "_131": {
+      "qid": "MT066",
+      "field": "answer-zh"
+    },
+    "mt003": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "mt003-gaussian-process": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "english-question_65": {
+      "qid": "MT003",
+      "field": "question-en"
+    },
+    "_132": {
+      "qid": "MT003",
+      "field": "question-zh"
+    },
+    "english-answer_65": {
+      "qid": "MT003",
+      "field": "answer-en"
+    },
+    "_133": {
+      "qid": "MT003",
+      "field": "answer-zh"
+    },
+    "mt036": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "mt036-gprf": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "english-question_66": {
+      "qid": "MT036",
+      "field": "question-en"
+    },
+    "_134": {
+      "qid": "MT036",
+      "field": "question-zh"
+    },
+    "english-answer_66": {
+      "qid": "MT036",
+      "field": "answer-en"
+    },
+    "_135": {
+      "qid": "MT036",
+      "field": "answer-zh"
+    },
+    "original-paper-index": {
+      "qid": null,
+      "field": "paper-index-start"
+    },
+    "2020bquiz": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M20B"
+    },
+    "2021a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21A"
+    },
+    "2021b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21B"
+    },
+    "2023a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23A"
+    },
+    "2023b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23B"
+    },
+    "2025a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M25A"
+    },
+    "root": {
+      "qid": null,
+      "field": "cover-root"
+    }
+  },
+  "MultipleChoice": {
+    "cs5489-multiple-select-questions-and-answers": {
+      "qid": null,
+      "field": "cover"
+    },
+    "_1": {
+      "qid": null,
+      "field": "contents"
+    },
+    "mt004": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "mt004-cv": {
+      "qid": "MT004",
+      "field": "title"
+    },
+    "english-question": {
+      "qid": "MT004",
+      "field": "question-en"
+    },
+    "_2": {
+      "qid": "MT004",
+      "field": "question-zh"
+    },
+    "english-answer": {
+      "qid": "MT004",
+      "field": "answer-en"
+    },
+    "_3": {
+      "qid": "MT004",
+      "field": "answer-zh"
+    },
+    "mt028": {
+      "qid": "MT028",
+      "field": "title"
+    },
+    "english-question_1": {
+      "qid": "MT028",
+      "field": "question-en"
+    },
+    "_4": {
+      "qid": "MT028",
+      "field": "question-zh"
+    },
+    "english-answer_1": {
+      "qid": "MT028",
+      "field": "answer-en"
+    },
+    "_5": {
+      "qid": "MT028",
+      "field": "answer-zh"
+    },
+    "mt002": {
+      "qid": "MT002",
+      "field": "title"
+    },
+    "english-question_2": {
+      "qid": "MT002",
+      "field": "question-en"
+    },
+    "_6": {
+      "qid": "MT002",
+      "field": "question-zh"
+    },
+    "english-answer_2": {
+      "qid": "MT002",
+      "field": "answer-en"
+    },
+    "_7": {
+      "qid": "MT002",
+      "field": "answer-zh"
+    },
+    "mt040": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "l2q05": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "mt040-bayesnaive-bayes": {
+      "qid": "MT040",
+      "field": "title"
+    },
+    "english-question_3": {
+      "qid": "MT040",
+      "field": "question-en"
+    },
+    "_8": {
+      "qid": "MT040",
+      "field": "question-zh"
+    },
+    "english-answer_3": {
+      "qid": "MT040",
+      "field": "answer-en"
+    },
+    "_9": {
+      "qid": "MT040",
+      "field": "answer-zh"
+    },
+    "mt052": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "l2q01": {
+      "qid": "MT052",
+      "field": "title"
+    },
+    "english-question_4": {
+      "qid": "MT052",
+      "field": "question-en"
+    },
+    "_10": {
+      "qid": "MT052",
+      "field": "question-zh"
+    },
+    "english-answer_4": {
+      "qid": "MT052",
+      "field": "answer-en"
+    },
+    "_11": {
+      "qid": "MT052",
+      "field": "answer-zh"
+    },
+    "mt015": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "l2q08": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "mt015-nb": {
+      "qid": "MT015",
+      "field": "title"
+    },
+    "english-question_5": {
+      "qid": "MT015",
+      "field": "question-en"
+    },
+    "_12": {
+      "qid": "MT015",
+      "field": "question-zh"
+    },
+    "english-answer_5": {
+      "qid": "MT015",
+      "field": "answer-en"
+    },
+    "_13": {
+      "qid": "MT015",
+      "field": "answer-zh"
+    },
+    "mt032": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "l2q06": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "mt032-bayesian-classifier": {
+      "qid": "MT032",
+      "field": "title"
+    },
+    "english-question_6": {
+      "qid": "MT032",
+      "field": "question-en"
+    },
+    "_14": {
+      "qid": "MT032",
+      "field": "question-zh"
+    },
+    "english-answer_6": {
+      "qid": "MT032",
+      "field": "answer-en"
+    },
+    "_15": {
+      "qid": "MT032",
+      "field": "answer-zh"
+    },
+    "mt005": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "l2q07": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "mt005-nb": {
+      "qid": "MT005",
+      "field": "title"
+    },
+    "english-question_7": {
+      "qid": "MT005",
+      "field": "question-en"
+    },
+    "_16": {
+      "qid": "MT005",
+      "field": "question-zh"
+    },
+    "english-answer_7": {
+      "qid": "MT005",
+      "field": "answer-en"
+    },
+    "_17": {
+      "qid": "MT005",
+      "field": "answer-zh"
+    },
+    "mt014": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "l2q03": {
+      "qid": "MT014",
+      "field": "title"
+    },
+    "english-question_8": {
+      "qid": "MT014",
+      "field": "question-en"
+    },
+    "_18": {
+      "qid": "MT014",
+      "field": "question-zh"
+    },
+    "english-answer_8": {
+      "qid": "MT014",
+      "field": "answer-en"
+    },
+    "_19": {
+      "qid": "MT014",
+      "field": "answer-zh"
+    },
+    "mt017": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "l2q11": {
+      "qid": "MT017",
+      "field": "title"
+    },
+    "english-question_9": {
+      "qid": "MT017",
+      "field": "question-en"
+    },
+    "_20": {
+      "qid": "MT017",
+      "field": "question-zh"
+    },
+    "english-answer_9": {
+      "qid": "MT017",
+      "field": "answer-en"
+    },
+    "_21": {
+      "qid": "MT017",
+      "field": "answer-zh"
+    },
+    "mt027": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "l2q10": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "mt027-nb": {
+      "qid": "MT027",
+      "field": "title"
+    },
+    "english-question_10": {
+      "qid": "MT027",
+      "field": "question-en"
+    },
+    "_22": {
+      "qid": "MT027",
+      "field": "question-zh"
+    },
+    "english-answer_10": {
+      "qid": "MT027",
+      "field": "answer-en"
+    },
+    "_23": {
+      "qid": "MT027",
+      "field": "answer-zh"
+    },
+    "mt041": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "mt041-logistic": {
+      "qid": "MT041",
+      "field": "title"
+    },
+    "english-question_11": {
+      "qid": "MT041",
+      "field": "question-en"
+    },
+    "_24": {
+      "qid": "MT041",
+      "field": "question-zh"
+    },
+    "english-answer_11": {
+      "qid": "MT041",
+      "field": "answer-en"
+    },
+    "_25": {
+      "qid": "MT041",
+      "field": "answer-zh"
+    },
+    "mt018": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "mt018-l2": {
+      "qid": "MT018",
+      "field": "title"
+    },
+    "english-question_12": {
+      "qid": "MT018",
+      "field": "question-en"
+    },
+    "_26": {
+      "qid": "MT018",
+      "field": "question-zh"
+    },
+    "english-answer_12": {
+      "qid": "MT018",
+      "field": "answer-en"
+    },
+    "_27": {
+      "qid": "MT018",
+      "field": "answer-zh"
+    },
+    "mt001": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "mt001-logistic": {
+      "qid": "MT001",
+      "field": "title"
+    },
+    "english-question_13": {
+      "qid": "MT001",
+      "field": "question-en"
+    },
+    "_28": {
+      "qid": "MT001",
+      "field": "question-zh"
+    },
+    "english-answer_13": {
+      "qid": "MT001",
+      "field": "answer-en"
+    },
+    "_29": {
+      "qid": "MT001",
+      "field": "answer-zh"
+    },
+    "mt053": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "l2q14": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "mt053-lr": {
+      "qid": "MT053",
+      "field": "title"
+    },
+    "english-question_14": {
+      "qid": "MT053",
+      "field": "question-en"
+    },
+    "_30": {
+      "qid": "MT053",
+      "field": "question-zh"
+    },
+    "english-answer_14": {
+      "qid": "MT053",
+      "field": "answer-en"
+    },
+    "_31": {
+      "qid": "MT053",
+      "field": "answer-zh"
+    },
+    "mt042": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "mt042-svm": {
+      "qid": "MT042",
+      "field": "title"
+    },
+    "english-question_15": {
+      "qid": "MT042",
+      "field": "question-en"
+    },
+    "_32": {
+      "qid": "MT042",
+      "field": "question-zh"
+    },
+    "english-answer_15": {
+      "qid": "MT042",
+      "field": "answer-en"
+    },
+    "_33": {
+      "qid": "MT042",
+      "field": "answer-zh"
+    },
+    "mt016": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "mt016-svm": {
+      "qid": "MT016",
+      "field": "title"
+    },
+    "english-question_16": {
+      "qid": "MT016",
+      "field": "question-en"
+    },
+    "_34": {
+      "qid": "MT016",
+      "field": "question-zh"
+    },
+    "english-answer_16": {
+      "qid": "MT016",
+      "field": "answer-en"
+    },
+    "_35": {
+      "qid": "MT016",
+      "field": "answer-zh"
+    },
+    "mt031": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "mt031-rbf": {
+      "qid": "MT031",
+      "field": "title"
+    },
+    "english-question_17": {
+      "qid": "MT031",
+      "field": "question-en"
+    },
+    "_36": {
+      "qid": "MT031",
+      "field": "question-zh"
+    },
+    "english-answer_17": {
+      "qid": "MT031",
+      "field": "answer-en"
+    },
+    "_37": {
+      "qid": "MT031",
+      "field": "answer-zh"
+    },
+    "mt055": {
+      "qid": "MT055",
+      "field": "title"
+    },
+    "english-question_18": {
+      "qid": "MT055",
+      "field": "question-en"
+    },
+    "_38": {
+      "qid": "MT055",
+      "field": "question-zh"
+    },
+    "english-answer_18": {
+      "qid": "MT055",
+      "field": "answer-en"
+    },
+    "_39": {
+      "qid": "MT055",
+      "field": "answer-zh"
+    },
+    "mt054": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "mt054-crbf": {
+      "qid": "MT054",
+      "field": "title"
+    },
+    "english-question_19": {
+      "qid": "MT054",
+      "field": "question-en"
+    },
+    "_40": {
+      "qid": "MT054",
+      "field": "question-zh"
+    },
+    "english-answer_19": {
+      "qid": "MT054",
+      "field": "answer-en"
+    },
+    "_41": {
+      "qid": "MT054",
+      "field": "answer-zh"
+    },
+    "mt043": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "mt043-svm": {
+      "qid": "MT043",
+      "field": "title"
+    },
+    "english-question_20": {
+      "qid": "MT043",
+      "field": "question-en"
+    },
+    "_42": {
+      "qid": "MT043",
+      "field": "question-zh"
+    },
+    "english-answer_20": {
+      "qid": "MT043",
+      "field": "answer-en"
+    },
+    "_43": {
+      "qid": "MT043",
+      "field": "answer-zh"
+    },
+    "mt029": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "mt029-svm": {
+      "qid": "MT029",
+      "field": "title"
+    },
+    "english-question_21": {
+      "qid": "MT029",
+      "field": "question-en"
+    },
+    "_44": {
+      "qid": "MT029",
+      "field": "question-zh"
+    },
+    "english-answer_21": {
+      "qid": "MT029",
+      "field": "answer-en"
+    },
+    "_45": {
+      "qid": "MT029",
+      "field": "answer-zh"
+    },
+    "mt019": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "mt019-ridgelasso": {
+      "qid": "MT019",
+      "field": "title"
+    },
+    "english-question_22": {
+      "qid": "MT019",
+      "field": "question-en"
+    },
+    "_46": {
+      "qid": "MT019",
+      "field": "question-zh"
+    },
+    "english-answer_22": {
+      "qid": "MT019",
+      "field": "answer-en"
+    },
+    "_47": {
+      "qid": "MT019",
+      "field": "answer-zh"
+    },
+    "mt045": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "mt045-ridgeomp": {
+      "qid": "MT045",
+      "field": "title"
+    },
+    "english-question_23": {
+      "qid": "MT045",
+      "field": "question-en"
+    },
+    "_48": {
+      "qid": "MT045",
+      "field": "question-zh"
+    },
+    "english-answer_23": {
+      "qid": "MT045",
+      "field": "answer-en"
+    },
+    "_49": {
+      "qid": "MT045",
+      "field": "answer-zh"
+    },
+    "mt030": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "mt030-l1l2": {
+      "qid": "MT030",
+      "field": "title"
+    },
+    "english-question_24": {
+      "qid": "MT030",
+      "field": "question-en"
+    },
+    "_50": {
+      "qid": "MT030",
+      "field": "question-zh"
+    },
+    "english-answer_24": {
+      "qid": "MT030",
+      "field": "answer-en"
+    },
+    "_51": {
+      "qid": "MT030",
+      "field": "answer-zh"
+    },
+    "mt057": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "mt057-l1l2elastic-net": {
+      "qid": "MT057",
+      "field": "title"
+    },
+    "english-question_25": {
+      "qid": "MT057",
+      "field": "question-en"
+    },
+    "_52": {
+      "qid": "MT057",
+      "field": "question-zh"
+    },
+    "english-answer_25": {
+      "qid": "MT057",
+      "field": "answer-en"
+    },
+    "_53": {
+      "qid": "MT057",
+      "field": "answer-zh"
+    },
+    "mt006": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "mt006-baggingboosting": {
+      "qid": "MT006",
+      "field": "title"
+    },
+    "english-question_26": {
+      "qid": "MT006",
+      "field": "question-en"
+    },
+    "_54": {
+      "qid": "MT006",
+      "field": "question-zh"
+    },
+    "english-answer_26": {
+      "qid": "MT006",
+      "field": "answer-en"
+    },
+    "_55": {
+      "qid": "MT006",
+      "field": "answer-zh"
+    },
+    "mt044": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "mt044-boosting": {
+      "qid": "MT044",
+      "field": "title"
+    },
+    "english-question_27": {
+      "qid": "MT044",
+      "field": "question-en"
+    },
+    "_56": {
+      "qid": "MT044",
+      "field": "question-zh"
+    },
+    "english-answer_27": {
+      "qid": "MT044",
+      "field": "answer-en"
+    },
+    "_57": {
+      "qid": "MT044",
+      "field": "answer-zh"
+    },
+    "mt056": {
+      "qid": "MT056",
+      "field": "title"
+    },
+    "english-question_28": {
+      "qid": "MT056",
+      "field": "question-en"
+    },
+    "_58": {
+      "qid": "MT056",
+      "field": "question-zh"
+    },
+    "english-answer_28": {
+      "qid": "MT056",
+      "field": "answer-en"
+    },
+    "_59": {
+      "qid": "MT056",
+      "field": "answer-zh"
+    },
+    "mt003": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "mt003-gaussian-process": {
+      "qid": "MT003",
+      "field": "title"
+    },
+    "english-question_29": {
+      "qid": "MT003",
+      "field": "question-en"
+    },
+    "_60": {
+      "qid": "MT003",
+      "field": "question-zh"
+    },
+    "english-answer_29": {
+      "qid": "MT003",
+      "field": "answer-en"
+    },
+    "_61": {
+      "qid": "MT003",
+      "field": "answer-zh"
+    },
+    "original-paper-index": {
+      "qid": null,
+      "field": "paper-index-start"
+    },
+    "2020bquiz": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M20B"
+    },
+    "2021a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21A"
+    },
+    "2021b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21B"
+    },
+    "2023a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23A"
+    },
+    "2023b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23B"
+    },
+    "2025a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M25A"
+    },
+    "root": {
+      "qid": null,
+      "field": "cover-root"
+    }
+  },
+  "WrittenResponse": {
+    "cs5489-written-response-questions-and-answers": {
+      "qid": null,
+      "field": "cover"
+    },
+    "_1": {
+      "qid": null,
+      "field": "contents"
+    },
+    "mt011": {
+      "qid": "MT011",
+      "field": "title"
+    },
+    "english-question": {
+      "qid": "MT011",
+      "field": "question-en"
+    },
+    "_2": {
+      "qid": "MT011",
+      "field": "question-zh"
+    },
+    "english-answer": {
+      "qid": "MT011",
+      "field": "answer-en"
+    },
+    "_3": {
+      "qid": "MT011",
+      "field": "answer-zh"
+    },
+    "mt020": {
+      "qid": "MT020",
+      "field": "title"
+    },
+    "english-question_1": {
+      "qid": "MT020",
+      "field": "question-en"
+    },
+    "_4": {
+      "qid": "MT020",
+      "field": "question-zh"
+    },
+    "english-answer_1": {
+      "qid": "MT020",
+      "field": "answer-en"
+    },
+    "_5": {
+      "qid": "MT020",
+      "field": "answer-zh"
+    },
+    "mt022": {
+      "qid": "MT022",
+      "field": "title"
+    },
+    "english-question_2": {
+      "qid": "MT022",
+      "field": "question-en"
+    },
+    "_6": {
+      "qid": "MT022",
+      "field": "question-zh"
+    },
+    "english-answer_2": {
+      "qid": "MT022",
+      "field": "answer-en"
+    },
+    "_7": {
+      "qid": "MT022",
+      "field": "answer-zh"
+    },
+    "mt046": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "l2q09": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "mt046-gaussian-nb": {
+      "qid": "MT046",
+      "field": "title"
+    },
+    "english-question_3": {
+      "qid": "MT046",
+      "field": "question-en"
+    },
+    "_8": {
+      "qid": "MT046",
+      "field": "question-zh"
+    },
+    "english-answer_3": {
+      "qid": "MT046",
+      "field": "answer-en"
+    },
+    "_9": {
+      "qid": "MT046",
+      "field": "answer-zh"
+    },
+    "mt034": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "l2q15": {
+      "qid": "MT034",
+      "field": "title"
+    },
+    "english-question_4": {
+      "qid": "MT034",
+      "field": "question-en"
+    },
+    "_10": {
+      "qid": "MT034",
+      "field": "question-zh"
+    },
+    "english-answer_4": {
+      "qid": "MT034",
+      "field": "answer-en"
+    },
+    "_11": {
+      "qid": "MT034",
+      "field": "answer-zh"
+    },
+    "mt033": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "l2q04": {
+      "qid": "MT033",
+      "field": "title"
+    },
+    "english-question_5": {
+      "qid": "MT033",
+      "field": "question-en"
+    },
+    "_12": {
+      "qid": "MT033",
+      "field": "question-zh"
+    },
+    "english-answer_5": {
+      "qid": "MT033",
+      "field": "answer-en"
+    },
+    "_13": {
+      "qid": "MT033",
+      "field": "answer-zh"
+    },
+    "mt059": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "l2q13": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "mt059-lrgaussian-nb": {
+      "qid": "MT059",
+      "field": "title"
+    },
+    "english-question_6": {
+      "qid": "MT059",
+      "field": "question-en"
+    },
+    "_14": {
+      "qid": "MT059",
+      "field": "question-zh"
+    },
+    "english-answer_6": {
+      "qid": "MT059",
+      "field": "answer-en"
+    },
+    "_15": {
+      "qid": "MT059",
+      "field": "answer-zh"
+    },
+    "mt021": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "l2q12": {
+      "qid": "MT021",
+      "field": "title"
+    },
+    "english-question_7": {
+      "qid": "MT021",
+      "field": "question-en"
+    },
+    "_16": {
+      "qid": "MT021",
+      "field": "question-zh"
+    },
+    "english-answer_7": {
+      "qid": "MT021",
+      "field": "answer-en"
+    },
+    "_17": {
+      "qid": "MT021",
+      "field": "answer-zh"
+    },
+    "mt058": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "l2q16": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "mt058-nb": {
+      "qid": "MT058",
+      "field": "title"
+    },
+    "english-question_8": {
+      "qid": "MT058",
+      "field": "question-en"
+    },
+    "_18": {
+      "qid": "MT058",
+      "field": "question-zh"
+    },
+    "english-answer_8": {
+      "qid": "MT058",
+      "field": "answer-en"
+    },
+    "_19": {
+      "qid": "MT058",
+      "field": "answer-zh"
+    },
+    "mt047": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "mt047-logistic": {
+      "qid": "MT047",
+      "field": "title"
+    },
+    "english-question_9": {
+      "qid": "MT047",
+      "field": "question-en"
+    },
+    "_20": {
+      "qid": "MT047",
+      "field": "question-zh"
+    },
+    "english-answer_9": {
+      "qid": "MT047",
+      "field": "answer-en"
+    },
+    "_21": {
+      "qid": "MT047",
+      "field": "answer-zh"
+    },
+    "mt024": {
+      "qid": "MT024",
+      "field": "title"
+    },
+    "english-question_10": {
+      "qid": "MT024",
+      "field": "question-en"
+    },
+    "_22": {
+      "qid": "MT024",
+      "field": "question-zh"
+    },
+    "english-answer_10": {
+      "qid": "MT024",
+      "field": "answer-en"
+    },
+    "_23": {
+      "qid": "MT024",
+      "field": "answer-zh"
+    },
+    "mt012": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "mt012-l1": {
+      "qid": "MT012",
+      "field": "title"
+    },
+    "english-question_11": {
+      "qid": "MT012",
+      "field": "question-en"
+    },
+    "_24": {
+      "qid": "MT012",
+      "field": "question-zh"
+    },
+    "english-answer_11": {
+      "qid": "MT012",
+      "field": "answer-en"
+    },
+    "_25": {
+      "qid": "MT012",
+      "field": "answer-zh"
+    },
+    "mt048": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "mt048-kernel-trick": {
+      "qid": "MT048",
+      "field": "title"
+    },
+    "english-question_12": {
+      "qid": "MT048",
+      "field": "question-en"
+    },
+    "_26": {
+      "qid": "MT048",
+      "field": "question-zh"
+    },
+    "english-answer_12": {
+      "qid": "MT048",
+      "field": "answer-en"
+    },
+    "_27": {
+      "qid": "MT048",
+      "field": "answer-zh"
+    },
+    "mt060": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "mt060-svmcc": {
+      "qid": "MT060",
+      "field": "title"
+    },
+    "english-question_13": {
+      "qid": "MT060",
+      "field": "question-en"
+    },
+    "_28": {
+      "qid": "MT060",
+      "field": "question-zh"
+    },
+    "english-answer_13": {
+      "qid": "MT060",
+      "field": "answer-en"
+    },
+    "_29": {
+      "qid": "MT060",
+      "field": "answer-zh"
+    },
+    "mt010": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "mt010-gaussian-bayessvm": {
+      "qid": "MT010",
+      "field": "title"
+    },
+    "english-question_14": {
+      "qid": "MT010",
+      "field": "question-en"
+    },
+    "_30": {
+      "qid": "MT010",
+      "field": "question-zh"
+    },
+    "english-answer_14": {
+      "qid": "MT010",
+      "field": "answer-en"
+    },
+    "_31": {
+      "qid": "MT010",
+      "field": "answer-zh"
+    },
+    "mt009": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "mt009-svm": {
+      "qid": "MT009",
+      "field": "title"
+    },
+    "english-question_15": {
+      "qid": "MT009",
+      "field": "question-en"
+    },
+    "_32": {
+      "qid": "MT009",
+      "field": "question-zh"
+    },
+    "english-answer_15": {
+      "qid": "MT009",
+      "field": "answer-en"
+    },
+    "_33": {
+      "qid": "MT009",
+      "field": "answer-zh"
+    },
+    "mt061": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "mt061-svmrbf-svm": {
+      "qid": "MT061",
+      "field": "title"
+    },
+    "english-question_16": {
+      "qid": "MT061",
+      "field": "question-en"
+    },
+    "_34": {
+      "qid": "MT061",
+      "field": "question-zh"
+    },
+    "english-answer_16": {
+      "qid": "MT061",
+      "field": "answer-en"
+    },
+    "_35": {
+      "qid": "MT061",
+      "field": "answer-zh"
+    },
+    "mt025": {
+      "qid": "MT025",
+      "field": "title"
+    },
+    "english-question_17": {
+      "qid": "MT025",
+      "field": "question-en"
+    },
+    "_36": {
+      "qid": "MT025",
+      "field": "question-zh"
+    },
+    "english-answer_17": {
+      "qid": "MT025",
+      "field": "answer-en"
+    },
+    "_37": {
+      "qid": "MT025",
+      "field": "answer-zh"
+    },
+    "mt063": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "mt063-huber": {
+      "qid": "MT063",
+      "field": "title"
+    },
+    "english-question_18": {
+      "qid": "MT063",
+      "field": "question-en"
+    },
+    "_38": {
+      "qid": "MT063",
+      "field": "question-zh"
+    },
+    "english-answer_18": {
+      "qid": "MT063",
+      "field": "answer-en"
+    },
+    "_39": {
+      "qid": "MT063",
+      "field": "answer-zh"
+    },
+    "mt013": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "mt013-l1l2": {
+      "qid": "MT013",
+      "field": "title"
+    },
+    "english-question_19": {
+      "qid": "MT013",
+      "field": "question-en"
+    },
+    "_40": {
+      "qid": "MT013",
+      "field": "question-zh"
+    },
+    "english-answer_19": {
+      "qid": "MT013",
+      "field": "answer-en"
+    },
+    "_41": {
+      "qid": "MT013",
+      "field": "answer-zh"
+    },
+    "mt050": {
+      "qid": "MT050",
+      "field": "title"
+    },
+    "english-question_20": {
+      "qid": "MT050",
+      "field": "question-en"
+    },
+    "_42": {
+      "qid": "MT050",
+      "field": "question-zh"
+    },
+    "english-answer_20": {
+      "qid": "MT050",
+      "field": "answer-en"
+    },
+    "_43": {
+      "qid": "MT050",
+      "field": "answer-zh"
+    },
+    "mt037": {
+      "qid": "MT037",
+      "field": "title"
+    },
+    "english-question_21": {
+      "qid": "MT037",
+      "field": "question-en"
+    },
+    "_44": {
+      "qid": "MT037",
+      "field": "question-zh"
+    },
+    "english-answer_21": {
+      "qid": "MT037",
+      "field": "answer-en"
+    },
+    "_45": {
+      "qid": "MT037",
+      "field": "answer-zh"
+    },
+    "mt062": {
+      "qid": "MT062",
+      "field": "title"
+    },
+    "english-question_22": {
+      "qid": "MT062",
+      "field": "question-en"
+    },
+    "_46": {
+      "qid": "MT062",
+      "field": "question-zh"
+    },
+    "english-answer_22": {
+      "qid": "MT062",
+      "field": "answer-en"
+    },
+    "_47": {
+      "qid": "MT062",
+      "field": "answer-zh"
+    },
+    "mt038": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "mt038-100rfadaboost": {
+      "qid": "MT038",
+      "field": "title"
+    },
+    "english-question_23": {
+      "qid": "MT038",
+      "field": "question-en"
+    },
+    "_48": {
+      "qid": "MT038",
+      "field": "question-zh"
+    },
+    "english-answer_23": {
+      "qid": "MT038",
+      "field": "answer-en"
+    },
+    "_49": {
+      "qid": "MT038",
+      "field": "answer-zh"
+    },
+    "mt049": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "mt049-adaboost": {
+      "qid": "MT049",
+      "field": "title"
+    },
+    "english-question_24": {
+      "qid": "MT049",
+      "field": "question-en"
+    },
+    "_50": {
+      "qid": "MT049",
+      "field": "question-zh"
+    },
+    "english-answer_24": {
+      "qid": "MT049",
+      "field": "answer-en"
+    },
+    "_51": {
+      "qid": "MT049",
+      "field": "answer-zh"
+    },
+    "mt064": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "mt064-baggingboostinghuber": {
+      "qid": "MT064",
+      "field": "title"
+    },
+    "english-question_25": {
+      "qid": "MT064",
+      "field": "question-en"
+    },
+    "_52": {
+      "qid": "MT064",
+      "field": "question-zh"
+    },
+    "english-answer_25": {
+      "qid": "MT064",
+      "field": "answer-en"
+    },
+    "_53": {
+      "qid": "MT064",
+      "field": "answer-zh"
+    },
+    "mt008": {
+      "qid": "MT008",
+      "field": "title"
+    },
+    "english-question_26": {
+      "qid": "MT008",
+      "field": "question-en"
+    },
+    "_54": {
+      "qid": "MT008",
+      "field": "question-zh"
+    },
+    "english-answer_26": {
+      "qid": "MT008",
+      "field": "answer-en"
+    },
+    "_55": {
+      "qid": "MT008",
+      "field": "answer-zh"
+    },
+    "mt026": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "mt026-vz1": {
+      "qid": "MT026",
+      "field": "title"
+    },
+    "english-question_27": {
+      "qid": "MT026",
+      "field": "question-en"
+    },
+    "_56": {
+      "qid": "MT026",
+      "field": "question-zh"
+    },
+    "english-answer_27": {
+      "qid": "MT026",
+      "field": "answer-en"
+    },
+    "_57": {
+      "qid": "MT026",
+      "field": "answer-zh"
+    },
+    "mt051": {
+      "qid": "MT051",
+      "field": "title"
+    },
+    "english-question_28": {
+      "qid": "MT051",
+      "field": "question-en"
+    },
+    "_58": {
+      "qid": "MT051",
+      "field": "question-zh"
+    },
+    "english-answer_28": {
+      "qid": "MT051",
+      "field": "answer-en"
+    },
+    "_59": {
+      "qid": "MT051",
+      "field": "answer-zh"
+    },
+    "mt039": {
+      "qid": "MT039",
+      "field": "title"
+    },
+    "english-question_29": {
+      "qid": "MT039",
+      "field": "question-en"
+    },
+    "_60": {
+      "qid": "MT039",
+      "field": "question-zh"
+    },
+    "english-answer_29": {
+      "qid": "MT039",
+      "field": "answer-en"
+    },
+    "_61": {
+      "qid": "MT039",
+      "field": "answer-zh"
+    },
+    "mt065": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "mt065-logistichingeexponential": {
+      "qid": "MT065",
+      "field": "title"
+    },
+    "english-question_30": {
+      "qid": "MT065",
+      "field": "question-en"
+    },
+    "_62": {
+      "qid": "MT065",
+      "field": "question-zh"
+    },
+    "english-answer_30": {
+      "qid": "MT065",
+      "field": "answer-en"
+    },
+    "_63": {
+      "qid": "MT065",
+      "field": "answer-zh"
+    },
+    "mt007": {
+      "qid": "MT007",
+      "field": "title"
+    },
+    "english-question_31": {
+      "qid": "MT007",
+      "field": "question-en"
+    },
+    "_64": {
+      "qid": "MT007",
+      "field": "question-zh"
+    },
+    "english-answer_31": {
+      "qid": "MT007",
+      "field": "answer-en"
+    },
+    "_65": {
+      "qid": "MT007",
+      "field": "answer-zh"
+    },
+    "mt023": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "mt023-100050": {
+      "qid": "MT023",
+      "field": "title"
+    },
+    "english-question_32": {
+      "qid": "MT023",
+      "field": "question-en"
+    },
+    "_66": {
+      "qid": "MT023",
+      "field": "question-zh"
+    },
+    "english-answer_32": {
+      "qid": "MT023",
+      "field": "answer-en"
+    },
+    "_67": {
+      "qid": "MT023",
+      "field": "answer-zh"
+    },
+    "mt035": {
+      "qid": "MT035",
+      "field": "title"
+    },
+    "english-question_33": {
+      "qid": "MT035",
+      "field": "question-en"
+    },
+    "_68": {
+      "qid": "MT035",
+      "field": "question-zh"
+    },
+    "english-answer_33": {
+      "qid": "MT035",
+      "field": "answer-en"
+    },
+    "_69": {
+      "qid": "MT035",
+      "field": "answer-zh"
+    },
+    "mt067": {
+      "qid": "MT067",
+      "field": "title"
+    },
+    "english-question_34": {
+      "qid": "MT067",
+      "field": "question-en"
+    },
+    "_70": {
+      "qid": "MT067",
+      "field": "question-zh"
+    },
+    "english-answer_34": {
+      "qid": "MT067",
+      "field": "answer-en"
+    },
+    "_71": {
+      "qid": "MT067",
+      "field": "answer-zh"
+    },
+    "mt066": {
+      "qid": "MT066",
+      "field": "title"
+    },
+    "english-question_35": {
+      "qid": "MT066",
+      "field": "question-en"
+    },
+    "_72": {
+      "qid": "MT066",
+      "field": "question-zh"
+    },
+    "english-answer_35": {
+      "qid": "MT066",
+      "field": "answer-en"
+    },
+    "_73": {
+      "qid": "MT066",
+      "field": "answer-zh"
+    },
+    "mt036": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "mt036-gprf": {
+      "qid": "MT036",
+      "field": "title"
+    },
+    "english-question_36": {
+      "qid": "MT036",
+      "field": "question-en"
+    },
+    "_74": {
+      "qid": "MT036",
+      "field": "question-zh"
+    },
+    "english-answer_36": {
+      "qid": "MT036",
+      "field": "answer-en"
+    },
+    "_75": {
+      "qid": "MT036",
+      "field": "answer-zh"
+    },
+    "original-paper-index": {
+      "qid": null,
+      "field": "paper-index-start"
+    },
+    "2020bquiz": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M20B"
+    },
+    "2021a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21A"
+    },
+    "2021b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M21B"
+    },
+    "2023a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23A"
+    },
+    "2023b": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M23B"
+    },
+    "2025a": {
+      "qid": null,
+      "field": "paper-index",
+      "paper": "M25A"
+    },
+    "root": {
+      "qid": null,
+      "field": "cover-root"
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "CS5222/course-notes/assets/chapter01-28.png": {
+    "book": "CS5222",
+    "page": 12,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/chapter02-42.png": {
+    "book": "CS5222",
+    "page": 29,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial01-01.png": {
+    "book": "CS5222",
+    "page": 55,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial01-02.png": {
+    "book": "CS5222",
+    "page": 57,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial01-03.png": {
+    "book": "CS5222",
+    "page": 59,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial02-01.png": {
+    "book": "CS5222",
+    "page": 62,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial02-02.png": {
+    "book": "CS5222",
+    "page": 64,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial03-01.png": {
+    "book": "CS5222",
+    "page": 67,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial03-02.png": {
+    "book": "CS5222",
+    "page": 69,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial03-03.png": {
+    "book": "CS5222",
+    "page": 70,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/tutorial05-01.png": {
+    "book": "CS5222",
+    "page": 78,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/assignment01-01.png": {
+    "book": "CS5222",
+    "page": 82,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/assignment01-02.png": {
+    "book": "CS5222",
+    "page": 84,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/assignment01-03.png": {
+    "book": "CS5222",
+    "page": 86,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5222/course-notes/assets/assignment01-04.png": {
+    "book": "CS5222",
+    "page": 89,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "learning/foundation-notes/assets/records-vectors.png": {
+    "book": "Foundations",
+    "page": 21,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5489/course-notes/assets/oct-batch-bias.png": {
+    "book": "Foundations",
+    "page": 34,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5489/exam-review/Midterm/assets/mt031-rbf-points.png": {
+    "book": "Combined",
+    "page": 49,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5489/exam-review/Midterm/assets/answer-mt060-pair.png": {
+    "book": "Combined",
+    "page": 55,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  },
+  "CS5489/exam-review/Midterm/assets/mt067-network.png": {
+    "book": "Combined",
+    "page": 100,
+    "embedded_original_pixels": "identical",
+    "dark_pixel_recall_with_2px_tolerance": 1.0
+  }
+}

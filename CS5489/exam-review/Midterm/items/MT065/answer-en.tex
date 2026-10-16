@@ -1,0 +1,9 @@
+% MT065 / answer-en — canonical editable content.
+
+\begin{enumerate}[start=1]
+
+\item Logistic regression minimizes conditional log-loss, log(1+exp(\ensuremath{-}z)), usually with regularization. A soft-margin SVM minimizes a weight-norm penalty plus hinge loss max(0,1\ensuremath{-}z), balancing margin and violations.
+
+\item \textbf{For the far-negative-margin region in the supplied figure: AdaBoost > LR > SVM.} Exponential loss has the steepest tail, so extreme misclassifications exert the strongest gradient influence. The plotted LR tail is steeper than the hinge tail. This comparison depends on the figure’s loss scaling; it is not a universal ranking of the algorithms.
+
+\end{enumerate}

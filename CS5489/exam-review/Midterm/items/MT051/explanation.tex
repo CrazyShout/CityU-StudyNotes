@@ -1,0 +1,36 @@
+% MT051 / explanation — canonical editable content.
+图中损失在\(z=-1\)就降到0。纵轴没有数值刻度；取左侧斜率为\(-1\)，可用\(L(z)=\max(0,-1-z)\)代表这种形状，乘上任意正常数都不改变零损失区。而二分类正确至少需要\(z=yf(x)>0\)，因此\(-1\le z<0\)这一段明明分错，却也被目标当成零损失。
+
+
+这不是仅仅把hinge曲线左右挪一点的无害改动，它改变了“什么算已经够好”。梯度法遇到零损失区没有数据损失的推动，可能就放过这些错分点；甚至令所有分数\(f(x)=0\)，数据损失也全为0，却没有产生有效分类。
+
+
+按题目要求画一个明确反例。取两个一维输入：\(x=-1\)标签\(y=-1\)，\(x=1\)标签\(y=+1\)；选线性分数\(f(x)=0.1x+0.5\)。逐点计算：
+
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.248630\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.181921\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.229811\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.169819\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.169819\linewidth-1.60000\tabcolsep\relax}@{}}
+\toprule
+输入与标签 & 分数\(f(x)\) & 有符号分数\(yf(x)\) & 预测 & 该损失 \\
+\midrule\endfirsthead
+输入与标签 & 分数\(f(x)\) & 有符号分数\(yf(x)\) & 预测 & 该损失 \\
+\midrule\endhead
+\bottomrule\endfoot
+\(x=-1,y=-1\) & 0.4 & \(-0.4\) & 正类，错误 & 0 \\
+\(x=1,y=+1\) & 0.6 & 0.6 & 正类，正确 & 0 \\
+\end{longtable}
+\endgroup
+
+
+边界满足\(0.1x+0.5=0\)，即\(x=-5\)。画数轴，在\(-5\)标边界，把两个点放在它右侧；右侧全判正，真实负点却没有损失。这个具体图例足以证明该目标不能独自保证学出正确分类器，即使函数是凸的，也没有修复其目标错位。
+
+
+\StudyImage{CS5489/exam-review/Midterm/assets/answer-zero-loss-error.png}
+
+
+\textbf{出处：} 2023A期中 Q13，原卷第10页（10分）
+
+
+\textbf{答案依据：} 2023A期中 Q13 随卷／配套参考答案；条件与解释经复核。

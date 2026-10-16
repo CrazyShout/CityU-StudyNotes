@@ -1,0 +1,30 @@
+% MT043 / explanation — canonical editable content.
+这题的关键是分开三件事：原空间能否画出非线性边界、训练时优化什么、核技巧省掉什么。
+
+
+
+\begin{itemize}
+
+\item \textbf{A依原解不选，但题头语境有歧义。} 普通线性SVM可以用软间隔处理线性不可分数据，却不会因此获得任意非线性边界；若已经明确使用非线性核，它当然可以建模非线性分界。2023A题头含kernel，配套答案仍未选A；本册保留原解BD，并说明不能将A一概讲成“核SVM不能处理非线性”。
+
+\item \textbf{B正确。} 径向基函数RBF是常用核，例如\(e^{-\gamma\|x-z\|^2}\)，按样本距离给出相似度。
+
+\item \textbf{C不选。} 换到特征空间使分界可以线性化，说明的是表示方式；它不自动保证训练更高效，样本对的核计算仍可能昂贵。
+
+\item \textbf{D按原解选。} 对偶优化每个训练样本的乘子\(\alpha_i\)，非零系数对应参与预测的支持向量。这是优化后的结果，不是训练前先手选几个样本。
+
+\item \textbf{E不选。} 核技巧的节省来自直接算\(k(x,z)\)，避免\textbf{显式}构造\(\phi(x)\)再求内积。选项恰把这点写反。
+
+\end{itemize}
+
+
+答题可写B、D，并在解释A时指出“软间隔容错”与“非线性表示能力”的区别。一个完整核技巧例子见\StudyRef{Answers}{mt048}{MT048}。
+
+
+\textbf{原题差异 / Source note：} 2023A题头含kernel，2025A省略该词；五个选项相同。 / The 2025 heading omits “kernel”; the options are unchanged.
+
+
+\textbf{出处：} 2023A期中 Q4，原卷第3页（5分）；2025A期中 Q4，原卷第2页（5分）
+
+
+\textbf{答案依据：} 2023A期中Q4随卷答案BD；2025A Q4同组选项。原题简略措辞按上述条件解释。

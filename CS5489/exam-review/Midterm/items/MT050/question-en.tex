@@ -1,0 +1,11 @@
+% MT050 / question-en — canonical editable content.
+You are working for a bike-sharing company, and your job is to predict the number of bicycles that will be borrowed from a popular bike-sharing station each day. This prediction will be used to inform the logistics team about how many bikes should be sent to the station. The CEO tells you that it is okay to have too many bikes sent to the station, but it is not good if the station runs out of bikes, since the customers will use other bike-sharing companies.
+
+
+You have a training dataset \((x_i,y_i)\), i=1,…,N, of historical data that contains feature vectors \(x_i\), and number of bikes borrowed \(y_i\). Consider a linear regression function \(f(x)=w^Tx+b\), which is trained with the following optimization problem:
+\[
+(\hat w,\hat b)=\arg\min_{w,b}\sum_{i=1}^N L(f(x_i),y_i).
+\]
+
+
+Design a loss function that can help you to do the regression according to the requirements, and draw a plot. Explain how your loss achieves the desired requirements.

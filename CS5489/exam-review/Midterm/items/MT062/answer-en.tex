@@ -1,0 +1,5 @@
+% MT062 / answer-en — canonical editable content.
+(a) Rewrite the variance as \(\sigma^2[\rho+(1-\rho)/n]\). For fixed tree variance and fixed \(0\le\rho\le1\), more trees reduce the second term; as \(n\to\infty\), the variance approaches \(\rho\sigma^2\). If \(\rho=0\), it is \(\sigma^2/n\); if \(\rho=1\), adding trees gives no reduction. Lower correlation therefore makes averaging more effective at reducing the variance component of overfitting.
+
+
+(b) At fixed \(n\), train trees on different bootstrap samples and randomly choose feature candidates at each split. These changes reduce shared tree errors, while each tree should retain predictive strength. Lower variance alone does not guarantee lower total test error.

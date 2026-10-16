@@ -1,0 +1,2 @@
+% MT023 / answer-en — canonical editable content.
+There are two distinct issues: \textbf{class imbalance} (50 positives versus 950 negatives) and \textbf{asymmetric error costs} (missing disease is more costly than sending someone for CT). Use stratified training/validation splits and positive-class weighting or appropriate resampling within training. Select a lower positive threshold using validation data, and report sensitivity/recall, specificity and the confusion matrix rather than accuracy alone. Keep the test set separate.

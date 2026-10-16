@@ -13,3 +13,12 @@ data/
 *.tmp.pdf
 .env
 .env.*
+*.aux
+*.log
+*.out
+*.toc
+*.xdv
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+missfont.log

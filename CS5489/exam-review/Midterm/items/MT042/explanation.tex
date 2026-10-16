@@ -1,0 +1,53 @@
+% MT042 / explanation — canonical editable content.
+线性SVM用分数\(f(x)=w^Tx+b\)判断类别；\(w\)是特征权重，\(b\)是偏置。标签\(y_i\)取\(+1\)或\(-1\)，所以\(y_if(x_i)>0\)表示分对，负值表示分错。分界是\(f(x)=0\)；二维时是一条直线，SVM希望在分界两侧留出较宽的间隔。
+
+
+把\(w,b\)同时乘一个正数不会改变这条分界，所以需要固定分数尺度。通常把两侧间隔边缘的分数约定为\(+1\)与\(-1\)。对非零\(w\)，每一侧到分界的垂直距离为\(1/\|w\|\)，其中\(\|w\|=\sqrt{\sum_jw_j^2}\)是权重向量的长度。要求\(y_if(x_i)\ge1\)，表示样本不仅分对，还位于本类间隔边缘或更远处。
+
+
+软间隔允许这个要求有所不足，写成\(y_if(x_i)\ge1-\xi_i\)、\(\xi_i\ge0\)。松弛变量\(\xi_i\)记录允许的不足量；给定分数后，所需的最小值是\(\max(0,1-y_if(x_i))\)。补充例子：
+
+
+\begingroup
+\small\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.330053\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.283314\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.386634\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+有符号分数\(y_if(x_i)\) & 样本情况 & 最小松弛\(\xi_i\) \\
+\midrule\endfirsthead
+有符号分数\(y_if(x_i)\) & 样本情况 & 最小松弛\(\xi_i\) \\
+\midrule\endhead
+\bottomrule\endfoot
+1.2 & 分对，已越过间隔边缘 & 0 \\
+0.5 & 分对，但距分界太近 & \(1-0.5=0.5\) \\
+\(-0.2\) & 分错 & \(1-(-0.2)=1.2\) \\
+\end{longtable}
+\endgroup
+
+
+训练目标中的\(C\sum_i\xi_i\)对这些不足收费。\(C\)越大，模型越不愿接受违例；它与间隔大小的取舍见\StudyRef{Answers}{mt060}{MT060}。
+
+
+
+\begin{itemize}
+
+\item \textbf{A正确。} \(\xi_i=0\)表示满足原间隔要求；正值允许样本进入间隔，甚至分错。因此线性不可分时也能训练软间隔模型，而非要求所有点都完全分开。
+
+\item \textbf{B正确。} 在上述尺度下，减小\(\|w\|\)就会增大间隔\(1/\|w\|\)；软间隔同时考虑违例损失。
+
+\item \textbf{C不作为本题无条件结论选择。} 硬间隔或很大的\(C\)会强烈要求照顾每个点，异常点可能拉动边界；较小正\(C\)允许接受它的违例，影响又会不同。配套答案未选C，不能反过来理解成“SVM对异常值免疫”。
+
+\item \textbf{D错误。} 高维输入不自动排除SVM；合适的线性求解器及正则化可以用于高维稀疏特征。效率还取决于样本数和实现。
+
+\item \textbf{E错误。} k-means在没有类别监督的情况下聚类；SVM用已有类别标签学习分界，两者不是同一种训练过程。
+
+\end{itemize}
+
+
+按原卷参考答案选A、B，同时理解C依赖模型和参数条件。
+
+
+\textbf{出处：} 2023A期中 Q3，原卷第2页（5分）；2025A期中 Q3，原卷第2页（5分）
+
+
+\textbf{答案依据：} 2023A期中Q3随卷答案AB；2025A Q3复用题面。C的适用条件由本题解补充。
