@@ -267,7 +267,7 @@ English question: A tank starts with 1 L and receives 2 L/min, without leakage o
 \]
 
 
-前者“各自平方再相加”，后者“先合计再平方”。括号决定先做哪一步。在实数范围内，a\ensuremath{\ge}0时，符号\ensuremath{\sqrt{\vphantom{x}}}a表示平方后得到a的非负数，例如\ensuremath{\sqrt{\vphantom{x}}}9=3；它稍后用于从方差回到标准差。
+前者“各自平方再相加”，后者“先合计再平方”。括号决定先做哪一步。在实数范围内，a\ensuremath{\ge}0时，符号\(\sqrt{a}\)表示平方后得到a的非负数，例如\(\sqrt{9}=3\)；它稍后用于从方差回到标准差。
 
 
 \begingroup
@@ -303,7 +303,7 @@ English question: A second tank starts with 2 L and receives 3 L/min, without le
 \begin{StudySolution}{答案与推理 / Answer and reasoning}
 
 
-V(t)=3t+2，V(4)=14 L；和为10，积为30，平方和为4+9+25=38。平方和不是10\textsuperscript{2}。\\
+V(t)=3t+2，V(4)=14 L；和为10，积为30，平方和为4+9+25=38。平方和不是10\textsuperscript{2}。
 
 \textbf{English answer:} V(t)=3t+2 and V(4)=14 L. The sum is 10, the product is 30, and the sum of squares is 38, not 100.
 
@@ -519,7 +519,7 @@ English question: Using the \StudyRef{Foundations-MathForML}{conditional-probabi
 假设一个理想化过程每轮把数量翻倍，从1开始，三轮后是2\ensuremath{\times}2\ensuremath{\times}2=8。把重复乘法缩写成 \textbf{power（幂）}：2\textsuperscript{3}=8。这里2是底数，3是指数。整数指数可以先理解为乘了几次。
 
 
-往回走一轮，就除以2，因此2\textsuperscript{0}=1、2\textsuperscript{-}\textsuperscript{1}=1/2、2\textsuperscript{-}\textsuperscript{3}=1/8。分数指数也能定义：\(2^{1/2}=\sqrt{2}\)，因为两个\ensuremath{\sqrt{\vphantom{x}}}2相乘等于2。推广到实数指数时，不再把“次数”局限成整数；可以用越来越精细的小数指数逼近。这就形成连续的指数函数。
+往回走一轮，就除以2，因此2\textsuperscript{0}=1、2\textsuperscript{-}\textsuperscript{1}=1/2、2\textsuperscript{-}\textsuperscript{3}=1/8。分数指数也能定义：\(2^{1/2}=\sqrt{2}\)，因为两个\(\sqrt{2}\)相乘等于2。推广到实数指数时，不再把“次数”局限成整数；可以用越来越精细的小数指数逼近。这就形成连续的指数函数。
 
 
 \textbf{Logarithm（对数）}把问题倒过来：“底数2的几次方等于8？”答案是3，记成log\textsubscript{2}8=3。一般定义为
@@ -995,7 +995,7 @@ v=\frac1N\sum_{i=1}^N(x_i-\bar x)^2.\tag{M.27}
 \]
 
 
-N是观测数，x̄表示样本均值。代入得到v=(4+0+4)/3=8/3 cm\textsuperscript{2}。\textbf{Standard deviation（标准差）}是方差的平方根，s=\ensuremath{\sqrt{\vphantom{x}}}(8/3)\ensuremath{\approx}1.633 cm，单位回到原长度单位。平方根取非负值。
+N是观测数，x̄表示样本均值。代入得到v=(4+0+4)/3=8/3 cm\textsuperscript{2}。\textbf{Standard deviation（标准差）}是方差的平方根，\(s=\sqrt{8/3}\approx1.633\) cm，单位回到原长度单位。平方根取非负值。
 
 
 这里分母是N，方便衔接本讲高斯MLE。另一种常见样本方差使用N\ensuremath{-}1，本例会得到4 cm\textsuperscript{2}；它针对无偏估计的性质，不是可以不加说明地随意互换的写法。基础部分先固定N约定，原课代码的差异已在Lecture注明。
@@ -1169,7 +1169,7 @@ English question: For the dimensionless deviation d=(1,1)\textsuperscript{T} and
 这叫 \textbf{squared Mahalanobis distance（马氏距离的平方）}。偏差在共同增大的方向时，正相关模型觉得它不那么意外；但分类还要考虑分布宽度与先验，完整决策继续回Lecture学习。
 
 
-最后注意面积缩放的平方根：上面|det(A)|是坐标变换x=Az的面积倍数；高斯协方差记录的是平方后的变化量。若两个方向的标准差分别2、1，协方差是diag(4,1)，行列式为4，但等标准距离椭圆的面积相对单位圆只扩大2倍，即\ensuremath{\sqrt{\vphantom{x}}}det(\ensuremath{\Sigma})。一般写成\ensuremath{\Sigma}=AA\textsuperscript{T}时，也有|det(A)|=\ensuremath{\sqrt{\vphantom{x}}}det(\ensuremath{\Sigma})。因此高斯密度的归一化项包含\ensuremath{\sqrt{\vphantom{x}}}det(\ensuremath{\Sigma})，不能直接把det(\ensuremath{\Sigma})当成椭圆面积。
+最后注意面积缩放的平方根：上面|det(A)|是坐标变换x=Az的面积倍数；高斯协方差记录的是平方后的变化量。若两个方向的标准差分别2、1，协方差是diag(4,1)，行列式为4，但等标准距离椭圆的面积相对单位圆只扩大2倍，即\(\sqrt{\det(\Sigma)}\)。一般写成\ensuremath{\Sigma}=AA\textsuperscript{T}时，也有|det(A)|=\(\sqrt{\det(\Sigma)}\)。因此高斯密度的归一化项包含\(\sqrt{\det(\Sigma)}\)，不能直接把det(\ensuremath{\Sigma})当成椭圆面积。
 
 
 \textbf{独立变式 / Try}\\

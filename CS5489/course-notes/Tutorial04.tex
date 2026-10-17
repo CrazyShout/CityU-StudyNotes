@@ -307,7 +307,7 @@ English: Compare the printed scores, and distinguish the CV-selected model from 
 残差修正保留旧模型，由新模型预测旧模型尚未解释的差值。约定\(r=y-f_{old}(x)\)时，加上\(\hat r\)；若把残差反过来定义为\(f_{old}(x)-y\)，修正时必须减。原题文字没有把这个符号约定讲透，实施时不能前后混用。
 
 
-三种方法都不保证最好。新数据只有冬末春初，单独训练可能看不到夏季；合并数据覆盖更广，但旧年份占比大；残差法保留旧季节形状，却也依赖“差值规律能迁移到后九个月”的假设。比较时结合上表误差和这些假设解释结果。
+三种方法都不保证最好。新数据只有冬末春初，单独训练可能看不到夏季；合并数据覆盖更广，但旧年份占比大；残差法在旧预测上加修正，仍可能改变季节曲线，并依赖“差值规律能迁移到后九个月”的假设。比较时结合上表误差和这些假设解释结果。
 \end{StudyBlock}
 
 \textbf{迁移题 / Transfer：} 若现在只到2012年2月底，可以拿3月数据选参数吗？为什么？ / If it is only the end of February 2012, may March observations be used for tuning an operational predictor?

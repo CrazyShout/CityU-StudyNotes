@@ -1,0 +1,129 @@
+{
+  "scope": "three teaching books; six exam candidates checked for regression",
+  "overview_pages": 350,
+  "overview_contact_sheets_viewed": 13,
+  "initial_render": {
+    "CS5222": {
+      "pages": 99,
+      "pdf_sha256": "34ecaa31e93cf770c6da75fd97f04f714492e3b3980cd5b439478853c42cd2b7",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9216294900886244,
+        1.0421539419271644
+      ],
+      "sheets": [
+        ".build/three-books-followup-2026-10-18/candidate/CS5222-sheet-01.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5222-sheet-02.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5222-sheet-03.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5222-sheet-04.png"
+      ]
+    },
+    "Foundations": {
+      "pages": 43,
+      "pdf_sha256": "1b0fd67f86078ec2bad10e6e33ffc70028b7bc14ba99296a4a3347c7c91a915b",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9485011529592621,
+        1.0785320827750484
+      ],
+      "sheets": [
+        ".build/three-books-followup-2026-10-18/candidate/Foundations-sheet-01.png",
+        ".build/three-books-followup-2026-10-18/candidate/Foundations-sheet-02.png"
+      ]
+    },
+    "CS5489": {
+      "pages": 208,
+      "pdf_sha256": "8c012b12ca545b057ed8a5001d513b1a127db917b6d858a30d4a477e005418ed",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8892034361577509,
+        1.0419195483415666
+      ],
+      "sheets": [
+        ".build/three-books-followup-2026-10-18/candidate/CS5489-sheet-01.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5489-sheet-02.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5489-sheet-03.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5489-sheet-04.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5489-sheet-05.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5489-sheet-06.png",
+        ".build/three-books-followup-2026-10-18/candidate/CS5489-sheet-07.png"
+      ]
+    }
+  },
+  "final_updated_render": {
+    "Foundations": {
+      "pages": 43,
+      "pdf_sha256": "da5ce150fe6a2b9433b79ec3e8dd3e0047202fc94e14ee1bb6e013f47116ecef",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9485011529592621,
+        1.0785320827750484
+      ],
+      "sheets": [
+        ".build/three-books-followup-2026-10-18/candidate-final/Foundations-sheet-01.png",
+        ".build/three-books-followup-2026-10-18/candidate-final/Foundations-sheet-02.png"
+      ]
+    },
+    "CS5222": {
+      "pages": 99,
+      "pdf_sha256": "f53cc2759b23937bf5f2086e1fc04895dcbcea0585f25d9297987def6229bf89",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9216294900886244,
+        1.0421539419271644
+      ],
+      "sheets": [
+        ".build/three-books-followup-2026-10-18/candidate-final/CS5222-sheet-01.png",
+        ".build/three-books-followup-2026-10-18/candidate-final/CS5222-sheet-02.png",
+        ".build/three-books-followup-2026-10-18/candidate-final/CS5222-sheet-03.png",
+        ".build/three-books-followup-2026-10-18/candidate-final/CS5222-sheet-04.png"
+      ]
+    }
+  },
+  "final_changed_pages_viewed": {
+    "CS5489": [
+      13,
+      16,
+      17,
+      89,
+      125,
+      142,
+      182
+    ],
+    "CS5222": [
+      35,
+      51
+    ],
+    "Foundations": [
+      7,
+      8,
+      9,
+      12,
+      22,
+      27
+    ]
+  },
+  "additional_full_pages_viewed": {
+    "CS5222": [
+      52,
+      53
+    ]
+  },
+  "grayscale_125dpi": {
+    "CS5489": [
+      142
+    ],
+    "CS5222": [
+      51
+    ],
+    "Foundations": [
+      27
+    ]
+  },
+  "observations": [
+    "13行内根式横线完整覆盖被开方量；数值及原独立公式编号保持。",
+    "GBN/SR英文答案压缩后不再将后页Telnet图挤走；图和引导段保持同页。",
+    "基础册p.7完整双语短答案同页；p.8–9的长条件概率示范自然续排。",
+    "长代码继续跨页；原题整页图保留。没有实体打印。"
+  ]
+}

@@ -320,7 +320,7 @@ for x in values:
 
 \textbf{变式 / Transfer：} 对[1,2,3,4]只收集偶数的平方，结果是什么？ / Collect squares of the even values in [1,2,3,4].\\
 
-\textbf{答／Answer：} [4,16]，例如\StudyInline{[x*x for x in values if x\%2=\allowbreak{}=\allowbreak{}0]}。 / [4,16], by testing evenness before collecting the square.
+\textbf{答／Answer：} [4,16]，例如\StudyInline{[x*x for x in [1,2,3,4] if x\%2=\allowbreak{}=\allowbreak{}0]}。 / [4,16], by testing evenness before collecting the square.
 
 
 来源： Lecture1a，第96–123个单元。
@@ -497,7 +497,7 @@ b + c   # [[2,3,4],[3,4,5]]
 \StudyTarget{CS5489-Lecture01__12-brief-linear-algebra-review}
 
 
-向量x、y的内积x\textsuperscript{T}y把对应元素相乘再求和；长度为\ensuremath{\sqrt{\vphantom{x}}}(x\textsuperscript{T}x)，距离为‖x\ensuremath{-}y‖\textsubscript{2}。内积同时受长度与方向影响，不是无条件归一化的相似度。外积xy\textsuperscript{T}得到一个矩阵。
+向量x、y的内积x\textsuperscript{T}y把对应元素相乘再求和；长度为\(\sqrt{x^T x}\)，距离为‖x\ensuremath{-}y‖\textsubscript{2}。内积同时受长度与方向影响，不是无条件归一化的相似度。外积xy\textsuperscript{T}得到一个矩阵。
 
 
 矩阵乘法必须内维度相同：(m\ensuremath{\times}d)乘(d\ensuremath{\times}n)得到(m\ensuremath{\times}n)，每格是左行与右列的点积：
@@ -529,7 +529,7 @@ AB=\begin{pmatrix}4&5\\10&11\end{pmatrix}.\tag{1.2}
 这样也能读懂原课的几种写法：Ax是A各列的加权和；A\textsuperscript{T}x把x分别与A各列作内积；AB的每一列都是一个Ab\textsubscript{j}。A\textsuperscript{T}B汇集两组列之间的内积，AB\textsuperscript{T}则可写成对应列外积之和。各式先检查相乘维度，再判断输出。
 
 
-原例x=(1,2,3)、y=(2,1,1)，内积7，长度\ensuremath{\sqrt{\vphantom{x}}}14，距离\ensuremath{\sqrt{\vphantom{x}}}6。\StudyRef{Foundations-MathForML}{matrix-products}{需要逐格演算时补这里}。Tutorial1再把投影与正交化实现出来。
+原例x=(1,2,3)、y=(2,1,1)，内积7，长度\(\sqrt{14}\)，距离\(\sqrt{6}\)。\StudyRef{Foundations-MathForML}{matrix-products}{需要逐格演算时补这里}。Tutorial1再把投影与正交化实现出来。
 
 
 来源： Lecture1b，第84–109个单元。

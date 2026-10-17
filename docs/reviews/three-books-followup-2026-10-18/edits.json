@@ -1,0 +1,148 @@
+[
+  {
+    "finding": "F01",
+    "file": "learning/foundation-notes/MathForML.tex",
+    "line_at_edit": 270,
+    "occurrences": 1,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}a",
+    "after": "\\(\\sqrt{a}\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "learning/foundation-notes/MathForML.tex",
+    "line_at_edit": 270,
+    "occurrences": 1,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}9=3",
+    "after": "\\(\\sqrt{9}=3\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "learning/foundation-notes/MathForML.tex",
+    "line_at_edit": 522,
+    "occurrences": 1,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}2",
+    "after": "\\(\\sqrt{2}\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "learning/foundation-notes/MathForML.tex",
+    "line_at_edit": 998,
+    "occurrences": 1,
+    "before": "s=\\ensuremath{\\sqrt{\\vphantom{x}}}(8/3)\\ensuremath{\\approx}1.633 cm",
+    "after": "\\(s=\\sqrt{8/3}\\approx1.633\\) cm"
+  },
+  {
+    "finding": "F01",
+    "file": "learning/foundation-notes/MathForML.tex",
+    "line_at_edit": 1172,
+    "occurrences": 3,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}det(\\ensuremath{\\Sigma})",
+    "after": "\\(\\sqrt{\\det(\\Sigma)}\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "CS5489/course-notes/Lecture01.tex",
+    "line_at_edit": 500,
+    "occurrences": 1,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}(x\\textsuperscript{T}x)",
+    "after": "\\(\\sqrt{x^T x}\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "CS5489/course-notes/Lecture01.tex",
+    "line_at_edit": 532,
+    "occurrences": 1,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}14",
+    "after": "\\(\\sqrt{14}\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "CS5489/course-notes/Lecture01.tex",
+    "line_at_edit": 532,
+    "occurrences": 1,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}6",
+    "after": "\\(\\sqrt{6}\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "CS5489/course-notes/Tutorial01.tex",
+    "line_at_edit": 220,
+    "occurrences": 2,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}2",
+    "after": "\\(\\sqrt{2}\\)"
+  },
+  {
+    "finding": "F01",
+    "file": "CS5489/course-notes/Lecture04.tex",
+    "line_at_edit": 467,
+    "occurrences": 1,
+    "before": "\\ensuremath{\\sqrt{\\vphantom{x}}}2",
+    "after": "\\(\\sqrt{2}\\)"
+  },
+  {
+    "finding": "F02",
+    "file": "CS5489/course-notes/Tutorial02.tex",
+    "line_at_edit": 341,
+    "occurrences": 1,
+    "before": "两个模型后验接近。",
+    "after": "同一MNB模型给Business与Sci/Tech的后验概率接近。"
+  },
+  {
+    "finding": "F03",
+    "file": "CS5489/course-notes/Tutorial04.tex",
+    "line_at_edit": 310,
+    "occurrences": 1,
+    "before": "残差法保留旧季节形状，却也依赖“差值规律能迁移到后九个月”的假设。",
+    "after": "残差法在旧预测上加修正，仍可能改变季节曲线，并依赖“差值规律能迁移到后九个月”的假设。"
+  },
+  {
+    "finding": "F04",
+    "file": "CS5222/course-notes/Chapter03.tex",
+    "line_at_edit": 454,
+    "occurrences": 1,
+    "before": "Seven ACKs in each case; their final value differs.",
+    "after": "GBN sends ACKs 0,1,2,3,4,5,5; SR sends 0,1,2,3,4,5,7. Each receiver sends seven ACKs because the lost packet never arrives."
+  },
+  {
+    "finding": "F05",
+    "file": "CS5222/course-notes/Chapter02.tex",
+    "line_at_edit": 409,
+    "occurrences": 1,
+    "before": "解释视频由连续图像组成；",
+    "after": "视频由连续的图像帧组成；"
+  },
+  {
+    "finding": "F06",
+    "file": "CS5489/course-notes/Lecture01.tex",
+    "line_at_edit": 323,
+    "occurrences": 1,
+    "before": "\\StudyInline{[x*x for x in values if x\\%2=\\allowbreak{}=\\allowbreak{}0]}",
+    "after": "\\StudyInline{[x*x for x in [1,2,3,4] if x\\%2=\\allowbreak{}=\\allowbreak{}0]}"
+  },
+  {
+    "finding": "F02",
+    "file": "CS5489/course-notes/Tutorial02.tex",
+    "line_at_edit": 345,
+    "occurrences": 1,
+    "before": "These observations suggest explanations to test; retain the supplied evaluation labels.",
+    "after": "For index 14, Business and Sci/Tech have similar posterior probabilities under the same MNB model. These observations suggest explanations to test; retain the supplied evaluation labels."
+  },
+  {
+    "finding": "F04",
+    "file": "CS5222/course-notes/Chapter03.tex",
+    "line_at_edit": 454,
+    "occurrences": 1,
+    "before": "GBN sends ACKs 0,1,2,3,4,5,5; SR sends 0,1,2,3,4,5,7. Each receiver sends seven ACKs because the lost packet never arrives.",
+    "after": "GBN: 0,1,2,3,4,5,5; SR: 0,1,2,3,4,5,7.",
+    "reason": "候选PDF中加长的英文说明使后页TCP图整幅后移；保留题目所求两串编号，省去重复计数解释。"
+  },
+  {
+    "finding": "F07",
+    "file": "learning/foundation-notes/MathForML.tex",
+    "line_at_edit": 306,
+    "occurrences": 1,
+    "before": "平方和不是10\\textsuperscript{2}。\\\\\n\n\\textbf{English answer:}",
+    "after": "平方和不是10\\textsuperscript{2}。\n\n\\textbf{English answer:}",
+    "reason": "基础册p.7短答案中英文被拆页；去掉段落分隔前重复的强制换行，保留完整题答。"
+  }
+]

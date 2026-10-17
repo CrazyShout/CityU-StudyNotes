@@ -217,7 +217,7 @@ English: The zero bin contains the 25 primes in this range. Histogram counts tot
 把三步用一对具体列走完（教学补充）：\(v_1=(1,1)^T,v_2=(1,0)^T\)。第一列长度是\(\sqrt2\)，所以\(e_1=(1,1)^T/\sqrt2\)；第二列在它上面的投影是\((e_1^Tv_2)e_1=(1/2,1/2)^T\)。减去投影，余量\((1/2,-1/2)^T\)的长度是\(1/\sqrt2\)，归一化得到\(e_2=(1,-1)^T/\sqrt2\)。两列各自长度1，内积0，且能重建原来两列。
 
 
-\textbf{English worked example:} For columns (1,1)\textsuperscript{T} and (1,0)\textsuperscript{T}, normalize the first, subtract the second column's projection (1/2,1/2)\textsuperscript{T}, then normalize its residual. The resulting columns are (1,1)\textsuperscript{T}/\ensuremath{\sqrt{\vphantom{x}}}2 and (1,\ensuremath{-}1)\textsuperscript{T}/\ensuremath{\sqrt{\vphantom{x}}}2.
+\textbf{English worked example:} For columns (1,1)\textsuperscript{T} and (1,0)\textsuperscript{T}, normalize the first, subtract the second column's projection (1/2,1/2)\textsuperscript{T}, then normalize its residual. The resulting columns are (1,1)\textsuperscript{T}/\(\sqrt{2}\) and (1,\ensuremath{-}1)\textsuperscript{T}/\(\sqrt{2}\).
 \end{StudyBlock}
 
 这对应原课的classical Gram–Schmidt。数值接近线性相关时会更难稳定计算，后面的检查会帮助发现问题；其他QR算法可在二读时学习。
