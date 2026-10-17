@@ -22,9 +22,9 @@
 <a id="2-multiclass-logistic-regression"></a>
 - `2-multiclass-logistic-regression` → [第 102 页](../../pdf/CS5489-A4.pdf#page=102)
 <a id="cross-entropy"></a>
-- `cross-entropy` → [第 103 页](../../pdf/CS5489-A4.pdf#page=103)
+- `cross-entropy` → [第 104 页](../../pdf/CS5489-A4.pdf#page=104)
 <a id="3-cross-entropy-and-mle"></a>
-- `3-cross-entropy-and-mle` → [第 103 页](../../pdf/CS5489-A4.pdf#page=103)
+- `3-cross-entropy-and-mle` → [第 104 页](../../pdf/CS5489-A4.pdf#page=104)
 <a id="backprop"></a>
 - `backprop` → [第 104 页](../../pdf/CS5489-A4.pdf#page=104)
 <a id="4-chain-rule"></a>

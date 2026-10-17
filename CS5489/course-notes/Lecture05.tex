@@ -18,7 +18,7 @@
 \textbf{基础复习（可跳过）：} 不熟指数、求导，读\StudyRef{Foundations-MathForML}{derivatives}{对数与导数}；不熟悉矩阵求导，读\StudyRef{Foundations-MathForML}{batch-gradients}{批量梯度与计算图}。按需要选读即可。
 
 
-学习目标、难度与材料依据集中在\StudyRef{CS5489-Lecture05}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
+学习目标与难点见\StudyRef{CS5489-Lecture05}{learning-priorities}{文末学习要求表}。
 
 
 % EXAM:overview:START
@@ -114,7 +114,7 @@ SGD、学习率与momentum & 结合Assignment2优化器公式 & 未见／未见 
 \StudyTarget{CS5489-Lecture05__2-multiclass-logistic-regression}
 
 
-多分类任务中，从二分类转到 \(C\) 类。老师写 \(\mathbf g=\mathbf W^T\mathbf x\)，其中 \(\mathbf W\) 的第j列为第j类权重。省略的偏置仍可吸收入输入。\(g_j\) 是logit，正负、大小都不受概率范围约束。
+多分类任务中，从二分类转到 \(C\) 类。老师写 \(\mathbf g=\mathbf W^T\mathbf x\)，其中 \(\mathbf W\) 的第j列为第j类权重。给输入增加常数1后，偏置也可写进权重矩阵。\(g_j\) 是logit，正负、大小都不受概率范围约束。
 
 
 Softmax把实数分数变为一组和为1的数：
@@ -138,7 +138,7 @@ p_j=s_j(\mathbf g)=\frac{e^{g_j}}{\sum_{k=1}^{C}e^{g_k}}.\tag{5.2}
 计算时先减去最大logit：\(e^{g_j-m}/\sum_ke^{g_k-m}\)，其中 \(m=\max_k g_k\)。所有项同乘 \(e^{-m}\)，比例不变，却避免把大分数直接指数化。PyTorch的CrossEntropyLoss接收logits，内部处理log-softmax；不要在它前面再对输出做一次softmax。
 
 
-\textbf{变式 / Transfer：} 全部logit加100，概率改变吗？若全部乘2呢？ / What happens after adding 100 to every logit, or multiplying all logits by two?
+\textbf{变式 / Transfer：} 原logits为(ln2,ln3,ln5)。全部加100，概率改变吗？若全部乘2呢？ / Starting from logits (ln2,ln3,ln5), what happens to the probabilities after adding 100 to every logit, or multiplying all logits by two?
 
 
 
@@ -232,7 +232,7 @@ Softmax的每个概率都有共同分母。对 \(p_k=e^{g_k}/\sum_r e^{g_r}\) �
 \textbf{完整例子 / Worked：} 取 \(\mathbf x=(1,2)^T\)，概率仍为(0.2,0.3,0.5)，真类3。logit梯度为(0.2,0.3,\ensuremath{-}0.5)，权重梯度的三列是(0.2,0.4)、(0.3,0.6)、(\ensuremath{-}0.5,\ensuremath{-}1)。学习率0.1时，减去这个梯度：压低错类分数，提升真类分数。 / The gradient matrix is the outer product of x and (p\ensuremath{-}y); descent raises the true-class score relative to the others.
 
 
-\textbf{补一步 / Fill in：} 同样概率但真类2，logit梯度是什么？ / Change only the true label to class 2.
+\textbf{补一步 / Fill in：} 单样本softmax交叉熵，概率为(0.2,0.3,0.5)，真类为2，logit梯度是什么？ / For single-sample softmax cross-entropy with probabilities (0.2,0.3,0.5) and true class 2, find the logit gradient.
 
 
 
@@ -300,7 +300,7 @@ Sigmoid导数在u=0时最大，为1/4；tanh导数在u=0时为1。两者到了�
 \StudyCaption{常见激活的函数值与局部斜率；右图用于理解反向传播中的变化率。}
 
 
-左图看响应值，右图看局部斜率。ReLU在0处左斜率为0、右斜率为1，因此普通导数不存在。程序仍需约定在这个点传回什么值；这是计算规则，不是该点存在普通导数。回归输出可用线性层，互斥多分类输出使用logits配交叉熵。
+ReLU在0处左斜率为0、右斜率为1，因此普通导数不存在。程序仍需约定在这个点传回什么值；这是计算规则，不是该点存在普通导数。回归输出可用线性层，互斥多分类输出使用logits配交叉熵。
 
 
 输出层还必须与损失匹配。比如二分类交叉熵在真类为1时是\(-\log p\)：p=0.75时约0.2877；若把一条直线截断成[0,1]并恰好输出p=0，损失就变成无穷大，不能直接套“平段导数0所以梯度0”。隐藏层ReLU可以大于1，也不能直接当类别概率。历史输出激活题要同时检查取值范围、饱和区与log的定义域。 / Check output range, saturation and the logarithm's domain together; a zero probability for the true class gives infinite cross-entropy.
@@ -311,7 +311,7 @@ Sigmoid导数在u=0时最大，为1/4；tanh导数在u=0时为1。两者到了�
 \end{StudyBlock}
 
 
-\textbf{独立题 / Check：} 4输入、3隐藏、2输出，参数多少？ / Count parameters for a fully connected 4–3–2 network with a bias at every hidden and output unit.
+\textbf{独立题 / Check：} 全连接网络有4个输入、3个隐藏节点、2个输出，隐藏层和输出层均带偏置。参数多少？ / Count parameters for a fully connected 4–3–2 network with a bias at every hidden and output unit.
 
 
 
@@ -647,7 +647,7 @@ A的梯度形状为d\ensuremath{\times}h，c的梯度为1\ensuremath{\times}h，
 例如\(\theta_0=1,v_{-1}=0,\eta=0.1,\gamma=0.9\)，连续两批提供的梯度为2和\ensuremath{-}2。第一步\(v_0=0.2,\theta_1=0.8\)；第二步\(v_1=0.18-0.2=-0.02,\theta_2=0.82\)。方向突然翻转时，两次梯度的一部分互相抵消。若第二批仍为2，动量会沿原方向累积。
 
 
-\textbf{自查 / Check：} 在同样初值与参数下，两批梯度均为2，第二步后\ensuremath{\theta}是多少？ / With the same initial state, learning rate 0.1 and momentum 0.9, use gradients 2 and 2. What is \ensuremath{\theta} after two steps?
+\textbf{自查 / Check：} 沿用本节动量更新约定，初始参数为1、初始速度为0，学习率0.1、动量系数0.9，两批梯度均为2。第二步后\ensuremath{\theta}是多少？ / Use the momentum convention in this section, initial parameter 1, initial velocity 0, learning rate 0.1 and momentum 0.9, with gradients 2 and 2. What is \ensuremath{\theta} after two steps?
 
 
 \textbf{答 / Answer：} 第二步v=0.38，\ensuremath{\theta}=0.42。 / The second velocity is 0.38, giving \ensuremath{\theta}=0.42.
@@ -861,7 +861,7 @@ MNIST示范与权重解释 & 常规掌握 & 中，展平及可视化 & 看懂流
 \StudyTarget{CS5489-Lecture05__historical-exam-map}
 
 
-题号和页码指向原题纸；同一考点在同卷出现多题仍只计一次。完整期中题答已按考点在本地另册维护；期末与QE题目可按下表回查原材料。
+题号和页码指向原题纸。完整期中题答见独立题库；期末与QE题目可按下表回查原材料。
 
 
 
@@ -873,7 +873,7 @@ QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
-题号见\StudyRef{CS5489-Lecture05}{exam-topic-index}{讲末索引}，材料身份见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
+按试卷查题及核对材料身份，见\StudyRef{CS5489-ExamIndex}{root}{全册附录}。
 
 \StudyHeading{2}{输出概率与交叉熵}
 

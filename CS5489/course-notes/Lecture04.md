@@ -66,7 +66,7 @@
 <a id="14-comparing-regression-methods"></a>
 - `14-comparing-regression-methods` → [第 96 页](../../pdf/CS5489-A4.pdf#page=96)
 <a id="15-english-self-test-and-review"></a>
-- `15-english-self-test-and-review` → [第 96 页](../../pdf/CS5489-A4.pdf#page=96)
+- `15-english-self-test-and-review` → [第 97 页](../../pdf/CS5489-A4.pdf#page=97)
 <a id="learning-priorities"></a>
 - `learning-priorities` → [第 97 页](../../pdf/CS5489-A4.pdf#page=97)
 <a id="exam-topic-index"></a>

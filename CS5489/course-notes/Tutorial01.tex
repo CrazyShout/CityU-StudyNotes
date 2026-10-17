@@ -42,8 +42,6 @@ Tutorial1，第46–47个单元 查帮助 & 常规掌握 & 低，工具用法 & 
 \endgroup
 
 
-优先级依据上列原任务。
-
 
 
 
@@ -103,7 +101,7 @@ English: Configure paths here; generated files go to the learning-note output di
 
 
 
-\StudyHeading{1}{2. Count factors｜先写人能逐行跟上的版本}
+\StudyHeading{1}{2. Count factors｜循环范围与因子计数}
 \StudyTarget{CS5489-Tutorial01__cell-7}
 \StudyTarget{CS5489-Tutorial01__notebook-1a9645aa}
 \StudyTarget{CS5489-Tutorial01__2-count-factors}
@@ -132,7 +130,7 @@ English: Configure paths here; generated files go to the learning-note output di
 \StudyTarget{CS5489-Tutorial01__cell-9}
 \StudyTarget{CS5489-Tutorial01__notebook-43df6a5d}
 \textbf{变式 / Transfer:} 不运行程序，求9和13的结果。 / Without running the program, find the counts for 9 and 13.
-\textbf{答 / Answer:} 9只有3，得到1；13为素数，得到0。 / 9 has only divisor 3, giving 1; 13 is prime, giving 0.
+\textbf{答 / Answer:} 9除1和自身外只有正因子3，得到1；13为素数，得到0。 / The only positive divisor of 9 other than 1 and itself is 3, giving 1; 13 is prime, giving 0.
 
 
 第一张图问“每个数有几个因子”，第二张图问“有多少数落在某个因子数里”。两个横轴不是同一个东西。
@@ -219,7 +217,7 @@ English: The zero bin contains the 25 primes in this range. Histogram counts tot
 把三步用一对具体列走完（教学补充）：\(v_1=(1,1)^T,v_2=(1,0)^T\)。第一列长度是\(\sqrt2\)，所以\(e_1=(1,1)^T/\sqrt2\)；第二列在它上面的投影是\((e_1^Tv_2)e_1=(1/2,1/2)^T\)。减去投影，余量\((1/2,-1/2)^T\)的长度是\(1/\sqrt2\)，归一化得到\(e_2=(1,-1)^T/\sqrt2\)。两列各自长度1，内积0，且能重建原来两列。
 
 
-\textbf{English worked example:} For columns (1,1)\textsuperscript{T} and (1,0)\textsuperscript{T}, normalize the first, subtract the second column's projection (1/2,1/2)\textsuperscript{T}, then normalize its residual. The resulting columns are (1,1)\textsuperscript{T}/\ensuremath{\sqrt{\vphantom{x}}}2 and (1,\ensuremath{-}1)\textsuperscript{T}/\ensuremath{\sqrt{\vphantom{x}}}2.
+\textbf{English worked example:} For columns (1,1)\textsuperscript{T} and (1,0)\textsuperscript{T}, normalize the first, subtract the second column's projection (1/2,1/2)\textsuperscript{T}, then normalize its residual. The resulting columns are (1,1)\textsuperscript{T}/\(\sqrt{2}\) and (1,\ensuremath{-}1)\textsuperscript{T}/\(\sqrt{2}\).
 \end{StudyBlock}
 
 这对应原课的classical Gram–Schmidt。数值接近线性相关时会更难稳定计算，后面的检查会帮助发现问题；其他QR算法可在二读时学习。

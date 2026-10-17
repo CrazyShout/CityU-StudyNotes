@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "books": {
+    "CS5489": {
+      "pages": 208,
+      "text_and_pixels_match": "approved candidate",
+      "byte_identical_to_comparison": false,
+      "sha256": "34da604b377cba278ac4ff592f1613eb03dbda56e5f968fd1dc81acde53217f8"
+    },
+    "CS5222": {
+      "pages": 99,
+      "text_and_pixels_match": "approved candidate",
+      "byte_identical_to_comparison": false,
+      "sha256": "9cb8475b73f3a0686193e20907fca683d80905ef685367c6dc636b0c8d90e856"
+    },
+    "Foundations": {
+      "pages": 43,
+      "text_and_pixels_match": "approved candidate",
+      "byte_identical_to_comparison": false,
+      "sha256": "c13a93ad490d8bc6780edc3b787954e953ed7f8d449884e4c7909616ab839ff4"
+    },
+    "Questions": {
+      "pages": 74,
+      "text_and_pixels_match": "baseline",
+      "byte_identical_to_comparison": true,
+      "sha256": "f822d527a5731dacdc1a42642bb89c36a4e8439fc70173509a2372d63f41b03c"
+    },
+    "Answers": {
+      "pages": 98,
+      "text_and_pixels_match": "baseline",
+      "byte_identical_to_comparison": true,
+      "sha256": "4bb3bdfe8649c352303f948a4851b6e1b7ab2c86e14da85e692e4c49cf317307"
+    },
+    "Combined": {
+      "pages": 111,
+      "text_and_pixels_match": "baseline",
+      "byte_identical_to_comparison": true,
+      "sha256": "70e4abb8b3b43ef3eba43051021979868e3b3779fc0caa4846ef7e1b020ba348"
+    },
+    "Compact": {
+      "pages": 75,
+      "text_and_pixels_match": "baseline",
+      "byte_identical_to_comparison": true,
+      "sha256": "c7c085eac7e08d0ecd49be682438c084e910ae0865106b3540754394edc7e6d0"
+    },
+    "MultipleChoice": {
+      "pages": 34,
+      "text_and_pixels_match": "baseline",
+      "byte_identical_to_comparison": true,
+      "sha256": "cea782adde100c737de503043b61b3ca0e736139c3234220f18d7b20c638c703"
+    },
+    "WrittenResponse": {
+      "pages": 45,
+      "text_and_pixels_match": "baseline",
+      "byte_identical_to_comparison": true,
+      "sha256": "f7d80ba9fbde05333e7639d3102cca70e2e5aae04e2433297335f17b3092618e"
+    }
+  },
+  "repo_source_refs": {
+    "CS5489": {
+      "ea7eef438045f32edb40662a6a72a053dedbeda0": 29
+    },
+    "CS5222": {
+      "ea7eef438045f32edb40662a6a72a053dedbeda0": 15
+    },
+    "Foundations": {
+      "ea7eef438045f32edb40662a6a72a053dedbeda0": 11
+    },
+    "Questions": {
+      "d9fc0c70b9246cc4ffd9ba2204ef39a037e236af": 1
+    },
+    "Answers": {
+      "d9fc0c70b9246cc4ffd9ba2204ef39a037e236af": 1
+    },
+    "Combined": {},
+    "Compact": {},
+    "MultipleChoice": {},
+    "WrittenResponse": {}
+  },
+  "nine_official_page_maps_match": true
+}

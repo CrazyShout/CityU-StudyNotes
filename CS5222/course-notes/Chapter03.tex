@@ -12,7 +12,7 @@
 \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter02}{root}{上一章：应用层} · \StudyRef{CS5222-Tutorial05}{root}{Tutorial 5}
 
 
-同一台电脑可以同时开浏览器、邮件和游戏。网络把数据送到这台电脑之后，还要知道交给哪一个程序。即使地址写对，途中也可能损坏、丢失或重复；收到半段文件不能直接说“差不多齐了”。这一章从进程寻址开始，逐步增加可靠传输需要的机制。
+同一台电脑可以同时开浏览器、邮件和游戏。网络把数据送到这台电脑之后，还要知道交给哪一个程序。即使地址写对，途中也可能损坏、丢失或重复。这一章从进程寻址开始，逐步增加可靠传输需要的机制。
 
 
 依据当前part1的44页和part2的26页。两份课件的幻灯片序号各自从1开始。目前整理至TCP的RTT与超时；流控、连接管理及拥塞控制待后续材料补充。
@@ -21,7 +21,7 @@
 \textbf{基础补课（可跳过）：} \StudyRef{Foundations-NetworkBasics}{units}{bit、byte与速率}、\StudyRef{Foundations-NetworkBasics}{binary}{二进制}、\StudyRef{Foundations-NetworkBasics}{timeline}{时间轴}。阅读时留意“第几个包”和“第几个字节”的区别，§9会具体比较。
 
 
-学习目标、难度与材料依据集中在\StudyRef{CS5222-Chapter03}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
+学习目标与难点见\StudyRef{CS5222-Chapter03}{learning-priorities}{文末学习要求表}。
 
 
 
@@ -60,7 +60,7 @@ TCP提供连接上的可靠有序字节流以及流控、拥塞控制；UDP提�
 
 
 
-\StudyHeading{1}{2. Multiplexing and demultiplexing｜同一栋楼有许多门}
+\StudyHeading{1}{2. Multiplexing and demultiplexing｜按地址与端口区分端点}
 \StudyTarget{CS5222-Chapter03__demux}
 \StudyTarget{CS5222-Chapter03__2-multiplexing-and-demultiplexing}
 
@@ -97,7 +97,7 @@ TCP提供连接上的可靠有序字节流以及流控、拥塞控制；UDP提�
 
 
 
-\StudyHeading{1}{3. UDP｜少做承诺，也少保存状态}
+\StudyHeading{1}{3. UDP｜数据报服务与首部}
 \StudyTarget{CS5222-Chapter03__udp}
 \StudyTarget{CS5222-Chapter03__3-udp}
 
@@ -247,6 +247,7 @@ UDP首部四个16bit字段为source port、destination port、length、checksum�
 
 
 
+\Needspace{10\baselineskip}
 \StudyHeading{2}{rdt2.2：让ACK带编号，便可去掉NAK}
 \StudyTarget{CS5222-Chapter03__rdt22acknak}
 
@@ -269,6 +270,7 @@ UDP首部四个16bit字段为source port、destination port、length、checksum�
 \end{StudyBlock}
 
 
+\Needspace{12\baselineskip}
 \textbf{独立题 / Check：} rdt2.2中A(0)已正确交付，接收者改等1，但ACK0在途中损坏。随后重传的数据与反馈都正确到达，且无丢失或重排。依次写出发送者动作、接收者动作及双方最终状态。 / In rdt2.2, A(0) is delivered and the receiver waits for 1, but ACK0 is corrupted. The retransmitted data and its reply then arrive intact, with no loss or reordering. State both endpoints' actions and final states.
 
 
@@ -292,7 +294,7 @@ UDP首部四个16bit字段为source port、destination port、length、checksum�
 
 
 
-\StudyHeading{1}{6. rdt3.0｜坏消息会来，丢掉的消息可能一直不来}
+\StudyHeading{1}{6. rdt3.0｜丢包后的超时与重传}
 \StudyTarget{CS5222-Chapter03__rdt3}
 \StudyTarget{CS5222-Chapter03__6-rdt30}
 
@@ -385,7 +387,7 @@ U_N=\min\left(1,\frac{N L/R}{RTT+L/R}\right).\tag{3.2}
 窗口越大，可填补等待；但不能超过100\%。本例达到满利用需\(N\ge3751\)。这是忽略其他瓶颈与ACK成本的模型结果，不是给真实TCP直接配置3751就必然满速。
 
 
-\textbf{迁移 / Transfer：} 同样RTT与包长，R改为100Mbps，停等吞吐是否变为原来的十分之一？ / Recompute after reducing R to 100 Mbps.
+\textbf{迁移 / Transfer：} 包长8000 bit、RTT=30 ms，忽略ACK传输与处理，R从1 Gbps降到100 Mbps。停等吞吐是否降为原来的十分之一？ / For 8000-bit packets and RTT=30 ms, ignore ACK transmission and processing. Reduce R from 1 Gbps to 100 Mbps. Does stop-and-wait throughput fall to one tenth of its original value?
 
 
 
@@ -449,7 +451,7 @@ SR接收端对当前窗口内正确包确认并按需缓存；对上一窗口内
 \begin{StudySolution}{答案 / Answer}
 
 
-GBN：0,1,2,3,4,5,5。SR：0,1,2,3,4,5,7。总共7个，因为丢失包没到达，不产生ACK。 / Seven ACKs in each case; their final value differs.
+GBN：0,1,2,3,4,5,5。SR：0,1,2,3,4,5,7。总共7个，因为丢失包没到达，不产生ACK。 / GBN: 0,1,2,3,4,5,5; SR: 0,1,2,3,4,5,7.
 
 
 \end{StudySolution}
@@ -590,7 +592,7 @@ S是本次样本，E与S都以相同时间单位计。历史样本的影响指�
 如果题目规定D固定为10 ms，则是105+40=145 ms；若用旧E更新D，又会得到另一值。做题时要把采用的更新顺序写明，不能把不同约定的结果直接比较。
 \end{StudyBlock}
 
-\textbf{变式 / Transfer：} 从同样的旧E=100 ms、旧D=10 ms重新开始，S改为80 ms，仍先更新E再更新D。求E、D、RTO。 / Restart from E=100 ms and D=10 ms, but use S=80 ms. Keep the same coefficients and update order. Find the new E, D and RTO.
+\textbf{变式 / Transfer：} 从同样的旧E=100 ms、旧D=10 ms重新开始，S改为80 ms，alpha=0.125、beta=0.25，仍先更新E再更新D。求E、D、RTO。 / Restart from E=100 ms and D=10 ms, with S=80 ms, alpha=0.125 and beta=0.25. Update E first, then use the new E to update D. Find the new E, D and RTO.
 
 
 \textbf{答 / Answer：} E=97.5 ms；偏差17.5 ms，D=11.875 ms；RTO=145 ms。 / E=97.5 ms, D=11.875 ms, RTO=145 ms.
@@ -610,10 +612,26 @@ S是本次样本，E与S都以相同时间单位计。历史样本的影响指�
 \StudyRef{CS5222-Tutorial05}{root}{Tutorial5}前两题检查端点、方向和解复用；Q3检查反码加法及漏检；Q4要求你给可靠性结论找模型反例。先完成这些，再复习\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N150}{N150}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N154}{N154}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N158}{N158}、\href{https://crazyshout.github.io/micro-course/cards.html\#CS5222-N167}{N167}。
 
 
-英文自测：Why can different clients share server port 80? What ambiguity do sequence numbers solve? Why is a timer needed? Why can a delayed duplicate defeat alternating-bit assumptions? How do packet ACKs differ from TCP ACKs?
+\textbf{Q1 / 题：} 不同客户端为什么可以共享服务器80端口？ / Why can different clients share server port 80?
 
+\textbf{答 / Answer：} 已建立TCP连接按源IP、源端口、目的IP、目的端口四元组区分。服务器端口相同时，客户端地址或端口不同仍可区分连接。 / Established TCP connections use both address-port pairs. Different client addresses or ports distinguish connections that share server port 80.
 
-最低要点 / Key points：完整端点不同；分清新数据与重传；丢失时无反馈；旧编号可能被重用；TCP确认下一个字节。 / Different endpoint tuples; distinguish new data from retransmissions; loss may produce no feedback; old numbers can be reused; TCP acknowledges the next byte.
+\Needspace{7\baselineskip}
+\textbf{Q2 / 题：} 序号解决了什么歧义？ / What ambiguity do sequence numbers solve?
+
+\textbf{答 / Answer：} 在本章rdt模型中，同一份数据重传时保留序号，新数据才换号，使接收方能辨认重复副本，避免再次交付。 / In the rdt models, retransmissions retain the data's sequence number, while new data use the next number. This lets the receiver recognize duplicates and avoid redelivery.
+
+\textbf{Q3 / 题：} 为什么还需要定时器？ / Why is a timer needed?
+
+\textbf{答 / Answer：} 数据或ACK丢失时可能没有任何反馈，定时器超时才能触发重传。超时也可能由延迟造成，本身不能证明包已丢失。 / Lost data or ACKs may produce no feedback, so timeout provides a retransmission trigger. A timeout can also result from delay and does not prove loss.
+
+\textbf{Q4 / 题：} 长时间延迟的旧副本为什么可能破坏交替比特协议的可靠性？ / Why can a delayed duplicate defeat alternating-bit assumptions?
+
+\textbf{答 / Answer：} 若旧0号包一直延迟到接收方又等待0号新数据时才到达，接收方可能把旧数据重新交付。因此可靠性需要限制旧副本的延迟或寿命，不能允许任意重排和长期滞留。 / An old packet 0 can arrive after the receiver again expects new data 0 and be delivered as new. Correctness therefore needs assumptions that prevent arbitrarily delayed duplicates from surviving until number reuse.
+
+\textbf{Q5 / 题：} 本章的包ACK与TCP字节ACK有何区别？ / How do packet ACKs differ from TCP ACKs?
+
+\textbf{答 / Answer：} GBN的ACK n累计确认截至n号包；SR的ACK n只确认n号包。TCP的ACK k表示下一个期待的字节，累计确认k之前连续收到的字节。 / GBN ACK n confirms all packets through n; SR ACK n confirms only packet n. TCP ACK k identifies the next expected byte and cumulatively acknowledges the contiguous bytes before k.
 
 
 

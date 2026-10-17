@@ -1,0 +1,374 @@
+{
+  "status": "passed",
+  "pages": 787,
+  "books": {
+    "CS5222": {
+      "pages": 99,
+      "pdf_sha256": "e9f1252e6f191b0247a8e11733f793c7717318661242d19f6856c2875fc55792",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9216294900886244,
+        1.0421539419271644
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/CS5222-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/CS5222-sheet-02.png",
+        ".build/prose-audit/candidate-reviewed/CS5222-sheet-03.png",
+        ".build/prose-audit/candidate-reviewed/CS5222-sheet-04.png"
+      ]
+    },
+    "Foundations": {
+      "pages": 43,
+      "pdf_sha256": "250787e3e88b68e0c94d5018c6a9755095cb33b43f9b22b93f7cd9e0beb0c52b",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.9485011529592621,
+        1.0785320827750484
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/Foundations-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/Foundations-sheet-02.png"
+      ]
+    },
+    "Questions": {
+      "pages": 74,
+      "pdf_sha256": "48ad4d59a3a3cc14d050e05625d0e0ae48532a0174b70b80013c4235b1ca78ec",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8670402445236882,
+        1.0112578672103536
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/Questions-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/Questions-sheet-02.png",
+        ".build/prose-audit/candidate-reviewed/Questions-sheet-03.png"
+      ]
+    },
+    "CS5489": {
+      "pages": 208,
+      "pdf_sha256": "fe71567d31242fa6e809efec9802d9268efe123864b835258b07fbcc20673f43",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8892034361577509,
+        1.0419195483415666
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/CS5489-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/CS5489-sheet-02.png",
+        ".build/prose-audit/candidate-reviewed/CS5489-sheet-03.png",
+        ".build/prose-audit/candidate-reviewed/CS5489-sheet-04.png",
+        ".build/prose-audit/candidate-reviewed/CS5489-sheet-05.png",
+        ".build/prose-audit/candidate-reviewed/CS5489-sheet-06.png",
+        ".build/prose-audit/candidate-reviewed/CS5489-sheet-07.png"
+      ]
+    },
+    "Answers": {
+      "pages": 98,
+      "pdf_sha256": "2b6a5b2b0377653d8bf804a843815a70377d511e77982d070b3ed7a0cdb666bf",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8672715225036954,
+        1.0182981589582398
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/Answers-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/Answers-sheet-02.png",
+        ".build/prose-audit/candidate-reviewed/Answers-sheet-03.png",
+        ".build/prose-audit/candidate-reviewed/Answers-sheet-04.png"
+      ]
+    },
+    "Combined": {
+      "pages": 111,
+      "pdf_sha256": "82308c3e3da59bdfa82f6af8a4403de0d3c370fc56b6371abbd35a9a393bb359",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8676762030590985,
+        1.0248854310987956
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/Combined-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/Combined-sheet-02.png",
+        ".build/prose-audit/candidate-reviewed/Combined-sheet-03.png",
+        ".build/prose-audit/candidate-reviewed/Combined-sheet-04.png"
+      ]
+    },
+    "MultipleChoice": {
+      "pages": 34,
+      "pdf_sha256": "ba81de66d4b8bd115dc9ff68f8a8f66c7da206661bafed2f0c23f2e5255c0379",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.7975166297117516,
+        1.0087677967837754
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/MultipleChoice-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/MultipleChoice-sheet-02.png"
+      ]
+    },
+    "Compact": {
+      "pages": 75,
+      "pdf_sha256": "f9e0d9025bc78d04c3e91464f01ccafdbb9b95579e1caa8d27e4f41db5421872",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.8669965818070506,
+        1.0298244207488174
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/Compact-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/Compact-sheet-02.png",
+        ".build/prose-audit/candidate-reviewed/Compact-sheet-03.png"
+      ]
+    },
+    "WrittenResponse": {
+      "pages": 45,
+      "pdf_sha256": "7e04c067024352c8b184863bf7d9e7c12ee2c4b49b00967c6337b804703aa9cd",
+      "poppler_stderr": "",
+      "ink_ratio_range": [
+        0.7784976033553026,
+        1.0226044088400885
+      ],
+      "sheets": [
+        ".build/prose-audit/candidate-reviewed/WrittenResponse-sheet-01.png",
+        ".build/prose-audit/candidate-reviewed/WrittenResponse-sheet-02.png"
+      ]
+    }
+  },
+  "contact_sheets_viewed": 31,
+  "contact_update_sheets_viewed": [
+    ".build/prose-audit/candidate-reviewed/CS5222-sheet-02.png",
+    ".build/prose-audit/candidate-reviewed/CS5489-sheet-01.png",
+    ".build/prose-audit/candidate-reviewed/CS5489-sheet-02.png",
+    ".build/prose-audit/candidate-reviewed/CS5489-sheet-03.png",
+    ".build/prose-audit/candidate-reviewed/CS5489-sheet-04.png",
+    ".build/prose-audit/candidate-reviewed/CS5489-sheet-05.png",
+    ".build/prose-audit/candidate-reviewed/CS5489-sheet-07.png",
+    ".build/prose-audit/candidate-reviewed/Foundations-sheet-02.png"
+  ],
+  "detail_reviewed_pages": {
+    "CS5489": [
+      7,
+      10,
+      11,
+      12,
+      15,
+      21,
+      22,
+      23,
+      24,
+      34,
+      50,
+      51,
+      52,
+      53,
+      59,
+      60,
+      61,
+      63,
+      71,
+      74,
+      81,
+      82,
+      84,
+      86,
+      91,
+      94,
+      97,
+      98,
+      99,
+      101,
+      102,
+      103,
+      105,
+      106,
+      111,
+      114,
+      115,
+      118,
+      120,
+      121,
+      129,
+      142,
+      147,
+      153,
+      154,
+      156,
+      167,
+      170,
+      172,
+      175,
+      177,
+      182,
+      184,
+      185,
+      191,
+      192,
+      195,
+      198,
+      199,
+      200,
+      204,
+      208
+    ],
+    "CS5222": [
+      5,
+      7,
+      10,
+      12,
+      17,
+      25,
+      30,
+      34,
+      35,
+      38,
+      41,
+      43,
+      46,
+      47,
+      50,
+      54,
+      55,
+      57,
+      59,
+      61,
+      66,
+      68,
+      70,
+      72,
+      73,
+      75,
+      77,
+      78,
+      79,
+      80,
+      82,
+      83,
+      84,
+      85,
+      86,
+      88,
+      90,
+      91,
+      93,
+      96,
+      97,
+      98,
+      99
+    ],
+    "Foundations": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      11,
+      17,
+      18,
+      22,
+      25,
+      30,
+      31,
+      32,
+      33,
+      36,
+      37,
+      38,
+      41,
+      42,
+      43
+    ]
+  },
+  "detail_reading": "110dpi edited paragraphs with neighboring context; 72 sheets read, then full changed pages reread after final layout edits.",
+  "focus": {
+    "full_pages": {
+      "CS5489": [
+        12,
+        49,
+        50,
+        51,
+        141,
+        142,
+        143,
+        153,
+        154,
+        155,
+        190,
+        191,
+        192,
+        193,
+        197,
+        198,
+        199,
+        200
+      ],
+      "CS5222": [
+        45,
+        46,
+        47,
+        48,
+        53,
+        54,
+        55,
+        56
+      ],
+      "Foundations": [
+        10,
+        11,
+        12,
+        38
+      ]
+    },
+    "gray": [
+      [
+        "CS5489",
+        50
+      ],
+      [
+        "CS5222",
+        47
+      ],
+      [
+        "CS5222",
+        55
+      ],
+      [
+        "Foundations",
+        38
+      ]
+    ],
+    "color_renderer": "PyMuPDF 110dpi",
+    "gray_renderer": "Poppler 125dpi"
+  },
+  "last_layout_changed_pages": {
+    "CS5489": [
+      12
+    ],
+    "CS5222": [
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53
+    ]
+  },
+  "last_layout_note": "These eight pages were reread at 110dpi; other pages are pixel-identical to the reviewed candidate.",
+  "physical_printing": "not_performed",
+  "last_layout_ink_ratios": {
+    "CS5489:12": 0.9758534399043849,
+    "CS5222:47": 1.0044965254121816,
+    "CS5222:48": 0.9792168446565175,
+    "CS5222:49": 0.9829942225571464,
+    "CS5222:50": 1.0028242205151379,
+    "CS5222:51": 1.0017794594189597,
+    "CS5222:52": 1.0064412602269133,
+    "CS5222:53": 0.9890373789511439
+  },
+  "final_gray_recheck": {
+    "book": "CS5222",
+    "page": 47,
+    "dpi": 125,
+    "sha256": "b5d79af4b1eaa6159f5dca203f868a51942a86523be3102e21d8b6af972b973d",
+    "result": "viewed; state arrows and labels readable"
+  }
+}

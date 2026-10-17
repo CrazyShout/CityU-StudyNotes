@@ -38,7 +38,7 @@
 <a id="rdt21"></a>
 - `rdt21` → [第 46 页](../../pdf/CS5222-A4.pdf#page=46)
 <a id="rdt22acknak"></a>
-- `rdt22acknak` → [第 46 页](../../pdf/CS5222-A4.pdf#page=46)
+- `rdt22acknak` → [第 47 页](../../pdf/CS5222-A4.pdf#page=47)
 <a id="rdt3"></a>
 - `rdt3` → [第 48 页](../../pdf/CS5222-A4.pdf#page=48)
 <a id="6-rdt30"></a>
@@ -68,4 +68,4 @@
 <a id="learning-priorities"></a>
 - `learning-priorities` → [第 55 页](../../pdf/CS5222-A4.pdf#page=55)
 <a id="_2"></a>
-- `_2` → [第 55 页](../../pdf/CS5222-A4.pdf#page=55)
+- `_2` → [第 56 页](../../pdf/CS5222-A4.pdf#page=56)

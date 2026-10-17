@@ -5,7 +5,7 @@
 
 
 
-\StudyHeading{1}{先找谁供不动，再算怎样分得完}
+\StudyHeading{1}{上传能力与文件分发时间}
 \StudyTarget{CS5222-Tutorial04___1}
 
 
@@ -41,8 +41,6 @@ Q4 DASH & 核心必会 & 中，配对假设 & 区分N、N\textsuperscript{2}与2
 \endgroup
 
 
-优先级依据当前原题；额外练习标为变式。
-
 
 
 
@@ -71,7 +69,7 @@ Q4 DASH & 核心必会 & 中，配对假设 & 区分N、N\textsuperscript{2}与2
 \textbf{English answer:} Allocate min(us/N,dmin) to every client. The aggregate rate is feasible and every client completes in max(NF/us,F/dmin).
 
 
-\textbf{独立题 / Transfer：} F=100Mbit、N=4、\(u_s\)=20Mbps、每人下载8Mbps，多久？ / For F=100 Mbit, N=4, server upload 20 Mbps and each client download 8 Mbps, give a feasible allocation and completion time.
+\textbf{独立题 / Transfer：} F=100Mbit、N=4、\(u_s\)=20Mbps、每人下载8Mbps，按本节流体模型给出可行分配与完成时间。 / For F=100 Mbit, N=4, server upload 20 Mbps and each client download 8 Mbps, give a feasible allocation and completion time.
 
 
 
@@ -114,7 +112,7 @@ P2P仍需要服务器发出至少一份文件，至少500秒；每人下载至�
 \textbf{English answer:} Client-server: max(50000,7500)=50000 s. P2P: max(500,7500,15000)=15000 s. Upload assistance reduces the aggregate bottleneck but does not remove the other constraints.
 
 
-\textbf{变式 / Transfer：} N改为10，其他条件不变，P2P会比client-server快吗？ / Recompute both bounds for ten clients.
+\textbf{变式 / Transfer：} F=15 Gbit、N=10、服务器上传30 Mbps、每人下载2 Mbps且上传0.7 Mbps。按本节理想模型，P2P会比client-server快吗？ / For F=15 Gbit and ten clients, use server upload 30 Mbps, each client download 2 Mbps and upload 0.7 Mbps. In the ideal model, compare P2P and client-server completion-time bounds.
 
 
 
@@ -179,7 +177,7 @@ Tutorial 4教师解答 v2，第9–11张幻灯片答两个问题均\textbf{可�
 \textbf{English answer:} Under part a's explicit one-to-one matching assumption, N combined files are needed. Separate audio and video require 2N files. N\textsuperscript{2} applies only when every pair is precombined. These counts concern representations, ignoring segment multiplication.
 
 
-\textbf{独立题 / Transfer：} 视频4种、音频2种，全部预组合与分轨分别几份？ / Four video versions and two audio versions: all pairs versus separate tracks.
+\textbf{独立题 / Transfer：} 视频4种、音频2种，全部预组合与分轨分别几份？ / With four video versions and two audio versions, how many files are needed when every pair is precombined, and when tracks are stored separately?
 
 
 

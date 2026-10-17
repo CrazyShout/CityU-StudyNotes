@@ -4,23 +4,21 @@
 \StudyTarget{Foundations-MathForML__math-for-machine-learning}
 
 
-\textbf{可选基础补课 · 从四则运算和简单方程开始 · 扩展于2026-09-23}
+\textbf{可选基础补课 · 从四则运算和简单方程开始}
 
 
 \StudyRef{CS5489-Lecture02}{intro}{回到 Lecture 2 开头} · \StudyRepoRef{CS5489/course-notes/README.md}{}{使用与运行说明}
 
 
-看到一长串公式时，困难有时并不是“机器学习太难”，而是同时遇到了五个不认识的符号。这份补课把这些台阶拆开：先知道符号在说什么，再用小数字算一次，最后回到老师的公式。水箱、邮件计数和小矩阵均为\textbf{教学补充例子}。
+本篇按符号、概率、对数、求导和矩阵等常见卡点补充先修。各专题用小数字解释计算，再连接课程中的公式。水箱、邮件计数和小矩阵均为\textbf{教学补充例子}。
 
 
-只默认你会加减乘除、分数和简单方程。不必一次读完：可以从下面选择卡住的专题；小节末尾有返回相关Lecture或Tutorial具体位置的链接。正文中的英文术语帮助对照课堂，English takeaway 是整理后的表达，练习题答中英对齐。
-
-
-各专题可以单独阅读；学会当前需要的工具后，通过节末链接回到课程。
+只默认你会加减乘除、分数和简单方程。不必一次读完：可以从下面选择卡住的专题；小节末尾有返回相关Lecture或Tutorial具体位置的链接。英文术语用于对照课堂。
 
 
 
-\StudyHeading{1}{先找到自己缺的那一级台阶}
+
+\StudyHeading{1}{按学习卡点选择专题}
 \StudyTarget{Foundations-MathForML__foundation-nav}
 \StudyTarget{Foundations-MathForML___1}
 
@@ -75,7 +73,7 @@
 \textbf{自查2 / Check 2}
 
 
-\textbf{中文题：} 100封邮件中40封带附件，其中10封是垃圾邮件。已知随机选中的邮件带附件，它是垃圾邮件的比例是多少？\\
+\textbf{中文题：} 100封邮件中40封带附件，其中10封是垃圾邮件。已知等可能随机选中的邮件带附件，它是垃圾邮件的比例是多少？\\
 
 \textbf{English question:} Of 100 messages, 40 have attachments, and 10 of those 40 are spam. Given that a uniformly selected message has an attachment, what proportion is spam?
 
@@ -156,13 +154,13 @@ X是4\ensuremath{\times}2；非对角线描述两个特征相对于各自均值�
 
 
 
-\StudyHeading{1}{1. Symbols, functions and graphs｜先让公式开口说人话}
+\StudyHeading{1}{1. Symbols, functions and graphs｜变量、函数与坐标}
 \StudyTarget{Foundations-MathForML__symbols-functions}
 \StudyTarget{Foundations-MathForML__1-symbols-functions-and-graphs}
 
 
 
-\StudyHeading{2}{1.1 水箱的账本：谁变了，谁跟着变？}
+\StudyHeading{2}{1.1 用水量变化表示函数}
 \StudyTarget{Foundations-MathForML__11}
 
 
@@ -205,7 +203,7 @@ V(t)=2t+1.\tag{M.1}
 
 
 
-\StudyHeading{2}{1.2 图像就是把账本放到坐标上}
+\StudyHeading{2}{1.2 把时间与水量画在坐标上}
 \StudyTarget{Foundations-MathForML__coordinates}
 \StudyTarget{Foundations-MathForML__12}
 
@@ -231,9 +229,9 @@ V(t)=2t+1.\tag{M.1}
 
 
 \begin{StudyBlock}{完整示范 / Worked example}{从水量反求时间}
-中文题：保持水箱条件，求2.5分钟后的水量；如果想达到8 L，需要多久？\\
+中文题：水箱初始1 L，以2 L/min匀速注水，不漏、不溢出。求2.5分钟后的水量；达到8 L需要多久？\\
 
-English question: Under the same tank assumptions, find the volume after 2.5 minutes and the time needed to reach 8 L.
+English question: A tank starts with 1 L and receives 2 L/min, without leakage or overflow. Find the volume after 2.5 minutes and the time needed to reach 8 L.
 
 
 先代入：V(2.5)=2\ensuremath{\times}2.5+1=6 L。反过来求时间，解2t+1=8，先减1再除以2，得到t=3.5 min。\\
@@ -269,7 +267,7 @@ English question: Under the same tank assumptions, find the volume after 2.5 min
 \]
 
 
-前者“各自平方再相加”，后者“先合计再平方”。括号决定先做哪一步。在实数范围内，a\ensuremath{\ge}0时，符号\ensuremath{\sqrt{\vphantom{x}}}a表示平方后得到a的非负数，例如\ensuremath{\sqrt{\vphantom{x}}}9=3；它稍后用于从方差回到标准差。
+前者“各自平方再相加”，后者“先合计再平方”。括号决定先做哪一步。在实数范围内，a\ensuremath{\ge}0时，符号\(\sqrt{a}\)表示平方后得到a的非负数，例如\(\sqrt{9}=3\)；它稍后用于从方差回到标准差。
 
 
 \begingroup
@@ -305,7 +303,7 @@ English question: A second tank starts with 2 L and receives 3 L/min, without le
 \begin{StudySolution}{答案与推理 / Answer and reasoning}
 
 
-V(t)=3t+2，V(4)=14 L；和为10，积为30，平方和为4+9+25=38。平方和不是10\textsuperscript{2}。\\
+V(t)=3t+2，V(4)=14 L；和为10，积为30，平方和为4+9+25=38。平方和不是10\textsuperscript{2}。
 
 \textbf{English answer:} V(t)=3t+2 and V(4)=14 L. The sum is 10, the product is 30, and the sum of squares is 38, not 100.
 
@@ -386,7 +384,7 @@ P(S\mid F)=\frac{18}{25}=0.72.\tag{M.7}
 \]
 
 
-竖线“|”读作 \textbf{given（已知、给定）}。两问用了同一个18，却有不同分母；“已知是猫，有胡子的比例”和“已知有胡子，是猫的比例”也有这个区别。
+竖线“|”读作 \textbf{given（已知、给定）}。两问用了同一个18，却有不同分母。
 
 
 \textbf{English answer:} P(F|S)=18/30=0.6; P(S|F)=18/25=0.72. The conditioning event changes the reference group, so reversing the condition changes the question.
@@ -400,7 +398,7 @@ P(F\cap S)=P(F\mid S)P(S),\quad P(S)>0.\tag{M.8}
 \]
 
 
-不必先背：30/100的人被留下，在留下的人中取18/30，乘起来正好18/100。条件事件概率为0时，这个分式不能直接计算；不能把0/0随意写成0或1。
+不必先背：30/100的邮件被留下，再从中取18/30，乘起来正好18/100。条件事件概率为0时，这个分式不能直接计算；不能把0/0随意写成0或1。
 
 
 回到Lecture 2：\StudyRef{CS5489-Lecture02}{generative}{继续理解先验与类条件} · \StudyRef{CS5489-Lecture02}{bayes-rule}{继续Bayes决策}。
@@ -457,8 +455,9 @@ f(x)=\begin{cases}2,&0\le x\le0.5,\\0,&\text{otherwise}.\end{cases}\tag{M.9}
 \StudyCaption{上图看金色区域：宽0.3\ensuremath{-}0.1=0.2分钟，高2/分钟，面积0.4就是落在该区间的概率。下图的曲线是标准正态，\ensuremath{-}1到1之间的面积约0.6827；曲线下的面积仍是概率，但不能用一根柱子的高度代替整个面积。上下图的横轴、纵轴含义各自标明。}
 
 
+\Needspace{17\baselineskip}
 \begin{StudyBlock}{完整示范 / Worked example}{用面积计算等待概率}
-中文题：在上述均匀等待模型中，求0.1到0.3分钟之间的概率。密度为2是否违反“概率不超过1”？\\
+中文题：等待时间在0至0.5分钟之间均匀分布，求0.1到0.3分钟之间的概率。密度为2是否违反“概率不超过1”？\\
 
 English question: In the uniform waiting-time model on [0,0.5] minutes, find the probability of [0.1,0.3]. Does density 2 violate the probability bound of 1?
 
@@ -480,9 +479,9 @@ P(a\le X\le b)=\int_a^b f(x)\,dx.\tag{M.10}
 
 \textbf{独立变式 / Try}\\
 
-中文题：用上面的100封邮件表，已知邮件不含free，它是垃圾邮件的概率是多少？另用同一个均匀等待模型，求0到0.25分钟的概率，以及恰好0.25分钟这个点的概率。\\
+中文题：用\StudyRef{Foundations-MathForML}{conditional-probability}{100封邮件计数表}，已知邮件不含free，它是垃圾邮件的概率是多少？另设等待时间在0至0.5分钟间均匀分布，求0到0.25分钟的概率，以及恰好0.25分钟这个点的概率。\\
 
-English question: Using the 100-message table, find P(spam | no free). In the same uniform waiting-time model, find the probability of [0,0.25] and the probability of the exact point 0.25.
+English question: Using the \StudyRef{Foundations-MathForML}{conditional-probability}{100-message table}, find P(spam | no free). For a waiting time uniform on [0,0.5] minutes, find the probability of [0,0.25] and the probability of the exact point 0.25.
 
 
 
@@ -520,7 +519,7 @@ English question: Using the 100-message table, find P(spam | no free). In the sa
 假设一个理想化过程每轮把数量翻倍，从1开始，三轮后是2\ensuremath{\times}2\ensuremath{\times}2=8。把重复乘法缩写成 \textbf{power（幂）}：2\textsuperscript{3}=8。这里2是底数，3是指数。整数指数可以先理解为乘了几次。
 
 
-往回走一轮，就除以2，因此2\textsuperscript{0}=1、2\textsuperscript{-}\textsuperscript{1}=1/2、2\textsuperscript{-}\textsuperscript{3}=1/8。分数指数也能定义：\(2^{1/2}=\sqrt{2}\)，因为两个\ensuremath{\sqrt{\vphantom{x}}}2相乘等于2。推广到实数指数时，不再把“次数”局限成整数；可以用越来越精细的小数指数逼近。这就形成连续的指数函数。
+往回走一轮，就除以2，因此2\textsuperscript{0}=1、2\textsuperscript{-}\textsuperscript{1}=1/2、2\textsuperscript{-}\textsuperscript{3}=1/8。分数指数也能定义：\(2^{1/2}=\sqrt{2}\)，因为两个\(\sqrt{2}\)相乘等于2。推广到实数指数时，不再把“次数”局限成整数；可以用越来越精细的小数指数逼近。这就形成连续的指数函数。
 
 
 \textbf{Logarithm（对数）}把问题倒过来：“底数2的几次方等于8？”答案是3，记成log\textsubscript{2}8=3。一般定义为
@@ -791,7 +790,7 @@ English question: Let z=3x+1 and y=z\textsuperscript{2}. At x=1, find dy/dx and 
 
 
 
-\StudyHeading{2}{4.4 偏导：这次只动一个旋钮}
+\StudyHeading{2}{4.4 偏导：固定其他变量}
 \StudyTarget{Foundations-MathForML__partial-derivatives}
 \StudyTarget{Foundations-MathForML__44}
 
@@ -816,7 +815,7 @@ Lecture 2的高斯似然有\ensuremath{\mu}与\ensuremath{\sigma}\textsuperscrip
 
 
 
-\StudyHeading{2}{4.5 找山顶：导数为零只是候选条件}
+\StudyHeading{2}{4.5 导数为零只是候选条件}
 \StudyTarget{Foundations-MathForML__maxima-mle}
 \StudyTarget{Foundations-MathForML__45}
 
@@ -941,7 +940,7 @@ X有4行、2列，写成4\ensuremath{\times}2，顺序是“行数\ensuremath{\t
 \]
 
 
-这是1\ensuremath{\times}2乘2\ensuremath{\times}1，结果为1\ensuremath{\times}1，即一个数。反过来u u\textsuperscript{T}是2\ensuremath{\times}1乘1\ensuremath{\times}2，得到2\ensuremath{\times}2的 \textbf{outer product（外积）}：
+这是1\ensuremath{\times}2乘2\ensuremath{\times}1，结果为1\ensuremath{\times}1，即一个数。用u与它自己的转置相乘，u u\textsuperscript{T}是2\ensuremath{\times}1乘1\ensuremath{\times}2，得到2\ensuremath{\times}2的 \textbf{outer product（外积）}：
 \[
 \mathbf{u}\mathbf{u}^T=
 \begin{pmatrix}2\times2&2\times3\\3\times2&3\times3\end{pmatrix}
@@ -949,7 +948,7 @@ X有4行、2列，写成4\ensuremath{\times}2，顺序是“行数\ensuremath{\t
 \]
 
 
-交换乘法顺序，结果从一个数变成了一个矩阵。
+内积把对应分量的乘积相加，得到一个数；外积保留各分量配对的乘积，得到一个矩阵。
 
 
 对一般矩阵，(m\ensuremath{\times}n)乘(n\ensuremath{\times}k)得到(m\ensuremath{\times}k)；中间的n必须相同。输出第i行第j列，是左矩阵第i行与右矩阵第j列的点积。
@@ -996,7 +995,7 @@ v=\frac1N\sum_{i=1}^N(x_i-\bar x)^2.\tag{M.27}
 \]
 
 
-N是观测数，x̄表示样本均值。代入得到v=(4+0+4)/3=8/3 cm\textsuperscript{2}。\textbf{Standard deviation（标准差）}是方差的平方根，s=\ensuremath{\sqrt{\vphantom{x}}}(8/3)\ensuremath{\approx}1.633 cm，单位回到原长度单位。平方根取非负值。
+N是观测数，x̄表示样本均值。代入得到v=(4+0+4)/3=8/3 cm\textsuperscript{2}。\textbf{Standard deviation（标准差）}是方差的平方根，\(s=\sqrt{8/3}\approx1.633\) cm，单位回到原长度单位。平方根取非负值。
 
 
 这里分母是N，方便衔接本讲高斯MLE。另一种常见样本方差使用N\ensuremath{-}1，本例会得到4 cm\textsuperscript{2}；它针对无偏估计的性质，不是可以不加说明地随意互换的写法。基础部分先固定N约定，原课代码的差异已在Lecture注明。
@@ -1085,7 +1084,7 @@ s_{12}=\frac14(2.25-0.25-0.25+2.25)=1.\tag{M.28}
 \StudyImage{CS5489/course-notes/assets/covariance-shapes.png}
 
 
-\StudyCaption{复用已核查的Lecture2b，第36个单元的矩阵图：均值零、两维方差都为1，非对角元分别0、0.5、0.9、\ensuremath{-}0.9。正值让椭圆朝一起增大的方向倾斜，负值让它朝一增一减的方向倾斜。轮廓对应马氏距离平方4。}
+\StudyCaption{Lecture2b，第36个单元的协方差模型：均值零、两维方差都为1，非对角元分别0、0.5、0.9、\ensuremath{-}0.9。正值让椭圆朝一起增大的方向倾斜，负值让它朝一增一减的方向倾斜。轮廓对应马氏距离平方4。}
 
 
 这张图不要求你先会计算椭圆。先看同样的横纵波动范围，如何因为“是否一起变化”而形成不同形状。课堂中需要在每个类别内部估计这个形状，不能把所有类别混起来算一次，就当作每个类别的关系。
@@ -1170,7 +1169,7 @@ English question: For the dimensionless deviation d=(1,1)\textsuperscript{T} and
 这叫 \textbf{squared Mahalanobis distance（马氏距离的平方）}。偏差在共同增大的方向时，正相关模型觉得它不那么意外；但分类还要考虑分布宽度与先验，完整决策继续回Lecture学习。
 
 
-最后注意面积缩放的平方根：上面|det(A)|是坐标变换x=Az的面积倍数；高斯协方差记录的是平方后的变化量。若两个方向的标准差分别2、1，协方差是diag(4,1)，行列式为4，但等标准距离椭圆的面积相对单位圆只扩大2倍，即\ensuremath{\sqrt{\vphantom{x}}}det(\ensuremath{\Sigma})。一般写成\ensuremath{\Sigma}=AA\textsuperscript{T}时，也有|det(A)|=\ensuremath{\sqrt{\vphantom{x}}}det(\ensuremath{\Sigma})。因此高斯密度的归一化项包含\ensuremath{\sqrt{\vphantom{x}}}det(\ensuremath{\Sigma})，不能直接把det(\ensuremath{\Sigma})当成椭圆面积。
+最后注意面积缩放的平方根：上面|det(A)|是坐标变换x=Az的面积倍数；高斯协方差记录的是平方后的变化量。若两个方向的标准差分别2、1，协方差是diag(4,1)，行列式为4，但等标准距离椭圆的面积相对单位圆只扩大2倍，即\(\sqrt{\det(\Sigma)}\)。一般写成\ensuremath{\Sigma}=AA\textsuperscript{T}时，也有|det(A)|=\(\sqrt{\det(\Sigma)}\)。因此高斯密度的归一化项包含\(\sqrt{\det(\Sigma)}\)，不能直接把det(\ensuremath{\Sigma})当成椭圆面积。
 
 
 \textbf{独立变式 / Try}\\
@@ -1280,7 +1279,7 @@ P(K=k)=\binom nk p^k(1-p)^{n-k}.\tag{M.34}
 \StudyCaption{向量分解为沿给定方向的投影与垂直余量；先找投影点，再看剩余方向。}
 
 
-图中 \(u=(1,0),v=(2,1)\)。沿u方向只能走到横轴；离v最近的横轴点是p=(2,0)，剩下r=(0,1)垂直u。p叫v在u方向的投影（projection）。类比手电筒投影时要注意：这里是垂直投影，不是任意灯光角度的影子。
+图中 \(u=(1,0),v=(2,1)\)。沿u方向只能走到横轴；离v最近的横轴点是p=(2,0)，剩下r=(0,1)垂直u。p叫v在u方向的投影（projection）。
 
 
 怎么计算？沿u方向的点可写成 \(p=au\)。要求余下 \(r=v-au\) 与u垂直：
@@ -1349,7 +1348,7 @@ E(s)=(3-s)^2+(5-2s)^2=5s^2-26s+34.\tag{M.36}
 求导 \(10s-26=0\)，得s=2.6，预测(2.6,5.2)，残差(0.4,\ensuremath{-}0.2)。残差与列(1,2)点积0，正好与前面的投影衔接。最优系数仍不唯一；伪逆（pseudoinverse）选其中长度最小的解w=(1.3,1.3)。
 
 
-为什么平均分最短？固定 \(w_1+w_2=s\)，令 \(w_1=s/2+t,w_2=s/2-t\)，长度平方为 \(s^2/2+2t^2\)，在t=0最小。伪逆不是“给不存在的普通逆编一个值”，而是约定一个满足最小二乘/最小范数条件的解，记为 \(A^+\)。
+为什么平均分最短？固定 \(w_1+w_2=s\)，令 \(w_1=s/2+t,w_2=s/2-t\)，长度平方为 \(s^2/2+2t^2\)，在t=0最小。伪逆矩阵记为 \(A^+\)；将它乘以目标向量，就得到最小范数的最小二乘解。
 
 
 
@@ -1365,7 +1364,7 @@ w, residuals, rank, singular_values = np.linalg.lstsq(A, y, rcond=None)
 接近重复而非完全重复时，矩阵可能可逆却病态（ill-conditioned）：很小数据变化造成很大系数变化。可逆不是“数值稳定”的同义词。Ridge在被惩罚方向加正数，限制不稳定权重；具体目标在Lecture4讲。
 
 
-\textbf{自查/变式 / Check and transfer:} 同一个A，y=(4,8)。最小范数解、预测和残差？ / For the same A and y=(4,8), find the minimum-norm solution, prediction and residual.
+\textbf{自查/变式 / Check and transfer:} A的两列均为(1,2)，y=(4,8)。最小范数解、预测和残差分别是什么？ / Both columns of A are (1,2), and y=(4,8). Find the minimum-norm solution, prediction and residual.
 
 
 
@@ -1466,7 +1465,7 @@ g=2\ensuremath{-}x\ensuremath{\ge}0，L=(x\ensuremath{-}3)\textsuperscript{2}\en
 \StudyRef{CS5489-Lecture05}{batch-backprop}{回到Lecture5反向传播} · \StudyRef{CS5489-Assignment02}{interfaces}{回到Assignment2}
 
 
-这一节解释反向传播中的批量求导与共享参数。先想两天的温度都要加同一个校准值b。第一天结果对b的影响记为g\textsubscript{1}，第二天记为g\textsubscript{2}。调整b会同时影响两天，所以总影响是g\textsubscript{1}+g\textsubscript{2}；不能只留一天，也不能给每一天偷偷创建一个新的b。
+这一节解释反向传播中的批量求导与共享参数。先想两天的温度都要加同一个校准值b。第一天结果对b的影响记为g\textsubscript{1}，第二天记为g\textsubscript{2}。调整b会同时影响两天，所以总影响是g\textsubscript{1}+g\textsubscript{2}。
 
 
 \StudyImage{CS5489/course-notes/assets/oct-batch-bias.png}
@@ -1592,6 +1591,7 @@ J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.\tag{M.41}
 长度与投影 & Tutorial1，第35–45个单元；Lecture3b，第27–36个单元 & 衔接原Gram–Schmidt和margin，算法留在课程正文 \\
 秩与伪逆 & Lecture4a，第19–21、43–49个单元 & 展开逆不存在与最小范数的具体例子 \\
 梯度与约束 & Lecture3a，第52个单元；Lecture3b，第37–44个单元；SVM.pdf第2–4页 & 展开原课求导与KKT前提，不代替SVM推导 \\
+批量梯度 & Lecture5b，第15–21个单元；Assignment2，第4、7个单元 & 行样本、共享参数与平均因子的补充推导 \\
 \end{longtable}
 \endgroup
 

@@ -1,0 +1,281 @@
+{
+  "status": "passed",
+  "scope": "existing examples with clarified wording; no new experimental results",
+  "cases": [
+    {
+      "case": "Lecture1 multiplication-assignment question",
+      "actual": 10,
+      "expected": 10
+    },
+    {
+      "case": "Lecture2 Q7 covariance and prior conditions",
+      "actual": [
+        -1.2231435513142097,
+        -2.1322635428748766,
+        0.7128200520576708,
+        0.2871799479423291
+      ],
+      "expected": [
+        -1.22314355,
+        -2.1323,
+        0.7128,
+        0.2872
+      ]
+    },
+    {
+      "case": "Lecture5 logit scaling",
+      "actual": [
+        0.10526315789473684,
+        0.23684210526315794,
+        0.6578947368421052
+      ],
+      "expected": [
+        0.10526315789473684,
+        0.23684210526315788,
+        0.6578947368421053
+      ]
+    },
+    {
+      "case": "Lecture5 true-class-2 gradient",
+      "actual": [
+        0.2,
+        -0.7,
+        0.5
+      ],
+      "expected": [
+        0.2,
+        -0.7,
+        0.5
+      ]
+    },
+    {
+      "case": "Lecture5 parameter count with biases",
+      "actual": 23,
+      "expected": 23
+    },
+    {
+      "case": "Lecture5 two momentum steps",
+      "actual": [
+        0.38,
+        0.42000000000000004
+      ],
+      "expected": [
+        0.38,
+        0.42
+      ]
+    },
+    {
+      "case": "Tutorial1 nontrivial divisor counts",
+      "actual": [
+        1,
+        0
+      ],
+      "expected": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "Tutorial3 alternate crop",
+      "actual": 576,
+      "expected": 576
+    },
+    {
+      "case": "Assignment2 input and exponent gradients",
+      "actual": [
+        3.0,
+        -0.5198603854199589
+      ],
+      "expected": [
+        3.0,
+        -0.5198603854199589
+      ]
+    },
+    {
+      "case": "Network Tutorial1 five packets, three links, in L/R units",
+      "actual": 7,
+      "expected": 7
+    },
+    {
+      "case": "Network Tutorial1 FDM setup plus serialization, seconds",
+      "actual": 3.1,
+      "expected": 3.1
+    },
+    {
+      "case": "Network Tutorial2 128-byte voice packets, milliseconds",
+      "actual": 16.256,
+      "expected": 16.256
+    },
+    {
+      "case": "Network Tutorial2 forwarding models, milliseconds",
+      "actual": [
+        11,
+        20
+      ],
+      "expected": [
+        11,
+        20
+      ]
+    },
+    {
+      "case": "Network Tutorial2 FIFO waiting, milliseconds",
+      "actual": 13.5,
+      "expected": 13.5
+    },
+    {
+      "case": "Network Tutorial3 sequential DNS, milliseconds",
+      "actual": [
+        64,
+        4
+      ],
+      "expected": [
+        64,
+        4
+      ]
+    },
+    {
+      "case": "Network Tutorial3 HTTP RTT coefficient excluding DNS",
+      "actual": 6,
+      "expected": 6
+    },
+    {
+      "case": "Chapter2 zero-peer-upload P2P lower bound, seconds",
+      "actual": 40.0,
+      "expected": 40
+    },
+    {
+      "case": "Chapter2 rarest-first counts after P2 leaves",
+      "actual": [
+        2,
+        1,
+        1
+      ],
+      "expected": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "case": "Chapter3 100-Mbps stop-and-wait throughput, Mbps",
+      "actual": 0.26595744680851063,
+      "expected": 0.26595744680851063
+    },
+    {
+      "case": "Chapter3 new-E-first RTO, milliseconds",
+      "actual": [
+        97.5,
+        11.875,
+        145.0
+      ],
+      "expected": [
+        97.5,
+        11.875,
+        145.0
+      ]
+    },
+    {
+      "case": "Network Tutorial4 ten-peer capacity bounds, seconds",
+      "actual": [
+        7500.0,
+        7500.0
+      ],
+      "expected": [
+        7500,
+        7500
+      ]
+    },
+    {
+      "case": "Network Tutorial4 DASH stored file counts",
+      "actual": [
+        8,
+        6
+      ],
+      "expected": [
+        8,
+        6
+      ]
+    },
+    {
+      "case": "Network Assignment1 equal-delay distance, km",
+      "actual": 1071.4285714285713,
+      "expected": 1071.4285714285713
+    },
+    {
+      "case": "Network Assignment1 400-packet pipeline, seconds",
+      "actual": 4.02,
+      "expected": 4.02
+    },
+    {
+      "case": "Network Assignment1 retained message octets",
+      "actual": 912,
+      "expected": 912
+    },
+    {
+      "case": "Research guide whole-chunk download and stall, seconds",
+      "actual": [
+        8.0,
+        5.0
+      ],
+      "expected": [
+        8,
+        5
+      ]
+    },
+    {
+      "case": "Math water tank inverse question",
+      "actual": [
+        6.0,
+        3.5
+      ],
+      "expected": [
+        6.0,
+        3.5
+      ]
+    },
+    {
+      "case": "Math inner product uTv",
+      "actual": 11.0,
+      "expected": 11
+    },
+    {
+      "case": "Math outer product uuT",
+      "actual": [
+        [
+          4.0,
+          6.0
+        ],
+        [
+          6.0,
+          9.0
+        ]
+      ],
+      "expected": [
+        [
+          4,
+          6
+        ],
+        [
+          6,
+          9
+        ]
+      ]
+    },
+    {
+      "case": "Math pseudoinverse maps target to minimum-norm solution",
+      "actual": [
+        1.9999999999999993,
+        1.9999999999999993
+      ],
+      "expected": [
+        2,
+        2
+      ]
+    },
+    {
+      "case": "Network foundation four-packet three-link pipeline, milliseconds",
+      "actual": 12,
+      "expected": 12
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "renderer": "PyMuPDF",
+  "dpi": 100,
+  "books": {
+    "CS5489": {
+      "reference_sha256": "fe71567d31242fa6e809efec9802d9268efe123864b835258b07fbcc20673f43",
+      "delivery_sha256": "d76dab39e4aae3cf7ea0dd046f5a32225e420162eb1e8b1dfa288dd4a9b94332",
+      "pages": 208,
+      "reference_pages": 208,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "CS5222": {
+      "reference_sha256": "e9f1252e6f191b0247a8e11733f793c7717318661242d19f6856c2875fc55792",
+      "delivery_sha256": "7ab48bda24559ea10074be0bb90542dbed4568704bf0d94331a574ee26ab46a3",
+      "pages": 99,
+      "reference_pages": 99,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "Foundations": {
+      "reference_sha256": "250787e3e88b68e0c94d5018c6a9755095cb33b43f9b22b93f7cd9e0beb0c52b",
+      "delivery_sha256": "c0ea03f49d6078470e5d133fda9879bfa36454e7711bc2216c36eb784d64c86e",
+      "pages": 43,
+      "reference_pages": 43,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "Questions": {
+      "reference_sha256": "48ad4d59a3a3cc14d050e05625d0e0ae48532a0174b70b80013c4235b1ca78ec",
+      "delivery_sha256": "f822d527a5731dacdc1a42642bb89c36a4e8439fc70173509a2372d63f41b03c",
+      "pages": 74,
+      "reference_pages": 74,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "Answers": {
+      "reference_sha256": "2b6a5b2b0377653d8bf804a843815a70377d511e77982d070b3ed7a0cdb666bf",
+      "delivery_sha256": "4bb3bdfe8649c352303f948a4851b6e1b7ab2c86e14da85e692e4c49cf317307",
+      "pages": 98,
+      "reference_pages": 98,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "Combined": {
+      "reference_sha256": "82308c3e3da59bdfa82f6af8a4403de0d3c370fc56b6371abbd35a9a393bb359",
+      "delivery_sha256": "70e4abb8b3b43ef3eba43051021979868e3b3779fc0caa4846ef7e1b020ba348",
+      "pages": 111,
+      "reference_pages": 111,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "Compact": {
+      "reference_sha256": "f9e0d9025bc78d04c3e91464f01ccafdbb9b95579e1caa8d27e4f41db5421872",
+      "delivery_sha256": "c7c085eac7e08d0ecd49be682438c084e910ae0865106b3540754394edc7e6d0",
+      "pages": 75,
+      "reference_pages": 75,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "MultipleChoice": {
+      "reference_sha256": "ba81de66d4b8bd115dc9ff68f8a8f66c7da206661bafed2f0c23f2e5255c0379",
+      "delivery_sha256": "cea782adde100c737de503043b61b3ca0e736139c3234220f18d7b20c638c703",
+      "pages": 34,
+      "reference_pages": 34,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    },
+    "WrittenResponse": {
+      "reference_sha256": "7e04c067024352c8b184863bf7d9e7c12ee2c4b49b00967c6337b804703aa9cd",
+      "delivery_sha256": "f7d80ba9fbde05333e7639d3102cca70e2e5aae04e2433297335f17b3092618e",
+      "pages": 45,
+      "reference_pages": 45,
+      "text_changed_pages": [],
+      "pixel_changed_pages": []
+    }
+  },
+  "reference_extra_editions": [
+    "Sample"
+  ],
+  "page_maps_equal": true
+}

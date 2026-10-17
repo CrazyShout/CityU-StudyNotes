@@ -1,0 +1,745 @@
+{
+  "baseline": "c805d278d66afda0d72566bc702aff04b32186a5",
+  "documents": [
+    {
+      "source": "CS5489/course-notes/Lecture01.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "289a94ced5e5b69ddb2df2fc8d586418e229883d9f3c69d3b7433617be2c87e3",
+      "named_passages": 1,
+      "visible_captions": 4
+    },
+    {
+      "source": "CS5489/course-notes/Lecture02.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "89589be75a1b7db61176481c80f498c022a3af4150dc2e3d6085892f8a0c472f",
+      "named_passages": 3,
+      "visible_captions": 9
+    },
+    {
+      "source": "CS5489/course-notes/Lecture03.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "f3b967b7fda161441bd00bffa6ca1d7ae5d2ddb11b57c6e90bc70b8b4f988e28",
+      "named_passages": 3,
+      "visible_captions": 5
+    },
+    {
+      "source": "CS5489/course-notes/Lecture04.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "597676cd079e8c524b7c4351c031593f95e2c83eba392eb61dcc97b4af2a6092",
+      "named_passages": 2,
+      "visible_captions": 6
+    },
+    {
+      "source": "CS5489/course-notes/Lecture05.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "979e9a5603bd15948209e31e077d57adb1e02423523760dc9606b30b67cb3ff8",
+      "named_passages": 2,
+      "visible_captions": 2
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial01.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "1ccc820ac2ffa65aee4825fe35b6508ba486e3734e133ad708e63cab7bb16063",
+      "named_passages": 3,
+      "visible_captions": 0
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial02.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "8d4cecb522f050191728d297e639d85251600d0beb45b31daefcef59e5be0261",
+      "named_passages": 2,
+      "visible_captions": 0
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial03.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "b6919437636bef4806065f6189537a154543e0a6b3ec0dfa546c4f327673948a",
+      "named_passages": 2,
+      "visible_captions": 0
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial04.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "68458171dc016557ada4926c4ee14dd6ecaeaa55d7f2a15101985f95f1fd15f0",
+      "named_passages": 2,
+      "visible_captions": 0
+    },
+    {
+      "source": "CS5489/course-notes/Assignment01.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "bb4aba5883a438df646ef81530ea56334d88b8b71d2667a5f867ac2970ff49ba",
+      "named_passages": 2,
+      "visible_captions": 0
+    },
+    {
+      "source": "CS5489/course-notes/Assignment02.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "17b300ecc499e5507d021db371a894e24b9b0778cd36569926889990159c1d07",
+      "named_passages": 3,
+      "visible_captions": 0
+    },
+    {
+      "source": "CS5489/course-notes/ExamIndex.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "5ffeb30e0d367553fe3bf89b81014eda9ea3dc6088f35eaffc50e6400028491c",
+      "named_passages": 0,
+      "visible_captions": 0
+    },
+    {
+      "source": "CS5222/course-notes/Chapter01.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "a8e81035b97c63d22214bdb1f63292339cca35c6a7fa90feb5ce3a30cfd97e30",
+      "named_passages": 2,
+      "visible_captions": 15
+    },
+    {
+      "source": "CS5222/course-notes/Chapter02.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "0df37d4c2f40f40c8f596ad23a448cd238ef0a0ec5b09d02d83c58ed698e6907",
+      "named_passages": 2,
+      "visible_captions": 5
+    },
+    {
+      "source": "CS5222/course-notes/Chapter03.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "86455507a3fc1bb8fc1af8c7654a15f04960dbd487870cde59a9ba20bc10a34c",
+      "named_passages": 3,
+      "visible_captions": 4
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial01.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "51a3f21b52c5ad59c5461cfeb650a3d30d761ea56ea7aa11753634cb9dd06800",
+      "named_passages": 0,
+      "visible_captions": 3
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial02.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "87e287e9c59a72804d8b19437902738a751b327b97ae6ffb8f1840f62fdacd09",
+      "named_passages": 1,
+      "visible_captions": 2
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial03.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "5944f37c96a5f43ac0fb83d061e0038df513cdfc56134acfca1919890e08e52e",
+      "named_passages": 1,
+      "visible_captions": 4
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial04.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "8786dbd43139ab7dacebd282a15b44a6906715033481cb6bd2b0468502d4732b",
+      "named_passages": 1,
+      "visible_captions": 1
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial05.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "547b56ad743f9d11d5250c1513584f45737e014f78a97a3f079882925f100fdb",
+      "named_passages": 1,
+      "visible_captions": 1
+    },
+    {
+      "source": "CS5222/course-notes/Assignment01.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "f9578eac558b4de6374b1faa331aab52c272f0837eacb51f03a1456647c24c79",
+      "named_passages": 1,
+      "visible_captions": 5
+    },
+    {
+      "source": "CS5222/course-notes/ResearchReportGuide.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "cc0bb5a32da2b68c1feac37efeb063fd6b65d5cee1b27706b890c0ccbf358837",
+      "named_passages": 1,
+      "visible_captions": 0
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "a40d8650b7d6c3f05d511bce4b82beeca3f39a3b560ad1f1649c0cdaba6c265a",
+      "named_passages": 11,
+      "visible_captions": 15
+    },
+    {
+      "source": "learning/foundation-notes/NetworkBasics.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "652847e276a15b39361a8855f39b77df4995898ce5bb5e242961862a917c9dc9",
+      "named_passages": 1,
+      "visible_captions": 2
+    },
+    {
+      "source": "learning/foundation-notes/SourceEvidence.tex",
+      "math_multiset_equal": true,
+      "equation_numbers_equal": true,
+      "image_references_equal": true,
+      "old_anchors_preserved": true,
+      "code_blocks_equal": true,
+      "notebook_cell_calls_equal": true,
+      "sha256": "0d3b2c7c1e5805ffbdfe1917dcfda2c6acd6b9020e5a65cae99f312018b2dde6",
+      "named_passages": 0,
+      "visible_captions": 0
+    }
+  ],
+  "notebooks": [
+    {
+      "source": "CS5489/course-notes/Tutorial01.ipynb",
+      "unchanged_code_cells": 9
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial02.ipynb",
+      "unchanged_code_cells": 14
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial03.ipynb",
+      "unchanged_code_cells": 9
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial04.ipynb",
+      "unchanged_code_cells": 8
+    }
+  ],
+  "visible_passages": [
+    {
+      "source": "CS5489/course-notes/Lecture01.tex",
+      "title": "任务、经验与评价",
+      "pages": [
+        8
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture02.tex",
+      "title": "由三次测量估计高斯参数",
+      "pages": [
+        29
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture02.tex",
+      "title": "出现与未出现共同参与分类",
+      "pages": [
+        42
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture02.tex",
+      "title": "重复词怎样增加计数证据",
+      "pages": [
+        46
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture03.tex",
+      "title": "两个点的最大间隔",
+      "pages": [
+        64
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture03.tex",
+      "title": "从训练核矩阵到新点的核向量",
+      "pages": [
+        69
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture03.tex",
+      "title": "对称与半正定",
+      "pages": [
+        70
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture04.tex",
+      "title": "每列一个样本",
+      "pages": [
+        84,
+        92
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture04.tex",
+      "title": "一次RANSAC候选与重拟合",
+      "pages": [
+        91
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture05.tex",
+      "title": "逐层计入权重与偏置",
+      "pages": [
+        106
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Lecture05.tex",
+      "title": "权重梯度与共享偏置梯度",
+      "pages": [
+        108
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial01.tex",
+      "title": "先用12检查循环与返回位置",
+      "pages": [
+        120
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial01.tex",
+      "title": "两列向量的正交化",
+      "pages": [
+        125
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial01.tex",
+      "title": "长度、正交与张成空间",
+      "pages": [
+        127
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial02.tex",
+      "title": "课堂比较与独立评价",
+      "pages": [
+        129
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial02.tex",
+      "title": "先核对记录数与标签",
+      "pages": [
+        132
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial03.tex",
+      "title": "从错误计数到待检验解释",
+      "pages": [
+        162
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial03.tex",
+      "title": "核函数的单个值与输出形状",
+      "pages": [
+        167
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial04.tex",
+      "title": "预测散点与残差的方向",
+      "pages": [
+        177
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial04.tex",
+      "title": "残差修正的符号与时间范围",
+      "pages": [
+        182
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Assignment01.tex",
+      "title": "元数据标签与模型预测",
+      "pages": [
+        185
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Assignment01.tex",
+      "title": "预测范围与训练范围",
+      "pages": [
+        189
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Assignment02.tex",
+      "title": "批量平均只计一次",
+      "pages": [
+        194
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Assignment02.tex",
+      "title": "Leaky ReLU的正向与反向",
+      "pages": [
+        195
+      ]
+    },
+    {
+      "source": "CS5489/course-notes/Assignment02.tex",
+      "title": "同一梯度下的GD与动量",
+      "pages": [
+        197
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Chapter01.tex",
+      "title": "目的字段0111怎样选择出口",
+      "pages": [
+        12
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Chapter01.tex",
+      "title": "从开始处理到整包到达",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Chapter02.tex",
+      "title": "CNAME给出名字，A记录给出地址",
+      "pages": [
+        33
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Chapter02.tex",
+      "title": "按邻居持有情况选择稀缺块",
+      "pages": [
+        34
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Chapter03.tex",
+      "title": "rdt2.2的发送与接收状态",
+      "pages": [
+        47
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Chapter03.tex",
+      "title": "损坏的1号包为何触发ACK0",
+      "pages": [
+        47
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Chapter03.tex",
+      "title": "按既定更新顺序计算RTO",
+      "pages": [
+        54
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial02.tex",
+      "title": "可读取与顺序播放",
+      "pages": [
+        65
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial03.tex",
+      "title": "原题采用单连接、无流水线",
+      "pages": [
+        75
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial04.tex",
+      "title": "取最大下界，并说明可达条件",
+      "pages": [
+        79
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial05.tex",
+      "title": "课件中的socket标识",
+      "pages": [
+        81
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/Assignment01.tex",
+      "title": "示意参数与原题参数分开",
+      "pages": [
+        88
+      ]
+    },
+    {
+      "source": "CS5222/course-notes/ResearchReportGuide.tex",
+      "title": "下载时间与播放缓冲",
+      "pages": [
+        97
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "函数与定义域",
+      "pages": [
+        6
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "从水量反求时间",
+      "pages": [
+        6
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "给定条件决定分母",
+      "pages": [
+        8
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "用面积计算等待概率",
+      "pages": [
+        11
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "取对数前后比较同一证据",
+      "pages": [
+        14
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "沿两步计算应用链式法则",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "检查似然峰值与端点",
+      "pages": [
+        20
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "逐行算出矩阵乘积",
+      "pages": [
+        22
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "逐步算出协方差调整后的距离",
+      "pages": [
+        27
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "用满容量与超过容量",
+      "pages": [
+        29
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/MathForML.tex",
+      "title": "投影、余量与正交检查",
+      "pages": [
+        30
+      ]
+    },
+    {
+      "source": "learning/foundation-notes/NetworkBasics.tex",
+      "title": "先统一bit与秒",
+      "pages": [
+        37
+      ]
+    }
+  ],
+  "unchanged_original_images": 85,
+  "unchanged_question_and_evidence_files": 613,
+  "status": "passed",
+  "scope": "protected content and visible revised passages; no experiment execution",
+  "edition": "candidate",
+  "exam_table_rows_and_counts_preserved": true,
+  "future_ledger_conditions_preserved": true,
+  "unchanged_public_template_files": 4,
+  "unchanged_user_template_files": 15,
+  "recorded_review_sections": 434,
+  "review_record_note": "Coverage rows record human reading; this script checks their presence, not prose quality.",
+  "specific_visible_checks": [
+    {
+      "book": "CS5489",
+      "text": "本指南在何处计入批量平均"
+    },
+    {
+      "book": "CS5489",
+      "text": "共享指数为什么收到多个位置的梯度之和"
+    },
+    {
+      "book": "CS5489",
+      "text": "怎样避免缩放时使用测试信息"
+    },
+    {
+      "book": "CS5489",
+      "text": "额外设计受控优化器比较时"
+    },
+    {
+      "book": "CS5489",
+      "text": "由新模型预测旧模型尚未解释的差值"
+    },
+    {
+      "book": "CS5222",
+      "text": "不同客户端为什么可以共享服务器"
+    },
+    {
+      "book": "CS5222",
+      "text": "序号解决了什么歧义"
+    },
+    {
+      "book": "CS5222",
+      "text": "为什么还需要定时器"
+    },
+    {
+      "book": "CS5222",
+      "text": "长时间延迟的旧副本为什么可能破坏交替比特协议的可靠性"
+    },
+    {
+      "book": "CS5222",
+      "text": "本章的包与字节有何区别"
+    },
+    {
+      "book": "Foundations",
+      "text": "内积把对应分量的乘积相加"
+    },
+    {
+      "book": "Foundations",
+      "text": "外积保留各分量配对的乘积"
+    },
+    {
+      "book": "Foundations",
+      "text": "将它乘以目标向量就得到最小范数的最小二乘解"
+    },
+    {
+      "book": "Foundations",
+      "text": "上条为发送时延下条为传播时延"
+    }
+  ]
+}

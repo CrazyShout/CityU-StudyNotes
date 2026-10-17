@@ -33,8 +33,6 @@ Q4 & 核心必会 & 中；独立与组合数 & 容量和人数分布；Tutorial 
 \endgroup
 
 
-学习优先级依据当前原题与教师解答。
-
 
 
 
@@ -88,7 +86,7 @@ T到2T & 包2 & 包1 \\
 \textbf{English answer:} (a) L/R\textsubscript{1}+L/R\textsubscript{2}. (b) 4L/R. Store-and-forward constrains each packet, but separate links can transmit different packets simultaneously.
 
 
-\textbf{变式 / Transfer:} 5个包、3条同速链路，同样忽略其他时延，多久？ / Five packets cross three equal-rate links under the same assumptions. Find completion time.
+\textbf{变式 / Transfer:} 5个L-bit包连续经过3条R-bit/s链路，采用存储转发，忽略传播、排队和处理，全部到达要多久？ / Five L-bit packets are sent consecutively across three R-bit/s store-and-forward links. Ignore propagation, queueing and processing. Find the completion time.
 
 
 
@@ -150,7 +148,7 @@ B–C–D & 2 & BC、CD \\
 \textbf{English answer:} (a)16; (b)8; (c)Yes, split each opposite-pair demand evenly between its two two-hop paths. Every link then carries exactly four circuits.
 
 
-\textbf{变式 / Transfer:} 每边只有3条电路，全部A–C最多多少？ / With three circuits per link, what is the maximum for A–C connections only?
+\textbf{变式 / Transfer:} A、B、C、D顺时针构成四边环，每边3条电路，全部连接均为A到对角的C，最多多少条？ / A, B, C and D form a clockwise four-node ring with three circuits per link. What is the maximum number of simultaneous A-to-C connections?
 
 
 
@@ -184,7 +182,7 @@ B–C–D & 2 & BC、CD \\
 常见错法：直接除总速率1.536Mbps；把600ms当600s；把160000bit再乘8（本来就已经是bit）。
 
 
-\textbf{变式 / Transfer:} 同电路发送320000bit、setup不变，总时间？ / Double the file size to 320000 bits without changing setup or circuit rate.
+\textbf{变式 / Transfer:} 320000 bit文件使用12个等速FDM电路中的一个，总速率1.536 Mbps，建立需600 ms。只计建立和发送，总时间多少？ / Send 320000 bits using one of twelve equal-rate FDM circuits sharing 1.536 Mbps. Setup takes 600 ms. Counting only setup and transmission, find the total time.
 
 
 

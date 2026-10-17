@@ -7,7 +7,7 @@
 \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Tutorial01}{root}{Tutorial 1} · \StudyRef{CS5222-Tutorial02}{root}{Tutorial 2} · \StudyRef{CS5222-Assignment01}{root}{Assignment 1} · \StudyRef{CS5222-Chapter02}{root}{下一章}
 
 
-你在宿舍点开课程网页，屏幕很快显示内容。中间不是一条从电脑直达学校服务器的专属电线，而是许多设备、链路和网络共同协作。本章先建立这幅全景：谁负责收发、数据怎样共享道路、为什么会等待或丢失、复杂系统如何分工。后面每章会放大其中一部分。
+你在宿舍点开课程网页，屏幕很快显示内容。请求通常经过多个设备、链路和网络才到达服务器。本章先建立这幅全景：谁负责收发、数据怎样共享道路、为什么会等待或丢失、复杂系统如何分工。后面每章会放大其中一部分。
 
 
 依据当前 完整PPT（78页）及课堂Q\&A（6页）。保留老师Chapter命名与顺序。原PPT说明其改编自 Kurose/Ross 教材课件、由 Man Hon Cheung 修改；原图版权属于原作者。补充算例在正文中标注。
@@ -17,7 +17,7 @@
 
 
 
-学习目标、难度与材料依据集中在\StudyRef{CS5222-Chapter01}{learning-priorities}{文末学习要求表}；正文按原课顺序展开。
+学习目标与难点见\StudyRef{CS5222-Chapter01}{learning-priorities}{文末学习要求表}。
 
 
 
@@ -75,7 +75,7 @@
 接入网把家里或学校的端系统连到互联网的第一个入口，常见方式有家庭接入、学校/公司接入、移动接入。每次比较都问两件事：速率多少（bit/s）？资源是共享还是专用？仅看到“带宽很大”还不能推断每个用户都能持续独占它。
 
 
-以家里的电话线接入为例：打电话和上网共用一根线，却占用不同频段，像在同一条路上划出不同车道。这种方式叫数字用户线路（Digital Subscriber Line，DSL）。运营商一端用DSLAM设备汇集许多用户的线路，再接入ISP网络。家到局端的这一小段可以专用，后面的道路仍可能与别人共享。
+以家里的电话线接入为例：打电话和上网共用一根线，却占用不同频段，像在同一条路上划出不同车道。这种方式叫数字用户线路（Digital Subscriber Line，DSL）。运营商一端用DSLAM设备汇集许多用户的线路，再接入ISP网络。家到局端的这一小段可以专用，后续链路仍可能与其他用户共享。
 
 
 家里常见的一只“路由器盒子”也可能同时做几份工作：modem把数据转换为线路上的信号，路由/NAT负责转发和地址转换，防火墙按规则过滤流量，Wi-Fi接入点（access point，AP）提供无线连接。装在同一个盒子里，不等于这些功能相同。
@@ -117,7 +117,7 @@ Satellite 卫星链路 & 经卫星中继 & 传播距离与轨道决定时延；�
 
 
 
-\StudyHeading{1}{4. Circuit versus packet switching｜预留座位，还是来了再排队}
+\StudyHeading{1}{4. Circuit versus packet switching｜预留资源与按需共享}
 \StudyTarget{CS5222-Chapter01__core}
 \StudyTarget{CS5222-Chapter01__switching}
 \StudyTarget{CS5222-Chapter01__4-circuit-versus-packet-switching}
@@ -134,7 +134,7 @@ Circuit switching（电路交换）先预留路径上的资源，即使使用者
 \StudyCaption{Chapter 1完整课件，第23张：对照FDM与TDM怎样划分共享链路资源。}
 
 
-Packet switching（分组交换）把应用消息拆成包，按需使用链路。一包发送时可用链路发送速率R，竞争者可能排队；这不表示每个并发用户都永久获得R。像食堂公共座位提高利用率，但午饭同时来的人多了还是要等，不能只记“共享比较好”。
+Packet switching（分组交换）把应用消息拆成包，按需使用链路。一包发送时可用链路发送速率R，竞争者可能排队；这不表示每个并发用户都永久获得R。
 
 
 \textbf{Store-and-forward（存储转发）}要求收完整个包再向下一跳发送。包长L bit、速率R bit/s，一跳发送耗时L/R。在忽略传播、排队、处理的Chapter 1完整课件，第26张幻灯片模型中，一个包过两条链路耗时2L/R。注意“一跳”不自动包含整条路径。
@@ -172,7 +172,7 @@ P(K>10)=\sum_{k=11}^{35}\binom{35}{k}0.1^k0.9^{35-k}\approx0.0004243.\tag{1.1}
 \StudyTarget{CS5222-Chapter01__5-forwarding-routing-and-a-network-of-networks}
 
 
-课堂的forwarding是当前设备查表，把到来的包从合适出口送走；routing是确定路径并形成所需转发信息的过程。导航规划与开到路口选出口的类比有帮助，但真实路由可能分布式更新，不必有一个中央导航员。
+课堂的forwarding是当前设备查表，把到来的包从合适出口送走；routing是确定路径并形成所需转发信息的过程。路由信息可以由多个设备协作更新，不必由一个中心统一计算。
 
 
 \StudyImage{CS5222/course-notes/assets/chapter01-28.png}
@@ -366,7 +366,7 @@ min(10,20,30/5)=6Mbps。 / 6 Mbps under the stated sharing model. 容量不要�
 \StudyTarget{CS5222-Chapter01__8-layers-and-encapsulation}
 
 
-老师用航空旅行解释分工：买票、托运行李、登机、起飞、航线各有职责。某一层使用下层服务，同时向上层提供服务；合理接口让内部变化不必牵动所有部分。网络分层借助清楚的责任和接口组织复杂任务。来源：Chapter 1完整课件，第58–60张幻灯片。
+老师用航空旅行解释分工：买票、托运行李、登机、起飞、航线各有职责。某一层使用下层服务，同时向上层提供服务；合理接口让内部变化不必牵动所有部分。来源：Chapter 1完整课件，第58–60张幻灯片。
 
 
 \begingroup

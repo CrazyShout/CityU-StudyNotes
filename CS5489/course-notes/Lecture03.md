@@ -18,9 +18,9 @@
 <a id="2-linear-classifier-and-separating-hyperplane"></a>
 - `2-linear-classifier-and-separating-hyperplane` → [第 60 页](../../pdf/CS5489-A4.pdf#page=60)
 <a id="logistic"></a>
-- `logistic` → [第 60 页](../../pdf/CS5489-A4.pdf#page=60)
+- `logistic` → [第 61 页](../../pdf/CS5489-A4.pdf#page=61)
 <a id="3-logistic-regression"></a>
-- `3-logistic-regression` → [第 60 页](../../pdf/CS5489-A4.pdf#page=60)
+- `3-logistic-regression` → [第 61 页](../../pdf/CS5489-A4.pdf#page=61)
 <a id="regularization"></a>
 - `regularization` → [第 61 页](../../pdf/CS5489-A4.pdf#page=61)
 <a id="4-regularization-and-optimization"></a>
