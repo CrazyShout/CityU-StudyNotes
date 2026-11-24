@@ -36,6 +36,31 @@
       "major": true
     },
     {
+      "source": "CS5489/course-notes/Lecture08.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture09.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture10.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture11.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture12.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
       "source": "CS5489/course-notes/Tutorial01.tex",
       "course": "CS5489",
       "major": true,
@@ -151,7 +176,7 @@
       "major": false
     }
   ],
-  "major_documents": 23,
+  "major_documents": 28,
   "scope": "Current downloaded Canvas; native LaTeX teaching sources, saved executable Notebooks and nine A4 PDFs",
   "updated": "2026-11-24"
 }

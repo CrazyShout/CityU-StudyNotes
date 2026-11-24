@@ -1,0 +1,327 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Lecture09}{Lecture 9 · Unsupervised Learning: Clustering}
+\StudyTarget{CS5489-Lecture09__lecture-9-clustering}
+
+
+\StudyHeading{1}{怎么把没有标签的数据自动分组？从 K-Means、GMM 到谱聚类}
+\StudyTarget{CS5489-Lecture09__intro}
+
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture08}{root}{上一讲：降维与流形嵌入} · \StudyRef{CS5489-Lecture10}{root}{下一讲：自编码器与生成模型}
+
+上一讲解决的是“给高维数据瘦身”，这一讲解决无监督学习的另一半核心问题——\textbf{聚类（clustering）}：手里有 $N$ 个无标签向量 $\{\mathbf{x}_1,\dots,\mathbf{x}_N\}\subset\mathbb{R}^d$，怎样把长得相似的样本自动归成 $K$ 组（簇），并为每一组找一个代表中心？
+
+为什么不能只学一个 K-Means 走天下？因为真实数据团簇的“身材”千差万别：有的像规整的圆球（\textbf{K-Means} 擅长），有的像歪斜交叉的橄榄球（必须靠\textbf{高斯混合模型 GMM 与 EM 算法}），有的连簇数 $K$ 都不知道（要用\textbf{贝叶斯 GMM} 或基于核密度估计的 \textbf{Mean-Shift}），还有的根本不是紧致团块，而是弯成同心圆环或月牙的流形（只有基于图割的\textbf{谱聚类 Spectral Clustering} 才能切开）。本讲按“圆形\ensuremath{\to}椭圆形\ensuremath{\to}自动选 $K$\ensuremath{\to}任意连通流形”的脉络把全部方法一次讲透。
+
+\textbf{基础复习（可跳过）：} 如果对多维高斯密度、马氏距离（Mahalanobis distance）或最大似然估计（MLE）不熟，可回看\StudyRef{CS5489-Lecture02}{root}{Lecture 2 贝叶斯与高斯密度}。
+
+学习目标与难点见\StudyRef{CS5489-Lecture09}{learning-priorities}{文末学习要求表}。
+
+
+\StudyHeading{1}{Exam focus｜这一讲怎样安排复习}
+\StudyTarget{CS5489-Lecture09__exam-review}
+\StudyTarget{CS5489-Lecture09__exam-focus}
+
+\textbf{聚类是 CS5489 期末的绝对必争之地：已辨识的 3 套期末卷（2020B、2021A、2021B）每一套都有 1 道多选题 + 1 道 10 分整道简答题（每卷整整 15 分）！} 复习重点非常集中：K-Means 与 GMM 的边界几何（直线 vs 曲线）、硬分配 vs 软分配、相同聚类中心下分配能否不同、协方差结构（full / diagonal / spherical）的几何形状，以及按数据形态（重叠椭圆 vs 非紧致流形）挑算法。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.35\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+考点 & 复习动作 & 历史期末（共3套） & 入口 \\
+\midrule\endfirsthead
+考点 & 复习动作 & 历史期末（共3套） & 入口 \\
+\midrule\endhead
+\bottomrule\endfoot
+K-Means 目标、收敛与空间划分 & 记住必然收敛、对初始化敏感、线性边界、SSE 不能选 $K$ & 直接 2 套 & \StudyRef{CS5489-Lecture09}{kmeans}{讲解} \\
+GMM、EM 算法与协方差形状 & 分清 E 步／M 步、软加权、diagonal（轴对齐椭圆）vs spherical（圆）、贝叶斯选 $K$ & 直接 2 套 & \StudyRef{CS5489-Lecture09}{gmm-em}{讲解} \\
+K-Means vs GMM 边界与同心异分 & 背熟直边界（欧氏）vs 曲边界（马氏+权重）；说清同中心时为何分配仍可不同 & 直接 2 套 & \StudyRef{CS5489-Lecture09}{kmeans-vs-gmm}{讲解} \\
+KDE、Mean-Shift 与谱聚类 & 记住 Mean-Shift 靠带宽自动定 $K$；谱聚类靠图拉普拉斯处理非紧致流形、但不能分新点 & 直接 1 套 & \StudyRef{CS5489-Lecture09}{nonparam-spectral}{讲解} \\
+\end{longtable}\endgroup
+
+口径说明：仅统计已辨识的 3 套独立期末卷（2020B、2021A、2021B），同卷不重复计数；未见不等于不考。完整题号见\StudyRef{CS5489-Lecture09}{exam-topic-index}{讲末历史题源表}。
+
+
+\StudyHeading{1}{1. K-Means 聚类与视觉词袋（Bag-of-Visual-Words）}
+\StudyTarget{CS5489-Lecture09__kmeans}
+
+考点：K-Means 目标、收敛性、线性划分与初始化 \StudyBadge{final}{期末直接 · 2 套}
+
+K-Means 的想法最直观：用 $K$ 个中心点 $\mathbf{c}_1,\dots,\mathbf{c}_K\in\mathbb{R}^d$ 代表 $K$ 个簇，给每个样本 $\mathbf{x}_i$ 分配一个硬标签 $z_i\in\{1,\dots,K\}$，目标是让所有样本到各自所属中心的平方欧氏距离总和（SSE，也称重构误差）最小：
+\[
+\min_{\mathbf{c}_1,\dots,\mathbf{c}_K,\; z_1,\dots,z_N}\;\sum_{i=1}^N \|\mathbf{x}_i - \mathbf{c}_{z_i}\|_2^2.
+\tag{9.1}
+\]
+直接同时优化 $\mathbf{c}$ 和 $z$ 面临“先有鸡还是先有蛋”的困境：算中心要知道哪些点归这一簇，分点又得先知道中心在哪。K-Means 用\textbf{交替最小化（coordinate descent）}完美化解：
+\begin{enumerate}
+\item \textbf{固定中心、更新归属（Assignment）：} 每个点直接归入欧氏距离最近的中心：
+\[
+z_i = \mathop{\mathrm{argmin}}_{j\in\{1,\dots,K\}}\|\mathbf{x}_i - \mathbf{c}_j\|_2^2.
+\tag{9.2}
+\]
+\item \textbf{固定归属、更新中心（Update）：} 令第 $j$ 簇的点集为 $C_j = \{\mathbf{x}_i \mid z_i=j\}$，对式 9.1 关于 $\mathbf{c}_j$ 求导置零，立得唯一最优中心就是簇内样本的算术平均：
+\[
+\mathbf{c}_j = \frac{1}{|C_j|}\sum_{\mathbf{x}_i \in C_j}\mathbf{x}_i.
+\tag{9.3}
+\]
+\end{enumerate}
+
+五条\textbf{高频多选题结论}务必全部刻进脑子里（2021A Q1 与 2021B Q3 反复考）：
+\begin{itemize}
+\item \textbf{K-Means 必然收敛（always converges）：} 每一步都严格不增加目标函数式 9.1，且 $N$ 个点分到 $K$ 个簇的组合总数是有限的（最多 $K^N$ 种），因此算法必在有限步内停止，不会无限循环！
+\item \textbf{对初始化高度敏感，只能保证局部最优：} 初始中心选歪了可能落入很差的局部极小点。工程对策是多次随机重启取目标值最小的解，以及采用默认智能初始化 \textbf{k-means++}（让初始中心尽量彼此分散）。
+\item \textbf{划分边界是线性超平面（Voronoi 多边形）：} 把空间中每个位置划归离它最近的中心，两中心 $\mathbf{c}_a, \mathbf{c}_b$ 的等距点集合正是连接两者的垂直平分超平面，因此 K-Means 的聚类边界\textbf{永远是直线／平面}（图 9.1 左），隐含假设每个簇呈\textbf{圆形（球形）}。
+\item \textbf{绝不能直接靠最小化平方误差（重构误差）选最佳 $K$！} 因为每多加一个中心，SSE 必然单调下降——当 $K=N$、每个样本自己当一个中心时，SSE 直接降为 0，但这毫无聚类意义（2021A Q1 选项 D 与 2021B Q3 选项 E 双双命中此坑）。
+\item \textbf{实用延伸——Bag-of-X / 视觉词袋（Bag-of-Visual-Words）：} K-Means 把连续特征空间切成 $K$ 个区域，等价于把连续向量量化成 $K$ 个离散“视觉单词”。对图像提取大量局部小块（如课堂 Olivetti 人脸切出 $8\times 8$ 块），用 K-Means 学出视觉词典，再把每张图所有小块映射为对应单词并统计直方图，就能把图像转成类似文本词袋的定长特征向量送给分类器。
+\end{itemize}
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算 1D K-Means 迭代至收敛}
+对四个一维点 $\{1, 2, 4, 5\}$ 做 $K=2$ 聚类，刻意选一个较近的初始化 $c_1=1, c_2=2$：
+\begin{enumerate}
+\item \textbf{第 1 轮：} 归属 $\{1\}\to c_1$，$\{2,4,5\}\to c_2$；重算中心 $c_1=1$，$c_2=(2+4+5)/3 = 11/3 \approx 3.67$。
+\item \textbf{第 2 轮：} 2 离 $1$ 距 $1$、离 $3.67$ 距 $1.67$，故改归 $c_1$！归属变为 $\{1,2\}$ 和 $\{4,5\}$；重算中心 $c_1=1.5,\; c_2=4.5$。
+\item \textbf{第 3 轮：} 归属不再变化，算法收敛！最终目标函数 $\mathrm{SSE} = 0.5^2+0.5^2+0.5^2+0.5^2 = 1.0$。若改为 $K=4$，让四个中心直接落在 $1,2,4,5$，SSE 立刻降为 $0$——可见不能直接用最小 SSE 选 $K$。
+\end{enumerate}
+\end{StudyBlock}
+
+来源：Lecture9a，第 1–46 个单元（聚类定义、K-Means 目标推导、收敛与初始化、Voronoi 区域与 Bag-of-Visual-Words）。
+
+
+\StudyHeading{1}{2. 高斯混合模型（GMM）、EM 算法与贝叶斯 GMM}
+\StudyTarget{CS5489-Lecture09__gmm-em}
+
+考点：GMM、EM 软分配、协方差类型与贝叶斯选 $K$ \StudyBadge{final}{期末直接 · 2 套}
+
+当真实团簇是拉长倾斜的椭圆形、或者大小不一甚至彼此重叠时，只看欧氏距离的 K-Means 就会把一个大椭圆硬劈成两半（图 9.1 左）。\textbf{高斯混合模型（Gaussian Mixture Model, GMM）}把整体数据分布建模成 $K$ 个多维高斯分布（每座“山峰”对应一个椭圆簇）的加权叠加：
+\[
+p(\mathbf{x}) = \sum_{j=1}^K \pi_j\,\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}_j, \boldsymbol{\Sigma}_j),
+\qquad
+\sum_{j=1}^K \pi_j = 1,\;\pi_j \ge 0,
+\tag{9.4}
+\]
+其中 $\boldsymbol{\mu}_j$ 控制第 $j$ 簇的中心位置，协方差矩阵 $\boldsymbol{\Sigma}_j$ 控制椭圆的胖瘦和倾斜方向，先验权重 $\pi_j$ 表示第 $j$ 簇占总样本的比例。
+
+训练 GMM 的目标是最大化全部数据的对数似然：$\max_{\pi,\boldsymbol{\mu},\boldsymbol{\Sigma}} \sum_{i=1}^N \log \sum_{j=1}^K \pi_j \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_j, \boldsymbol{\Sigma}_j)$。因为求和号 $\sum_j$ 卡在对数 $\log$ 里面，直接求导没有闭式解。这就引出了处理含隐变量 $z_i$（样本到底来自哪座高斯山峰）的最大似然神器——\textbf{期望最大化算法（Expectation–Maximization, EM）}！
+
+利用指示变量技巧（设 $z_{ij}=1$ 当且仅当样本 $i$ 来自簇 $j$），完整数据的对数联合似然写成 $\log p(\mathbf{x}_i, z_i) = \sum_{j=1}^K z_{ij}\log\bigl(\pi_j \mathcal{N}(\mathbf{x}_i\mid \boldsymbol{\mu}_j, \boldsymbol{\Sigma}_j)\bigr)$。EM 交替执行两步，保证对数似然单调不降并收敛到\textbf{局部极值}（注意：不是全局最优！2020B Q2 选项 D 专考这一点）：
+\begin{enumerate}
+\item \textbf{E 步（计算后验软归属 / cluster membership）：} 固定当前参数，算样本 $i$ 属于第 $j$ 簇的后验概率（responsibility）$\hat{z}_{ij} = \mathbb{E}[z_{ij}\mid \mathbf{x}_i,\hat{\theta}]$：
+\[
+\hat{z}_{ij} = p(z_i = j \mid \mathbf{x}_i) = \frac{\pi_j\,\mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_j, \boldsymbol{\Sigma}_j)}{\sum_{k=1}^K \pi_k\,\mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)}.
+\tag{9.5}
+\]
+这是一种\textbf{软分配（soft assignment）}：夹在两簇中间的点可以同时以 0.5 和 0.5 的比例归属两簇。
+\item \textbf{M 步（加权更新簇参数 / cluster shape \& weight）：} 最大化期望对数似然 $\mathcal{Q}(\theta) = \sum_{i,j}\hat{z}_{ij}\log\bigl(\pi_j\mathcal{N}(\mathbf{x}_i\mid\boldsymbol{\mu}_j,\boldsymbol{\Sigma}_j)\bigr)$，求导得与 K-Means 神似、但改成\textbf{软加权平均}的闭式更新（记第 $j$ 簇的有效软点数 $N_j = \sum_{i=1}^N \hat{z}_{ij}$）：
+\[
+\pi_j = \frac{N_j}{N}, \qquad
+\boldsymbol{\mu}_j = \frac{1}{N_j}\sum_{i=1}^N \hat{z}_{ij}\mathbf{x}_i, \qquad
+\boldsymbol{\Sigma}_j = \frac{1}{N_j}\sum_{i=1}^N \hat{z}_{ij}(\mathbf{x}_i - \boldsymbol{\mu}_j)(\mathbf{x}_i - \boldsymbol{\mu}_j)^T.
+\tag{9.6}
+\]
+\end{enumerate}
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算 1D GMM 的一次 E 步与 M 步，看清软分配}
+设有 3 个一维点 $\{0, 2, 4\}$，当前 2 组分参数为 $\pi_1=\pi_2=0.5,\;\mu_1=0,\;\mu_2=4,\;\sigma_1^2=\sigma_2^2=2$。
+\begin{enumerate}
+\item \textbf{E 步：} 正中点 $x=2$ 到两中心等距，精确得到 $\hat{z}_{2,1}=\hat{z}_{2,2}=0.5000$（典型的 50/50 软归属点）；端点 $x=0$ 满足 $p_2/p_1 = e^{-16/4}=e^{-4}$，得 $\hat{z}_{1,1}=\frac{1}{1+e^{-4}}\approx 0.9820,\;\hat{z}_{1,2}\approx 0.0180$；对称地，$x=4$ 得 $\hat{z}_{3,1}\approx 0.0180,\;\hat{z}_{3,2}\approx 0.9820$。
+\item \textbf{M 步：} 软计数 $N_1 = N_2 = 0.9820 + 0.5 + 0.0180 = 1.5$，故新权重 $\pi_1=\pi_2=1.5/3=0.5$；新均值 $\mu_1 = (0\times 0.9820 + 2\times 0.5 + 4\times 0.0180)/1.5 \approx 0.7146$，$\mu_2 = 4 - \mu_1 \approx 3.2854$；新方差 $\sigma_1^2 = \sigma_2^2 \approx 1.0145$。中间点 $x=2$ 同时把两个高斯中心往中间拉了一把！
+\end{enumerate}
+\end{StudyBlock}
+
+\StudyHeading{2}{协方差约束与贝叶斯 GMM（自动选择簇数 $K$）}
+\StudyTarget{CS5489-Lecture09__cov-bayesian}
+
+全协方差矩阵（\StudyInline{full}）有 $O(d^2)$ 个参数，高维小样本下极难估计。实用中常用两种简化（注意区分几何形状，2020B Q2 选项 C 专门设过陷阱！）：
+\begin{itemize}
+\item \textbf{对角协方差（diagonal，每簇 $d$ 个参数）：} $\boldsymbol{\Sigma}_j = \mathrm{diag}(a_1,\dots,a_d)$。各维度方差可以不同，所以簇是\textbf{长短轴与坐标轴对齐的椭圆}，\textbf{并不是正圆}！
+\item \textbf{球形协方差（spherical，每簇仅 1 个参数）：} $\boldsymbol{\Sigma}_j = a_j\mathbf{I}$。各方向方差完全相同，簇才是\textbf{正圆（球形）}。
+\end{itemize}
+
+那不知道真实簇数 $K$ 怎么办？\textbf{贝叶斯 GMM（Bayesian GMM）}给混合权重 $\boldsymbol{\pi}$ 加上\textbf{狄利克雷先验（Dirichlet prior）}（浓度参数 $\alpha$），相当于对簇权重做平滑：
+\[
+\pi_j = \frac{N_j + \alpha}{N + K\alpha}.
+\tag{9.7}
+\]
+当 $\alpha$ 很小时（例如 $N=100, K=5$，真实只有两簇 $N_1=60, N_2=40$，其余三簇 $N_3=N_4=N_5=0$，取 $\alpha=0.01$），空簇权重 $\pi_3 \approx 0.0001$ 自动趋近于 0，模型便从预设上限 $K$ 里自动“剪掉”多余簇、保留有效簇数；反之 $\alpha$ 很大时（如 $\alpha=100$），会鼓励权重更均匀、保留更多簇。而且在一个很大跨度的 $\alpha$ 取值区间内，有效簇数往往非常稳定。
+
+\StudyHeading{2}{期末最爱对比：K-Means vs GMM 边界差异与“同中心不同归属”}
+\StudyTarget{CS5489-Lecture09__kmeans-vs-gmm}
+
+考点：K-Means 与 GMM 边界几何与分配差异 \StudyBadge{final}{期末直接 · 2 套}
+
+\StudyImage{CS5489/course-notes/assets/l9-kmeans-vs-gmm.png}
+\StudyCaption{图 9.1：对两团拉长且相邻的椭圆数据，左图 K-Means 因采用欧氏距离只能画出直线中垂边界，错切了大量右侧椭圆边缘点；右图 GMM 利用各簇协方差对应的马氏距离画出弯曲边界，精准包裹两座椭圆（教学自绘）。}
+
+把 2020B Q2、2020B Q8、2021A Q1、2021A Q7、2021B Q3 这五道高频考题浓缩成三条必考辨析：
+\begin{enumerate}
+\item \textbf{看图区分 K-Means 与 GMM（2020B Q8）：} \textbf{直边界（分段直线）来自 K-Means}，因为按欧氏距离找最近中心形成线性垂直平分面；\textbf{曲边界来自 GMM}，因为高斯密度使用的是由不同协方差 $\boldsymbol{\Sigma}_j$ 决定的\textbf{马氏距离（Mahalanobis distance）}，外加不同的先验权重 $\pi_j$ 与行列式项 $\log|\boldsymbol{\Sigma}_j|$，使等后验边界成为二次曲线！
+\item \textbf{把 GMM 协方差全设成单位阵 $\mathbf{I}$ 且权重均匀，就等于 K-Means 了吗？（2020B Q2 选项 A、2021B Q3 选项 B、2021A Q1 选项 C）：} \textbf{都不对！} 第一，即使 $\boldsymbol{\Sigma}_j=\mathbf{I}$、$\pi_j=1/K$，GMM 在 E 步算的仍是按距离衰减的\textbf{软概率分配}，而不是 K-Means 的 0/1 硬分配（只有当各向同性方差 $\sigma^2\to 0$ 的极限下，软分配才退化成硬分配）；第二，令 $\boldsymbol{\Sigma}_j=\mathbf{I}$ 也不会把样本“均匀平分”给各簇，点依然更偏向离它近的中心。
+\item \textbf{如果 K-Means 和 GMM 在同一份数据上算出了完全相同的簇中心，它们的簇分配可能不同吗？（2021A Q7，10 分整道大题）：} \textbf{可能不同！} K-Means 只看欧氏距离做硬分配；而 GMM 依据包含协方差（方差大小与方向）和先验权重 $\pi_j$ 的高斯后验概率分配。哪怕均值完全一样，只要一个簇方差很大（铺得很宽）、另一个簇方差很小（很瘦），或者先验权重不同，边界附近的点就可能被分进不同簇！
+\end{enumerate}
+
+\textbf{数值实证（教学补充）：} 设 $\mu_1=0,\;\mu_2=4,\;\pi_1=\pi_2=0.5$，但第 1 簇很窄（$\sigma_1^2=0.25$）、第 2 簇很宽（$\sigma_2^2=16$）。取点 $x=1.5$：它离 $\mu_1=0$ 仅 1.5、离 $\mu_2=4$ 有 2.5，K-Means 毫无疑问把它归入第 1 簇；但在 GMM 下，它在第 1 簇已经偏出 $3$ 个标准差，后验算下来有超过 \textbf{90.3\%} 的概率属于第 2 簇！甚至在两个高斯\emph{完全同心}（$\mu_1=\mu_2=0$、$\sigma_1^2=1,\sigma_2^2=16$）的退化情形下，GMM 会把原点附近的点（如 $x=0$，后验 80\%）分给窄簇、把外围点（如 $x=3$，后验 $>94\%$）分给宽簇，而 K-Means 面对重合中心只能退化为任意分配。
+
+\textbf{English takeaway:} K-Means partitions space with straight linear boundaries using Euclidean distance and hard assignments, always converging to a local minimum. GMM uses EM with soft weighted averages and Mahalanobis distances, yielding curved boundaries for elliptical clusters; even with identical cluster means, different covariances or weights can produce different assignments.
+
+来源：Lecture9a，第 47–92 个单元（GMM 定义、1D/2D 示例、EM 推导与指示变量技巧、协方差约束与 Bayesian GMM）。
+
+
+\StudyHeading{1}{3. 非参数聚类（KDE / Mean-Shift）与谱聚类（Spectral Clustering）}
+\StudyTarget{CS5489-Lecture09__nonparam-spectral}
+
+考点：非紧致流形聚类与算法选型 \StudyBadge{final}{期末直接 · 1 套}
+
+\StudyHeading{2}{核密度估计（KDE）与 Mean-Shift 寻峰聚类}
+\StudyTarget{CS5489-Lecture09__meanshift}
+
+如果连“数据服从几个高斯分布”这种参数假设都不想做，可以直接用\textbf{非参数密度估计}——在每一个数据点 $\mathbf{x}_i$ 头上放一小座标准差（\textbf{带宽 bandwidth}）为 $\sigma$ 的小高斯山丘，把所有 $N$ 座小山叠加起来，就得到\textbf{核密度估计（Kernel Density Estimator, KDE）}：
+\[
+p(\mathbf{x}) = \frac{1}{N}\sum_{i=1}^N \mathcal{N}(\mathbf{x} \mid \mathbf{x}_i, \sigma^2\mathbf{I}).
+\tag{9.8}
+\]
+密度函数的每一个局部极大值——称为\textbf{众数／峰值（mode）}——天然就是一个簇中心！\textbf{Mean-Shift 算法}就是一套保证收敛的“自动爬山寻峰”流程（本质上是选了巧妙步长的密度梯度上升）：从任意一个起点 $\mathbf{x}$ 出发，反复做两步直到不动：(1) 在当前点 $\mathbf{x}$ 周围带宽半径内找到邻居（按高斯核加权）；(2) 把 $\mathbf{x}$ 移动到这些邻居的加权均值处。对所有数据点并行跑一遍 Mean-Shift，合并收敛到同一座山峰的终点，凡是爬到同一峰顶的数据点就归为同一簇（图 9.2 左）。
+
+Mean-Shift 最大的优点是\textbf{无需预先指定簇数 $K$}——簇数由\textbf{带宽（bandwidth）}隐式控制：\textbf{带宽越大}，密度曲线越平滑，关注宏观大团，\textbf{簇数越少}；\textbf{带宽越小}，局部小鼓包越多，\textbf{簇数越多}。缺点是计算开销较大。
+
+\StudyHeading{2}{谱聚类（Spectral Clustering）：用图割切开任意形状的连通流形}
+\StudyTarget{CS5489-Lecture09__spectral}
+
+K-Means、GMM 和 Mean-Shift 有一个共同前提：它们都假设每个簇是围绕中心抱团的\textbf{紧致（compact）}区域（圆或椭圆）。如果数据长成两个嵌套的同心圆环或相互咬合的弯月（图 9.2 右，以及 2021B 期末 Q8 的 Dataset B），任何“按到中心距离分群”的方法都会惨败！
+
+\textbf{谱聚类（Spectral Clustering）}彻底换了思路——\textbf{把聚类转化为图分割（graph cut）问题}：
+\begin{enumerate}
+\item 把每个数据点看成图里的一个节点，用 $K$ 近邻或 RBF 核 $A_{ij} = k(\mathbf{x}_i,\mathbf{x}_j)$ 给每对点赋边权（亲和矩阵 $\mathbf{A}$），越近的点边权越粗；
+\item 目标是在图里找切口，使\textbf{被切断的跨簇边权总和尽量小}，而每个簇内部的连通边权尽量大；
+\item 课件给出一个绝妙的物理类比——\textbf{质点–弹簧系统（mass-spring system）}：节点是质点，边权是弹簧刚度。轻敲一下整个系统，由粗弹簧紧连在一起的一伙质点会同步做低频共振，而只靠细弱弹簧相连的不同群体会朝相反方向摆动！
+\item 这些低频共振模态正是\textbf{图拉普拉斯矩阵（Graph Laplacian）}的最小非零特征向量：
+\[
+\mathbf{L} = \mathbf{D} - \mathbf{A}, \qquad D_{ii} = \sum_{j=1}^N A_{ij}, \qquad
+\mathbf{y}^T \mathbf{L}\mathbf{y} = \frac{1}{2}\sum_{i,j} A_{ij}(y_i - y_j)^2.
+\tag{9.9}
+\]
+\end{enumerate}
+其中 \StudyInline{scikit-learn} 实现的是带归一化版本的 Normalized Cuts。用这几个最小非零特征向量给每个节点重新编码，原本弯弯曲曲的非紧致流形就瞬间被拉成了紧致团块，再做 K-Means 就能干净切开！
+
+\textbf{核超参数 $\gamma$ 的敏感性：} 在 RBF 亲和核 $k(\mathbf{x}_i,\mathbf{x}_j) = \exp(-\gamma\|\mathbf{x}_i-\mathbf{x}_j\|_2^2)$ 中，$\gamma$ 越小，相距较远的点依然被当成相似（连边更宽泛）；$\gamma$ 越大，只有紧挨着的邻居才有显著边权。
+
+\textbf{一个极易考的短板：} 与流形嵌入类似，谱聚类是在已有样本构成的图上直接求节点归属，\textbf{无法直接把一个全新的测试样本归类到已有簇中}（且构造 $N\times N$ 核矩阵较慢、仍需预先指定 $K$）。另外别忘了\textbf{特征归一化}：所有依赖欧氏距离的聚类算法（K-Means、Mean-Shift、Spectral Clustering）在运行前通常都需要对特征做标准化，否则数值范围大的一维会完全主导距离计算。
+
+\StudyImage{CS5489/course-notes/assets/l9-meanshift-spectral.png}
+\StudyCaption{图 9.2：左图展示一维 KDE（叠加每个样本上的小高斯核）及 Mean-Shift 沿密度爬升至双峰的过程；右图展示两个非紧致弯月流形——依靠局部近邻连通边，谱聚类可以完整分离两弯月（教学自绘）。}
+
+\begin{StudyBlock}{完整示范 / Worked example}{4 节点哑铃图的图拉普拉斯与谱切分}
+设有 4 个节点：$(1,2)$ 与 $(3,4)$ 内部各用强边（权 1）相连，$(2,3)$ 之间只有一根弱桥（权 $0.1$）。
+\begin{enumerate}
+\item 度矩阵 $\mathbf{D}=\mathrm{diag}(1, 1.1, 1.1, 1)$，图拉普拉斯 $\mathbf{L}=\mathbf{D}-\mathbf{A}$ 最小特征值 $\lambda_1=0$ 对应全 1 常向量（整体平动）；
+\item 第二个最小特征向量（Fiedler 向量）四个分量的符号严格为 $[-, -, +, +]$，一刀精准切开弱桥 $(2,3)$，把 $\{1,2\}$ 和 $\{3,4\}$ 分成两簇！
+\item 验证能量式 9.9：取示性向量 $\mathbf{y}=[1,1,-1,-1]^T$，仅弱桥两端差值为 $2$，得 $\mathbf{y}^T\mathbf{L}\mathbf{y} = 0.1\times (1-(-1))^2 = 0.4$（切弱桥代价极低；若硬把强边切开，代价将飙升至 $4.0$ 以上）。
+\end{enumerate}
+\end{StudyBlock}
+
+\StudyHeading{2}{五大聚类算法全景对比与按图形选型（对照 2021B 期末 Q8）}
+\StudyTarget{CS5489-Lecture09__clustering-summary}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.19\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.26\linewidth-1.60000\tabcolsep\relax}@{}}
+\toprule
+算法 & 适用簇形状 & 核心原理 & 优点 & 缺点 \\
+\midrule\endfirsthead
+算法 & 适用簇形状 & 核心原理 & 优点 & 缺点 \\
+\midrule\endhead
+\bottomrule\endfoot
+K-Means & 圆形（球形） & 最小化到中心平方欧氏距 & 极快、可扩展（MiniBatch）；直线边界 & 需定 $K$；对初始化敏感；仅限圆簇 \\
+GMM & 椭圆形（可重叠） & 最大似然 + EM 软更新 & 拟合拉长／倾斜／交叉椭圆；曲边界 & 需定 $K$；对初始化敏感；仅局部最优 \\
+Bayesian GMM & 椭圆形 & 狄利克雷先验 + 边际似然 & 靠 $\alpha$ 自动选有效 $K$ & 较慢；仍对初始化敏感 \\
+Mean-Shift & 紧致集中团块 & KDE 峰值爬升（局部均值） & 靠带宽自动定 $K$，无参数假设 & 较慢；仍要求簇紧致 \\
+Spectral Clustering & 任意连通流形 & 图亲和矩阵 + 拉普拉斯谱 & 同心圆、弯月等非紧致流形通吃 & 需定 $K$；\textbf{不能直接分新点}；构核矩阵较慢 \\
+\end{longtable}\endgroup
+
+直接套用到 2021B 期末 Q8 的两类数据选型：面对中心交叉呈星形放射状的三根细长椭圆簇（Dataset A），每根细条都像一个拉长的高斯椭圆且在中心重叠，应选 \textbf{GMM（或 Bayesian GMM）}；面对多条互不相交的弯曲非紧致流形（Dataset B），点集并非围绕单中心成团而是各自连通成图，应选 \textbf{Spectral Clustering}！
+
+来源：Lecture9b，第 1–67 个单元（KDE、Mean-Shift 与带宽效应、非紧致簇、谱聚类图拉普拉斯、$\gamma$ 敏感性、总对比表与特征归一化）。
+
+
+\StudyHeading{1}{4. 回顾与英文自测}
+\StudyTarget{CS5489-Lecture09__review}
+
+\textbf{Q1. 为什么在聚类模型里不能直接用最小化重构误差（SSE）来选最佳簇数 $K$？ / Why can't reconstruction error (SSE) be used directly to pick the best number of clusters $K$?}
+
+\textbf{答 / Answer：} 随着 $K$ 增大，每个点离最近中心的距离只会单调减小或不变；当 $K=N$ 时每个点自成一簇，SSE 直接降为 0，无法反映真实聚类质量。应改用 Bayesian GMM、Mean-Shift 或轮廓系数／信息准则等方法。 / SSE monotonically decreases as $K$ grows and reaches 0 when $K=N$ (every point is its own cluster), so minimizing SSE always prefers the largest $K$.
+
+\textbf{Q2. 如何从二维聚类结果图一眼区分 K-Means 和 GMM？背后原因是什么？ / How can you visually distinguish K-Means from GMM clustering results, and why?}
+
+\textbf{答 / Answer：} K-Means 的聚类边界是直线（分段线性 Voronoi 边界），因为它用欧氏距离分配最近中心；GMM 的边界通常是曲线，因为它使用随各簇协方差变化的马氏距离，且包含不同的先验权重 $\pi_j$。 / K-Means produces straight linear boundaries (Euclidean distance to centers), whereas GMM typically produces curved boundaries due to cluster-specific Mahalanobis distances and differing mixture weights.
+
+\textbf{Q3. 若 K-Means 和 GMM 得到相同的簇中心，它们的簇归属是否一定相同？ / If K-Means and GMM obtain the same cluster centers, must their cluster assignments be identical?}
+
+\textbf{答 / Answer：} 不一定。K-Means 按欧氏距离做硬分配，而 GMM 按后验概率做软分配并受各簇方差（协方差）和权重影响；方差大的簇会吸引更多边界附近的点，在各簇中心甚至完全重合但方差不同时，GMM 仍会按到中心距离把内外圈分给不同簇。 / No. K-Means uses hard Euclidean assignment, while GMM uses soft probabilistic assignments shaped by cluster covariances and weights. Components with larger variances can capture boundary points closer in Euclidean distance to a narrower cluster's center (or separate concentric clusters sharing the exact same mean).
+
+\textbf{Q4. 对角协方差（diagonal）的 GMM 形成的簇是正圆吗？EM 算法总能找到全局最优解吗？ / Does a diagonal-covariance GMM produce circular clusters, and does EM always find the global optimum?}
+
+\textbf{答 / Answer：} 都不是。对角协方差形成的是长短轴与坐标轴对齐的\textbf{椭圆}，球形协方差（$a\mathbf{I}$）才形成正圆。EM 算法保证收敛，但只能收敛到\textbf{局部最优}，结果依赖初始化。 / Neither is true. Diagonal covariance yields axis-aligned ellipses (spherical $a\mathbf{I}$ gives circles). EM is guaranteed to converge, but only to a local optimum sensitive to initialization.
+
+\textbf{Q5. 遇到同心圆环等非紧致流形数据应选哪种聚类？它有哪些局限？ / Which clustering method handles non-compact manifolds like concentric rings, and what are its limitations?}
+
+\textbf{答 / Answer：} 应选\textbf{谱聚类（Spectral Clustering）}，它在近邻／RBF 亲和图上借图拉普拉斯切分连通分量。局限：仍需指定 $K$、构造 $N\times N$ 核矩阵较慢、对核参数 $\gamma$ 敏感，且\textbf{不能直接为新样本预测所属簇}。 / Use \textbf{Spectral Clustering}, which partitions connected graph components via the graph Laplacian. Limitations: requires specifying $K$, scales slowly with the $N\times N$ affinity matrix, is sensitive to $\gamma$, and cannot directly assign novel test points.
+
+
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5489-Lecture09__learning-priorities}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.44\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endfirsthead
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+K-Means 与 Bag-of-X & 核心必会 & 低，易误认 SSE 可选 $K$ & 手算迭代，记住必然收敛、初始化敏感、线性边界与视觉词袋流程 \\
+GMM 与 EM 算法 & 核心必会 & 高，E/M 软加权与指示变量 & 会写式 9.5–9.6，区分 full/diagonal/spherical 形状及 EM 局部最优 \\
+K-Means vs GMM 辨析 & 核心必会 & 中，同中心异分解释 & 熟练用英文答清直／曲边界、硬／软分配及同中心不同方差反例 \\
+Bayesian GMM 与 Mean-Shift & 核心必会 & 低，超参方向易反 & 记住 $\alpha$ 越大簇越多、带宽越大簇越少 \\
+谱聚类与特征归一化 & 核心必会 & 中，拉普拉斯与流形选型 & 说清非紧致连通图优势、无法分新点短板，以及欧氏距离聚类需归一化 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{Historical exam map｜按考点查历史期末题源}
+\StudyTarget{CS5489-Lecture09__exam-topic-index}
+
+口径：汇总已辨识的 3 套独立期末卷（2020B、2021A、2021B）；同卷不重复计数，未见不等于不考。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.54\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+考点 & 试卷与题号 & 考查重点与提醒 \\
+\midrule\endfirsthead
+考点 & 试卷与题号 & 考查重点与提醒 \\
+\midrule\endhead
+\bottomrule\endfoot
+K-Means 性质与多选陷阱 & 2021A Q1；2021B Q3 & 必收敛、对初始化敏感、线性划分；SSE 不可选 $K$；$\Sigma=I$ 的 GMM 不等于 K-Means 也不均分样本 \\
+GMM 与 EM 多选 & 2020B Q2；2021A Q1 & E 步归属／M 步形状、软加权更新、Bayesian 选 $K$；对角协方差为椭圆非圆、EM 仅局部最优 \\
+K-Means vs GMM 边界识别 & 2020B Q8 & 10 分简答：直边界（欧氏距离）vs 曲边界（马氏距离 + 不同组分权重） \\
+同中心下的分配差异 & 2021A Q7 & 10 分简答：同中心下因硬／软分配与方差差异，K-Means 与 GMM 归属仍可不同 \\
+按数据形状选聚类算法 & 2021B Q8 & 10 分简答：重叠放射椭圆选 GMM/Bayesian GMM；非紧致连通流形选 Spectral Clustering \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{来源覆盖索引}
+\StudyTarget{CS5489-Lecture09__sources}
+
+依据当前课件 Lecture9a（92 个单元）与 Lecture9b（67 个单元），单元编号从 1 起算，含文字与代码单元。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原课位置 & 对应讲义 \\
+\midrule\endfirsthead
+原课位置 & 对应讲义 \\
+\midrule\endhead
+\bottomrule\endfoot
+Lecture9a，第 1–46 个单元 聚类概念、K-Means 目标推导、收敛／初始化、Voronoi 区域与视觉词袋 & §1 \\
+Lecture9a，第 47–78 个单元 GMM 密度、1D/2D 示例、EM 软更新、协方差类型与指示变量推导 & §2 \\
+Lecture9a，第 79–92 个单元 选 $K$ 难题、Bayesian GMM 狄利克雷先验与浓度参数 $\alpha$ & §2 \\
+Lecture9b，第 1–35 个单元 非参数估计、KDE、Mean-Shift 寻峰算法与带宽控制簇数 & §3 \\
+Lecture9b，第 36–67 个单元 非紧致流形、谱聚类图拉普拉斯、$\gamma$ 敏感性、汇总对比表与特征归一化 & §3、§4 \\
+\end{longtable}\endgroup
+
+本讲全部手算验算与自绘教学图见同目录 \StudyInline{tools/\allowbreak{}verify\_\allowbreak{}l8\_\allowbreak{}l9\_\allowbreak{}examples.\allowbreak{}py}（独立断言结果存档于 \StudyInline{l8-l9-example-results.\allowbreak{}json}）。

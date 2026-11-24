@@ -4,9 +4,9 @@
   "books": {
     "CS5489": {
       "file": "pdf/CS5489-A4.pdf",
-      "pages": 236,
-      "sha256": "af26313833604bccbb7731163fcf823e5972e7d129705cae585596e46f969176",
-      "source_sha256": "e5670b62541f10a24e62203239857d76fce936ed22097a6001cae50955fd7d18",
+      "pages": 283,
+      "sha256": "5123a2af9de556a7e794ed1faf0217670a1597556682512c0c1d5c8250fda486",
+      "source_sha256": "7e8dec2a1c19d5f3cadb1029ffc2641d414f1c78b5f476f5b57187c5a4a14f0f",
       "source_ref": "main",
       "inputs": {
         "CS5489/course-notes/Assignment01.tex": "bb4aba5883a438df646ef81530ea56334d88b8b71d2667a5f867ac2970ff49ba",
@@ -18,14 +18,19 @@
         "CS5489/course-notes/Lecture04.tex": "d261ff62e66616667f97ef968a552a101d936e5aeb75765c4524c2d26a53f9ba",
         "CS5489/course-notes/Lecture05.tex": "979e9a5603bd15948209e31e077d57adb1e02423523760dc9606b30b67cb3ff8",
         "CS5489/course-notes/Lecture06.tex": "816ae0580f0273ab0b4435905ebbcee53c623e7100756d49d72a09a3057ae9ed",
-        "CS5489/course-notes/Lecture07.tex": "db0c30c2ff3ae020faef4d3b62ab2b79e2537b12a4793856c05e4f8150be764a",
-        "CS5489/course-notes/Tutorial01.ipynb": "8a209070c8e27a92f40cf3b216940be6bbb68678d881fd9d7826d4a1865ab4d2",
+        "CS5489/course-notes/Lecture07.tex": "b0c069c0b057ecba36e71a473e639d2e5cd9733a711b622c8ec1d9de74194ff6",
+        "CS5489/course-notes/Lecture08.tex": "71ea7426cbe3c6bb8a88b29e8435406a6d9a4bb9ff06319e4619a165c4e66e2c",
+        "CS5489/course-notes/Lecture09.tex": "b57d9638440d541f31600a425dc7c0bae46bba7183273a8a28292d18e68d0e43",
+        "CS5489/course-notes/Lecture10.tex": "2f6c2d058a6b75d1ccee67149fa9617b5e3c193a05127313f2ed366af46fefd8",
+        "CS5489/course-notes/Lecture11.tex": "c00da9465fce8bf600c27fbe12e53a67517ff6142497ac56a0373a5df3a50c64",
+        "CS5489/course-notes/Lecture12.tex": "6c349392a064440b8250031b25bb477da423403340f2017f1f8ce86a0ceed75f",
+        "CS5489/course-notes/Tutorial01.ipynb": "2f94a8bbc7afe4f8e422082a58e7ccd8999423616cfc864f8282243914167795",
         "CS5489/course-notes/Tutorial01.tex": "4b4937a11b42909284c83f1ee908c5fdcb4458b34e405aecb82e31ef645b2ec3",
-        "CS5489/course-notes/Tutorial02.ipynb": "f4c81a9a3f5f911a7d481bf442b235f3ca0eacf5087ba46287b0c3697904e448",
+        "CS5489/course-notes/Tutorial02.ipynb": "7d01f4652e7bf94ac7bbfa0dbc9839655616456a470b647953368438cbf50b39",
         "CS5489/course-notes/Tutorial02.tex": "d240cad9bbb064bdae5559d496709f9650b34aad15b0e99dcccc891ab4b4647d",
-        "CS5489/course-notes/Tutorial03.ipynb": "5da2d55ea49745797335e34a3be213698a2f30e4aae02f585a5bba47276cc163",
+        "CS5489/course-notes/Tutorial03.ipynb": "edf211c68555e6e7526c9b6582e19cc59ccb1e7292f9620f446ebfc158a230f8",
         "CS5489/course-notes/Tutorial03.tex": "b6919437636bef4806065f6189537a154543e0a6b3ec0dfa546c4f327673948a",
-        "CS5489/course-notes/Tutorial04.ipynb": "e42260cddd3785f824d93d9d548636425a66b0a35f400ee78568f23466d539c1",
+        "CS5489/course-notes/Tutorial04.ipynb": "3f45a2f99d70a7b1cd594a42dce2fa849a1f2a252d0823e6c93177eb6245af83",
         "CS5489/course-notes/Tutorial04.tex": "f4f1fb661702e4f8dd464d8139509a6955b45f44c33d1f4f57da0514300bf80f",
         "CS5489/course-notes/assets/Petal-sepal.jpg": "30fa6223fd316493355835cf716bfe89d9bcf1b7650131f567a357534cedf9b7",
         "CS5489/course-notes/assets/iris-density-posterior.png": "7068ac6e41478f4aad702313f50dcecd6f454e33c321d6681ceac442aee7a22d",
@@ -33,10 +38,17 @@
         "CS5489/course-notes/assets/iris-model-comparison.png": "205924fced6b841af4219bb4873e77ffa2ba9cdb829818897b7e2da2e7a5eeb1",
         "CS5489/course-notes/assets/iris-versicolor.jpg": "92eb7ac5aa7406239ead93d270b04295965528d7b49914ebb77e04ff435941c5",
         "CS5489/course-notes/assets/iris-virginica.jpg": "d646b268f22e576c35bc884770136519b34dfd684fd3eb0f5d097ba64c82254e",
+        "CS5489/course-notes/assets/l10-generative-models.png": "8b652bea4b94dc3d72d5f00483cb9745814c4caec388415978b659409255f2fb",
+        "CS5489/course-notes/assets/l11-decoding-kvcache.png": "579ecae121c13a12986f355b105c3668dcf7212486cab5494813e11ec5eeb9cf",
+        "CS5489/course-notes/assets/l12-detectors-clip.png": "62a18dc0e441ecbe4b873e2a617d2e67e05ad4f9998945921a647411143f857e",
         "CS5489/course-notes/assets/l6-conv-receptive-field.png": "bfe071e041742a3eac6cdb92e5fcdf9f189f5f926f1c6c6cb7cebef48fd63e5f",
         "CS5489/course-notes/assets/l6-loss-diagnosis.png": "f083bc70801df8a443a31c02c84c7346bbc3607a9436a84fa07f554c864ea95b",
         "CS5489/course-notes/assets/l7-bn-optimizers.png": "75be610cc5d896a1dc65d285454c0551b9d9b16c454d8c7b2870e50ba5428d0d",
         "CS5489/course-notes/assets/l7-resnet-paths.png": "b42ad0124265ea55df447608da5018fd2394b8243336ae02788df0694cb60a42",
+        "CS5489/course-notes/assets/l8-manifold-geodesic.png": "607f6b37cee4bb7c289ca11f09c88cd98b805e1b3b17ef97467d5db851968064",
+        "CS5489/course-notes/assets/l8-pca-vs-fld.png": "258ae55c170e845c225f7a48ad70385d2c8fdefc5fab141b4faa71bde6dc2ebd",
+        "CS5489/course-notes/assets/l9-kmeans-vs-gmm.png": "d32e111e6fd363e227578304f8399fa7018e72d17234ffcc1331adc2191f0f5b",
+        "CS5489/course-notes/assets/l9-meanshift-spectral.png": "a110fcf223ba8efc25e7a2176cfb5ab65bfa63cc88fedce20dd85f8466a79bf4",
         "CS5489/course-notes/assets/lecture01-intro-12.png": "95180ed0d57c2de2d13c01275918d76a8948222b3b6704134df3b1b6d9a97eb8",
         "CS5489/course-notes/assets/lecture01-pipeline-23.png": "b4ded7df5583062cacf60c74adc4648f8ad412e3292eb2c04453352aa0c1e4cd",
         "CS5489/course-notes/assets/lecture02-boundary-variance.png": "20a3fe09532d40152b83c0311318c654881cbc474bd862dd496ef0b246020d49",
@@ -59,7 +71,7 @@
         "CS5489/course-notes/assets/svm-supplement-3.png": "539ac5bf04a083852de5ca458cb0bd7b557fd35114aeb7b3e2290640bc8aedf5",
         "CS5489/course-notes/assets/svm-supplement-4.png": "b2da8c9479a4e1b65eb34ebabf6f42d0c9c9e056e07d2c0793fa97b4b7211797",
         "CS5489/course-notes/assets/tom-mitchell-bow.jpg": "5df8836810b56eab44e09f21f7a9b074103e09fb45da0bc6de4ab31e6e59adac",
-        "latex/books/CS5489.tex": "23e70412cb2e45b048c4570461959a85668b1c64daed198ee26100e0768f0a65",
+        "latex/books/CS5489.tex": "9a9856438d03cff320c8418d7d997bbc284131e77afba4bc9e6965099ab97a3d",
         "latex/preamble.tex": "605d090d10e8e63300aa623574ea6bc2d8c883c2b9f77780b037aafef444f00a",
         "latex/vendor/adobe-mapping/Adobe-GB1-UCS2": "368b40ec05568faf323cfbbddf23c60d566bbc88e366981eb6541b026381a3b8",
         "latex/vendor/adobe-mapping/UPSTREAM.json": "0e29e61f48272fbbe292d5b8fc6b5bc3bfd9b3ac112a7df016837b981cbb3fe6",
@@ -79,7 +91,7 @@
     "CS5222": {
       "file": "pdf/CS5222-A4.pdf",
       "pages": 99,
-      "sha256": "25221fcd65755f6cfbf105d88e1bd7266e3466d87e7cbaaa64cb2061a773f017",
+      "sha256": "a8b15a32628305d8f2c60a79a36664d88634067ebb257916689e5c0af71763e9",
       "source_sha256": "375b5901989b0d31779631bdc63b871f0c93b61bc7dc52fce584a42623ba209f",
       "source_ref": "main",
       "inputs": {
@@ -154,7 +166,7 @@
     "Foundations": {
       "file": "pdf/Foundations-A4.pdf",
       "pages": 43,
-      "sha256": "9d9b83fc992bb3904e4c4cf8979354c824848695f5f0f8f8bb2de6ea900929b7",
+      "sha256": "c9a275176658474bcf2412c092bd440b011f910f54cf6fa79407b6094dab6e90",
       "source_sha256": "8b22987179cf5698a40003e43b4705853e2f5870336f176be99e6bdb45f9bac4",
       "source_ref": "main",
       "inputs": {
@@ -198,7 +210,7 @@
     "Questions": {
       "file": "CS5489/exam-review/Midterm/Questions.pdf",
       "pages": 74,
-      "sha256": "b8da9dd8d23fcf2c0c9330286fc438a4a52d0316f5659b89e824d2b5ec29870f",
+      "sha256": "c9ecd8aa8f7829921c5a3ccdd93da2dc1b108774f2a996f6e4356e998e03f689",
       "source_sha256": "57911d30dcd53560c17add371fb524bd0010607e708014cbe666d55338d374d3",
       "source_ref": "main",
       "inputs": {
@@ -436,7 +448,7 @@
     "Answers": {
       "file": "CS5489/exam-review/Midterm/Answers.pdf",
       "pages": 98,
-      "sha256": "3c6f5fb9a891a8125013d0fb1440e429b1bd92cc5288249874f47556aafdea78",
+      "sha256": "0f8c9226df4dd7493b1913b16d072d044eb510a1b757bae1ec8674532a41b286",
       "source_sha256": "4b4fa36dd77d078218f045b508fe8a8185a1891f30c566f66361317deac4930d",
       "source_ref": "main",
       "inputs": {
@@ -882,7 +894,7 @@
     "Combined": {
       "file": "CS5489/exam-review/Midterm/Combined.pdf",
       "pages": 111,
-      "sha256": "ad877f248cce7592e3db610e46a42fb2691741eed945e446d09b0b1a6c2b0a0e",
+      "sha256": "f122f7cba3ae7f499addb013c1d00d3b02c1aa33f8b7e66eee22e39aaa93eab0",
       "source_sha256": "13ac073fa84af21a211e23a8b53c55b561f131216291acf65557f8778a0158f5",
       "source_ref": "main",
       "inputs": {
@@ -1328,7 +1340,7 @@
     "Compact": {
       "file": "CS5489/exam-review/Midterm/Compact.pdf",
       "pages": 75,
-      "sha256": "3ca9895d33d2042aa53fd5a551f6b12e9fa54dcd24f8435aba1c226e3d2ab589",
+      "sha256": "2e55380c1a83cc690e5b70690a17ed8f52cb98d38eca515c55a3d8e455156db3",
       "source_sha256": "41524f6cc4b0b28111a07f75b21a1fa738c05401a6c95727fd6dc1374c8f793d",
       "source_ref": "main",
       "inputs": {
@@ -1772,7 +1784,7 @@
     "MultipleChoice": {
       "file": "CS5489/exam-review/Midterm/MultipleChoice.pdf",
       "pages": 34,
-      "sha256": "21be1423467c05b7038aa880203907ebaf6c417edd0ee62531b25bd7206dacb9",
+      "sha256": "a8d543869ff61bdb60ed015a453974eb9f0641887c261d8b234f7d0e9003a29b",
       "source_sha256": "b06e5aa6179d747361efdb3b9414a7dc605da2ea938bad55d5199a0a726748d1",
       "source_ref": "main",
       "inputs": {
@@ -1980,7 +1992,7 @@
     "WrittenResponse": {
       "file": "CS5489/exam-review/Midterm/WrittenResponse.pdf",
       "pages": 45,
-      "sha256": "3e75ae038850f7800aae87122a54d998c2b2994dd30669d7756fa233eb8969f2",
+      "sha256": "0d5a2fd14fefcf4512bbfcb201b107d0d4058793f2ef7c67cfd30da82b1948d0",
       "source_sha256": "d310f1a9e10407ff57138d3d583619e852f8b07dd425c6590fcd666ee2863c0c",
       "source_ref": "main",
       "inputs": {

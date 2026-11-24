@@ -1,0 +1,260 @@
+{
+  "l8_pca_mean": {
+    "actual": [
+      0.0,
+      0.0
+    ],
+    "expected": [
+      0.0,
+      0.0
+    ]
+  },
+  "l8_pca_cov": {
+    "actual": [
+      [
+        2.5,
+        2.0
+      ],
+      [
+        2.0,
+        2.5
+      ]
+    ],
+    "expected": [
+      [
+        2.5,
+        2.0
+      ],
+      [
+        2.0,
+        2.5
+      ]
+    ]
+  },
+  "l8_pca_eigvals": {
+    "actual": [
+      4.5,
+      0.5000000000000001
+    ],
+    "expected": [
+      4.5,
+      0.5
+    ]
+  },
+  "l8_pca_v1": {
+    "actual": [
+      0.7071067811865475,
+      0.7071067811865475
+    ],
+    "expected": [
+      0.7071067811865475,
+      0.7071067811865475
+    ]
+  },
+  "l8_pca_var_recon_identity": {
+    "actual": [
+      4.499999999999999,
+      0.5,
+      4.999999999999999
+    ],
+    "expected": [
+      4.5,
+      0.5,
+      5.0
+    ]
+  },
+  "l8_pca_explained_ratio": {
+    "actual": 0.9,
+    "expected": 0.9
+  },
+  "l8_fld_direction": {
+    "actual": [
+      0.0,
+      5.0
+    ],
+    "expected": [
+      0.0,
+      5.0
+    ]
+  },
+  "l8_fld_vs_pca_score": {
+    "actual": [
+      10.0,
+      0.0
+    ],
+    "expected": [
+      10.0,
+      0.0
+    ]
+  },
+  "l8_pca_vs_kpca_memory": {
+    "actual": [
+      8.0,
+      8.0
+    ],
+    "expected": [
+      8.0,
+      8.0
+    ]
+  },
+  "l8_pca_vs_kpca_flops_ratio": {
+    "actual": 1000.0,
+    "expected": 1000.0
+  },
+  "l8_linear_kpca_matches_pca_eigval": {
+    "actual": 4.499999999999998,
+    "expected": 4.5
+  },
+  "l8_linear_kpca_matches_pca_scores": {
+    "actual": [
+      2.1213203435596437,
+      2.1213203435596437,
+      2.1213203435596437,
+      2.1213203435596437
+    ],
+    "expected": [
+      2.1213203435596424,
+      2.1213203435596424,
+      2.1213203435596424,
+      2.1213203435596424
+    ]
+  },
+  "l8_geodesic_vs_euclid": {
+    "actual": [
+      1.4142135623730951,
+      2.0
+    ],
+    "expected": [
+      1.4142135623730951,
+      2.0
+    ]
+  },
+  "l9_kmeans_iter1_centers": {
+    "actual": [
+      1.0,
+      3.6666666666666665
+    ],
+    "expected": [
+      1.0,
+      3.6666666666666665
+    ]
+  },
+  "l9_kmeans_final_centers": {
+    "actual": [
+      1.5,
+      4.5
+    ],
+    "expected": [
+      1.5,
+      4.5
+    ]
+  },
+  "l9_kmeans_converged_assignments": {
+    "actual": [
+      1,
+      1,
+      2,
+      2
+    ],
+    "expected": [
+      1,
+      1,
+      2,
+      2
+    ]
+  },
+  "l9_kmeans_final_sse": {
+    "actual": 1.0,
+    "expected": 1.0
+  },
+  "l9_gmm_r1_exact": {
+    "actual": [
+      0.9820137900379086,
+      0.5,
+      0.01798620996209156
+    ],
+    "expected": [
+      0.9820137900379085,
+      0.5,
+      0.01798620996209155
+    ]
+  },
+  "l9_gmm_soft_counts": {
+    "actual": [
+      1.5000000000000002,
+      1.5
+    ],
+    "expected": [
+      1.5,
+      1.5
+    ]
+  },
+  "l9_gmm_mstep_means": {
+    "actual": [
+      0.714629893232244,
+      3.2853701067677563
+    ],
+    "expected": [
+      0.7146298932322441,
+      3.285370106767756
+    ]
+  },
+  "l9_gmm_mstep_vars": {
+    "actual": [
+      1.0144903552945144,
+      1.0144903552945148
+    ],
+    "expected": [
+      1.0144903552945144,
+      1.0144903552945144
+    ]
+  },
+  "l9_same_center_diff_assign": {
+    "actual": [
+      0.9024938091226944,
+      0.8,
+      0.055595325082136736
+    ],
+    "expected": [
+      0.9024938091226944,
+      0.8,
+      0.055595325082136736
+    ]
+  },
+  "l9_bgmm_small_alpha_empty": {
+    "actual": 9.995002498750625e-05,
+    "expected": 9.995002498750625e-05
+  },
+  "l9_bgmm_large_alpha_empty": {
+    "actual": 0.16666666666666666,
+    "expected": 0.16666666666666666
+  },
+  "l9_laplacian_zero_eig": {
+    "actual": -1.066928040151644e-16,
+    "expected": 0.0
+  },
+  "l9_laplacian_fiedler_signs": {
+    "actual": [
+      -1.0,
+      -1.0,
+      1.0,
+      1.0
+    ],
+    "expected": [
+      -1.0,
+      -1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "l9_laplacian_quadform": {
+    "actual": [
+      0.40000000000000024,
+      0.4
+    ],
+    "expected": [
+      0.4,
+      0.4
+    ]
+  }
+}

@@ -1,0 +1,288 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Lecture11}{Lecture 11 · Large Language Models}
+\StudyTarget{CS5489-Lecture11__lecture-11-llms}
+
+
+\StudyHeading{1}{一个“猜下一个词”的模型，怎么长成能思考、会用工具的 LLM？}
+\StudyTarget{CS5489-Lecture11__intro}
+
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture10}{root}{上一讲：自编码器与生成模型} · \StudyRef{CS5489-Lecture12}{root}{下一讲：视觉语言模型}
+
+在 Lecture 7 我们刚认识了 Transformer 的自注意力机制。这一讲（2026 学期全新现代课程模块）把镜头彻底对准改变整个计算机领域的\textbf{大语言模型（Large Language Models, LLMs）}。别被铺天盖地的宣传吓住——撕开所有神秘包装，大语言模型的数学内核异常朴素：把一段文本切成离散的 \textbf{token} 序列，然后一遍遍做\textbf{下一个词预测（Next-Token Prediction）}，本质上就是超大词表上的多分类交叉熵！
+
+前半讲（Lecture11a）讲清“文本怎样进模型、语言模型怎样演化”：三种分词方法（重点 \textbf{BPE}）、三代语言模型（\textbf{N-gram 与困惑度 PPL} \ensuremath{\to} \textbf{词嵌入与早期神经 LM} \ensuremath{\to} \textbf{带因果掩码的 Transformer LM}）、LLM 爆发的五个历史转折点，以及现代架构升级（RoPE、ALiBi、Sparse Attention、Mamba、MoE）。后半讲（Lecture11b）直击工程与考试硬核计算：\textbf{预训练（自回归目标与 Teacher Forcing）}、\textbf{后训练（SFT、DPO、强化学习 RLHF/RLVR 与 GRPO 组相对优势手算）}、\textbf{推理与解码（Greedy、Temperature、Top-$k$、Top-$p$ 手算与 Prefill/Decode KV 缓存）}，以及幻觉与 RAG、智能体（ReAct）、FlashAttention 与安全伦理。
+
+\textbf{基础复习（可跳过）：} 如果对缩放点积自注意力或交叉熵不熟，可先回看\StudyRef{CS5489-Lecture07}{attention-math}{Lecture 7 自注意力}与\StudyRef{CS5489-Lecture05}{cross-entropy}{Lecture 5 Softmax 交叉熵}。
+
+学习目标与难点见\StudyRef{CS5489-Lecture11}{learning-priorities}{文末学习要求表}。
+
+
+\StudyHeading{1}{Exam focus｜这一讲怎样安排复习}
+\StudyTarget{CS5489-Lecture11__exam-review}
+\StudyTarget{CS5489-Lecture11__exam-focus}
+
+本讲属于近年新增的大模型核心章节，历史上 2020–2021 年三套旧期末卷尚未开设此讲，但\textbf{绝不代表不考}——相反，Lecture11b 课件原文里甚至明确标注了“手算 GRPO 组内优势时考题会说明总体／样本标准差约定”，并配有完整的困惑度、解码过滤顺序与 KV 缓存算例！建议把下表四类必会手算与概念题全部练熟。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.56\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+重点模块 & 复习与手算动作 & 入口 \\
+\midrule\endfirsthead
+重点模块 & 复习与手算动作 & 入口 \\
+\midrule\endhead
+\bottomrule\endfoot
+分词（BPE）、N-gram 与困惑度 PPL & 解释为何不按空格切分；手算 Bigram 概率、NLL 与 $\mathrm{PPL}=2^{\text{NLL}}$；背熟 N-gram 三大短板 & \StudyRef{CS5489-Lecture11}{token-lm}{讲解} \\
+Transformer 因果掩码、演进与现代架构 & 解释因果掩码、五个转折点（BERT/ICL/RLHF/RLVR/Agent）、RoPE 与 MoE 总参数 vs 激活参数 & \StudyRef{CS5489-Lecture11}{llm-arch}{讲解} \\
+预训练与后训练（SFT / DPO / GRPO） & 区分 Teacher Forcing 与推理；理解 SFT vs DPO vs RL；\textbf{手算 GRPO 组相对优势 $\hat{A}_i$} & \StudyRef{CS5489-Lecture11}{train-posttrain}{讲解} \\
+推理、解码过滤与 KV 缓存 & \textbf{手算 Greedy 局部次优、Top-$k$/Top-$p$ 重归一化与先后顺序差异}；分清 Prefill 与 Decode & \StudyRef{CS5489-Lecture11}{inference-kv}{讲解} \\
+幻觉（RAG）、智能体、效率与安全 & 解释幻觉成因与 RAG 缓解、ReAct 智能体、FlashAttention/量化/蒸馏 & \StudyRef{CS5489-Lecture11}{problems}{讲解} \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{1. 分词（Tokenization）与语言模型演进（N-gram \ensuremath{\to} 神经 LM \ensuremath{\to} Transformer）}
+\StudyTarget{CS5489-Lecture11__token-lm}
+
+\StudyHeading{2}{为什么不能直接按空格分词？三大分词路线与 BPE}
+\StudyTarget{CS5489-Lecture11__tokenization}
+
+自然语言送进神经网络前，必须先切成离散的 \textbf{token} 序列。直接按空格切分有两个硬伤：(1) 中文、泰文等语言根本不用空格分隔词语；(2) 哪怕在英文里，新造词（\StudyInline{LLM}、\StudyInline{ChatGPT}）和复合词（\StudyInline{GPT-based}）也会让整词词表无限膨胀。因此分词经历了三代演进：
+\begin{enumerate}
+\item \textbf{基于规则（Rule-based，如 NLTK）：} 按空格加标点规则切分英文，但对无空格的中文完全失效。
+\item \textbf{基于词典／模型（Dictionary/Model-based，如中文 \StudyInline{jieba}）：} 针对中文等语言专门做分词任务，依赖词典与语言特定规则。
+\item \textbf{基于统计的子词分词（Statistics-based Subword，现代 LLM 标配）：} 最具代表性的是 \textbf{字节对编码（Byte-Pair Encoding, BPE）}——思想极简：从字符／字节起步，不断统计语料里\textbf{出现频率最高的相邻子词对并将它们合并}，重复直到达到目标词表大小 $V$。这样常见词占 1 个 token，罕见词或新词（如 \StudyInline{LLM-based} 拆成 \StudyInline{L}、\StudyInline{LM}、\StudyInline{-based}）自动拆成已知子词，彻底避免未登录词（OOV），同时统一处理中英多语！切记：\textbf{token 长度不等于单词数}。
+\end{enumerate}
+
+\StudyHeading{2}{语言模型、困惑度（PPL）与三代模型对比}
+\StudyTarget{CS5489-Lecture11__lm-evolution}
+
+给定 token 序列 $T = [t_0, t_1, \dots, t_{N-1}]$，\textbf{语言模型（LM）}用概率链式法则把整句联合概率拆成一连串\textbf{下一个词预测（Next-Token Prediction）}（注意顺序至关重要，所以词袋模型 Bag-of-Words 不适用）：
+\[
+p(T) = \prod_{i=0}^{N-1} p(t_i \mid t_0, \dots, t_{i-1}).
+\tag{11.1}
+\]
+评估语言模型好坏的标准指标是\textbf{困惑度（Perplexity, PPL）}——本质是平均每 token 负对数似然（NLL）的指数，\textbf{越低说明模型越“不困惑”、预测越准}（以 2 为底或以 $e$ 为底取决于对数底数，比较时必须统一分词器与测试集，且应先汇总所有有效 token 的 NLL 再取指数，不能把各 batch 的 PPL 直接算平均）：
+\[
+\mathrm{PPL} = 2^{-\frac{1}{N}\sum_{i=1}^N \log_2 p(t_i\mid t_{<i})}
+\quad\text{或}\quad
+\mathrm{PPL} = \exp\!\left(-\frac{1}{N}\sum_{i=1}^N \ln p(t_i\mid t_{<i})\right).
+\tag{11.2}
+\]
+
+三代语言模型逐级攻克前一代的瓶颈：
+\begin{itemize}
+\item \textbf{第一代：N-gram LM（统计计数）。} 用马尔可夫独立假设截断历史：$p(t_i\mid t_{<i}) \approx p(t_i\mid t_{i-n+1},\dots,t_{i-1})$（Unigram 看 0 个前词，Bigram 看前 1 个词，Trigram 看前 2 个词）。\textbf{三大致命缺陷：} (1) \textbf{稀疏性（sparsity）}——未见过的词或搭配概率直接为 0，导致 $\mathrm{PPL}=\infty$，必须靠平滑补救；(2) \textbf{缺乏语义表示}——“猫”和“狗”只是互不相干的离散编号；(3) \textbf{上下文窗口极短}——无法处理长距离依赖（如区分“The cake that I bought yesterday is [delicious]”与“The book that I bought yesterday is [interesting]”需要跨越 6 个词）。
+\item \textbf{第二代：早期神经 LM 与词嵌入（Word Embeddings / Word2Vec）。} 把每个词索引映射成稠密向量（等价于 one-hot 向量乘嵌入矩阵），同类语义词在向量空间彼此靠近（Word2Vec 经典几何类比：\StudyInline{king - man + woman ≈ queen}）。但基于固定窗口 MLP 的早期神经 LM 依然解决不了长距离动态上下文问题。
+\item \textbf{第三代：Transformer LM（自注意力 + 因果掩码）。} 自注意力让序列里任意距离的词直接交互，不再假设固定局部窗口，且全序列可高度并行训练。为了做自回归语言建模，只需在注意力打分矩阵的上三角加上\textbf{因果掩码（causal mask，未来位置填 $-\infty$）}，确保预测第 $t$ 个词时绝不会偷看后面的词（图 11.1 右）。
+\end{itemize}
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算 Bigram 概率与困惑度 PPL（对照 Lecture11a 第 13–14 个单元）}
+语料共 3 句：\StudyInline{["I","am","a","student"]}、\StudyInline{["I","study","LLM"]}、\StudyInline{["LLM","is","cool"]}（每句首尾隐含 \StudyInline{<BOS>} 与 \StudyInline{<EOS>}）。
+\begin{enumerate}
+\item 按频率统计 Bigram 转移：\StudyInline{<BOS>} 后出现 2 次 \StudyInline{I}、1 次 \StudyInline{LLM}，故 $P(\text{I}\mid\text{<BOS>})=2/3$；\StudyInline{I} 后出现 1 次 \StudyInline{am}、1 次 \StudyInline{study}，故 $P(\text{am}\mid\text{I})=1/2$；其余 \StudyInline{a|am}、\StudyInline{student|a}、\StudyInline{<EOS>|student} 概率均为 $1$。
+\item 评估 “I am a student \StudyInline{<EOS>}”（$N=5$ 个预测位置）：平均比特负对数似然 $\mathrm{NLL} = -\frac{1}{5}(\log_2\frac{2}{3}+\log_2\frac{1}{2}+0+0+0) \approx 0.3170$，于是 $\mathrm{PPL} = 2^{0.3170} \approx 1.2457$。
+\item 评估未见组合 “student is cool \StudyInline{<EOS>}”：因语料里从未出现 \StudyInline{<BOS> student} 和 \StudyInline{student is}，概率为 0，$\mathrm{NLL}=\infty,\;\mathrm{PPL}=\infty$——直观暴露了 N-gram 的稀疏性死穴！
+\end{enumerate}
+\end{StudyBlock}
+
+来源：Lecture11a，第 4–25 个单元（分词三类方法、BPE、语言模型分解、Bigram/PPL 示范、Word2Vec 与因果 Transformer LM）。
+
+
+\StudyHeading{1}{2. LLM 爆发的五个转折点与现代架构升级}
+\StudyTarget{CS5489-Lecture11__llm-arch}
+
+大语言模型本质上就是把 Transformer LM 的参数量、数据量和算力按\textbf{缩放定律（Scaling Laws）}推向极致的产物。原课总结了推动 LLM 质变的\textbf{五个里程碑转折点}：
+\begin{enumerate}
+\item \textbf{转折点 0（2018，ELMo / BERT / GPT-1）：} 确立\textbf{“大规模预训练 + 下游微调”}范式（BERT 用双向掩码 LM，GPT-1 用单向自回归 LM）。
+\item \textbf{转折点 1（2020，GPT-3）：} 展现\textbf{上下文学习（In-Context Learning, ICL）}与涌现能力——无需更新任何模型权重，只需在提示词里塞几个示范样例（few-shot prompting），模型就能依葫芦画瓢解决新任务。
+\item \textbf{转折点 2（2022，InstructGPT / ChatGPT）：} 通过 \textbf{SFT \ensuremath{\to} 奖励模型 \ensuremath{\to} RLHF} 将纯续写基座模型对齐为会听懂人类指令的对话助手。
+\item \textbf{转折点 3（2024–2025，OpenAI o1 / DeepSeek-R1）：} 从\textbf{思维链（Chain-of-Thought, CoT）}演进到\textbf{可验证奖励强化学习（RLVR）}，让模型学会在作答前自主展开长步深度推理（“think”模式）。
+\item \textbf{转折点 4（2025+，LLM Agents）：} 从“回答问题”迈向“自主完成长程任务”——结合搜索、代码执行、浏览器操作等外部工具，通过多步规划、状态维护与失败恢复端到端交付结果（如 Deep Research、编程智能体）。
+\end{enumerate}
+
+在具体工程架构上（以课件中的 Qwen3 等现代模型为例），当代 LLM 对原始 Transformer 做了四类关键升级：
+\begin{itemize}
+\item \textbf{位置编码升级：} 绝对位置编码（给每个位置加一个固定／可学向量）缺乏\textbf{平移相对位置不变性}（同一短语移到句首或句尾位置向量全变了）。现代模型改用相对位置编码——如 \textbf{ALiBi}（在注意力打分上按相对距离减线性偏置）以及最主流的\textbf{旋转位置编码（RoPE）}（通过与位置成正比的旋转矩阵旋转查询与键向量，使点积只依赖相对位置差，且天然兼容 KV 缓存）。
+\item \textbf{高效注意力与长上下文：} 标准自注意力复杂度随序列长度呈二次方 $O(L^2)$，现代模型广泛引入\textbf{分组查询注意力（GQA）}、\textbf{稀疏注意力（如 DeepSeek NSA）}，或探索线性复杂度的状态空间循环替代架构（\textbf{Mamba / Mamba-2}）。
+\item \textbf{混合专家架构（Mixture-of-Experts, MoE）：} 把大 FFN 拆成许多小“专家”，每个 token 仅由路由网络激活其中少数几个专家——核心区分是\textbf{总参数量（total parameters，决定容量与显存存放成本）}远大于\textbf{单 token 激活参数量（active parameters，决定单步计算量）}。
+\item \textbf{其他常用组件：} 用 \textbf{RMSNorm} 取代 LayerNorm、改进门控激活函数（如 SwiGLU）。
+\end{itemize}
+
+来源：Lecture11a，第 26–46 个单元（五个转折点、Qwen3 架构、绝对／相对／RoPE 位置编码、Sparse Attention、Mamba 与 MoE）。
+
+
+\StudyHeading{1}{3. 预训练与后训练：SFT、DPO 与 GRPO 手算精解}
+\StudyTarget{CS5489-Lecture11__train-posttrain}
+
+现代 LLM 的生命周期分成两大阶段：\textbf{随机初始化 \ensuremath{\to} 预训练（Pre-training）\ensuremath{\to} 基座模型 \ensuremath{\to} 后训练（Post-training）\ensuremath{\to} 助手／推理模型}（课件以 AI2 开源的 Olmo 3 为例：在 1024 张 H100 上跑约 56 天、总计约 275 万美元，其中预训练占约 47 天，后训练仅占约 9 天）。
+
+\StudyHeading{2}{预训练：语料构建、自回归交叉熵与 Teacher Forcing}
+\StudyTarget{CS5489-Lecture11__pretrain}
+
+预训练以海量无人工标注文本做\textbf{自监督下一词预测}，语料准备必须重视来源配比、质量过滤、去重（deduplication）以及按文档／仓库边界切分验证集（防近重复泄露）。给定批量大小 $B$、长度 $T$ 的输入前缀与移位 1 格的目标序列 $y_{b,t}$，最小化平均负对数似然（交叉熵）：
+\[
+\mathcal{L}(\theta) = -\frac{1}{B\cdot T}\sum_{b=1}^B\sum_{t=1}^T \log p_\theta(y_{b,t}\mid x_{b,1:t}).
+\tag{11.3}
+\]
+（直观刻度：真目标概率 $0.8$ 时单步自然对数损失 $-\ln 0.8\approx 0.223$，概率降到 $0.1$ 时损失飙升至 $-\ln 0.1\approx 2.303$。）训练时采用\textbf{教师强制（Teacher Forcing）}：每个位置喂给模型的是数据集中\emph{真实的}历史前缀（而不是模型自己采样出的词），因此整条序列上 $T$ 个位置的损失可以一次前向\textbf{并行计算}（配合因果掩码防泄露）。工程上还需结合 Chinchilla 算力最优缩放、混合精度、梯度累积、激活检查点与分布式并行。
+
+\StudyHeading{2}{后训练：SFT、偏好优化（DPO）与强化学习（RLVR / GRPO）}
+\StudyTarget{CS5489-Lecture11__posttrain}
+
+预训练产出的基座模型只会“续写文本”，不会好好回答指令。后训练通常\textbf{保持网络架构不变，只改变训练数据与目标函数}，主要分三大家族：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.32\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.28\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+方法家族 & 数据／反馈信号 & 核心目标 & 是否需在线采样 rollout \\
+\midrule\endfirsthead
+方法家族 & 数据／反馈信号 & 核心目标 & 是否需在线采样 rollout \\
+\midrule\endhead
+\bottomrule\endfoot
+监督微调（SFT） & 问答示范对 $(q,y)$ & 仅对回复 token 算交叉熵（Teacher Forcing） & 否（离线固定示范） \\
+直接偏好优化（DPO） & 偏好三元组 $(q, y^+, y^-)$ & 相对参考策略 $\pi_{\text{ref}}$ 拉大好回答 $y^+$ 与差回答 $y^-$ 的对数概率差 & 否（标准离线 DPO，无需单独训奖励模型） \\
+奖励强化学习（PPO / GRPO） & 人类奖励（RLHF）、AI 评审（RLAIF）或可验证规则（RLVR，如代码过单测／数学对答案） & 最大化期望回报 $J(\theta)=\mathbb{E}_{o\sim\pi_\theta}[R(q,o)]$（即使奖励离散不可微也能靠策略梯度更新） & 是（用当前策略在线生成多条轨迹并打分） \\
+\end{longtable}\endgroup
+
+写清两个后训练核心公式。其一，\textbf{SFT 仅对回复部分求交叉熵}：$\mathcal{L}_{\text{SFT}}(\theta) = -\mathbb{E}_{(q,y)}\sum_{t=1}^{|y|}\log\pi_\theta(y_t\mid q, y_{<t})$；\textbf{DPO} 直接用偏好对 $(q,y^+,y^-)$ 优化策略 $\pi_\theta$ 相对于冻结参考策略 $\pi_{\text{ref}}$ 的胜率：
+\[
+\mathcal{L}_{\text{DPO}}(\theta) = -\mathbb{E}_{(q,y^+,y^-)}\!\left[\log\sigma\!\left(\alpha\left[\log\frac{\pi_\theta(y^+\mid q)}{\pi_{\text{ref}}(y^+\mid q)} - \log\frac{\pi_\theta(y^-\mid q)}{\pi_{\text{ref}}(y^-\mid q)}\right]\right)\right].
+\tag{11.4}
+\]
+其二，把自回归生成看成强化学习（状态 $s_t=(q,o_{<t})$、动作 $o_t$、策略 $\pi_\theta$、轨迹 $o$、奖励 $R(q,o)$），\textbf{GRPO（Group Relative Policy Optimization，DeepSeek-R1 核心算法）}省去了 PPO 中昂贵的独立价值评论家网络（value critic）：对\textbf{同一个提示词 $q$}，从旧策略快照 $\pi_{\text{old}}$ 并行采样 $G>1$ 条完整回复 $o_1,\dots,o_G$，打分得 $R_1,\dots,R_G$，再在\textbf{该提示词的组内}做均值–标准差标准化得到每条回复的\textbf{组相对优势（group-relative advantage）}：
+\[
+\hat{A}_i = \frac{R_i - \mu_q}{\sigma_q + \epsilon}, \qquad
+\mu_q = \frac{1}{G}\sum_{j=1}^G R_j, \qquad
+\sigma_q = \sqrt{\frac{1}{G}\sum_{j=1}^G (R_j - \mu_q)^2}.
+\tag{11.5}
+\]
+然后用 $\pi_{\text{old}}$ 锚定重要性采样比、用冻结的 $\pi_{\text{ref}}$ 锚定 KL 正则项，把高于组平均的轨迹（$\hat{A}_i>0$）概率推高、低于组平均的轨迹（$\hat{A}_i<0$）概率压低！注意：如果同组 $G$ 条回复\textbf{全对或全错}（所有 $R_i$ 相等），分子全为 0，该组提供零对比信号。还要分清两种冻结角色：$\pi_{\text{old}}$ 是采样这批轨迹时的策略快照（随每批新 rollout 刷新），$\pi_{\text{ref}}$ 是防模型跑偏的 KL 锚点参考策略。
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算 GRPO 组相对优势（对照 Lecture11b 第 17 个单元考题提示）}
+对同一道数学题采样 $G=4$ 条回答，仅第 1 条答对，奖励为 $(R_1,R_2,R_3,R_4)=(1, 0, 0, 0)$。按总体标准差（除 $G=4$）且忽略平滑项 $\epsilon$：
+\begin{enumerate}
+\item 组均值 $\mu_q = \frac{1+0+0+0}{4} = \frac{1}{4}$。
+\item 组标准差 $\sigma_q = \sqrt{\frac{(3/4)^2 + 3(-1/4)^2}{4}} = \sqrt{\frac{9/16 + 3/16}{4}} = \sqrt{\frac{3}{16}} = \frac{\sqrt{3}}{4} \approx 0.4330$。
+\item 组相对优势：答对的那条 $\hat{A}_1 = \frac{3/4}{\sqrt{3}/4} = \sqrt{3} \approx +1.732$；其余三条错答均为 $\hat{A}_2=\hat{A}_3=\hat{A}_4 = \frac{-1/4}{\sqrt{3}/4} = -\frac{1}{\sqrt{3}} \approx -0.577$。
+\end{enumerate}
+\textbf{应试提醒：} 总体标准差（除 $G$）与样本标准差（除 $G-1$）算出数值不同，读题时务必看清题目给定的标准差约定！
+\end{StudyBlock}
+
+来源：Lecture11b，第 4–18 个单元（Olmo 3 成本、预训练流程、Teacher Forcing、SFT、DPO、RLHF/RLAIF/RLVR 与 GRPO 详推）。
+
+
+\StudyHeading{1}{4. LLM 推理：解码策略手算与 Prefill / Decode KV 缓存}
+\StudyTarget{CS5489-Lecture11__inference-kv}
+
+推理阶段参数冻结、不做反传，模型先按对应 chat template 序列化对话，再逐步输出下一个词的条件分布 $\pi_\theta(y_t\mid q, y_{<t})$。与训练期 Teacher Forcing 最大的区别在于：推理时每一步依赖的是\textbf{模型自己前面刚生成出来的词}！
+
+\StudyHeading{2}{四大解码策略（Greedy、Temperature、Top-$k$、Top-$p$）}
+\StudyTarget{CS5489-Lecture11__decoding}
+
+记住一条重要事实：\textbf{每步概率最高的词 $\ne$ 整句联合概率最高的序列 $\ne$ 业务上最正确的答案}。四种主流解码规则如下（图 11.1 左）：
+\begin{itemize}
+\item \textbf{贪心解码（Greedy Decoding）：} 每步硬选 $y_t = \arg\max_v z_{t,v}$。它是局部贪心，\textbf{未必最大化整句联合概率}！经典反例（Lecture11b 第 21 个单元）：第 1 步选 A 概率 $0.6$、选 B 概率 $0.4$；若 A 后最优第 2 词概率仅 $0.5$，而 B 后最优第 2 词概率高达 $0.95$，贪心走 A 得到整句概率 $0.6\times 0.5 = 0.30$，反而输给走 B 的 $0.4\times 0.95 = 0.38$。
+\item \textbf{温度采样（Temperature Sampling）：} 用温度 $\tau > 0$ 缩放 logits 再 softmax：$p_{\tau,t}(v)=\mathrm{softmax}(z_t/\tau)_v$。$\tau < 1$ 让分布更尖锐、更保守；$\tau > 1$ 让分布更平缓、更多样；$\tau = 1$ 保持原分布（代码里 \StudyInline{temperature=0} 走单独贪心分支，不可除以 0）。
+\item \textbf{Top-$k$ 采样：} 只保留概率最高的固定 $k$ 个候选词，其余置 0 后重新归一化。缺点是候选个数死板，无论原分布尖锐还是平坦都硬留 $k$ 个。
+\item \textbf{Top-$p$（核采样 / Nucleus Sampling）：} 把词按概率从大到小排序，取\textbf{累计概率刚达到或超过阈值 $p$ 的最小前缀}（包含跨过阈值的那个词），其余置 0 并重归一化。候选集合大小随分布不确定度自适应伸缩。
+\end{itemize}
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算 Top-$k$、Top-$p$ 重归一化，验证“过滤顺序会影响结果”}
+设五个候选词的概率为 $(0.40,\, 0.30,\, 0.15,\, 0.10,\, 0.05)$：
+\begin{enumerate}
+\item \textbf{Greedy：} 直接选第 1 个词。
+\item \textbf{Top-$k$（$k=2$）：} 保留前 2 个，和为 $0.70$，重归一化得 $(4/7,\, 3/7) \approx (0.571,\, 0.429)$。
+\item \textbf{Top-$p$（$p=0.8$）：} 前 2 个累计 $0.70 < 0.8$，必须纳入第 3 个使累计达 $0.85 \ge 0.8$，保留前 3 个，重归一化得 $(8/17,\, 6/17,\, 3/17) \approx (0.471,\, 0.353,\, 0.176)$。
+\item \textbf{顺序至关重要：} 如果先做 Top-$k=3$ 得到重归一化分布 $(8/17, 6/17, 3/17)$，再在其上做 Top-$p=0.8$，此时前 2 个累计已达 $14/17 \approx 0.8235 \ge 0.8$，第 3 个词反而被裁掉、最终只剩 2 个词！
+\end{enumerate}
+\end{StudyBlock}
+
+\StudyHeading{2}{Prefill、Decode 两阶段与 KV Cache（键值缓存）}
+\StudyTarget{CS5489-Lecture11__kvcache}
+
+生成 $N\ge 1$ 个输出 token 的推理分成两步（图 11.1 右）：
+\begin{enumerate}
+\item \textbf{Prefill（预填充，1 次调用）：} 并行处理整段 prompt，算出各层 prompt 的键矩阵 $\mathbf{K}$ 与值矩阵 $\mathbf{V}$ 存入缓存，并采样出第 1 个输出 token $y_1$。
+\item \textbf{Decode（逐词解码，通常 $N-1$ 次调用）：} 每步只把刚刚新生成的 1 个 token 送入网络，算出它自己的 $q_S, k_S, v_S$，把 $k_S, v_S$ 追加到缓存末尾 $\mathbf{K}_{1:S}=[\mathbf{K}_{1:S-1}; k_S],\;\mathbf{V}_{1:S}=[\mathbf{V}_{1:S-1}; v_S]$，再用 $q_S$ 与完整缓存做一次注意力即可。
+\end{enumerate}
+\textbf{为什么能缓存？} 因为因果掩码保证\textbf{未来新加的 token 永远不会改变前面已算好 token 的隐藏状态}，所以每层的旧 $\mathbf{K}, \mathbf{V}$ 可直接复用！注意三点精确辨析：(1) KV 缓存存的是每层的中间 $\mathbf{K}, \mathbf{V}$ 激活张量，既\emph{不是}更新后的模型权重，也不必存历史查询 $\mathbf{Q}$；(2) Prefill 注意力随 prompt 长度呈二次方开销，单步 Decode 注意力随当前缓存长度呈线性开销；(3) \textbf{KV 缓存并不能让超长输出变得“免费”}——显存随上下文线性膨胀，且把 $N$ 步 Decode 的注意力累加起来，关于输出长度 $N$ 总体仍是二次方量级。
+
+\StudyImage{CS5489/course-notes/assets/l11-decoding-kvcache.png}
+\StudyCaption{图 11.1：左图展示温度缩放（$\tau=0.5$ 变尖、$\tau=2.0$ 变平）与 Top-$p=0.8$ 核采样对同一五词分布的重塑；右图展示因果注意力下三角掩码以及 Prefill（并行吃进 prompt）与 Decode（单步复用缓存 $\mathbf{K},\mathbf{V}$）的计算区域（教学自绘）。}
+
+来源：Lecture11b，第 19–25 个单元（推理定义、聊天模板、四大解码算例、Prefill/Decode 与 KV 缓存）。
+
+
+\StudyHeading{1}{5. LLM 的现实问题与缓解之道：幻觉、RAG、智能体与效率安全}
+\StudyTarget{CS5489-Lecture11__problems}
+
+\begin{itemize}
+\item \textbf{幻觉（Hallucination）与检索增强生成（RAG）：} 普通 LLM 没有独立的外部事实数据库，所有知识都模糊压缩在权重参数里，本质上只是在预测“最通顺的下一词”，碰到冷门长尾事实或最新事件时会一本正经地胡编（如课件演示小模型瞎编“2008 年中国在香港赢得世界杯”）。\textbf{RAG（Retrieval-Augmented Generation）}在生成前先从外部知识库检索相关事实文档拼进上下文，再让模型基于检索证据作答，大幅抑制幻觉。
+\item \textbf{接地与智能体（Grounding \& Agents）：} 纯聊天 LLM 无法与真实世界交互；把它当成中央大脑，配上感知、外部工具调用与行动循环（经典框架如 \textbf{ReAct}：交替进行 Reasoning 思考与 Acting 调工具观察反馈），就能自主操作网页、写代码并跑测试。
+\item \textbf{效率（Algorithm–Hardware Co-design）：} 除了算法层的\textbf{量化（quantization）}、剪枝压缩、\textbf{知识蒸馏（distillation）}外，还需要软硬协同的系统优化，典型代表是 \textbf{FlashAttention}（通过分块计算减少 GPU 高带宽显存 HBM 读写，不改变精确注意力数学结果却大幅提速省显存）。
+\item \textbf{可解释性、安全与伦理：} 深度模型仍是黑盒，机械可解释性（mechanistic interpretability，如 Transformer Circuits）试图拆解内部回路以保障安全可控；同时必须警惕训练语料带来的刻板印象、算法歧视、有害内容，以及隐私、版权、就业冲击与能源环境代价。
+\end{itemize}
+
+来源：Lecture11b，第 26–38 个单元（幻觉与 RAG 演示、ReAct 智能体、FlashAttention、可解释性与偏见伦理）。
+
+
+\StudyHeading{1}{6. 回顾与英文自测}
+\StudyTarget{CS5489-Lecture11__review}
+
+\textbf{Q1. 现代 LLM 为什么普遍采用 BPE 这类统计子词分词，而不用空格分词？ / Why do modern LLMs use statistical subword tokenization like BPE instead of whitespace splitting?}
+
+\textbf{答 / Answer：} 中文、泰文等语言无空格分隔，且英文新词／复合词会导致整词词表爆炸与 OOV 问题。BPE 通过反复合并高频相邻子词对，用可控词表统一覆盖多语言和任意生僻词。 / Languages like Chinese lack spaces, and new/compound English words explode word vocabularies and cause OOV tokens. BPE iteratively merges frequent adjacent subword pairs to cover arbitrary words across languages with a bounded vocabulary.
+
+\textbf{Q2. 对比 SFT、DPO 与 GRPO 在训练信号和是否需要在线采样上的区别。 / Contrast SFT, DPO, and GRPO in terms of training signal and whether online rollouts are required.}
+
+\textbf{答 / Answer：} SFT 用离线问答示范对回复 token 做交叉熵（无需在线采样）；DPO 用离线好／差偏好对相对参考策略直接拉大胜率（无需奖励模型与在线采样）；GRPO 属于在线强化学习，每步从当前旧策略快照为同一提示采样 $G$ 条轨迹，按奖励计算组内相对优势（无需独立 critic 网络）并更新策略。 / SFT trains offline with response-token cross-entropy on demonstrations; DPO trains offline on chosen/rejected preference pairs relative to $\pi_{\text{ref}}$ without a separate reward model; GRPO samples online groups of $G$ rollouts per prompt and computes within-group normalized advantages without a value critic.
+
+\textbf{Q3. 为什么因果 Transformer 可以用 KV 缓存加速解码？KV 缓存存的是什么？ / Why does causal attention allow KV caching during decoding, and what does the cache store?}
+
+\textbf{答 / Answer：} 因果掩码确保后续新 token 不影响前面已算好位置的隐藏状态，因此每层历史 token 的键 $\mathbf{K}$ 和值 $\mathbf{V}$ 可以直接复用。缓存存的是各层的中间 $\mathbf{K},\mathbf{V}$ 张量，不是更新后的模型权重，也不存历史 $\mathbf{Q}$。 / Causal masking ensures future tokens do not alter earlier hidden states, so each layer's past keys and values can be reused. The cache stores intermediate per-layer $K,V$ activations—not model weights or past queries.
+
+\textbf{Q4. 为什么会产生 LLM 幻觉，RAG 如何缓解它？ / Why do LLMs hallucinate, and how does RAG help mitigate hallucination?}
+
+\textbf{答 / Answer：} 普通 LLM 把知识隐式存在权重里且按下一词概率生成，面对冷门或新知识时容易拼凑看似通顺却错误的事实。RAG 先从外部知识库检索相关真实资料拼入提示上下文，让模型基于给定事实生成回答。 / Standard LLMs store knowledge implicitly in weights and predict plausible next tokens, fabricating details on long-tail or new facts. RAG retrieves relevant external documents into the prompt context so generation is grounded in supplied facts.
+
+
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5489-Lecture11__learning-priorities}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.44\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endfirsthead
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+BPE、N-gram 与 PPL & 核心必会 & 低，易忘 N-gram 三缺陷 & 手算 Bigram 与 $\mathrm{PPL}$，解释 BPE 合并过程与因果掩码 \\
+LLM 演进与现代架构 & 常规掌握 & 中，RoPE 与 MoE 区分 & 熟记五个转折点、RoPE 相对位置优势、MoE 总参数 vs 激活参数 \\
+预训练、SFT、DPO 与 GRPO & 核心必会 & 高，GRPO 组内标准化 & 区分 Teacher Forcing/SFT/DPO/RLVR，\textbf{零失误手算 GRPO 优势} \\
+解码策略与 KV 缓存 & 核心必会 & 中，过滤顺序与缓存边界 & \textbf{零失误手算 Top-$k$/Top-$p$/Greedy 反例}，分清 Prefill/Decode \\
+幻觉、RAG、Agent 与效率 & 常规掌握 & 低，概念对应 & 解释 RAG 原理、ReAct 思路、FlashAttention 与量化蒸馏 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{来源覆盖索引}
+\StudyTarget{CS5489-Lecture11__sources}
+
+依据当前课件 Lecture11a（46 个单元）与 Lecture11b（38 个单元）。本讲为近年新增现代大模型模块，2020–2021 年历史旧卷尚未覆盖，复习应以本讲原文算例与概念为主要依据。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原课位置 & 对应讲义 \\
+\midrule\endfirsthead
+原课位置 & 对应讲义 \\
+\midrule\endhead
+\bottomrule\endfoot
+Lecture11a，第 1–25 个单元 三类分词（BPE）、N-gram/PPL、Word2Vec 与因果 Transformer LM & §1 \\
+Lecture11a，第 26–46 个单元 五大转折点、Qwen3 架构、RoPE/ALiBi、Sparse Attention、Mamba 与 MoE & §2 \\
+Lecture11b，第 1–18 个单元 Olmo 3、预训练（Teacher Forcing/PPL）与后训练（SFT/DPO/RLVR/GRPO） & §3 \\
+Lecture11b，第 19–25 个单元 推理定义、Greedy/Temp/Top-$k$/Top-$p$ 算例、Prefill/Decode 与 KV 缓存 & §4 \\
+Lecture11b，第 26–38 个单元 幻觉与 RAG、ReAct 智能体、FlashAttention、可解释性与伦理 & §5、§6 \\
+\end{longtable}\endgroup
+
+本讲全部手算验算与自绘教学图见同目录 \StudyInline{tools/\allowbreak{}verify\_\allowbreak{}l10\_\allowbreak{}l12\_\allowbreak{}examples.\allowbreak{}py}（独立断言结果存档于 \StudyInline{l10-l12-example-results.\allowbreak{}json}）。

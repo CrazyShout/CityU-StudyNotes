@@ -6,20 +6,25 @@ A4、100%实际大小、双面长边翻转；各册独立分页。正文在同�
 
 | 文档 | 页码 |
 |---|---|
-| [CS5489-Lecture01](../CS5489/course-notes/Lecture01.tex) | [7–22](CS5489-A4.pdf#page=7) |
-| [CS5489-Lecture02](../CS5489/course-notes/Lecture02.tex) | [23–57](CS5489-A4.pdf#page=23) |
-| [CS5489-Lecture03](../CS5489/course-notes/Lecture03.tex) | [58–80](CS5489-A4.pdf#page=58) |
-| [CS5489-Lecture04](../CS5489/course-notes/Lecture04.tex) | [81–100](CS5489-A4.pdf#page=81) |
-| [CS5489-Lecture05](../CS5489/course-notes/Lecture05.tex) | [101–117](CS5489-A4.pdf#page=101) |
-| [CS5489-Lecture06](../CS5489/course-notes/Lecture06.tex) | [118–131](CS5489-A4.pdf#page=118) |
-| [CS5489-Lecture07](../CS5489/course-notes/Lecture07.tex) | [132–145](CS5489-A4.pdf#page=132) |
-| [CS5489-Tutorial01](../CS5489/course-notes/Tutorial01.tex) | [146–156](CS5489-A4.pdf#page=146) |
-| [CS5489-Tutorial02](../CS5489/course-notes/Tutorial02.tex) | [157–183](CS5489-A4.pdf#page=157) |
-| [CS5489-Tutorial03](../CS5489/course-notes/Tutorial03.tex) | [184–198](CS5489-A4.pdf#page=184) |
-| [CS5489-Tutorial04](../CS5489/course-notes/Tutorial04.tex) | [199–211](CS5489-A4.pdf#page=199) |
-| [CS5489-Assignment01](../CS5489/course-notes/Assignment01.tex) | [212–220](CS5489-A4.pdf#page=212) |
-| [CS5489-Assignment02](../CS5489/course-notes/Assignment02.tex) | [221–227](CS5489-A4.pdf#page=221) |
-| [CS5489-ExamIndex](../CS5489/course-notes/ExamIndex.tex) | [228–236](CS5489-A4.pdf#page=228) |
+| [CS5489-Lecture01](../CS5489/course-notes/Lecture01.tex) | [9–24](CS5489-A4.pdf#page=9) |
+| [CS5489-Lecture02](../CS5489/course-notes/Lecture02.tex) | [25–59](CS5489-A4.pdf#page=25) |
+| [CS5489-Lecture03](../CS5489/course-notes/Lecture03.tex) | [60–82](CS5489-A4.pdf#page=60) |
+| [CS5489-Lecture04](../CS5489/course-notes/Lecture04.tex) | [83–102](CS5489-A4.pdf#page=83) |
+| [CS5489-Lecture05](../CS5489/course-notes/Lecture05.tex) | [103–119](CS5489-A4.pdf#page=103) |
+| [CS5489-Lecture06](../CS5489/course-notes/Lecture06.tex) | [120–133](CS5489-A4.pdf#page=120) |
+| [CS5489-Lecture07](../CS5489/course-notes/Lecture07.tex) | [134–147](CS5489-A4.pdf#page=134) |
+| [CS5489-Lecture08](../CS5489/course-notes/Lecture08.tex) | [148–157](CS5489-A4.pdf#page=148) |
+| [CS5489-Lecture09](../CS5489/course-notes/Lecture09.tex) | [158–167](CS5489-A4.pdf#page=158) |
+| [CS5489-Lecture10](../CS5489/course-notes/Lecture10.tex) | [168–176](CS5489-A4.pdf#page=168) |
+| [CS5489-Lecture11](../CS5489/course-notes/Lecture11.tex) | [177–185](CS5489-A4.pdf#page=177) |
+| [CS5489-Lecture12](../CS5489/course-notes/Lecture12.tex) | [186–192](CS5489-A4.pdf#page=186) |
+| [CS5489-Tutorial01](../CS5489/course-notes/Tutorial01.tex) | [193–203](CS5489-A4.pdf#page=193) |
+| [CS5489-Tutorial02](../CS5489/course-notes/Tutorial02.tex) | [204–230](CS5489-A4.pdf#page=204) |
+| [CS5489-Tutorial03](../CS5489/course-notes/Tutorial03.tex) | [231–245](CS5489-A4.pdf#page=231) |
+| [CS5489-Tutorial04](../CS5489/course-notes/Tutorial04.tex) | [246–258](CS5489-A4.pdf#page=246) |
+| [CS5489-Assignment01](../CS5489/course-notes/Assignment01.tex) | [259–267](CS5489-A4.pdf#page=259) |
+| [CS5489-Assignment02](../CS5489/course-notes/Assignment02.tex) | [268–274](CS5489-A4.pdf#page=268) |
+| [CS5489-ExamIndex](../CS5489/course-notes/ExamIndex.tex) | [275–283](CS5489-A4.pdf#page=275) |
 
 ## CS5222
 

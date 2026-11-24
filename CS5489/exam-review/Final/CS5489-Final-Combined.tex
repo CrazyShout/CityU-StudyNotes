@@ -1,0 +1,600 @@
+\newcommand{\StudyBook}{CS5489-Final}
+\newcommand{\StudyRoot}{../../..}
+\input{../../../latex/preamble.tex}
+\renewcommand{\StudySourceRef}{CS5489-Final-3Papers}
+\renewcommand{\StudyDate}{2026-11-24}
+
+\begin{document}
+\StudyCover{CS5489 · 期末真题双语精简合订本}{2020B / 2021B / 2021A 三套完整真题（39 题）· 官方参考答案、勘误核对与零基础解析}
+\tableofcontents
+
+% =============================================================================
+\StudyChapter{CS5489-Final-Guide}{使用说明与 3 套期末真题考点地图}
+% =============================================================================
+
+本合订本收录香港城市大学（CityUHK）\textbf{CS5489 Machine Learning: Algorithms \& Applications} 已辨识的 \textbf{3 套完整香港期末真题与官方参考答案}：
+\begin{itemize}
+\item \textbf{2020 Semester B（2020B）}：Q1–Q6 多选题（30 分）+ Q7–Q13 简答题（70 分），共 13 题。
+\item \textbf{2021 Semester B（2021B）}：Q1–Q6 多选题（30 分）+ Q7–Q13 简答题（70 分），共 13 题。
+\item \textbf{2021 Semester A（2021A）}：Q1–Q6 多选题（30 分）+ Q7–Q13 简答题（70 分），共 13 题。
+\end{itemize}
+每道题均按\textbf{英文原题 \ensuremath{\to} 中文翻译 \ensuremath{\to} 官方答案与中文要点 \ensuremath{\to} 零基础深度解析}编排。多选题扣分规则均为：每题 5 分，设正确选项数为 $K$，每多选一个错误选项倒扣 $5/K$ 分（扣至 0 分为止）。
+
+\textbf{特别勘误与 2026 范围提醒：}
+\begin{enumerate}
+\item 本册透明标出两处经独立验算确认的历史参考答案勘误：\textbf{2021A Q4 选项 A}（ResNet 删块影响，答案键误标 A 为正确）与 \textbf{2021B Q10}（valid 卷积收缩量，答案键误写只减单边 $(K-1)/2$）。两处均同时保留历史键原文与严格数学／课件正解。
+\item 2020–2021 年三套卷覆盖 Lecture 3–10（SVM、MLP、CNN、优化与正则、PCA/KPCA、K-Means/GMM/谱聚类、AE/VAE/GAN）。2026 学期新增的 \textbf{Transformer/ViT（L7）、Diffusion/MAE（L10）、LLMs/GRPO/Decoding/KV Cache（L11）、Detectors/CLIP/VLM（L12）} 尚未出现在旧卷中，务必配合 \StudyInline{pdf/CS5489-A4.pdf} 同步复习！
+\end{enumerate}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.32\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+章节模块 & 2020B & 2021B & 2021A \\
+\midrule\endfirsthead
+章节模块 & 2020B & 2021B & 2021A \\
+\midrule\endhead
+\bottomrule\endfoot
+L3 SVM & — & Q1 & — \\
+L5/L7 MLP、激活与优化 & Q3, Q5, Q10, Q13 & Q4, Q9 & Q2, Q4, Q5, Q8, Q11 \\
+L6 CNN、正则与数据增强 & Q4, Q9, Q11 & Q5, Q10, Q11, Q12 & Q3, Q9, Q12, Q13 \\
+L8 降维与 KPCA & Q1, Q7 & Q2, Q7 & — \\
+L9 聚类（K-Means/GMM/SC） & Q2, Q8 & Q3, Q8 & Q1, Q7 \\
+L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
+\end{longtable}\endgroup
+
+
+% =============================================================================
+\StudyChapter{CS5489-Final-2020B}{Paper 1 · 2020 Semester B Final Exam（13 题）}
+% =============================================================================
+
+\StudyHeading{1}{Multiple Selection Questions（Q1–Q6，每题 5 分，共 30 分）}
+
+\StudyHeading{2}{2020B Q1｜PCA 性质（Lecture 8）}
+\textbf{Question:} Which statements about Principal Component Analysis (PCA) are correct? (select all that apply)
+\begin{itemize}
+\item[A)] Classification accuracy using the PCA coefficient space will always be the same or better than that in the original input space.
+\item[B)] The PCA objective of minimizing reconstruction error is the same as maximizing the preserved variance.
+\item[C)] PCA assumes that the data density is a multivariate Gaussian.
+\item[D)] PCA is slow because all the eigenvectors of the covariance matrix need to be computed.
+\item[E)] When increasing the number of principal components from $p$ to $(p+1)$, only one principal component will be different and the rest are the same as before.
+\end{itemize}
+\textbf{中文题译：} 关于主成分分析（PCA），哪些说法正确？（多选）A) 在 PCA 系数空间分类准确率总不低于原空间；B) 最小化重构误差等价于最大化保留方差；C) PCA 假定数据密度服从多元高斯；D) PCA 慢是因为必须求协方差矩阵的全部特征向量；E) 主成分数从 $p$ 增至 $p+1$ 时仅多出 1 个新主成分，其余不变。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: B, C, E}
+\textbf{A 错：} PCA 无监督不看类别标签，若噪声方向方差大于分类信号，降维反而会把不同类拍混导致准确率暴跌。\textbf{B 对：} 由勾股分解 $\mathrm{tr}(\boldsymbol{\Sigma}) = \text{保留方差} + \text{重构误差}$，二者严格等价。\textbf{C 对：} 协方差特征分解几何上对应多元高斯椭球主轴。\textbf{D 错：} 只需前 $K$ 个主成分时可用截断 SVD／幂迭代，不必算全部特征向量。\textbf{E 对：} 主成分按特征值降序排列，具有增量嵌套性。
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q2｜GMM 聚类与 EM（Lecture 9）}
+\textbf{Question:} Which statements are true about GMM clustering? (select all that apply)
+\begin{itemize}
+\item[A)] If we set the covariance matrices to be identity matrices and the component weights to be uniform, then it is the same as the k-means algorithm.
+\item[B)] The E and M steps correspond to computing the cluster membership and computing the cluster shape.
+\item[C)] Assuming the covariance matrix is a diagonal matrix makes the clusters into circle shapes.
+\item[D)] Running EM will always give the global optimal solution.
+\item[E)] The number of clusters can be automatically selected using Bayesian methods.
+\end{itemize}
+\textbf{中文题译：} 关于 GMM 聚类，哪些正确？A) 设协方差为单位阵且权重均匀就等于 K-Means；B) E 步算簇归属、M 步算簇形状；C) 对角协方差使簇呈圆形；D) EM 总能得全局最优解；E) 可用贝叶斯方法自动选簇数 $K$。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: B, E}
+\textbf{A 错：} 即使 $\boldsymbol{\Sigma}_j=\mathbf{I},\pi_j=1/K$，GMM 仍使用后验\textbf{软分配}而非 K-Means 的 0/1 硬分配（仅当方差 $\sigma^2\to 0$ 才趋近硬分配）。\textbf{B 对：} E 步算后验软归属 $\hat{z}_{ij}$，M 步更新均值、协方差形状与权重。\textbf{C 错：} 对角协方差是\textbf{轴对齐椭圆}，球形协方差 $a\mathbf{I}$ 才是正圆。\textbf{D 错：} EM 保证收敛但只到\textbf{局部最优}。\textbf{E 对：} Bayesian GMM 利用狄利克雷先验自动裁剪空簇。
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q3｜MLP 性质与通用逼近（Lecture 5）}
+\textbf{Question:} Which statements about Multi-Layer Perceptrons (MLPs) are correct? (select all that apply)
+\begin{itemize}
+\item[A)] The gradient cannot be computed exactly, so approximation methods are required.
+\item[B)] The choice of activation function does not affect the gradient.
+\item[C)] Each layer extracts features from all other layers.
+\item[D)] An MLP with no hidden layers, with output nodes using the soft-max activation function, and trained with cross-entropy loss is equivalent to multi-class logistic regression.
+\item[E)] An MLP with a single hidden layer and non-linear activation is sufficient to approximate any continuous function.
+\end{itemize}
+\textbf{中文题译：} 关于 MLP，哪些正确？A) 梯度无法精确计算只能近似；B) 激活函数选择不影响梯度；C) 每层从所有其他层提特征；D) 无隐藏层+Softmax+交叉熵等价多分类逻辑回归；E) 单隐藏层加非线性激活足以逼近任意连续函数。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: D, E}
+\textbf{A 错：} 反向传播用链式法则可精确解析求梯度。\textbf{B 错：} 激活导数直接进入链式连乘（如 Sigmoid 导数 $\le 0.25$ 引发梯度消失）。\textbf{C 错：} 普通前馈 MLP 每层只接收紧邻前一层的输出（DenseNet 才接所有前层）。\textbf{D 对：} 线性打分接 Softmax 配交叉熵即多分类逻辑回归。\textbf{E 对：} 通用逼近定理核心表述（在紧致域与足够宽条件下）。
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q4｜卷积层核心性质（Lecture 6）}
+\textbf{Question:} Which statements about convolutional layers are correct? (select all that apply)
+\begin{itemize}
+\item[A)] The receptive field size increases as more convolutional layers are used.
+\item[B)] They introduce translation invariance to the classifier.
+\item[C)] The convolution operation is equivalent to multiplication in the frequency domain.
+\item[D)] The number of parameters is equal to the input size times the output size.
+\item[E)] They are equivalent to a fully-connected layer with a weight matrix that has specific form and uses shared values.
+\end{itemize}
+\textbf{中文题译：} 关于卷积层，哪些正确？A) 叠更多卷积层感受野增大；B) 卷积层引入平移不变性；C) 卷积等价于频域相乘；D) 参数量等于输入大小乘输出大小；E) 等价于特定结构且权重共享的全连接层。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, C, E}
+\textbf{A 对：} 如两层步长 1 卷积感受野为 $|w_1|+|w_2|-1$，随层数递增。\textbf{B 错（高频坑！）：} 卷积层引入的是\textbf{平移等变性（translation equivariance）}；\textbf{局部平移不变性（invariance）}来自池化层。\textbf{C 对：} DTFT 卷积定理 $s=x*w \Leftrightarrow S(\omega)=X(\omega)W(\omega)$。\textbf{D 错：} 那是全连接层的参数量；卷积参数量为 $F(CK^2+1)$，与高宽 $H,W$ 无关。\textbf{E 对：} 对应稀疏且对角共享的 Toeplitz 矩阵。
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q5｜SGD 优化与噪声（Lecture 7）}
+\textbf{Question:} Which statements about Stochastic Gradient Descent (SGD) optimization are correct? (select all that apply)
+\begin{itemize}
+\item[A)] One advantage of SGD is that it can jump away from local minima.
+\item[B)] When the computed mini-batch gradient is 0, a local minimum of the cost function is reached and training is finished.
+\item[C)] The variance of the update step depends on the learning rate.
+\item[D)] Using momentum is one way to smoothen the gradient.
+\item[E)] Reducing the learning rate during the epochs will prevent SGD from converging.
+\end{itemize}
+\textbf{中文题译：} 关于 SGD，哪些正确？A) 优点之一是能跳出局部极小；B) 小批量梯度为 0 就说明到了总损失局部极小并可停止；C) 更新步长方差依赖学习率；D) 动量可平滑梯度；E) 逐步减小学习率会阻止 SGD 收敛。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, C, D}
+\textbf{A 对：} 小批量噪声平滑损失面、帮助跳出浅局部坑。\textbf{B 错：} 单个小批量梯度为 0 不代表全训练集总梯度为 0。\textbf{C 对：} 步长 $\eta g_t$ 的方差与 $\eta^2$ 成正比。\textbf{D 对：} Momentum 对历史梯度做指数滑动平均。\textbf{E 错：} 恰恰相反，后期降低学习率才能压缩噪声晃动、帮助 SGD 落入谷底收敛。
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q6｜GAN 机制与模式崩塌（Lecture 10）}
+\textbf{Question:} Which statements are true about GAN? (select all that apply)
+\begin{itemize}
+\item[A)] GAN uses the reparameterization trick to generate samples from the target distribution.
+\item[B)] One advantage of GAN is that it can compute the likelihood value of a sample easily.
+\item[C)] One disadvantage of GAN is that it needs to compute the partition function.
+\item[D)] In practice, training the generator to minimize $-\mathbb{E}_z[\log D(G(z))]$ is more stable than minimizing $\mathbb{E}_z[\log(1-D(G(z)))]$.
+\item[E)] Mode collapse problem means that the generator fails to fool the discriminator.
+\end{itemize}
+\textbf{中文题译：} 关于 GAN，哪些正确？A) 用重参数化技巧从目标分布采样；B) 优点是能轻松计算样本似然；C) 缺点是需算配分函数；D) 实践上最小化 $-\mathbb{E}_z[\log D(G(z))]$ 比最小化 $\mathbb{E}_z[\log(1-D(G(z)))]$ 更稳定；E) 模式崩塌指生成器无法骗过判别器。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, D}
+\textbf{A 对：} 生成器将 $z\sim\mathcal{N}(0,I)$ 通过 $G(z)$ 映射成目标样本。\textbf{B 错：} GAN 不能显式计算样本似然。\textbf{C 错：} GAN 不需要计算配分函数（这是它的优点）。\textbf{D 对：} 早期 $D(G(z))\approx 0$ 时原始极小极大损失梯度消失，非饱和损失保持强梯度。\textbf{E 错：} 模式崩塌是生成器\textbf{仅覆盖单／少数模态}（此时反而能轻松骗过判别器，但丧失多样性）。
+\end{StudySolution}
+
+\StudyHeading{1}{Discussion Questions（Q7–Q13，每题 10 分，共 70 分）}
+
+\StudyHeading{2}{2020B Q7｜Kernel PCA + 线性 SVM vs 直接 Kernel SVM（Lecture 8）}
+\textbf{Question:} You are training a binary classifier on a dataset with 2,000 samples. You will test two approaches: (1) run kernel PCA on the training set first to reduce the dimension, then train a linear SVM on the KPCA coefficients; (2) train a kernel SVM directly on the data. Will you get the same result? Why or why not? If not, which approach will yield a better classifier?
+
+\textbf{中文题译：} 在 2000 条样本上做二分类，比较两种做法：(1) 先用 KPCA 降维再训线性 SVM；(2) 直接训 Kernel SVM。结果相同吗？为什么？若不同，哪种分类器更好？
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[3 分] 不会得到相同结果。} / They will not yield the same result.
+\item \textbf{[5 分] 原因：} KPCA 是\textbf{无监督}降维方法，目标是保留高维空间的数据重构／方差（且通常用到全部训练点）；而 Kernel SVM 是\textbf{有监督判别式}方法，隐空间直接为最大化分类间隔服务，且最终只使用边界上的少量支持向量。 / KPCA is unsupervised (aims to preserve reconstruction and typically uses all points), while KSVM is supervised so its latent space is discriminative and uses only a few support vectors.
+\item \textbf{[2 分] 结论：} 直接训 \textbf{Kernel SVM 更好}，因为它端到端针对分类目标做判别式训练。 / KSVM should give better classification results since it is discriminatively trained for classification.
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q8｜看图辨别 K-Means 与 GMM（Lecture 9）}
+\textbf{Question:} Consider the two clustering results below. Which result is from K-means clustering, and which is from GMM clustering? Explain your reasoning, and why this happens.
+
+\StudyImage{CS5489/exam-review/Final/assets/final-2020b-q8.png}
+\StudyCaption{图 F.1（2020B Q8 重绘示意）：(a) 分段直线边界；(b) 弯曲边界。}
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[3 分] 结论：} (a) 来自 \textbf{K-Means}，(b) 来自 \textbf{GMM}。 / (a) is from K-means, (b) is from GMM.
+\item \textbf{[3 分] 现象依据：} (a) 的簇边界是直线，(b) 的簇边界是曲线。 / (a) has straight cluster boundaries, while (b) has curved boundaries.
+\item \textbf{[4 分] 数学原因：} K-Means 按\textbf{欧氏距离}分配最近中心，等距面为垂直平分超平面（直线）；GMM 的高斯密度采用随各簇协方差变化的\textbf{马氏距离（Mahalanobis distance）}并含不同先验权重 $\pi_j$，故等后验边界通常为二次曲线。 / K-means uses Euclidean distance (linear boundaries); GMM uses Mahalanobis distance with cluster-specific covariances and different component weights (curved boundaries).
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q9｜三条训练／验证损失曲线诊断（Lecture 6）}
+\textbf{Question:} Consider the following training/validation loss curves obtained by training a deep neural network. For each curve, what is the problem exhibited by the curve? Give the reason why you think this. How would you fix the problem? Describe the solution in detail.
+
+\StudyImage{CS5489/exam-review/Final/assets/final-2020b-q9.png}
+\StudyCaption{图 F.2（2020B Q9 重绘示意）：(a) 验证损失先降后升；(b) 双双走平但差距很大；(c) 两者仍在持续下降。}
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{(a) [4 分] 过拟合（Overfitting）：} 训练损失续降但验证损失反升。解决：L2 权重衰减（惩罚大权重）、早停（在验证损失最低处停止）、Dropout（训练时随机置零节点）、模型集成（多模型平均）、数据增强（人工变换扩充数据）。
+\item \textbf{(b) [3 分] 大泛化差距（Large generalization gap）：} 两者均已收敛走平但验证损失明显高于训练损失。解决：同 (a) 用 L2 正则、数据增强、Dropout、集成来改善泛化——注意\textbf{早停此时无效（Early stopping will not help）}！
+\item \textbf{(c) [3 分] 尚未充分收敛（Not fully converged）：} 训练与验证损失均仍在下降趋势中。解决：增加训练轮数（more epochs），或适当调大学习率（increase learning rate）。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q10｜1 隐藏层“浅”MLP vs 10 隐藏层“深”MLP（Lecture 5 / 7）}
+\textbf{Question:} Explain the advantages and disadvantages of a ``shallow'' MLP with 1 hidden layer versus a ``deep'' MLP with 10 hidden layers.
+
+\textbf{中文题译：} 解释 1 个隐藏层的浅层 MLP 与 10 个隐藏层的深层 MLP 各自的优缺点。
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[3 分] 表达能力：} 在相同参数（权重）数量下，深层 MLP 表达能力更强，能建模更复杂的函数。 / For the same number of weights, the deeper MLP is more expressive and models more complex functions.
+\item \textbf{[3 分] 数据需求：} 依据 VC 维上界 $O(WL\log W + WL^2)$，深层 MLP 每多加一层就需要更多训练样本，比宽浅网络更易在小数据上过拟合。 / The deeper MLP requires more data for each extra hidden layer than a wide 1-hidden-layer MLP.
+\item \textbf{[4 分] 优化难度：} 深层 MLP 更难训练，更容易出现\textbf{梯度消失问题}。 / The deeper MLP is harder to train and more prone to vanishing gradients.
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q11｜航拍俯视车辆分类的数据增强（Lecture 6）}
+\textbf{Question:} You are training a CNN to classify patches in overhead aerial images as either ``car'' or ``not car''. What kind of data augmentation would you use during training and why? What is the purpose of data augmentation?
+
+\textbf{中文题译：} 训练 CNN 判断航拍俯视图块是否为“汽车”。应使用哪些数据增强并说明理由？数据增强的目的是什么？
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[6 分，任答 3 条，每条 2 分] 推荐增强：} (1) \textbf{$360^\circ$ 全角度旋转}（航拍下车头可朝任意方向）；(2) \textbf{极小幅缩放（约 5\% 内）}（航拍高度近似恒定，车尺寸基本一致）；(3) \textbf{颜色偏移}（车漆颜色多样）；(4) \textbf{亮度／对比度调整}（应对阳光直射与阴影）。
+\item \textbf{[4 分] 两大目的：} (1) 人工扩大数据集规模，让 CNN 看到更多样本变化；(2) 使 CNN 对所施加的变换具备\textbf{不变性／鲁棒性}。 / Make the dataset larger (more variations) and make the CNN invariant to the used transformations.
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q12｜AE 与 VAE 的异同及意义（Lecture 10）}
+\textbf{Question:} What are the similarities and differences between an autoencoder (AE) and a variational autoencoder (VAE)? Why are these differences important for the VAE?
+
+\textbf{中文题译：} 自编码器（AE）与变分自编码器（VAE）有哪些相同点与不同点？为什么这些不同点对 VAE 很重要？
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[2 分] 相同点（均需答到）：} 两者都将输入编码到隐空间再解码重构原输入；都使用重构损失（MSE 或交叉熵）训练。
+\item \textbf{[4 分，任答 2 条] 不同点：} (1) AE 输出单个确定性隐向量 $\mathbf{z}$，VAE 预测隐向量 $\mathbf{z}$ 的\textbf{高斯后验分布}；(2) VAE 训练损失额外含 \textbf{KL 正则项}，拉近后验与标准高斯先验 $\mathcal{N}(0,I)$；(3) 训练时 VAE 从后验随机采样 $\mathbf{z}$。
+\item \textbf{[4 分] 重要性：} 训练期不断从后验采样，让解码器见过更多邻近隐向量，避免对单个训练编码过拟合；由此获得更平滑连续的隐空间，极大提升样本间\textbf{插值（interpolation）}与生成能力。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2020B Q13｜Leaky ReLU 激活函数的利弊（Lecture 5 / 7）}
+\textbf{Question:} Consider the ``Leaky'' ReLU activation function $\sigma(x) = x$ if $x\ge 0$, and $x/a$ if $x < 0$, where typically $a = 1000$. What are the advantages and disadvantages of this activation function?
+
+\textbf{中文题译：} 考察 Leaky ReLU（$x\ge 0$ 时为 $x$，$x<0$ 时为 $x/a$，常取 $a=1000$）。它的优缺点是什么？
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[5 分] 优点：} (1) 导数恒为 $1$ 或 $1/1000$，不会像 Sigmoid 那样在饱和区引发严重的梯度消失；(2) 神经元可以利用负半轴区域继续传递梯度，避免完全“死亡”。
+\item \textbf{[5 分] 缺点：} (1) 激活值不再严格为 0，失去标准 ReLU 的完全稀疏性，可能影响基于部件的稀疏表征；(2) 引入了一个需要调节的额外超参数 $a$。
+\end{itemize}
+\end{StudySolution}
+
+
+% =============================================================================
+\StudyChapter{CS5489-Final-2021B}{Paper 2 · 2021 Semester B Final Exam（13 题）}
+% =============================================================================
+
+\StudyHeading{1}{Multiple Selection Questions（Q1–Q6，每题 5 分，共 30 分）}
+
+\StudyHeading{2}{2021B Q1｜支持向量机 SVM（Lecture 3）}
+\textbf{Question:} Which statements about support vector machines (SVM) are correct? (select all that apply)
+\begin{itemize}
+\item[A)] Maximizing the margin in SVM can allow most ``wiggle'' room for the hyperplane $\mathbf{w}$, while keeping points correctly classified.
+\item[B)] Adding the ``slack'' variable can help SVM handle non-separable data.
+\item[C)] In kernel SVM, all the training data is needed to make a prediction on new data.
+\item[D)] In kernel SVM, the possible shapes of the decision boundary are determined by the kernel.
+\item[E)] In kernel SVM, using RBF kernel will obtain better classification performance than polynomial kernel.
+\end{itemize}
+\textbf{中文题译：} 关于 SVM，哪些正确？A) 最大化间隔给超平面留出最大容错摆动空间；B) 加松弛变量可处理线性不可分数据；C) 核 SVM 预测新点需要全部训练数据；D) 核函数决定决策边界可能形状；E) RBF 核一定比多项式核分类更好。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, B, D}
+\textbf{A、B、D 对。} \textbf{C 错：} 核 SVM 预测只需要\textbf{支持向量}（$\alpha_i > 0$ 的少量点）。\textbf{E 错：} 无免费午餐，最优核取决于数据分布。
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q2｜线性降维方法（Lecture 8）}
+\textbf{Question:} Which statements are correct about linear dimensionality reduction methods? (select all that apply)
+\begin{itemize}
+\item[A)] Applying linear dimensionality reduction will always preserve the class separation.
+\item[B)] Linear dimensionality reduction methods approximate the data as weighted sums of basis vectors.
+\item[C)] The coefficients are computed in closed form using a linear transformation.
+\item[D)] LSA and PCA both minimize the squared reconstruction error.
+\item[E)] Reducing the dimension can extract semantically meaningful features.
+\end{itemize}
+\textbf{中文题译：} 关于线性降维，哪些正确？A) 总能保持类别分离；B) 将数据近似为基向量加权和；C) 系数总能通过线性变换闭式求得；D) LSA 与 PCA 都最小化平方重构误差；E) 降维可提取有语义含义的特征。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: B, D, E}
+\textbf{A 错：} 无监督 PCA/LSA 可能压扁类别分离（图 8.1 右）。\textbf{B、D、E 对。} \textbf{C 错：} \textbf{NMF} 也属线性降维，但因非负约束\textbf{没有闭式解}，必须迭代优化！
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q3｜K-Means 聚类（Lecture 9）}
+\textbf{Question:} Which statements are true about K-means clustering? (select all that apply)
+\begin{itemize}
+\item[A)] The K-means algorithm is sensitive to the initialization.
+\item[B)] K-means clustering is the same as GMM clustering when the covariance matrix is the identity matrix.
+\item[C)] In some cases, the K-means algorithm will not converge.
+\item[D)] Assigning points to cluster centers will partition the space with linear surfaces.
+\item[E)] The number of clusters can be determined by minimizing the sum-squared difference between points and their centers.
+\end{itemize}
+\textbf{中文题译：} 关于 K-Means，哪些正确？A) 对初始化敏感；B) 等价于协方差为单位阵的 GMM；C) 某些情况不会收敛；D) 用线性超平面划分空间；E) 可通过最小化点到中心平方和来确定最佳 $K$。
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, D}
+\textbf{A、D 对。} \textbf{B 错：} GMM 仍用软归属且权重 $\pi_j$ 未必相等。\textbf{C 错：} K-Means 必然在有限步收敛。\textbf{E 错：} SSE 随 $K$ 增大单调降至 0（$K=N$），不能用于选 $K$。
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q4｜MLP 等价于多分类逻辑回归的条件（Lecture 5）}
+\textbf{Question:} Which of the following conditions will make a Multi-layer perceptron (MLP) equivalent to multi-class logistic regression? (select all that are required)
+\begin{itemize}
+\item[A)] There are no hidden layers.
+\item[B)] Threshold activation function and cross-entropy loss are used.
+\item[C)] Soft-max activation function and cross-entropy loss are used.
+\item[D)] Linear activation function and mean-square error loss are used.
+\item[E)] There is 1 hidden layer, which is sufficient to model any continuous function.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, C}
+\textbf{A、C 缺一不可：} 无隐藏层（线性 logits）+ 输出层 Softmax + 交叉熵损失。
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q5｜深度网络 L2 正则化（Lecture 6）}
+\textbf{Question:} Suppose we apply L2 regularization on a deep neural network. Which statements are correct? (select all that apply)
+\begin{itemize}
+\item[A)] L2 regularization is more effective when applied only to the later layers.
+\item[B)] L2 regularization is more effective when applied only to the early layers.
+\item[C)] L2 regularization is more effective when applied to all layers.
+\item[D)] L2 regularization directly prevents the activations from becoming too large.
+\item[E)] L2 regularization is equivalent to assuming a Gaussian prior on the weights and using MAP estimation.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: C, E}
+\textbf{C 对（A、B 错）：} ReLU 层间缩放等价性 $\frac{1}{\varepsilon}\mathbf{A}^T r(\varepsilon\mathbf{B}^T\mathbf{x})$ 会让局部正则失效，必须全层施加。\textbf{D 错：} 直接约束的是\textbf{权重}而非激活值。\textbf{E 对：} 等价零均值高斯先验下的 MAP。
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q6｜VAE 性质（Lecture 10）}
+\textbf{Question:} Which statements are true about variational auto-encoders (VAEs)? (select all that apply)
+\begin{itemize}
+\item[A)] Noise is added to the latent vector to make the decoder more robust.
+\item[B)] The decoder does not need to share weights with the encoder.
+\item[C)] Given an input, the VAE estimates a posterior distribution of the latent vector.
+\item[D)] The encoder and decoder are decoupled for easier training.
+\item[E)] Training the VAE requires both data samples and class labels.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, B, C}
+\textbf{A、B、C 对。} \textbf{D 错：} 编解码器通过重参数化端到端联合训练，并未解耦。\textbf{E 错：} VAE 是无监督模型，不需要类别标签。
+\end{StudySolution}
+
+\StudyHeading{1}{Discussion Questions（Q7–Q13，每题 10 分，共 70 分）}
+
+\StudyHeading{2}{2021B Q7｜$N=1000, D=10^6$ 下的 PCA 数值爆炸（Lecture 8）}
+\textbf{Question:} Suppose we want to apply PCA to a set of $N=1,000$ images, each with resolution of $1000\times 1000$ pixels ($D=1,000,000$). What kind of numerical computation problems might we encounter when applying PCA? How to deal with these problems? Explain why your solution will help.
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[5 分] 问题：} (1) 协方差矩阵 $\boldsymbol{\Sigma}$ 维度高达 $10^6\times 10^6 = 10^{12}$ 个元素，双精度存储需约 \textbf{8 TB 内存}；(2) 计算协方差外积的时间复杂度为 $O(ND^2)$，随维度 $D$ 呈平方爆炸。
+\item \textbf{[5 分] 解决方案（二选一即可）：}
+  \begin{enumerate}
+  \item \textbf{线性核 Kernel PCA：} 改算 $N\times N$ 样本内积矩阵 $\mathbf{X}^T\mathbf{X}$，尺寸仅 $1000\times 1000$（约 \textbf{8 MB}），时间复杂度降为 $O(N^2D)$；由于 $N\ll D$，内存与算力均大幅降低。
+  \item \textbf{直接对数据矩阵 $\mathbf{X}$ 做 SVD}，无需显式构造 $D\times D$ 协方差矩阵即可求特征值与特征向量。
+  \end{enumerate}
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q8｜按数据形状选聚类算法（Lecture 9）}
+\textbf{Question:} Consider the following two datasets. Which clustering algorithm(s) would you use on each dataset? Explain why.
+
+\StudyImage{CS5489/exam-review/Final/assets/final-2021b-q8.png}
+\StudyCaption{图 F.3（2021B Q8 重绘示意）：(a) 中心相交的三条放射状细长椭圆；(b) 三条平行的波浪形非紧致流形。}
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{Dataset A [5 分]：} 选 \textbf{GMM（或 Bayesian / Dirichlet GMM）}[2 分]。原因：每根放射状细条（spoke）形状像拉长的椭圆，且在原点重叠，3 个高斯分量可以准确拟合重叠椭圆分布 [3 分]。
+\item \textbf{Dataset B [5 分]：} 选 \textbf{谱聚类（Spectral Clustering）}[2 分]。原因：每个簇躺在一条弯曲流形上、并非围绕中心抱团的紧致簇，但每条波浪内部能通过近邻连成连通图，谱聚类利用图割可完美分开 [3 分]。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q9｜分段线性输出激活配二元交叉熵（Lecture 5 / 7）}
+\textbf{Question:} Replace the sigmoid output activation with the piecewise linear function $\phi(z)$ below (0 for $z\le -4$, linear ramp on $[-4,4]$, 1 for $z\ge 4$), with binary cross-entropy loss $L(y,f(x)) = -y\log\phi(f(x)) - (1-y)\log(1-\phi(f(x)))$. What are the advantages and disadvantages of using this activation function and loss?
+
+\StudyImage{CS5489/exam-review/Final/assets/final-2021b-q9.png}
+\StudyCaption{图 F.4（2021B Q9 重绘示意）：标准 Sigmoid 与 $[-4,4]$ 分段线性激活 $\phi(z)$ 对比。}
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[2 分，任答 1 条] 优点：} (1) 测试期计算极简单，无需算指数／对数；(2) 在未饱和区间 $-4 < f(x) < 4$ 内斜率恒定，梯度表现规整。
+\item \textbf{[8 分，每条 4 分] 两大缺点：} (1) \textbf{饱和区梯度严格为 0：} 当 $f(x)<-4$ 或 $f(x)>4$ 时 $\phi'(z)=0$，一旦样本落入饱和区就彻底“卡死”无法更新；(2) \textbf{数值未定义（$\log 0$）：} 发生严重错分（如 $f(x)<-4$ 使 $\phi=0$ 而真标签 $y=1$）时，损失中出现 $\log(0)=-\infty$，导致数值崩溃。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q10｜三层 CNN 特征图尺寸与感受野（Lecture 6）}
+\textbf{Question:} Binary classification on $128\times 128$ RGB jellyfish images: Conv1 ($7\times 7$, 16 ch, stride 1, valid) $\to$ Conv2 ($9\times 9$, 8 ch, stride 1, valid) $\to$ Conv3 ($3\times 3$, 4 ch, stride 1, same) $\to$ Flatten $\to$ Dense(128, ReLU) $\to$ Dense(2, Softmax). Calculate the feature map sizes and receptive field sizes of the three conv layers.
+
+\begin{StudySolution}{官方答案与勘误核对 / Official Key + Verified Math (10 marks)}
+\begin{itemize}
+\item \textbf{感受野 [5 分，完全一致]：} 步长均为 1，按 $r_\ell = r_{\ell-1} + K_\ell - 1$：
+  Conv 1: $7\times 7$；Conv 2: $7 + 9 - 1 = 15$（$15\times 15$）；Conv 3: $15 + 3 - 1 = 17$（$17\times 17$）。
+\item \textbf{特征图尺寸 [5 分，重要勘误标注]：}
+  \begin{itemize}
+  \item \textbf{严格数学与 PyTorch 正解（无填充 valid 缩减 $K-1$，即每侧缩 $(K-1)/2$）：}
+    Conv 1: $(128-7+1)=122 \Rightarrow \mathbf{122\times 122\times 16}$；
+    Conv 2: $(122-9+1)=114 \Rightarrow \mathbf{114\times 114\times 8}$；
+    Conv 3 (same): $\mathbf{114\times 114\times 4}$。
+  \item \textbf{历史存档答案键记录：} 原答案键误只减了单边 $(K-1)/2$（写出 $128-3=125\to 125\times 125\times 16$，$125-4=121\to 121\times 121\times 8$，$121\times 121\times 4$）。考场务必写清完整公式 $H'=H-K+1$，以数学正解为准！
+  \end{itemize}
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q11｜诊断过拟合曲线并修改 Q10 的 CNN 架构（Lecture 6）}
+\textbf{Question:} After training the CNN in Q10, the training loss drops smoothly while the validation loss decreases then turns sharply upward (identical to Fig.~F.2(a)). What problem is exhibited? How would you change the CNN architecture in Q10 to fix it? Explain why.
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[1 分] 诊断：} \textbf{过拟合（Overfitting）}（训练损失降、验证损失反升）。
+\item \textbf{[9 分，任答 3 条，每条 3 分] 架构改动：}
+  \begin{enumerate}
+  \item 将过大的 $7\times 7, 9\times 9$ 核\textbf{缩小为 $3\times 3$ 或 $5\times 5$}，减少参数量、降低过拟合；
+  \item 每层卷积后\textbf{增加 Max-Pooling 层}，压缩空间维度、引入局部平移不变性，并大幅削减 Flatten 后全连接层的庞大参数；
+  \item 改为\textbf{由浅到深递增通道数}（如 $8\to 16\to 32$ 而非原设计的 $16\to 8\to 4$），让高层专注于语义特征；
+  \item 在末层卷积和全连接层后\textbf{加入 Dropout}，提升对特征缺失的鲁棒性。
+  \end{enumerate}
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q12｜水下水母图像分类的数据增强（Lecture 6）}
+\textbf{Question:} What kind of data augmentation would you use for the underwater jellyfish classification problem in Q10? Explain why. What is the purpose of data augmentation?
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[6 分，任答 3 条，每条 2 分] 推荐增强：} (1) \textbf{$360^\circ$ 旋转}（水母姿态朝向任意）；(2) \textbf{缩放（如 50\% 内）}（水母体型与远近差异大）；(3) \textbf{颜色／蓝色调增强}（水下蓝绿光色偏多样）；(4) \textbf{模糊滤波}（模拟水下光散射）；(5) \textbf{亮度／对比度调整}（应对水下阴影与光线）。
+\item \textbf{[4 分] 目的：} 扩大有效训练集规模（提供更多变化），并让 CNN 获得对这些变换的不变性。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021B Q13｜为什么 GAN 无法计算似然及可算条件（Lecture 10）}
+\textbf{Question:} GANs use the reparameterization trick to sample via $y=f(x), x\sim\mathcal{N}(0,I)$, where $f$ is a neural network. Explain why we generally cannot calculate the likelihood function of the complex distribution. Write down conditions that make it possible to calculate the likelihood function.
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[5 分] 不可算原因：} 按变量替换公式 $p_y(y)=\left|\det\frac{\partial f^{-1}(y)}{\partial y}\right|p_x(f^{-1}(y))$，计算似然需要求神经网络变换 $f$ 的\textbf{逆函数 $f^{-1}$}，而一般神经网络并不可逆。 / Computing $p(y)$ requires $f^{-1}$, which generally does not exist because a neural network is not invertible.
+\item \textbf{[5 分] 可算条件：} 整个神经网络必须完全由\textbf{可逆（invertible）且可微（differentiable）}的函数复合而成。 / The neural network should be composed of invertible and differentiable functions.
+\end{itemize}
+\end{StudySolution}
+
+
+% =============================================================================
+\StudyChapter{CS5489-Final-2021A}{Paper 3 · 2021 Semester A Final Exam（13 题）}
+% =============================================================================
+
+\StudyHeading{1}{Multiple Selection Questions（Q1–Q6，每题 5 分，共 30 分）}
+
+\StudyHeading{2}{2021A Q1｜参数聚类反向多选（选出 NOT correct！Lecture 9）}
+\textbf{Question:} Which statements are \textbf{NOT} correct about parametric clustering methods? (select all that apply)
+\begin{itemize}
+\item[A)] The K-means algorithm always converges.
+\item[B)] K-means assigns each sample to the closest cluster center, while GMM calculates the likelihood of the sample in the given assignment.
+\item[C)] For GMMs, assuming the covariance matrices are all the identity matrix will evenly assign the samples to the clusters.
+\item[D)] Reconstruction error can be used to select best $K$ (the number of clusters) for clustering models.
+\item[E)] GMM uses weighted averages to update the parameters, while K-means uses averages.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: C, D（注意题干选错项！）}
+\textbf{A、B、E 均正确，故不选。} \textbf{C 错（应选）：} 协方差取 $\mathbf{I}$ 时仍按距离与先验分配，绝不会把样本“均匀平分”给各簇。\textbf{D 错（应选）：} 重构误差随 $K$ 增大单调降至 0，不可选最佳 $K$。
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q2｜MLP 激活函数（Lecture 5 / 7）}
+\textbf{Question:} Which statements about activation functions in MLP are correct? (select all that apply)
+\begin{itemize}
+\item[A)] The output range of the Sigmoid function is $[-1, 1]$.
+\item[B)] Compared with ReLU activation, Sigmoid is easier to train because ReLU is not a continuously differentiable function.
+\item[C)] Using ReLU activation can yield sparse representations.
+\item[D)] Compared with Tanh and Sigmoid activation functions, the model using ReLU activation can be trained faster.
+\item[E)] The Softmax activation is only suitable for classification tasks.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: C, D}
+\textbf{A 错：} Sigmoid 值域是 $(0,1)$，Tanh 才是 $(-1,1)$。\textbf{B 错：} ReLU 更易训练（无正区梯度消失）。\textbf{C、D 对。} \textbf{E 错：} Softmax 也用于注意力权重、强化学习策略分布等非分类模块。
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q3｜卷积、L2、Dropout、早停与 Bagging（Lecture 6）}
+\textbf{Question:} Which of the following statements are true? (select all that apply)
+\begin{itemize}
+\item[A)] A convolution layer is a special type of fully-connected layer.
+\item[B)] Adding L2 regularization to only some of the layers is better than adding L2 regularization to all layers.
+\item[C)] Dropout only randomly removes a node if its activation is larger than a threshold.
+\item[D)] Early stopping also has an effect similar to L2 regularization.
+\item[E)] If we use the bagging method to ensemble CNNs, it is necessary to use different datasets to train each CNN.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: A, D}
+\textbf{A、D 对。} \textbf{B 错：} L2 必须加在所有层。\textbf{C 错：} Dropout 纯按概率 $p$ 随机丢弃，不看激活阈值。\textbf{E 错：} NN 集成可共用同一训练集配不同随机初始化。
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q4｜ResNet 性质（含重要勘误标注！Lecture 7）}
+\textbf{Question:} Which statements are correct about ResNet? (select all that apply)
+\begin{itemize}
+\item[A)] Removing two or three blocks from ResNet-101 will greatly affect its performance.
+\item[B)] The longest path of ResNet contains most of the gradient signal.
+\item[C)] A ResNet with 10 residual blocks can be viewed as equivalent to an ensemble of 1024 networks.
+\item[D)] Perfect accuracy can be achieved by stacking residual layers.
+\item[E)] The pixels located at $(0, 0)$ on the feature maps of different levels contain the same information.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与勘误核对 / Official Key: A, C（强烈注意 A 勘误！）}
+\begin{itemize}
+\item \textbf{C 严格正确：} $N=10$ 个残差块对应 $2^{10}=1024$ 条路径集成。
+\item \textbf{B 错：} 是\textbf{较短路径}（而非最长路径）携带绝大部分有效梯度信号。\textbf{D 错：} 堆层不能保证 100\% 完美精度。\textbf{E 错：} 不同层级的 $(0,0)$ 感受野和语义层次完全不同。
+\item \textbf{选项 A 勘误提醒：} 历史存档键把 A 标为正确，但课件 Lecture7b 第 29 个单元与 Veit et al. 原论文明确指出：由于 ResNet 像 $2^N$ 路径集成，\textbf{删去两三个块对性能的影响很小（robust，不会 greatly affect）}！怀疑出题或制键时漏了 ``not''；复习请务必以课件正确原理为准。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q5｜BatchNorm 性质（Lecture 7）}
+\textbf{Question:} Which statements are correct about BatchNorm? (select all that apply)
+\begin{itemize}
+\item[A)] BatchNorm removes the correlation between activations.
+\item[B)] It is better to put BatchNorm after a linear layer than after an activation layer.
+\item[C)] The gradients can be computed through the BatchNorm layer.
+\item[D)] The mean and variance of the BatchNorm layer are fixed during training.
+\item[E)] BatchNorm has learnable parameters.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: B, C, E}
+\textbf{A 错：} BN 逐节点独立标准化，不去除节点间相关性。\textbf{B、C、E 对：} 放线性层后、可微反传、含可学习 $\gamma,\beta$。\textbf{D 错：} 训练期间均值方差随每批动态计算，测试期才固定。
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q6｜Autoencoder 性质（Lecture 10）}
+\textbf{Question:} Which statements about Autoencoders are correct? (select all that apply)
+\begin{itemize}
+\item[A)] It is more efficient to learn an autoencoder rather than learn a PCA transformation.
+\item[B)] Autoencoders can be applied to dimensionality reduction and image denoising.
+\item[C)] Autoencoders are trained using partially or fully labelled data.
+\item[D)] Pre-trained layers from another model can be used to enhance the encoder and the decoder.
+\item[E)] The architectures of the encoder and decoder must be mirror symmetric.
+\end{itemize}
+
+\begin{StudySolution}{官方答案与解析 / Official Key: B, D}
+\textbf{A 错：} PCA 有闭式解更快。\textbf{B、D 对。} \textbf{C 错：} 无监督无需标签。\textbf{E 错：} 编解码结构不必镜像对称。
+\end{StudySolution}
+
+\StudyHeading{1}{Discussion Questions（Q7–Q13，每题 10 分，共 70 分）}
+
+\StudyHeading{2}{2021A Q7｜同中心下 K-Means 与 GMM 的分配能否不同？（Lecture 9）}
+\textbf{Question:} Consider 100 data points clustered by K-means and GMM with $K=5$. On this dataset, K-means and GMM obtain the same cluster centers. Is it possible for the cluster assignments from K-means and GMM to be different? Explain why or why not.
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[3 分] 可以不同（Yes, the assignments can be different）。}
+\item \textbf{[7 分] 解释：} K-Means 按欧氏距离给每个点做唯一硬分配；GMM 基于包含协方差和权重的高斯密度做软（概率）分配。即使中心相同，当某些高斯分量的方差较大（或不同）时，簇边缘的点在 GMM 下会按更大方差／后验被分往不同簇。进一步地，在全部簇均值重合但方差各异的退化情形下，GMM 按到公共中心的距离把内外圈分给不同簇，而 K-Means 退化为任意分配。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q8｜无隐藏层激活的深层 MLP（Lecture 5 / 7）}
+\textbf{Question:} Suppose we construct a deep MLP without using any activation functions in the hidden layers, and use a sigmoid activation for the output layer. Can this network solve a non-linear classification problem? Why or why not?
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[3 分] 不能（No）。}
+\item \textbf{[7 分] 理由：} 多个线性矩阵连乘的结果仍然是一个等价的单一线性矩阵（如 $\mathbf{W}_L\cdots\mathbf{W}_1\mathbf{x} = \mathbf{A}\mathbf{x}$），加上输出层 Sigmoid 后整体仍是 $\sigma(\mathbf{A}\mathbf{x})$，即标准线性分类器（逻辑回归），只能画线性超平面边界。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q9｜Stride=2 卷积 vs 2\ensuremath{\times}2 Max-Pooling（Lecture 6）}
+\textbf{Question:} In a CNN, there are two ways to reduce spatial dimensions by a factor of 2: (1) stride=2 in conv; (2) stride=1 conv + $2\times 2$ max-pooling. Discuss advantages and disadvantages of each approach. Which method is generally better?
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{Stride=2 [4 分]：} 优点（2 分）计算高效，卷积量仅约 stride=1 的 $1/4$；缺点（2 分）步幅大可能跳过重要位置而漏检特征。
+\item \textbf{2\ensuremath{\times}2 Max-Pooling [4 分]：} 优点（2 分）引入局部平移不变性／鲁棒性，且先密算不易漏特征；缺点（2 分）必须先跑 stride=1 卷积，计算量更大。
+\item \textbf{结论 [2 分]：} 通常 \textbf{Max-Pooling 更好}。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q10｜只用苹果图片训练 VAE 做苹果／非苹果分类（Lecture 10）}
+\textbf{Question:} You have a large-scale dataset of $N$ apple images, but no non-apple images. Using this dataset, how could you use a Variational AutoEncoder (VAE) to classify whether an input image is an apple or non-apple?
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+把它当作\textbf{单类分类（one-class classification）}问题：
+\begin{enumerate}
+\item 用全部 $N$ 张苹果图片训练 VAE；
+\item 用编码器提取全部训练苹果图的隐编码 $\{\mathbf{z}_i\}_{i=1}^N$；
+\item 测试时，对新输入图像编码得到隐向量 $\mathbf{z}^*$，计算它到所有训练苹果隐编码的最小距离 $\min_i \|\mathbf{z}^* - \mathbf{z}_i\|$；
+\item 若最小距离小于预设阈值，判为\textbf{苹果}，否则判为\textbf{非苹果}。
+\end{enumerate}
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q11｜SGD 初期震荡与 Adam 收敛不如 SGD（Lecture 7）}
+\textbf{Question:} (a) Training with SGD on a noisy dataset, training loss decreases but fluctuates heavily at the beginning, causing long training. How would you change the optimizer and why? (b) A colleague tries Adam, but it converges to a worse solution; gradient noise histograms show Adam has a shorter tail while SGD has a longer heavy tail (Fig.~F.5). Explain a possible reason.
+
+\StudyImage{CS5489/exam-review/Final/assets/final-2021a-q11.png}
+\StudyCaption{图 F.5（2021A Q11(b) 重绘示意）：左图 Adam 梯度噪声尾较短；右图 SGD 梯度噪声呈更长重尾。}
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{(a) [5 分]：} 改用\textbf{带 Momentum 的 SGD}，或改用 \textbf{Adam / RMSProp / Adadelta} [2 分]。理由：初期剧烈波动来自小批量数据噪声引起的梯度跳动，动量通过对历史梯度滑动平均来平滑更新方向 [3 分]。
+\item \textbf{(b) [5 分]：} 相比 Adam，\textbf{SGD 产生了更重尾（long-tailed）的梯度噪声分布}；这种长尾噪声让 SGD 在训练后期更有机会\textbf{跳出较差的局部极小点}，从而收敛到泛化更好的解。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q12｜手写一元二次方程图像的数据增强（Lecture 6）}
+\textbf{Question:} You are training a CNN to classify images of handwritten quadratic equations (e.g., ``$x^2-2x+3$'', ``$x^2+6x+9$'', ``$2x^2-8x-24$''), with only 1,000 examples. What kind of data augmentation would you use? Explain why. What is the purpose of data augmentation?
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[6 分，任答 3 条，每条 2 分] 推荐增强：} (1) \textbf{随机像素噪声（如高斯噪声）}模拟相机传感噪点；(2) \textbf{小角度旋转（$\le 20^\circ$）}模拟手写略微倾斜；(3) \textbf{亮度／对比度变化}模拟纸张光照阴影；(4) \textbf{颜色偏移}模拟不同颜色的笔；(5) \textbf{轻微拉伸与错切}模拟不同字迹。
+\item \textbf{严禁误写（官方明确判错）：} 大角度旋转（$>20^\circ$）、水平或垂直镜像翻转、剧烈扭曲（会破坏数字和符号含义）。
+\item \textbf{[4 分] 目的：} 扩大有效数据集规模（提供更多变化），并让 CNN 获得对这些变换的不变性。
+\end{itemize}
+\end{StudySolution}
+
+\StudyHeading{2}{2021A Q13｜把方程识别当普通分类的问题与更好方案（综合建模）}
+\textbf{Question:} What is/are the potential problem(s) of treating the task in Q12 (typos as ``Q11'' in original paper) as a simple classification problem? Suggest a better solution.
+
+\begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
+\begin{itemize}
+\item \textbf{[4 分] 潜在问题：} 二次方程的系数可以是任意数字，组合起来存在\textbf{无穷多个类别}，普通固定类别分类器根本无法覆盖未见方程！ / There are infinitely many classes since coefficients can be any number.
+\item \textbf{[6 分] 更好方案：} 构建一个\textbf{单字符分类器}，只识别有限集合里的符号 \StudyInline{0}–\StudyInline{9}、\StudyInline{x}、\StudyInline{x\^{}2}、\StudyInline{+}、\StudyInline{-}；然后用覆盖整行高度、沿水平方向从左到右滑动的\textbf{滑动窗口分类器}依次识别各个字符，最后从左到右拼接出完整方程。
+\end{itemize}
+\end{StudySolution}
+
+\end{document}

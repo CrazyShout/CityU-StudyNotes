@@ -7,7 +7,7 @@
 \StudyHeading{1}{为什么网络一叠深就训不动？从 ReLU、BatchNorm 到 ResNet 与 Transformer}
 \StudyTarget{CS5489-Lecture07__intro}
 
-\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture06}{root}{上一讲：CNN 与正则化} · \StudyRef{CS5489-Assignment02}{optimizers}{Assignment 2 优化器公式}
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture06}{root}{上一讲：CNN 与正则化} · \StudyRef{CS5489-Lecture08}{root}{下一讲：降维与流形嵌入} · \StudyRef{CS5489-Assignment02}{optimizers}{Assignment 2 优化器公式}
 
 上一讲发现，把 1 层卷积加深成 3 层卷积就能明显提高 MNIST 准确率。那照这个逻辑，把网络直接堆到 20 层、50 层甚至 100 层，是不是自动就能大获全胜？历史上人们真的试过，结果迎面撞上三堵墙：梯度传到前几层早就衰成 0（训不动）、参数层层耦合导致训练极不稳定（步子稍大就炸）、更深的网络在训练误差上甚至比浅网络更差（退化问题）。
 

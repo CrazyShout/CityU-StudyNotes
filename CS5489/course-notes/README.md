@@ -11,6 +11,11 @@
 - [Lecture 5 · Neural Networks](Lecture05.tex)
 - [Lecture 6 · Convolutional Neural Networks & Regularization](Lecture06.tex)
 - [Lecture 7 · Deep Learning: Training Tricks, Architectures & Transfer Learning](Lecture07.tex)
+- [Lecture 8 · Unsupervised Learning: Dimensionality Reduction](Lecture08.tex)
+- [Lecture 9 · Unsupervised Learning: Clustering](Lecture09.tex)
+- [Lecture 10 · Autoencoders & Deep Generative Models](Lecture10.tex)
+- [Lecture 11 · Large Language Models](Lecture11.tex)
+- [Lecture 12 · Vision–Language Models & Visual Understanding](Lecture12.tex)
 ## Tutorial · 配套练习
 
 - [Tutorial 1 · From Python loops to orthonormal vectors](Tutorial01.tex)

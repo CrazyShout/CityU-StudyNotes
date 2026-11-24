@@ -50,6 +50,41 @@
       "legacy_source": "CS5489/course-notes/Lecture07.md"
     },
     {
+      "source": "CS5489/course-notes/Lecture08.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture08",
+      "legacy_source": "CS5489/course-notes/Lecture08.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture09.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture09",
+      "legacy_source": "CS5489/course-notes/Lecture09.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture10.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture10",
+      "legacy_source": "CS5489/course-notes/Lecture10.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture11.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture11",
+      "legacy_source": "CS5489/course-notes/Lecture11.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture12.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture12",
+      "legacy_source": "CS5489/course-notes/Lecture12.md"
+    },
+    {
       "source": "CS5489/course-notes/Tutorial01.tex",
       "course": "CS5489",
       "major": true,
@@ -217,6 +252,21 @@
     "CS5489/course-notes/Lecture07.md": "CS5489-Lecture07",
     "CS5489/course-notes/Lecture07.html": "CS5489-Lecture07",
     "CS5489/course-notes/Lecture07.tex": "CS5489-Lecture07",
+    "CS5489/course-notes/Lecture08.md": "CS5489-Lecture08",
+    "CS5489/course-notes/Lecture08.html": "CS5489-Lecture08",
+    "CS5489/course-notes/Lecture08.tex": "CS5489-Lecture08",
+    "CS5489/course-notes/Lecture09.md": "CS5489-Lecture09",
+    "CS5489/course-notes/Lecture09.html": "CS5489-Lecture09",
+    "CS5489/course-notes/Lecture09.tex": "CS5489-Lecture09",
+    "CS5489/course-notes/Lecture10.md": "CS5489-Lecture10",
+    "CS5489/course-notes/Lecture10.html": "CS5489-Lecture10",
+    "CS5489/course-notes/Lecture10.tex": "CS5489-Lecture10",
+    "CS5489/course-notes/Lecture11.md": "CS5489-Lecture11",
+    "CS5489/course-notes/Lecture11.html": "CS5489-Lecture11",
+    "CS5489/course-notes/Lecture11.tex": "CS5489-Lecture11",
+    "CS5489/course-notes/Lecture12.md": "CS5489-Lecture12",
+    "CS5489/course-notes/Lecture12.html": "CS5489-Lecture12",
+    "CS5489/course-notes/Lecture12.tex": "CS5489-Lecture12",
     "CS5489/course-notes/Tutorial01.ipynb": "CS5489-Tutorial01",
     "CS5489/course-notes/Tutorial01.html": "CS5489-Tutorial01",
     "CS5489/course-notes/Tutorial01.tex": "CS5489-Tutorial01",
