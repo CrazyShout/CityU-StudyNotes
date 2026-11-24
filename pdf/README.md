@@ -11,13 +11,15 @@ A4、100%实际大小、双面长边翻转；各册独立分页。正文在同�
 | [CS5489-Lecture03](../CS5489/course-notes/Lecture03.tex) | [58–80](CS5489-A4.pdf#page=58) |
 | [CS5489-Lecture04](../CS5489/course-notes/Lecture04.tex) | [81–100](CS5489-A4.pdf#page=81) |
 | [CS5489-Lecture05](../CS5489/course-notes/Lecture05.tex) | [101–117](CS5489-A4.pdf#page=101) |
-| [CS5489-Tutorial01](../CS5489/course-notes/Tutorial01.tex) | [118–128](CS5489-A4.pdf#page=118) |
-| [CS5489-Tutorial02](../CS5489/course-notes/Tutorial02.tex) | [129–155](CS5489-A4.pdf#page=129) |
-| [CS5489-Tutorial03](../CS5489/course-notes/Tutorial03.tex) | [156–170](CS5489-A4.pdf#page=156) |
-| [CS5489-Tutorial04](../CS5489/course-notes/Tutorial04.tex) | [171–183](CS5489-A4.pdf#page=171) |
-| [CS5489-Assignment01](../CS5489/course-notes/Assignment01.tex) | [184–192](CS5489-A4.pdf#page=184) |
-| [CS5489-Assignment02](../CS5489/course-notes/Assignment02.tex) | [193–199](CS5489-A4.pdf#page=193) |
-| [CS5489-ExamIndex](../CS5489/course-notes/ExamIndex.tex) | [200–208](CS5489-A4.pdf#page=200) |
+| [CS5489-Lecture06](../CS5489/course-notes/Lecture06.tex) | [118–131](CS5489-A4.pdf#page=118) |
+| [CS5489-Lecture07](../CS5489/course-notes/Lecture07.tex) | [132–145](CS5489-A4.pdf#page=132) |
+| [CS5489-Tutorial01](../CS5489/course-notes/Tutorial01.tex) | [146–156](CS5489-A4.pdf#page=146) |
+| [CS5489-Tutorial02](../CS5489/course-notes/Tutorial02.tex) | [157–183](CS5489-A4.pdf#page=157) |
+| [CS5489-Tutorial03](../CS5489/course-notes/Tutorial03.tex) | [184–198](CS5489-A4.pdf#page=184) |
+| [CS5489-Tutorial04](../CS5489/course-notes/Tutorial04.tex) | [199–211](CS5489-A4.pdf#page=199) |
+| [CS5489-Assignment01](../CS5489/course-notes/Assignment01.tex) | [212–220](CS5489-A4.pdf#page=212) |
+| [CS5489-Assignment02](../CS5489/course-notes/Assignment02.tex) | [221–227](CS5489-A4.pdf#page=221) |
+| [CS5489-ExamIndex](../CS5489/course-notes/ExamIndex.tex) | [228–236](CS5489-A4.pdf#page=228) |
 
 ## CS5222
 

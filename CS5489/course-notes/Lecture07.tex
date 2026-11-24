@@ -1,0 +1,430 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Lecture07}{Lecture 7 · Deep Learning: Training Tricks, Architectures \& Transfer Learning}
+\StudyTarget{CS5489-Lecture07__lecture-7-deep-learning}
+
+
+\StudyHeading{1}{为什么网络一叠深就训不动？从 ReLU、BatchNorm 到 ResNet 与 Transformer}
+\StudyTarget{CS5489-Lecture07__intro}
+
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture06}{root}{上一讲：CNN 与正则化} · \StudyRef{CS5489-Assignment02}{optimizers}{Assignment 2 优化器公式}
+
+上一讲发现，把 1 层卷积加深成 3 层卷积就能明显提高 MNIST 准确率。那照这个逻辑，把网络直接堆到 20 层、50 层甚至 100 层，是不是自动就能大获全胜？历史上人们真的试过，结果迎面撞上三堵墙：梯度传到前几层早就衰成 0（训不动）、参数层层耦合导致训练极不稳定（步子稍大就炸）、更深的网络在训练误差上甚至比浅网络更差（退化问题）。
+
+这一讲按“遇到什么坑\ensuremath{\to}怎么填坑”的工程演化顺序展开：前半讲（Lecture7a）讲清深层训练的两大关键组件（\textbf{ReLU 稀疏激活}与\textbf{BatchNorm 批归一化}）和一整套\textbf{优化器家族}（学习率衰减、Momentum、Nesterov、SGD 噪声平滑直觉，以及 AdaGrad、RMSProp、Adam）；后半讲（Lecture7b）沿 ImageNet 竞赛脉络串起经典深层架构（LeNet、AlexNet、VGG、Inception 与辅助任务、\textbf{ResNet 残差网络}、DenseNet、SENet），再跨越卷积局限进入 \textbf{Transformer 自注意力与 Vision Transformer（ViT）}，最后落到小数据集最实用的杀手锏——\textbf{迁移学习与微调（transfer learning \& fine-tuning）}。
+
+\textbf{基础复习（可跳过）：} 如果对反向传播链式法则或 Sigmoid 导数不熟，先回看\StudyRef{CS5489-Lecture05}{vanishing-gradient}{Lecture 5 激活函数}与\StudyRef{CS5489-Lecture05}{batch-backprop}{批量反传}；优化器代码细节可对照\StudyRef{CS5489-Assignment02}{optimizers}{Assignment 2}。
+
+学习目标与难点见\StudyRef{CS5489-Lecture07}{learning-priorities}{文末学习要求表}。
+
+
+\StudyHeading{1}{Exam focus｜这一讲怎样安排复习}
+\StudyTarget{CS5489-Lecture07__exam-review}
+\StudyTarget{CS5489-Lecture07__exam-focus}
+
+本讲在已辨识的 3 套历史期末卷（2020B、2021A、2021B）中覆盖面极广：ReLU／Leaky ReLU 与梯度消失、深浅网络容量与数据需求、BatchNorm 性质、SGD 噪声与 Momentum／Adam 对比、ResNet 路径集成全都有直接考题。近年新课件又扩充了 Transformer 自注意力、ViT 与缩放定律（Chinchilla），理解公式与概念差异同样重要。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.35\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+考点 & 复习动作 & 历史期末（共3套） & 入口 \\
+\midrule\endfirsthead
+考点 & 复习动作 & 历史期末（共3套） & 入口 \\
+\midrule\endhead
+\bottomrule\endfoot
+梯度消失、深浅网络与 VC 维 & 区分连乘衰减与 $O(H^D)$ 路径稀释；背熟 $O(WL\log W + WL^2)$ & 直接 2 套 & \StudyRef{CS5489-Lecture07}{going-deeper}{讲解} \\
+ReLU / Leaky ReLU 与稀疏性 & 对比 Sigmoid、ReLU、Leaky ReLU 的梯度、速度、稀疏性与超参 & 直接 3 套 & \StudyRef{CS5489-Lecture07}{relu-sparsity}{讲解} \\
+BatchNorm 原理与位置 & 记住线性层后、逐节点独立、去偏置、可导、含可学 $\gamma,\beta$ & 直接 1 套 & \StudyRef{CS5489-Lecture07}{batchnorm}{讲解} \\
+SGD 噪声、LR 衰减与 Adam & 解释 SGD 噪声平滑损失面、Momentum 抑振荡、长尾噪声逃局部极小 & 直接 2 套 & \StudyRef{CS5489-Lecture07}{optimizers}{讲解} \\
+ResNet 残差学习与 $2^N$ 集成 & 说清 L2 与恒等映射冲突、$2^N$ 路径、抗删块、短路径主导梯度 & 直接 1 套 & \StudyRef{CS5489-Lecture07}{resnet}{讲解} \\
+Transformer、ViT 与迁移学习 & 会算 $K^TQ/\sqrt{d_k}$ 形状与维度；说清 ViT 归纳偏置与微调两种策略 & 近年新增模块 & \StudyRef{CS5489-Lecture07}{transformers-vit}{讲解} \\
+\end{longtable}\endgroup
+
+口径说明：仅统计已辨识的 3 套独立期末卷（2020B、2021A、2021B），同卷不重复计数；Transformer／ViT 为后续版本课件新增内容，历史上未在 2020–2021 卷出现不代表今年不考。完整题号映射见\StudyRef{CS5489-Lecture07}{exam-topic-index}{讲末历史题源表}。
+
+
+\StudyHeading{1}{1. 网络变深的三道坎：梯度消失、路径稀释与数据需求}
+\StudyTarget{CS5489-Lecture07__going-deeper}
+
+考点：梯度消失、深浅网络比较与 VC 维 \StudyBadge{final}{期末直接 · 2 套}
+
+把隐藏层一层层往上叠，首先遇到两类不同机理的\textbf{梯度消失（vanishing gradient）}：
+
+\textbf{梯度消失 1：链式连乘衰减。} 反向传播求第一层权重 $\mathbf{a}_j$ 的梯度时，必须一路乘过后面所有层的雅可比矩阵：
+\[
+\frac{dL}{d\mathbf{a}_j} = \frac{d\mathbf{g}_1^T}{d\mathbf{a}_j}\frac{d\mathbf{z}_1^T}{d\mathbf{g}_1}\cdots\frac{d\mathbf{g}_4^T}{d\mathbf{z}_3}\frac{d\mathbf{f}^T}{d\mathbf{g}_4}\frac{dL}{d\mathbf{f}}.
+\tag{7.1}
+\]
+如果每层都用 Sigmoid 激活，导数最大值只有 $0.25$（饱和区更接近 0）。连乘 4 层后上限只剩 $0.25^4 \approx 0.0039$，连乘 10 层就跌到 $0.25^{10} \approx 9.5\times 10^{-7}$——前几层几乎收不到更新信号，权重原地踏步。
+
+\textbf{梯度消失 2：指数级路径把信号“洗淡”（washed out）。} 即使每层导数不算小，如果每层宽度都是 $H$，一个浅层节点到输出层之间存在 $O(H^D)$ 条路径（$D$ 是到输出层的层数）。例如 $H=10, D=4$ 就有 $10^4=10{,}000$ 条路径把来自不同输出与中间权重的正负梯度混在一起加总，原本清晰的误差信号很容易互相抵消、变得模糊不清。
+
+\textbf{第三道坎：数据集规模与 VC 维。} 哪怕只建一个“很小”的 40\ensuremath{\to}30\ensuremath{\to}1 网络，参数也已约 1200 个。样本不够时，参数估计方差大、深层模型更容易过拟合。Bartlett、Maiorov 与 Meir（1998）给出了分段多项式激活（包含 ReLU）前馈网络的 \textbf{VC 维（VC dimension）}上界：若网络有 $W$ 个权重、$L$ 层，则
+\[
+\mathrm{VCdim}(\mathcal{N}) = O(W L \log W + W L^2).
+\tag{7.2}
+\]
+要达到同样的泛化水平，所需训练样本数大致与 VC 维成正比。这直接解释了 2020B 期末 Q10（比较 1 隐藏层“浅”MLP 与 10 隐藏层“深”MLP）的三条得分要点：(1) 同样权重数下，深 MLP 表达能力更强，能表示更复杂的函数；(2) 由 $W L^2$ 项可知，每多加一层，所需训练数据量增长远快于同样参数数的浅网络；(3) 深 MLP 更难优化、更容易出现梯度消失。同时不要忘记 2021A 期末 Q8 的底线测试：如果一个深层 MLP 的隐藏层\textbf{完全不加非线性激活}，再多层矩阵相乘 $\mathbf{W}_L\cdots\mathbf{W}_1\mathbf{x} = \mathbf{A}\mathbf{x}$ 合并起来仍然只是一个线性变换，配输出 Sigmoid 仍是线性分类器，绝不可能解出非线性分类边界。
+
+\StudyHeading{2}{ReLU、稀疏性与 Leaky ReLU 权衡}
+\StudyTarget{CS5489-Lecture07__relu-sparsity}
+
+考点：激活函数性质与 Leaky ReLU \StudyBadge{final}{期末直接 · 3 套}
+
+把 Sigmoid 换成\textbf{修正线性单元（ReLU）} $\mathrm{ReLU}(z)=\max(0,z)$，同时缓解了上面两大梯度问题：(1) 正半轴斜率恒为 1，连乘多少层都不会因为激活导数而衰减，训练明显快于 Sigmoid／Tanh；(2) 不用算指数函数，前向与反向都更快；(3) 负半轴直接输出 0，形成\textbf{稀疏表示（sparse representation）}——当某个节点 $h=0$ 时，反向传播经过它的局部梯度为 0，等于自动\textbf{阻断了大量路径}！如果每层 70\% 节点输出 0，有效宽度从 $H=10$ 降到 $3$，4 层路径数就从 $10^4=10{,}000$ 骤降到 $3^4=81$，误差信号不再被洗淡，反而更集中地流向活跃子网络。
+
+那如果怕负半轴斜率为 0 导致神经元“死亡”，换成 2020B 期末 Q13 考过的 \textbf{Leaky ReLU}（例如 $z\ge 0$ 时输出 $z$，$z<0$ 时输出 $z/a$，典型取 $a=1000$）会怎样？
+\begin{itemize}
+\item \textbf{优点：} 导数要么是 $1$、要么是 $1/a$（非零），不会像 Sigmoid 那样两端饱和消失；而且神经元可以利用负半轴区域继续传梯度、不易彻底“死掉”。
+\item \textbf{缺点：} 激活值不再严格为 0，失去了纯 ReLU 的完全稀疏性（可能削弱基于局部部件的稀疏表征）；并且多引入了一个需要调节的超参数 $a$。
+\end{itemize}
+
+\textbf{English takeaway:} Deeper networks face multiplicative vanishing gradients, gradient wash-out across $O(H^D)$ paths, and higher sample complexity $\mathrm{VCdim}=O(WL\log W + WL^2)$. ReLU speeds up training and produces sparse activations that block inactive paths; Leaky ReLU avoids dead negative regions at the cost of losing exact sparsity and adding a hyperparameter.
+
+来源：Lecture7a，第 11–19 个单元（两类梯度消失、VC 维定理、ReLU 与稀疏路径阻断）。
+
+
+\StudyHeading{1}{2. Batch Normalization（批归一化）｜稳住每一层的输入分布}
+\StudyTarget{CS5489-Lecture07__batchnorm}
+
+考点：BatchNorm 公式、放置位置与性质 \StudyBadge{final}{期末直接 · 1 套}
+
+就算换上 ReLU，深层网络还藏着一个结构性麻烦。考虑一个最简单的四层标量线性网络 $y = x w_1 w_2 w_3 w_4$，梯度下降同时更新全部权重后，输出变成：
+\[
+y_{\text{new}} = x (w_1 - \eta g_1)(w_2 - \eta g_2)(w_3 - \eta g_3)(w_4 - \eta g_4).
+\tag{7.3}
+\]
+展开括号会出现大量交叉高阶项（如 $w_1 w_2 \eta^2 g_3 g_4$）：明明每个 $w_i$ 是各自独立算梯度更新的，彼此却强烈耦合在一起。前面一层的权重刚动了一点，后面所有层看到的输入分布就整体漂移了，这在原课中称为\textbf{内部协变量偏移（internal covariate shift）}；后面各层不得不一路追着变化后的分布反复重调，学习率稍大就会发散。再加上上一讲式 6.11 的层间缩放等价性，同一函数对应无数种尺度悬殊的参数组合，优化景观十分崎岖。
+
+传统机器学习里，我们会对原始输入特征做标准化（零均值、单位方差）。\textbf{Batch Normalization（批归一化，简称 BatchNorm 或 BN）}把同一招搬到了\textbf{网络内部的每一个隐藏层}：在每个小批量（mini-batch）上，对某一层的\textbf{每一个节点（通道）独立}执行两步操作。设某节点在当前小批量里经过线性变换后的输出为 $\{y_1,\dots,y_N\}$，先算出批均值 $\mu = \frac{1}{N}\sum_{i=1}^N y_i$ 与批方差 $\sigma^2 = \frac{1}{N}\sum_{i=1}^N (y_i - \mu)^2$，然后：
+\[
+\hat{y}_i = \frac{y_i - \mu}{\sqrt{\sigma^2 + \epsilon}}, \qquad z_i = \gamma\,\hat{y}_i + \beta.
+\tag{7.4}
+\]
+其中 $\epsilon > 0$ 是防除零的小常数，$\gamma$ 和 $\beta$ 是该节点\textbf{可学习的缩放与平移参数}。最终 $z_i$ 的批均值恰好是 $\beta$、批方差恰好是 $\gamma^2$——这样既把失控的激活尺度拉回了正轨，又不至于粗暴限制模型的表达能力（如果需要，网络自己能把 $\gamma,\beta$ 学成任意想要的范围，把输出送进非线性激活的合适工作区）。
+
+关于 BatchNorm，2021A 期末 Q5 一次考遍了全部 5 个核心判断点，务必逐条记牢：
+\begin{enumerate}
+\item \textbf{逐节点独立操作（不去除节点间相关性）：} BN 是对每个维度（或卷积的每个通道）分别算一维均值与方差，\textbf{不会}做白化，所以\textbf{不会消除不同激活节点之间的相关性}（2021A Q5 选项 A 为错）。
+\item \textbf{放在线性层之后、非线性激活之前：} 即 $\text{Linear/Conv} \to \text{BatchNorm} \to \text{ReLU}$（选项 B 正确）。同时，线性层本身的偏置 $b$ 变得多余可以删去，因为任何常数偏移 $+b$ 都会在 $y_i - \mu$ 这一步被精确减掉，其作用已由 BN 的 $\beta$ 接管。
+\item \textbf{全程可微：} $\mu$ 和 $\sigma^2$ 都是小批量 $\{y_i\}$ 的光滑函数，反向传播可以照常精确穿过 BN 层计算梯度（选项 C 正确）。
+\item \textbf{训练期均值方差随每个小批量动态变化：} 只有到了测试／推理阶段，才改用训练期间积累的滑动平均均值与方差固定下来（选项 D 说“训练期间固定”为错）。
+\item \textbf{含有可学习参数 $\gamma,\beta$：} 它们与其他网络权重一起用反向传播更新（选项 E 正确）。
+\end{enumerate}
+
+实际训练收益非常显著：BN 允许使用更大的学习率加速收敛；具有“自稳”效应（权重放大时激活尺度变大，经标准化反向传播后梯度自动按比例缩小）；并且因每批统计量自带轻微随机噪声，常能改善泛化。补充核对：课件 Lecture7a 第 26 个单元说明了在 MNIST CNN 中去掉偏置并加入 BN 与 ReLU，不过其第 27 个单元提供的 \StudyInline{DeepCNN} 示范代码省略了实际插入 \StudyInline{nn.\allowbreak{}BatchNorm2d} 的语句（实测准确率 96.7\%）；自己写 PyTorch 代码时别忘了显式定义并调用 \StudyInline{nn.\allowbreak{}BatchNorm2d(out\_channels)}（卷积用）或 \StudyInline{nn.\allowbreak{}BatchNorm1d(features)}（全连接用），并在对应线性层设 \StudyInline{bias=False}。
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算一次 BatchNorm 前向并验证偏置抵消}
+设某隐藏节点在一个 batch 大小 $N=4$ 中的线性输出为 $\mathbf{y}=[2, 4, 6, 8]$（取 $\epsilon\to 0$ 便于手算），可学参数 $\gamma=2, \beta=1$。
+\begin{enumerate}
+\item 算批统计量：$\mu = (2+4+6+8)/4 = 5$，$\sigma^2 = \frac{(-3)^2+(-1)^2+1^2+3^2}{4} = \frac{20}{4} = 5$。
+\item 标准化：$\hat{\mathbf{y}} = \frac{1}{\sqrt{5}}[-3, -1, 1, 3] \approx [-1.3416, -0.4472, 0.4472, 1.3416]$，均值 0、方差 1。
+\item 缩放平移：$\mathbf{z} = 2\hat{\mathbf{y}} + 1 \approx [-1.6833, 0.1056, 1.8944, 3.6833]$，其均值恰好为 $1=\beta$，方差恰好为 $4=\gamma^2$。
+\item 验证去偏置：如果前面的线性层额外加了偏置 $b=100$，得到 $[102, 104, 106, 108]$，批均值变成 $105$，相减 $y_i-\mu$ 仍是 $[-3,-1,1,3]$，结果一模一样！
+\end{enumerate}
+\end{StudyBlock}
+
+来源：Lecture7a，第 20–32 个单元（内部协变量偏移、四层乘积耦合、BatchNorm 公式、放置位置与训练效果）。
+
+
+\StudyHeading{1}{3. 优化方法｜从 SGD 噪声、Momentum 到 Adam}
+\StudyTarget{CS5489-Lecture07__optimizers}
+
+考点：SGD 噪声、学习率调度、Momentum 与 Adam 对比 \StudyBadge{final}{期末直接 · 2 套}
+
+\StudyHeading{2}{小批量 SGD、学习率衰减与“噪声平滑损失面”}
+\StudyTarget{CS5489-Lecture07__sgd-noise}
+
+用全量数据算一次精确梯度太慢，因此实际普遍用小批量（mini-batch）估计梯度：它是真实梯度的\textbf{无偏估计（unbiased estimator）}，但带有取决于批量大小的\textbf{随机方差（噪声）}。由此引出两条常考的结论（2020B 期末 Q5）：
+\begin{itemize}
+\item \textbf{小批量梯度为 0 不代表到达真正局部极小点：} 某个小批量碰巧梯度为 0，整个训练集的总损失梯度通常并不为 0；同样，即使已经站在整体损失的极小点上，单个小批量的梯度也因噪声不为 0，SGD 仍会在极小点附近来回晃动。
+\item \textbf{更新步长的方差取决于学习率 $\eta$，因此训练后期需要逐步降低学习率：} 否则即使离最优解很近，步子太大也落不进去。常用调度包括\textbf{线性衰减} $\eta_k = (1-\alpha)\eta_0 + \alpha\eta_T$（$\alpha=k/T$）、\textbf{倒数衰减} $\eta_k = \frac{\eta_0}{1+\delta k}$（如 $\eta_0=0.02, \delta=10^{-3}$，迭代 1000 次后降至 $0.01$），以及验证损失不再改善时触发的自适应降学习率（\StudyInline{ReduceLROnPlateau}）。注意：逐步减小学习率是\emph{帮助} SGD 收敛到谷底，而不是阻止收敛。
+\end{itemize}
+
+\textbf{为什么看似讨厌的 SGD 梯度噪声，反而是深度学习成功的秘诀？} 原课给出一个非常形象的物理直觉：给梯度叠加随机噪声，在数学效果上等价于\textbf{用噪声概率密度去卷积（平滑）原始损失函数}！学习率越大，有效噪声越大，损失面上那些尖锐、浅小的局部坑洼就被“抹平”了，SGD 于是能轻松\textbf{跳出或绕过小局部极小点}，冲向更宽阔的全局大盆地；随后分阶段调小学习率，平滑尺度逐级缩小，模型再顺着大盆地精准落入谷底。
+
+\StudyHeading{2}{Momentum、Nesterov 与自适应学习率家族}
+\StudyTarget{CS5489-Lecture07__momentum-adam}
+
+小批量梯度噪声大、遇到狭长峡谷时容易来回锯齿震荡（图 7.1 右）。\textbf{动量法（Momentum）}像给参数装上一个有惯性的铁球，对历史梯度做指数加权平均来平滑方向。沿用 Lecture7a 第 51 个单元的符号约定（速度 $\mathbf{v}$ 含负号，参数直接加 $\mathbf{v}$）：
+\[
+\mathbf{v}^{(t)} = \alpha \mathbf{v}^{(t-1)} - \eta \left.\frac{dL}{d\mathbf{w}}\right|_{\mathbf{w}^{(t-1)}},
+\qquad
+\mathbf{w}^{(t)} = \mathbf{w}^{(t-1)} + \mathbf{v}^{(t)},
+\tag{7.5}
+\]
+其中 $\alpha\in[0,1)$ 为动量系数。注意它与 Lecture 5（$\mathbf{v}_t = \gamma\mathbf{v}_{t-1} + \eta g_t,\; \boldsymbol{\theta}_{t+1}=\boldsymbol{\theta}_t - \mathbf{v}_t$）仅是 $\mathbf{v}$ 的正负号约定相反，算出的每一步参数更新完全一致。\textbf{Nesterov Momentum} 则更聪明一步：先按惯性往前滑到试探点 $\tilde{\mathbf{w}} = \mathbf{w}^{(t-1)} + \alpha\mathbf{v}^{(t-1)}$，再在\emph{试探点}处求梯度修正速度：
+\[
+\mathbf{v}^{(t)} = \alpha \mathbf{v}^{(t-1)} - \eta \left.\frac{dL}{d\mathbf{w}}\right|_{\tilde{\mathbf{w}}},
+\qquad
+\mathbf{w}^{(t)} = \mathbf{w}^{(t-1)} + \mathbf{v}^{(t)}.
+\tag{7.6}
+\]
+这相当于提前“抬头看前方坡度”，快冲过头时能早一步刹车。
+
+再进一步，不同参数的梯度尺度可能差几个数量级，共用一个全局学习率往往顾此失彼。\textbf{自适应学习率方法}为每个参数单独维护步长（以下平方、开方与除法均为逐元素操作，记 $\mathbf{g}=\frac{dL}{d\mathbf{w}}$）：
+\begin{itemize}
+\item \textbf{AdaGrad：} 累加历史全部梯度平方 $\mathbf{r}^{(t)} = \mathbf{r}^{(t-1)} + \mathbf{g}^2$，再做更新 $\mathbf{w}^{(t)} = \mathbf{w}^{(t-1)} - \frac{\eta}{\delta + \sqrt{\mathbf{r}^{(t)}}}\mathbf{g}$。梯度一贯很大的方向步长自动变小，稀疏特征步长相对较大；缺点是 $\mathbf{r}^{(t)}$ 单调递增，训练后期学习率会衰减到几乎停滞。
+\item \textbf{RMSProp：} 把直接累加改成指数衰减移动平均 $\mathbf{r}^{(t)} = \rho\mathbf{r}^{(t-1)} + (1-\rho)\mathbf{g}^2$，解决后期学习率枯竭问题。
+\item \textbf{Adam（Adaptive Moment Estimation）：} 把 Momentum（一阶矩 $\mathbf{s}$）和 RMSProp（二阶矩 $\mathbf{r}$）合二为一，并加上\textbf{偏差修正（bias correction）}消除从 0 初始化导致的早期偏小问题：
+\[
+\begin{gathered}
+\mathbf{s}^{(t)} = \rho_1 \mathbf{s}^{(t-1)} + (1-\rho_1)\mathbf{g}, \qquad
+\mathbf{r}^{(t)} = \rho_2 \mathbf{r}^{(t-1)} + (1-\rho_2)\mathbf{g}^2, \\[3pt]
+\hat{\mathbf{s}}^{(t)} = \frac{\mathbf{s}^{(t)}}{1-\rho_1^t}, \qquad
+\hat{\mathbf{r}}^{(t)} = \frac{\mathbf{r}^{(t)}}{1-\rho_2^t}, \qquad
+\mathbf{w}^{(t)} = \mathbf{w}^{(t-1)} - \frac{\eta}{\delta + \sqrt{\hat{\mathbf{r}}^{(t)}}}\,\hat{\mathbf{s}}^{(t)}.
+\end{gathered}
+\tag{7.7}
+\]
+\end{itemize}
+
+\textbf{考试高分洞察（2021A 期末 Q11）：} 既然 Adam 既有动量又有自适应步长，为什么有时 Adam 反而收敛到比 SGD 更差的解？第一问：如果训练初期 SGD 损失剧烈抖动、收敛很慢，因为是小批量梯度噪声引起振荡，换成带 Momentum 的 SGD 或 Adam／RMSProp 可以平滑梯度方向。第二问：对比二者后期的梯度噪声分布，SGD 往往呈现\textbf{更重尾（long-tailed）的梯度噪声}，而 Adam 的自适应分母把大梯度波动削平了；正因为 SGD 保留了更强的长尾跳动，在训练后期更有机会\textbf{逃离较差的局部极小点}，从而找到泛化更好的解。可见没有“永远最好的优化器”，要看具体任务和调参经验。
+
+\StudyImage{CS5489/course-notes/assets/l7-bn-optimizers.png}
+\StudyCaption{图 7.1：左图示意 BatchNorm 将漂移的线性输出拉回激活有效梯度区；右图在狭长二次谷 $L(w_1,w_2)=\frac{1}{2}(w_1^2+12w_2^2)$ 上对比普通梯度下降（来回锯齿）、Momentum（抑制震荡）与 Adam（分坐标自动缩放步长）的轨迹（教学自绘）。}
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算 Momentum、Nesterov 与 Adam 的第一步差异}
+\textbf{(1) Momentum vs Nesterov：} 设 $L(w)=\frac{1}{2}w^2$（梯度 $g=w$），初始 $w^{(0)}=4, v^{(0)}=0$，$\alpha=0.9, \eta=0.1$。
+\begin{itemize}
+\item 第 1 步两者相同（因为 $v^{(0)}=0$）：$v^{(1)} = -0.1\times 4 = -0.4$，$w^{(1)} = 4 - 0.4 = 3.6$。
+\item 第 2 步分叉：普通 Momentum 在 $3.6$ 处求梯度，$v^{(2)} = 0.9(-0.4) - 0.1(3.6) = -0.72$，$w^{(2)} = 2.88$；Nesterov 先前瞻到 $\tilde{w} = 3.6 + 0.9(-0.4) = 3.24$，在此处求梯度，$v^{(2)} = -0.36 - 0.324 = -0.684$，$w^{(2)} = 2.916$（提前感知坡度变缓，主动收了一点脚）。
+\end{itemize}
+\textbf{(2) Adam 偏差修正的威力：} 设 $w^{(0)}=1.0, g=2.0, \eta=0.1, \rho_1=0.9, \rho_2=0.999, \delta=0$。第 1 步未修正前 $s^{(1)}=0.2, r^{(1)}=0.004$（都被初始化 0 严重拉低）；除以 $1-\rho_1=0.1$ 和 $1-\rho_2=0.001$ 后立刻复原为 $\hat{s}^{(1)}=2.0, \hat{r}^{(1)}=4.0$，更新步长为 $0.1\times 2/\sqrt{4} = 0.1$，得 $w^{(1)} = 0.9$。
+\end{StudyBlock}
+
+来源：Lecture7a，第 33–65 个单元（SGD 噪声、三类学习率调度、Momentum／Nesterov、噪声卷积平滑损失面、AdaGrad／RMSProp／Adam 及 MNIST 对比）。
+
+
+\StudyHeading{1}{4. ImageNet 演进与深层 CNN 架构｜从 VGG、Inception 到 ResNet}
+\StudyTarget{CS5489-Lecture07__architectures}
+
+深度视觉的爆发几乎与 \textbf{ImageNet（ILSVRC）}竞赛同步：1000 个物体类别、约 120 万张训练图，人类 Top-5 错误率约 5.1\%。十几年间错误率一路跌破人类水平，靠的绝不只是盲目堆层数，更是越来越聪明的\textbf{架构设计（architecture design）}：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.19\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.42\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.39\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+架构 & 核心设计思想 & 解决的痛点／直观收益 \\
+\midrule\endfirsthead
+架构 & 核心设计思想 & 解决的痛点／直观收益 \\
+\midrule\endhead
+\bottomrule\endfoot
+LeNet-5 (1998) & 7 层经典范式：卷积 + 池化 + 末端 MLP & 奠定现代 CNN 骨架（MNIST 手写识别） \\
+AlexNet (2012) & 14 层，11\ensuremath{\times}11 / 5\ensuremath{\times}5 / 3\ensuremath{\times}3 卷积；首用 GPU 双路训练 & 集齐 ReLU、Dropout、MaxPool、数据增强、动量 SGD \\
+VGGNet (2014) & 全程只用 $3\times 3$ 小核连续堆叠，每阶段池化后通道翻倍 & 2 个 $3\times 3$ 感受野等价 1 个 $5\times 5$，但参数仅 $18C^2$ 对 $25C^2$（省 28\%）且多一次非线性；3 个 $3\times 3$ 比 1 个 $7\times 7$ 省 45\% \\
+InceptionNet V1 & 9 个 Inception 模块（22 层）：并行 1\ensuremath{\times}1、3\ensuremath{\times}3、5\ensuremath{\times}5 卷积与 3\ensuremath{\times}3 池化后拼接；中间层引出\textbf{辅助分类头} & 并行提取多尺度特征；辅助损失 $L=\lambda_0 L_0+\lambda_1 L_1+\lambda_2 L_2$ 缩短浅层反传路径，提供直接监督 \\
+DenseNet & 每一层把前面\emph{所有}层的特征图拼接作为输入 & 特征高度复用，每层只需更少通道；末端同时融合低中高多层语义 \\
+SENet & Squeeze-and-Excitation 通道注意力模块：先全局挤压成 $1\times 1$ 通道向量，再学软掩码缩放各通道 & 放大重要特征通道、抑制无关通道，可即插即用嵌入任意骨干网络 \\
+\end{longtable}\endgroup
+
+顺带把 Inception 的\textbf{辅助任务（auxiliary tasks）}再往外推一步，就是\textbf{多任务学习（multi-task learning）}：多个相关任务共享同一个特征底座网络，把各自损失加权相加 $L = \sum_k \lambda_k L_k$，反向传播时多路梯度共同汇聚到共享底座，逼迫底座学出对所有相关任务都好用的通用表征（例如同时预测人脸关键点能辅助人脸识别）。
+
+\StudyHeading{2}{ResNet：残差学习与指数级路径集成}
+\StudyTarget{CS5489-Lecture07__resnet}
+
+考点：ResNet 残差连接、路径数与梯度特性 \StudyBadge{final}{期末直接 · 1 套}
+
+随着 VGG 和普通 CNN 越叠越深，人们发现了一个反直觉的现象：56 层普通网络连\emph{训练误差}都比 20 层差！按理说，多出来的 36 层哪怕什么也不干，只要全都变成\textbf{恒等映射（identity layer）} $\mathbf{A}=\mathbf{I}$（即 $f_i(\mathbf{x})=\mathbf{x}$），性能起码不该变差。为什么普通网络连恒等映射都学不好？课件指出一个简洁原因：一旦用了 L2 权重衰减，正则项会拼命把权重 $\mathbf{A}$ 往 $\mathbf{0}$ 拉，而不是往单位矩阵 $\mathbf{I}$ 拉，与恒等目标背道而驰！
+
+\textbf{残差学习（Residual Learning）}用一条“旁路捷径（shortcut / skip connection）”彻底扭转局面：不再让卷积块直接拟合目标 $f(\mathbf{x})$，而是拟合它与输入的差值——即\textbf{残差函数（residual function）} $\mathcal{F}(\mathbf{x})$，再把输入直接加回来：
+\[
+f(\mathbf{x}) = \mathcal{F}(\mathbf{x}) + \mathbf{x}.
+\tag{7.8}
+\]
+奇迹发生了：如果某一层确实多余，只要把 $\mathcal{F}$ 里的权重压向 $\mathbf{0}$（这恰好与 L2 权重衰减同向！），输出立刻退化成完美的恒等映射 $f(\mathbf{x})=\mathbf{x}$。每一块都在前一块已经保留全部信息的基础上，只学一小步增量修正，网络因此轻松突破 50、101 甚至上千层。
+
+更深刻的理解来自把 ResNet 展开。考虑 3 个残差块串联：$\mathbf{z}_1 = \mathbf{x} + f_1(\mathbf{x})$，$\mathbf{z}_2 = \mathbf{z}_1 + f_2(\mathbf{z}_1)$，$\mathbf{z}_3 = \mathbf{z}_2 + f_3(\mathbf{z}_2)$。逐层代入展开后，$\mathbf{z}_3$ 变成了经过不同残差块子集的\textbf{路径之和}：每个块都有“走过去”和“跳过（走捷径）”2 种选择，因此含 $N$ 个残差块的 ResNet 等价于一个包含
+\[
+\text{总路径数} = 2^N, \qquad \text{恰经过 } L \text{ 个块的路径数} = \binom{N}{L}
+\tag{7.9}
+\]
+的庞大模型集成！（例如 10 个残差块对应 $2^{10}=1024$ 条路径／隐式子网络。）这一视角直接解释了 ResNet 的两大核心性质（图 7.2 左）：
+\begin{itemize}
+\item \textbf{对删除少量残差块高度鲁棒：} 因为表现得像庞大的模型集成，测试时随机拿掉 ResNet-101 里的两三个块，只删掉了集成中的一部分路径，整体精度几乎不受大影响（甚至可以按重要性排序做网络剪枝）。\textbf{真题勘误提醒：} 2021A 期末 Q4 选项 A 写作“Removing two or three blocks from ResNet-101 will greatly affect its performance”，而当年存档答案键误标为正确（A, C）；请以课件 Lecture7b 第 29 个单元与原论文事实为准——删去两三个块的影响\emph{很小}，不会极大破坏性能，只有选项 C（10 块等价 1024 个子网）严格成立！
+\item \textbf{短路径主导有效梯度信号：} 尽管长度为 $L\approx N/2$ 的中等路径数量最多（二项分布 $\binom{N}{L}$ 的峰值），但越长的路径梯度衰减越厉害；相反，较短的路径从损失函数直达浅层，梯度最有效。因此反向传播的绝大部分梯度信号都来自\textbf{较短路径}——训练时 ResNet 就像“有效深度较浅的集成网络”，从而大幅缓解梯度消失。同时要记住：堆再多残差层也不可能自动保证 100\% 完美准确率，且不同层级特征图上坐标 $(0,0)$ 对应的感受野和语义层次完全不同。
+\end{itemize}
+
+\StudyImage{CS5489/course-notes/assets/l7-resnet-paths.png}
+\StudyCaption{图 7.2：左图以 $N=20$ 个残差块为例，对比二项分布路径占比与乘上每层梯度衰减后的有效梯度占比，直观看出真正主导训练的是较短路径；右图示意 ResNet（强局部归纳偏置）与 ViT（弱偏置、强数据扩展性）随预训练数据规模增长的表现反转（教学自绘）。}
+
+\textbf{自查 / Check：} 含 3 个残差块的 ResNet 一共有多少条路径？长度为 0、1、2、3 的路径各有多少条？为什么删掉其中 1 个块后输出不会完全崩掉？ / For a 3-block ResNet, how many total paths exist, and how many have length 0, 1, 2, and 3? Why doesn't removing one block destroy the output?
+
+\begin{StudySolution}{答案 / Answer}
+共有 $2^3=8$ 条路径，长度 $0,1,2,3$ 的路径数分别为 $\binom{3}{0}=1,\;\binom{3}{1}=3,\;\binom{3}{2}=3,\;\binom{3}{3}=1$。删掉任意 1 个块后，不经过该块的其余 $2^2=4$ 条路径依然完整保留，因此整体预测仍较稳定。 / There are $2^3=8$ paths, with counts $1, 3, 3, 1$ for lengths $0, 1, 2, 3$. Removing one block still leaves the $2^2=4$ paths that skip it intact.
+\end{StudySolution}
+
+来源：Lecture7b，第 7–34 个单元（ImageNet、LeNet、AlexNet、VGG、Inception 与辅助／多任务学习、ResNet、DenseNet 与 SENet）。
+
+
+\StudyHeading{1}{5. Transformer、自注意力与 Vision Transformer（ViT）}
+\StudyTarget{CS5489-Lecture07__transformers-vit}
+
+CNN 虽然在中等数据上极其高效，但它有两个先天局限：(1) \textbf{难以直接建模长距离全局依赖}——画面两端相距很远的两个像素，必须叠很多层卷积、沿很长的路径才能互相“看见”；(2) 靠不断加深层数扩大感受野，层间串行计算难以并行加速。
+
+\textbf{Transformer} 彻底抛弃了卷积和循环（RNN），用\textbf{自注意力（self-attention）}让序列里的任意两个位置一步直连、全序列并行计算。一个标准 Transformer 编码器（Encoder）堆叠若干结构相同的模块（原论文 6 层），每块包含：多头自注意力（MHA）+ 残差连接 + 层归一化（LayerNorm，把同一 token 内部的所有特征归一化）+ 逐位置两层全连接网络（position-wise FFN，所有位置共享权重，不同层权重独立）。解码器（Decoder）则在自注意力里加上因果掩码（mask），确保预测当前词时只能看见前面的词，再通过交叉注意力读取编码器输出。
+
+\StudyHeading{2}{缩放点积注意力与多头注意力（沿用课件列向量记法）}
+\StudyTarget{CS5489-Lecture07__attention-math}
+
+设输入序列有 $n$ 个 token，每个 token 经可学习的词嵌入矩阵映射到 $D$ 维向量，排成矩阵 $\mathbf{X} \in \mathbb{R}^{D\times n}$。自注意力通过三个可学习线性投影矩阵 $\mathbf{W}^Q, \mathbf{W}^K \in \mathbb{R}^{d_k\times D}$ 和 $\mathbf{W}^V \in \mathbb{R}^{d_v\times D}$，为每个位置生成三组向量：
+\begin{itemize}
+\item \textbf{查询（Query）} $\mathbf{Q} = \mathbf{W}^Q\mathbf{X} = [\mathbf{q}_1 \cdots \mathbf{q}_n] \in \mathbb{R}^{d_k\times n}$：“我当前想找什么信息”；
+\item \textbf{键（Key）} $\mathbf{K} = \mathbf{W}^K\mathbf{X} = [\mathbf{k}_1 \cdots \mathbf{k}_n] \in \mathbb{R}^{d_k\times n}$：“每个位置能提供什么标签供匹配”；
+\item \textbf{值（Value）} $\mathbf{V} = \mathbf{W}^V\mathbf{X} = [\mathbf{v}_1 \cdots \mathbf{v}_n] \in \mathbb{R}^{d_v\times n}$：“一旦匹配成功，把什么内容送出去”。
+\end{itemize}
+用第 $j$ 个查询 $\mathbf{q}_j$ 与全部键做点积并除以 $\sqrt{d_k}$（防止维度大时内积方差过大把 softmax 推向饱和），再\textbf{按列}取 softmax，得到 $n\times n$ 注意力权重矩阵 $\mathbf{A}$ 和输出：
+\[
+\mathbf{A} = \mathrm{softmax}\!\left(\frac{1}{\sqrt{d_k}}\mathbf{K}^T\mathbf{Q}\right) \in \mathbb{R}^{n\times n},
+\qquad
+\mathrm{Attn}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathbf{V}\mathbf{A} \in \mathbb{R}^{d_v\times n}.
+\tag{7.10}
+\]
+式中 $A_{ij}$ 表示第 $j$ 个查询与第 $i$ 个键的匹配权重，第 $j$ 列输出 $\mathbf{V}\mathbf{a}_j$ 就是对所有值向量按匹配权重做的加权平均。\textbf{多头注意力（Multi-Head Attention, MHA）}把上述过程并行做 $h$ 份（每个头有自己独立的 $\mathbf{W}_i^Q, \mathbf{W}_i^K, \mathbf{W}_i^V$，分别关注不同子空间的关联），再把 $h$ 个头的输出 $\mathbf{H}_1,\dots,\mathbf{H}_h$ 纵向拼起来，用 $\mathbf{W}^O\in\mathbb{R}^{D\times h d_v}$ 投影回原嵌入维度 $D$（通常取 $h d_v = D$，例如经典设置 $h=8, D=512 \Rightarrow d_k = d_v = 64$）：
+\[
+\mathrm{MHA}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \mathbf{W}^O
+\begin{bmatrix}\mathbf{H}_1 \\ \vdots \\ \mathbf{H}_h\end{bmatrix}.
+\tag{7.11}
+\]
+别忘了一个关键补丁：自注意力把输入当成无序集合（打乱 token 顺序，匹配结果只是同步重排），不像卷积那样天然自带相对位置概念，所以必须在输入词向量上加上\textbf{位置编码（positional encoding）}（可学习，或不同频率的正弦／余弦波）。
+
+\begin{StudyBlock}{完整示范 / Worked example}{手算 2 个 Token 的缩放点积注意力}
+取 $n=2, d_k=4, d_v=2$，设 $\mathbf{Q}=\mathbf{K}=\begin{bmatrix}2&0\\0&2\\0&0\\0&0\end{bmatrix}$，$\mathbf{V}=\begin{bmatrix}10&0\\0&20\end{bmatrix}$。
+\begin{enumerate}
+\item 缩放点积：$\frac{1}{\sqrt{4}}\mathbf{K}^T\mathbf{Q} = \frac{1}{2}\begin{bmatrix}4&0\\0&4\end{bmatrix} = \begin{bmatrix}2&0\\0&2\end{bmatrix}$。
+\item 按列 softmax（记 $p=\frac{e^2}{e^2+1}\approx 0.8808,\; 1-p\approx 0.1192$）：$\mathbf{A}=\begin{bmatrix}p & 1-p\\ 1-p & p\end{bmatrix}$，每列和为 1。
+\item 加权聚合值向量：$\mathbf{V}\mathbf{A} = \begin{bmatrix}10p & 10(1-p)\\ 20(1-p) & 20p\end{bmatrix} \approx \begin{bmatrix}8.81 & 1.19\\ 2.38 & 17.62\end{bmatrix}$。第 1 列主要汲取了 $\mathbf{v}_1=[10,0]^T$，第 2 列主要汲取了 $\mathbf{v}_2=[0,20]^T$。
+\end{enumerate}
+\end{StudyBlock}
+
+\StudyHeading{2}{Vision Transformer（ViT）与缩放定律（Scaling Laws）}
+\StudyTarget{CS5489-Lecture07__vit-scaling}
+
+\textbf{Vision Transformer（ViT）}把纯 Transformer 编码器直接搬到了图像分类上，流程共六步：(1) 把整张图切成固定大小的小块（patches，例如 $224\times 224$ 切成 $16\times 16$ 的块，得 $14\times 14=196$ 块）；(2) 每块展平后经线性投影变成 $D$ 维 patch 向量；(3) 在序列最前面拼入一个可学习的 \StudyInline{[class]} 分类 token（共 $196+1=197$ 个 token）；(4) 加上位置嵌入；(5) 送入标准 Transformer 编码器；(6) 取出编码器输出的第一个位置（即 \StudyInline{[class]} 对应向量），接 MLP 分类头输出类别。也可以先用 CNN 提特征图再送进 ViT（混合模型 Hybrid）。
+
+\textbf{为什么 ViT 在小数据集上打不过 ResNet，到了超大数据集却能反超？（图 7.2 右）} 课件给出的数据对比非常震撼：在 ImageNet-1k（130 万图）上预训练时，ViT 不如 ResNet（BiT）；到 ImageNet-21k（1400 万图）两者打平；到 JFT-300M（3.03 亿图）时 ViT 全面胜出。根本原因在于\textbf{归纳偏置（inductive bias）的权衡}：CNN 把“局部性”和“平移等变性”硬写进了卷积核，小数据下帮了大忙；ViT 几乎不预设这些假设，小数据下学不出局部先验容易吃亏，但一旦数据规模足够庞大，摆脱了手工先验束缚的 ViT 就能自己学出比局部卷积更强的全局表征。这一经验现象进一步催生了大模型的\textbf{缩放定律（Scaling Laws）}，例如 Chinchilla 定律（Hoffmann et al., 2022）：
+\[
+\mathcal{L}(N, T) = L_0 + A\,T^{-\alpha} + B\,N^{-\beta},
+\tag{7.12}
+\]
+其中 $N$ 是模型参数量，$T$ 是训练数据量（token 数），$L_0, A, B, \alpha, \beta$ 为拟合常数——说明在算力允许下，同步扩大模型规模与数据量能持续、可预测地压低泛化损失。
+
+\textbf{English takeaway:} Self-attention connects all positions directly in parallel via $\mathbf{A}=\mathrm{softmax}(\mathbf{K}^T\mathbf{Q}/\sqrt{d_k})$ and $\mathbf{V}\mathbf{A}$, requiring positional encodings because it lacks built-in spatial structure. ViT treats $16\times 16$ image patches as tokens: with weak inductive bias it trails ResNet on ImageNet-1k, but outperforms CNNs when pre-trained at massive scale (JFT-300M).
+
+来源：Lecture7b，第 35–52 个单元（CNN 局限、Transformer 编码器／解码器、缩放点积与多头注意力、位置编码、ViT 与 Chinchilla 缩放定律）。
+
+
+\StudyHeading{1}{6. 迁移学习与微调｜小数据集上怎么站在巨人的肩膀上？}
+\StudyTarget{CS5489-Lecture07__transfer-learning}
+
+现实中做自己课题时，手头往往只有几百张标注图片（例如课件 Lecture7b 里只有 200 张甜品照：100 张 \StudyInline{ice\_\allowbreak{}cream} 和 100 张 \StudyInline{frozen\_\allowbreak{}yogurt}，训练 160 张、测试 40 张），根本养不起从零训练的深层网络。好消息是，已经在 ImageNet 120 万张图上学好的骨干网络（backbone，如 ResNet50、VGG16、DenseNet、InceptionV3）前中层已经学到了极其通用的边缘、纹理与部件特征，完全可以拿来复用，这就是\textbf{迁移学习（transfer learning）}。
+
+实战中有三种递进用法：
+\begin{enumerate}
+\item \textbf{固定特征提取器 + 传统分类器：} 砍掉预训练 ResNet50 最后的 1000 类分类层，经过全局平均池化（Global Average Pooling）把每张 $224\times 224$ 图片变成一个 2048 维高层语义向量，再在上面训练线性 SVM。在课件甜品二分类上，直接把原始像素拉成 150,528 维喂给线性 SVM 测试准确率只有 \textbf{55\%}（几乎瞎猜），而用冻结的 ResNet50 特征配线性 SVM 飙升到 \textbf{100\%}！
+\item \textbf{冻结底座 + 微调顶层分类头（top-only fine-tuning）：} 固定 ResNet50 骨干权重（PyTorch 中设 \StudyInline{param.\allowbreak{}requires\_\allowbreak{}grad = False}），在后面接上新任务的小型分类头，配合数据增强只更新新加的顶层参数。课件示范在 160 张训练图（含 10\% 验证集）上跑通该流程，测试准确率达到 \textbf{92.5\%}。
+\item \textbf{端到端全网微调（full fine-tuning）：} 以预训练权重作为起点，用较小学习率解冻全部（或靠后几组）层联合微调，适合目标领域与 ImageNet 差异较大、且标注样本稍多一些的场景。
+\end{enumerate}
+
+使用预训练模型时别忘两条工程细节：第一，每个骨干网络都有配套的输入尺寸和像素归一化规范（如 ImageNet 均值方差预处理），务必与预训练时一致；第二，分类任务通常直接取最后一层全局池化后的高层语义特征，而目标检测、定位等需要精细空间信息的任务，还可以把中层和高层特征图拼接起来一起用。
+
+\textbf{迁移 / Transfer：} 医疗团队只有 300 张 X 光片要做肺炎二分类，直接从零训练一个 ResNet50 好，还是采用预训练特征提取／冻结底座微调更好？如果 X 光灰度纹理与自然照片差异较大且之后扩充到 2 万张片子，策略该如何演进？ / A clinic has only 300 chest X-rays for binary classification. Should they train ResNet50 from scratch or use transfer learning? How should the strategy change if the dataset later grows to 20,000 X-rays?
+
+\begin{StudySolution}{答案 / Answer}
+300 张图从零训 ResNet50（数千万参数）必然严重过拟合，应优先冻结预训练骨干提取特征配线性分类器，或只微调顶层分类头并辅以合法的数据增强。当样本增至 2 万张且医学图像域与 ImageNet 存在明显差异时，可以解冻高层乃至全网，用较小学习率做端到端微调，让中高层特征适应 X 光纹理。 / Training ResNet50 from scratch on 300 images will severely overfit; freeze the pre-trained backbone (feature extraction + linear classifier, or top-only fine-tuning with augmentation). With 20,000 domain-shifted X-rays, unfreeze higher layers or the full backbone and fine-tune with a small learning rate.
+\end{StudySolution}
+
+来源：Lecture7b，第 53–104 个单元（ImageNet 预训练 ResNet50 推理、甜品数据集特征提取 vs 原始像素 SVM、冻结底座微调、多尺度特征拼接与总结）。
+
+
+\StudyHeading{1}{7. 回顾与英文自测}
+\StudyTarget{CS5489-Lecture07__review}
+
+本讲串起了深层学习的四根支柱：\textbf{ReLU 与 BatchNorm} 让深层梯度传得动、尺度稳得住；\textbf{SGD 噪声、衰减、Momentum 与 Adam} 让非凸优化走得稳、逃得出浅坑；\textbf{VGG / Inception / ResNet / ViT} 用更聪明的架构释放深度与数据规模；\textbf{迁移学习}把大规模预训练红利带回小样本任务。
+
+\textbf{Q1. 为什么 ReLU 比 Sigmoid 更容易训练深层网络？ / Why does ReLU make deep networks easier to train than Sigmoid?}
+
+\textbf{答 / Answer：} ReLU 正半轴导数恒为 1、避免连乘梯度消失；不需指数运算速度更快；负半轴输出 0 产生稀疏激活，阻断大量反向传播路径，减轻信号被稀释。 / ReLU has derivative 1 on the positive half (avoiding multiplicative vanishing gradients), avoids expensive exponentials, and produces sparse activations that block inactive paths so gradients are less washed out.
+
+\textbf{Q2. 简述 BatchNorm 应放在哪里、训练与测试时的统计量区别，以及它能否消除节点相关性。 / Where should BatchNorm be placed, how do train/test statistics differ, and does it decorrelate activations?}
+
+\textbf{答 / Answer：} 应放在线性（或卷积）层之后、非线性激活之前（可去掉线性层偏置）。训练时对每个小批量动态计算均值与方差，并学习 $\gamma,\beta$；测试时使用固定下来的训练统计量。因为逐节点独立归一化，它不消除不同节点之间的相关性。 / Place it after a linear/conv layer and before the activation (linear bias becomes redundant). Mini-batch mean and variance update during training alongside learnable $\gamma,\beta$, while fixed running statistics are used at test time. Applied per node independently, it does not decorrelate activations.
+
+\textbf{Q3. 为什么有时 Adam 收敛结果不如 SGD？SGD 初期震荡太大该如何改进？ / Why can Adam converge to a worse solution than SGD, and how can fluctuating SGD loss be fixed?}
+
+\textbf{答 / Answer：} 初期震荡来自小批量梯度噪声，可给 SGD 加 Momentum 或改用 Adam／RMSProp 平滑梯度方向。而 SGD 往往保留更重尾（long-tailed）的梯度噪声，训练后期更容易跳出较差的局部极小点，因此有时比 Adam 找到泛化更好的解。 / Initial fluctuations come from mini-batch gradient noise and can be smoothed with momentum or Adam/RMSProp. However, SGD often exhibits heavier-tailed gradient noise than Adam, giving it a better chance to escape poor local minima late in training.
+
+\textbf{Q4. 为什么 ResNet 能把网络叠到上百层，且删掉两三个块性能变化很小？ / Why can ResNet scale to 100+ layers and remain robust to removing a few blocks?}
+
+\textbf{答 / Answer：} 残差块学习 $f(\mathbf{x})=\mathcal{F}(\mathbf{x})+\mathbf{x}$，使权重趋零即可退化为恒等映射（与 L2 权重衰减一致）。展开 $N$ 个块等价于 $2^N$ 条路径的集成，反向传播主要由较短路径贡献有效梯度（缓解梯度消失）；删掉少量块只影响部分路径，其余大量路径仍保持工作。 / Residual blocks learn $f(\mathbf{x})=\mathcal{F}(\mathbf{x})+\mathbf{x}$, so shrinking weights toward zero recovers identity (compatible with L2 decay). Unrolling $N$ blocks yields an ensemble of $2^N$ paths: short paths carry most of the effective gradient, and removing a few blocks leaves many intact paths.
+
+\textbf{Q5. 为什么 ViT 必须加位置编码？为何它在 ImageNet-1k 上不如 ResNet 却在 JFT-300M 上反超？ / Why does ViT require positional embeddings, and why does its ranking against ResNet flip with dataset scale?}
+
+\textbf{答 / Answer：} 自注意力本身对输入 token 排列不敏感，没有内置空间位置概念，故需显式加位置编码。ResNet 内置局部性与平移等变归纳偏置，小数据（IN1k）优势明显；ViT 归纳偏置弱，小数据学不充分，但超大规模预训练（JFT）下摆脱限制反而超越 CNN。 / Self-attention has no built-in notion of spatial order, so positional embeddings are added. ResNet's locality and translation-equivariance biases help on smaller datasets (IN1k), whereas ViT lacks those hard biases and outperforms ResNet once massive pre-training data (JFT) is available.
+
+
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5489-Lecture07__learning-priorities}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.44\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endfirsthead
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+梯度消失、VC 维与深浅 MLP & 核心必会 & 中，表达式与数据需求 & 解释两类梯度消失、$O(WL\log W+WL^2)$ 及无激活退化 \\
+ReLU / Leaky ReLU & 核心必会 & 低，易漏稀疏阻断路径 & 对比 Sigmoid、ReLU、Leaky ReLU 优缺点 \\
+BatchNorm & 核心必会 & 中，易错判“去相关” & 默写标准化与缩放平移公式，背熟 5 条性质 \\
+SGD、Momentum 与 Adam & 核心必会 & 中，正负号与长尾噪声 & 手算一步更新，解释噪声平滑与 SGD vs Adam \\
+ResNet 与深层 CNN 演进 & 核心必会 & 中，二项路径与短路径梯度 & 说清 $f(x)=\mathcal{F}(x)+x$、$2^N$ 路径、抗删块及 VGG／Inception \\
+Transformer 与 ViT & 常规掌握 & 中，列向量维度与转置 & 会算 $K^TQ/\sqrt{d_k}$ 与多头维度，解释位置编码与归纳偏置 \\
+迁移学习与微调 & 常规掌握 & 低，区分三种用法 & 按数据规模与域差异选择冻结提取、顶层微调或全网微调 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{Historical exam map｜按考点查历史期末题源}
+\StudyTarget{CS5489-Lecture07__exam-topic-index}
+
+口径：汇总已辨识的 3 套独立期末卷（2020B、2021A、2021B）；同卷不重复计数，未见不等于不考。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.54\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+考点 & 试卷与题号 & 考查重点与提醒 \\
+\midrule\endfirsthead
+考点 & 试卷与题号 & 考查重点与提醒 \\
+\midrule\endhead
+\bottomrule\endfoot
+激活函数与梯度消失 & 2020B Q13；2021A Q2；2021B Q9 & Leaky ReLU 利弊；ReLU 稀疏性与加速；分段线性饱和区无梯度与 $\log 0$ 隐患 \\
+深浅 MLP 容量与无激活退化 & 2020B Q10；2021A Q8 & 1 层 vs 10 层表达力／数据需求／优化难度；无隐藏激活等价线性分类器 \\
+BatchNorm 性质 & 2021A Q5 & 线性层后、可导、含 $\gamma,\beta$；不消除节点相关性、训练期均值方差随批更新 \\
+SGD 噪声、Momentum 与 Adam & 2020B Q5；2021A Q11 & 小批零梯度非极小、步长方差与 LR 衰减；初期震荡改 Momentum／Adam；SGD 长尾噪声助逃局部极小 \\
+ResNet 残差网络 & 2021A Q4 & 10 块等价 $2^{10}=1024$ 集成、短路径主导梯度；注意原卷键对选项 A（删块影响）存在印刷误标 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{来源覆盖索引}
+\StudyTarget{CS5489-Lecture07__sources}
+
+依据当前课件 Lecture7a（65 个单元）与 Lecture7b（104 个单元），单元编号从 1 起算，含文字与代码单元。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原课位置 & 对应讲义 \\
+\midrule\endfirsthead
+原课位置 & 对应讲义 \\
+\midrule\endhead
+\bottomrule\endfoot
+Lecture7a，第 1–19 个单元 梯度消失 1/2、数据集大小与 VC 维、ReLU 与稀疏性 & §1 \\
+Lecture7a，第 20–32 个单元 层间缩放、内部协变量偏移、BatchNorm 公式与 MNIST 示范 & §2 \\
+Lecture7a，第 33–59 个单元 SGD 噪声、三类 LR 调度、Momentum、Nesterov 与噪声平滑直觉 & §3 \\
+Lecture7a，第 60–65 个单元 AdaGrad、RMSProp、Adam 偏差修正与优化器选择 & §3 \\
+Lecture7b，第 1–19 个单元 ImageNet、LeNet、AlexNet、VGG、Inception、辅助与多任务学习 & §4 \\
+Lecture7b，第 20–34 个单元 退化问题、ResNet 残差学习、$2^N$ 路径集成、DenseNet 与 SENet & §4 \\
+Lecture7b，第 35–52 个单元 CNN 局限、Transformer 编解码器、缩放点积／多头注意力、ViT 与 Chinchilla & §5 \\
+Lecture7b，第 53–104 个单元 预训练 ResNet50、甜品特征提取 vs 原始像素、冻结微调与总结 & §6、§7 \\
+\end{longtable}\endgroup
+
+本讲全部手算验算与自绘教学图见同目录 \StudyInline{tools/\allowbreak{}verify\_\allowbreak{}l6\_\allowbreak{}l7\_\allowbreak{}examples.\allowbreak{}py}（独立断言结果存档于 \StudyInline{l6-l7-example-results.\allowbreak{}json}）。

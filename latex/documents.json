@@ -36,6 +36,20 @@
       "legacy_source": "CS5489/course-notes/Lecture05.md"
     },
     {
+      "source": "CS5489/course-notes/Lecture06.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture06",
+      "legacy_source": "CS5489/course-notes/Lecture06.md"
+    },
+    {
+      "source": "CS5489/course-notes/Lecture07.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Lecture07",
+      "legacy_source": "CS5489/course-notes/Lecture07.md"
+    },
+    {
       "source": "CS5489/course-notes/Tutorial01.tex",
       "course": "CS5489",
       "major": true,
@@ -197,6 +211,12 @@
     "CS5489/course-notes/Lecture05.md": "CS5489-Lecture05",
     "CS5489/course-notes/Lecture05.html": "CS5489-Lecture05",
     "CS5489/course-notes/Lecture05.tex": "CS5489-Lecture05",
+    "CS5489/course-notes/Lecture06.md": "CS5489-Lecture06",
+    "CS5489/course-notes/Lecture06.html": "CS5489-Lecture06",
+    "CS5489/course-notes/Lecture06.tex": "CS5489-Lecture06",
+    "CS5489/course-notes/Lecture07.md": "CS5489-Lecture07",
+    "CS5489/course-notes/Lecture07.html": "CS5489-Lecture07",
+    "CS5489/course-notes/Lecture07.tex": "CS5489-Lecture07",
     "CS5489/course-notes/Tutorial01.ipynb": "CS5489-Tutorial01",
     "CS5489/course-notes/Tutorial01.html": "CS5489-Tutorial01",
     "CS5489/course-notes/Tutorial01.tex": "CS5489-Tutorial01",

@@ -1,0 +1,458 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Lecture06}{Lecture 6 · Convolutional Neural Networks \& Regularization}
+\StudyTarget{CS5489-Lecture06__lecture-6-cnn-regularization}
+
+
+\StudyHeading{1}{从拉平像素到“带着放大镜扫图”，再学会防止死记硬背}
+\StudyTarget{CS5489-Lecture06__intro}
+
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture05}{root}{上一讲：神经网络} · \StudyRef{CS5489-Lecture07}{root}{下一讲：深度网络与架构}
+
+上一讲在 MNIST 上把 $28\times 28$ 的手写数字拉平成 784 维向量喂给 MLP，已经能拿到接近 95\% 的准确率。可一旦换成高清彩色照片（哪怕只是 $256\times 256\times 3$），拉平后输入就有近 20 万维：全连接层光是第一层的权重就能轻松破亿，更致命的是——把一张猫的照片往右挪两个像素，拉平后的向量坐标全错位了，MLP 几乎要重新学一遍“猫长什么样”。
+
+这一讲分两部分解决两个根本问题：前半讲（Lecture6a）用\textbf{卷积（convolution）}把图像和音频里的\textbf{局部性（locality）}与\textbf{平移共享（translation）}写进网络结构，造出参数少得多、能逐层抽象视觉特征的卷积神经网络（CNN）；后半讲（Lecture6b）面对模型变深后“训练集背得滚瓜烂熟、验证集却开始翻车”的过拟合问题，系统讲清 L2 权重衰减、早停、模型集成（bagging）、Dropout 和数据增强五把常用防过拟合工具。
+
+\textbf{基础复习（可跳过）：} 如果对反向传播、交叉熵和验证集角色不熟，先回看\StudyRef{CS5489-Lecture05}{batch-backprop}{Lecture 5 反向传播}与\StudyRef{CS5489-Lecture05}{monitoring}{训练曲线与早停}；需要回顾求导与矩阵形状，可查\StudyRef{Foundations-MathForML}{derivatives}{对数与导数}。
+
+学习目标与难点见\StudyRef{CS5489-Lecture06}{learning-priorities}{文末学习要求表}。
+
+
+\StudyHeading{1}{Exam focus｜这一讲怎样安排复习}
+\StudyTarget{CS5489-Lecture06__exam-review}
+\StudyTarget{CS5489-Lecture06__exam-focus}
+
+本讲在已辨识的 3 套历史期末卷（2020B、2021A、2021B）中几乎每一块都是直接大题或高频多选题：特征图尺寸与感受野、步长与最大池化对比、训练／验证损失曲线诊断、数据增强方案设计在三套卷里反复出现。复习时先确保能零失误手算特征图大小、感受野和参数量，再练用英文分点回答“为什么这样做、利弊各是什么”。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.36\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+考点 & 复习动作 & 历史期末（共3套） & 入口 \\
+\midrule\endfirsthead
+考点 & 复习动作 & 历史期末（共3套） & 入口 \\
+\midrule\endhead
+\bottomrule\endfoot
+卷积性质、频域与 Toeplitz & 区分平移等变（卷积）与局部平移不变（池化） & 直接 3 套 & \StudyRef{CS5489-Lecture06}{conv-basics}{讲解} \\
+特征图尺寸、感受野与参数量 & 手算 valid/same、stride、$r_\ell$ 与 $FCK^2$ & 直接 3 套 & \StudyRef{CS5489-Lecture06}{cnn-layers}{讲解} \\
+Stride=2 与 2\ensuremath{\times}2 Max-Pooling & 背熟计算量、漏特征风险与鲁棒性对比 & 直接 1 套 & \StudyRef{CS5489-Lecture06}{subsampling}{讲解} \\
+L2 正则与 ReLU 缩放等价性 & 说清为何必须加在所有层，以及高斯先验 MAP & 直接 2 套 & \StudyRef{CS5489-Lecture06}{l2-reg}{讲解} \\
+损失曲线诊断与早停／架构改动 & 区分过拟合、泛化差距与未收敛；给出对应改动 & 直接 3 套 & \StudyRef{CS5489-Lecture06}{early-stopping}{讲解} \\
+Bagging 与 Dropout & 记住合并方差公式、Dropout 随机性及测试缩放 & 直接 1 套 & \StudyRef{CS5489-Lecture06}{ensemble-dropout}{讲解} \\
+数据增强方案设计与目的 & 按任务判断哪些变换不破坏标签（如手写公式禁翻转） & 直接 3 套 & \StudyRef{CS5489-Lecture06}{data-aug}{讲解} \\
+\end{longtable}\endgroup
+
+口径说明：仅统计已辨识的 3 套独立期末卷（2020B、2021A、2021B），同卷不重复计数；“直接 1 套”或“未见”均不等于今年不考。完整题号映射见\StudyRef{CS5489-Lecture06}{exam-topic-index}{讲末历史题源表}。
+
+
+\StudyHeading{1}{1. 信号结构与一维／二维卷积｜为什么不能直接用全连接层？}
+\StudyTarget{CS5489-Lecture06__conv-basics}
+
+考点：卷积性质、频域与 Toeplitz 矩阵 \StudyBadge{final}{期末直接 · 3 套}
+
+日常遇到的很多数据不是杂乱无章的表格列，而是带有明确坐标顺序的\textbf{信号（signals）}：一段单声道音频是随时间变化的一维信号（1 个通道），立体声有左右 2 个通道；灰度图是二维空间信号（1 个通道），RGB 彩色图有 3 个通道，高光谱图像可有几百个通道；彩色视频或医学 CT 则是三维信号（空间加时间或体积）。
+
+这类信号普遍满足两条结构先验（inductive bias）。第一条叫\textbf{局部性（locality）}：在低层视觉或听觉里，一个像素和紧挨着它的邻居一起组成边缘、拐角或局部波形，而图像左上角和右下角在低层几乎无关。第二条叫\textbf{平移性（translation）}：同一只小鸭子、同一种竖直边缘可以出现在画面里的任何位置，不需要为“左上角的边缘”和“右下角的边缘”各学一套独立检测器。
+
+标准全连接层（MLP）把整张图拉成向量后，每个隐藏节点都连到全部像素，既违背局部性，又在每个空间位置重复学权重，导致参数爆炸且容易过拟合。卷积的思路极其朴素：设计一个尺寸很小的小模板（称为\textbf{滤波器 filter}或\textbf{卷积核 kernel}），像拿着放大镜一样滑过整个信号，在每个位置只看窗口里的局部数据，而且全图共用同一套权重。
+
+\StudyHeading{2}{一维与二维离散卷积，以及三种边界模式}
+\StudyTarget{CS5489-Lecture06__conv-modes}
+
+对一维离散信号 $x(t)$（$t\in\mathbb{Z}$）和滤波器 $w(t)$，离散卷积记作 $x*w$，定义为：
+\[
+s(t) = (x * w)(t) = \sum_{a} x(a)\,w(t-a) = \sum_{a} x(a)\,\tilde{w}(a-t),
+\tag{6.1}
+\]
+其中 $\tilde{w}(t) = w(-t)$ 是把滤波器左右翻转后的结果。从第二段等号能看出几何操作：要算位置 $t$ 的响应 $s(t)$，只需把翻转后的模板 $\tilde{w}$ 平移到 $t$，与对应位置的 $x$ 逐点相乘再求和。把这套求和直接搬到二维网格上，就得到二维离散卷积：
+\[
+s(n,m) = (x * w)(n,m) = \sum_{a}\sum_{b} x(a,b)\,w(n-a,\,m-b).
+\tag{6.2}
+\]
+在深度学习框架（如 PyTorch 的 \StudyInline{nn.\allowbreak{}Conv2d}）中，代码实际执行的是不翻转核的互相关（cross-correlation），即直接把核模板滑过图像做逐点乘加；因为核权重是待学习的参数，学出 $w$ 和学出翻转后的 $\tilde{w}$ 完全等价，二者在表达能力上没有差别。
+
+当小模板滑到信号边缘时，窗口会有一部分伸出信号外面。默认做法是把信号外部全部补 0（zero-padding）。根据是否保留依赖补 0 算出的边界输出，一维卷积（设信号长度 $N$、非零核长 $K$，步长 $s=1$）分成三种模式：
+\begin{itemize}
+\item \textbf{full 模式}：保留所有能得到非零响应的位置，输出长度为 $N + K - 1$（比原信号长了 $K-1$）。
+\item \textbf{same 模式}：在信号两端补 0，使输出长度保持与原信号一致，即 $N$（$K$ 为奇数时两端各补 $(K-1)/2$ 个 0）。实际搭 CNN 时最常用 same 模式，因为既能看到图像边缘的结构，又能借助边界零填充让网络隐式感知物体的绝对位置。
+\item \textbf{valid 模式}：只保留整个核完全落在真实信号内部的位置，不做补 0，输出长度为 $N - K + 1$。注意两端\emph{各}收缩了 $(K-1)/2$，合起来总共减少 $K - 1$，千万不要只减一边！
+\end{itemize}
+
+\begin{StudyBlock}{完整示范 / Worked example}{一维卷积三种模式与 Toeplitz 矩阵对照}
+设输入信号 $\mathbf{x}=[1,2,3,2,1]$（$N=5$），差分卷积核 $\mathbf{w}=[1,0,-1]$（$K=3$）。按式 6.1 从左到右滑过：
+\begin{itemize}
+\item \textbf{full}（长 $5+3-1=7$）：$[1,\,2,\,2,\,0,\,-2,\,-2,\,-1]$。
+\item \textbf{same}（长 $5$，取中间 5 项）：$[2,\,2,\,0,\,-2,\,-2]$。
+\item \textbf{valid}（长 $5-3+1=3$，去掉两端各 1 个用到补 0 的位置）：$[2,\,0,\,-2]$。
+\end{itemize}
+把 same 模式的线性映射写成矩阵乘向量 $\mathbf{z}=\mathbf{A}^T\mathbf{x}$，每一行都只是把同一组核权重向右挪一格、其余位置填 0（这种每条斜对角线元素相同的矩阵叫 \textbf{Toeplitz 矩阵}）：
+\[
+\mathbf{z} =
+\begin{bmatrix}
+0 & 1 & 0 & 0 & 0 \\
+-1 & 0 & 1 & 0 & 0 \\
+0 & -1 & 0 & 1 & 0 \\
+0 & 0 & -1 & 0 & 1 \\
+0 & 0 & 0 & -1 & 0
+\end{bmatrix}
+\begin{bmatrix}1\\2\\3\\2\\1\end{bmatrix}
+=
+\begin{bmatrix}2\\2\\0\\-2\\-2\end{bmatrix}.
+\tag{6.3}
+\]
+注意对照原课 Lecture6a 第 45 个单元的写法：课件把行写成 $[w_2, w_3, 0,\dots;\; w_1, w_2, w_3, 0,\dots]$，对应与 $[w_1,w_2,w_3]$ 做互相关（即与翻转核 $[w_3,w_2,w_1]$ 做卷积）。无论是否翻转，结论完全一致：\textbf{卷积层本质上是权重矩阵高度稀疏且对角共享的特殊全连接层}——矩阵名义上有 $N\times N$ 个位置，但真正自由的参数只有 $K$ 个！
+\end{StudyBlock}
+
+\StudyHeading{2}{卷积的两种直觉解释与平移等变性}
+\StudyTarget{CS5489-Lecture06__conv-interpretations}
+
+为什么同一套乘加公式既能做音频降噪，又能从照片里找猫耳朵？课件给出两种互补视角：
+
+\textbf{视角一：频域滤波（filtering）。} 离散时间傅里叶变换（DTFT）把时域信号 $x(t)$ 拆成不同频率的复指数基函数 $e^{-i\omega t}=\cos(\omega t)-i\sin(\omega t)$ 的叠加：$X(\omega)=\sum_t x(t)e^{-i\omega t}$。信号处理里最核心的定理告诉我们：\textbf{时域卷积等价于频域逐点相乘}：
+\[
+s(t) = (x * w)(t) \;\Longleftrightarrow\; S(\omega) = X(\omega)\,W(\omega).
+\tag{6.4}
+\]
+因此，低通（low-pass）核会削弱高频抖动、保留平滑轮廓（例如移动平均），高通（high-pass）核则滤掉平坦背景、突出急剧变化的边缘。而且时域与频域长度成反比：短核只捕捉局部高频变化，长核才能捕捉跨度大的低频结构。
+
+\textbf{视角二：模板匹配（template matching）。} 把翻转后的核 $\tilde{w}$ 看成一个待查找的局部图案。对所有能量固定的局部输入片段（$\|\mathbf{x}\|^2=1$），由柯西–施瓦茨不等式可知，只有当局部信号方向与模板完全对齐（$\mathbf{x}=\tilde{\mathbf{w}}/\|\tilde{\mathbf{w}}\|$）时，内积响应才达到最大值。CNN 训练时，反向传播就是在自动学出一批最有助于分类的视觉模板。
+
+从这两种视角都能直接推出卷积层的核心对称性——\textbf{全局平移等变性（global translation equivariance）}：如果输入信号平移了 $a$ 格，那么卷积输出也原封不动地跟着平移 $a$ 格，即若 $s = x * w$，则
+\[
+s(t-a) = x(t-a) * w(t).
+\tag{6.5}
+\]
+这里有一个\textbf{考试最高频陷阱}：\textbf{等变（equivariance）不等于不变（invariance）}！输入里的猫往右挪 5 个像素，卷积特征图上“猫耳朵高亮峰”也跟着往右挪 5 个像素，输出发生了同步变化，这叫\emph{平移等变}；只有后续加上\textbf{池化（pooling）}或跨位置汇总，让小范围挪动后输出干脆保持不变，才引入了\emph{局部平移不变性（local translation invariance）}。因此，2020B 期末 Q4 中“卷积层引入平移不变性”这一选项是错的。
+
+\textbf{English takeaway:} A convolutional layer is a special fully-connected layer whose weight matrix has a sparse, shared-weight Toeplitz structure. Convolution in the time/spatial domain corresponds to multiplication in the frequency domain, and it acts as template matching. Crucially, convolution provides \emph{translation equivariance} (shifting the input shifts the feature map), whereas pooling provides \emph{local translation invariance}.
+
+\textbf{自查 / Check：} 卷积层是否等于全连接层的特例？它提供的是平移不变性还是平移等变性？ / Is a convolutional layer a special case of a fully-connected layer? Does it provide translation invariance or translation equivariance?
+
+\begin{StudySolution}{答案 / Answer}
+是特例：它的线性变换矩阵具有稀疏且沿对角线共享权重的 Toeplitz 结构。卷积层提供的是\textbf{平移等变性}（输入平移，特征图同步平移）；局部平移不变性由后续的池化层引入。 / Yes, it is a special fully-connected layer with a sparse, shared-weight Toeplitz matrix. Convolution provides \emph{translation equivariance}; \emph{local translation invariance} comes from pooling.
+\end{StudySolution}
+
+来源：Lecture6a，第 9–48 个单元（信号局部性、一维／二维卷积、DTFT 频域解释、模板匹配、Toeplitz 矩阵与平移等变性）。
+
+
+\StudyHeading{1}{2. 二维卷积层、下采样、感受野与参数量}
+\StudyTarget{CS5489-Lecture06__cnn-layers}
+
+考点：特征图尺寸、感受野与参数量 \StudyBadge{final}{期末直接 · 3 套}
+
+把二维卷积装进神经网络，输入不再是单张二维灰度图，而是一个三维张量（volume）：高度 $H$、宽度 $W$、通道数 $C$（PyTorch 常用 \textbf{NCHW} 格式，即样本数\ensuremath{\times}通道\ensuremath{\times}高\ensuremath{\times}宽；TensorFlow/Keras 常用 \textbf{NHWC}）。
+
+假设本层要提取 $F$ 种不同的特征（输出 $F$ 个通道）。每一个输出通道配一个\textbf{三维卷积核}，尺寸为 $C \times K \times K$（注意它必须同时横跨全部 $C$ 个输入通道，再把这 $C\cdot K^2$ 个乘积连同 1 个偏置全部相加，算出该输出通道在当前空间位置的一个标量）。于是整个二维卷积层的可训练参数总数为：
+\[
+\text{Params}_{\text{conv}} = F \times (C \cdot K \cdot K + 1).
+\tag{6.6}
+\]
+如果不含偏置（例如后面紧跟 BatchNorm 时），则省略 $+1$，为 $F C K^2$。对比把同样尺寸的 $C\times H\times W$ 映射到 $F\times H\times W$ 的全连接层，参数量是 $(C H W + 1)\cdot(F H W)$。以一张很小的 $32\times 32\times 3$ 彩色图映射到 $32\times 32\times 16$ 为例：全连接层需要 $(3072+1)\times 16384 = 50{,}348{,}032$ 个参数，而 $3\times 3$ 卷积层只需要 $16\times(3\times 9+1) = 448$ 个参数，相差超过 11 万倍！
+
+\StudyHeading{2}{输出特征图尺寸与感受野通用公式}
+\StudyTarget{CS5489-Lecture06__rf-formula}
+
+设输入高为 $H$（宽 $W$ 同理），卷积核尺寸为 $K$，每边零填充为 $p$，滑动步长（stride）为 $s$，则输出特征图的高度为：
+\[
+H' = \left\lfloor \frac{H + 2p - K}{s} \right\rfloor + 1.
+\tag{6.7}
+\]
+几个最常考的特例可以直接心算：当 $s=1$ 时，\textbf{valid 模式}（$p=0$）给出 $H' = H - K + 1$；\textbf{same 模式}（奇数 $K$ 时 $p=(K-1)/2$）给出 $H' = H$。当 $K=5, p=2, s=2$ 且输入为 $28\times 28$ 时，套式 6.7 得 $\lfloor(28+4-5)/2\rfloor+1 = \lfloor 27/2 \rfloor + 1 = 14$，正好减半。
+
+把多层卷积叠在一起时，后面某一层上的单个特征点，到底能“看到”原始输入图像里多大一块区域？这个区域的大小叫做\textbf{感受野（receptive field）}。当所有层步长都是 $s=1$ 时，叠两层核宽分别为 $|w_1|$ 和 $|w_2|$ 的卷积，感受野按简单加法叠加：$|w_1| + |w_2| - 1$（例如 $|w_1|=5, |w_2|=3$ 时为 $5+3-1=7$）。更一般地，只要存在步长 $s_\ell \ge 1$（或池化步长），用以下两行递推式永远不会算错：设输入层 $r_0=1, J_0=1$（$J_\ell$ 表示第 $\ell$ 层相邻两个特征点在原图上相隔的跳跃距离），则第 $\ell$ 层（核大小 $K_\ell$、步长 $s_\ell$）满足：
+\[
+r_\ell = r_{\ell-1} + (K_\ell - 1)\cdot J_{\ell-1}, \qquad J_\ell = J_{\ell-1}\cdot s_\ell.
+\tag{6.8}
+\]
+
+\StudyImage{CS5489/course-notes/assets/l6-conv-receptive-field.png}
+\StudyCaption{图 6.1：左图展示两层卷积（$K_1=5, K_2=3$，步长 1）如何把感受野扩大到 $5+3-1=7$；右图对比将 $32\times 32\times 3$ 映射到 $32\times 32\times F$ 时，全连接层与 $3\times 3$ 卷积层的参数量差距（对数坐标，教学自绘）。}
+
+\begin{StudyBlock}{完整示范 / Worked example}{三层卷积的特征图尺寸与感受野（对照 2021B 期末 Q10 题型）}
+输入一张 $128\times 128$ 的 RGB 彩色图像（3 通道），依次通过三层步长为 1 的卷积：
+\begin{enumerate}
+\item \textbf{Conv 1}：$7\times 7$，16 输出通道，stride 1，\textbf{valid} 模式（$p=0$）：特征图尺寸为 $(128-7+1)\times(128-7+1)\times 16 = 122\times 122\times 16$；感受野 $r_1 = 1 + (7-1)\times 1 = 7$（即 $7\times 7$），$J_1=1$。
+\item \textbf{Conv 2}：$9\times 9$，8 输出通道，stride 1，\textbf{valid} 模式（$p=0$）：特征图尺寸为 $(122-9+1)\times(122-9+1)\times 8 = 114\times 114\times 8$；感受野 $r_2 = 7 + (9-1)\times 1 = 15$（即 $15\times 15$），$J_2=1$。
+\item \textbf{Conv 3}：$3\times 3$，4 输出通道，stride 1，\textbf{same} 模式（$p=1$）：特征图尺寸保持 $114\times 114\times 4$；感受野 $r_3 = 15 + (3-1)\times 1 = 17$（即 $17\times 17$）。
+\end{enumerate}
+\textbf{核对提醒：} 2021B 原题参考答案中曾把 valid 模式的收缩误写成只减单侧 $(K-1)/2$（得出 $125\to 121$）；按式 6.7 和 PyTorch/NumPy 实算，无填充时上下左右四边各缩 $(K-1)/2$，每维总收缩量一定是 $K-1$（$128\to 122\to 114$）。考试作答时务必把公式 $H' = H - K + 1$ 写清，展示完整推导。
+\end{StudyBlock}
+
+\StudyHeading{2}{空间下采样：步长（Stride=2）与最大池化（2\ensuremath{\times}2 Max-Pooling）}
+\StudyTarget{CS5489-Lecture06__subsampling}
+
+考点：Stride=2 与 Max-Pooling 对比 \StudyBadge{final}{期末直接 · 1 套}
+
+典型 CNN 越往深层走，遵循一条黄金规律：\textbf{空间分辨率逐层缩小，通道数逐层增多}（例如 $512\times 512\times 3 \to \cdots \to 8\times 8\times 512$）。这样做一方面扩大感受野，让高层单个特征点覆盖整个物体；另一方面把空间分辨率换成了语义专一性（低层找边角，中层拼车轮、车门，高层认整车），同时也把后面全连接层的输入维度压了下来。
+
+要把特征图的高和宽各缩小一半，有两种最常见做法（也是 2021A 期末 Q9 的 10 分整道简答题）：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.41\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.41\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+方法 & 优点（Advantages） & 缺点（Disadvantages） \\
+\midrule\endfirsthead
+方法 & 优点（Advantages） & 缺点（Disadvantages） \\
+\midrule\endhead
+\bottomrule\endfoot
+卷积直接用 stride=2 & 计算量大幅下降：相比 stride=1 只需约 $1/4$ 的卷积运算量。 & 跳跃步子太大，如果关键特征恰好落在被跳过的中心位置，可能漏检特征。 \\
+stride=1 卷积 + 2\ensuremath{\times}2 Max-Pooling & 每个位置先做密集特征提取，再在 $2\times 2$ 小窗内取最大响应，不易漏掉重要特征；同时引入\textbf{局部平移不变性}，对特征微小位置偏移更鲁棒。 & 必须在更高分辨率上先跑完 stride=1 卷积，计算开销和中间显存占用都更大。 \\
+\end{longtable}\endgroup
+
+按课堂与真题标准结论：如果算力允许，\textbf{stride=1 配合 2\ensuremath{\times}2 Max-Pooling 通常效果更好}（因为它先密算、再汇总，兼顾不漏特征与局部平移不变性）；只有在输入图像很小（例如 MNIST $28\times 28$）或算力极受限时，才常用 stride=2 直接降采样。另外，把经典 CNN 末尾的卷积特征展平（Flatten）送进 MLP 分类器时，若前面没有池化或步长降维，展平后的向量维度会大得惊人，导致全连接层参数过重、极易过拟合（这正是 2021B Q11 要求改架构的核心原因之一）。
+
+\textbf{自己做 / Check：} 课堂上的 MNIST 深度 CNN（Lecture6a 第 79–80 个单元）依次使用三层 $5\times 5$ 卷积（均取 $p=2$）：第 1 层 stride=2（$1\to 10$ 通道），第 2 层 stride=2（$10\to 40$ 通道），第 3 层 stride=1（$40\to 80$ 通道）。请用式 6.8 计算三层之后的感受野 $r_1, r_2, r_3$，以及第 2 层卷积的参数量（含偏置）。 / Compute the receptive fields $r_1, r_2, r_3$ after the three $5\times 5$ conv layers (strides 2, 2, 1) of the MNIST Deep CNN, and the parameter count (with bias) of layer 2 ($10\to 40$ channels).
+
+\begin{StudySolution}{答案 / Answer}
+从 $r_0=1, J_0=1$ 起步：第 1 层 $r_1 = 1 + 4\times 1 = 5,\; J_1 = 2$；第 2 层 $r_2 = 5 + 4\times 2 = 13,\; J_2 = 4$；第 3 层 $r_3 = 13 + 4\times 4 = 29,\; J_3 = 4$（已经能覆盖整张 $28\times 28$ 数字图！）。第 2 层参数量为 $40\times(10\times 5\times 5 + 1) = 40\times 251 = 10{,}040$。 / Receptive fields are $5, 13, 29$ (with jumps $2, 4, 4$), so layer 3 already spans the whole $28\times 28$ image. Layer 2 has $40\times(10\times 25 + 1)=10{,}040$ parameters.
+\end{StudySolution}
+
+来源：Lecture6a，第 49–82 个单元（二维卷积层、特征图层次、步长与最大池化、感受野、参数对比及 MNIST 浅层／深层 CNN 示范）。
+
+
+\StudyHeading{1}{3. L2 权重衰减｜为什么正则化必须加在所有层？}
+\StudyTarget{CS5489-Lecture06__l2-reg}
+
+考点：L2 正则化与高斯先验 MAP \StudyBadge{final}{期末直接 · 2 套}
+
+神经网络参数动辄几十万，训练集又有限，很容易把训练样本里的噪声一起背下来。最经典的正则化方法是在原损失 $L$ 后面加上全部权重的平方 $L_2$ 范数惩罚项：
+\[
+\hat{L}(\mathbf{w}) = L(\mathbf{w}) + \frac{\lambda}{2}\|\mathbf{w}\|_2^2,
+\tag{6.9}
+\]
+其中 $\lambda > 0$ 控制惩罚力度。求梯度得 $\nabla_{\mathbf{w}}\hat{L} = \nabla_{\mathbf{w}}L + \lambda\mathbf{w}$，代入学习率为 $\eta$ 的梯度下降：
+\[
+\mathbf{w} \leftarrow \mathbf{w} - \eta\left(\frac{dL}{d\mathbf{w}} + \lambda\mathbf{w}\right)
+= (1 - \eta\lambda)\mathbf{w} - \eta\frac{dL}{d\mathbf{w}}.
+\tag{6.10}
+\]
+每走一步，旧权重先按比例 $(1-\eta\lambda)$ 往 0 收缩一点，再沿数据损失的负梯度走一步——所以 L2 正则化在深度学习里常直接叫\textbf{权重衰减（weight decay）}。最优解满足平衡条件 $\lambda\mathbf{w} = -\frac{dL}{d\mathbf{w}}$，即数据拟合拉力与向原点收缩的惩罚力打平。从概率视角看，把负对数似然当 $L$、加上 $\frac{\lambda}{2}\|\mathbf{w}\|_2^2$，恰好等价于给权重设定\textbf{零均值高斯先验（Gaussian prior）后做最大后验估计（MAP）}（2021B 期末 Q5 选项 E 直接考到这一对应）。
+
+\textbf{高频考题：能只给最后几层（或只给前几层）加 L2 正则吗？} 答案是\textbf{不行，必须加在所有层上}（2021A Q3 与 2021B Q5 连续两年考过！）。原因藏在 ReLU 激活函数的正齐次性里（即对任意 $\varepsilon > 0$，有 $r(\varepsilon z) = \varepsilon\,r(z)$）。考虑两层网络 $f(\mathbf{x}) = \mathbf{A}^T r(\mathbf{B}^T\mathbf{x})$：只要把 $\mathbf{B}$ 乘以 $\varepsilon$，同时把 $\mathbf{A}$ 除以 $\varepsilon$，网络输出函数纹丝不动：
+\[
+f(\mathbf{x}) = \mathbf{A}^T r(\mathbf{B}^T\mathbf{x}) = \frac{1}{\varepsilon}\mathbf{A}^T r(\varepsilon\mathbf{B}^T\mathbf{x}),\qquad \varepsilon > 0.
+\tag{6.11}
+\]
+如果你只惩罚输出层权重 $\mathbf{A}$，优化器只需把 $\varepsilon$ 调大（例如 $\varepsilon=10$），就能把 $\|\mathbf{A}\|_2^2$ 瞬间缩小 100 倍来“逃税”，同时把 $\mathbf{B}$ 放大 10 倍，让决策边界和过拟合程度完全不变！反之，只惩罚 $\mathbf{B}$ 也会被 $\varepsilon \to 0$ 绕过。只有对所有层的权重同时加 L2 惩罚，网络才无法通过层间缩放来规避正则化。还要注意：L2 正则化直接限制的是\textbf{权重大小}，并不是直接把激活值硬截断变小。
+
+\textbf{对照原代码：} 课件 Lecture6b 第 15 个单元的 \StudyInline{CNNWithL2} 在实现中写了 \StudyInline{torch.\allowbreak{}norm(param,\allowbreak{} p=2)}（未平方，实际是 $\|\mathbf{w}\|_2$ 而非 $\|\mathbf{w}\|_2^2$），且遍历了含偏置的全部参数；理论与考试均以式 6.9–6.10（即 $\frac{\lambda}{2}\|\mathbf{w}\|_2^2$，以及 PyTorch 优化器里标准的 \StudyInline{weight\_\allowbreak{}decay} 参数）为准。
+
+\textbf{跟做 / Worked：} 设标量权重 $w=2.0$，数据梯度 $g=0.5$，学习率 $\eta=0.1$，权重衰减系数 $\lambda=0.2$。按式 6.10 更新一步：$w_{\text{new}} = (1 - 0.1\times 0.2)\times 2.0 - 0.1\times 0.5 = 1.96 - 0.05 = 1.91$。相比无正则时的 $2.0 - 0.05 = 1.95$，权重大了 $0.04$ 的收缩。
+
+\textbf{English takeaway:} L2 weight decay shrinks weights by $(1-\eta\lambda)$ every step and corresponds to MAP estimation under a zero-mean Gaussian weight prior. Because ReLU networks satisfy $\frac{1}{\varepsilon}\mathbf{A}^T r(\varepsilon\mathbf{B}^T\mathbf{x})=\mathbf{A}^T r(\mathbf{B}^T\mathbf{x})$, L2 regularization must be applied to \emph{all} layers; penalizing only one subset can be bypassed by rescaling weights across layers.
+
+来源：Lecture6b，第 11–20 个单元（L2 正则化推导、平衡条件与 MNIST 实验）；层间缩放等价性亦在 Lecture7a 第 20 个单元再次强调。
+
+
+\StudyHeading{1}{4. 早停与训练／验证曲线诊断｜看懂三条经典考题曲线}
+\StudyTarget{CS5489-Lecture06__early-stopping}
+
+考点：损失曲线诊断、早停与架构改进 \StudyBadge{final}{期末直接 · 3 套}
+
+除了在损失函数里显式加惩罚项，\textbf{早停（early stopping）}本身就是一种\textbf{隐式正则化}：假设参数从原点附近初始化，训练步数越少，梯度下降能把 $\mathbf{w}$ 带离原点的距离就越有限——这等价于在参数空间给 $\|\mathbf{w}\|_2$ 加上一个随验证集自适应调节的半径约束。而且它不用人工去网格搜索 $\lambda$，只要盯着验证集损失（或验证准确率），在验证指标触底反弹前把最佳检查点存下来即可。
+
+历史期末考（2020B Q9、2021B Q11）非常喜欢直接贴出训练损失（training loss）和验证损失（validation loss）两条曲线，让你诊断问题并给出对症下药的方案。图 6.2 总结了最常考的三种形态：
+
+\StudyImage{CS5489/course-notes/assets/l6-loss-diagnosis.png}
+\StudyCaption{图 6.2：三种经典训练／验证损失曲线形态——(a) 过拟合：训练损失续降而验证损失回头上升；(b) 大泛化差距：两者都趋于平稳但验证损失高出一截；(c) 未收敛：两条曲线仍在稳定下降（教学自绘）。}
+
+\begin{enumerate}
+\item \textbf{图 6.2(a) 典型过拟合（overfitting）：} 训练损失一路压低，验证损失先降后升。说明模型开始背诵训练噪声。对策：早停（恢复验证损失最低处的模型）、L2 权重衰减、Dropout、模型集成（bagging）、数据增强；如果是 2021B Q11 那种具体 CNN 结构题，还可以从架构下手——把过大的 $7\times 7, 9\times 9$ 卷积核换成 $3\times 3$ 或 $5\times 5$ 减少参数、每层卷积后加最大池化压低展平维度、让通道数按浅到深\emph{递增}（如 $8\to 16\to 32$ 而不是递减）、在卷积末层和全连接层加 Dropout。
+\item \textbf{图 6.2(b) 大泛化差距（large generalization gap）：} 两条损失都已经走平，但验证损失稳定高于训练损失一大截。此时\textbf{早停帮不上忙}（因为验证损失并未回头上升），需要用 L2 正则化、Dropout、数据增强、增加训练样本或简化模型来缩小训练与验证之间的鸿沟。
+\item \textbf{图 6.2(c) 训练尚未收敛（under-converged）：} 训练和验证损失都还在明显往下走，说明“还没学够”。对策：增加训练轮数（more epochs），或适当调大学习率（increase learning rate）。
+\end{enumerate}
+
+\textbf{迁移 / Transfer：} 如果某 CNN 的训练损失从 1.8 降到 0.05 并走平，验证损失从 1.9 降到 0.80 后一直横在 0.80 附近不升也不降，此时启用早停能解决问题吗？应该改用哪些方法？ / If training loss plateaus at 0.05 while validation loss flattens at 0.80 without rising, will early stopping fix the issue? What should you try instead?
+
+\begin{StudySolution}{答案 / Answer}
+早停无法解决，因为验证损失并未先降后升（提前停只会让验证损失更高或持平）。这属于较大的泛化差距，应使用数据增强、L2 权重衰减、Dropout、集成或收集更多训练数据。 / Early stopping will not help because validation loss does not turn upward. This is a large generalization gap; apply data augmentation, L2 weight decay, dropout, ensembling, or more training data.
+\end{StudySolution}
+
+来源：Lecture6b，第 21–28 个单元（过拟合观察、早停实现与早停作为自适应 L2 正则的解释）。
+
+
+\StudyHeading{1}{5. 集成（Bagging）与 Dropout｜用“众人拾柴”压低方差}
+\StudyTarget{CS5489-Lecture06__ensemble-dropout}
+
+考点：Bagging 误差分解与 Dropout 机制 \StudyBadge{final}{期末直接 · 1 套}
+
+\StudyHeading{2}{模型集成与误差相关性}
+\StudyTarget{CS5489-Lecture06__bagging}
+
+把 $K$ 个模型的预测取平均，称为\textbf{集成（ensemble）}或\textbf{装袋法（bagging, bootstrap aggregation）}。设第 $i$ 个模型的预测误差为 $\epsilon_i$，每个单模型的均方误差相同：$\mathrm{MSE}_i = \mathbb{E}[\epsilon_i^2] = V$；不同模型（$i\ne j$）的误差协方差（相关性）为 $C = \mathbb{E}[\epsilon_i\epsilon_j]$。那么平均预测的误差是 $\bar{\epsilon} = \frac{1}{K}\sum_{i=1}^K \epsilon_i$，展开其均方误差：
+\[
+\mathrm{MSE}_c = \mathbb{E}\!\left[\left(\frac{1}{K}\sum_{i=1}^K \epsilon_i\right)^2\right]
+= \frac{1}{K^2}\left(K V + K(K-1)C\right)
+= \frac{V}{K} + \frac{K-1}{K}C.
+\tag{6.12}
+\]
+盯住式 6.12 的两个极端：如果 $K$ 个模型犯的错完全不相关（$C=0$），合并后误差直接缩小为 $V/K$；可如果大家犯一模一样的错（$C=V$），那么 $\mathrm{MSE}_c = V$，集成白费功夫。以 $V=1.0, K=5$ 为例：$C=0$ 时 $\mathrm{MSE}_c = 0.20$；$C=0.5$ 时 $\mathrm{MSE}_c = 0.60$；$C=1.0$ 时仍是 $1.0$。
+
+传统机器学习做 bagging 通常要靠有放回抽样（bootstrap）造出不同子数据集来制造差异。但对神经网络而言，\textbf{并不需要必须换不同数据集}（这是 2021A 期末 Q3 选项 E 的直接判断点）：因为神经网络损失面存在大量不同的局部解，\textbf{用同一份训练集配合不同的随机初始化（或不同的打乱顺序、超参数）}，就能训出误差部分不相关的多个网络，把它们的预测概率平均就能稳定提分。课堂上 5 个独立初始化的 MNIST CNN 单模型测试准确率在 95.81\%–96.58\% 之间，集成后提升到 96.65\%。
+
+\StudyHeading{2}{Dropout：共享参数的指数级隐式集成}
+\StudyTarget{CS5489-Lecture06__dropout}
+
+同时训练并部署 100 个深层 CNN 代价太高。Dropout 提出了一个极巧妙的近似：每次训练前向传播时，对每个输入或隐藏节点以概率 $p$（例如 $p=0.5$）\textbf{独立随机地把输出置 0}（丢弃该节点，不参与本次前向预测，也不参与反向更新）。注意：丢弃是纯粹按概率 $p$ 随机进行的，\textbf{并不取决于激活值是否超过某个阈值}（2021A 期末 Q3 选项 C 的常见误导点）。
+
+如果网络有 $M$ 个可丢弃节点，理论上就藏着 $2^M$ 个共享同一套权重的子网络，每次小批量迭代都在同时训练这个指数级大家族里的不同成员。到了\textbf{测试阶段}，不再随机丢弃，而是打开所有节点，并把输出乘以 $(1-p)$：因为训练时节点以概率 $1-p$ 保留原值 $h$、以概率 $p$ 变成 0，期望输出是 $(1-p)h$，测试时乘 $(1-p)$ 恰好让测试输出与训练期望对齐（工程框架如 PyTorch 采用等价的 \textbf{inverted dropout}：训练时把存活节点除以 $1-p$ 放大，测试时原样不动，同样保持期望一致）。
+
+从效果上看，Dropout 同时做了三件事：(1) 随机置 0 阻断了部分反向传播路径，减轻信号在过多路径上被稀释；(2) 强迫网络不能“把鸡蛋全放在某一个特征节点里”，因为任何节点随时可能缺席，其他节点必须协同撑起分类，从而提升鲁棒性；(3) 等价于缩小了网络有效容量，因此使用 Dropout 时常常可以适度加宽网络。在 CNN 里，常见做法是对卷积末层的特征图用 \StudyInline{Dropout2d}（整张特征通道一起丢），对全连接隐藏层用 \StudyInline{Dropout}。
+
+\textbf{自查 / Check：} 对 $K=5$ 个单模型 $\mathrm{MSE}=1.0$ 做集成，若两两误差协方差 $C=0.5$，集成后 $\mathrm{MSE}_c$ 是多少？为什么神经网络做 bagging 不必非要划分成 5 份不同数据集？ / For $K=5$ models with individual MSE $1.0$ and pairwise error covariance $C=0.5$, what is $\mathrm{MSE}_c$? Why doesn't neural-network bagging strictly require different datasets?
+
+\begin{StudySolution}{答案 / Answer}
+$\mathrm{MSE}_c = \frac{1.0}{5} + \frac{4}{5}\times 0.5 = 0.60$。神经网络的非凸损失面存在很多不同极小点，即使在同一训练集上，仅靠不同随机权重初始化（或超参数、小批量顺序）也能得到误差部分不相关的模型。 / $\mathrm{MSE}_c = 0.2 + 0.8\times 0.5 = 0.60$. Because neural networks have many distinct local solutions, different random initializations on the same dataset already yield partially uncorrelated errors.
+\end{StudySolution}
+
+来源：Lecture6b，第 29–46 个单元（Bagging 均方误差推导、5-CNN 集成示范、Dropout 训练／测试缩放与作用机理）。
+
+
+\StudyHeading{1}{6. 数据增强与 MNIST 完整实验对比｜让模型见多识广}
+\StudyTarget{CS5489-Lecture06__data-aug}
+
+考点：数据增强方案设计与目的 \StudyBadge{final}{期末直接 · 3 套}
+
+当训练数据不够时，与其让模型死背 1000 张老图，不如在每轮训练读取图像时，动态施加随机但合理的几何或光度变换（平移、小幅旋转、缩放、剪切、翻转、亮度对比度微调、加像素噪声等），这叫\textbf{数据增强（data augmentation）}。
+
+\textbf{数据增强有两个核心目的}（三套期末真题的必答得分点）：第一，\textbf{人工扩大有效训练集规模}，让 CNN 看到更多样化的输入变化，缓解过拟合；第二，\textbf{把对指定变换的不变性／鲁棒性编码进模型权重里}，使网络对这些干扰不再敏感。
+
+\textbf{选择变换的唯一铁律：绝不能改变或混淆原始类别标签！} 例如识别手写数字时，可以把“6”稍微歪转 $\pm 10^\circ$，却绝不能旋转 $180^\circ$（否则“6”就变成了“9”）。下表直接对照三套历史期末真题的场景，展示如何按领域先验挑对变换：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.42\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.36\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+任务场景（真题） & 推荐的数据增强（及理由） & 禁忌变换（为何会破坏标签） \\
+\midrule\endfirsthead
+任务场景（真题） & 推荐的数据增强（及理由） & 禁忌变换（为何会破坏标签） \\
+\midrule\endhead
+\bottomrule\endfoot
+航拍俯视图识别车辆（2020B Q11） & $360^\circ$ 任意旋转（车头可朝任意方向）、颜色偏移（车漆颜色多样）、亮度／对比度变化（阴影与日照）、极小幅缩放（约 5\%，因航拍高度相近车尺寸基本一致）。 & 大幅缩放（易与大型建筑或玩具噪点混淆）。 \\
+水下照片识别水母（2021B Q12） & $360^\circ$ 旋转（水母姿态任意）、较大缩放（如 50\% 内，水母大小和远近差异大）、颜色／偏蓝微调（水下蓝绿光）、模糊滤波（模拟水下散射）、亮度／对比度变化。 & 过度裁剪把整只水母裁出画面。 \\
+手写一元二次方程分类（2021A Q12） & 小角度旋转（模拟写字略歪）、轻微拉伸／倾斜（不同字迹）、亮度变化（纸张光照）、颜色偏移（不同颜色的笔）、随机像素噪声（相机传感噪点）。 & \textbf{严禁}水平／垂直翻转或大角度旋转（镜像后的数字和符号如 $x^2-2x+3$ 会彻底失效或变成错式）。 \\
+\end{longtable}\endgroup
+
+如果数据集太大放不进内存，可以用数据生成器（PyTorch \StudyInline{Dataset} / \StudyInline{DataLoader} 按路径逐批从硬盘读取并实时增强），既省内存又能让每轮看到的增强样本都略有不同。
+
+\StudyHeading{2}{MNIST 全流程对比：从逻辑回归到 CNN + 正则化 + 数据增强}
+\StudyTarget{CS5489-Lecture06__mnist-comparison}
+
+把 Lecture 5 与 Lecture 6 在 MNIST 上的实验排在一张表里，可以直观看到“改架构”和“加正则／数据增强”各自带来多大跃升（表内左栏为独立重算的参数量，两栏准确率分别如实区分当前 PyTorch 单元运行记录与课件末页保存的历史汇总表，不混为一谈）：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.36\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+模型配置（均在 6000 训练子集、10000 测试集上） & 独立重算参数量 & 当前 PyTorch 单元实测 & 原课 c069 历史汇总 \\
+\midrule\endfirsthead
+模型配置（均在 6000 训练子集、10000 测试集上） & 独立重算参数量 & 当前 PyTorch 单元实测 & 原课 c069 历史汇总 \\
+\midrule\endhead
+\bottomrule\endfoot
+多分类逻辑回归（784\ensuremath{\to}10） & 7,850 & —（见 L5） & 89.11\% \\
+2 层 MLP（50 / 200 / 1000 隐节点） & 39,760 / 159,010 / 795,010 & —（见 L5） & 93.80\% / 94.37\% / 94.62\% \\
+3 层 MLP（500\ensuremath{\to}500\ensuremath{\to}10） & 648,010 & —（见 L5） & 95.29\% \\
+浅层 CNN（1 层 $5\times 5$ s=2 + FC50） & 98,820 & 94.22\% & 95.34\% \\
+深层 CNN（3 层 $5\times 5$, 10/40/80 通道 + FC50） & 286,940 & 95.97\% & 95.64\% \\
+深层 CNN + L2 权重衰减 & 286,940 & 96.58\% & 96.60\% \\
+深层 CNN 5 模型集成（不同初始化） & $5\times 286{,}940$ & 96.65\% & 97.23\% \\
+深层 CNN + Dropout（$p=0.5$） & 286,940 & 96.77\% & 97.13\% \\
+深层 CNN + Dropout + 数据增强 & 286,940 & 98.57\% & 98.93\% \\
+深层 CNN + Dropout + 数据增强 + 像素噪声 & 286,940 & 98.75\% & 98.95\% \\
+\end{longtable}\endgroup
+
+两处细节值得留意：第一，深层 CNN 参数量（286,940）不到三层 MLP（648,010）的一半，裸训就能反超；第二，加上数据增强后，测试错误率从 3.23\% 骤降到 1.43\%（直接砍掉一半以上错误！），充分说明在样本有限时，把合理的几何先验通过数据增强喂给网络，往往比单纯堆参数更立竿见影。顺便核对原课 c069 表格的印刷笔误：该表架构栏误把后两层写成了 \StudyInline{Conv(50x3x3), Conv(80x3x3)}，但其标出的参数总数 \StudyInline{286,940} 经精确验算，正对应代码里实际的 \StudyInline{10(5x5), 40(5x5), 80(5x5)} 结构（$260+10{,}040+80{,}080+196{,}050+510=286{,}940$）。
+
+来源：Lecture6a，第 62–81 个单元；Lecture6b，第 47–70 个单元。
+
+
+\StudyHeading{1}{7. 回顾与英文自测}
+\StudyTarget{CS5489-Lecture06__review}
+
+这一讲的脉络可以串成一句话：针对图像／音频的局部性与平移性，用\textbf{卷积核共享权重}替代全连接，用\textbf{步长或池化}压缩空间、扩大感受野，再靠\textbf{L2、早停、集成、Dropout、数据增强}压住过拟合。
+
+\textbf{Q1. 卷积层为何比全连接层参数少得多？它带来平移不变性还是平移等变性？ / Why does a conv layer use far fewer parameters than a dense layer, and does it give translation invariance or equivariance?}
+
+\textbf{答 / Answer：} 卷积层只连接局部 $K\times K$ 窗口，且同一卷积核权重在整张特征图上共享，参数量 $F(CK^2+1)$ 与图像高宽 $H,W$ 无关。它带来的是\textbf{平移等变性}；局部平移不变性由池化层引入。 / A conv layer connects only local $K\times K$ patches and shares weights across all spatial positions, giving $F(CK^2+1)$ parameters independent of $H,W$. It provides \emph{translation equivariance}; \emph{local translation invariance} comes from pooling.
+
+\textbf{Q2. 为什么 L2 正则化必须加在神经网络的所有层上，而不能只加在某几层？ / Why must L2 regularization be applied to all layers rather than only a subset of layers?}
+
+\textbf{答 / Answer：} 对 ReLU 网络，$f(\mathbf{x})=\frac{1}{\varepsilon}\mathbf{A}^T r(\varepsilon\mathbf{B}^T\mathbf{x})$ 保持输出不变。若只惩罚某几层，训练可把受罚层权重缩小 $\varepsilon$ 倍同时把不受罚层放大 $\varepsilon$ 倍，从而绕过正则化而不改变函数。 / Because of ReLU rescaling invariance, $f(\mathbf{x})=\frac{1}{\varepsilon}\mathbf{A}^T r(\varepsilon\mathbf{B}^T\mathbf{x})$. Penalizing only one subset lets training shrink those weights while scaling up unpenalized layers, bypassing regularization without changing the function.
+
+\textbf{Q3. 早停为什么能起到类似 L2 正则化的作用？何时早停会失效？ / Why does early stopping act like L2 regularization, and when does it fail to help?}
+
+\textbf{答 / Answer：} 限制迭代步数等于限制权重偏离初始化原点的距离（类似限制 $\|\mathbf{w}\|_2$），且由验证集自适应决定停止时刻。当验证损失与训练损失都已走平但存在大泛化差距（验证损失未反弹上升）时，早停不起作用。 / Limiting training steps restricts how far weights move from initialization (similar to bounding $\|\mathbf{w}\|_2$), adaptively chosen via validation loss. It does not help when validation loss plateaus at a high level without rising (a flat generalization gap).
+
+\textbf{Q4. 用 2\ensuremath{\times}2 Max-Pooling 还是 stride=2 卷积把特征图减半？如何权衡？ / How do 2\ensuremath{\times}2 max-pooling and stride-2 convolution compare for halving spatial dimensions?}
+
+\textbf{答 / Answer：} Stride=2 计算量仅约为 stride=1 的 $1/4$，但大步跨过某些位置可能漏掉局部特征；stride=1 加 $2\times 2$ Max-Pooling 计算量更大，但不易漏特征并引入局部平移不变性，通常表现更佳。 / Stride 2 uses roughly $1/4$ the compute of stride 1 but may skip over important features. Stride-1 conv followed by $2\times 2$ max-pooling costs more compute, avoids skipping features, adds local translation invariance, and is generally preferred.
+
+\textbf{Q5. 数据增强的两大目的是什么？选择变换的底线是什么？ / What are the two main purposes of data augmentation, and what rule governs valid transformations?}
+
+\textbf{答 / Answer：} 目的：(1) 人工扩充数据集规模、增加样本变化以减轻过拟合；(2) 让模型对所施加变换具备不变性／鲁棒性。底线：任何变换都不能改变或混淆原始类别标签（如手写数字不能把 6 翻转成 9，手写方程不能左右镜像）。 / Purposes: (1) enlarge effective dataset size/variation to reduce overfitting; (2) build invariance/robustness to those transformations. Rule: transformations must never change or confuse class labels.
+
+
+\StudyHeading{2}{学习要求与难点回查}
+\StudyTarget{CS5489-Lecture06__learning-priorities}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.44\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endfirsthead
+主题 & 学习优先级 & 理解难度与卡点 & 掌握要求／判断依据 \\
+\midrule\endhead
+\bottomrule\endfoot
+卷积定义、频域与 Toeplitz & 核心必会 & 中，等变 vs 不变 & 说清局部性、平移等变、频域相乘与稀疏共享矩阵 \\
+特征图尺寸、感受野与参数 & 核心必会 & 中，valid 减 $K-1$ 与步长递推 & 独立算对任意多层 CNN 的输出尺寸、感受野和参数量 \\
+Stride=2 vs Max-Pooling & 核心必会 & 低，易混利弊 & 能用英文分条对比计算量、漏特征与局部平移不变性 \\
+L2 正则与层间缩放 & 核心必会 & 中，ReLU 齐次性证明 & 默写权重衰减步进公式，说清全层正则和 MAP 对应 \\
+早停与损失曲线诊断 & 核心必会 & 低，易把大差距误当过拟合 & 区分三类曲线并给出对应正则化或架构调整 \\
+Bagging 与 Dropout & 核心必会 & 中，协方差项与测试缩放 & 会用 $\mathrm{MSE}_c$ 公式，解释 Dropout 原理及测试乘 $1-p$ \\
+数据增强设计 & 核心必会 & 低，须贴合具体领域 & 针对给定图像任务选出 3–4 种合理变换并排除破坏标签的变换 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{Historical exam map｜按考点查历史期末题源}
+\StudyTarget{CS5489-Lecture06__exam-topic-index}
+
+口径：汇总已辨识的 3 套独立期末卷（2020B、2021A、2021B）；同卷不重复计数，未见不等于不考。完整三卷双语题答见本地期末题库合订本。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.54\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+考点 & 试卷与题号 & 考查重点与提醒 \\
+\midrule\endfirsthead
+考点 & 试卷与题号 & 考查重点与提醒 \\
+\midrule\endhead
+\bottomrule\endfoot
+卷积性质、尺寸与感受野 & 2020B Q4；2021A Q3；2021B Q10 & 频域相乘、Toeplitz 共享、平移等变（非不变）；3 层卷积算特征图尺寸与感受野（注意 valid 减 $K-1$） \\
+Stride=2 vs Max-Pooling & 2021A Q9 & 10 分简答：比较两种降采样一半的利弊及偏好 \\
+L2 正则与高斯先验 & 2021A Q3；2021B Q5 & 必须加在所有层；等价高斯先验 MAP；直接约束权重而非激活 \\
+曲线诊断、早停与改架构 & 2020B Q9；2021A Q3；2021B Q11 & 区分过拟合、泛化差距、未收敛；针对过拟合 CNN 改小核、加池化、递增通道、加 Dropout \\
+Bagging 与 Dropout & 2021A Q3 & Dropout 独立随机不看阈值；NN bagging 可共用训练集配不同初始化 \\
+数据增强设计 & 2020B Q11；2021A Q12；2021B Q12 & 航拍车辆、手写二次方程、水下水母——三套卷全部考到 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{来源覆盖索引}
+\StudyTarget{CS5489-Lecture06__sources}
+
+依据当前课件 Lecture6a（82 个单元）与 Lecture6b（70 个单元），单元编号从 1 起算，含文字与代码单元。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原课位置 & 对应讲义 \\
+\midrule\endfirsthead
+原课位置 & 对应讲义 \\
+\midrule\endhead
+\bottomrule\endfoot
+Lecture6a，第 1–18 个单元 信号类型、局部性与平移假设、MLP 缺陷 & §1 \\
+Lecture6a，第 19–48 个单元 1D/2D 卷积、边界模式、DTFT、模板匹配、Toeplitz、等变性 & §1 \\
+Lecture6a，第 49–61 个单元 CNN 层次、2D 卷积层、步长、最大池化、感受野、参数对比 & §2 \\
+Lecture6a，第 62–82 个单元 MNIST 浅层／深层 CNN 实现、滤波器可视化与总结 & §2、§6 \\
+Lecture6b，第 1–20 个单元 MNIST 加载、L2 权重衰减公式与实验 & §3 \\
+Lecture6b，第 21–28 个单元 过拟合曲线、早停代码与自适应 L2 正则解释 & §4 \\
+Lecture6b，第 29–46 个单元 Bagging 误差分解、5-CNN 集成、Dropout 原理与实现 & §5 \\
+Lecture6b，第 47–70 个单元 数据增强、像素噪声、生成器、MNIST 全模型对比与总结 & §6、§7 \\
+\end{longtable}\endgroup
+
+本讲全部手算验算与自绘教学图见同目录 \StudyInline{tools/\allowbreak{}verify\_\allowbreak{}l6\_\allowbreak{}l7\_\allowbreak{}examples.\allowbreak{}py}（独立断言结果存档于 \StudyInline{l6-l7-example-results.\allowbreak{}json}）。

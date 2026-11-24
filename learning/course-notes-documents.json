@@ -26,6 +26,16 @@
       "major": true
     },
     {
+      "source": "CS5489/course-notes/Lecture06.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Lecture07.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
       "source": "CS5489/course-notes/Tutorial01.tex",
       "course": "CS5489",
       "major": true,
@@ -141,7 +151,7 @@
       "major": false
     }
   ],
-  "major_documents": 21,
+  "major_documents": 23,
   "scope": "Current downloaded Canvas; native LaTeX teaching sources, saved executable Notebooks and nine A4 PDFs",
-  "updated": "2026-10-16"
+  "updated": "2026-11-24"
 }

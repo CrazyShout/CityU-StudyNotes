@@ -9,6 +9,8 @@
 - [Lecture 3 · Discriminative Classifiers｜从概率分布走向分类边界](Lecture03.tex)
 - [Lecture 4 · Regression｜从“分到哪一类”走向“预测多少”](Lecture04.tex)
 - [Lecture 5 · Neural Networks](Lecture05.tex)
+- [Lecture 6 · Convolutional Neural Networks & Regularization](Lecture06.tex)
+- [Lecture 7 · Deep Learning: Training Tricks, Architectures & Transfer Learning](Lecture07.tex)
 ## Tutorial · 配套练习
 
 - [Tutorial 1 · From Python loops to orthonormal vectors](Tutorial01.tex)

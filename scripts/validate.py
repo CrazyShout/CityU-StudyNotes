@@ -22,10 +22,12 @@ from question_types import TASK_LABELS
 
 
 def source_checks(source_dir=None):
-    registry=json.loads((ROOT/'learning/course-notes-documents.json').read_text())['documents']
+    reg_data=json.loads((ROOT/'learning/course-notes-documents.json').read_text())
+    registry=reg_data['documents']
     formal=[x for x in registry if x['major'] or x.get('print_appendix') or x['course'] is None]
     assert [x['source'] for x in formal]==[d['source'] for d in DOCS]
-    assert sum(x['major'] for x in registry)==21 and len(DOCS)==25
+    expected_major=reg_data['major_documents']
+    assert sum(x['major'] for x in registry)==expected_major and len(DOCS)==len(formal)
     for course in COURSES[:2]:
         stems=[Path(d['source']).stem for d in DOCS if d['course']==course and d['major']]
         order=[0 if s.startswith(('Lecture','Chapter')) else 1 if s.startswith('Tutorial') else 2 for s in stems]
@@ -121,7 +123,7 @@ def source_checks(source_dir=None):
     subprocess.run([sys.executable,str(ROOT/'scripts/build_exam_annotations.py'),'--check'],check=True)
     for script in [ROOT/'CS5222/course-notes/tools/depth_examples.py',MID/'tools/verify_calculations.py']:
         subprocess.run([sys.executable,str(script),'--check'] if script.name=='verify_calculations.py' else [sys.executable,str(script)],check=True)
-    return {'major_documents':21,'formal_tex_documents':25,'protected_notebook_code_cells':protected,'preserved_course_math_expressions':math_count,'question_pairs':67,'original_positions':78,'question_types':dict(types),**catalog}
+    return {'major_documents':expected_major,'formal_tex_documents':len(DOCS),'protected_notebook_code_cells':protected,'preserved_course_math_expressions':math_count,'question_pairs':67,'original_positions':78,'question_types':dict(types),**catalog}
 
 
 def publication_checks():
