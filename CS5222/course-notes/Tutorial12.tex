@@ -1,0 +1,98 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Tutorial12}{Tutorial 12 · CSMA 冲突、多交换机自学习、双 ARP 表与 802.11 RTS/CTS}
+\StudyTarget{CS5222-Tutorial12__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter06}{root}{Chapter 6} · \StudyRef{CS5222-Chapter07}{root}{Chapter 7} · \StudyRef{CS5222-Tutorial11}{root}{上一份：Tutorial 11}
+
+\StudyHeading{1}{本节定位｜无官方解答 PPTX——全卷 5 题独立严谨推导与考场防错}
+\StudyTarget{CS5222-Tutorial12__overview}
+
+Canvas 上 Tutorial 12 仅发布了原题 PDF（\StudyInline{tutorial-12\_semA2026.pdf}），未发布解答 PPT。以下 5 题全部严格依据 Chapter 6 与 Chapter 7 课件原定义完整推导，其中 P2 多交换机自学习（尤其是 S2 永不学到 G 的考场陷阱！）和 P5 RTS/CTS 等长反问均为期末简答/论述高危题型。
+
+
+\StudyHeading{1}{P1. 所有节点发前都做载波监听，为何 CSMA 仍会发生冲突？}
+\StudyTarget{CS5222-Tutorial12__p1}
+
+\textbf{题目 / Question：} Why does collision occur in CSMA, if all nodes perform carrier sensing before transmission?
+
+\textbf{答案 / Answer：} 根本原因是\textbf{非零信号传播时延（non-zero propagation delay）}。假设节点 A 在 $t_0$ 监听到信道空闲并开始发送帧，电磁波以有限速度在介质上传播，在 $t_1$ 时刻才传到节点 B。如果在 $(t_0, t_1)$ 之间节点 B 监听信道，由于 A 的信号尚未抵达 B，B 会误判信道仍空闲并立即开始发送——随后两路信号在信道上迎面相撞，引发冲突！
+
+\textbf{English answer:} Collisions still occur in CSMA due to \textbf{non-zero propagation delay}. After node A begins transmitting, its signal takes a finite propagation time to reach node B. If B senses the channel before A's first bit arrives, B perceives the channel as idle and starts transmitting as well, causing a collision.
+
+
+\StudyHeading{1}{P2. 多交换机自学习：A 发给 G，随后 G 回复 A（S1–S4 表项与转发追踪）}
+\StudyTarget{CS5222-Tutorial12__p2}
+
+\textbf{题目 / Question：} 树形互联的 4 台初始转发表均为空的交换机：中心交换机 \textbf{S4} 连接 \textbf{S1、S2、S3}；其中 S1 接主机 A, B, C；S2 接主机 D, E, F；S3 接主机 G, H, I。先由 \textbf{A 发送帧给 G}，随后 \textbf{G 回复帧给 A}。写出 S1、S2、S3、S4 的转发表演化与逐跳转发行为。
+
+\StudyImage{CS5222/course-notes/assets/ch6-aloha-csma-efficiency.png}
+\StudyCaption{右图即为 Tutorial 12 P2 的多交换机拓扑 S1–S4 与主干路径示意。牢记陷阱：S2 在第 2 步中收不到回程帧！}
+
+\textbf{Step 1：A 发送帧给 G（Src = A, Dst = G，全网初始表空）：}
+\begin{enumerate}
+\item \textbf{S1} 从连向 A 的端口收到帧：记录 \StudyInline{(A, port A)}；查不到 G $\to$ 向其余端口 \textbf{泛洪（flood）} 至 B、C 以及 \textbf{S4}（B、C 发现目的 MAC 不是自己便丢弃）。
+\item \textbf{S4} 从连向 S1 的端口收到帧：记录 \StudyInline{(A, port S1)}；查不到 G $\to$ \textbf{泛洪} 至 \textbf{S2} 与 \textbf{S3}。
+\item \textbf{S2} 从连向 S4 的端口收到帧：记录 \StudyInline{(A, port S4)}；查不到 G $\to$ \textbf{泛洪} 至 D、E、F（三者均丢弃）。
+\item \textbf{S3} 从连向 S4 的端口收到帧：记录 \StudyInline{(A, port S4)}；查不到 G $\to$ \textbf{泛洪} 至 G、H、I（H、I 丢弃，\textbf{G 成功接收！}）。
+\end{enumerate}
+
+\textbf{Step 2：G 回复帧给 A（Src = G, Dst = A）：}
+\begin{enumerate}
+\item \textbf{S3} 从连向 G 的端口收到帧：记录 \StudyInline{(G, port G)}；查表\textbf{命中 A 在 port S4} $\to$ 仅向 \textbf{S4 单播转发（unicast）}（不发给 H、I）。
+\item \textbf{S4} 从连向 S3 的端口收到帧：记录 \StudyInline{(G, port S3)}；查表\textbf{命中 A 在 port S1} $\to$ 仅向 \textbf{S1 单播转发}（\textbf{绝不发给 S2！}）。
+\item \textbf{S1} 从连向 S4 的端口收到帧：记录 \StudyInline{(G, port S4)}；查表\textbf{命中 A 在 port A} $\to$ 仅向 \textbf{A 单播转发}（不发给 B、C）。
+\end{enumerate}
+
+\textbf{两步结束后 4 台交换机的最终转发表（必背陷阱汇总）：}
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.42\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.44\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+交换机 & 最终表项（MAC $\to$ 出接口） & 转发动作总结 \\
+\midrule\endfirsthead
+交换机 & 最终表项（MAC $\to$ 出接口） & 转发动作总结 \\
+\midrule\endhead
+\bottomrule\endfoot
+\textbf{S1} & \texttt{(A -> port A)}, \texttt{(G -> port S4)} & Step 1 泛洪；Step 2 单播给 A \\
+\textbf{S2} & \textbf{仅有 \texttt{(A -> port S4)}}（\textbf{没有 G！}） & Step 1 泛洪；\textbf{Step 2 完全没收到任何帧！} \\
+\textbf{S3} & \texttt{(A -> port S4)}, \texttt{(G -> port G)} & Step 1 泛洪；Step 2 单播给 S4 \\
+\textbf{S4} & \texttt{(A -> port S1)}, \texttt{(G -> port S3)} & Step 1 泛洪；Step 2 单播给 S1 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{P3. 路由器两张独立 ARP 表中，能否出现同一个 MAC 地址？}
+\StudyTarget{CS5222-Tutorial12__p3}
+
+\textbf{题目 / Question：} 路由器 R 连接两个独立子网（左子网 \StudyInline{111.111.111.*}，右子网 \StudyInline{222.222.222.*}），路由器有两个 ARP 模块、各自维护一张 ARP 表。同一个 MAC 地址有可能同时出现在这两张 ARP 表里吗？
+
+\textbf{答案 / Answer：不可能（No，正常网络配置下）。} 原因有二：(1) IEEE 保证全球每张网卡（NIC）拥有\textbf{唯一}的 48 位 MAC 地址，同一物理接口在给定时刻只能接入这两个子网中的一个；(2) \textbf{ARP 仅限本局域网广播且绝不跨越路由器}，右子网主机的 ARP 信息绝不会传播到左子网接口的 ARP 模块中（除非人为恶意 MAC 欺骗/克隆或把同一块网卡热拔插到另一子网且旧表项 TTL 尚未超时，标准教材常规假设下明确答 \textbf{No}）。
+
+\textbf{English answer:} \textbf{No.} Under normal operation, every network adapter has a globally unique MAC address and attaches to only one subnet at a time, and ARP packets are local to a single LAN and are never forwarded across a router. Therefore, the same MAC address cannot appear in both ARP tables.
+
+
+\StudyHeading{1}{P4. 无线链路区别于有线链路的主要物理特征}
+\StudyTarget{CS5222-Tutorial12__p4}
+
+\textbf{题目 / Question：} What are the characteristics that differentiate wireless link from wired link?
+
+\textbf{答案 / Answer（Chapter 7 课件 7-2/3 页四大要点）：}
+\begin{enumerate}
+\item \textbf{信号衰减 / 路径损耗（Decreased Signal Strength / Path Loss）}：无线电波穿行空气与障碍物时能量急剧衰减。
+\item \textbf{来自其他源的干扰（Interference from Other Sources）}：如 2.4 GHz 等公共频段被多种设备（蓝牙、微波炉、电机、邻近 AP）共享。
+\item \textbf{多径传播（Multipath Propagation）}：信号经建筑物与地面多次反射，以不同路径和微小时间差到达接收端造成信号畸变/衰落。
+\item \textbf{隐藏终端与无法边发边检（Hidden Terminal Problem \& No CD）}：信号衰减导致两个发送者互相听不到却在接收端冲突，且本地发射信号淹没微弱来波，使有线以太网的 CSMA/CD 无法直接适用。
+\end{enumerate}
+
+
+\StudyHeading{1}{P5. 若 802.11 的 RTS/CTS 和 DATA/ACK 一样长，使用 RTS/CTS 还有优势吗？}
+\StudyTarget{CS5222-Tutorial12__p5}
+
+\textbf{题目 / Question：} Suppose the IEEE 802.11 RTS and CTS frames were as long as the standard DATA and ACK frames. Would there be any advantage to using RTS/CTS? Why or why not?
+
+\textbf{答案 / Answer：没有任何优势，反而性能大幅恶化！（No advantage; in fact, worse performance.）}
+\begin{itemize}
+\item RTS/CTS 原本有效的唯一前提是\textbf{控制帧极短}：宁可让极短的 RTS 发生冲突，来换取超长的 DATA 帧零冲突。
+\item 如果 RTS 和 DATA 一样长，那么\textbf{两个 RTS 撞车浪费的信道时间与直接发两个 DATA 撞车完全一样多}（零减损！）；更糟的是，每次没有冲突的成功传输现在都必须额外付出与 DATA 等长的 RTS 和 CTS 传输开销，信道有效吞吐量直接暴跌数倍！
+\end{itemize}
+
+\textbf{English answer:} \textbf{No—there would be no advantage (performance would actually be worse).} RTS/CTS only helps because short control-frame collisions waste far less channel time than long DATA-frame collisions. If RTS/CTS were as long as DATA frames, colliding RTS frames would waste just as much airtime as colliding DATA frames, while every successful transmission would suffer massive extra overhead from sending full-sized RTS and CTS frames before DATA.

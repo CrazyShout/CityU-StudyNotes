@@ -1,0 +1,102 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Tutorial11}{Tutorial 11 · 二维奇偶校验、CRC 模 2 长除法、非对称 ALOHA 与成帧}
+\StudyTarget{CS5222-Tutorial11__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter06}{root}{配套章节：Chapter 6 链路层} · \StudyRef{CS5222-Tutorial10}{root}{上一份：Tutorial 10} · \StudyRef{CS5222-Tutorial12}{root}{下一份：Tutorial 12}
+
+\StudyHeading{1}{本节定位｜链路层三大必算题：2D 校验、CRC 与非对称 Slotted ALOHA}
+\StudyTarget{CS5222-Tutorial11__overview}
+
+Tutorial 11 逐一训练 Chapter 6 前半段的全部硬核计算与概念题。全部手算过程均已用 Python 逐位验证，并与 \StudyInline{tutorial-11-solution\_semA2026} 完全一致。
+
+
+\StudyHeading{1}{P1. 最短校验字段的二维偶校验（2D Even Parity）}
+\StudyTarget{CS5222-Tutorial11__p1}
+
+\textbf{题目 / Question：} 数据比特流为 \StudyInline{1110 0110 1001 1101}（共 16 bit），采用二维偶校验（even parity）。若要求校验位字段总长度最小，求出所有校验位的值。
+
+\textbf{推导 / Derivation：}
+把 $16$ bit 排成 $r\times c$ 矩阵需 $r+c+1$ 个校验位。由均值不等式，固定面积 $rc=16$ 时周长 $r+c$ 在正方形 \textbf{$4\times 4$} 处取最小值！故最小校验位长度为 $4+4+1=\mathbf{9\text{ bit}}$（若排成 $2\times 8$ 则需 11 bit，不是最短）。偶校验要求每行、每列（含校验位）中 ``1'' 的个数为偶数：
+
+\begin{StudyCode}
+Data (4x4)   | Row Parity (even)
+1  1  1  0   |  1    (three 1s -> add 1)
+0  1  1  0   |  0    (two 1s   -> add 0)
+1  0  0  1   |  0    (two 1s   -> add 0)
+1  1  0  1   |  1    (three 1s -> add 1)
+-------------+-----
+1  1  0  0   |  0    <- Col Parities (1,1,0,0) & Corner Parity (0)
+\end{StudyCode}
+
+\textbf{校验核对：} 行校验位 \StudyInline{1, 0, 0, 1}（共 2 个 1 $\to$ 偶校验角位为 \textbf{0}）；列校验位 \StudyInline{1, 1, 0, 0}（共 2 个 1 $\to$ 角位同样为 \textbf{0}），行列交叉自洽！因此全部 9 个校验位为：行校验 \StudyInline{1001}、列校验 \StudyInline{1100}、角位 \StudyInline{0}。
+
+
+\StudyHeading{1}{P2. CRC 编码计算（$G=10011, D=1010101010$）}
+\StudyTarget{CS5222-Tutorial11__p2}
+
+\textbf{题目 / Question：} 5 位生成多项式 $G=\mathtt{10011}$，数据 $D=\mathtt{1010101010}$。求 CRC 余数 $R$（选项 A–D）。
+
+\textbf{推导 / Derivation：}
+先定长度：$G$ 有 $5$ 位，故校验位长 $r = 5 - 1 = \mathbf{4\text{ bit}}$（立刻排除 3 位的 A、C！）。在 $D$ 后补 4 个 0 得被除数 $\mathtt{1010101010\,0000}$，逐位模 2（XOR）长除（Python 校验商为 \StudyInline{1011011100}）：
+
+\begin{StudyCode}
+Dividend: 1010101010 0000,  Divisor G = 10011 (r = 4)
+Step  1 (q=1): 10101 XOR 10011 = 00110  -> pull 0 -> 01100
+Step  2 (q=0): leading 0                -> pull 1 -> 11001
+Step  3 (q=1): 11001 XOR 10011 = 01010  -> pull 0 -> 10100
+Step  4 (q=1): 10100 XOR 10011 = 00111  -> pull 1 -> 01111
+Step  5 (q=0): leading 0                -> pull 0 -> 11110
+Step  6 (q=1): 11110 XOR 10011 = 01101  -> pull 0 -> 11010
+Step  7 (q=1): 11010 XOR 10011 = 01001  -> pull 0 -> 10010
+Step  8 (q=1): 10010 XOR 10011 = 00001  -> pull 0 -> 00010
+Step  9 (q=0): leading 0                -> pull 0 -> 00100
+Step 10 (q=0): leading 0                -> DONE!  Remainder R = 0100
+\end{StudyCode}
+
+\textbf{验算：} 把 $\langle D, R\rangle = \mathtt{10101010100100}$ 除以 $\mathtt{10011}$，余数为 \StudyInline{0000}。
+\textbf{最终答案：B）\StudyInline{0100}（4 bits）。}
+
+
+\StudyHeading{1}{P3. 非对称发送概率的 Slotted ALOHA 吞吐量分析}
+\StudyTarget{CS5222-Tutorial11__p3}
+
+\textbf{题目 / Question：} 节点 A 和 B 用 Slotted ALOHA 争用信道，每时隙发送概率分别为 $p_A$ 和 $p_B$（$p_A > p_B$）。
+\begin{enumerate}
+\item \textbf{(a) A 的平均吞吐量与两节点总效率：}
+  A 在某时隙成功 $\Longleftrightarrow$ A 发且 B 不发，概率为 $p_A(1-p_B)$ $\to$ 选 \textbf{B）$p_A(1-p_B)$}。
+  同理 B 成功概率为 $p_B(1-p_A)$，两事件互斥，故\textbf{总信道效率}为：
+  \[
+  \eta = p_A(1-p_B) + p_B(1-p_A).
+  \tag{T11.1}
+  \]
+\item \textbf{(b) 若令 $p_A = 2 p_B$，A 的吞吐量是否是 B 的恰好 2 倍？若不是，该如何选 $p_A, p_B$？}
+  \textbf{答案：A）No（不是，实际严格超过 2 倍！）。}
+  代入 $p_A=2p_B$：
+  \[
+  \mathrm{Thru}_A = 2p_B(1-p_B) = 2p_B - 2p_B^2, \qquad
+  \mathrm{Thru}_B = p_B(1-2p_B) = p_B - 2p_B^2.
+  \]
+  显然 $\mathrm{Thru}_A / \mathrm{Thru}_B = 2(1-p_B)/(1-2p_B) > 2$（因为 $p_A$ 变大不仅增加 A 的尝试机会，还同时打压了 B 成功的机会 $(1-p_A)$！）。
+  欲令 $p_A(1-p_B) = 2p_B(1-p_A)$，整理得：
+  \begin{align*}
+  p_A - p_A p_B = 2p_B - 2p_A p_B
+  &\;\Longleftrightarrow\; p_A(1+p_B) = 2p_B \\
+  &\;\Longleftrightarrow\; p_A = \frac{2p_B}{1+p_B}
+  \quad\Bigl(\text{等价于课件写法 } p_A = 2 - \frac{p_A}{p_B}\Bigr).
+  \tag{T11.2}
+  \end{align*}
+\item \textbf{(c) 推广到 $N$ 个节点：A 的发送概率为 $2p$，其余 $N-1$ 个节点均为 $p$：}
+  \begin{itemize}
+  \item \textbf{(i) A 的平均吞吐量：B）$2p(1-p)^{N-1}$}（A 发，且其余 $N-1$ 个节点都不发）。
+  \item \textbf{(ii) 任一其他节点的平均吞吐量：A）$p(1-p)^{N-2}(1-2p)$}（自己发，其余 $N-2$ 个普通节点不发，且 A 也不发）。
+  \end{itemize}
+\end{enumerate}
+
+
+\StudyHeading{1}{P4. 链路层的“成帧（Framing）”是什么？}
+\StudyTarget{CS5222-Tutorial11__p4}
+
+\textbf{答案 / Answer：} 成帧（Framing）是指在经物理链路传输之前，将每个网络层数据报（network-layer datagram）封装到一个链路层帧（link-layer frame）中，加上帧头（header，含源/目的 MAC 地址、类型字段等）与帧尾（trailer，如 CRC 校验码）。
+
+\textbf{English answer:} Framing is the link-layer service that encapsulates each network-layer datagram inside a link-layer frame (adding a frame header and trailer) prior to transmission over the physical link.

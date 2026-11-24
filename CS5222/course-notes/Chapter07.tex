@@ -1,0 +1,140 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Chapter07}{Chapter 7 · 无线与移动网络（802.11、隐藏终端、蜂窝与移动路由）}
+\StudyTarget{CS5222-Chapter07__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter06}{root}{上一章：Chapter 6 链路层} · \StudyRef{CS5222-Tutorial12}{root}{配套练习：Tutorial 12}
+
+\StudyHeading{1}{考前定位｜无线 vs 移动两条主线}
+\StudyTarget{CS5222-Chapter07__overview}
+
+本章把两个\textbf{相关但独立}的挑战拆开来讲：\textbf{无线（Wireless）}解决“经由无线射频链路可靠通信”，\textbf{移动性（Mobility）}解决“用户切换网络接入点时如何保持已有连接不断”（无线主机可以静止不动，移动主机也可以经蜂窝或 Wi-Fi 漫游）。对应 2026 年课件 \StudyInline{cs5222\_cha7\_2026\_student\_part1/2}（本学期跳过 CDMA 码片计算），期末高频考点高度集中于：
+\begin{itemize}
+\item \textbf{无线链路三大物理损伤 + 隐藏终端问题}（2021A 期末 Q8、Tutorial 12 P4、Assignment 3 P8）。
+\item \textbf{IEEE 802.11 Wi-Fi}：为何不能用 CSMA/CD、\textbf{CSMA/CA（DIFS/SIFS/ACK/随机退避）} 与 \textbf{RTS/CTS 预约机制}（2021A 期末 Q8d、Tutorial 12 P5）。
+\item \textbf{蜂窝网络架构演进（2G $\to$ 3G $\to$ 4G LTE）}：关键网元职责与 4G 全 IP 核心网（EPC）变化。
+\item \textbf{移动路由原理}：Home/Visited 网络、HA/FA/COA、间接路由（三角路由问题）vs 直接路由（Anchor FA）及无线/移动对 TCP 拥塞控制的负面影响。
+\end{itemize}
+
+
+\StudyHeading{1}{1. 无线网络组成要素与四象限分类}
+\StudyTarget{CS5222-Chapter07__elements}
+
+无线网络包含四大要素：\textbf{无线主机（wireless hosts）}（可静止也可移动）、\textbf{无线链路（wireless link）}、\textbf{基站（base station，如蜂窝塔或 Wi-Fi AP）}（负责在有线网与覆盖区内无线主机间中继，跨基站切换称为\textbf{切换 handoff}）以及\textbf{网络基础设施（network infrastructure）}。按“有无基础设施”与“单跳/多跳”划分成四象限：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.39\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.39\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+分类维度 & 单跳（Single Hop） & 多跳（Multiple Hops） \\
+\midrule\endfirsthead
+分类维度 & 单跳（Single Hop） & 多跳（Multiple Hops） \\
+\midrule\endhead
+\bottomrule\endfoot
+\textbf{有基础设施}（Infrastructure） & 主机单跳连入基站/AP 再通向互联网（典型：\textbf{Wi-Fi、4G/5G 蜂窝网、WiMAX}） & 主机需经多个无线中继节点接力到达基站接入互联网（典型：\textbf{无线传感器网络 WSN / 网状网 Mesh}） \\
+\textbf{无基础设施}（Ad Hoc） & 无基站、不连互联网，节点直连（典型：\textbf{Bluetooth 蓝牙}） & 无基站，节点自组织多跳路由（典型：\textbf{MANET 移动自组织网、VANET 车联网}） \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{2. 无线链路物理特征与隐藏终端问题（2021A Q8 / Tutorial 12 P4 必考！）}
+\StudyTarget{CS5222-Chapter07__characteristics}
+
+与受屏蔽的有线电缆相比，无线链路存在\textbf{三大固有物理困难}：
+\begin{enumerate}
+\item \textbf{路径损耗 / 信号衰减（Path Loss / Decreased Signal Strength）}：电磁波随传播距离和穿墙等介质迅速衰减。
+\item \textbf{来自其他源的干扰（Interference from Other Sources）}：如 2.4 GHz 免许可频段被 Wi-Fi、蓝牙、无绳电话甚至微波炉/电机共同占用。
+\item \textbf{多径传播（Multipath Propagation）}：信号经建筑物、地面反射沿不同路径到达接收端，产生微小到达时间差与相位抵消，造成码间干扰/衰落。
+\end{enumerate}
+
+\textbf{隐藏终端问题（Hidden Terminal Problem）：} 设 A 和 C 都在接收者 B 的覆盖范围内（B 能听到 A，B 也能听到 C），但因距离过远或障碍物阻挡，\textbf{A 与 C 互相听不到对方}。当 A 正在向 B 发送时，C 监听信道误以为“空闲”也向 B 发送，两路信号在 B 处严重冲突，而 A、C 却浑然不知！
+
+\begin{StudyBlock}{考场图论速判隐藏终端公式（2021A 期末 Q8b/c 秒杀法）}{绝不漏数、不错数}
+给定一张无线互相可达图 $G=(V,E)$（边表示两台站互相能听见），若源站 $s$ 向目的站 $r$ 发送（$(s,r)\in E$），则所有对 $s\to r$ 传输构成\textbf{隐藏终端}的节点集合为：
+\[
+\mathrm{Hidden}(s \to r) = \bigl(\mathcal{N}(r) \setminus \{s\}\bigr) \setminus \mathcal{N}(s),
+\tag{7.1}
+\]
+即\textbf{“能被接收者 $r$ 听到（排除发送者 $s$ 自己），但发送者 $s$ 听不到的所有台站”}！例如：若 $r=4$ 的邻居为 $\{1,3,5\}$，而 $s=1$ 的邻居为 $\{2,4,5\}$，则 $\mathrm{Hidden}(1\to 4)=\{3,5\}\setminus\{2,4,5\}=\{3\}$（仅有 Station 3）；若发送 $1\to 5$ 且 $\mathcal{N}(5)=\{1,4\}$，则 $\mathrm{Hidden}(1\to 5)=\{4\}\setminus\{2,4,5\}=\varnothing$（无隐藏终端）！
+\end{StudyBlock}
+
+
+\StudyHeading{1}{3. IEEE 802.11 Wi-Fi：关联扫描、CSMA/CA 与 RTS/CTS}
+\StudyTarget{CS5222-Chapter07__80211}
+
+\textbf{架构与扫描关联：} 基础设施模式下每个蜂窝单元称为 \textbf{BSS（Basic Service Set）}，包含无线主机与中心 \textbf{AP（Access Point）}；相邻 AP 须分配不同频段信道以减轻干扰。主机进入多 AP 覆盖的“Wi-Fi 丛林”后必须先\textbf{关联（associate）}才能经 AP 发 DHCP 拿 IP，扫描分两种：
+\begin{itemize}
+\item \textbf{被动扫描（Passive Scanning）}：主机轮流监听各信道等待 AP 周期广播的 \textbf{Beacon 帧}（含 SSID 与 AP MAC）$\to$ 发 Association Request $\to$ 收 Association Response（3 步）。
+\item \textbf{主动扫描（Active Scanning）}：主机主动广播 \textbf{Probe Request} $\to$ 附近 AP 回复 \textbf{Probe Response} $\to$ 主机选定 AP 发 Association Request $\to$ 收 Association Response（4 步）。
+\end{itemize}
+
+\textbf{为什么 802.11 不用以太网的 CSMA/CD，而改用 CSMA/CA？}（简答高频题！）
+(1) \textbf{发射压制接收}：本机发射信号比远端衰减后的来波强几个数量级，边发边检测冲突在硬件上极难实现；(2) \textbf{即使能边发边听也没用}：由于\textbf{隐藏终端与衰落}，发送端根本听不到在接收端发生的冲突！因此 802.11 采用\textbf{冲突避免（CSMA/CA）}并显式要求链路层 ACK。
+
+\begin{StudyBlock}{802.11 CSMA/CA 核心工作流程（课件 7-12 页）}{DIFS / SIFS / 随机退避 / ACK}
+\begin{enumerate}
+\item \textbf{发送端空闲直发}：若持续监听信道空闲达到 \textbf{DIFS（Distributed Inter-frame Space）}，立刻发送\textbf{整个数据帧}（中途不做冲突检测）。
+\item \textbf{发送端遇忙退避}：若监听到信道忙，则选取一个随机退避计时器；\textbf{仅在信道空闲时倒计时}，信道忙时冻结；倒计时归零后发整帧。
+\item \textbf{接收端短间隔回 ACK}：接收端正确收到帧后，等待较短的 \textbf{SIFS（Short Inter-frame Spacing，$<\text{DIFS}$）} 立刻回传 \textbf{ACK}（因为有隐藏终端，发送端必须靠 ACK 才知道接收端没撞车！）。若发送端超时未收到 ACK，则\textbf{加倍随机退避窗口}并回到第 2 步重传。
+\end{enumerate}
+\end{StudyBlock}
+
+\textbf{RTS / CTS 信道预约机制（可选，用于避免长数据帧冲突）：}
+(1) 发送端先用 CSMA 向 AP 发极短的 \textbf{RTS（Request-to-Send）} 控制帧（内含总占用时长）；(2) AP 收到后广播极短的 \textbf{CTS（Clear-to-Send）} 控制帧；(3) 发送端收到 CTS 后立刻发 DATA，而\textbf{所有能听到 CTS 的其他隐藏节点设置网络分配向量（NAV）乖乖静默推迟}，直到 DATA + ACK 全部结束！
+
+\textbf{两个必记考场精准边界（2021A Q8d 与 Tutorial 12 P5）：}
+\begin{itemize}
+\item \textbf{避免的是“数据帧冲突”，而非所有控制帧冲突}：两个隐藏节点的短 RTS 帧仍可能在 AP 处撞车（reservation collision），但由于 RTS 极短，损失远小于长数据帧撞车；一旦某个节点抢先拿到 AP 广播的 CTS（且所有潜在干扰节点都能听到该 CTS），后续长数据帧即可免受冲突。
+\item \textbf{为什么 RTS/CTS 必须很短？（Tutorial 12 P5）}：如果 RTS/CTS 和数据帧一样长，RTS 撞车浪费的时间和直接发数据撞车一样惨，而且每次成功传输还要白白多交 3 倍以上的控制开销，毫无优势反而更差！
+\end{itemize}
+
+\StudyImage{CS5222/course-notes/assets/ch7-hidden-terminal-rtscst.png}
+\StudyCaption{原创绘制：左图为隐藏终端 A–B–C 与 802.11 DIFS/RTS/SIFS/CTS/DATA/ACK 及隐藏节点 C 收到 CTS 后静默推迟（NAV）时序；右图为移动网络间接路由（三角路由）与直接路由路径对比。}
+
+
+\StudyHeading{1}{4. 蜂窝网络架构演进：2G $\to$ 3G $\to$ 4G LTE}
+\StudyTarget{CS5222-Chapter07__cellular}
+
+蜂窝网第一跳空口采用 \textbf{FDMA/TDMA 混合}或 \textbf{CDMA} 共享无线频谱；每个小区（cell）由基站覆盖。三代架构对比速查：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.42\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.44\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+代际 & 核心网元 & 核心架构特征 \\
+\midrule\endfirsthead
+代际 & 核心网元 & 核心架构特征 \\
+\midrule\endhead
+\bottomrule\endfoot
+\textbf{2G（纯语音）} & BTS（基站收发信台）+ BSC（基站控制器）构成 BSS；MSC（移动交换中心）与 Gateway MSC 连入公共电话网 & 电路交换语音为主；MSC 负责呼叫建立与移动切换 \\
+\textbf{3G（语音+数据）} & 无线接入侧为 RNC（Radio Network Controller）；核心侧新增 \textbf{SGSN} 与 \textbf{GGSN} 连入互联网 & \textbf{核心网语音与数据并行分离}：原有语音核心不变，另起一套分组数据核心（SGSN/GGSN）并行运行 \\
+\textbf{4G LTE（全 IP）} & 接入侧 UE + \textbf{eNodeB}（基站）；\textbf{EPC（Evolved Packet Core）}含数据面 \textbf{S-GW}（服务网关）/\textbf{P-GW}（分组数据网关）与控制面 \textbf{MME}（移动性管理实体）/\textbf{HSS}（归属用户服务器，类比 HLR+VLR） & \textbf{彻底全 IP 核心网（All-IP Core）}：不再区分语音与数据核心网，IP 分组从 eNodeB 经隧道直达 S-GW/P-GW；控制面（MME/HSS）与数据面（S-GW/P-GW）清晰解耦 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{5. 移动性管理：注册、间接路由、直接路由与对 TCP 的影响}
+\StudyTarget{CS5222-Chapter07__mobility}
+
+\textbf{核心术语：} 移动节点的常驻网络叫\textbf{归属网络（Home Network）}，其固定不变的 IP 叫\textbf{永久地址（Permanent Address）}，负责代管事务的路由器叫\textbf{归属代理（Home Agent, HA）}；移动节点当前漫游到的网络叫\textbf{被访/外地网络（Visited / Foreign Network）}，在当地获得的临时地址叫\textbf{转交地址（Care-of Address, COA）}，当地协助代理叫\textbf{外地代理（Foreign Agent, FA）}；与移动节点通信的远端主机叫\textbf{通信者（Correspondent）}。
+
+\textbf{核心问题：发往“永久地址”的分组，怎么送到身在外地的移动节点？}
+\begin{itemize}
+\item \textbf{方案 1（交由全网路由表）}：外地路由器通过常规路由协议把该移动节点的永久地址通告全网。端系统零改动，但\textbf{彻底不可扩展（Not Scalable）}——全球路由器需为数亿移动设备保存并频繁刷新主机级表项！
+\item \textbf{方案 2（交由端系统/代理）}：移动节点进入外地网先向 FA 注册，FA 再向 HA 报备最新 COA（登记完成）。随后分两条路线：
+  \begin{enumerate}
+  \item \textbf{间接路由（Indirect Routing）}：通信者始终发往永久地址 $\to$ HA 拦截并经隧道转发给 FA（COA）$\to$ FA 拆包交给移动节点 $\to$ 移动节点\textbf{直接回复}给通信者。
+    \begin{itemize}
+    \item \emph{优点}：对通信者\textbf{完全透明}，移动节点换外地网时只需更新 HA 的 COA，正在进行的 TCP 连接不断！
+    \item \emph{缺点}：\textbf{三角路由问题（Triangle Routing）}——就算通信者与移动节点恰好就在同一个外地网，包也必须绕地球飞回归属网的 HA 再兜回来！
+    \end{itemize}
+  \item \textbf{直接路由（Direct Routing）}：通信者先向 HA 查到移动节点的 COA，随后直接发给外地代理 FA。
+    \begin{itemize}
+    \item \emph{优点}：彻底消除三角路由。
+    \item \emph{缺点}：对通信者\textbf{不透明}；且通信中途若移动节点再换到新外地网怎么办？解法是引入\textbf{锚定外地代理（Anchor FA，会话开始时所在的首个 FA）}——通信者一直发给 Anchor FA，移动节点迁入新外地网后由新 FA 把新 COA 通知 Anchor FA，由 Anchor FA 接力前转！
+    \end{itemize}
+  \end{enumerate}
+\end{itemize}
+
+\textbf{无线与移动性对上层协议（TCP）的性能影响（必考简答！）：}
+从逻辑上讲，网络层仍是尽力而为（best-effort），TCP/UDP 照常能跑；但从\textbf{性能}上看影响显著：无线链路高误码率导致丢帧/链路层重传拉长时延，且移动切换（handoff）会造成短暂丢包。经典 \textbf{TCP 无法区分“拥塞丢包”与“无线误码/切换丢包”}，一律误判为网络拥塞并大幅削减拥塞窗口 $\mathrm{cwnd}$（如式 7.2 所示，将吞吐率不必要地砍半或归 1），造成无线吞吐率剧降！
+\[
+\text{无线误码或切换丢包} \;\xrightarrow{\text{TCP 误判为拥塞}}\; \text{不必要地猛降 } \mathrm{cwnd} \;\Longrightarrow\; \text{端到端吞吐率骤降}.
+\tag{7.2}
+\]

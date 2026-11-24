@@ -121,6 +121,31 @@
       "major": true
     },
     {
+      "source": "CS5222/course-notes/Chapter03Part3.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Chapter04.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Chapter05.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Chapter06.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Chapter07.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
       "source": "CS5222/course-notes/Tutorial01.tex",
       "course": "CS5222",
       "major": true
@@ -146,7 +171,52 @@
       "major": true
     },
     {
+      "source": "CS5222/course-notes/Tutorial06.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial07.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial08.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial09.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial10.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial11.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial12.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
       "source": "CS5222/course-notes/Assignment01.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Assignment02.tex",
+      "course": "CS5222",
+      "major": true
+    },
+    {
+      "source": "CS5222/course-notes/Assignment03.tex",
       "course": "CS5222",
       "major": true
     },
@@ -176,7 +246,7 @@
       "major": false
     }
   ],
-  "major_documents": 28,
+  "major_documents": 42,
   "scope": "Current downloaded Canvas; native LaTeX teaching sources, saved executable Notebooks and nine A4 PDFs",
   "updated": "2026-11-24"
 }

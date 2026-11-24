@@ -3,7 +3,7 @@
   "books": [
     {
       "pages": 283,
-      "sha256": "5123a2af9de556a7e794ed1faf0217670a1597556682512c0c1d5c8250fda486",
+      "sha256": "282c7d8270be492de9b0ba2b799963a14439015e85964ca2e020f90f0ca94c18",
       "source_sha256": "7e8dec2a1c19d5f3cadb1029ffc2641d414f1c78b5f476f5b57187c5a4a14f0f",
       "file": "CS5489-A4.pdf",
       "documents": [
@@ -143,78 +143,176 @@
       ]
     },
     {
-      "pages": 99,
-      "sha256": "a8b15a32628305d8f2c60a79a36664d88634067ebb257916689e5c0af71763e9",
-      "source_sha256": "375b5901989b0d31779631bdc63b871f0c93b61bc7dc52fce584a42623ba209f",
+      "pages": 160,
+      "sha256": "d4dc386bceb35d82ee50f121c651ae7053c9d71d577a025b38734a7e47584f2f",
+      "source_sha256": "6b347964283817e8d670e72eca2ff05e39567e282edf651607da35eb4844ff34",
       "file": "CS5222-A4.pdf",
       "documents": [
         {
           "id": "CS5222-Chapter01",
-          "start": 5,
-          "end": 24,
+          "start": 7,
+          "end": 26,
           "group": "CS5222",
           "source": "CS5222/course-notes/Chapter01.tex"
         },
         {
           "id": "CS5222-Chapter02",
-          "start": 25,
-          "end": 42,
+          "start": 27,
+          "end": 44,
           "group": "CS5222",
           "source": "CS5222/course-notes/Chapter02.tex"
         },
         {
           "id": "CS5222-Chapter03",
-          "start": 43,
-          "end": 56,
+          "start": 45,
+          "end": 58,
           "group": "CS5222",
           "source": "CS5222/course-notes/Chapter03.tex"
         },
         {
+          "id": "CS5222-Chapter03Part3",
+          "start": 59,
+          "end": 64,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter03Part3.tex"
+        },
+        {
+          "id": "CS5222-Chapter04",
+          "start": 65,
+          "end": 70,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter04.tex"
+        },
+        {
+          "id": "CS5222-Chapter05",
+          "start": 71,
+          "end": 75,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter05.tex"
+        },
+        {
+          "id": "CS5222-Chapter06",
+          "start": 76,
+          "end": 82,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter06.tex"
+        },
+        {
+          "id": "CS5222-Chapter07",
+          "start": 83,
+          "end": 87,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Chapter07.tex"
+        },
+        {
           "id": "CS5222-Tutorial01",
-          "start": 57,
-          "end": 63,
+          "start": 88,
+          "end": 94,
           "group": "CS5222",
           "source": "CS5222/course-notes/Tutorial01.tex"
         },
         {
           "id": "CS5222-Tutorial02",
-          "start": 64,
-          "end": 69,
+          "start": 95,
+          "end": 100,
           "group": "CS5222",
           "source": "CS5222/course-notes/Tutorial02.tex"
         },
         {
           "id": "CS5222-Tutorial03",
-          "start": 70,
-          "end": 76,
+          "start": 101,
+          "end": 107,
           "group": "CS5222",
           "source": "CS5222/course-notes/Tutorial03.tex"
         },
         {
           "id": "CS5222-Tutorial04",
-          "start": 77,
-          "end": 80,
+          "start": 108,
+          "end": 111,
           "group": "CS5222",
           "source": "CS5222/course-notes/Tutorial04.tex"
         },
         {
           "id": "CS5222-Tutorial05",
-          "start": 81,
-          "end": 85,
+          "start": 112,
+          "end": 116,
           "group": "CS5222",
           "source": "CS5222/course-notes/Tutorial05.tex"
         },
         {
+          "id": "CS5222-Tutorial06",
+          "start": 117,
+          "end": 119,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial06.tex"
+        },
+        {
+          "id": "CS5222-Tutorial07",
+          "start": 120,
+          "end": 122,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial07.tex"
+        },
+        {
+          "id": "CS5222-Tutorial08",
+          "start": 123,
+          "end": 125,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial08.tex"
+        },
+        {
+          "id": "CS5222-Tutorial09",
+          "start": 126,
+          "end": 128,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial09.tex"
+        },
+        {
+          "id": "CS5222-Tutorial10",
+          "start": 129,
+          "end": 131,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial10.tex"
+        },
+        {
+          "id": "CS5222-Tutorial11",
+          "start": 132,
+          "end": 134,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial11.tex"
+        },
+        {
+          "id": "CS5222-Tutorial12",
+          "start": 135,
+          "end": 138,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Tutorial12.tex"
+        },
+        {
           "id": "CS5222-Assignment01",
-          "start": 86,
-          "end": 95,
+          "start": 139,
+          "end": 148,
           "group": "CS5222",
           "source": "CS5222/course-notes/Assignment01.tex"
         },
         {
+          "id": "CS5222-Assignment02",
+          "start": 149,
+          "end": 152,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Assignment02.tex"
+        },
+        {
+          "id": "CS5222-Assignment03",
+          "start": 153,
+          "end": 156,
+          "group": "CS5222",
+          "source": "CS5222/course-notes/Assignment03.tex"
+        },
+        {
           "id": "CS5222-ResearchReportGuide",
-          "start": 96,
-          "end": 99,
+          "start": 157,
+          "end": 160,
           "group": "CS5222",
           "source": "CS5222/course-notes/ResearchReportGuide.tex"
         }
@@ -222,7 +320,7 @@
     },
     {
       "pages": 43,
-      "sha256": "c9a275176658474bcf2412c092bd440b011f910f54cf6fa79407b6094dab6e90",
+      "sha256": "67c5860487a2e750a0a76b498be2de86f02b69f61063ade2a40df710ef7f7f7a",
       "source_sha256": "8b22987179cf5698a40003e43b4705853e2f5870336f176be99e6bdb45f9bac4",
       "file": "Foundations-A4.pdf",
       "documents": [

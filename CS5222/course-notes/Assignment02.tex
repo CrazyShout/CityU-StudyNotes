@@ -1,0 +1,142 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Assignment02}{Assignment 2 · Chapters 3, 4 and 5｜rdt3.0、GBN 窗口推演与 OpenFlow 流表}
+\StudyTarget{CS5222-Assignment02__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{Chapter 3 Part 3} · \StudyRef{CS5222-Chapter04}{root}{Chapter 4} · \StudyRef{CS5222-Chapter05}{root}{Chapter 5} · \StudyRef{CS5222-Assignment01}{root}{上一份：Assignment 1} · \StudyRef{CS5222-Assignment03}{root}{下一份：Assignment 3}
+
+\StudyHeading{1}{本节定位｜全卷 5 道教材经典题（双语题干 + 完整无遗漏解答）}
+\StudyTarget{CS5222-Assignment02__overview}
+
+Assignment 2（\StudyInline{CS5222\_Assignment\_2.pdf}）共 5 题，涵盖 Chapter 3 的 \textbf{P8}（rdt3.0 接收方 FSM）、\textbf{P22}（GBN 窗口与在途 ACK 集合推演），以及 Chapter 4 \& 5 的 \textbf{P4}（传统数据报转发表与源地址陷阱）、\textbf{P19} 与 \textbf{P20}（SDN OpenFlow 交换机 \StudyInline{s2} 流表编写）。所有结论均按课程标准与原图端口编号逐条核验。
+
+
+\StudyHeading{1}{Ch.3 P8. Draw the FSM for the receiver side of protocol rdt3.0}
+\StudyTarget{CS5222-Assignment02__p8}
+
+\textbf{题目 / Question：} 画出可靠数据传输协议 \StudyInline{rdt3.0} 接收方的有限状态机（FSM）。
+
+\textbf{关键洞见：} 丢包检测与重传计时器全部在\textbf{发送方}实现；接收方压根无法区分“包丢在路上”与“发送方还没发”，因此 \textbf{\StudyInline{rdt3.0} 的接收方 FSM 与 \StudyInline{rdt2.2} 的接收方 FSM 完全一模一样！} 它只有两个状态：\StudyInline{Wait for 0 from below} 与 \StudyInline{Wait for 1 from below}。
+
+\begin{StudyCode}
+State S0: Wait for 0 from below
+  1) Event: rdt_rcv(rcvpkt) && notcorrupt(rcvpkt) && has_seq0(rcvpkt)
+     Action: extract(rcvpkt, data); deliver_data(data);
+             sndpkt = make_pkt(ACK, 0, checksum); udt_send(sndpkt);
+     Next State: S1 (Wait for 1 from below)
+
+  2) Event: rdt_rcv(rcvpkt) && (corrupt(rcvpkt) || has_seq1(rcvpkt))
+     Action: sndpkt = make_pkt(ACK, 1, checksum); udt_send(sndpkt);
+     Next State: S0 (self-loop! re-ACK last correctly received pkt 1)
+
+State S1: Wait for 1 from below
+  1) Event: rdt_rcv(rcvpkt) && notcorrupt(rcvpkt) && has_seq1(rcvpkt)
+     Action: extract(rcvpkt, data); deliver_data(data);
+             sndpkt = make_pkt(ACK, 1, checksum); udt_send(sndpkt);
+     Next State: S0 (Wait for 0 from below)
+
+  2) Event: rdt_rcv(rcvpkt) && (corrupt(rcvpkt) || has_seq0(rcvpkt))
+     Action: sndpkt = make_pkt(ACK, 0, checksum); udt_send(sndpkt);
+     Next State: S1 (self-loop! re-ACK last correctly received pkt 0)
+\end{StudyCode}
+
+\textbf{考场防丢分提醒：} 别忘了自环（self-loop）上收到损坏包或重复旧包时，\textbf{必须重发上一个正确序号的 ACK}（在 S0 重发 \StudyInline{ACK1}，在 S1 重发 \StudyInline{ACK0}），绝不能静默不回或回 NAK（\StudyInline{rdt2.2/3.0} 是无 NAK 协议！）。
+
+
+\StudyHeading{1}{Ch.3 P22. GBN 发送窗口与在途 ACK 可能取值推演（$N=4$，序号空间 1024）}
+\StudyTarget{CS5222-Assignment02__p22}
+
+\textbf{题目 / Question：} 考虑发送窗口 $N=4$、序号空间 $1024$（模 $1024$ 运算）的 GBN 协议，假设信道\textbf{不乱序}。在时刻 $t$，接收方期待的下一个按序分组序号为 $k$。
+(a) 时刻 $t$ 发送方窗口内可能包含哪几种序号集合？给出理由。
+(b) 时刻 $t$ 正在反向传回发送方的在途 ACK 报文中，ACK 字段可能取哪些值？给出理由。
+
+\begin{enumerate}
+\item \textbf{(a) 发送方窗口的 5 种可能集合（均对 1024 取模）：}
+  接收方此刻期待 $k$，说明它\textbf{已经按序收到了 $k-1$ 以及此前的全部包}（也早已发出了直到 $\mathrm{ACK}(k-1)$ 的确认），但尚未收到 $k$。
+  \begin{itemize}
+  \item \textbf{窗口最靠右（最乐观）}：若 $\mathrm{ACK}(k-1)$ 已经回到发送方，发送方已将窗口起点推至 $k$，此时窗口为 $\mathbf{[k,\; k+1,\; k+2,\; k+3]}$。
+  \item \textbf{窗口最靠左（最滞后）}：发送方既然已经发出了 $k-1$，那么发送 $k-1$ 那一刻它的窗口上限至少为 $k-1$，故其窗口起点 $\mathrm{send\_base}$ 至少为 $(k-1)-3 = k-4$（即 $\mathrm{ACK}(k-5)$ 必定早已到达发送方！）。若 $\mathrm{ACK}(k-4)$ 至 $\mathrm{ACK}(k-1)$ 全都还没回到发送方（全在路上或丢失），窗口就停在 $\mathbf{[k-4,\; k-3,\; k-2,\; k-1]}$。
+  \end{itemize}
+  视已经回到发送方的最大 ACK 属于 $\{k-5,\, k-4,\, k-3,\, k-2,\, k-1\}$ 中的哪一个，发送方窗口共有 \textbf{5 种可能}：
+  \[
+  [k-4,\,k-1],\quad [k-3,\,k],\quad [k-2,\,k+1],\quad [k-1,\,k+2],\quad [k,\,k+3] \pmod{1024}.
+  \tag{A2.1}
+  \]
+\item \textbf{(b) 时刻 $t$ 在途 ACK 的所有可能取值：$\mathbf{\{k-4,\; k-3,\; k-2,\; k-1\} \pmod{1024}}$（仅此 4 个值！）。}
+  \textbf{严谨不乱序证明：}
+  \begin{itemize}
+  \item \textbf{上界 $\le k-1$}：接收方尚未收到 $k$，绝不可能发出 $\ge k$ 的 ACK。
+  \item \textbf{下界 $\ge k-4$}：为什么 $\mathrm{ACK}(k-5)$ 不可能仍在路上？因为发送方早已发出了分组 $k-1$；在窗口 $N=4$ 下，发送方\textbf{必须先收到 $\mathrm{ACK}(k-5)$} 才能把窗口右移到包含 $k-1$！又因为信道\textbf{不乱序}，既然 $\mathrm{ACK}(k-5)$ 早已抵达发送方，所有更早发出的 $\mathrm{ACK}(\le k-5)$ 也早已抵达（或丢失）而不可能滞留在信道中！而发送方最多停在 $\mathrm{send\_base}=k-4$，故它在此期间可能超时重传 $k-4\dots k-1$ 触发接收方重发 $\mathrm{ACK}(k-1)$，再加上此前发出的 $\mathrm{ACK}(k-4), \mathrm{ACK}(k-3), \mathrm{ACK}(k-2), \mathrm{ACK}(k-1)$ 尚未到达，所以全部在途 ACK 的可能取值集合严格为 $\{k-4, k-3, k-2, k-1\} \pmod{1024}$！
+  \end{itemize}
+\end{enumerate}
+
+\textbf{English answer:} (a) The sender's window can be any of the 5 windows $[k-4,k-1]$, $[k-3,k]$, $[k-2,k+1]$, $[k-1,k+2]$, or $[k,k+3]$ (mod 1024), depending on how many of $\mathrm{ACK}(k-4)\dots\mathrm{ACK}(k-1)$ have arrived at the sender. (b) In-flight ACKs can only carry values in $\{k-4, k-3, k-2, k-1\}$ (mod 1024): $\mathrm{ACK}(k-5)$ must already have arrived at the sender before packet $k-1$ could be sent, and by non-reordering no earlier ACK can remain in transit, while no ACK $\ge k$ has been generated yet.
+
+
+\StudyHeading{1}{Ch.4 \& 5 P4. 传统数据报网络转发表与“按源主机分流”陷阱题}
+\StudyTarget{CS5222-Assignment02__p4}
+
+\textbf{题目 / Question：} 路由器 A 接口 1 连 H1、接口 2 连 H2、接口 3 经 B–D 连 H3、接口 4 经 C–D 连 H3。假设该网为传统数据报网络（datagram network）：
+(a) 写出路由器 A 的转发表，使发往 H3 的全部流量经接口 3 转发。
+(b) 能否为传统数据报网络的路由器 A 写出转发表，使来自 H1 发往 H3 的流量走接口 3，而来自 H2 发往 H3 的流量走接口 4？（题目提示：这是一个陷阱题！）
+
+\begin{itemize}
+\item \textbf{(a) 路由器 A 的转发表：} 只需 1 条基于目的地址的表项：\StudyInline{Destination Address = H3  -->  Outgoing Link Interface = 3}。
+\item \textbf{(b) 答案：不能！（No!）}
+  \textbf{原因：} 传统数据报网络的路由转发表\textbf{只按目的 IP 地址（destination address only）查表转发}，完全不检查源 IP 地址（H1 vs H2）或入接口！两个流的目的地址都是 H3，因此传统转发表无法把它们分到不同出接口。（若要实现此类“按源+目的同时匹配”的流控，必须升级为 \textbf{SDN / OpenFlow 广义转发}，正是下面 P19–P20 所做的事！）
+\end{itemize}
+
+
+\StudyHeading{1}{Ch.4 P19. OpenFlow 交换机 \StudyInline{s2} 流表编写（Fig. 4.30）}
+\StudyTarget{CS5222-Assignment02__p19}
+
+\textbf{拓扑端口核对（依据原题 Fig. 4.30）：}
+三台 OpenFlow 交换机呈三角形互联：\StudyInline{s3} 在左上（接 \StudyInline{h5: 10.3.0.5}、\StudyInline{h6: 10.3.0.6}），\StudyInline{s1} 在正下（接 \StudyInline{h1: 10.1.0.1}、\StudyInline{h2: 10.1.0.2}），\StudyInline{s2} 在右上（接 \StudyInline{h3: 10.2.0.3}、\StudyInline{h4: 10.2.0.4}）。其中 \textbf{\StudyInline{s2} 的 4 个端口}为：
+\begin{itemize}
+\item \textbf{Port 1} $\leftrightarrow$ \StudyInline{s3}，\textbf{Port 2} $\leftrightarrow$ \StudyInline{s1}，\textbf{Port 3} $\leftrightarrow$ \StudyInline{h3 (10.2.0.3)}，\textbf{Port 4} $\leftrightarrow$ \StudyInline{h4 (10.2.0.4)}。
+\end{itemize}
+
+\textbf{题目要求（4 条行为）与对应的 \StudyInline{s2} 精确流表：}
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.08\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.48\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+序号 & Match（入接口 / 源 IP / 目的 IP） & Action & 对应题目要求 \\
+\midrule\endfirsthead
+序号 & Match（入接口 / 源 IP / 目的 IP） & Action & 对应题目要求 \\
+\midrule\endhead
+\bottomrule\endfoot
+1 & \texttt{Ingress Port = 1; IP Src = 10.3.0.5 or 10.3.0.6 (10.3.0.*); IP Dst = 10.1.0.1 or 10.1.0.2 (10.1.0.*)} & \texttt{Forward(2)} & 端口 1 来，h5/h6 $\to$ h1/h2，出端口 2 \\
+2 & \texttt{Ingress Port = 2; IP Src = 10.1.0.*; IP Dst = 10.3.0.*} & \texttt{Forward(1)} & 端口 2 来，h1/h2 $\to$ h5/h6，出端口 1 \\
+3 & \texttt{Ingress Port = 1 or 2; IP Dst = 10.2.0.3} & \texttt{Forward(3)} & 端口 1/2 来，目的 h3，交付端口 3 \\
+4 & \texttt{Ingress Port = 1 or 2; IP Dst = 10.2.0.4} & \texttt{Forward(4)} & 端口 1/2 来，目的 h4，交付端口 4 \\
+5 & \texttt{Ingress Port = 3 (or IP Src = 10.2.0.3); IP Dst = 10.2.0.4} & \texttt{Forward(4)} & h3 发往 h4 互通 \\
+6 & \texttt{Ingress Port = 4 (or IP Src = 10.2.0.4); IP Dst = 10.2.0.3} & \texttt{Forward(3)} & h4 发往 h3 互通 \\
+\end{longtable}\endgroup
+\emph{注：若要求每条 OpenFlow 规则中 \StudyInline{Ingress Port} 仅填单个整数，可将第 3、4 行各自拆成 \StudyInline{Ingress Port = 1} 与 \StudyInline{Ingress Port = 2} 两条（共 8 条完全等价）。}
+
+
+\StudyHeading{1}{Ch.4 P20. OpenFlow 交换机 \StudyInline{s2} 顺时针 vs 逆时针分流（Fig. 4.30）}
+\StudyTarget{CS5222-Assignment02__p20}
+
+\textbf{题目 / Question：} 仍看 Fig. 4.30，对来自 \StudyInline{h3} 或 \StudyInline{h4}、发往 \StudyInline{h1, h2, h5, h6} 的数据报，在 \StudyInline{s2} 中配置流表使：
+(1) 来自 \StudyInline{h3} 的流量沿网络\textbf{顺时针（clockwise）}方向转发；
+(2) 来自 \StudyInline{h4} 的流量沿网络\textbf{逆时针（counter-clockwise）}方向转发。
+
+\textbf{读图定方向（千万别看反！）：}
+三角形顶点位置为 \StudyInline{s3}（左上）、\StudyInline{s2}（右上）、\StudyInline{s1}（正下）。从右上角 \StudyInline{s2} 出发：
+\begin{itemize}
+\item \textbf{顺时针（Clockwise）}：右上 \StudyInline{s2} $\to$ 正下 \StudyInline{s1} $\to$ 左上 \StudyInline{s3}，故须从 \StudyInline{s2} 的 \textbf{Port 2} 发出！
+\item \textbf{逆时针（Counter-clockwise）}：右上 \StudyInline{s2} $\to$ 左上 \StudyInline{s3} $\to$ 正下 \StudyInline{s1}，故须从 \StudyInline{s2} 的 \textbf{Port 1} 发出！
+\end{itemize}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.10\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.62\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.28\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+序号 & Match（入接口 / 源 IP / 目的 IP） & Action \\
+\midrule\endfirsthead
+序号 & Match（入接口 / 源 IP / 目的 IP） & Action \\
+\midrule\endhead
+\bottomrule\endfoot
+1 & \texttt{Ingress Port = 3; IP Src = 10.2.0.3; IP Dst = 10.1.0.* or 10.3.0.*}（可拆成 \texttt{10.1.0.*} 与 \texttt{10.3.0.*} 两条） & \textbf{\texttt{Forward(2)}}（顺时针经 s1） \\
+2 & \texttt{Ingress Port = 4; IP Src = 10.2.0.4; IP Dst = 10.1.0.* or 10.3.0.*}（可拆成 \texttt{10.1.0.*} 与 \texttt{10.3.0.*} 两条） & \textbf{\texttt{Forward(1)}}（逆时针经 s3） \\
+\end{longtable}\endgroup

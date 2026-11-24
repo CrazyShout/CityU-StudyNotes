@@ -160,6 +160,41 @@
       "legacy_source": "CS5222/course-notes/Chapter03.md"
     },
     {
+      "source": "CS5222/course-notes/Chapter03Part3.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter03Part3",
+      "legacy_source": "CS5222/course-notes/Chapter03Part3.md"
+    },
+    {
+      "source": "CS5222/course-notes/Chapter04.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter04",
+      "legacy_source": "CS5222/course-notes/Chapter04.md"
+    },
+    {
+      "source": "CS5222/course-notes/Chapter05.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter05",
+      "legacy_source": "CS5222/course-notes/Chapter05.md"
+    },
+    {
+      "source": "CS5222/course-notes/Chapter06.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter06",
+      "legacy_source": "CS5222/course-notes/Chapter06.md"
+    },
+    {
+      "source": "CS5222/course-notes/Chapter07.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Chapter07",
+      "legacy_source": "CS5222/course-notes/Chapter07.md"
+    },
+    {
       "source": "CS5222/course-notes/Tutorial01.tex",
       "course": "CS5222",
       "major": true,
@@ -195,11 +230,74 @@
       "legacy_source": "CS5222/course-notes/Tutorial05.md"
     },
     {
+      "source": "CS5222/course-notes/Tutorial06.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial06",
+      "legacy_source": "CS5222/course-notes/Tutorial06.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial07.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial07",
+      "legacy_source": "CS5222/course-notes/Tutorial07.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial08.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial08",
+      "legacy_source": "CS5222/course-notes/Tutorial08.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial09.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial09",
+      "legacy_source": "CS5222/course-notes/Tutorial09.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial10.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial10",
+      "legacy_source": "CS5222/course-notes/Tutorial10.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial11.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial11",
+      "legacy_source": "CS5222/course-notes/Tutorial11.md"
+    },
+    {
+      "source": "CS5222/course-notes/Tutorial12.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Tutorial12",
+      "legacy_source": "CS5222/course-notes/Tutorial12.md"
+    },
+    {
       "source": "CS5222/course-notes/Assignment01.tex",
       "course": "CS5222",
       "major": true,
       "id": "CS5222-Assignment01",
       "legacy_source": "CS5222/course-notes/Assignment01.md"
+    },
+    {
+      "source": "CS5222/course-notes/Assignment02.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Assignment02",
+      "legacy_source": "CS5222/course-notes/Assignment02.md"
+    },
+    {
+      "source": "CS5222/course-notes/Assignment03.tex",
+      "course": "CS5222",
+      "major": true,
+      "id": "CS5222-Assignment03",
+      "legacy_source": "CS5222/course-notes/Assignment03.md"
     },
     {
       "source": "CS5222/course-notes/ResearchReportGuide.tex",
@@ -297,6 +395,21 @@
     "CS5222/course-notes/Chapter03.md": "CS5222-Chapter03",
     "CS5222/course-notes/Chapter03.html": "CS5222-Chapter03",
     "CS5222/course-notes/Chapter03.tex": "CS5222-Chapter03",
+    "CS5222/course-notes/Chapter03Part3.md": "CS5222-Chapter03Part3",
+    "CS5222/course-notes/Chapter03Part3.html": "CS5222-Chapter03Part3",
+    "CS5222/course-notes/Chapter03Part3.tex": "CS5222-Chapter03Part3",
+    "CS5222/course-notes/Chapter04.md": "CS5222-Chapter04",
+    "CS5222/course-notes/Chapter04.html": "CS5222-Chapter04",
+    "CS5222/course-notes/Chapter04.tex": "CS5222-Chapter04",
+    "CS5222/course-notes/Chapter05.md": "CS5222-Chapter05",
+    "CS5222/course-notes/Chapter05.html": "CS5222-Chapter05",
+    "CS5222/course-notes/Chapter05.tex": "CS5222-Chapter05",
+    "CS5222/course-notes/Chapter06.md": "CS5222-Chapter06",
+    "CS5222/course-notes/Chapter06.html": "CS5222-Chapter06",
+    "CS5222/course-notes/Chapter06.tex": "CS5222-Chapter06",
+    "CS5222/course-notes/Chapter07.md": "CS5222-Chapter07",
+    "CS5222/course-notes/Chapter07.html": "CS5222-Chapter07",
+    "CS5222/course-notes/Chapter07.tex": "CS5222-Chapter07",
     "CS5222/course-notes/Tutorial01.md": "CS5222-Tutorial01",
     "CS5222/course-notes/Tutorial01.html": "CS5222-Tutorial01",
     "CS5222/course-notes/Tutorial01.tex": "CS5222-Tutorial01",
@@ -312,9 +425,36 @@
     "CS5222/course-notes/Tutorial05.md": "CS5222-Tutorial05",
     "CS5222/course-notes/Tutorial05.html": "CS5222-Tutorial05",
     "CS5222/course-notes/Tutorial05.tex": "CS5222-Tutorial05",
+    "CS5222/course-notes/Tutorial06.md": "CS5222-Tutorial06",
+    "CS5222/course-notes/Tutorial06.html": "CS5222-Tutorial06",
+    "CS5222/course-notes/Tutorial06.tex": "CS5222-Tutorial06",
+    "CS5222/course-notes/Tutorial07.md": "CS5222-Tutorial07",
+    "CS5222/course-notes/Tutorial07.html": "CS5222-Tutorial07",
+    "CS5222/course-notes/Tutorial07.tex": "CS5222-Tutorial07",
+    "CS5222/course-notes/Tutorial08.md": "CS5222-Tutorial08",
+    "CS5222/course-notes/Tutorial08.html": "CS5222-Tutorial08",
+    "CS5222/course-notes/Tutorial08.tex": "CS5222-Tutorial08",
+    "CS5222/course-notes/Tutorial09.md": "CS5222-Tutorial09",
+    "CS5222/course-notes/Tutorial09.html": "CS5222-Tutorial09",
+    "CS5222/course-notes/Tutorial09.tex": "CS5222-Tutorial09",
+    "CS5222/course-notes/Tutorial10.md": "CS5222-Tutorial10",
+    "CS5222/course-notes/Tutorial10.html": "CS5222-Tutorial10",
+    "CS5222/course-notes/Tutorial10.tex": "CS5222-Tutorial10",
+    "CS5222/course-notes/Tutorial11.md": "CS5222-Tutorial11",
+    "CS5222/course-notes/Tutorial11.html": "CS5222-Tutorial11",
+    "CS5222/course-notes/Tutorial11.tex": "CS5222-Tutorial11",
+    "CS5222/course-notes/Tutorial12.md": "CS5222-Tutorial12",
+    "CS5222/course-notes/Tutorial12.html": "CS5222-Tutorial12",
+    "CS5222/course-notes/Tutorial12.tex": "CS5222-Tutorial12",
     "CS5222/course-notes/Assignment01.md": "CS5222-Assignment01",
     "CS5222/course-notes/Assignment01.html": "CS5222-Assignment01",
     "CS5222/course-notes/Assignment01.tex": "CS5222-Assignment01",
+    "CS5222/course-notes/Assignment02.md": "CS5222-Assignment02",
+    "CS5222/course-notes/Assignment02.html": "CS5222-Assignment02",
+    "CS5222/course-notes/Assignment02.tex": "CS5222-Assignment02",
+    "CS5222/course-notes/Assignment03.md": "CS5222-Assignment03",
+    "CS5222/course-notes/Assignment03.html": "CS5222-Assignment03",
+    "CS5222/course-notes/Assignment03.tex": "CS5222-Assignment03",
     "CS5222/course-notes/ResearchReportGuide.md": "CS5222-ResearchReportGuide",
     "CS5222/course-notes/ResearchReportGuide.html": "CS5222-ResearchReportGuide",
     "CS5222/course-notes/ResearchReportGuide.tex": "CS5222-ResearchReportGuide",

@@ -1,0 +1,80 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Tutorial07}{Tutorial 7 · TCP Reno/Tahoe 拥塞窗口曲线、公平性与流水线利用率}
+\StudyTarget{CS5222-Tutorial07__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{配套章节：Chapter 3 Part 3} · \StudyRef{CS5222-Tutorial06}{root}{上一份：Tutorial 6} · \StudyRef{CS5222-Tutorial08}{root}{下一份：Tutorial 8}
+
+\StudyHeading{1}{本节定位｜TCP 拥塞控制读图必考大题与流水线窗口计算}
+\StudyTarget{CS5222-Tutorial07__overview}
+
+Tutorial 7 的 P1 是全课程最经典的 TCP 拥塞窗口读图十连问（覆盖 Slow Start、Congestion Avoidance、3 Dup ACKs vs Timeout、ssthresh 更新、累计发包数定位以及 Reno vs Tahoe 对比）；P2 考 TCP/UDP 公平性辨析；P3 复习 TCP 序号差；P4 考流水线最小窗口 $N$。全部数值经 Python 核对并与 \StudyInline{tutorial-7-solution\_semA2026} 完全一致。
+
+
+\StudyHeading{1}{P1. TCP Reno 拥塞窗口演化曲线十连问（含 Tahoe 对比）}
+\StudyTarget{CS5222-Tutorial07__p1}
+
+\textbf{题目 / Question：} 下图为某 TCP Reno 连接在第 1–26 传输轮次（transmission round）的拥塞窗口 $\mathrm{cwnd}$（单位 MSS）变化轨迹：轮次 1–6 为 $1,2,4,8,16,32$；轮次 7–16 线性增至 $42$；轮次 17 降至 $24$ 后线性增至轮次 22 的 $29$；轮次 23 跌至 $1$ 后指数增长为 $1,2,4,8$（至轮次 26）。逐一回答 (a)–(j) 并给出简短依据。
+
+\StudyImage{CS5222/course-notes/assets/ch3p3-tcp-reno-cwnd.png}
+\StudyCaption{原创重绘 Tutorial 7 P1 的 TCP Reno 拥塞窗口曲线（深蓝实线）及 (j) 小问 TCP Tahoe 在第 16 轮后的分支轨迹（橙虚线）。}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.08\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.68\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+小问 & 精确答案 & 中文推导与 English Justification \\
+\midrule\endfirsthead
+小问 & 精确答案 & 中文推导与 English Justification \\
+\midrule\endhead
+\bottomrule\endfoot
+(a) & \textbf{$[1, 6]$ 与 $[23, 26]$} & 窗口每轮翻倍（指数增长：$1\to 2\to 4\to 8\to 16\to 32$ 及 $1\to 2\to 4\to 8$），属慢启动（Slow Start）。 \\
+(b) & \textbf{$[6, 16]$ 与 $[17, 22]$} & 窗口每轮线性加 1（$32\to 42$ 及 $24\to 29$），属拥塞避免（Congestion Avoidance）。 \\
+(c) & \textbf{3 个冗余 ACK}（Triple dup ACK） & 第 16 轮后 $\mathrm{cwnd}$ 从 42 降为 $24 = 42/2 + 3$（未跌到 1），说明是快速恢复触发的 3 个冗余 ACK，不是超时。 \\
+(d) & \textbf{超时（Timeout）} & 第 22 轮后 $\mathrm{cwnd}$ 直接从 29 暴跌回 \textbf{1}，这是 TCP Reno 遇到超时的唯一表现。 \\
+(e) & \textbf{B）32} & 初始慢启动在 $\mathrm{cwnd}=32$（第 6 轮）由指数切为线性增长，故初始 $\mathrm{ssthresh}=32$。 \\
+(f) & \textbf{D）21} & 第 16 轮丢包瞬间 $\mathrm{cwnd}=42$，故更新 $\mathrm{ssthresh}=\lfloor 42/2\rfloor=21$，并在第 18 轮维持 21。 \\
+(g) & \textbf{C）14} & 第 17 轮 $\mathrm{cwnd}=21+3=24$，经 5 轮线性加 1 至第 22 轮达 $\mathrm{cwnd}=29$ 发生超时；故新 $\mathrm{ssthresh}=\lfloor 29/2\rfloor=14$（第 24 轮仍为 14）。 \\
+(h) & \textbf{A）7（第 7 轮）} & 逐轮累加已发段数：r1 发 1（累计 1），r2 发 2（3），r3 发 4（7），r4 发 8（15），r5 发 16（31），r6 发 32（63）；第 7 轮发 33 段即第 \textbf{64–96} 段，故第 70 段在第 \textbf{7} 轮发出！ \\
+(i) & \textbf{C）4, 7} & 第 26 轮 $\mathrm{cwnd}=8$ 遇 3 个冗余 ACK：$\mathrm{ssthresh}=8/2=\mathbf{4}$，按课件 Reno 记法 $\mathrm{cwnd}=\mathrm{ssthresh}+3=4+3=\mathbf{7}$。 \\
+(j) & \textbf{B）21, 4} & 若为 \textbf{TCP Tahoe}，第 16 轮（$\mathrm{cwnd}=42$）遇 3 个冗余 ACK 也置 $\mathrm{ssthresh}=21$ 且 $\mathrm{cwnd}\leftarrow 1$（r17），随后慢启动翻倍：r18 为 $2$，r19 为 \textbf{4}！故 $(\mathrm{ssthresh}, \mathrm{cwnd})=(21, 4)$。 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{P2. TCP 是否比 UDP 更“公平”？}
+\StudyTarget{CS5222-Tutorial07__p2}
+
+\textbf{题目 / Question：} TCP 遇到拥塞会主动降速而 UDP 不会，因此 UDP 可能挤占 TCP 带宽。这是否意味着 TCP 本身能保证绝对公平？
+
+\textbf{答案 / Answer：否（No）。} 即使完全没有 UDP，TCP 协议也无法阻止单个应用程序开启\textbf{多条并行 TCP 连接（multiple parallel TCP connections）}（例如浏览器加载同一网页时同时开 9 条 TCP 连接）。在速率为 $R$、已有 $K$ 条其他连接的瓶颈链路上，开 1 条连接只能分到 $R/(K+1)$，而开 9 条并行连接就能强占 $9R/(K+9)$ 的更大份额！
+
+\textbf{English answer:} \textbf{No.} Nothing prevents a TCP-based application (e.g., a Web browser) from opening multiple parallel TCP connections to grab a disproportionately larger share of a congested link's bandwidth.
+
+
+\StudyHeading{1}{P3. TCP 连续两段序号差与首段丢失时的确认号}
+\StudyTarget{CS5222-Tutorial07__p3}
+
+\textbf{题目 / Question：} A 向 B 背靠背发两段 TCP，第 1 段 \StudyInline{Seq=65}，第 2 段 \StudyInline{Seq=92}。
+(a) 第 1 段含多少字节数据？ (b) 若第 1 段丢失而第 2 段到达 B，B 回复的 ACK 号是多少？
+
+\begin{itemize}
+\item \textbf{(a) C）27 字节。} 第 1 段占据字节 65 到 91，字节数为 $92 - 65 = \mathbf{27}$ B。
+\item \textbf{(b) A）65。} TCP 为累积确认，字节 65 起的数据尚未到，故 B 必须回复 \textbf{65}。
+\end{itemize}
+
+
+\StudyHeading{1}{P4. 流水线协议信道利用率 $> 97\%$ 所需的最小发送窗口}
+\StudyTarget{CS5222-Tutorial07__p4}
+
+\textbf{题目 / Question：} 链路速率 $R = 10^9\text{ bps}$（1 Gbps），分组长 $L = 1200\text{ B} = 9600\text{ bit}$，$\mathrm{RTT}=30\text{ ms}$。欲使流水线信道利用率 $U_{\text{sender}} > 97\%$，发送窗口 $N$ 至少多大？（选项 A–D）
+
+\textbf{推导 / Derivation：}
+单包发送时延 $t_{\text{trans}} = L/R = 9600 / 10^9 = 9.6\;\mu\text{s} = 0.0096\text{ ms}$。由流水线利用率公式：
+\[
+U_{\text{sender}} = \frac{N \cdot (L/R)}{\mathrm{RTT} + L/R} > 0.97
+\quad\Longrightarrow\quad
+N > 0.97 \cdot \frac{30 + 0.0096}{0.0096} = 3032.22.
+\tag{T7.1}
+\]
+向上取整得 $N = \mathbf{3033}$ 个分组。
+
+\textbf{最终答案：C）3033。}

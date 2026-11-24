@@ -1,0 +1,219 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Chapter06}{Chapter 6 · 链路层与局域网（差错检测、CRC、多址接入、ARP、以太网与交换机）}
+\StudyTarget{CS5222-Chapter06__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter05}{root}{上一章：Chapter 5 控制平面} · \StudyRef{CS5222-Chapter07}{root}{下一章：Chapter 7 无线与移动网络}
+
+\StudyHeading{1}{考前定位｜链路层考什么、怎么串起前面三层？}
+\StudyTarget{CS5222-Chapter06__overview}
+
+网络层负责“端到端跨多跳路由”，链路层负责\textbf{把数据报从一个节点搬运到物理直连的下一个相邻节点}（就像旅行中每一段分别坐专车、飞机、火车，每一跳可用不同链路协议：Ethernet、802.11 Wi-Fi 等）。本章对应 2026 年课件 \StudyInline{cs5222\_cha6\_2026\_student\_part1/2}，期末高频考点高度集中于：
+\begin{itemize}
+\item \textbf{差错检测与纠正}：二维奇偶校验（Tutorial 11 P1）与 \textbf{CRC 模 2 长除法}（Tutorial 11 P2）。
+\item \textbf{多址接入（MAC）效率计算与 CSMA/CD}：Slotted ALOHA 与 Pure ALOHA 效率公式及 $N$ 有限 vs $N\to\infty$ 极限（2021A 期末 Q7、Tutorial 11 P3）；CSMA/CD 冲突检测条件与二进制指数退避（Assignment 3 P18、Tutorial 12 P1）。
+\item \textbf{MAC 地址、ARP 与跨路由器逐跳变址}：IP 端到端不变、MAC 逐跳替换（Assignment 3 P15、Tutorial 12 P3）。
+\item \textbf{以太网自学习交换机}：单交换机与多交换机 S1–S4 的自学习表填写、泛洪与单播（Tutorial 12 P2）。
+\item \textbf{综合串讲（A Day in the Life of a Web Request）}：DHCP $\to$ ARP $\to$ DNS $\to$ TCP $\to$ HTTP 全协议栈协同（Assignment 3 P31）。
+\end{itemize}
+注：本学期课件在 Switches 之后直接跳到 Web Request 综合流程，未展开 VLAN 与 MPLS 计算题。
+
+
+\StudyHeading{1}{1. 链路层术语、服务与网卡实现位置}
+\StudyTarget{CS5222-Chapter06__services}
+
+\begin{itemize}
+\item \textbf{节点（node）与链路（link）}：主机和路由器统称节点；连接相邻节点的通信信道称链路（有线、无线、LAN）；第 2 层分组称为\textbf{帧（frame）}，内部封装第 3 层数据报。
+\item \textbf{五大典型链路层服务}：
+  (1) \textbf{成帧（Framing）}：给网络层数据报加上帧头与帧尾（header + trailer）；
+  (2) \textbf{链路接入（Link Access）}：协调共享广播信道的 MAC 协议，帧头携带\textbf{MAC 地址}（区别于 IP 地址）；
+  (3) \textbf{相邻节点间的可靠交付（Reliable Delivery）}：低误码率有线链路（光纤、双绞线）通常不启用以省开销，高误码率无线链路（如 802.11）会启用；
+  (4) \textbf{流量控制（Flow Control）}：相邻收发节点间限速；
+  (5) \textbf{差错检测与纠正（Error Detection / Correction）}：检错丢弃或请求重传，纠错则直接定位并修复比特翻转；区分\textbf{半双工（half-duplex）}（两端可发但不能同时发）与\textbf{全双工（full-duplex）}（两端可同时收发）。
+\item \textbf{实现位置}：链路层主要在每台主机/路由器的\textbf{网络适配器（NIC，Network Interface Card / 芯片组）}中以硬件+固件实现（插在系统总线上），少部分上层接口由 CPU 软件配合。
+\end{itemize}
+
+
+\StudyHeading{1}{2. 差错检测与纠正：奇偶校验、校验和与 CRC}
+\StudyTarget{CS5222-Chapter06__edc}
+
+发送方根据受保护数据 $D$ 计算冗余码 \textbf{EDC} 随帧发送。注意：\textbf{任何差错检测都不是 100\% 可靠的}，只是漏检概率极低；EDC 越长，检错/纠错能力越强。
+
+\begin{enumerate}
+\item \textbf{奇偶校验（Parity Checking）}：
+  \begin{itemize}
+  \item \textbf{一维单比特奇偶校验}：在 $d$ 位数据后加 1 位使“1”的总数为偶数（偶校验 even parity）或奇数（奇校验 odd parity）。只能\textbf{检测奇数个比特错}，不能纠错，且偶数个比特翻转会漏检。
+  \item \textbf{二维奇偶校验（2D Parity）}：把数据排成 $i\times j$ 矩阵，每行加 1 个行校验位、每列加 1 个列校验位，右下角再加 1 个总校验位（共 $i+j+1$ 位）。若发生\textbf{单个比特错}，出错行与出错列同时告警，交点即出错位，因此\textbf{既能检错又能纠正任意单比特错}！（例题见 \StudyRef{CS5222-Tutorial11}{root}{Tutorial 11 P1}）
+  \end{itemize}
+\item \textbf{因特网校验和（Internet Checksum）}：把数据切为 16 位整数做反码求和再按位取反。实现极简但检错能力弱，仅用于传输层（TCP/UDP）与 IPv4 首部，不用于以太网链路层。
+\item \textbf{循环冗余校验（CRC，Cyclic Redundancy Check，必会计算！）}：以太网（CRC-32）、802.11 Wi-Fi 广泛采用。收发双方预先约定一个 $(r+1)$ 位的\textbf{生成多项式（generator）} $G$（最高位与最低位均为 1）。发送方要在 $d$ 位数据 $D$ 后面拼上 $r$ 位校验码 $R$，使整个 $(d+r)$ 位二进制串 $\langle D, R\rangle$ 在\textbf{模 2 算术（无进位/借位，加减全等于异或 XOR）}下恰好能被 $G$ 整除：
+\[
+D \cdot 2^r \oplus R = nG \quad \Longleftrightarrow \quad R = \mathrm{remainder}\!\left(\frac{D \cdot 2^r}{G}\right)_{\text{mod } 2}.
+\tag{6.1}
+\]
+\end{enumerate}
+
+\begin{StudyBlock}{CRC 模 2 长除法防错四步模板（课件 6-15/16 页实例，$D=101110, G=1001$）}{考场绝不出错写法}
+\begin{enumerate}
+\item \textbf{数清 $r$ 并补零}：$G=1001$ 共 $4$ 位，故校验位长 $r = |G|-1 = 3$。把 $D$ 右边补 $r$ 个 0 得被除数 $D\cdot 2^r = \mathtt{101110000}$。
+\item \textbf{最高位对齐做异或（XOR）}：每一步只看当前余数的最左位——若为 \textbf{1}，商写 1 并与 $G$ 按位异或；若为 \textbf{0}，商写 0 并与全 0 异或（直接左移下一位）。\textbf{绝不能做十进制借位！}
+\item \textbf{停步取最后 $r$ 位}：当原 $D$ 的全部 $d$ 位都处理完，剩下的 $r$ 位就是余数 $R$（即使开头是 0 也要保留前导 0，凑满 $r$ 位！）。本例算得 $R = \mathtt{011}$，发送帧 $\langle D,R\rangle = \mathtt{101110011}$。
+\item \textbf{接收端验算与检错能力}：接收端把收到的 $\langle D,R\rangle$ 再模 2 除以 $G$；若余数全 0 则认为无错，非 0 则必有错。CRC 能保证检测出\textbf{所有长度 $\le r$ 比特的突发错误（all burst errors of $r$ bits or fewer）}（以及所有奇数个比特错，当 $G$ 含因子 $x+1$ 时）。
+\end{enumerate}
+\end{StudyBlock}
+
+\begin{StudyCode}
+Encoding D = 101110, G = 1001 (r = 3), D*2^3 = 101110000:
+  101110000   (step 1: 1011 XOR 1001 = 0010, pull down 1 -> 0101)
+^ 1001        q1 = 1
+  ----
+   0101       (step 2: leading 0 -> q2 = 0, pull down 0 -> 1010)
+    1010      (step 3: 1010 XOR 1001 = 0011, pull down 0 -> 0110)
+  ^ 1001      q3 = 1
+    ----
+     0110     (step 4: leading 0 -> q4 = 0, pull down 0 -> 1100)
+      1100    (step 5: 1100 XOR 1001 = 0101, pull down 0 -> 1010)
+    ^ 1001    q5 = 1
+      ----
+       1010   (step 6: 1010 XOR 1001 = 0011 -> stop! R = 011)
+     ^ 1001   q6 = 1
+       ----
+        011   => Transmit {D, R} = 101110011 (Python verified!)
+\end{StudyCode}
+
+
+\StudyHeading{1}{3. 多址接入协议（MAC）：三大类、ALOHA 效率与 CSMA/CD}
+\StudyTarget{CS5222-Chapter06__mac}
+
+链路分\textbf{点对点链路（point-to-point）}和\textbf{共享广播信道（broadcast channel）}。若两个以上节点在广播信道同时发送导致接收端信号叠加，就会发生\textbf{冲突（collision）}。理想速率 $R$ 的 MAC 协议应满足：1 个节点发时独享 $R$；$M$ 个节点发时均分 $R/M$；完全去中心化（无需主控与时钟同步）；简单。现实中分为三大类：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.19\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.39\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.42\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+协议家族 & 核心思路与代表协议 & 优缺点对比（简答必会） \\
+\midrule\endfirsthead
+协议家族 & 核心思路与代表协议 & 优缺点对比（简答必会） \\
+\midrule\endhead
+\bottomrule\endfoot
+\textbf{信道划分}（Channel Partitioning） & 按时间（TDMA）、频率（FDMA）或编码（CDMA）静态切分信道，专属使用 & \textbf{高负载}公平高效、零冲突；\textbf{低负载}浪费严重（即使仅 1 节点活跃也只拿到 $R/N$，其余时隙/频段空转） \\
+\textbf{随机接入}（Random Access） & 不预分，想发就以满速率 $R$ 发；允许冲突再恢复。代表：Slotted/Pure ALOHA、CSMA、CSMA/CD（Ethernet）、CSMA/CA（Wi-Fi） & \textbf{低负载}极高效（单节点独享满速率 $R$、零等待）；\textbf{高负载}冲突开销上升 \\
+\textbf{轮流接入}（Taking Turns） & 兼取二者之长：\textbf{轮询（Polling）}由主节点依次邀请从节点；\textbf{令牌传递（Token Passing）}依次传递控制令牌（Bluetooth、Token Ring、FDDI） & 避免低负载浪费与高负载严重冲突；缺点是控制开销、轮询/传令牌时延与\textbf{单点故障}（主节点宕机或令牌丢失） \\
+\end{longtable}\endgroup
+
+\textbf{混合案例（DOCSIS 有线电视接入网）：} 下行由 CMTS 独家广播；上行结合 FDM + TDM + 随机接入——CMTS 通过下行 MAP 帧把部分上行微时隙静态分配给数据帧，其余微时隙留给用户以随机接入（含二进制退避）发请求帧申请带宽。
+
+\StudyHeading{2}{3.1 Slotted ALOHA 与 Pure ALOHA 效率公式（2021A 期末 Q7 必考！）}
+\StudyTarget{CS5222-Chapter06__aloha}
+
+设有 $N$ 个始终有帧要发的活跃节点，每个节点在每个时隙（长度为发送 1 帧的时间）以概率 $p$ 独立尝试发送：
+\begin{itemize}
+\item \textbf{时隙 ALOHA（Slotted ALOHA）}：只在时隙起点发送（需时钟同步），冲突易损期（vulnerable period）$= 1$ 个时隙。单个节点成功概率 $= p(1-p)^{N-1}$，任意一个节点成功的信道效率为：
+\[
+\eta_{\text{slotted}}(N, p) = N p (1-p)^{N-1}, \qquad p^* = \frac{1}{N}, \qquad \lim_{N\to\infty}\eta_{\text{slotted}}^* = \frac{1}{e} \approx 0.368 \;(37\%).
+\tag{6.2}
+\]
+\item \textbf{纯 ALOHA（Pure / Unslotted ALOHA）}：帧一到立刻发（无需同步），但 $t_0$ 时刻发出的帧会与 $[t_0-1,\, t_0+1]$ 整整 \textbf{2 个时隙}内的其他帧冲突！故成功概率为 $p(1-p)^{N-1}(1-p)^{N-1}=p(1-p)^{2(N-1)}$，效率为：
+\[
+\eta_{\text{pure}}(N, p) = N p (1-p)^{2(N-1)}, \qquad p^* = \frac{1}{2N-1}, \qquad \lim_{N\to\infty}\eta_{\text{pure}}^* = \frac{1}{2e} \approx 0.184 \;(18\%).
+\tag{6.3}
+\]
+\end{itemize}
+
+\begin{StudyBlock}{避坑预警（修正 2021A 期末 Q7c 民间易混点）}{有限 $N$ 最大值 $\neq$ 无穷大极限 $1/e$}
+若题目指定了具体节点数（如 $N=4$），\textbf{绝不要直接把 $37\%$ 或 $18\%$ 当作 $N=4$ 的精确最大效率}！代入式 6.2 与式 6.3（Python 已验算）：
+\begin{itemize}
+\item $N=4$ 时，Slotted ALOHA 在 $p^*=1/4$ 取最大值 $4(1/4)(3/4)^3 = \mathbf{27/64 = 42.19\%}$；Pure ALOHA 在 $p^*=1/7$ 取最大值 $4(1/7)(6/7)^6 \approx \mathbf{22.67\%}$。
+\item $1/e \approx 36.8\%$ 与 $1/(2e)\approx 18.4\%$ 是 $N\to\infty$ 时的渐近极限（下界）。写答案时先用有限 $N$ 精确值，再补一句 $N\to\infty$ 极限，滴水不漏！
+\end{itemize}
+\end{StudyBlock}
+
+\StudyHeading{2}{3.2 CSMA、CSMA/CD 与二进制指数退避}
+\StudyTarget{CS5222-Chapter06__csmacd}
+
+\begin{itemize}
+\item \textbf{CSMA（先听后说，Listen before transmit）}：监听信道空闲才发，忙则推迟。但\textbf{仍会发生冲突}，根本原因是\textbf{非零传播时延（non-zero propagation delay）}：A 已开发但首位尚未传到 B，B 误判信道空闲也开发，结果两帧全毁（整帧传输时间白费）。
+\item \textbf{CSMA/CD（边听边说 + 冲突检测，Ethernet 采用）}：边发边监测信道能量，一旦检测到冲突立刻\textbf{中止发送（abort）}（并发送强化干扰信号 jam signal），大幅减少信道浪费。注意：有线网收发信号强度接近，容易做 CD；\textbf{无线网（Wi-Fi）不能做 CD}，因为本地发射功率远大于微弱的远端来波，且存在隐藏终端！
+\item \textbf{二进制指数退避（Binary Exponential Backoff）}：第 $m$ 次冲突后，网卡从 $\{0, 1, \dots, 2^{\min(m,10)}-1\}$ 中等概率随机挑整数 $K$，等待 $K \times 512$ 比特时间（在 10 Mbps 以太网上每单位为 $51.2\;\mu\text{s}$）后再重监听信道。冲突越多，退避窗口指数倍翻倍，自适应缓解拥堵。
+\item \textbf{CSMA/CD 冲突可检测的临界条件（Assignment 3 P18 核心公式）}：发送方在把\textbf{最短帧}（含前导码）发完之前，必须能等到最远端返回的冲突波，即需满足：
+\[
+t_{\text{trans,min}} \ge 2\, t_{\text{prop}}.
+\tag{6.4}
+\]
+若 $2 t_{\text{prop}} > t_{\text{trans,min}}$，发送方会在冲突信号折返前就发完帧并误以为发送成功！
+\item \textbf{CSMA/CD 渐近效率公式（课件 6-36 页）}：记 $t_{\text{prop}}$ 为 LAN 两端最大传播时延，$t_{\text{trans}}$ 为发送最大帧的传输时延：
+\[
+\text{Efficiency} = \frac{1}{1 + 5\, t_{\text{prop}} / t_{\text{trans}}}.
+\tag{6.5}
+\]
+当 $t_{\text{prop}}\to 0$ 或 $t_{\text{trans}}\to\infty$ 时，效率趋近 1（100\%），远胜 ALOHA。
+\end{itemize}
+
+\StudyImage{CS5222/course-notes/assets/ch6-aloha-csma-efficiency.png}
+\StudyCaption{原创绘制：左图为 $N=4$ 时 Slotted ALOHA 与 Pure ALOHA 效率随 $p$ 变化曲线及 $N\to\infty$ 渐近线；右图为多交换机 S1–S4 自学习拓扑（Tutorial 12 P2），注意回程单播 G$\to$A 不经过 S2，故 S2 永不学到 G！}
+
+
+\StudyHeading{1}{4. MAC 地址、ARP 与跨路由器逐跳寻址}
+\StudyTarget{CS5222-Chapter06__mac-arp}
+
+\begin{itemize}
+\item \textbf{MAC 地址 vs IP 地址（必背对比）}：
+  \begin{itemize}
+  \item \textbf{MAC（物理/LAN/Ethernet）地址}：48 bit（6 字节十六进制，如 \StudyInline{1A-2F-BB-76-09-AD}），由 IEEE 统一分配号段、烧录在网卡 ROM 中，全球唯一；属于\textbf{平面地址（flat）}，具有\textbf{可移植性（portability）}（网卡换插到别的局域网 MAC 不变），作用仅限于\textbf{同一子网内的本地逐跳交付}。
+  \item \textbf{IP 地址}：32 bit，属于\textbf{层次地址（hierarchical）}，\textbf{不可移植}（搬到新子网必须换新 IP），用于全球跨路由转发。
+  \end{itemize}
+\item \textbf{ARP（Address Resolution Protocol）—— 同一局域网内由 IP 查 MAC}：
+  \begin{enumerate}
+  \item 每台主机/路由器维护一张\textbf{软状态（soft-state）ARP 表}，条目格式 $\langle\text{IP},\; \text{MAC},\; \text{TTL}\rangle$（TTL 通常 20 分钟，超时自动清除），即插即用无需人工配置。
+  \item 主机 A 要发给同网段主机 B 但查不到 B 的 MAC $\to$ A 发送\textbf{ARP 查询分组（ARP query）}，封装在目的 MAC 为全 1 广播地址 \StudyInline{FF-FF-FF-FF-FF-FF} 的以太网帧中，全 LAN 所有节点收到。
+  \item 只有 IP 匹配的主机 B 回复\textbf{ARP 响应（ARP reply）}，用\textbf{单播帧（unicast）}直接发给 A 的 MAC（顺便 B 也从查询包里学到了 A 的 IP–MAC 映射）。
+  \end{enumerate}
+  \textbf{铁律：ARP 广播绝不会跨越路由器！}（路由器隔离广播域；跨子网通信时源主机只能 ARP 解析\textbf{默认网关路由器接口}的 MAC，绝不能 ARP 远端目的主机！）
+\end{itemize}
+
+\textbf{跨路由器逐跳变址铁律（课件 6-13 至 6-18 页，A 经路由器 R 发给 B）：}
+设 A（IP \StudyInline{111.111.111.111}, MAC \StudyInline{74-29-...-55}）发给另一子网的 B（IP \StudyInline{222.222.222.222}, MAC \StudyInline{49-BD-...-2A}），路由器 R 左接口为 \StudyInline{111.111.111.110}（MAC \StudyInline{E6-E9-...-4B}），右接口为 \StudyInline{222.222.222.220}（MAC \StudyInline{1A-23-...-9B}）。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.21\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.21\linewidth-1.60000\tabcolsep\relax}@{}}
+\toprule
+链路跳段 & 源 IP（不变！） & 目的 IP（不变！） & 源 MAC（逐跳换） & 目的 MAC（逐跳换） \\
+\midrule\endfirsthead
+链路跳段 & 源 IP（不变！） & 目的 IP（不变！） & 源 MAC（逐跳换） & 目的 MAC（逐跳换） \\
+\midrule\endhead
+\bottomrule\endfoot
+第一跳：$A \to R$ & \texttt{111.111.111.111}（A） & \texttt{222.222.222.222}（B） & A 的 MAC（\texttt{74-29-...}） & R 左口 MAC（\texttt{E6-E9-...}） \\
+第二跳：$R \to B$ & \texttt{111.111.111.111}（A） & \texttt{222.222.222.222}（B） & R 右口 MAC（\texttt{1A-23-...}） & B 的 MAC（\texttt{49-BD-...}） \\
+\end{longtable}\endgroup
+
+记忆口诀：\textbf{无 NAT 时，IP 首部从头到尾纹丝不动（终极起点与终点）；以太网 MAC 首部每过一个路由器就拆旧换新（当前这一跳的发件口与收件口）！}
+
+
+\StudyHeading{1}{5. 以太网（Ethernet）与自学习交换机（Switches）}
+\StudyTarget{CS5222-Chapter06__ethernet-switch}
+
+\begin{itemize}
+\item \textbf{物理拓扑演进}：早年\textbf{总线型（bus）}同轴电缆全网共享同一冲突域；现代全部采用\textbf{星型（star）}拓扑，中心为有源\textbf{交换机（switch）}，每条接入链路独占独立冲突域且支持全双工，互不冲突。
+\item \textbf{以太网帧结构（6 字段）}：\textbf{Preamble}（8 字节：7 个 \StudyInline{10101010} + 1 个 \StudyInline{10101011}，用于收发时钟同步）｜\textbf{Dest MAC}（6 B）｜\textbf{Src MAC}（6 B）｜\textbf{Type}（2 B，指示上层协议如 IP/ARP）｜\textbf{Data / Payload}（46–1500 B）｜\textbf{CRC}（4 B，检出错直接静默丢帧）。
+\item \textbf{服务特性}：\textbf{无连接（connectionless）}（网卡间无握手）且\textbf{不可靠（unreliable）}（不发 ACK/NAK，丢帧交由上层如 TCP 恢复）。
+\item \textbf{以太网交换机三大特性与自学习规则}：工作在第 2 层、\textbf{透明（transparent，主机感知不到）}、\textbf{即插即用（plug-and-play）}、\textbf{自学习（self-learning）}。交换机表项为 $\langle\text{MAC 地址},\; \text{出接口},\; \text{TTL}\rangle$。每从接口 $i$ 收到一帧（源 $S$、目的 $D$）严格按三步执行：
+  \begin{enumerate}
+  \item \textbf{学习源地址}：把 $(S,\; i,\; \text{TTL})$ 写入/刷新到交换机表（\textbf{永远学源 MAC，绝不靠目的 MAC 学表！}）。
+  \item \textbf{查目的地址 $D$}：若表中找到 $(D, j)$——若 $j=i$（同网段）则\textbf{过滤丢弃（drop）}；若 $j\neq i$ 则仅从接口 $j$ \textbf{单播转发（forward）}。
+  \item \textbf{查不到 $D$}：向除入接口 $i$ 以外的\textbf{所有其他接口泛洪（flood）}。
+  \end{enumerate}
+\end{itemize}
+
+\textbf{交换机（Switch, L2）vs 路由器（Router, L3）必考对比：} 两者都做存储转发；交换机看 48 位 MAC 头、即插即用自学习、隔离\textbf{冲突域}但不隔离广播域（且须防环路）；路由器看 32 位 IP 头、跑路由算法（OSPF/BGP）建表、同时隔离\textbf{冲突域与广播域}（可抵御广播风暴）。
+
+
+\StudyHeading{1}{6. 全栈综合串讲：A Day in the Life of a Web Request}
+\StudyTarget{CS5222-Chapter06__web-request}
+
+新接入校园网的笔记本打开浏览器访问 \StudyInline{www.google.com}，全协议栈按严格先后顺序依次触发（对应 Assignment 3 P31）：
+\begin{enumerate}
+\item \textbf{DHCP 拿“入网三件套”}：笔记本构造 DHCP Discover/Request（封装在 UDP $\to$ IP 目的 \StudyInline{255.255.255.255} $\to$ 以太网目的 \StudyInline{FF-FF-FF-FF-FF-FF}），经交换机泛洪送达运行 DHCP 的第一跳路由器；路由器回 DHCP ACK，给出：(1) 本机 IP、(2) 第一跳默认网关路由器 IP、(3) 本地 DNS 服务器 IP（交换机趁机双向自学习了笔记本与路由器端口）。
+\item \textbf{ARP 查默认网关 MAC}：要发 DNS 请求必须先跨出校园网交给第一跳路由器，但本机还不知道网关的 MAC，于是广播 ARP 查询（目的 MAC 全 F）；网关单播回复自己的 MAC。
+\item \textbf{DNS 解析域名得目标 IP}：笔记本构造 DNS 查询（DNS $\to$ UDP $\to$ IP 目的为 DNS 服务器 $\to$ 以太网目的 MAC 为第一跳网关），经校园网与 ISP（靠 OSPF/BGP 建好的转发表）送达 DNS 服务器，取回 \StudyInline{www.google.com} 的 IP（如 \StudyInline{64.233.169.105}）。
+\item \textbf{TCP 三次握手建连}：向 \StudyInline{64.233.169.105:80} 发 SYN，收到 SYNACK，回 ACK，TCP 套接字就绪。
+\item \textbf{HTTP 请求与网页渲染}：在已建立的 TCP 连接上发送 \StudyInline{HTTP GET}，服务器发回含网页内容的 \StudyInline{HTTP 200 OK}，浏览器最终渲染出网页！
+\end{enumerate}

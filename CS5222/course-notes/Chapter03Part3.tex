@@ -1,0 +1,169 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Chapter03Part3}{Chapter 3 (Part 3) · TCP 可靠传输、流量控制、连接管理与拥塞控制}
+\StudyTarget{CS5222-Chapter03Part3__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03}{root}{上一节：Chapter 3 Part 1–2} · \StudyRef{CS5222-Chapter04}{root}{下一章：Chapter 4 网络层数据平面}
+
+\StudyHeading{1}{开卷速查定位｜把“不发爆接收方”与“不堵死路由器”彻底分开}
+\StudyTarget{CS5222-Chapter03Part3__overview}
+
+本篇紧接 \StudyRef{CS5222-Chapter03}{root}{Chapter 3 Part 1–2}（UDP、rdt、GBN/SR、TCP 字节序号与 RTO 估计），补完传输层最常出计算与状态机大题的下半部：TCP 可靠重传与快速重传（Fast Retransmit）、接收端流量控制（Flow Control）、三次握手与四次挥手（Connection Management）、拥塞控制原理，以及期末高频必考的 \textbf{TCP Tahoe / Reno 拥塞窗口（cwnd）演变、平均吞吐量与公平性}。
+
+\textbf{开卷考场 30 秒速查表（遇到以下题干立刻翻到对应节）：}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.26\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.48\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.26\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+考题关键词 & 核心公式／规则一句话 & 配套练习 \\
+\midrule\endfirsthead
+考题关键词 & 核心公式／规则一句话 & 配套练习 \\
+\midrule\endhead
+\bottomrule\endfoot
+TCP 重传 / Fast Retransmit & 单定时器守最早未确认字节 \texttt{SendBase}；收到 \textbf{3 个重复 ACK}（共 4 个相同 ACK）不等超时立刻重传 & \StudyRef{CS5222-Tutorial06}{root}{T6 Q2}、\StudyRef{CS5222-Tutorial08}{root}{T8 P1} \\
+Flow Control / \texttt{rwnd} & \texttt{LastByteSent - LastByteAcked <= min(cwnd, rwnd)}；防止撑爆\textbf{接收方缓存} & \StudyRef{CS5222-Tutorial08}{root}{T8 P1d–f} \\
+3-way handshake / 4-way close & SYN/SYNACK/ACK；FIN/ACK/FIN/ACK + 客户端 \texttt{TIME\_WAIT}（2 MSL） & 本篇 §3 \\
+TCP Reno vs Tahoe & 3 dup ACK：Reno 令 $\text{ssthresh}=\lfloor \text{cwnd}/2\rfloor$, $\text{cwnd}=\text{ssthresh}+3$（线性增）；Tahoe 直接 $\text{cwnd}=1$。Timeout：两者均 $\text{cwnd}=1$ & \StudyRef{CS5222-Tutorial07}{root}{T7 P1}、2021A Q4 \\
+TCP 吞吐量与公平性 & 锯齿稳态平均吞吐 $\approx \frac{3}{4}\frac{W}{\text{RTT}}$；AIMD 保证单流公平，但并行多连接或 UDP 会打破公平 & \StudyRef{CS5222-Tutorial07}{root}{T7 P2} \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{1. TCP 可靠数据传输与快速重传（Fast Retransmit）}
+\StudyTarget{CS5222-Chapter03Part3__tcp-rdt}
+
+IP 层只提供不可靠的尽力而为（best-effort）交付。TCP 在其上构建可靠字节流服务，核心组合是：\textbf{流水线发送（pipelining）+ 累计确认（cumulative ACK）+ 单一重传定时器（对应最早未确认字节 \StudyInline{SendBase}）}。
+
+\begin{StudyBlock}{发送端三类核心事件}{Chapter 3 Part 3 第 3–5 页简化状态机}
+\begin{enumerate}
+\item \textbf{收到应用层数据}：创建序号为 \StudyInline{NextSeqNum} 的报文段交给 IP，更新 $\text{NextSeqNum} \leftarrow \text{NextSeqNum} + \text{len}(\text{data})$；若定时器当前未运行，则启动它（计时器始终保护最早未确认段）。
+\item \textbf{定时器超时（Timeout）}：只重传\textbf{序号最小的那一个未确认报文段}（而非像 GBN 一样把窗口里全重传），并重启定时器。
+\item \textbf{收到确认值 $y$ 的 ACK}：若 $y > \text{SendBase}$，说明推进了新的已确认前缀，令 $\text{SendBase} = y$；若此时仍有未确认段在途，则重新启动定时器，否则停止定时器。
+\end{enumerate}
+\end{StudyBlock}
+
+课堂第 6–7 页列出三个经典重传情景，考试画时序图时必须分清：
+\begin{itemize}
+\item \textbf{ACK 丢失（Lost ACK）}：A 发 \StudyInline{Seq=92, 8B}，B 收到并回 \StudyInline{ACK=100}，但该 ACK 丢失；A 超时重发 \StudyInline{Seq=92, 8B}，B 识别出重复字节丢弃之，并再次回 \StudyInline{ACK=100}。
+\item \textbf{过早超时（Premature Timeout）}：A 连续发 \StudyInline{Seq=92, 8B} 与 \StudyInline{Seq=100, 20B}，两段均正常到达 B，B 依次回 \StudyInline{ACK=100} 与 \StudyInline{ACK=120}。若 A 在收到 \StudyInline{ACK=100} 前超时重发 \StudyInline{Seq=92, 8B}，B 收到重传时已有 92–119 全部字节，因此直接回 \StudyInline{ACK=120}（累计确认）。
+\item \textbf{累计 ACK 拯救丢包确认（Cumulative ACK）}：若 \StudyInline{ACK=100} 丢失，但后发段的 \StudyInline{ACK=120} 在超时前到达 A，则 A 立即知道 92–119 全部收齐，直接把 \StudyInline{SendBase} 推进到 120，\textbf{不必再重传第一段}！
+\end{itemize}
+
+\textbf{为什么需要快速重传（Fast Retransmit）？} 超时间隔（RTO）通常较长，干等超时会白白浪费吞吐。当发送方连续发送多个报文段而其中某一段丢失时，后续正常到达的乱序段会触发接收方反复发送同一个期望字节号的\textbf{重复 ACK（duplicate ACK）}。规则很简单：\textbf{一旦发送方收到 3 个冗余 ACK（triple duplicate ACK，即加上最初那个正常 ACK 共收到 4 次同一 ACK 号），不等超时立刻重传当前最小未确认段！}
+
+
+\StudyHeading{1}{2. 流量控制（Flow Control）｜别把接收方缓存撑爆}
+\StudyTarget{CS5222-Chapter03Part3__flow-control}
+
+即使网络一路畅通，如果接收方应用程序从 TCP 接收缓存（\StudyInline{RcvBuffer}，常见默认 4096 字节或由 OS 自动调节）读数据的速度慢于发送方发数据的速度，接收缓存照样会溢出丢包。\textbf{流量控制（flow control）}就是接收方给发送方踩刹车的速度匹配机制：
+
+接收方在每一个发往发送方的 TCP 首部中，都会填入当前剩余可用缓存空间——\textbf{接收窗口 \StudyInline{rwnd}}（receive window）。发送方必须时刻满足：
+\[
+\text{LastByteSent} - \text{LastByteAcked} \le \text{rwnd}.
+\tag{3.4}
+\]
+当把网络侧的拥塞窗口 \StudyInline{cwnd} 一起考虑进来时，TCP 发送方在途未确认字节数的完整约束为：
+\[
+\text{LastByteSent} - \text{LastByteAcked} \le \min\{\text{cwnd},\, \text{rwnd}\}.
+\tag{3.5}
+\]
+\textbf{常考判断题提醒（Tutorial 8 P1d–f）：} (1) \StudyInline{rwnd} 是动态变化的，随应用读取速度与缓存占用实时更新，\textbf{绝不是}整个连接期间恒定不变；(2) TCP 首部里确实有专门存放 \StudyInline{rwnd} 的 16 位字段；(3) 就算 \StudyInline{rwnd = 0}，发送方仍会间歇发送 1 字节探测段（zero-window probe），防止接收方后续发出的非零 \StudyInline{rwnd} 通知丢失导致死锁。
+
+
+\StudyHeading{1}{3. 连接管理｜三次握手与四次挥手}
+\StudyTarget{CS5222-Chapter03Part3__connection-mgmt}
+
+TCP 通信前必须先通过\textbf{三次握手（3-way handshake）}协商双方初始序号（ISN）与缓存参数，结束时双方各自独立关闭发送方向（四次挥手）：
+
+\StudyImage{CS5222/course-notes/assets/ch3p3-tcp-handshake-teardown.png}
+\StudyCaption{原创示意：左图为 TCP 三次握手建立连接（注意第 3 步 ACK 可捎带首批应用数据，且 SYN 与 FIN 各消耗 1 个逻辑序号）；右图为四次挥手拆除连接与客户端 \StudyInline{TIME\_WAIT} 状态。}
+
+\begin{itemize}
+\item \textbf{三次握手要点}：(1) 客户端发 \StudyInline{SYN=1, Seq=x} 进入 \StudyInline{SYN\_SENT}；(2) 服务器从 \StudyInline{LISTEN} 分配缓存与变量，回 \StudyInline{SYN=1, ACK=1, Seq=y, ACKnum=x+1} 进入 \StudyInline{SYN\_RCVD}；(3) 客户端收到后进入 \StudyInline{ESTAB} 并回 \StudyInline{SYN=0, ACK=1, Seq=x+1, ACKnum=y+1}（此段可携带数据），服务器收到后进入 \StudyInline{ESTAB}。
+\item \textbf{为什么客户端最后必须等 \StudyInline{TIME\_WAIT}（2 $\times$ MSL）？} 两个核心原因：(1) \textbf{防止最后一个 ACK 丢失}——如果步骤 4 的 ACK 丢了，服务器会超时重传步骤 3 的 FIN，客户端停留在 \StudyInline{TIME\_WAIT} 才能重发最后的 ACK 让服务器正常关闭；(2) 让本次连接滞留在网络中的旧迷途报文段自然过期消散，避免污染后续复用同一四元组的新连接。
+\end{itemize}
+
+
+\StudyHeading{1}{4. 拥塞控制原理｜为什么拥塞不是流量控制？}
+\StudyTarget{CS5222-Chapter03Part3__congestion-principles}
+
+\textbf{一句话区别：} 流量控制保护\textbf{单个接收主机}的缓存；拥塞控制（congestion control）保护\textbf{整张网络中的共享路由器与链路}（``too many sources sending too much data too fast for network to handle''）。拥塞的两个外在症状是：\textbf{路由器缓存排队导致长时延}与\textbf{缓存溢出导致丢包}。
+
+课件第 21–29 页通过三个递进场景揭示了拥塞的三重代价（\textbf{Costs of Congestion}）：
+\begin{enumerate}
+\item \textbf{场景 1（无限缓存、无重传，两流共享容量 $R$）}：每条流有效吞吐上限 $R/2$，但当到达速率 $\lambda_{\text{in}}\to R/2$ 时，排队时延趋于无穷大。
+\item \textbf{场景 2（有限缓存 + 超时重传）}：包含重传的总注入率 $\lambda'_{\text{in}} \ge \lambda_{\text{in}}$。(a) 完美无损知晓缓存状态时无浪费；(b) 仅对确认丢失的包重传时，链路带宽被重传瓜分（例如共享的 $R/2$ 中，$R/3$ 是新数据、$R/6$ 是重传）；(c) \textbf{过早超时产生重复副本}时，网络白白搬运同一份数据的多份拷贝，有效交付吞吐反而下降。
+\item \textbf{场景 3（四流多跳共享有限缓存）}：当某流注入过猛挤爆下游队列把另一条流的包全部丢弃时，\textbf{被丢弃的包在上游各跳已经消耗掉的所有传输容量全部白费}，有效吞吐可能塌陷至趋近 0（拥塞崩溃）。
+\end{enumerate}
+
+\textbf{两类拥塞控制思路：}
+\begin{itemize}
+\item \textbf{端到端（End-to-End，传统 TCP 采用）}：网络层不给显式反馈，端系统仅凭丢包（超时或 3 重复 ACK）或时延增长自行推断拥塞。
+\item \textbf{网络辅助（Network-Assisted，如 ECN）}：路由器在 IP 首部打上显式拥塞标记（Explicit Congestion Notification），接收端再通过 TCP 首部 ECE 标志回告发送端提前降速，不必等到真正丢包。
+\end{itemize}
+
+
+\StudyHeading{1}{5. TCP 拥塞控制：AIMD、Tahoe、Reno、吞吐量与公平性}
+\StudyTarget{CS5222-Chapter03Part3__tcp-cc}
+
+TCP 发送方维护拥塞窗口 \StudyInline{cwnd}（单位通常按 MSS 或字节计）与慢启动阈值 \StudyInline{ssthresh}，粗略发送速率为 $\text{rate} \approx \text{cwnd}/\text{RTT}$ 字节/秒。完整控制由三个阶段组成：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.28\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+阶段 & 触发条件 & 窗口增长规则 & 遇到丢包如何切走 \\
+\midrule\endfirsthead
+阶段 & 触发条件 & 窗口增长规则 & 遇到丢包如何切走 \\
+\midrule\endhead
+\bottomrule\endfoot
+\textbf{Slow Start（SS，慢启动）} & 连接初启或 Timeout 后，且 $\text{cwnd} < \text{ssthresh}$ & \textbf{指数增长}：每收到 1 个新 ACK 令 $\text{cwnd} \mathrel{+}= 1\text{ MSS}$（每 RTT 翻倍：$1\to 2\to 4\to 8\dots$） & Timeout：$\text{ssthresh}=\lfloor \text{cwnd}/2\rfloor$, $\text{cwnd}=1$；3 dup ACK：Reno 进 FR，Tahoe 置 1 \\
+\textbf{Congestion Avoidance（CA，拥塞避免）} & $\text{cwnd} \ge \text{ssthresh}$ & \textbf{线性增长（AI）}：每收到 1 个新 ACK 令 $\text{cwnd} \mathrel{+}= \text{MSS}\cdot\frac{\text{MSS}}{\text{cwnd}}$（每 RTT 约 $+1\text{ MSS}$） & Timeout：$\text{ssthresh}=\lfloor \text{cwnd}/2\rfloor$, $\text{cwnd}=1$ 进 SS；3 dup ACK：Reno 进 FR \\
+\textbf{Fast Recovery（FR，仅 TCP Reno）} & 收到 \textbf{3 个重复 ACK}（说明网络尚能交付后续段，拥塞轻于超时） & 令 $\text{ssthresh}=\lfloor \text{cwnd}/2\rfloor$，\textbf{$\text{cwnd} = \text{ssthresh} + 3\text{ MSS}$}，立刻重传缺失段；每多收 1 个 dup ACK 可加 1 MSS，收到新 ACK 后回到 CA（设为 \texttt{ssthresh}） & 若在 FR 中发生 Timeout，立即退回 $\text{ssthresh}=\lfloor \text{cwnd}/2\rfloor$, $\text{cwnd}=1$ 进 SS \\
+\end{longtable}\endgroup
+
+\textbf{考试必记核心差异（TCP Reno vs. TCP Tahoe）：}
+\begin{itemize}
+\item \textbf{超时（Timeout）}：Reno 与 Tahoe 动作完全相同——$\text{ssthresh} \leftarrow \lfloor \text{cwnd}/2 \rfloor$，$\text{cwnd} \leftarrow 1\text{ MSS}$，进入 Slow Start。
+\item \textbf{3 个重复 ACK（3 dup ACKs）}：\textbf{Tahoe} 一视同仁直接砍回 $\text{cwnd}=1$ 重跑慢启动（因此 1\% 丢包就可能导致吞吐腰斩 50\%–75\%）；\textbf{Reno} 启用快速恢复，设 $\text{ssthresh} = \lfloor \text{cwnd}/2 \rfloor$、$\text{cwnd} = \text{ssthresh} + 3\text{ MSS}$（按课件第 41–42 页与 Tutorial 7 P1 口径，下一轮次直接从 $\text{ssthresh}+3$ 开始每轮 $+1$ 线性增长）。
+\end{itemize}
+
+\StudyImage{CS5222/course-notes/assets/ch3p3-tcp-reno-cwnd.png}
+\StudyCaption{原创绘制（完全按 Tutorial 7 P1 数值独立生成）：清晰对比 TCP Reno（深蓝实线）与 TCP Tahoe（橙色虚线在 round 16 遇 3 dup ACK 后骤降至 1）的窗口演变及 \StudyInline{ssthresh} 跳变。}
+
+\begin{StudyBlock}{稳态平均吞吐量公式与公平性}{Chapter 3 Part 3 第 44–47 页}
+忽略慢启动、假设总是满载发送且窗口在 $W/2$ 与 $W$ 之间呈 AIMD 锯齿振荡时，平均在途窗口为 $\frac{3}{4}W$，因此稳态平均吞吐量为：
+\[
+\text{Average TCP Throughput} \approx \frac{3}{4}\,\frac{W}{\text{RTT}} \quad (\text{bytes/sec}).
+\tag{3.6}
+\]
+\textbf{数值验算（Python 已核对）：} 若丢包峰值窗口 $W = 64\text{ MSS}$（$1\text{ MSS} = 1460\text{ B}$）、$\text{RTT}=100\text{ ms}$，则稳态平均吞吐为
+\[
+\frac{3}{4}\times \frac{64\times 1460\times 8\text{ bit}}{0.1\text{ s}} = 5.6064\text{ Mbps}.
+\tag{3.7}
+\]
+\textbf{为什么 AIMD 能带来两条同 RTT TCP 流的公平性？} 在二维吞吐坐标图上，加性增（AI）沿斜率为 1 的 $45^\circ$ 直线向带宽上限 $R_1+R_2=R$ 推进；一旦超载丢包，乘性减（MD）让两点坐标同时减半（指向原点缩进）。交替执行 ``斜率 1 上移 $\to$ 指向原点腰斩''，轨迹必然逐步收敛到等带宽分享线 $R_1 = R_2 = R/2$。
+
+\textbf{公平性的两大现实漏洞（高频简答题，见 Tutorial 7 P2）：}
+\begin{enumerate}
+\item \textbf{UDP 不做拥塞控制}：实时音视频常走 UDP 恒速发送，拥塞时不降速，会挤占主动降速的 TCP 流量。
+\item \textbf{并行 TCP 连接（Parallel TCP Connections）}：TCP 公平性是按\textbf{单条连接}而非按\textbf{应用／用户}算的。如果瓶颈链路已有 9 条 TCP 连接，新应用只开 1 条 TCP 得 $R/10$；但如果它一下开 11 条并行 TCP（如浏览器并发拉网页对象），就能抢走 $\frac{11}{20}R > R/2$ 的带宽！因此不能笼统说“TCP 应用一定比 UDP 公平”。
+\end{enumerate}
+\end{StudyBlock}
+
+
+\StudyHeading{1}{6. 课堂 Q\&A 精选（Chapter 3 Q\&A 全 7 题核对）}
+\StudyTarget{CS5222-Chapter03Part3__qa}
+
+整理自课程 \StudyInline{Q\&A\_cha3\_2026\_student.pptx}（第 2–8 页，全部答案已结合讲义复核）：
+\begin{enumerate}
+\item \textbf{接收方用什么判断包是否损坏？} $\to$ \textbf{B) Checksum}（校验和负责检错）。
+\item \textbf{发送方用什么判断自己发出的包是否损坏？} $\to$ \textbf{A) ACK}（接收方检错后不确认或发旧 ACK/NAK，发送方靠反馈得知）。
+\item \textbf{发送方能否用 ACK/Checksum/Timeout 之一“100\% 确定”包丢了？} $\to$ \textbf{D) None of the above}（超时或无 ACK 也可能只是网络延迟极长或 ACK 丢了，发送方无法百分百确认数据包本身一定丢失）。
+\item \textbf{关于 GBN 哪些说法错误？} $\to$ \textbf{C \& D 错误}（GBN 接收端\textbf{不需要}缓存乱序包；超时时发送端重传从 \StudyInline{send\_base} 起\textbf{全部}已发未确认包，不只重传那一个）。
+\item \textbf{关于 SR 哪项错误？} $\to$ \textbf{B 错误}（SR 发送端需要为\textbf{每个未确认包各自维护独立定时器}，而非单一总定时器）。
+\item \textbf{TCP Reno 第 15 轮（假设 $\text{cwnd}=14$）收到 3 个重复 ACK，第 16 轮 \StudyInline{cwnd} 是多少？} $\to$ \textbf{D) 10}（$\text{ssthresh}=14/2=7$，$\text{cwnd}=7+3=10$）。
+\item \textbf{同题若第 15 轮发生 Timeout，第 16 轮 \StudyInline{cwnd} 是多少？} $\to$ \textbf{A) 1}（超时一律重置 $\text{cwnd}=1$ 进慢启动）。
+\end{enumerate}
+
+\textbf{English takeaway:} Flow control prevents overflowing the receiver buffer via \StudyInline{rwnd}, whereas congestion control prevents overloading network routers via \StudyInline{cwnd}. Under TCP Reno, triple duplicate ACKs trigger fast retransmit and fast recovery ($\text{ssthresh}=\lfloor \text{cwnd}/2\rfloor$, $\text{cwnd}=\text{ssthresh}+3$), whereas a timeout resets \StudyInline{cwnd} to 1 MSS and restarts slow start.
+
+来源：\StudyInline{cs5222\_cha3\_2026\_student\_part3.pptx}（第 1–48 页）、\StudyInline{Q\&A\_cha3\_2026\_student.pptx}（第 1–8 页）；数值与图表由 \StudyInline{tools/verify\_part2\_examples.py} 独立校验生成。

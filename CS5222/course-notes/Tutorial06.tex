@@ -1,0 +1,97 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Tutorial06}{Tutorial 6 · GBN/SR 流水线确认、TCP 序号/确认号与 RTO 估算}
+\StudyTarget{CS5222-Tutorial06__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{配套章节：Chapter 3 Part 3} · \StudyRef{CS5222-Tutorial05}{root}{上一份：Tutorial 5} · \StudyRef{CS5222-Tutorial07}{root}{下一份：Tutorial 7}
+
+\StudyHeading{1}{本节定位｜全卷 4 题对应 Chapter 3 可靠传输核心计算}
+\StudyTarget{CS5222-Tutorial06__overview}
+
+Tutorial 6 覆盖 GBN 与 SR 的确认机制差异、TCP 字节序号与累积确认、丢失 ACK 引发的超时重传时序图，以及 $\mathrm{EstimatedRTT}/\mathrm{DevRTT}/\mathrm{TimeoutInterval}$ 三步递推计算。全部结果已对照教师解答 \StudyInline{tutorial-6-solution\_semA2026} 并经 Python 独立校验。
+
+
+\StudyHeading{1}{Q1. GBN vs. SR 流水线确认序列（pkt6 丢失）}
+\StudyTarget{CS5222-Tutorial06__q1}
+
+\textbf{题目 / Question：} 考虑窗口大小 $N=8$ 的流水线协议，发送方依次发出 $\mathrm{pkt0}, \mathrm{pkt1}, \dots, \mathrm{pkt7}$，其中 $\mathrm{pkt6}$ 丢失（信道不乱序）。(a) 若运行 \textbf{GBN}，发送方将收到哪些 ACK？（选项 A–D） (b) 若运行 \textbf{SR}，发送方将收到哪些 ACK？
+
+\begin{itemize}
+\item \textbf{(a) GBN 答案：A）\StudyInline{ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK5}（共 7 个 ACK）。}
+  \textbf{解析：} GBN 使用\textbf{累积确认}且接收方不缓存乱序包。$\mathrm{pkt0}\text{–}\mathrm{pkt5}$ 依次到达分别触发 \StudyInline{ACK0}–\StudyInline{ACK5}；$\mathrm{pkt6}$ 丢失无响应；$\mathrm{pkt7}$ 到达时接收方仍期待 6，于是丢弃 $\mathrm{pkt7}$ 并重发最近按序收到的 \textbf{\StudyInline{ACK5}}（共 7 个 ACK，不要错选多一个 \StudyInline{ACK5} 的 B）。
+\item \textbf{(b) SR 答案：C）\StudyInline{ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK7}（共 7 个 ACK）。}
+  \textbf{解析：} SR 使用\textbf{选择确认（独立确认）}并缓存窗口内乱序到达的分组。$\mathrm{pkt6}$ 丢失无 ACK；$\mathrm{pkt7}$ 到达后接收方将其缓存并直接发回 \textbf{\StudyInline{ACK7}}，等后续 $\mathrm{pkt6}$ 超时重传到达后再把 6、7 一起交付上层。
+\end{itemize}
+
+\textbf{English answer:} (a) \textbf{A} (\StudyInline{ACK0..ACK5, ACK5}) because GBN uses cumulative ACKs and discards out-of-order \StudyInline{pkt7}, resending \StudyInline{ACK5}. (b) \textbf{C} (\StudyInline{ACK0..ACK5, ACK7}) because SR individually ACKs and buffers out-of-order \StudyInline{pkt7}.
+
+
+\StudyHeading{1}{Q2. TCP 连续报文段序号、端口交换、乱序 ACK 与超时时序图}
+\StudyTarget{CS5222-Tutorial06__q2}
+
+\textbf{题目 / Question：} 主机 A 向 B 经 TCP 发送数据，B 已按序收到字节 0–126。A 紧接着背靠背发送两段：第 1 段含 \textbf{80 B}（\StudyInline{Seq=127, SrcPort=302, DstPort=80}），第 2 段含 \textbf{40 B}。B 每收到一段即回 ACK。
+
+\begin{enumerate}
+\item \textbf{(a) 第 2 段的 Seq、源端口、目的端口：D）\StudyInline{207, 302, 80}。}
+  第 1 段占据字节 $127$ 到 $127+80-1=206$，故第 2 段首字节序号为 $127+80=\mathbf{207}$；方向仍为 A$\to$B，端口保持 \StudyInline{302 -> 80}。
+\item \textbf{(b) 第 1 段先到时，B 回复该段的 ACK 号、源端口、目的端口：C）\StudyInline{207, 80, 302}。}
+  B 已收齐至字节 206，下一期待字节为 \textbf{207}；回程方向 B$\to$A，源/目的端口互换为 \StudyInline{80 -> 302}。
+\item \textbf{(c) 第 2 段先于第 1 段到达时，B 回复该段的 ACK 号：A）\StudyInline{127}。}
+  TCP 使用\textbf{累积确认}（只确认到第一个缺失字节为止）。字节 127–206 尚未到，即使先收到了 207–246，B 仍必须填 \textbf{\StudyInline{ACK=127}}！
+\item \textbf{(d) 第 1、2 段按序到达 B，但第 1 个 ACK（ACK=207）丢失，且第 2 个 ACK（ACK=247）在第 1 段的超时计时器触发后才回到 A。画出完整收发时序图。}
+\end{enumerate}
+
+\begin{StudyCode}
+Host A (port 302)                                Host B (port 80)
+  | --- Seg 1: Seq=127, 80 bytes --------------> |  (rcvd bytes 127..206)
+  | --- Seg 2: Seq=207, 40 bytes --------------> |  (rcvd bytes 207..246)
+  |               X <--- ACK = 207 (lost!) ----- |  (ack for Seg 1 lost)
+  |  [timer for Seg 1 expires -> timeout!]       |
+  | --- Retransmit Seg 1: Seq=127, 80 bytes ---> |  (duplicate! B already has ..246)
+  | <-------------- ACK = 247 (arrives late) --- |  (original ack for Seg 2 arrives!)
+  |   [A cancels timer; bytes up to 246 ACKed]   |
+  | <-------------- ACK = 247 (for retrans) ---- |  (B replies cumulative ACK=247)
+\end{StudyCode}
+
+\textbf{考场防丢分要点：} (1) A 超时只重传最早未确认段（\StudyInline{Seq=127, 80 bytes}），不必重传第 2 段；(2) B 收到重复的 Seg 1 后发现自己早已收齐到字节 246，因此再次回复累积确认 \textbf{\StudyInline{ACK=247}}，绝不是 207！
+
+
+\StudyHeading{1}{Q3. TCP 超时间隔（TimeoutInterval）公式}
+\StudyTarget{CS5222-Tutorial06__q3}
+
+\textbf{题目 / Question：} 已知 $\mathrm{EstimatedRTT}$ 和 $\mathrm{DevRTT}$，TCP 应如何设置 $\mathrm{TimeoutInterval}$？
+
+\textbf{答案 / Answer：}
+\[
+\mathrm{TimeoutInterval} = \mathrm{EstimatedRTT} + 4 \cdot \mathrm{DevRTT}.
+\tag{T6.1}
+\]
+其中 $\mathrm{EstimatedRTT}$ 是平滑均值，而 $4\cdot\mathrm{DevRTT}$ 是安全裕度（safety margin）：当 RTT 波动剧烈时安全裕度自动放大避免虚假超时，RTT 平稳时安全裕度自动缩小加快真实丢包检测。
+
+\textbf{English answer:} $\mathrm{TimeoutInterval} = \mathrm{EstimatedRTT} + 4\cdot\mathrm{DevRTT}$, adding a fluctuation-adaptive safety margin to the smoothed RTT estimate.
+
+
+\StudyHeading{1}{Q4. 三次 SampleRTT 递推算 EstimatedRTT、DevRTT 与 TimeoutInterval}
+\StudyTarget{CS5222-Tutorial06__q4}
+
+\textbf{题目 / Question：} 初始 $\mathrm{EstimatedRTT}=100\text{ ms}$，$\mathrm{DevRTT}=5\text{ ms}$，$\alpha=0.125$，$\beta=0.25$。连续测得 3 个样本 $\mathrm{SampleRTT} = 106\text{ ms},\; 120\text{ ms},\; 140\text{ ms}$，求每次更新后的三项指标及第 3 次后的 $\mathrm{TimeoutInterval}$（选项 A–D）。
+
+\textbf{递推公式：}
+$\mathrm{EstimatedRTT} \leftarrow 0.875\,\mathrm{EstimatedRTT} + 0.125\,\mathrm{SampleRTT}$，
+$\mathrm{DevRTT} \leftarrow 0.75\,\mathrm{DevRTT} + 0.25\,|\mathrm{SampleRTT} - \mathrm{EstimatedRTT}_{\text{new}}|$（注意用\textbf{刚更新完的新 $\mathrm{EstimatedRTT}$}！）。逐轮代入（Python 精确验证）：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.60000\tabcolsep\relax}@{}}
+\toprule
+样本轮次 & SampleRTT & EstimatedRTT (ms) & DevRTT (ms) & TimeoutInterval (ms) \\
+\midrule\endfirsthead
+样本轮次 & SampleRTT & EstimatedRTT (ms) & DevRTT (ms) & TimeoutInterval (ms) \\
+\midrule\endhead
+\bottomrule\endfoot
+初始值 & — & $100$ & $5$ & $120$ \\
+第 1 次 & $106\text{ ms}$ & $0.875(100)+0.125(106)=\mathbf{100.75}$ & $0.75(5)+0.25|106-100.75|=\mathbf{5.0625}$ & $100.75+4(5.0625)=\mathbf{121.00}$ \\
+第 2 次 & $120\text{ ms}$ & $0.875(100.75)+0.125(120)=\mathbf{103.15625}$ & $0.75(5.0625)+0.25|120-103.15625|=\mathbf{8.0078125}$ & $103.15625+4(8.0078125)=\mathbf{135.1875}$ \\
+第 3 次 & $140\text{ ms}$ & $0.875(103.15625)+0.125(140)=\mathbf{107.7617}$ & $0.75(8.0078)+0.25|140-107.7617|=\mathbf{14.0654}$ & $107.7617+4(14.0654)=\mathbf{164.0234}$ \\
+\end{longtable}\endgroup
+
+\textbf{最终答案：D）164 ms}（精确值 $164.0234\text{ ms}$）。

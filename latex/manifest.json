@@ -5,7 +5,7 @@
     "CS5489": {
       "file": "pdf/CS5489-A4.pdf",
       "pages": 283,
-      "sha256": "5123a2af9de556a7e794ed1faf0217670a1597556682512c0c1d5c8250fda486",
+      "sha256": "282c7d8270be492de9b0ba2b799963a14439015e85964ca2e020f90f0ca94c18",
       "source_sha256": "7e8dec2a1c19d5f3cadb1029ffc2641d414f1c78b5f476f5b57187c5a4a14f0f",
       "source_ref": "main",
       "inputs": {
@@ -90,25 +90,46 @@
     },
     "CS5222": {
       "file": "pdf/CS5222-A4.pdf",
-      "pages": 99,
-      "sha256": "a8b15a32628305d8f2c60a79a36664d88634067ebb257916689e5c0af71763e9",
-      "source_sha256": "375b5901989b0d31779631bdc63b871f0c93b61bc7dc52fce584a42623ba209f",
+      "pages": 160,
+      "sha256": "d4dc386bceb35d82ee50f121c651ae7053c9d71d577a025b38734a7e47584f2f",
+      "source_sha256": "6b347964283817e8d670e72eca2ff05e39567e282edf651607da35eb4844ff34",
       "source_ref": "main",
       "inputs": {
         "CS5222/course-notes/Assignment01.tex": "f9578eac558b4de6374b1faa331aab52c272f0837eacb51f03a1456647c24c79",
+        "CS5222/course-notes/Assignment02.tex": "74b7187c4216dd095a988df4b5fff27686600e0bc12093ea27311884a781dc07",
+        "CS5222/course-notes/Assignment03.tex": "2636b567c04a0043e7ff0682b8bce88b2395a2f9cbdebaef1453133194f0ed53",
         "CS5222/course-notes/Chapter01.tex": "a8e81035b97c63d22214bdb1f63292339cca35c6a7fa90feb5ce3a30cfd97e30",
         "CS5222/course-notes/Chapter02.tex": "eb33c01594aabf40112a493a8b85955a8771a803c1c60ee6cbb06c78627fc589",
         "CS5222/course-notes/Chapter03.tex": "6cfbd529c7e8e32f88a6cc9b34e9aee20f3852abc4e8e654c61e120882ff763a",
+        "CS5222/course-notes/Chapter03Part3.tex": "52effea66b74465950101407c82220a9361cac0e0925a522649d72f6167a7607",
+        "CS5222/course-notes/Chapter04.tex": "02bd0d5c88aa83c3bdfac04a395e1e908b6160c29ed2b508e39e9503156b91b4",
+        "CS5222/course-notes/Chapter05.tex": "761681ec008507559c81bee610b3407167435f032bf96c821eecf15452539dba",
+        "CS5222/course-notes/Chapter06.tex": "6409e7df03e4bf0512cd84c063f87f79e7870a534753ff4a9aa6f8c3d4227da4",
+        "CS5222/course-notes/Chapter07.tex": "d7e24b5adb467f965f722c2d73cac27849d673df854d82c81360df30303493c5",
         "CS5222/course-notes/ResearchReportGuide.tex": "cc0bb5a32da2b68c1feac37efeb063fd6b65d5cee1b27706b890c0ccbf358837",
         "CS5222/course-notes/Tutorial01.tex": "51a3f21b52c5ad59c5461cfeb650a3d30d761ea56ea7aa11753634cb9dd06800",
         "CS5222/course-notes/Tutorial02.tex": "87e287e9c59a72804d8b19437902738a751b327b97ae6ffb8f1840f62fdacd09",
         "CS5222/course-notes/Tutorial03.tex": "5944f37c96a5f43ac0fb83d061e0038df513cdfc56134acfca1919890e08e52e",
         "CS5222/course-notes/Tutorial04.tex": "8786dbd43139ab7dacebd282a15b44a6906715033481cb6bd2b0468502d4732b",
         "CS5222/course-notes/Tutorial05.tex": "547b56ad743f9d11d5250c1513584f45737e014f78a97a3f079882925f100fdb",
+        "CS5222/course-notes/Tutorial06.tex": "3b4809efdba721171ec5f3a316d4d5335e78017d1bf8ae4f14596fa14c590550",
+        "CS5222/course-notes/Tutorial07.tex": "7f0341336d5000a37bb1bec8391d2b423ecf58eb006f432d8106ff634675f266",
+        "CS5222/course-notes/Tutorial08.tex": "b9b90719748b196bb2d0879811873849e9e0a6d9e2b2b5e6f6b0dc55daaec972",
+        "CS5222/course-notes/Tutorial09.tex": "53ee5a5724abb83eda380461e20f0dca737c1fd8b3eb7d3a573daadc3090f897",
+        "CS5222/course-notes/Tutorial10.tex": "f6ba16403eb0133518e9c25c104ab39364075c963efc06bafd5776a03c62a47a",
+        "CS5222/course-notes/Tutorial11.tex": "be841784aabae70abd94a22cdd564a666c1af557cf1bb7e7da03a97472f7e736",
+        "CS5222/course-notes/Tutorial12.tex": "20c53d038afc6920d62c4d7c7b94fe6a59fc04d3afb42dd0e456ae8dc551d915",
         "CS5222/course-notes/assets/assignment01-01.png": "8dce74637beb8fd4ed81043fa711aa33603db77949b552cad3fb43dd6454e831",
         "CS5222/course-notes/assets/assignment01-02.png": "c01c3b5505e2a75d1b40fbc036ab28adf1af7b6b3969939da34c5493df191789",
         "CS5222/course-notes/assets/assignment01-03.png": "06198b9a7d28698137200790c5bce5648dfeae7c6ea8448f78c6538d9d35862a",
         "CS5222/course-notes/assets/assignment01-04.png": "2b5e9f7fe3e1e319e43dec18bb0da61cccd62d212af5246f47011becd0aed2c8",
+        "CS5222/course-notes/assets/ch3p3-tcp-handshake-teardown.png": "751fde209e5a0cb716d5bab9e2657e4d31573de9810e495fd07b50835b652cd1",
+        "CS5222/course-notes/assets/ch3p3-tcp-reno-cwnd.png": "04a96c6c7ef3c6a1c1eb0e6cdf1ea340e318b4bd1645b91aede2a9aeac5454cd",
+        "CS5222/course-notes/assets/ch4-ip-fragmentation-nat.png": "4738646b191fa0846d90a2dd6a3c9d39a9f571123931caa60c1221dd536627d1",
+        "CS5222/course-notes/assets/ch5-dijkstra-spt.png": "7cedbb5af5248849ebc7c0d4eb50854ce651d4f16522fe45c3bb228d0445b12c",
+        "CS5222/course-notes/assets/ch5-dv-count-to-infinity.png": "30876503a5189d266dd38d69a46a8e020c289661941968bb4263b824877d6dc3",
+        "CS5222/course-notes/assets/ch6-aloha-csma-efficiency.png": "4620454519826899690ea3869df29cac5cbd65e6fd7c8a072c74dda8983fb650",
+        "CS5222/course-notes/assets/ch7-hidden-terminal-rtscst.png": "b966d6b8fcc088e300b65661dedb64332c1395eed796380b9ee47c0701732ce1",
         "CS5222/course-notes/assets/chapter01-04.png": "58c9e311eaa2e2b2d5b7085e16b789f7c20e09d6ca5374ea7fe7d6567a9cf36a",
         "CS5222/course-notes/assets/chapter01-13.png": "5c5b41f5bcfa6f820dbf0c903af55a303dea34b11be5f1e943a083e580c9f594",
         "CS5222/course-notes/assets/chapter01-22.png": "138e08c7845ebdaeafecb624e6bb701399631cb201b38d528b05450b33f1ce5f",
@@ -145,7 +166,7 @@
         "CS5222/course-notes/assets/tutorial03-02.png": "394e7ac53f4f96f2a0c1bc503f524587cef569a66de4364a254098b926ec2fcf",
         "CS5222/course-notes/assets/tutorial03-03.png": "9f62560a8dab8a4ab7a47b91dcfefca1c208b46dd396786f8226c18dcc9efb5d",
         "CS5222/course-notes/assets/tutorial05-01.png": "5f55209697f9b64e658421a6ff3a6a580e12803436dcde7799e478adcb234431",
-        "latex/books/CS5222.tex": "17237c598a4161ef3be944888602f564bd51fe729089c4d5524bfb7592ad79d4",
+        "latex/books/CS5222.tex": "8c4336e0b47b90a22f68a279b3d72457d37d1557ef57c3e9b3c67c1da2c22061",
         "latex/preamble.tex": "605d090d10e8e63300aa623574ea6bc2d8c883c2b9f77780b037aafef444f00a",
         "latex/vendor/adobe-mapping/Adobe-GB1-UCS2": "368b40ec05568faf323cfbbddf23c60d566bbc88e366981eb6541b026381a3b8",
         "latex/vendor/adobe-mapping/UPSTREAM.json": "0e29e61f48272fbbe292d5b8fc6b5bc3bfd9b3ac112a7df016837b981cbb3fe6",
@@ -166,7 +187,7 @@
     "Foundations": {
       "file": "pdf/Foundations-A4.pdf",
       "pages": 43,
-      "sha256": "c9a275176658474bcf2412c092bd440b011f910f54cf6fa79407b6094dab6e90",
+      "sha256": "67c5860487a2e750a0a76b498be2de86f02b69f61063ade2a40df710ef7f7f7a",
       "source_sha256": "8b22987179cf5698a40003e43b4705853e2f5870336f176be99e6bdb45f9bac4",
       "source_ref": "main",
       "inputs": {
@@ -210,7 +231,7 @@
     "Questions": {
       "file": "CS5489/exam-review/Midterm/Questions.pdf",
       "pages": 74,
-      "sha256": "c9ecd8aa8f7829921c5a3ccdd93da2dc1b108774f2a996f6e4356e998e03f689",
+      "sha256": "1b513ca583e190f8d9f4a1c1c7907c815f0dcdcb7a61626f2f195037d5960be8",
       "source_sha256": "57911d30dcd53560c17add371fb524bd0010607e708014cbe666d55338d374d3",
       "source_ref": "main",
       "inputs": {
@@ -448,7 +469,7 @@
     "Answers": {
       "file": "CS5489/exam-review/Midterm/Answers.pdf",
       "pages": 98,
-      "sha256": "0f8c9226df4dd7493b1913b16d072d044eb510a1b757bae1ec8674532a41b286",
+      "sha256": "84e45d1de9e323a72f1905b12e33b6a7949c026ec3ba81a1cff69dba485af6c8",
       "source_sha256": "4b4fa36dd77d078218f045b508fe8a8185a1891f30c566f66361317deac4930d",
       "source_ref": "main",
       "inputs": {
@@ -894,7 +915,7 @@
     "Combined": {
       "file": "CS5489/exam-review/Midterm/Combined.pdf",
       "pages": 111,
-      "sha256": "f122f7cba3ae7f499addb013c1d00d3b02c1aa33f8b7e66eee22e39aaa93eab0",
+      "sha256": "59dcf678bcdcec46bfea72bebd8e4e65285112e2f8ddd276435f166e177ef149",
       "source_sha256": "13ac073fa84af21a211e23a8b53c55b561f131216291acf65557f8778a0158f5",
       "source_ref": "main",
       "inputs": {
@@ -1340,7 +1361,7 @@
     "Compact": {
       "file": "CS5489/exam-review/Midterm/Compact.pdf",
       "pages": 75,
-      "sha256": "2e55380c1a83cc690e5b70690a17ed8f52cb98d38eca515c55a3d8e455156db3",
+      "sha256": "a75ffced8c32fd88daaa115054e3a74c3de495e7d0299dd994e8b317c4e34887",
       "source_sha256": "41524f6cc4b0b28111a07f75b21a1fa738c05401a6c95727fd6dc1374c8f793d",
       "source_ref": "main",
       "inputs": {
@@ -1784,7 +1805,7 @@
     "MultipleChoice": {
       "file": "CS5489/exam-review/Midterm/MultipleChoice.pdf",
       "pages": 34,
-      "sha256": "a8d543869ff61bdb60ed015a453974eb9f0641887c261d8b234f7d0e9003a29b",
+      "sha256": "ab83e9d4c1a7e41753de25119e870b36423aa18238947d720cba9ec9789e79c2",
       "source_sha256": "b06e5aa6179d747361efdb3b9414a7dc605da2ea938bad55d5199a0a726748d1",
       "source_ref": "main",
       "inputs": {
@@ -1992,7 +2013,7 @@
     "WrittenResponse": {
       "file": "CS5489/exam-review/Midterm/WrittenResponse.pdf",
       "pages": 45,
-      "sha256": "0d5a2fd14fefcf4512bbfcb201b107d0d4058793f2ef7c67cfd30da82b1948d0",
+      "sha256": "5bcaa4fb5b66e298e74d199fb02c33145f0281f5cbf39053ba4c80322b4f276c",
       "source_sha256": "d310f1a9e10407ff57138d3d583619e852f8b07dd425c6590fcd666ee2863c0c",
       "source_ref": "main",
       "inputs": {

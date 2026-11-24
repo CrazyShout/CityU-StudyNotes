@@ -30,16 +30,30 @@ A4、100%实际大小、双面长边翻转；各册独立分页。正文在同�
 
 | 文档 | 页码 |
 |---|---|
-| [CS5222-Chapter01](../CS5222/course-notes/Chapter01.tex) | [5–24](CS5222-A4.pdf#page=5) |
-| [CS5222-Chapter02](../CS5222/course-notes/Chapter02.tex) | [25–42](CS5222-A4.pdf#page=25) |
-| [CS5222-Chapter03](../CS5222/course-notes/Chapter03.tex) | [43–56](CS5222-A4.pdf#page=43) |
-| [CS5222-Tutorial01](../CS5222/course-notes/Tutorial01.tex) | [57–63](CS5222-A4.pdf#page=57) |
-| [CS5222-Tutorial02](../CS5222/course-notes/Tutorial02.tex) | [64–69](CS5222-A4.pdf#page=64) |
-| [CS5222-Tutorial03](../CS5222/course-notes/Tutorial03.tex) | [70–76](CS5222-A4.pdf#page=70) |
-| [CS5222-Tutorial04](../CS5222/course-notes/Tutorial04.tex) | [77–80](CS5222-A4.pdf#page=77) |
-| [CS5222-Tutorial05](../CS5222/course-notes/Tutorial05.tex) | [81–85](CS5222-A4.pdf#page=81) |
-| [CS5222-Assignment01](../CS5222/course-notes/Assignment01.tex) | [86–95](CS5222-A4.pdf#page=86) |
-| [CS5222-ResearchReportGuide](../CS5222/course-notes/ResearchReportGuide.tex) | [96–99](CS5222-A4.pdf#page=96) |
+| [CS5222-Chapter01](../CS5222/course-notes/Chapter01.tex) | [7–26](CS5222-A4.pdf#page=7) |
+| [CS5222-Chapter02](../CS5222/course-notes/Chapter02.tex) | [27–44](CS5222-A4.pdf#page=27) |
+| [CS5222-Chapter03](../CS5222/course-notes/Chapter03.tex) | [45–58](CS5222-A4.pdf#page=45) |
+| [CS5222-Chapter03Part3](../CS5222/course-notes/Chapter03Part3.tex) | [59–64](CS5222-A4.pdf#page=59) |
+| [CS5222-Chapter04](../CS5222/course-notes/Chapter04.tex) | [65–70](CS5222-A4.pdf#page=65) |
+| [CS5222-Chapter05](../CS5222/course-notes/Chapter05.tex) | [71–75](CS5222-A4.pdf#page=71) |
+| [CS5222-Chapter06](../CS5222/course-notes/Chapter06.tex) | [76–82](CS5222-A4.pdf#page=76) |
+| [CS5222-Chapter07](../CS5222/course-notes/Chapter07.tex) | [83–87](CS5222-A4.pdf#page=83) |
+| [CS5222-Tutorial01](../CS5222/course-notes/Tutorial01.tex) | [88–94](CS5222-A4.pdf#page=88) |
+| [CS5222-Tutorial02](../CS5222/course-notes/Tutorial02.tex) | [95–100](CS5222-A4.pdf#page=95) |
+| [CS5222-Tutorial03](../CS5222/course-notes/Tutorial03.tex) | [101–107](CS5222-A4.pdf#page=101) |
+| [CS5222-Tutorial04](../CS5222/course-notes/Tutorial04.tex) | [108–111](CS5222-A4.pdf#page=108) |
+| [CS5222-Tutorial05](../CS5222/course-notes/Tutorial05.tex) | [112–116](CS5222-A4.pdf#page=112) |
+| [CS5222-Tutorial06](../CS5222/course-notes/Tutorial06.tex) | [117–119](CS5222-A4.pdf#page=117) |
+| [CS5222-Tutorial07](../CS5222/course-notes/Tutorial07.tex) | [120–122](CS5222-A4.pdf#page=120) |
+| [CS5222-Tutorial08](../CS5222/course-notes/Tutorial08.tex) | [123–125](CS5222-A4.pdf#page=123) |
+| [CS5222-Tutorial09](../CS5222/course-notes/Tutorial09.tex) | [126–128](CS5222-A4.pdf#page=126) |
+| [CS5222-Tutorial10](../CS5222/course-notes/Tutorial10.tex) | [129–131](CS5222-A4.pdf#page=129) |
+| [CS5222-Tutorial11](../CS5222/course-notes/Tutorial11.tex) | [132–134](CS5222-A4.pdf#page=132) |
+| [CS5222-Tutorial12](../CS5222/course-notes/Tutorial12.tex) | [135–138](CS5222-A4.pdf#page=135) |
+| [CS5222-Assignment01](../CS5222/course-notes/Assignment01.tex) | [139–148](CS5222-A4.pdf#page=139) |
+| [CS5222-Assignment02](../CS5222/course-notes/Assignment02.tex) | [149–152](CS5222-A4.pdf#page=149) |
+| [CS5222-Assignment03](../CS5222/course-notes/Assignment03.tex) | [153–156](CS5222-A4.pdf#page=153) |
+| [CS5222-ResearchReportGuide](../CS5222/course-notes/ResearchReportGuide.tex) | [157–160](CS5222-A4.pdf#page=157) |
 
 ## Foundations
 

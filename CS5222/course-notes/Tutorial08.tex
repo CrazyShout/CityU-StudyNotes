@@ -1,0 +1,102 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Tutorial08}{Tutorial 8 · TCP 概念判断、IPv4 分片、HOL 阻塞与最长前缀匹配}
+\StudyTarget{CS5222-Tutorial08__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter04}{root}{配套章节：Chapter 4 数据平面} · \StudyRef{CS5222-Tutorial07}{root}{上一份：Tutorial 7} · \StudyRef{CS5222-Tutorial09}{root}{下一份：Tutorial 9}
+
+\StudyHeading{1}{本节定位｜传输层收官辨析 + 网络层数据平面三大必考题型}
+\StudyTarget{CS5222-Tutorial08__overview}
+
+Tutorial 8 的 P1 是 7 道极易挖坑的 TCP 判断题；P2–P4 覆盖 IPv4 分片填表、路由器输入端 HOL 阻塞与最长前缀匹配（LPM）转发表构建。全部结论对照 \StudyInline{tutorial-8-solution\_semA2026} 并经 Python 验算。
+
+
+\StudyHeading{1}{P1. TCP 概念七连判断（True / False）}
+\StudyTarget{CS5222-Tutorial08__p1}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.07\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.11\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.82\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+小问 & 答案 & 原题核心判断与辨析（中文 + English Key Point） \\
+\midrule\endfirsthead
+小问 & 答案 & 原题核心判断与辨析（中文 + English Key Point） \\
+\midrule\endhead
+\bottomrule\endfoot
+(a) & \textbf{False} & “若 B 没数据发给 A，就不回 ACK”——错！即使 B 无应用数据回发，仍必须发纯 ACK 段确认收到的 A 数据（可靠传输基础）。 \\
+(b) & \textbf{False} & “若当前段序号为 $m$，下一段序号必为 $m+1$”——错！TCP 序号按\textbf{字节}编号而非按段编号，下一段序号是 $m + \text{本段数据字节数}$。 \\
+(c) & \textbf{False} & “A 发 \texttt{Seq=38} 含 4 B 数据给 B，则\textbf{这同一段}里 ACK 号必为 42”——大坑！A 发出的段里的 ACK 号确认的是\textbf{A 此前从 B 收到的数据}，与 A 自己的 \texttt{Seq=38} 无关！ \\
+(d) & \textbf{False} & “连接期间 \texttt{rwnd} 永不改变”——错！接收方根据接收缓存剩余可用空间动态更新并通告 \texttt{rwnd}。 \\
+(e) & \textbf{True} & “A 发出的未确认字节数不应超过接收缓存大小”——对！流量控制约束 $\mathrm{LastByteSent}-\mathrm{LastByteAcked}\le \mathrm{rwnd}\le \mathrm{RcvBuffer}$。 \\
+(f) & \textbf{True} & “TCP 首部有字段携带 \texttt{rwnd}”——对！即 16 位 Receive Window 字段。 \\
+(g) & \textbf{False} & “若最新 $\mathrm{SampleRTT}=1\text{ s}$，则当前 $\mathrm{TimeoutInterval}$ 必大于 $1\text{ s}$”——错！$\mathrm{TimeoutInterval}=\mathrm{EstimatedRTT}+4\mathrm{DevRTT}$ 取决于历史加权均值与权重系数 $(x,y)$：即便取常用 $x=0.125, y=0.25$，若此前 $E=0.2\text{ s}, D=0\text{ s}$，则更新后 $E'=0.3\text{ s}, D'=0.175\text{ s}\Rightarrow \mathrm{TimeoutInterval}=0.3+4(0.175)=\mathbf{1.0\text{ s}}$（并不严格 $>1\text{ s}$）；而当权重 $y<0.25$ 且历史 $E<1\text{ s}$ 时甚至严格 $<1\text{ s}$！故“necessarily $>1\text{ s}$”为 False。 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{P2. IPv4 数据报分片计算（1600 B 数据报，MTU = 500 B，ID = 291）}
+\StudyTarget{CS5222-Tutorial08__p2}
+
+\textbf{题目 / Question：} 将一个总长 1600 B（含 20 B IP 首部，故载荷 1580 B）、标识 \StudyInline{ID=291} 的 IPv4 数据报送入 $\mathrm{MTU}=500\text{ B}$ 的链路。共产生几个分片？列出每个分片的 Length、ID、MF 标志位与 Offset（以 8 字节为单位）。
+
+\textbf{分步计算（Python 已核验）：}
+\begin{enumerate}
+\item 每片最大数据载荷 $= \lfloor (500 - 20)/8 \rfloor \times 8 = \lfloor 480/8 \rfloor \times 8 = \mathbf{480\text{ B}}$（恰好是 8 的倍数，偏移步长 $480/8 = \mathbf{60}$）。
+\item 所需分片数 $= \lceil 1580 / 480 \rceil = \lceil 3.29 \rceil = \mathbf{4}$ 片（前 3 片各装 480 B，最后 1 片装 $1580 - 3\times 480 = 140\text{ B}$ 数据 + 20 B 首部 $= 160\text{ B}$）。
+\end{enumerate}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.12\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.66667\tabcolsep\relax}@{}}
+\toprule
+分片 & 总长 Length (B) & 数据载荷 (B) & ID & FragFlag (MF) & Offset（$\div 8$） \\
+\midrule\endfirsthead
+分片 & 总长 Length (B) & 数据载荷 (B) & ID & FragFlag (MF) & Offset（$\div 8$） \\
+\midrule\endhead
+\bottomrule\endfoot
+Frag 1 & \textbf{500} & 480 & 291 & \textbf{1} & \textbf{0} \\
+Frag 2 & \textbf{500} & 480 & 291 & \textbf{1} & \textbf{60} \\
+Frag 3 & \textbf{500} & 480 & 291 & \textbf{1} & \textbf{120} \\
+Frag 4 & \textbf{160} & 140 & 291 & \textbf{0} & \textbf{180} \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{P3. 什么是 HOL 阻塞？发生在输入端口还是输出端口？}
+\StudyTarget{CS5222-Tutorial08__p3}
+
+\textbf{答案 / Answer：} \textbf{队头阻塞（Head-of-the-Line, HOL Blocking）}是指输入端口队列排在最前面的分组因目标输出端口竞争/无可用缓存而被阻塞等待时，导致它\textbf{身后的所有分组}即使各自的目标输出端口完全空闲也无法跨越交换结构继续前进。HOL 阻塞发生在\textbf{输入端口（input ports）}！
+
+\textbf{English answer:} HOL blocking occurs at \textbf{input ports} when a datagram at the front of an input queue is blocked due to output-port contention, preventing subsequent packets in that same input queue from being forwarded even when their own destination output ports are free.
+
+
+\StudyHeading{1}{P4. 最长前缀匹配（LPM）转发表构建与查表}
+\StudyTarget{CS5222-Tutorial08__p4}
+
+\textbf{题目 / Question：} 32 位地址数据报网络，路由器 4 个接口对应范围：
+\begin{itemize}
+\item 接口 0：\StudyInline{11100000 00000000 00000000 00000000} 至 \StudyInline{11100000 11111111 11111111 11111111}
+\item 接口 1：\StudyInline{11100001 00000000 00000000 00000000} 至 \StudyInline{11100001 00000000 11111111 11111111}
+\item 接口 2：\StudyInline{11100001 00000001 00000000 00000000} 至 \StudyInline{11100001 11111111 11111111 11111111}
+\item 接口 3：其他（otherwise）
+\end{itemize}
+
+\textbf{(a) 4 表项最长前缀匹配转发表：}
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.62\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.38\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+前缀匹配（Prefix Match） & 链路接口（Link Interface） \\
+\midrule\endfirsthead
+前缀匹配（Prefix Match） & 链路接口（Link Interface） \\
+\midrule\endhead
+\bottomrule\endfoot
+\texttt{11100000}（/8） & \textbf{0} \\
+\texttt{11100001 00000000}（/16） & \textbf{1} \\
+\texttt{11100001}（/8） & \textbf{2} \\
+\texttt{otherwise} & \textbf{3} \\
+\end{longtable}\endgroup
+
+\textbf{精妙之处：} 接口 1 与接口 2 的前缀都以 \StudyInline{11100001} 开头；但表项 2 匹配前 16 位 \StudyInline{11100001 00000000}（更长！），因此第 2 字节全 0 时优先命中接口 1，否则回落到 8 位前缀的接口 2，刚好仅用 4 行覆盖原题！
+
+\textbf{(b) 三个目的地址查表结果：}
+\begin{enumerate}
+\item \StudyInline{11001000 100010001 01010001 01010101}（注：原题第 2 组印刷多打 1 位，不影响前 8 位判定）：首字节 \StudyInline{11001000} 与前 3 条均不匹配，落入默认表项 $\to$ \textbf{Interface 3}。
+\item \StudyInline{11100001 00000000 11000011 00111100}：同时匹配表项 2（16 位）与表项 3（8 位），按最长前缀胜出 $\to$ \textbf{Interface 1}。
+\item \StudyInline{11100001 10000000 00010001 01110111}：不匹配 16 位的表项 2，仅匹配 8 位的表项 3 $\to$ \textbf{Interface 2}。
+\end{enumerate}

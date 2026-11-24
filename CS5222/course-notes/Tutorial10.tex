@@ -1,0 +1,83 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Tutorial10}{Tutorial 10 · CIDR 子网划分、域内/域间路由、BGP 会话与分组调度}
+\StudyTarget{CS5222-Tutorial10__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter04}{root}{Chapter 4} · \StudyRef{CS5222-Chapter05}{root}{Chapter 5} · \StudyRef{CS5222-Tutorial09}{root}{上一份：Tutorial 9} · \StudyRef{CS5222-Tutorial11}{root}{下一份：Tutorial 11}
+
+\StudyHeading{1}{本节定位｜子网无重叠切分 + BGP 区分 eBGP/iBGP + 队列调度辨析}
+\StudyTarget{CS5222-Tutorial10__overview}
+
+Tutorial 10 跨 Chapter 4（CIDR 子网切分、FIFO/RR/WFQ 调度）与 Chapter 5（为何区分 Intra/Inter-AS、eBGP vs iBGP 判断）。全部结果对照 \StudyInline{tutorial-10-solution\_semA2026} 并经 Python 校验无地址重叠。
+
+
+\StudyHeading{1}{P1. 无重叠 CIDR 子网划分（从 \StudyInline{223.1.17.0/24} 切 3 个子网）}
+\StudyTarget{CS5222-Tutorial10__p1}
+
+\textbf{题目 / Question：} 某路由器互联三个子网，均须位于 \StudyInline{223.1.17.0/24} 内且互不重叠。Subnet 1 需支持最多 62 个接口，已分配 \StudyInline{223.1.17.0/26}。
+(a) Subnet 2 需支持最多 \textbf{106} 个接口，应分配什么地址块？
+(b) Subnet 3 需在剩余空间中支持最多 \textbf{14} 个接口，应分配什么地址块？
+
+\textbf{二进制无重叠切分法（只需盯最后 8 位！）：}
+\begin{itemize}
+\item \textbf{Subnet 1（已占）}：\StudyInline{223.1.17.0/26} $\to$ 末字节前 2 位固定为 \StudyInline{00xxxxxx}（十进制 \StudyInline{0–63}，共 $2^6=64$ 个地址，去头尾剩 62 个可用）。
+\item \textbf{(a) Subnet 2（需 106 接口）}：需要 $2^k - 2 \ge 106 \Rightarrow 2^k \ge 108 \Rightarrow k=7$（7 位主机位 $\Rightarrow$ 掩码 \textbf{/25}，共 $2^7=128$ 个地址、126 个可用）。由于低半区 \StudyInline{0xxxxxxx}（0–127）已被 Subnet 1 占用前半段，\textbf{/25 只能放在高半区 \StudyInline{1xxxxxxx}（128–255）}！
+  $\Longrightarrow$ \textbf{Subnet 2 = \StudyInline{223.1.17.128/25}}（唯一解！）。
+\item \textbf{(b) Subnet 3（需 14 接口）}：需要 $2^k - 2 \ge 14 \Rightarrow 2^k \ge 16 \Rightarrow k=4$（4 位主机位 $\Rightarrow$ 掩码 \textbf{/28}，共 16 个地址、14 个可用）。当前空闲区间是 \StudyInline{01xxxxxx}（十进制 \StudyInline{64–127}），任选其中一个对齐的 /28 块均可：
+  $\Longrightarrow$ \textbf{Subnet 3 = \StudyInline{223.1.17.64/28}}（末字节 \StudyInline{0100xxxx}，64–79）；其余等价合法解：\StudyInline{223.1.17.80/28}、\StudyInline{223.1.17.96/28}、\StudyInline{223.1.17.112/28}。
+\end{itemize}
+
+\begin{StudyBlock}{考场防错提醒}{切子网务必“从大到小”并检查边界对齐}
+不能把 /25 从 \StudyInline{.64} 开始切！因为 /25 的起始地址末字节必须是 $128$ 的整数倍（只能是 \StudyInline{.0/25} 或 \StudyInline{.128/25}），同理 /28 必须是 $16$ 的整数倍。
+\end{StudyBlock}
+
+
+\StudyHeading{1}{P2. 为什么互联网需要不同的域内（Intra-AS）与域间（Inter-AS）路由协议？}
+\StudyTarget{CS5222-Tutorial10__p2}
+
+\textbf{答案 / Answer（三大关键词：Policy / Scale / Performance）：}
+\begin{enumerate}
+\item \textbf{策略（Policy）}：域间涉及不同商业机构/ISP，管理员必须严格控制流量能否穿越其他特定 AS 以及是否替别人中转流量，策略压倒一切；域内归同一管理实体管辖，几乎无需复杂商业策略。
+\item \textbf{规模（Scale）}：域间必须面向全球海量网络实现层次化前缀聚合，压缩转发表与更新开销；单 AS 内部规模小得多（过大时也可拆分成两个 AS）。
+\item \textbf{性能（Performance）}：域内无策略掣肘，可以全力追求最短时延/最小代价路径；域间常常为满足策略放弃更短路径（甚至没有统一链路代价，只有策略属性与 AS 跳数）。
+\end{enumerate}
+
+
+\StudyHeading{1}{P3. 四 AS 拓扑识别路由协议（OSPF / RIP / eBGP / iBGP）}
+\StudyTarget{CS5222-Tutorial10__p3}
+
+\textbf{题目 / Question：} 拓扑中前缀 $x$ 位于 \textbf{AS4} 内部；AS4 通过边界链路 $4a\text{–}3c$ 连入 \textbf{AS3}（跑 OSPF）；AS3 通过 $3a\text{–}1c$ 连入 \textbf{AS1}（跑 RIP）；AS1 通过 $1b\text{–}2a$ 连入 \textbf{AS2}（跑 OSPF）；AS2 与 AS4 间无直连链路。问下列路由器分别通过哪种协议获知外部前缀 $x$？
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.68\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+路由器 & 获知协议 & 判别依据（口诀：跨 AS 传外部前缀 = eBGP；AS 内广播外部前缀 = iBGP！） \\
+\midrule\endfirsthead
+路由器 & 获知协议 & 判别依据（口诀：跨 AS 传外部前缀 = eBGP；AS 内广播外部前缀 = iBGP！） \\
+\midrule\endhead
+\bottomrule\endfoot
+(a) \textbf{3c} & \textbf{eBGP} & $3c$ 是 AS3 与 AS4 的边界网关，直接跨越 AS 边界从 $4a$ 通过 eBGP 学到外部前缀 $x$。 \\
+(b) \textbf{3a} & \textbf{iBGP} & $3a$ 与 $3c$ 同属 AS3，由 $3c$ 通过 AS3 内部的 iBGP 会话把外部前缀 $x$ 通告给 $3a$（\textbf{绝不是 OSPF！}OSPF 只管 AS3 内部拓扑代价，不传外部 BGP 前缀）。 \\
+(c) \textbf{1c} & \textbf{eBGP} & $1c$ 是 AS1 与 AS3 的边界网关，通过跨 AS 链路 $3a\text{–}1c$ 的 eBGP 会话从 $3a$ 学到 $x$。 \\
+(d) \textbf{1d} & \textbf{iBGP} & $1d$ 是 AS1 内部路由器，由边界网关 $1c$ 通过 AS1 内部的 iBGP 会话把 $x$ 通告给 $1d$（不是 RIP！）。 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{P4. 哪种分组调度策略保证所有分组按到达顺序离开？}
+\StudyTarget{CS5222-Tutorial10__p4}
+
+\textbf{答案 / Answer：仅 FIFO（First-In, First-Out）。} Priority（优先级排队）会让后到的高优先级包插队；RR（轮询）与 WFQ（加权公平队列）都会在不同类别队列间切换，导致先到达某队列但排在后面的包晚于后到达空队列的包离开。
+
+\textbf{English answer:} Only \textbf{FIFO} ensures that all packets depart in the exact order in which they arrived.
+
+
+\StudyHeading{1}{P5. RR 与 WFQ 的本质区别，及何时二者行为完全相同？}
+\StudyTarget{CS5222-Tutorial10__p5}
+
+\textbf{答案 / Answer：}
+\begin{itemize}
+\item \textbf{本质区别}：\textbf{RR（Round Robin）}平等对待所有业务类别（无优先级与份额差异，轮流各服务 1 个分组）；\textbf{WFQ（Weighted Fair Queueing）}为每个类别 $i$ 赋予不同权重 $w_i$，使各类别在任意繁忙时段按权重比例 $w_i / \sum_j w_j$ 获得差异化的服务份额。
+\item \textbf{完全相同的特例}：当 WFQ 中\textbf{所有类别的权重 $w_i$ 完全相等}（且按同尺度分组服务）时，WFQ 退化为与 RR 完全一致！
+\end{itemize}
+
+\textbf{English answer:} RR treats all service classes equally, whereas WFQ allocates differential service proportional to class weights $w_i$. When all classes in WFQ are assigned \textbf{equal weights}, WFQ behaves identically to RR.

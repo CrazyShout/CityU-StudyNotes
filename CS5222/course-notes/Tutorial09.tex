@@ -1,0 +1,98 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-Tutorial09}{Tutorial 9 · 路由算法专项（Dijkstra 最短路径树 + Distance Vector 迭代）}
+\StudyTarget{CS5222-Tutorial09__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter05}{root}{配套章节：Chapter 5 控制平面} · \StudyRef{CS5222-Tutorial08}{root}{上一份：Tutorial 8} · \StudyRef{CS5222-Tutorial10}{root}{下一份：Tutorial 10}
+
+\StudyHeading{1}{本节定位｜期末必考 1 道路由算法大题的头号实战演练！}
+\StudyTarget{CS5222-Tutorial09__overview}
+
+老师已明确提示期末必考路由算法大题！本卷 3 题把\textbf{Dijkstra 完整填表 + 最短路径树}（P1）以及\textbf{Distance Vector 同步全表迭代与局部一步更新}（P2、P3）全部练透。全部步骤经 Python 精确验证，完全吻合 \StudyInline{tutorial-9-solution\_semA2026}。
+
+
+\StudyHeading{1}{P1. 七节点图从 $x$ 出发运行 Dijkstra 算法并画最短路径树}
+\StudyTarget{CS5222-Tutorial09__p1}
+
+\textbf{题目 / Question：} 7 节点无向带权图 $\{x, t, u, v, w, y, z\}$，边权为：
+$(x,z)=8,\; (x,y)=6,\; (x,v)=3,\; (x,w)=6,\; (z,y)=12,\; (y,t)=7,\; (y,v)=8,\; (v,t)=4,\; (v,u)=3,\; (v,w)=4,\; (w,u)=3,\; (u,t)=2$。
+请从源节点 \textbf{$x$} 运行 Dijkstra 算法给出完整填表过程，并画出以 $x$ 为根的最短路径树（SPT）。
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.07\linewidth-1.75000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.75000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.75000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.75000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.75000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.75000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.75000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.13\linewidth-1.75000\tabcolsep\relax}@{}}
+\toprule
+Step & $N'$ & $D(t),p(t)$ & $D(u),p(u)$ & $D(v),p(v)$ & $D(w),p(w)$ & $D(y),p(y)$ & $D(z),p(z)$ \\
+\midrule\endfirsthead
+Step & $N'$ & $D(t),p(t)$ & $D(u),p(u)$ & $D(v),p(v)$ & $D(w),p(w)$ & $D(y),p(y)$ & $D(z),p(z)$ \\
+\midrule\endhead
+\bottomrule\endfoot
+0 & $x$ & $\infty$ & $\infty$ & \textbf{$3, x$} & $6, x$ & $6, x$ & $8, x$ \\
+1 & $xv$ & $7, v$ & \textbf{$6, v$} & — & $6, x$ & $6, x$ & $8, x$ \\
+2 & $xvu$ & $7, v$ & — & — & \textbf{$6, x$} & $6, x$ & $8, x$ \\
+3 & $xvuw$ & $7, v$ & — & — & — & \textbf{$6, x$} & $8, x$ \\
+4 & $xvuwy$ & \textbf{$7, v$} & — & — & — & — & $8, x$ \\
+5 & $xvuwyt$ & — & — & — & — & — & \textbf{$8, x$} \\
+6 & $xvuwytz$ & — & — & — & — & — & — \\
+\end{longtable}\endgroup
+
+\textbf{考场避坑核对点（每步为什么改/不改）：}
+\begin{itemize}
+\item \textbf{Step 1 加入 $v$（$D(v)=3$）}：松弛 $v$ 的未定案邻居 $t, u, w, y$：$t$ 更新为 $3+4=7,v$；$u$ 更新为 $3+3=6,v$；$w$ 候选 $3+4=7 > 6$（\textbf{不改！保持 $6,x$}）；$y$ 候选 $3+8=11 > 6$（不改）。
+\item \textbf{Step 2 并列最小 6}：$u, w, y$ 都是 6，任选其一即可（教师解答按字母序依次挑 $u \to w \to y$）。加入 $u$（$D(u)=6$）后松弛 $t$ 得 $6+2=8 > 7$（不改），松弛 $w$ 得 $6+3=9 > 6$（不改）。
+\item \textbf{最终最短路径树（6 条边）}：直接按最终前驱 $p(\cdot)$ 连边——\textbf{$(x,v),\; (x,w),\; (x,y),\; (x,z),\; (v,u),\; (v,t)$}，总边数 $=7-1=6$（详见 \StudyRef{CS5222-Chapter05}{dijkstra}{Chapter 5 原创双图右侧}）。
+\end{itemize}
+
+\StudyImage{CS5222/course-notes/assets/ch5-dijkstra-spt.png}
+\StudyCaption{右图即为 Tutorial 9 P1 七节点原图及从源节点 $x$ 出发的红实线最短路径树（SPT）。}
+
+
+\StudyHeading{1}{P2. 三节点拓扑同步 Distance Vector 算法完整迭代}
+\StudyTarget{CS5222-Tutorial09__p2}
+
+\textbf{题目 / Question：} 三节点三角形拓扑，边权 $c(x,y)=3,\; c(y,z)=6,\; c(z,x)=4$。写出同步距离向量算法在初始化后及每一轮迭代后，各节点的距离表。
+
+\textbf{关键洞见（先看三角不等式！）：}
+检查三条边权：$3+4=7 > 6$，$3+6=9 > 4$，$4+6=10 > 3$——任意两点间\textbf{直连边都严格短于绕道第三点}！因此：
+\begin{enumerate}
+\item \textbf{初始化（$t=0$）}：各节点只知道自己的直连行，其余邻居行未知（$\infty$）：
+  \begin{itemize}
+  \item Node $x$：$D_x = [0, 3, 4]$（到 $x,y,z$）；Node $y$：$D_y = [3, 0, 6]$；Node $z$：$D_z = [4, 6, 0]$。
+  \end{itemize}
+\item \textbf{第 1 轮交换后（$t=1$）}：三节点互发各自初始距离向量，收到后各节点均获知全表并用 Bellman-Ford 重算自身行：
+  \begin{align*}
+  D_x(y) &= \min\{c(x,y)+D_y(y),\; c(x,z)+D_z(y)\} = \min\{3+0,\; 4+6\} = 3, \\
+  D_x(z) &= \min\{c(x,y)+D_y(z),\; c(x,z)+D_z(z)\} = \min\{3+6,\; 4+0\} = 4, \\
+  D_y(z) &= \min\{c(y,x)+D_x(z),\; c(y,z)+D_z(z)\} = \min\{3+4,\; 6+0\} = 6.
+  \tag{T9.1}
+  \end{align*}
+  其余各项对称不变。由于没有任何节点自身的距离向量发生变化，\textbf{第 1 轮后不再发送更新消息，算法立刻收敛终止！}
+\end{enumerate}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.25\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.25\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.25\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.25\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+收敛后各节点持有的完整表 & 到 $x$ & 到 $y$ & 到 $z$ \\
+\midrule\endfirsthead
+收敛后各节点持有的完整表 & 到 $x$ & 到 $y$ & 到 $z$ \\
+\midrule\endhead
+\bottomrule\endfoot
+Row $x$（$D_x$） & 0 & 3 & 4 \\
+Row $y$（$D_y$） & 3 & 0 & 6 \\
+Row $z$（$D_z$） & 4 & 6 & 0 \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{P3. 已知邻居到远端 $u$ 的代价，求节点 $x$ 第一轮 DV 更新}
+\StudyTarget{CS5222-Tutorial09__p3}
+
+\textbf{题目 / Question：} 节点 $x$ 只有两个直连邻居 $w$ 和 $y$，已知图中链路代价 $c(x,w)=2,\; c(x,y)=5,\; c(w,y)=2$；且 $w$ 到目的 $u$ 的最小代价 $D_w(u)=5$，$y$ 到目的 $u$ 的最小代价 $D_y(u)=6$。求第一轮 DV 迭代后 $x$ 到 $w, y, u$ 的距离向量。
+
+\textbf{推导 / Derivation（直接套 Bellman-Ford 方程）：}
+\begin{align*}
+D_x(w) &= \min\bigl\{\,c(x,w) + D_w(w),\;\; c(x,y) + D_y(w)\,\bigr\} = \min\{2+0,\; 5+2\} = \mathbf{2}, \\
+D_x(y) &= \min\bigl\{\,c(x,w) + D_w(y),\;\; c(x,y) + D_y(y)\,\bigr\} = \min\{2+2,\; 5+0\} = \mathbf{4} \quad(\text{绕道 } w\text{ 更便宜！}), \\
+D_x(u) &= \min\bigl\{\,c(x,w) + D_w(u),\;\; c(x,y) + D_y(u)\,\bigr\} = \min\{2+5,\; 5+6\} = \mathbf{7}.
+\tag{T9.2}
+\end{align*}
+
+\textbf{最终答案：} $D_x(w)=\mathbf{2},\; D_x(y)=\mathbf{4},\; D_x(u)=\mathbf{7}$。注意易错点：$D_x(y)$ 从直连代价 5 降成了经由 $w$ 的 \textbf{4}！
