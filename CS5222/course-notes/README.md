@@ -6,7 +6,7 @@
 
 - [Chapter 1 · Introduction｜一条消息怎样穿过互联网](Chapter01.tex)
 - [Chapter 2 · Application Layer｜让两端的程序真正说上话](Chapter02.tex)
-- [Chapter 3 · Transport Layer（当前 part 1–2）](Chapter03.tex)
+- [Chapter 3 · Transport Layer（Part 1–2：复用、可靠传输与序号/RTO）](Chapter03.tex)
 - [Chapter 3 (Part 3) · TCP 连接管理、流量控制与拥塞控制](Chapter03Part3.tex)
 - [Chapter 4 · 网络层：数据平面（路由器、IPv4 分片、CIDR/NAT、IPv6 与 SDN）](Chapter04.tex)
 - [Chapter 5 · 网络层：控制平面（Dijkstra、距离向量、OSPF、BGP 与 ICMP）](Chapter05.tex)
@@ -34,3 +34,8 @@
 - [Assignment 2 · Chapters 3, 4 and 5｜rdt3.0、GBN 窗口推演与 OpenFlow 流表](Assignment02.tex)
 - [Assignment 3 · Chapters 6 and 7｜ARP/交换机、CSMA/CD、网页全栈与无线链吞吐](Assignment03.tex)
 - [Research Report Guide｜把一个真实问题解释清楚](ResearchReportGuide.tex)
+
+## 开卷附录与期末合订本
+
+- [开卷考纲与全书核心公式／协议速查附录](ExamIndex.tex)（按 Canvas 考纲排除 Socket 编程与 Wireshark 操作题；全册采用自绘示意图，不含任何教材扫描截图）
+- [2021/22 Semester A 期末真题双语精简合订本（Q1–Q8）](../exam-review/Final/CS5222-Final-2021A-Combined.pdf)

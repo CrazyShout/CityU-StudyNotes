@@ -85,6 +85,31 @@
       "notebook": "CS5489/course-notes/Tutorial04.ipynb"
     },
     {
+      "source": "CS5489/course-notes/Tutorial05.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial06.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial07.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial08.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial09.tex",
+      "course": "CS5489",
+      "major": true
+    },
+    {
       "source": "CS5489/course-notes/Assignment01.tex",
       "course": "CS5489",
       "major": true
@@ -226,6 +251,12 @@
       "major": true
     },
     {
+      "source": "CS5222/course-notes/ExamIndex.tex",
+      "course": "CS5222",
+      "major": false,
+      "print_appendix": true
+    },
+    {
       "source": "CS5222/course-notes/README.md",
       "course": "CS5222",
       "major": false
@@ -246,7 +277,7 @@
       "major": false
     }
   ],
-  "major_documents": 42,
-  "scope": "Current downloaded Canvas; native LaTeX teaching sources, saved executable Notebooks and nine A4 PDFs",
-  "updated": "2026-11-24"
+  "major_documents": 47,
+  "scope": "Full-semester 2026 Canvas materials; native LaTeX teaching sources, saved executable Notebooks and nine A4 PDFs",
+  "updated": "2026-11-26"
 }

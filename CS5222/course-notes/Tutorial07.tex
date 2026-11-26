@@ -5,76 +5,98 @@
 
 \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{配套章节：Chapter 3 Part 3} · \StudyRef{CS5222-Tutorial06}{root}{上一份：Tutorial 6} · \StudyRef{CS5222-Tutorial08}{root}{下一份：Tutorial 8}
 
-\StudyHeading{1}{本节定位｜TCP 拥塞控制读图必考大题与流水线窗口计算}
+\StudyHeading{1}{导读｜读懂拥塞窗口演化全图与流水线最小窗口计算}
 \StudyTarget{CS5222-Tutorial07__overview}
 
-Tutorial 7 的 P1 是全课程最经典的 TCP 拥塞窗口读图十连问（覆盖 Slow Start、Congestion Avoidance、3 Dup ACKs vs Timeout、ssthresh 更新、累计发包数定位以及 Reno vs Tahoe 对比）；P2 考 TCP/UDP 公平性辨析；P3 复习 TCP 序号差；P4 考流水线最小窗口 $N$。全部数值经 Python 核对并与 \StudyInline{tutorial-7-solution\_semA2026} 完全一致。
+Tutorial 7 共四道题，是巩固\StudyRef{CS5222-Chapter03Part3}{tcp-cc}{Chapter 3 Part 3 拥塞控制与流水线效率}的核心练习：P1 通过一条 26 轮完整曲线系统训练慢启动、拥塞避免、3 个冗余 ACK 与超时判别、\texttt{ssthresh} 跳变、几何级数发包定位以及 Reno 与 Tahoe 行为对比；P2 分析并行连接对带宽公平性的影响；P3–P4 检验 TCP 字节序号差与高速长延迟管道（LFN）达成目标利用率所需的发送窗口大小。全部解答已与 \texttt{tutorial-7-solution\_semA2026.pptx} 核对一致。
 
 
-\StudyHeading{1}{P1. TCP Reno 拥塞窗口演化曲线十连问（含 Tahoe 对比）}
+\StudyHeading{1}{P1. TCP Reno 拥塞窗口演化曲线十问（含 TCP Tahoe 分支对比）}
 \StudyTarget{CS5222-Tutorial07__p1}
 
-\textbf{题目 / Question：} 下图为某 TCP Reno 连接在第 1–26 传输轮次（transmission round）的拥塞窗口 $\mathrm{cwnd}$（单位 MSS）变化轨迹：轮次 1–6 为 $1,2,4,8,16,32$；轮次 7–16 线性增至 $42$；轮次 17 降至 $24$ 后线性增至轮次 22 的 $29$；轮次 23 跌至 $1$ 后指数增长为 $1,2,4,8$（至轮次 26）。逐一回答 (a)–(j) 并给出简短依据。
+\textbf{Original Question:} Assuming TCP Reno is the protocol experiencing the behavior shown below (rounds 1–6: $1,2,4,8,16,32$; rounds 7–16: linear $33\to 42$; rounds 17–22: linear $24\to 29$; rounds 23–26: $1,2,4,8$), answer the following questions and justify briefly:
+\begin{itemize}
+\item \textbf{(a)} Identify the intervals of time when TCP slow start is operating.
+\item \textbf{(b)} Identify the intervals of time when TCP congestion avoidance ($\mathrm{cwnd}$ linear increase) is operating.
+\item \textbf{(c)} After the 16th transmission round, is segment loss detected by a triple duplicate ACK or by a timeout?
+\item \textbf{(d)} After the 22nd transmission round, is segment loss detected by a triple duplicate ACK or by a timeout?
+\item \textbf{(e)} What is the initial value of \texttt{ssthresh} at the first transmission round? \quad \texttt{A) 16 \quad B) 32 \quad C) 33 \quad D) 34}
+\item \textbf{(f)} What is the value of \texttt{ssthresh} at the 18th transmission round? \quad \texttt{A) 18 \quad B) 19 \quad C) 20 \quad D) 21}
+\item \textbf{(g)} What is the value of \texttt{ssthresh} at the 24th transmission round? \quad \texttt{A) 10 \quad B) 12 \quad C) 14 \quad D) 16}
+\item \textbf{(h)} During what transmission round is the 70th segment sent? \quad \texttt{A) 7 \quad B) 8 \quad C) 9 \quad D) 10}
+\item \textbf{(i)} Assuming a packet loss is detected after the 26th round by the receipt of a triple duplicate ACK, what will be the values of \texttt{ssthresh} and of congestion window size? \quad \texttt{A) 3, 7 \quad B) 3, 8 \quad C) 4, 7 \quad D) 4, 8}
+\item \textbf{(j)} Suppose TCP Tahoe is used (which always sets $\mathrm{cwnd}$ to 1 for either timeout or triple dup ACK), and assume triple duplicate ACKs are received at the 16th round. What are \texttt{ssthresh} and $\mathrm{cwnd}$ at the 19th round? \quad \texttt{A) 21, 3 \quad B) 21, 4 \quad C) 22, 3 \quad D) 22, 4}
+\end{itemize}
 
 \StudyImage{CS5222/course-notes/assets/ch3p3-tcp-reno-cwnd.png}
-\StudyCaption{原创重绘 Tutorial 7 P1 的 TCP Reno 拥塞窗口曲线（深蓝实线）及 (j) 小问 TCP Tahoe 在第 16 轮后的分支轨迹（橙虚线）。}
+\StudyCaption{原创重绘 Tutorial 7 P1 的 TCP Reno 拥塞窗口演化曲线（深蓝实线）及小问 (j) 中 TCP Tahoe 自第 16 轮起的对比演化轨迹（橙色虚线）。}
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.08\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.68\linewidth-1.33333\tabcolsep\relax}@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.07\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-小问 & 精确答案 & 中文推导与 English Justification \\
+小问 & 标准答案 & 中文推导与 English Justification \\
 \midrule\endfirsthead
-小问 & 精确答案 & 中文推导与 English Justification \\
+小问 & 标准答案 & 中文推导与 English Justification \\
 \midrule\endhead
 \bottomrule\endfoot
-(a) & \textbf{$[1, 6]$ 与 $[23, 26]$} & 窗口每轮翻倍（指数增长：$1\to 2\to 4\to 8\to 16\to 32$ 及 $1\to 2\to 4\to 8$），属慢启动（Slow Start）。 \\
-(b) & \textbf{$[6, 16]$ 与 $[17, 22]$} & 窗口每轮线性加 1（$32\to 42$ 及 $24\to 29$），属拥塞避免（Congestion Avoidance）。 \\
-(c) & \textbf{3 个冗余 ACK}（Triple dup ACK） & 第 16 轮后 $\mathrm{cwnd}$ 从 42 降为 $24 = 42/2 + 3$（未跌到 1），说明是快速恢复触发的 3 个冗余 ACK，不是超时。 \\
-(d) & \textbf{超时（Timeout）} & 第 22 轮后 $\mathrm{cwnd}$ 直接从 29 暴跌回 \textbf{1}，这是 TCP Reno 遇到超时的唯一表现。 \\
-(e) & \textbf{B）32} & 初始慢启动在 $\mathrm{cwnd}=32$（第 6 轮）由指数切为线性增长，故初始 $\mathrm{ssthresh}=32$。 \\
-(f) & \textbf{D）21} & 第 16 轮丢包瞬间 $\mathrm{cwnd}=42$，故更新 $\mathrm{ssthresh}=\lfloor 42/2\rfloor=21$，并在第 18 轮维持 21。 \\
-(g) & \textbf{C）14} & 第 17 轮 $\mathrm{cwnd}=21+3=24$，经 5 轮线性加 1 至第 22 轮达 $\mathrm{cwnd}=29$ 发生超时；故新 $\mathrm{ssthresh}=\lfloor 29/2\rfloor=14$（第 24 轮仍为 14）。 \\
-(h) & \textbf{A）7（第 7 轮）} & 逐轮累加已发段数：r1 发 1（累计 1），r2 发 2（3），r3 发 4（7），r4 发 8（15），r5 发 16（31），r6 发 32（63）；第 7 轮发 33 段即第 \textbf{64–96} 段，故第 70 段在第 \textbf{7} 轮发出！ \\
-(i) & \textbf{C）4, 7} & 第 26 轮 $\mathrm{cwnd}=8$ 遇 3 个冗余 ACK：$\mathrm{ssthresh}=8/2=\mathbf{4}$，按课件 Reno 记法 $\mathrm{cwnd}=\mathrm{ssthresh}+3=4+3=\mathbf{7}$。 \\
-(j) & \textbf{B）21, 4} & 若为 \textbf{TCP Tahoe}，第 16 轮（$\mathrm{cwnd}=42$）遇 3 个冗余 ACK 也置 $\mathrm{ssthresh}=21$ 且 $\mathrm{cwnd}\leftarrow 1$（r17），随后慢启动翻倍：r18 为 $2$，r19 为 \textbf{4}！故 $(\mathrm{ssthresh}, \mathrm{cwnd})=(21, 4)$。 \\
+(a) & \textbf{$[1, 6]$ and $[23, 26]$} & 窗口每经过 1 个 RTT 翻倍（指数增长 $1,2,4,8,16,32$ 与 $1,2,4,8$）。 / $\mathrm{cwnd}$ grows exponentially (doubles each round) in $[1,6]$ and $[23,26]$. \\
+(b) & \textbf{$[6, 16]$ and $[17, 22]$} & 窗口每经过 1 个 RTT 线性增加 $1\text{ MSS}$（$32\to 42$ 与 $24\to 29$）。 / $\mathrm{cwnd}$ increases linearly by $1\text{ MSS}$ per round in $[6,16]$ and $[17,22]$. \\
+(c) & \textbf{Triple duplicate ACK} & 第 16 轮末 $\mathrm{cwnd}$ 从 $42$ 降为 $24 = 42/2 + 3$ 而非降回 $1$，符合 Reno 快速恢复特征。 / $\mathrm{cwnd}$ drops to $\lfloor 42/2\rfloor + 3 = 24$ instead of $1$, indicating fast recovery on 3 dup ACKs. \\
+(d) & \textbf{Timeout} & 第 22 轮末 $\mathrm{cwnd}$ 从 $29$ 直接重置为 $1\text{ MSS}$ 并重进慢启动。 / $\mathrm{cwnd}$ resets to $1\text{ MSS}$ at round 23, which in TCP Reno occurs only on a timeout. \\
+(e) & \textbf{B) 32} & 第 6 轮达到 $\mathrm{cwnd}=32$ 时增长方式由指数翻倍切换为线性加 1，故初始阈值为 $32$。 / Growth switches from exponential to linear at $\mathrm{cwnd}=32$ in round 6. \\
+(f) & \textbf{D) 21} & 第 16 轮发生丢包时 $\mathrm{cwnd}=42$，置 $\mathrm{ssthresh} = \lfloor 42/2\rfloor = 21$，并在第 18 轮保持不变。 / At round 16 loss occurs at $\mathrm{cwnd}=42$, setting $\mathrm{ssthresh}=42/2=21$. \\
+(g) & \textbf{C) 14} & 第 22 轮超时瞬间 $\mathrm{cwnd} = 24 + (22-17) = 29$，更新 $\mathrm{ssthresh} = \lfloor 29/2\rfloor = 14$（整数向下取整；若按连续实数记亦可注 $14.5$，选择题标准项为 \textbf{C) 14}）。 / Loss at round 22 occurs at $\mathrm{cwnd}=29$, updating $\mathrm{ssthresh}=\lfloor 29/2\rfloor = 14$. \\
+(h) & \textbf{A) 7} & 累加各轮已发报文段区间：第 1–6 轮共发 $1+2+4+8+16+32 = 2^6 - 1 = 63$ 段（编号 $1..63$）；第 7 轮窗口为 $33$，发出第 \textbf{$64..96$} 段，第 $70$ 段落在第 \textbf{7} 轮。 / Rounds 1–6 send $63$ segments in total; Round 7 sends segments $64..96$, containing the 70th segment. \\
+(i) & \textbf{C) 4, 7} & 第 26 轮 $\mathrm{cwnd}=8$ 遇 3 个冗余 ACK：$\mathrm{ssthresh} = 8/2 = \mathbf{4}$，按课件 Reno 离散轮次口径置 $\mathrm{cwnd} = \mathrm{ssthresh} + 3 = 4 + 3 = \mathbf{7}$（若问退出快速恢复后的纯拥塞避免起点亦为 $4$，本题选项唯一匹配 \textbf{C) 4, 7}）。 / $\mathrm{ssthresh}=8/2=4$ and $\mathrm{cwnd}=4+3=7$ under Reno fast recovery. \\
+(j) & \textbf{B) 21, 4} & 改用 \textbf{TCP Tahoe} 时，第 16 轮（$\mathrm{cwnd}=42$）遇 3 个冗余 ACK 同样设 $\mathrm{ssthresh}=21$，但第 17 轮将 $\mathrm{cwnd}$ 降为 $1$；随后慢启动翻倍：第 18 轮为 $2$，第 19 轮为 $\mathbf{4}$。 / Tahoe sets $\mathrm{ssthresh}=21$ and resets $\mathrm{cwnd}=1$ at round 17, doubling to $2$ (round 18) and $4$ (round 19). \\
 \end{longtable}\endgroup
 
 
-\StudyHeading{1}{P2. TCP 是否比 UDP 更“公平”？}
+\StudyHeading{1}{P2. TCP 与 UDP 的应用层带宽公平性辨析}
 \StudyTarget{CS5222-Tutorial07__p2}
 
-\textbf{题目 / Question：} TCP 遇到拥塞会主动降速而 UDP 不会，因此 UDP 可能挤占 TCP 带宽。这是否意味着 TCP 本身能保证绝对公平？
+\textbf{Original Question:} TCP congestion control decreases its transmission rate in the face of increasing congestion (loss), while UDP sources need not, and it is possible for UDP sources to crowd out TCP traffic. Does it mean that TCP is fairer than UDP?
 
-\textbf{答案 / Answer：否（No）。} 即使完全没有 UDP，TCP 协议也无法阻止单个应用程序开启\textbf{多条并行 TCP 连接（multiple parallel TCP connections）}（例如浏览器加载同一网页时同时开 9 条 TCP 连接）。在速率为 $R$、已有 $K$ 条其他连接的瓶颈链路上，开 1 条连接只能分到 $R/(K+1)$，而开 9 条并行连接就能强占 $9R/(K+9)$ 的更大份额！
+\textbf{解析：}不能简单断定使用 TCP 的应用程序就一定公平。AIMD 只能使经过同一瓶颈、RTT 相近的\textbf{单条 TCP 连接之间}趋于均分带宽，但 TCP 没有任何机制阻止单个应用程序（如网页浏览器或多线程下载器）同时打开\textbf{多条并行 TCP 连接（parallel TCP connections）}。例如瓶颈链路上原有 $9$ 条单连接应用，新来的浏览器若一口气并发打开 $11$ 条 TCP 连接，就能拿走 $11/20 = 55\%$ 的总容量，同样会对守规矩的单连接应用造成严重不公。
 
-\textbf{English answer:} \textbf{No.} Nothing prevents a TCP-based application (e.g., a Web browser) from opening multiple parallel TCP connections to grab a disproportionately larger share of a congested link's bandwidth.
+\textbf{English answer:} \textbf{No.} TCP fairness operates per connection rather than per application or host: nothing prevents a TCP application (such as a Web browser) from opening multiple parallel TCP connections to capture an unfairly large fraction of bottleneck bandwidth.
 
 
-\StudyHeading{1}{P3. TCP 连续两段序号差与首段丢失时的确认号}
+\StudyHeading{1}{P3. TCP 连续报文段净荷字节数与丢包累积确认号}
 \StudyTarget{CS5222-Tutorial07__p3}
 
-\textbf{题目 / Question：} A 向 B 背靠背发两段 TCP，第 1 段 \StudyInline{Seq=65}，第 2 段 \StudyInline{Seq=92}。
-(a) 第 1 段含多少字节数据？ (b) 若第 1 段丢失而第 2 段到达 B，B 回复的 ACK 号是多少？
-
+\textbf{Original Question:} Suppose Host A sends two TCP segments back to back to Host B over a TCP connection. The first segment has sequence number 65; the second has sequence number 92.
 \begin{itemize}
-\item \textbf{(a) C）27 字节。} 第 1 段占据字节 65 到 91，字节数为 $92 - 65 = \mathbf{27}$ B。
-\item \textbf{(b) A）65。} TCP 为累积确认，字节 65 起的数据尚未到，故 B 必须回复 \textbf{65}。
+\item \textbf{(a)} How much data is in the first segment (in bytes)? \quad \texttt{A) 25 \quad B) 26 \quad C) 27 \quad D) 28}
+\item \textbf{(b)} Suppose that the first segment is lost but the second segment arrives at B. In the acknowledgement that Host B sends to Host A, what will be the acknowledgement number? (Suppose no other segments are lost.) \quad \texttt{A) 65 \quad B) 66 \quad C) 91 \quad D) 92}
 \end{itemize}
 
+\textbf{解析：}（a）第 1 段占据字节 $65..91$，字节数为 $\mathrm{Seq}_2 - \mathrm{Seq}_1 = 92 - 65 = \mathbf{27\text{ bytes}}$，选 \textbf{C}。（b）因第 1 段丢失，B 尚未收到字节 $65$，收到乱序的第 2 段时按累积确认规则回传当前最早缺失字节号 $\mathbf{65}$，选 \textbf{A}。
 
-\StudyHeading{1}{P4. 流水线协议信道利用率 $> 97\%$ 所需的最小发送窗口}
+\textbf{English answer:} (a) \textbf{C) 27 bytes} ($92 - 65 = 27$). (b) \textbf{A) 65}, because TCP acknowledgements are cumulative and Host B is still waiting for byte 65.
+
+
+\StudyHeading{1}{P4. 信道利用率超过 97\% 所需的最小流水线窗口 $N$}
 \StudyTarget{CS5222-Tutorial07__p4}
 
-\textbf{题目 / Question：} 链路速率 $R = 10^9\text{ bps}$（1 Gbps），分组长 $L = 1200\text{ B} = 9600\text{ bit}$，$\mathrm{RTT}=30\text{ ms}$。欲使流水线信道利用率 $U_{\text{sender}} > 97\%$，发送窗口 $N$ 至少多大？（选项 A–D）
+\textbf{Original Question:} Consider the pipelined protocol introduced in the lecture (where $N$-packet pipelining increases utilization to $N\cdot(L/R)/(\mathrm{RTT}+L/R)$). How big would the sending window size have to be for the channel utilization to be greater than 97 percent? Suppose that the transmission rate of the channel is $10^9\text{ bit/second}$, the size of a packet is $1{,}200\text{ bytes}$, and the $\mathrm{RTT}$ is $30\text{ msec}$. \\
+\texttt{A) 1011 \quad B) 2022 \quad C) 3033 \quad D) 4044}
 
-\textbf{推导 / Derivation：}
-单包发送时延 $t_{\text{trans}} = L/R = 9600 / 10^9 = 9.6\;\mu\text{s} = 0.0096\text{ ms}$。由流水线利用率公式：
+\textbf{逐步换算与推导：}先统一成秒与比特——单包比特数 $L = 1200 \times 8 = 9600\text{ bits}$，单包发送时间 $t_{\mathrm{trans}} = L/R = 9600 / 10^9 = 9.6 \times 10^{-6}\text{ s} = 0.0096\text{ ms}$，往返时间 $\mathrm{RTT} = 30\text{ ms}$。在一个完整的往返加首包发送周期 $\mathrm{RTT} + L/R$ 内，窗口为 $N$ 的发送端可持续繁忙发送 $N \cdot (L/R)$ 的时间，令利用率大于 $0.97$：
 \[
-U_{\text{sender}} = \frac{N \cdot (L/R)}{\mathrm{RTT} + L/R} > 0.97
+U_{\mathrm{sender}} = \frac{N \cdot (L / R)}{\mathrm{RTT} + L / R} > 0.97
 \quad\Longrightarrow\quad
-N > 0.97 \cdot \frac{30 + 0.0096}{0.0096} = 3032.22.
+N > 0.97 \times \frac{30 + 0.0096}{0.0096} = 3032.22.
 \tag{T7.1}
 \]
-向上取整得 $N = \mathbf{3033}$ 个分组。
+由于窗口分组数 $N$ 必须取正整数，向上取整得最小窗口 $N_{\min} = \lceil 3032.22\rceil = \mathbf{3033}$，选 \textbf{C}。
 
-\textbf{最终答案：C）3033。}
+\textbf{English answer:} \textbf{C) 3033 packets}, since $L/R = 9600/10^9 = 0.0096\text{ ms}$ and $N > 0.97\times(30 + 0.0096)/0.0096 = 3032.22 \implies N \ge 3033$.
+
+\textbf{独立变式 / Check：}在 P1 同一张拥塞窗口图上，第 50 个报文段是在第几传输轮次发出的？ / In Problem 1's cwnd trace, during which transmission round is the 50th segment sent?
+
+\begin{StudySolution}{答案 / Answer}
+前 5 轮累计发出 $1 + 2 + 4 + 8 + 16 = 31$ 段（编号 $1..31$），第 6 轮（$\mathrm{cwnd}=32$）发出第 $32..63$ 段，故第 $50$ 段在第 \textbf{6} 传输轮次发出。 / Rounds 1–5 send $31$ segments and Round 6 sends segments $32..63$, so the 50th segment is sent in \textbf{Round 6}.
+\end{StudySolution}
+
+来源：\texttt{tutorial-7\_semA2026.pdf}（3 页）与教师解答 \texttt{tutorial-7-solution\_semA2026.pptx}。

@@ -9,11 +9,11 @@
 
 \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture10}{root}{上一讲：自编码器与生成模型} · \StudyRef{CS5489-Lecture12}{root}{下一讲：视觉语言模型}
 
-在 Lecture 7 我们刚认识了 Transformer 的自注意力机制。这一讲（2026 学期全新现代课程模块）把镜头彻底对准改变整个计算机领域的\textbf{大语言模型（Large Language Models, LLMs）}。别被铺天盖地的宣传吓住——撕开所有神秘包装，大语言模型的数学内核异常朴素：把一段文本切成离散的 \textbf{token} 序列，然后一遍遍做\textbf{下一个词预测（Next-Token Prediction）}，本质上就是超大词表上的多分类交叉熵！
+在 Lecture 7 我们认识了 Transformer 的自注意力机制。这一讲（2026 学期新增现代课程模块）把镜头对准\textbf{大语言模型（Large Language Models, LLMs）}。剥离外部工程包装，大语言模型的数学内核十分清晰：把一段文本切成离散的 \textbf{token} 序列，然后按链式法则做\textbf{下一个词预测（Next-Token Prediction）}，本质上是超大词表上的多分类交叉熵建模。
 
-前半讲（Lecture11a）讲清“文本怎样进模型、语言模型怎样演化”：三种分词方法（重点 \textbf{BPE}）、三代语言模型（\textbf{N-gram 与困惑度 PPL} \ensuremath{\to} \textbf{词嵌入与早期神经 LM} \ensuremath{\to} \textbf{带因果掩码的 Transformer LM}）、LLM 爆发的五个历史转折点，以及现代架构升级（RoPE、ALiBi、Sparse Attention、Mamba、MoE）。后半讲（Lecture11b）直击工程与考试硬核计算：\textbf{预训练（自回归目标与 Teacher Forcing）}、\textbf{后训练（SFT、DPO、强化学习 RLHF/RLVR 与 GRPO 组相对优势手算）}、\textbf{推理与解码（Greedy、Temperature、Top-$k$、Top-$p$ 手算与 Prefill/Decode KV 缓存）}，以及幻觉与 RAG、智能体（ReAct）、FlashAttention 与安全伦理。
+前半讲（Lecture11a）梳理“文本怎样进模型、语言模型怎样演化”：三种分词方法（重点 \textbf{BPE}）、三代语言模型（\textbf{N-gram 与困惑度 PPL} \ensuremath{\to} \textbf{词嵌入与早期神经 LM} \ensuremath{\to} \textbf{带因果掩码的 Transformer LM}）、LLM 演进的五个历史转折点，以及现代架构升级（RoPE、ALiBi、Sparse Attention、Mamba、MoE）。后半讲（Lecture11b）聚焦训练与推理计算：\textbf{预训练（自回归目标与 Teacher Forcing）}、\textbf{后训练（SFT、DPO、强化学习 RLHF/RLVR 与 GRPO 组相对优势手算）}、\textbf{推理与解码（Greedy、Temperature、Top-$k$、Top-$p$ 手算与 Prefill/Decode KV 缓存）}，以及幻觉与 RAG、智能体（ReAct）、FlashAttention 与安全伦理。
 
-\textbf{基础复习（可跳过）：} 如果对缩放点积自注意力或交叉熵不熟，可先回看\StudyRef{CS5489-Lecture07}{attention-math}{Lecture 7 自注意力}与\StudyRef{CS5489-Lecture05}{cross-entropy}{Lecture 5 Softmax 交叉熵}。
+\textbf{基础复习（可跳过）：} 如果对缩放点积自注意力或交叉熵不熟，可先回看\StudyRef{CS5489-Lecture07}{attention-math}{Lecture 7 自注意力}与\StudyRef{CS5489-Lecture05}{cross-entropy}{Lecture 5 Softmax 交叉熵}；对数换底与 KL 散度见\StudyRef{Foundations-MathForML}{powers-logs}{指数与对数}及\StudyRef{Foundations-MathForML}{expectation-kl}{期望与 KL 散度}。
 
 学习目标与难点见\StudyRef{CS5489-Lecture11}{learning-priorities}{文末学习要求表}。
 
@@ -22,7 +22,7 @@
 \StudyTarget{CS5489-Lecture11__exam-review}
 \StudyTarget{CS5489-Lecture11__exam-focus}
 
-本讲属于近年新增的大模型核心章节，历史上 2020–2021 年三套旧期末卷尚未开设此讲，但\textbf{绝不代表不考}——相反，Lecture11b 课件原文里甚至明确标注了“手算 GRPO 组内优势时考题会说明总体／样本标准差约定”，并配有完整的困惑度、解码过滤顺序与 KV 缓存算例！建议把下表四类必会手算与概念题全部练熟。
+本讲属于近年新增的大模型核心章节，2020–2021 年三套旧期末卷尚未开设此讲，但仍属本学期正式授课范围——Lecture11b 课件原文明确说明了手算 GRPO 组内优势时总体标准差与样本标准差的约定，并给出了完整的困惑度、解码过滤顺序与 KV 缓存算例。建议将下表四类计算与概念辨析逐一练熟。
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.56\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.33333\tabcolsep\relax}@{}}
@@ -32,7 +32,7 @@
 重点模块 & 复习与手算动作 & 入口 \\
 \midrule\endhead
 \bottomrule\endfoot
-分词（BPE）、N-gram 与困惑度 PPL & 解释为何不按空格切分；手算 Bigram 概率、NLL 与 $\mathrm{PPL}=2^{\text{NLL}}$；背熟 N-gram 三大短板 & \StudyRef{CS5489-Lecture11}{token-lm}{讲解} \\
+分词（BPE）、N-gram 与困惑度 PPL & 解释为何不按空格切分；手算 Bigram 概率、NLL 与 $\mathrm{PPL}=2^{\text{NLL}}$；掌握 N-gram 三大短板 & \StudyRef{CS5489-Lecture11}{token-lm}{讲解} \\
 Transformer 因果掩码、演进与现代架构 & 解释因果掩码、五个转折点（BERT/ICL/RLHF/RLVR/Agent）、RoPE 与 MoE 总参数 vs 激活参数 & \StudyRef{CS5489-Lecture11}{llm-arch}{讲解} \\
 预训练与后训练（SFT / DPO / GRPO） & 区分 Teacher Forcing 与推理；理解 SFT vs DPO vs RL；\textbf{手算 GRPO 组相对优势 $\hat{A}_i$} & \StudyRef{CS5489-Lecture11}{train-posttrain}{讲解} \\
 推理、解码过滤与 KV 缓存 & \textbf{手算 Greedy 局部次优、Top-$k$/Top-$p$ 重归一化与先后顺序差异}；分清 Prefill 与 Decode & \StudyRef{CS5489-Lecture11}{inference-kv}{讲解} \\
@@ -50,7 +50,7 @@ Transformer 因果掩码、演进与现代架构 & 解释因果掩码、五个�
 \begin{enumerate}
 \item \textbf{基于规则（Rule-based，如 NLTK）：} 按空格加标点规则切分英文，但对无空格的中文完全失效。
 \item \textbf{基于词典／模型（Dictionary/Model-based，如中文 \StudyInline{jieba}）：} 针对中文等语言专门做分词任务，依赖词典与语言特定规则。
-\item \textbf{基于统计的子词分词（Statistics-based Subword，现代 LLM 标配）：} 最具代表性的是 \textbf{字节对编码（Byte-Pair Encoding, BPE）}——思想极简：从字符／字节起步，不断统计语料里\textbf{出现频率最高的相邻子词对并将它们合并}，重复直到达到目标词表大小 $V$。这样常见词占 1 个 token，罕见词或新词（如 \StudyInline{LLM-based} 拆成 \StudyInline{L}、\StudyInline{LM}、\StudyInline{-based}）自动拆成已知子词，彻底避免未登录词（OOV），同时统一处理中英多语！切记：\textbf{token 长度不等于单词数}。
+\item \textbf{基于统计的子词分词（Statistics-based Subword，现代 LLM 标配）：} 最具代表性的是 \textbf{字节对编码（Byte-Pair Encoding, BPE）}——从字符／字节起步，不断统计语料里\textbf{出现频率最高的相邻子词对并将它们合并}，重复直到达到目标词表大小 $V$。这样常见词占 1 个 token，罕见词或新词（如 \StudyInline{LLM-based} 拆成 \StudyInline{L}、\StudyInline{LM}、\StudyInline{-based}）自动拆成已知子词，避免未登录词（OOV），同时统一处理中英多语。注意：\textbf{token 长度不等于单词数}。
 \end{enumerate}
 
 \StudyHeading{2}{语言模型、困惑度（PPL）与三代模型对比}
@@ -81,7 +81,7 @@ p(T) = \prod_{i=0}^{N-1} p(t_i \mid t_0, \dots, t_{i-1}).
 \begin{enumerate}
 \item 按频率统计 Bigram 转移：\StudyInline{<BOS>} 后出现 2 次 \StudyInline{I}、1 次 \StudyInline{LLM}，故 $P(\text{I}\mid\text{<BOS>})=2/3$；\StudyInline{I} 后出现 1 次 \StudyInline{am}、1 次 \StudyInline{study}，故 $P(\text{am}\mid\text{I})=1/2$；其余 \StudyInline{a|am}、\StudyInline{student|a}、\StudyInline{<EOS>|student} 概率均为 $1$。
 \item 评估 “I am a student \StudyInline{<EOS>}”（$N=5$ 个预测位置）：平均比特负对数似然 $\mathrm{NLL} = -\frac{1}{5}(\log_2\frac{2}{3}+\log_2\frac{1}{2}+0+0+0) \approx 0.3170$，于是 $\mathrm{PPL} = 2^{0.3170} \approx 1.2457$。
-\item 评估未见组合 “student is cool \StudyInline{<EOS>}”：因语料里从未出现 \StudyInline{<BOS> student} 和 \StudyInline{student is}，概率为 0，$\mathrm{NLL}=\infty,\;\mathrm{PPL}=\infty$——直观暴露了 N-gram 的稀疏性死穴！
+\item 评估未见组合 “student is cool \StudyInline{<EOS>}”：因语料里从未出现 \StudyInline{<BOS> student} 和 \StudyInline{student is}，概率为 0，$\mathrm{NLL}=\infty,\;\mathrm{PPL}=\infty$——直观体现了 N-gram 的稀疏性局限。
 \end{enumerate}
 \end{StudyBlock}
 
@@ -156,16 +156,16 @@ p(T) = \prod_{i=0}^{N-1} p(t_i \mid t_0, \dots, t_{i-1}).
 \sigma_q = \sqrt{\frac{1}{G}\sum_{j=1}^G (R_j - \mu_q)^2}.
 \tag{11.5}
 \]
-然后用 $\pi_{\text{old}}$ 锚定重要性采样比、用冻结的 $\pi_{\text{ref}}$ 锚定 KL 正则项，把高于组平均的轨迹（$\hat{A}_i>0$）概率推高、低于组平均的轨迹（$\hat{A}_i<0$）概率压低！注意：如果同组 $G$ 条回复\textbf{全对或全错}（所有 $R_i$ 相等），分子全为 0，该组提供零对比信号。还要分清两种冻结角色：$\pi_{\text{old}}$ 是采样这批轨迹时的策略快照（随每批新 rollout 刷新），$\pi_{\text{ref}}$ 是防模型跑偏的 KL 锚点参考策略。
+然后用 $\pi_{\text{old}}$ 锚定重要性采样比、用冻结的 $\pi_{\text{ref}}$ 锚定 KL 正则项，把高于组平均的轨迹（$\hat{A}_i>0$）概率推高、低于组平均的轨迹（$\hat{A}_i<0$）概率压低。注意：如果同组 $G$ 条回复\textbf{全对或全错}（所有 $R_i$ 相等），分子全为 0，该组提供零对比信号。还要分清两种冻结角色：$\pi_{\text{old}}$ 是采样这批轨迹时的策略快照（随每批新 rollout 刷新），$\pi_{\text{ref}}$ 是防模型跑偏的 KL 锚点参考策略。
 
-\begin{StudyBlock}{完整示范 / Worked example}{手算 GRPO 组相对优势（对照 Lecture11b 第 17 个单元考题提示）}
+\begin{StudyBlock}{完整示范 / Worked example}{手算 GRPO 组相对优势（对照 Lecture11b 第 17 个单元说明）}
 对同一道数学题采样 $G=4$ 条回答，仅第 1 条答对，奖励为 $(R_1,R_2,R_3,R_4)=(1, 0, 0, 0)$。按总体标准差（除 $G=4$）且忽略平滑项 $\epsilon$：
 \begin{enumerate}
 \item 组均值 $\mu_q = \frac{1+0+0+0}{4} = \frac{1}{4}$。
 \item 组标准差 $\sigma_q = \sqrt{\frac{(3/4)^2 + 3(-1/4)^2}{4}} = \sqrt{\frac{9/16 + 3/16}{4}} = \sqrt{\frac{3}{16}} = \frac{\sqrt{3}}{4} \approx 0.4330$。
 \item 组相对优势：答对的那条 $\hat{A}_1 = \frac{3/4}{\sqrt{3}/4} = \sqrt{3} \approx +1.732$；其余三条错答均为 $\hat{A}_2=\hat{A}_3=\hat{A}_4 = \frac{-1/4}{\sqrt{3}/4} = -\frac{1}{\sqrt{3}} \approx -0.577$。
 \end{enumerate}
-\textbf{应试提醒：} 总体标准差（除 $G$）与样本标准差（除 $G-1$）算出数值不同，读题时务必看清题目给定的标准差约定！
+\textbf{计算口径说明：} 总体标准差（除 $G$）与样本标准差（除 $G-1$）算出数值不同，计算时须按题目指定的标准差定义执行。
 \end{StudyBlock}
 
 来源：Lecture11b，第 4–18 个单元（Olmo 3 成本、预训练流程、Teacher Forcing、SFT、DPO、RLHF/RLAIF/RLVR 与 GRPO 详推）。
@@ -174,16 +174,16 @@ p(T) = \prod_{i=0}^{N-1} p(t_i \mid t_0, \dots, t_{i-1}).
 \StudyHeading{1}{4. LLM 推理：解码策略手算与 Prefill / Decode KV 缓存}
 \StudyTarget{CS5489-Lecture11__inference-kv}
 
-推理阶段参数冻结、不做反传，模型先按对应 chat template 序列化对话，再逐步输出下一个词的条件分布 $\pi_\theta(y_t\mid q, y_{<t})$。与训练期 Teacher Forcing 最大的区别在于：推理时每一步依赖的是\textbf{模型自己前面刚生成出来的词}！
+推理阶段参数冻结、不做反传，模型先按对应 chat template 序列化对话，再逐步输出下一个词的条件分布 $\pi_\theta(y_t\mid q, y_{<t})$。与训练期 Teacher Forcing 最大的区别在于：推理时每一步依赖的是\textbf{模型自己前面刚生成出来的词}。
 
 \StudyHeading{2}{四大解码策略（Greedy、Temperature、Top-$k$、Top-$p$）}
 \StudyTarget{CS5489-Lecture11__decoding}
 
 记住一条重要事实：\textbf{每步概率最高的词 $\ne$ 整句联合概率最高的序列 $\ne$ 业务上最正确的答案}。四种主流解码规则如下（图 11.1 左）：
 \begin{itemize}
-\item \textbf{贪心解码（Greedy Decoding）：} 每步硬选 $y_t = \arg\max_v z_{t,v}$。它是局部贪心，\textbf{未必最大化整句联合概率}！经典反例（Lecture11b 第 21 个单元）：第 1 步选 A 概率 $0.6$、选 B 概率 $0.4$；若 A 后最优第 2 词概率仅 $0.5$，而 B 后最优第 2 词概率高达 $0.95$，贪心走 A 得到整句概率 $0.6\times 0.5 = 0.30$，反而输给走 B 的 $0.4\times 0.95 = 0.38$。
+\item \textbf{贪心解码（Greedy Decoding）：} 每步硬选 $y_t = \arg\max_v z_{t,v}$。它是局部贪心，\textbf{未必最大化整句联合概率}。经典反例（Lecture11b 第 21 个单元）：第 1 步选 A 概率 $0.6$、选 B 概率 $0.4$；若 A 后最优第 2 词概率仅 $0.5$，而 B 后最优第 2 词概率高达 $0.95$，贪心走 A 得到整句概率 $0.6\times 0.5 = 0.30$，反而低于走 B 的 $0.4\times 0.95 = 0.38$。
 \item \textbf{温度采样（Temperature Sampling）：} 用温度 $\tau > 0$ 缩放 logits 再 softmax：$p_{\tau,t}(v)=\mathrm{softmax}(z_t/\tau)_v$。$\tau < 1$ 让分布更尖锐、更保守；$\tau > 1$ 让分布更平缓、更多样；$\tau = 1$ 保持原分布（代码里 \StudyInline{temperature=0} 走单独贪心分支，不可除以 0）。
-\item \textbf{Top-$k$ 采样：} 只保留概率最高的固定 $k$ 个候选词，其余置 0 后重新归一化。缺点是候选个数死板，无论原分布尖锐还是平坦都硬留 $k$ 个。
+\item \textbf{Top-$k$ 采样：} 只保留概率最高的固定 $k$ 个候选词，其余置 0 后重新归一化。缺点是候选个数固定，无论原分布尖锐还是平坦都保留 $k$ 个。
 \item \textbf{Top-$p$（核采样 / Nucleus Sampling）：} 把词按概率从大到小排序，取\textbf{累计概率刚达到或超过阈值 $p$ 的最小前缀}（包含跨过阈值的那个词），其余置 0 并重归一化。候选集合大小随分布不确定度自适应伸缩。
 \end{itemize}
 
@@ -193,7 +193,7 @@ p(T) = \prod_{i=0}^{N-1} p(t_i \mid t_0, \dots, t_{i-1}).
 \item \textbf{Greedy：} 直接选第 1 个词。
 \item \textbf{Top-$k$（$k=2$）：} 保留前 2 个，和为 $0.70$，重归一化得 $(4/7,\, 3/7) \approx (0.571,\, 0.429)$。
 \item \textbf{Top-$p$（$p=0.8$）：} 前 2 个累计 $0.70 < 0.8$，必须纳入第 3 个使累计达 $0.85 \ge 0.8$，保留前 3 个，重归一化得 $(8/17,\, 6/17,\, 3/17) \approx (0.471,\, 0.353,\, 0.176)$。
-\item \textbf{顺序至关重要：} 如果先做 Top-$k=3$ 得到重归一化分布 $(8/17, 6/17, 3/17)$，再在其上做 Top-$p=0.8$，此时前 2 个累计已达 $14/17 \approx 0.8235 \ge 0.8$，第 3 个词反而被裁掉、最终只剩 2 个词！
+\item \textbf{顺序影响：} 如果先做 Top-$k=3$ 得到重归一化分布 $(8/17, 6/17, 3/17)$，再在其上做 Top-$p=0.8$，此时前 2 个累计已达 $14/17 \approx 0.8235 \ge 0.8$，第 3 个词反而被裁掉、最终只剩 2 个词。
 \end{enumerate}
 \end{StudyBlock}
 
@@ -205,10 +205,18 @@ p(T) = \prod_{i=0}^{N-1} p(t_i \mid t_0, \dots, t_{i-1}).
 \item \textbf{Prefill（预填充，1 次调用）：} 并行处理整段 prompt，算出各层 prompt 的键矩阵 $\mathbf{K}$ 与值矩阵 $\mathbf{V}$ 存入缓存，并采样出第 1 个输出 token $y_1$。
 \item \textbf{Decode（逐词解码，通常 $N-1$ 次调用）：} 每步只把刚刚新生成的 1 个 token 送入网络，算出它自己的 $q_S, k_S, v_S$，把 $k_S, v_S$ 追加到缓存末尾 $\mathbf{K}_{1:S}=[\mathbf{K}_{1:S-1}; k_S],\;\mathbf{V}_{1:S}=[\mathbf{V}_{1:S-1}; v_S]$，再用 $q_S$ 与完整缓存做一次注意力即可。
 \end{enumerate}
-\textbf{为什么能缓存？} 因为因果掩码保证\textbf{未来新加的 token 永远不会改变前面已算好 token 的隐藏状态}，所以每层的旧 $\mathbf{K}, \mathbf{V}$ 可直接复用！注意三点精确辨析：(1) KV 缓存存的是每层的中间 $\mathbf{K}, \mathbf{V}$ 激活张量，既\emph{不是}更新后的模型权重，也不必存历史查询 $\mathbf{Q}$；(2) Prefill 注意力随 prompt 长度呈二次方开销，单步 Decode 注意力随当前缓存长度呈线性开销；(3) \textbf{KV 缓存并不能让超长输出变得“免费”}——显存随上下文线性膨胀，且把 $N$ 步 Decode 的注意力累加起来，关于输出长度 $N$ 总体仍是二次方量级。
+\textbf{为什么能缓存？} 因为因果掩码保证\textbf{未来新加的 token 永远不会改变前面已算好 token 的隐藏状态}，所以每层的旧 $\mathbf{K}, \mathbf{V}$ 可直接复用。注意三点精确辨析：(1) KV 缓存存的是每层的中间 $\mathbf{K}, \mathbf{V}$ 激活张量，既\emph{不是}更新后的模型权重，也不必存历史查询 $\mathbf{Q}$；(2) Prefill 注意力随 prompt 长度呈二次方开销，单步 Decode 注意力随当前缓存长度呈线性开销；(3) \textbf{KV 缓存并不能让超长输出变得无开销}——显存随上下文线性增长，且把 $N$ 步 Decode 的注意力累加起来，关于输出长度 $N$ 总体仍是二次方量级。
 
 \StudyImage{CS5489/course-notes/assets/l11-decoding-kvcache.png}
 \StudyCaption{图 11.1：左图展示温度缩放（$\tau=0.5$ 变尖、$\tau=2.0$ 变平）与 Top-$p=0.8$ 核采样对同一五词分布的重塑；右图展示因果注意力下三角掩码以及 Prefill（并行吃进 prompt）与 Decode（单步复用缓存 $\mathbf{K},\mathbf{V}$）的计算区域（教学自绘）。}
+
+\textbf{English takeaway:} Autoregressive LLMs factorize text probability via next-token prediction and are evaluated by perplexity $\mathrm{PPL}=2^{-\frac{1}{N}\sum \log_2 p(t_i\mid t_{<i})}$. Pre-training uses Teacher Forcing in parallel under a causal mask, while post-training aligns behavior via SFT, offline preference optimization (DPO), or critic-free group-relative RL (GRPO, $\hat{A}_i=(R_i-\mu_q)/(\sigma_q+\epsilon)$). Inference splits into parallel Prefill and sequential Decode reusing cached per-layer $K,V$ tensors.
+
+\textbf{自查 / Check：} 在 GRPO 中对同一问题采样 $G=4$ 条回复，若得分分别为 $(1, 1, 0, 0)$（按总体标准差除 $G$ 且设 $\epsilon=0$），求四条回复的组相对优势 $\hat{A}_1,\dots,\hat{A}_4$；若四条全答对 $(1,1,1,1)$ 会怎样？ / In GRPO with $G=4$ rollouts scoring $(1,1,0,0)$ (using population std and $\epsilon=0$), compute $\hat{A}_1,\dots,\hat{A}_4$. What happens if all 4 rollouts score $1$?
+
+\begin{StudySolution}{答案 / Answer}
+均值 $\mu_q = 0.5$，总体标准差 $\sigma_q = \sqrt{\frac{4\times 0.25}{4}} = 0.5$，因此 $(\hat{A}_1,\hat{A}_2,\hat{A}_3,\hat{A}_4) = (+1, +1, -1, -1)$。若四条全为 $1$，则每条奖励与组均值之差 $R_i-\mu_q=0$，优势全为 $0$，该组无法提供正负对比学习信号。 / Here $\mu_q=0.5$ and $\sigma_q=0.5$, giving advantages $(+1,+1,-1,-1)$. If all 4 score $1$, $R_i-\mu_q=0$ for every rollout, yielding zero relative advantage signal.
+\end{StudySolution}
 
 来源：Lecture11b，第 19–25 个单元（推理定义、聊天模板、四大解码算例、Prefill/Decode 与 KV 缓存）。
 
@@ -284,5 +292,3 @@ Lecture11b，第 1–18 个单元 Olmo 3、预训练（Teacher Forcing/PPL）与
 Lecture11b，第 19–25 个单元 推理定义、Greedy/Temp/Top-$k$/Top-$p$ 算例、Prefill/Decode 与 KV 缓存 & §4 \\
 Lecture11b，第 26–38 个单元 幻觉与 RAG、ReAct 智能体、FlashAttention、可解释性与伦理 & §5、§6 \\
 \end{longtable}\endgroup
-
-本讲全部手算验算与自绘教学图见同目录 \StudyInline{tools/\allowbreak{}verify\_\allowbreak{}l10\_\allowbreak{}l12\_\allowbreak{}examples.\allowbreak{}py}（独立断言结果存档于 \StudyInline{l10-l12-example-results.\allowbreak{}json}）。

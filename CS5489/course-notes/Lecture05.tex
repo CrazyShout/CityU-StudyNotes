@@ -9,7 +9,7 @@
 \StudyTarget{CS5489-Lecture05___1}
 
 
-\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture04}{root}{上一讲：回归} · \StudyRef{CS5489-Assignment02}{root}{Assignment 2 学习指南}
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture04}{root}{上一讲：回归} · \StudyRef{CS5489-Lecture06}{root}{下一讲：CNN 与正则化} · \StudyRef{CS5489-Tutorial05}{root}{Tutorial 5：MLP 人脸检测} · \StudyRef{CS5489-Assignment02}{root}{Assignment 2 学习指南}
 
 
 假设我们仍在辨认鸢尾花。每朵花是一行测量，标签是已知品种；给一朵新花，我们希望输出它属于各品种的概率。前几讲已经会手工挑特征、拟合线性边界。这一次的问题是：能不能让模型自己学出对分类有帮助的中间特征？本讲先从最简单的感知机开始，经过多分类逻辑回归，再把可训练的特征层接到分类器前面。
@@ -853,7 +853,7 @@ MNIST示范与权重解释 & 常规掌握 & 中，展平及可视化 & 看懂流
 \end{longtable}
 \endgroup
 
-优先级依据当前课件与Assignment2。本讲暂未提供当前Tutorial5。
+优先级依据当前课件与\StudyRef{CS5489-Assignment02}{root}{Assignment 2}；配套实验见\StudyRef{CS5489-Tutorial05}{root}{Tutorial 5：MLP 人脸检测与数据增强}。
 
 % EXAM:topics:START
 \StudyHeading{1}{Historical exam map｜按考点查题源}
@@ -869,7 +869,7 @@ MNIST示范与权重解释 & 常规掌握 & 中，展平及可视化 & 看懂流
 \textbf{口径：} 同一考点在同一独立试卷只计一次；题纸、答案和扫描副本不重复计。已辨识6套期中、3套期末；模拟题另列，2021B*保留封面年份冲突。同卷可同时有直接题和关联题，两列不相加。未见不等于不考，QE题段不换算为已确认卷数。
 
 
-QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN结构、卷积尺寸、数据增强、ResNet、BatchNorm、AE/VAE和GAN不计入当前Lecture5已覆盖内容。
+QE片段中的CNN题在本讲只映射到损失与过拟合等通用基础（卷次待定）；CNN结构、卷积尺寸与数据增强详见\StudyRef{CS5489-Lecture06}{root}{Lecture 6}，BatchNorm与ResNet详见\StudyRef{CS5489-Lecture07}{root}{Lecture 7}，AE/VAE与GAN详见\StudyRef{CS5489-Lecture10}{root}{Lecture 10}。
 
 
 标记：\StudyBadge{mid}{期中} \StudyBadge{final}{期末} \StudyBadge{qe}{QE} 颜色区分考试类别；卷数与考查关系直接见标签文字。
@@ -894,7 +894,7 @@ QE片段中的CNN题只映射到损失与过拟合等基础，卷次待定；CNN
 CS5489 QE整理片段（年份未载） & Apple (b.3)／PDF1（原印8/11） & 关联：为二类图像分类选择损失并说明原理 \\
 \end{longtable}\endgroup
 
-\textbf{题源条件：}原题有图，需保留饱和区与log零概率边界；不是把ReLU直接当概率；CNN架构未在当前讲义覆盖；题段年份与卷次待定。
+\textbf{题源条件：}原题有图，需保留饱和区与log零概率边界；不是把ReLU直接当概率；本讲仅映射二分类损失，CNN架构详见Lecture 6；题段年份与卷次待定。
 
 \StudyHeading{2}{链式法则与反向传播}
 
@@ -1003,7 +1003,7 @@ CS5489 QE整理片段（年份未载） & Bottles (b.3)／PDF5、7（原印8–9
 CS5489 QE整理片段（年份未载） & CWD (b.3)／PDF11（原印7/9） & 关联：海豚CNN过拟合的原因与改善 \\
 \end{longtable}\endgroup
 
-\textbf{题源条件：}一般诊断已讲；具体CNN结构仍需后续课；仅映射通用训练诊断；图与问题跨两个原页；不使用扫描手写解答；缺年份和独立原卷身份。
+\textbf{题源条件：}一般诊断已讲；具体CNN结构调整详见Lecture 6；仅映射通用训练诊断；图与问题跨两个原页；不使用扫描手写解答；缺年份和独立原卷身份。
 % EXAM:topics:END
 
 
@@ -1015,7 +1015,7 @@ CS5489 QE整理片段（年份未载） & CWD (b.3)／PDF11（原印7/9） & 关
 \StudyTarget{CS5489-Lecture05___10}
 
 
-依据当前Lecture5a（66个单元）和Lecture5b（96个单元）。单元从1起算，包括文字与代码。本讲覆盖感知机、MLP与训练方法；完整CNN内容仍待后续课件。
+依据当前Lecture5a（66个单元）和Lecture5b（96个单元）。单元从1起算，包括文字与代码。本讲覆盖感知机、MLP与训练方法；完整卷积网络与数据增强紧接见\StudyRef{CS5489-Lecture06}{root}{Lecture 6}。
 
 
 \begingroup
@@ -1045,4 +1045,4 @@ Lecture5b，第92–96个单元 比较、优缺点与参考 & §9–10 \\
 \endgroup
 
 
-新增图、手算与梯度检查见同目录\StudyInline{tools/\allowbreak{}verify\_\allowbreak{}october\_\allowbreak{}examples.\allowbreak{}py}。这些图与手算为配套教学补充。
+本讲新增示意图、手算算例与梯度核验均为配套教学补充。

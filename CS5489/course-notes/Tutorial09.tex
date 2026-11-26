@@ -1,0 +1,64 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Tutorial09}{Tutorial 9 · Image Segmentation using Color and Spatial Clustering}
+\StudyTarget{CS5489-Tutorial09__root-section}
+
+\StudyRef{CS5489-Lecture09}{root}{Lecture 9：参数、非参数与谱聚类} · \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Tutorial08}{root}{上一份：Tutorial 8} · \StudyRef{CS5489-Assignment01}{root}{Assignment 1}
+
+
+\StudyHeading{1}{导读｜把一张自然照片切成连贯的物体区域，为什么光靠聚颜色还差一步？}
+\StudyTarget{CS5489-Tutorial09__overview}
+
+Tutorial 9（对应 \texttt{Lecture9/Tutorial9/Tutorial9.ipynb}，共 37 个单元，数据集 \texttt{imgdb.zip} 含 14 张自然风景/动物照片与人工标注分割真值图）将\StudyRef{CS5489-Lecture09}{kmeans}{Lecture 9 学过的四大聚类家族}（K-Means、GMM、Mean-Shift、Spectral Clustering）落地到计算机视觉经典任务——\textbf{无监督图像分割（unsupervised image segmentation）}。实验分两幕递进：第一幕只提取每个网格采样点的二维感知颜色特征 $(a^*, b^*)$ 聚类，体验为何必须用对簇编号置换不变的 \textbf{调整兰德指数（Adjusted Rand Index, ARI）} 评分，并观察纯颜色聚类产生的零散“孤岛噪点像素（loner pixels）”；第二幕把像素的二维空间位置坐标 $(x, y)$ 按适当缩放权重拼成四维特征 $(a^*, b^*, \alpha x, \alpha y)$，直观验证空间邻近先验如何令分割区域变得干净平滑。
+
+
+\StudyHeading{1}{1. CIELAB 颜色空间提取与置换不变指标 ARI（第 1–21 单元）}
+\StudyTarget{CS5489-Tutorial09__lab-ari}
+
+为什么第 8–9 单元的 \texttt{getfeatures} 函数不直接拿原始红绿蓝 $(R, G, B)$ 三通道聚类，而是先把图像转换到 \textbf{CIELAB（Lab）颜色空间} 并只取色度通道 $(a^*, b^*)$（再经 \texttt{StandardScaler} 零均值单位方差标准化）？
+\begin{itemize}
+\item \textbf{剥离明暗阴影与感知均匀性}：在原始 RGB 空间里，同一片草地被树影遮住一半时，$(R, G, B)$ 三个数值同步剧减，欧氏距离很远，极易被 K-Means 误切成两个不相干的簇；而 Lab 空间将亮度单独分离在 $L^*$ 通道，用 $a^*$（绿–红轴）和 $b^*$（蓝–黄轴）刻画与人类视觉感知距离一致的纯色度，丢弃或弱化 $L^*$ 能避免把同一物体的向阳面和背阴面切碎。
+\item \textbf{为什么绝对不能用分类准确率 \texttt{accuracy\_score(Ytrue, Y)} 评价聚类？（第 20–21 单元核心考点）}：聚类是无监督学习，簇标号 $0, 1, \dots, K-1$ 纯属任意符号——人工真值把天空标成 \texttt{0}、草地标成 \texttt{1}，而 K-Means 完全可能把一模一样的分割结果标成天空 \texttt{1}、草地 \texttt{0}，直接比对标号相等率会算出 $0\%$ 的荒谬低分。为此实验采用基于\textbf{像素对同簇/异簇一致性}并扣除随机巧合期望的\textbf{调整兰德指数（Adjusted Rand Index, ARI）}：随机乱猜的期望 $\mathrm{ARI} = 0$，与真值分割完全等价（无论标号怎样置换）时 $\mathrm{ARI} = 1.0$。
+\end{itemize}
+
+
+\StudyHeading{1}{2. 纯颜色二维聚类对比：K-Means、GMM、Mean-Shift 与谱聚类（第 22–26 单元）}
+\StudyTarget{CS5489-Tutorial09__color-clustering}
+
+在标准化后的二维色度散点 $(a^*, b^*)$ 上，不同颜色的物体在特征平面上往往形成大小悬殊、长短轴倾斜甚至非凸弯曲的点云团块，四类算法的表现差异正好印证了\StudyRef{CS5489-Lecture09}{clustering-summary}{Lecture 9 模型假设对比}：
+\begin{enumerate}
+\item \textbf{K-Means}：速度最快，但强制用分段直线垂直平分线把颜色平面切成等方差球形簇，容易把拉长的渐变色带（如水面或树叶色带）拦腰切截，ARI 通常垫底或偏中。
+\item \textbf{全协方差高斯混合模型（GMM, \texttt{covariance\_type='full'}）}：允许每个颜色簇拥有各自的椭圆协方差矩阵 $\boldsymbol{\Sigma}_j$ 和先验占比 $\pi_j$，能紧密贴合大片背景与小块前景的细长色度椭圆，在仅用颜色特征时往往比 K-Means 获得明显更高的 ARI（也可用贝叶斯 GMM 自动压零多余簇权重）。
+\item \textbf{Mean-Shift（\texttt{estimate\_bandwidth} 或手动调优带宽 $h$）与谱聚类（RBF 亲和图）}：无需强加椭圆高斯分布假设。Mean-Shift 沿颜色核密度梯度自动爬向各主色调众数峰值（且能自动决定簇数 $K$，但带宽 $h$ 过小会碎成几十块色斑、过大则把前景吞入背景）；谱聚类通过近邻亲和图拉普拉斯特征向量能够沿着弯曲色带切开非凸团块。
+\end{enumerate}
+
+
+\StudyHeading{1}{3. 融合颜色与空间坐标 $(a^*, b^*, \alpha x, \alpha y)$ 消除孤立噪点（第 27–37 单元）}
+\StudyTarget{CS5489-Tutorial09__spatial-smoothing}
+
+无论在二维纯颜色空间 $(a^*, b^*)$ 上换多精巧的聚类器，映射回二维图像平面后都会看到一个共同瑕疵：在整片蓝天或动物皮毛内部，散布着许多孤立的杂色“独行像素（loner pixels）”，空间边界支离破碎。原因一目了然——特征向量 $\mathbf{x}_i = (a_i^*, b_i^*)$ 里\textbf{完全不包含像素在图中的位置信息}，图像左上角与右下角偶发同色的噪点被一视同仁归为一类。
+
+第 27–36 单元打开 \texttt{use\_loc=True}，将像素网格行列坐标拼入特征并标准化，再对后两列位置特征乘上调节权重 $\alpha$（原代码默认示范 \texttt{X[:, 2:4] *= 0.5}），构成四维联合特征：
+\[
+\tilde{\mathbf{x}}_i = \bigl(\,\tilde{a}_i^*,\;\; \tilde{b}_i^*,\;\; \alpha\,\tilde{x}_i,\;\; \alpha\,\tilde{y}_i\,\bigr) \in \mathbb{R}^4.
+\tag{T9.1}
+\]
+此时两点在四维空间中的平方欧氏距离同时惩罚“颜色差异”与“空间相隔过远”：
+\[
+\|\tilde{\mathbf{x}}_i - \tilde{\mathbf{x}}_j\|_2^2 = (\tilde{a}_i^* - \tilde{a}_j^*)^2 + (\tilde{b}_i^* - \tilde{b}_j^*)^2 + \alpha^2\bigl[(\tilde{x}_i - \tilde{x}_j)^2 + (\tilde{y}_i - \tilde{y}_j)^2\bigr].
+\tag{T9.2}
+\]
+
+\textbf{原课第 35–36 单元实验结论与权重 $\alpha$ 的双侧权衡：}
+\begin{itemize}
+\item \textbf{加入适度位置权重（如 $\alpha \in [0.3, 0.7]$）是否提升分割？—— 显著提升}：空间相邻的像素在四维空间里彼此拉近，原本混进物体内部的零星颜色噪点被周围邻居顺势归拢，分割区域变得空间连通平滑（类似现代超像素 SLIC 思想），GMM、Mean-Shift 与谱聚类的 ARI 分数及视觉观感均明显改善。
+\item \textbf{若位置权重 $\alpha$ 设得过大（如 $\alpha \gg 2$）会发生什么反作用？}：式（T9.2）由空间距离平方项完全主导，算法不再看物体颜色边界，而是像切豆腐一样把整张照片硬切成 $K$ 块几何均匀的网格色块（over-regularized spatial Voronoi cells），跨越多区域的同一颜色物体（如画面两侧的两棵绿树或整片天空）会被强行劈成不同簇，导致 ARI 反而回落。
+\end{itemize}
+
+\textbf{双语自测 / Check：}为什么在将颜色 $(a^*, b^*)$ 与像素坐标 $(x, y)$ 拼接喂入 K-Means 或 Mean-Shift 之前，必须先做特征标准化（\texttt{StandardScaler}）？ / Why must we standardize color and $(x,y)$ coordinates before running K-Means or Mean-Shift?
+
+\begin{StudySolution}{答案 / Answer}
+原始像素坐标 $(x, y)$ 的数值跨度可达数百（如 $0..320$），而色度值的方差量级完全不同；若不做零均值单位方差标准化就直接算欧氏距离，数值跨度大的像素坐标会完全淹没颜色差异，使分割退化为与图像内容无关的纯几何网格切分。 / Raw pixel coordinates span hundreds of pixels whereas chromaticity channels have a much smaller scale; without standardization, Euclidean distances would be dominated by spatial coordinates and ignore color boundaries.
+\end{StudySolution}
+
+来源：2026 学期 \texttt{Lecture9/Tutorial9/Tutorial9.ipynb}（第 1–37 单元）。

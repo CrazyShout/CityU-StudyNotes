@@ -5,98 +5,117 @@
 
 \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter06}{root}{配套章节：Chapter 6 链路层} · \StudyRef{CS5222-Tutorial10}{root}{上一份：Tutorial 10} · \StudyRef{CS5222-Tutorial12}{root}{下一份：Tutorial 12}
 
-\StudyHeading{1}{本节定位｜链路层三大必算题：2D 校验、CRC 与非对称 Slotted ALOHA}
+\StudyHeading{1}{导读｜链路层差错校验与随机多址概率推导专项}
 \StudyTarget{CS5222-Tutorial11__overview}
 
-Tutorial 11 逐一训练 Chapter 6 前半段的全部硬核计算与概念题。全部手算过程均已用 Python 逐位验证，并与 \StudyInline{tutorial-11-solution\_semA2026} 完全一致。
+Tutorial 11 对应\StudyRef{CS5222-Chapter06}{edc}{Chapter 6 前三节}的计算与概念训练：P1 设计校验位总长最短的二维偶校验矩阵；P2 手算 5 位生成串的 CRC 模 2 长除法（先修见\StudyRef{Foundations-NetworkBasics}{xor-crc}{Network Basics §6}）；P3 将对称 Slotted ALOHA 推广到发送概率不相等的非对称节点吞吐量分析；P4 简述链路层成帧定义。全部结果已与 \texttt{tutorial-11-solution\_semA2026.pptx} 核对一致。
 
 
 \StudyHeading{1}{P1. 最短校验字段的二维偶校验（2D Even Parity）}
 \StudyTarget{CS5222-Tutorial11__p1}
 
-\textbf{题目 / Question：} 数据比特流为 \StudyInline{1110 0110 1001 1101}（共 16 bit），采用二维偶校验（even parity）。若要求校验位字段总长度最小，求出所有校验位的值。
+\textbf{Original Question:} Suppose the information content of a packet is the bit pattern \texttt{1110 0110 1001 1101} and an even parity scheme is being used. What would the value of the field containing the parity bits be for the case of a two-dimensional parity scheme? Your answer should be such that a minimum-length checksum field is used.
 
-\textbf{推导 / Derivation：}
-把 $16$ bit 排成 $r\times c$ 矩阵需 $r+c+1$ 个校验位。由均值不等式，固定面积 $rc=16$ 时周长 $r+c$ 在正方形 \textbf{$4\times 4$} 处取最小值！故最小校验位长度为 $4+4+1=\mathbf{9\text{ bit}}$（若排成 $2\times 8$ 则需 11 bit，不是最短）。偶校验要求每行、每列（含校验位）中 ``1'' 的个数为偶数：
+\textbf{矩阵形状选择与逐行逐列计算：}将 16 个信息比特排成 $r$ 行 $c$ 列（满足 $r \cdot c = 16$），二维奇偶校验共需增加 $r$ 个行校验位、$c$ 个列校验位以及右下角 $1$ 个总校验位，总长度为 $r + c + 1$。在乘积 $rc = 16$ 固定时，$r = c = 4$ 使周长和最小，得到最短校验字段长度 $4 + 4 + 1 = \mathbf{9\text{ bits}}$（若排成 $2\times 8$ 则需 $2+8+1 = 11\text{ bits}$）。按偶校验规则令每行、每列（含校验位）中 ``1'' 的总个数为偶数：
 
 \begin{StudyCode}
-Data (4x4)   | Row Parity (even)
-1  1  1  0   |  1    (three 1s -> add 1)
-0  1  1  0   |  0    (two 1s   -> add 0)
-1  0  0  1   |  0    (two 1s   -> add 0)
-1  1  0  1   |  1    (three 1s -> add 1)
--------------+-----
-1  1  0  0   |  0    <- Col Parities (1,1,0,0) & Corner Parity (0)
+Data Grid (4 x 4)   | Row Even Parity
+  1   1   1   0     |   1   (three 1s -> parity = 1)
+  0   1   1   0     |   0   (two 1s   -> parity = 0)
+  1   0   0   1     |   0   (two 1s   -> parity = 0)
+  1   1   0   1     |   1   (three 1s -> parity = 1)
+--------------------+----------------
+  1   1   0   0     |   0   <- Column Parities (1,1,0,0) & Bottom-Right Parity (0)
 \end{StudyCode}
 
-\textbf{校验核对：} 行校验位 \StudyInline{1, 0, 0, 1}（共 2 个 1 $\to$ 偶校验角位为 \textbf{0}）；列校验位 \StudyInline{1, 1, 0, 0}（共 2 个 1 $\to$ 角位同样为 \textbf{0}），行列交叉自洽！因此全部 9 个校验位为：行校验 \StudyInline{1001}、列校验 \StudyInline{1100}、角位 \StudyInline{0}。
+验算右下角位：行校验列 \texttt{1001} 含两个 ``1''（偶数为 \texttt{0}），底边列校验行 \texttt{1100} 也含两个 ``1''（偶数同样为 \texttt{0}），双向闭合无误。
+
+\textbf{English answer:} Arrange the 16 data bits as a $4\times 4$ matrix to minimize parity overhead to $4 + 4 + 1 = \mathbf{9\text{ parity bits}}$: row parity bits \texttt{1001}, column parity bits \texttt{1100}, and bottom-right overall parity bit \texttt{0} (concatenated field: \texttt{1001 1100 0}).
 
 
-\StudyHeading{1}{P2. CRC 编码计算（$G=10011, D=1010101010$）}
+\StudyHeading{1}{P2. 循环冗余校验 CRC 余数计算（$G = \mathtt{10011},\; D = \mathtt{1010101010}$）}
 \StudyTarget{CS5222-Tutorial11__p2}
 
-\textbf{题目 / Question：} 5 位生成多项式 $G=\mathtt{10011}$，数据 $D=\mathtt{1010101010}$。求 CRC 余数 $R$（选项 A–D）。
+\textbf{Original Question:} Suppose we are using cyclic redundancy check (CRC) for encoding. Consider the 5-bit generator, $G = \mathtt{10011}$, and suppose that $D$ has the value $\mathtt{1010101010}$. What is the value of the remainder $R$? \\
+\texttt{A) 100 (3 bits) \quad B) 0100 (4 bits) \quad C) 001 (3 bits) \quad D) 0010 (4 bits)}
 
-\textbf{推导 / Derivation：}
-先定长度：$G$ 有 $5$ 位，故校验位长 $r = 5 - 1 = \mathbf{4\text{ bit}}$（立刻排除 3 位的 A、C！）。在 $D$ 后补 4 个 0 得被除数 $\mathtt{1010101010\,0000}$，逐位模 2（XOR）长除（Python 校验商为 \StudyInline{1011011100}）：
+\textbf{位数锁定与模 2 长除法：}生成串 $G = \mathtt{10011}$ 共 $5$ 位，故校验余数长度必为 $r = |G| - 1 = \mathbf{4\text{ bits}}$（据此先排除只有 3 位的选项 A 和 C）。在 10 位数据 $D$ 末尾补 $4$ 个零得 14 位被除数 $\mathtt{1010101010\,0000}$，逐步按最高位做无借位异或：
 
 \begin{StudyCode}
-Dividend: 1010101010 0000,  Divisor G = 10011 (r = 4)
-Step  1 (q=1): 10101 XOR 10011 = 00110  -> pull 0 -> 01100
-Step  2 (q=0): leading 0                -> pull 1 -> 11001
-Step  3 (q=1): 11001 XOR 10011 = 01010  -> pull 0 -> 10100
-Step  4 (q=1): 10100 XOR 10011 = 00111  -> pull 1 -> 01111
-Step  5 (q=0): leading 0                -> pull 0 -> 11110
-Step  6 (q=1): 11110 XOR 10011 = 01101  -> pull 0 -> 11010
-Step  7 (q=1): 11010 XOR 10011 = 01001  -> pull 0 -> 10010
-Step  8 (q=1): 10010 XOR 10011 = 00001  -> pull 0 -> 00010
-Step  9 (q=0): leading 0                -> pull 0 -> 00100
-Step 10 (q=0): leading 0                -> DONE!  Remainder R = 0100
+Dividend D * 2^4 = 1010101010 0000,   Generator G = 10011 (r = 4)
+  Step  1 (leading 1 -> q=1): 10101 XOR 10011 = 00110 -> bring down 0 -> 01100
+  Step  2 (leading 0 -> q=0): 01100                   -> bring down 1 -> 11001
+  Step  3 (leading 1 -> q=1): 11001 XOR 10011 = 01010 -> bring down 0 -> 10100
+  Step  4 (leading 1 -> q=1): 10100 XOR 10011 = 00111 -> bring down 1 -> 01111
+  Step  5 (leading 0 -> q=0): 01111                   -> bring down 0 -> 11110
+  Step  6 (leading 1 -> q=1): 11110 XOR 10011 = 01101 -> bring down 0 -> 11010
+  Step  7 (leading 1 -> q=1): 11010 XOR 10011 = 01001 -> bring down 0 -> 10010
+  Step  8 (leading 1 -> q=1): 10010 XOR 10011 = 00001 -> bring down 0 -> 00010
+  Step  9 (leading 0 -> q=0): 00010                   -> bring down 0 -> 00100
+  Step 10 (leading 0 -> q=0): 00100 (all 10 data bits processed) -> R = 0100
 \end{StudyCode}
 
-\textbf{验算：} 把 $\langle D, R\rangle = \mathtt{10101010100100}$ 除以 $\mathtt{10011}$，余数为 \StudyInline{0000}。
-\textbf{最终答案：B）\StudyInline{0100}（4 bits）。}
+保留完整 $r = 4$ 位（含前导 \texttt{0}）得余数 $R = \mathtt{0100}$，选 \textbf{B}。
+
+\textbf{English answer:} \textbf{B) \texttt{0100} (4 bits)}, obtained by dividing $D\cdot 2^4 = \mathtt{10101010100000}$ by $G = \mathtt{10011}$ using carry-free modulo-2 XOR division (quotient $\mathtt{1011011100}$, 4-bit remainder $\mathtt{0100}$).
 
 
-\StudyHeading{1}{P3. 非对称发送概率的 Slotted ALOHA 吞吐量分析}
+\StudyHeading{1}{P3. 非对称重传概率的 Slotted ALOHA 吞吐量与推广}
 \StudyTarget{CS5222-Tutorial11__p3}
 
-\textbf{题目 / Question：} 节点 A 和 B 用 Slotted ALOHA 争用信道，每时隙发送概率分别为 $p_A$ 和 $p_B$（$p_A > p_B$）。
+\textbf{Original Question:} Consider two nodes, A and B, that use the slotted ALOHA protocol to contend for a channel. Suppose node A has more data to transmit than node B, and node A's retransmission probability $p_A$ is greater than node B's retransmission probability, $p_B$.
+\begin{itemize}
+\item \textbf{(a)} Provide a formula for node A's average throughput: \\
+\texttt{A) $p_A p_B$ \quad B) $p_A(1 - p_B)$ \quad C) $p_B(1 - p_A)$ \quad D) $p_A - p_B$} \\
+What is the total efficiency of the protocol with these two nodes?
+\item \textbf{(b)} If $p_A = 2 p_B$, is node A's average throughput twice as large as that of node B? Why or why not? (\texttt{A) No \quad B) Yes}) If not, how can you choose $p_A$ and $p_B$ to make that happen?
+\item \textbf{(c)} In general, suppose there are $N$ nodes, among which node A has retransmission probability $2p$ and all other $N-1$ nodes have retransmission probability $p$. \\
+(i) What is the average throughput of node A? \\
+\texttt{A) $p(1-p)^{N-1}$ \quad B) $2p(1-p)^{N-1}$ \quad C) $2p(1-2p)^{N-1}$ \quad D) $2p$} \\
+(ii) What is the average throughput of any other node? \\
+\texttt{A) $p(1-p)^{N-2}(1-2p)$ \quad B) $p(1-p)^{N-1}(1-2p)$ \quad C) $2p(1-p)^{N-2}(1-2p)$ \quad D) $p(1-p)^{N-1}$}
+\end{itemize}
+
+\textbf{分步推导：}
 \begin{enumerate}
-\item \textbf{(a) A 的平均吞吐量与两节点总效率：}
-  A 在某时隙成功 $\Longleftrightarrow$ A 发且 B 不发，概率为 $p_A(1-p_B)$ $\to$ 选 \textbf{B）$p_A(1-p_B)$}。
-  同理 B 成功概率为 $p_B(1-p_A)$，两事件互斥，故\textbf{总信道效率}为：
-  \[
-  \eta = p_A(1-p_B) + p_B(1-p_A).
-  \tag{T11.1}
-  \]
-\item \textbf{(b) 若令 $p_A = 2 p_B$，A 的吞吐量是否是 B 的恰好 2 倍？若不是，该如何选 $p_A, p_B$？}
-  \textbf{答案：A）No（不是，实际严格超过 2 倍！）。}
-  代入 $p_A=2p_B$：
-  \[
-  \mathrm{Thru}_A = 2p_B(1-p_B) = 2p_B - 2p_B^2, \qquad
-  \mathrm{Thru}_B = p_B(1-2p_B) = p_B - 2p_B^2.
-  \]
-  显然 $\mathrm{Thru}_A / \mathrm{Thru}_B = 2(1-p_B)/(1-2p_B) > 2$（因为 $p_A$ 变大不仅增加 A 的尝试机会，还同时打压了 B 成功的机会 $(1-p_A)$！）。
-  欲令 $p_A(1-p_B) = 2p_B(1-p_A)$，整理得：
-  \begin{align*}
-  p_A - p_A p_B = 2p_B - 2p_A p_B
-  &\;\Longleftrightarrow\; p_A(1+p_B) = 2p_B \\
-  &\;\Longleftrightarrow\; p_A = \frac{2p_B}{1+p_B}
-  \quad\Bigl(\text{等价于课件写法 } p_A = 2 - \frac{p_A}{p_B}\Bigr).
-  \tag{T11.2}
-  \end{align*}
-\item \textbf{(c) 推广到 $N$ 个节点：A 的发送概率为 $2p$，其余 $N-1$ 个节点均为 $p$：}
-  \begin{itemize}
-  \item \textbf{(i) A 的平均吞吐量：B）$2p(1-p)^{N-1}$}（A 发，且其余 $N-1$ 个节点都不发）。
-  \item \textbf{(ii) 任一其他节点的平均吞吐量：A）$p(1-p)^{N-2}(1-2p)$}（自己发，其余 $N-2$ 个普通节点不发，且 A 也不发）。
-  \end{itemize}
+\item \textbf{(a) 选 B（$p_A(1 - p_B)$）}：节点 A 在单一时隙成功传输当且仅当 A 发送（概率 $p_A$）且 B 静默不发（概率 $1 - p_B$）。同理 B 成功的概率为 $p_B(1 - p_A)$；因同一时隙两者不可能同时成功（互斥事件），两节点系统的总信道效率为两者之和：
+\[
+\eta_{\mathrm{total}} = p_A(1 - p_B) + p_B(1 - p_A).
+\tag{T11.1}
+\]
+\item \textbf{(b) 选 A（No，严格大于 2 倍）}：将 $p_A = 2 p_B$ 代入各自吞吐率表达式：
+\[
+\mathrm{Thru}_A = 2 p_B(1 - p_B), \qquad \mathrm{Thru}_B = p_B(1 - 2 p_B).
+\tag{T11.2}
+\]
+由于 $0 < 1 - 2p_B < 1 - p_B$，比值 $\mathrm{Thru}_A / \mathrm{Thru}_B = \frac{2(1-p_B)}{1-2p_B} > 2$（提高 $p_A$ 不仅增加了 A 自己的发包频率，还压低了 B 遇到的空闲概率 $1-p_A$）。若要使 $\mathrm{Thru}_A = 2\,\mathrm{Thru}_B$ 精确成立，联立 $p_A(1 - p_B) = 2 p_B(1 - p_A)$ 解得：
+\[
+p_A - p_A p_B = 2 p_B - 2 p_A p_B
+\;\Longleftrightarrow\;
+p_A(1 + p_B) = 2 p_B
+\;\Longleftrightarrow\;
+p_A = \frac{2 p_B}{1 + p_B}.
+\tag{T11.3}
+\]
+\item \textbf{(c) $N$ 节点推广}：（i）节点 A 成功需 A 自己发送（概率 $2p$）且其余全部 $N-1$ 个普通节点均不发送（每个概率 $1-p$，独立连乘得 $(1-p)^{N-1}$），故选 \textbf{B）$2p(1-p)^{N-1}$}。（ii）任一普通节点成功需它自己发送（概率 $p$）、其余 $N-2$ 个普通节点不发送（概率 $(1-p)^{N-2}$）\textbf{并且节点 A 也不发送}（概率 $1 - 2p$），故选 \textbf{A）$p(1-p)^{N-2}(1-2p)$}。
 \end{enumerate}
 
+\textbf{English answer:} (a) \textbf{B) $p_A(1-p_B)$}; total efficiency is $p_A(1-p_B) + p_B(1-p_A)$. (b) \textbf{A) No}: $2p_B(1-p_B) \neq 2 p_B(1-2p_B)$ (A gets strictly more than twice B's throughput); to achieve $\mathrm{Thru}_A = 2\,\mathrm{Thru}_B$, choose $p_A = \frac{2p_B}{1+p_B}$. (c) (i) \textbf{B) $2p(1-p)^{N-1}$}; (ii) \textbf{A) $p(1-p)^{N-2}(1-2p)$}.
 
-\StudyHeading{1}{P4. 链路层的“成帧（Framing）”是什么？}
+
+\StudyHeading{1}{P4. 链路层成帧（Framing）的定义}
 \StudyTarget{CS5222-Tutorial11__p4}
 
-\textbf{答案 / Answer：} 成帧（Framing）是指在经物理链路传输之前，将每个网络层数据报（network-layer datagram）封装到一个链路层帧（link-layer frame）中，加上帧头（header，含源/目的 MAC 地址、类型字段等）与帧尾（trailer，如 CRC 校验码）。
+\textbf{Original Question:} What is framing in link layer?
 
-\textbf{English answer:} Framing is the link-layer service that encapsulates each network-layer datagram inside a link-layer frame (adding a frame header and trailer) prior to transmission over the physical link.
+\textbf{答案：}成帧（framing）是指链路层在将网络层数据报送入物理链路发送之前，给每个网络层数据报封装加上链路层帧首部（frame header，如源/目的 MAC 地址、类型指示、前导定界符）和帧尾部（trailer，如 CRC 差错校验字段）以构成完整链路层帧的过程。
+
+\textbf{English answer:} Framing is the link-layer function of encapsulating each network-layer datagram within a link-layer frame (attaching a link-layer header and trailer) before transmitting the bits over the physical link.
+
+\textbf{独立变式 / Check：}将 P2 中的二进制生成串 $G = \mathtt{10011}$ 写成代数生成多项式 $G(x)$；若另一题给出 $G(x) = x^5 + x^2 + 1$，对应的 6 位二进制除数串是什么？ / Express $G = \mathtt{10011}$ as a polynomial $G(x)$, and convert $G(x) = x^5 + x^2 + 1$ into its binary bit string.
+
+\begin{StudySolution}{答案 / Answer}
+$\mathtt{10011} = 1\cdot x^4 + 0\cdot x^3 + 0\cdot x^2 + 1\cdot x^1 + 1\cdot x^0 = x^4 + x + 1$。对 $G(x) = x^5 + x^2 + 1$，补齐 $x^4, x^3, x^1$ 三个缺项零系数得 $\mathtt{100101}$（共 6 位，CRC 余数长 $r=5$ 位）。 / $\mathtt{10011} \leftrightarrow x^4 + x + 1$; $x^5 + x^2 + 1 \leftrightarrow \mathtt{100101}$.
+\end{StudySolution}
+
+来源：\texttt{tutorial-11\_semA2026.pdf}（2 页）与教师解答 \texttt{tutorial-11-solution\_semA2026.pptx}。

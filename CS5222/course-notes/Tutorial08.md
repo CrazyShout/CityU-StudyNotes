@@ -4,16 +4,16 @@
 正文已迁入 [LaTeX 主稿](Tutorial08.tex)；阅读与打印请用 [A4 PDF](../../pdf/CS5222-A4.pdf)。本页仅保留旧链接入口，由构建脚本生成。
 
 <a id="root"></a>
-- `root` → [第 123 页](../../pdf/CS5222-A4.pdf#page=123)
+- `root` → [第 136 页](../../pdf/CS5222-A4.pdf#page=136)
 <a id="root-section"></a>
-- `root-section` → [第 123 页](../../pdf/CS5222-A4.pdf#page=123)
+- `root-section` → [第 136 页](../../pdf/CS5222-A4.pdf#page=136)
 <a id="overview"></a>
-- `overview` → [第 123 页](../../pdf/CS5222-A4.pdf#page=123)
+- `overview` → [第 136 页](../../pdf/CS5222-A4.pdf#page=136)
 <a id="p1"></a>
-- `p1` → [第 123 页](../../pdf/CS5222-A4.pdf#page=123)
+- `p1` → [第 136 页](../../pdf/CS5222-A4.pdf#page=136)
 <a id="p2"></a>
-- `p2` → [第 124 页](../../pdf/CS5222-A4.pdf#page=124)
+- `p2` → [第 137 页](../../pdf/CS5222-A4.pdf#page=137)
 <a id="p3"></a>
-- `p3` → [第 124 页](../../pdf/CS5222-A4.pdf#page=124)
+- `p3` → [第 138 页](../../pdf/CS5222-A4.pdf#page=138)
 <a id="p4"></a>
-- `p4` → [第 124 页](../../pdf/CS5222-A4.pdf#page=124)
+- `p4` → [第 138 页](../../pdf/CS5222-A4.pdf#page=138)

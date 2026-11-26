@@ -200,6 +200,457 @@
     {
       "file": "extra_information/CS5222 Computer Networks & Internets/review/review/review.docx",
       "sha256": "47cb96b67b237767dd34717aeac2b7b39f01cceac641362a27cb24e62dbb2973"
+    },
+    {
+      "file": "CS5489/Lecture10/1503.03585.pdf",
+      "sha256": "17a29449579ceb4fb906f2f3d5643eb22cea54e5975017ff8788ddf73d8b44ad",
+      "pages": 18
+    },
+    {
+      "file": "CS5489/Lecture10/2006.11239.pdf",
+      "sha256": "aee5e07a802e8dfd2a386374c94fd61d1d056cb7e1e0fec4f28e8120ff5d8505",
+      "pages": 25
+    },
+    {
+      "file": "CS5489/Lecture10/2111.06377.pdf",
+      "sha256": "1b490443925c72a2b7c770f90dd797e248729ae34a57e1abfe9ed36751c4cc5b",
+      "pages": 14
+    },
+    {
+      "file": "CS5489/Lecture5/Tutorial/Tutorial5.ipynb",
+      "sha256": "f6ce4dc91d3ea0392ba43364875356ce9a32fe5b692a7093efc01443d3717c5a",
+      "cells": 55
+    },
+    {
+      "file": "CS5489/Lecture6/Tutorial6/Tutorial6.ipynb",
+      "sha256": "697d9b6801602af12eb89ef3873bd321300ac66a70d45bff6368cad762e302d6",
+      "cells": 62
+    },
+    {
+      "file": "CS5489/Lecture7/BatchNorm.pdf",
+      "sha256": "bdc69e0b568f41d8d3181cc9077a461f58fcdd1c70c9f49efe60a05ee6109655",
+      "pages": 11
+    },
+    {
+      "file": "CS5489/Lecture7/ResNet Ensemble.pdf",
+      "sha256": "217e137f345953a4d07f8b9c58cf20959e6eac3e7ef736edff2e801e26b9cb40",
+      "pages": 9
+    },
+    {
+      "file": "CS5489/Lecture7/SGD Analysis.pdf",
+      "sha256": "d48a16ef27196a87f4b6a3900d586435df892ff7204491ff717390b9c68abb98",
+      "pages": 10
+    },
+    {
+      "file": "CS5489/Lecture7/Transformer original paper.pdf",
+      "sha256": "bfaaec89262875f927cf1b38b2da2d775f3309b7bea3537f29b606ca67e79065",
+      "pages": 15
+    },
+    {
+      "file": "CS5489/Lecture7/Tutorial7/Tutorial7-torch.ipynb",
+      "sha256": "c18ae2ec9d04872811dbe39ac41404da542be31a4e82efb250be1e950041930e",
+      "cells": 41
+    },
+    {
+      "file": "CS5489/Lecture7/ViT.pdf",
+      "sha256": "8ce7b83971a14508ca711a27c875c9b6914c4f6767cf3150fb1ca6c07aa056d6",
+      "pages": 22
+    },
+    {
+      "file": "CS5489/Lecture8/Tutorial8/Tutorial8.ipynb",
+      "sha256": "20c2cd2fabe036e2b6808746f2567405861ba74fd8c9c9739600d877c8c3df40",
+      "cells": 60
+    },
+    {
+      "file": "CS5489/Lecture9/Tutorial9/Tutorial9.ipynb",
+      "sha256": "e6a1ef0b406ac0dd9a0aac843132d37c83765beb1bd9c0493ca346eba48cda1d",
+      "cells": 37
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/01_Final_Core_L06_CNN_and_Regularization.pdf",
+      "sha256": "237eccea82513cc31ac5496dd91a531a5db18f848e396940802cc15375303b53",
+      "pages": 14
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/02_Final_Core_L07_Deep_Learning_ResNet_Transformer_ViT.pdf",
+      "sha256": "67a8fb6f7b7f3f9201ed99775f7fb2caa1cbc135b03b1aaeebde4e2cf98e922f",
+      "pages": 14
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/03_Final_Core_L08_Dimensionality_Reduction_PCA_Manifolds.pdf",
+      "sha256": "7011cb3bedfb1c03634e1a2deb33a954b3fc739ac23d4f38d4783a57fc411142",
+      "pages": 10
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/04_Final_Core_L09_Clustering_KMeans_GMM_MeanShift_Spectral.pdf",
+      "sha256": "b8174a7e00f4232addfeabeee3d2d20ac57b2057a82f3a80d935cbb822bd32b2",
+      "pages": 10
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/05_Final_Core_L10_Autoencoders_VAE_GAN_Diffusion.pdf",
+      "sha256": "afe2eba1319d74362b0cba906297ee582ae0eb8f9c6f8a4ae8fd90bce4f9ebbc",
+      "pages": 9
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/06_Final_Core_L11_Large_Language_Models_GRPO_Decoding_KVCache.pdf",
+      "sha256": "093ac1bfd81493bf3c1d709a7424614829cc96543131999a959dd98c3bd9b61e",
+      "pages": 9
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/07_Final_Core_L12_Detection_CLIP_VLM_MLLM.pdf",
+      "sha256": "d59ce2cce205862036a2df1d1d37a602ffa70ac466654d2083cc5b6e8889d59d",
+      "pages": 7
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/08_Final_Exam_2020B_13Q_Bilingual.pdf",
+      "sha256": "ad8d19d725ff3c43d16ec7548ead8d810016863cff46e734b65baf089440c3df",
+      "pages": 8
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/09_Final_Exam_2021B_13Q_Bilingual.pdf",
+      "sha256": "b9676992ea17557ae26927ae39a55a8af13230fb4980f6e9ce87ea02cea9e4c1",
+      "pages": 6
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/10_Final_Exam_2021A_13Q_Bilingual.pdf",
+      "sha256": "4038db8c45a71c9b127c6af7c9a7bf2e59c3a6e2d9d50a24727508d02acce39e",
+      "pages": 6
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/11_Final_Exam_All_3_Papers_Combined.pdf",
+      "sha256": "96d9273141cb5db2a284bbe69da5d616dc3c04dfbbfb4ae1ffa155cb77263e6c",
+      "pages": 22
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/12_Midterm_L01_Intro_NumPy_Probability.pdf",
+      "sha256": "65432879c55e4ef2de102540462f4fcae23615d2346b96f62fff0ce0a4d41d9b",
+      "pages": 16
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/13_Midterm_L02_Bayes_and_Naive_Bayes.pdf",
+      "sha256": "f26b415460e81ad7ed36b67e540f5b972ff633136e3a4a5242511026cb352b36",
+      "pages": 35
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/14_Midterm_L03_Logistic_Regression_and_SVM.pdf",
+      "sha256": "358f267eaa92e14973162268bbae253c0ca046195a40255c0ecf3b0a758c22bb",
+      "pages": 23
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/15_Midterm_L04_Regression_and_Ensembles.pdf",
+      "sha256": "f1b10dc537e58b2e15d32d32a369f865618db27d1c4c564e20cd938bf4a5de63",
+      "pages": 20
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/16_Midterm_L05_Neural_Networks_and_Backprop.pdf",
+      "sha256": "ef70c386be19e44b57aa5aa24ea762a3e095932e8a13980891e4d86256488db3",
+      "pages": 17
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/17_Tutorials_T01_to_T04.pdf",
+      "sha256": "04781c0a4aa530478c5d52aeb588df5c5804026ec87cca18316440a5f9178e6f",
+      "pages": 66
+    },
+    {
+      "file": "CS5489/NotebookLLM material/pdf/18_Assignments_A01_A02_and_Midterm_ExamIndex.pdf",
+      "sha256": "5cd994440cb760ee0810aeb63b4233c5be7e6f97d79211b91734c5a08d4f1095",
+      "pages": 25
+    },
+    {
+      "file": "CS5489/exam-review/Lecture02/Answers.pdf",
+      "sha256": "32753bd90afde9e809be9c0f41a411599b735b6453994077fa47b1a6f04ce34f",
+      "pages": 24
+    },
+    {
+      "file": "CS5489/exam-review/Lecture02/Questions.pdf",
+      "sha256": "c57875960dec0d47371756d7ea4d6aff1833da3fd91ad9c85de594d130ca3e98",
+      "pages": 24
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/Answers.pdf",
+      "sha256": "8c68233580fbefcb9af654b26bab1308d2872139086392d5b4091848c69e3cb7",
+      "pages": 86
+    },
+    {
+      "file": "CS5489/exam-review/Midterm/Questions.pdf",
+      "sha256": "1c95376ad85878da0c3ccf93fe933993f4e199f0b4af30f25b1f16058fb52a86",
+      "pages": 69
+    },
+    {
+      "file": "CS5222/Assignment/CS5222 Assignment 1 Solution.pdf",
+      "sha256": "c11f5bd835259b924c3769fcbee13694300b5145c13e1ee308eb0fec37a1c27a",
+      "pages": 8
+    },
+    {
+      "file": "CS5222/Assignment/CS5222 Assignment 2.pdf",
+      "sha256": "e02418406537f26d42dd95abdfeced8badd2eec2f7e601c8db62ff2c72deca3e",
+      "pages": 3
+    },
+    {
+      "file": "CS5222/Assignment/CS5222 Assignment 3.pdf",
+      "sha256": "6de14348a34b121764120b74022a26e3fdbad9f218882c5f4c04227ba11c2486",
+      "pages": 4
+    },
+    {
+      "file": "CS5222/Cha.1/cs5222_cha1_2026_student_part1.pptx",
+      "sha256": "6d1798625c6330408371d8e98da1c558846c71306b5501f8170fd9422c2f5f0f",
+      "slides": 49
+    },
+    {
+      "file": "CS5222/Cha.1/cs5222_cha1_2026_student_part2.pptx",
+      "sha256": "29c7f0f190e9a8e963d7adeb9c1932ab19c13ed47eaa62b7f6acacf8841c82ac",
+      "slides": 29
+    },
+    {
+      "file": "CS5222/Cha.2/cs5222_cha2_2026_student_part1.pptx",
+      "sha256": "4a86d6bef0456d44182c9285a26aaec4ee6cf2af82a83444d1cad76f83df9bde",
+      "slides": 22
+    },
+    {
+      "file": "CS5222/Cha.2/cs5222_cha2_2026_student_part2.pptx",
+      "sha256": "bb99381ca3e3765f3f99ac9808e230cb558b1a6eaa9851c42baed2efed6ed851",
+      "slides": 43
+    },
+    {
+      "file": "CS5222/Cha.2/cs5222_cha2_2026_student_part3.pptx",
+      "sha256": "e826cc9f71ea889ee2fcead7eb02a28877d9bd3ad5956f815025d0e623e5f54c",
+      "slides": 42
+    },
+    {
+      "file": "CS5222/Cha.3/Q&A_cha3_2026_student.pptx",
+      "sha256": "99cbcbee8ac002ace2c576d403f8a0fc246bbe811d66596ee569ee297e3bf510",
+      "slides": 8
+    },
+    {
+      "file": "CS5222/Cha.3/cs5222_cha3_2026_student.pptx",
+      "sha256": "f6bbd1ed2a516e7e8c898cef781f16a8eba2a5b35810c5a5ec2a596c2094ea7a",
+      "slides": 118
+    },
+    {
+      "file": "CS5222/Cha.3/cs5222_cha3_2026_student_part3.pptx",
+      "sha256": "ba6493bc6c17c5e93b9d5c74b4c191ce9c80f06e1002f75f6c87475098f31e4f",
+      "slides": 48
+    },
+    {
+      "file": "CS5222/Cha.4/cs5222_cha4_2026_student.pptx",
+      "sha256": "62cf0b04330f99a3d8aaae53b3d7bfbb8ac29104b99fdaea84f770ffb9524691",
+      "slides": 79
+    },
+    {
+      "file": "CS5222/Cha.4/cs5222_cha4_2026_student_part1.pptx",
+      "sha256": "948400427a2bd1e563d3fc66463cb34e40cedacbaa2b6c221c724591bf2a1dac",
+      "slides": 40
+    },
+    {
+      "file": "CS5222/Cha.4/cs5222_cha4_2026_student_part2.pptx",
+      "sha256": "96bfc5d526d0ce71272b0a13e5958f399b08e52c798a7355a5e65109ae5840e3",
+      "slides": 15
+    },
+    {
+      "file": "CS5222/Cha.4/cs5222_cha4_2026_student_part3.pptx",
+      "sha256": "e20f0feb669d21bc85dc82ec30600f535885206450e7065fb91d1c2d49a0be76",
+      "slides": 24
+    },
+    {
+      "file": "CS5222/Cha.5/Q&A_cha4&5_2026_student.pptx",
+      "sha256": "7425f1816f8c0d0d09346440329675057c6c23789e602f351175a01ceb5a4cd8",
+      "slides": 6
+    },
+    {
+      "file": "CS5222/Cha.5/cs5222_cha5_2026_student.pptx",
+      "sha256": "c1540b2d50b4eaa94fe90148cf8ed7691e05b6f18161cce9ede498225f141614",
+      "slides": 55
+    },
+    {
+      "file": "CS5222/Cha.5/cs5222_cha5_2026_student_part1.pptx",
+      "sha256": "7882ef1bea8834eb792c87980088e6588486f5c8ae9789929404ffbaa1ec5480",
+      "slides": 28
+    },
+    {
+      "file": "CS5222/Cha.5/cs5222_cha5_2026_student_part2.pptx",
+      "sha256": "5ea5c4de3577b9ad8a4a66c77db2e76744bc0c675865c369641069ec82d29fd9",
+      "slides": 27
+    },
+    {
+      "file": "CS5222/Cha.5/dijkstraalgo_2026_student.pptx",
+      "sha256": "e1d380fc5474e308a9c3f81e494139ea5884d624a3ffb469c9685c63c4a39fe5",
+      "slides": 7
+    },
+    {
+      "file": "CS5222/Cha.6/cs5222_cha6_2026_student.pptx",
+      "sha256": "3a6877089147f90dfd995b76e63d1276a76c38ae4c18d165124f22730189d1b9",
+      "slides": 81
+    },
+    {
+      "file": "CS5222/Cha.6/cs5222_cha6_2026_student_part1.pptx",
+      "sha256": "c38a8d608a26e32f6a6af9458b91bca6549791fbd1aa34b80d394a455fa1150e",
+      "slides": 36
+    },
+    {
+      "file": "CS5222/Cha.6/cs5222_cha6_2026_student_part2.pptx",
+      "sha256": "cc5575a7a11f5c30423b016e0f777cb2f2b4d5597327e4043fe253cace83eb49",
+      "slides": 45
+    },
+    {
+      "file": "CS5222/Cha.7/cs5222_cha7_2026_student.pptx",
+      "sha256": "dbb85475e5c51e000eb25bb1bcc797428313eab27e41bd589a1583fc43c2a4c1",
+      "slides": 49
+    },
+    {
+      "file": "CS5222/Cha.7/cs5222_cha7_2026_student_part1.pptx",
+      "sha256": "aaf7e8169be200371c6b9820d42673aa5398f18a8e818125db9ae4cb4ead9c2a",
+      "slides": 11
+    },
+    {
+      "file": "CS5222/Cha.7/cs5222_cha7_2026_student_part2.pptx",
+      "sha256": "674f2a3fd9eea87cdde428c77c5268716d41cebbe112f79e9907b67ad1d433c0",
+      "slides": 38
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/01_Ch01_Introduction_Delay_Throughput.pdf",
+      "sha256": "fac00fb408f6a3ef2400fd12596791eb34e30945f94c26eaf8ae7497b73843b5",
+      "pages": 20
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/02_Ch02_Application_Layer_HTTP_DNS_P2P_DASH.pdf",
+      "sha256": "cef12fc67a5cbbf021e6a6756a5d5b06b5346873f66046481754f6eae0348d88",
+      "pages": 18
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/03_Ch03_Part1-2_Transport_UDP_RDT_GBN_SR_TCP_Seq.pdf",
+      "sha256": "58173b518b8963ff82a431f9dbb33bd61762b37ba96996fdda7f29cbccbfd0bc",
+      "pages": 14
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/04_Tutorials_T01_to_T05.pdf",
+      "sha256": "2eef5d24f1fc9d585ba9647c86f757d4bf6e530d9a7bd8f3ba890a3f57a73a1d",
+      "pages": 29
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/05_Assignment_A01_Ch1_Ch2.pdf",
+      "sha256": "87fa6ff9e7d90cc81045155ec139f7342ec7fe749184cac8beab64c19f8422f3",
+      "pages": 10
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/06_Ch03_Part3_TCP_Flow_Handshake_Congestion_Reno.pdf",
+      "sha256": "f20fc45c32f4d9df54593e9f9f11c650c7639131b8e5cc132b5b14e53b58527c",
+      "pages": 6
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/07_Ch04_Network_DataPlane_Router_IPv4_CIDR_NAT_IPv6_SDN.pdf",
+      "sha256": "4c6f18c500002abaf0b73466ebdf1e7e5c58dc2bcea9fade32615ef23e6ab4cb",
+      "pages": 6
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/08_Ch05_Network_ControlPlane_Dijkstra_DV_OSPF_BGP_ICMP.pdf",
+      "sha256": "23a347c6d061609021737c3036daa9d055ca041df23294c400ecd25c295aebd7",
+      "pages": 5
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/09_Ch06_Link_Layer_CRC_ALOHA_CSMACD_ARP_Ethernet_Switches.pdf",
+      "sha256": "e50cf559651b057081325905b02c243634d5cf0f2a6fcbc20c0d279d755cd3e6",
+      "pages": 7
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/10_Ch07_Wireless_Mobile_80211_CSMACA_HiddenTerminal_Cellular.pdf",
+      "sha256": "1ee4c75ad54dbed22797ca884cc343eb4cd6f3040e143fc9fd11947374cf5e95",
+      "pages": 5
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/11_Tutorials_T06_to_T08_TCP_IPv4_LPM.pdf",
+      "sha256": "2c4b5625a1c5aa799b1afb72e839dff32beef8080a718cf587d3175481b8ff50",
+      "pages": 9
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/12_Tutorials_T09_to_T10_Routing_Dijkstra_DV_CIDR_BGP.pdf",
+      "sha256": "b7a2929cc2e9fa958c8fd82c265464023f470c56465e78211f79246a7d484301",
+      "pages": 6
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/13_Tutorials_T11_to_T12_CRC_ALOHA_MultiSwitch_Wireless.pdf",
+      "sha256": "00fdacd3deed04b7469c3c869f2a7b57624b0453355961e809a217caa34d14c3",
+      "pages": 7
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/14_Assignments_A02_and_A03_GBN_OpenFlow_ARP_CSMACD_Wireless.pdf",
+      "sha256": "2b807baa38f97b6ee0eadd7cf35ff21a2a39b8773b7cd8a471b7c9a375a8eadb",
+      "pages": 8
+    },
+    {
+      "file": "CS5222/NotebookLLM material/pdf/15_Final_2021A_Bilingual_QA_Verified.pdf",
+      "sha256": "c11c367e8bbe0ecfa567341b670b288327d04064b6d05b7ba46d2e45da7e648f",
+      "pages": 11
+    },
+    {
+      "file": "CS5222/Tutorial10/tutorial-10-solution_semA2026.pptx",
+      "sha256": "f5748b8008ccac7080c473e9e8120b95fac287556e55166f48fa62fd707f01b7",
+      "slides": 14
+    },
+    {
+      "file": "CS5222/Tutorial10/tutorial-10_semA2026.pdf",
+      "sha256": "71411f097ee976f34061a25309d05ba286ea445c4564f0b2f8e609a90c5d1d4c",
+      "pages": 2
+    },
+    {
+      "file": "CS5222/Tutorial11/tutorial-11-solution_semA2026.pptx",
+      "sha256": "208008fce984722706fadd05f696485cf2a43ac0a730093ca7a6894734a85605",
+      "slides": 13
+    },
+    {
+      "file": "CS5222/Tutorial11/tutorial-11_semA2026.pdf",
+      "sha256": "4ee69c7bbea2b324270777a8bfe759c36f79054879a40fe0df47c578c40eef55",
+      "pages": 2
+    },
+    {
+      "file": "CS5222/Tutorial12/tutorial-12_semA2026.pdf",
+      "sha256": "c939eb27bb0f49afb140e50ba72ec6999d362184e2b896683d8a6b693d581b0c",
+      "pages": 2
+    },
+    {
+      "file": "CS5222/Tutorial5/tutorial-5-solution_semA2026.pptx",
+      "sha256": "b715008415d257e8592398339c3a8eacb28052f8bcd76cfc6a7f66bc529a21b2",
+      "slides": 9
+    },
+    {
+      "file": "CS5222/Tutorial6/tutorial-6-solution_semA2026.pptx",
+      "sha256": "2f7c8c483a93f776d69e82aa6915de56db8fe591e13cb9c6add9b368bc333397",
+      "slides": 13
+    },
+    {
+      "file": "CS5222/Tutorial6/tutorial-6_semA2026.pdf",
+      "sha256": "44162bf5b719c419cae8fb2b4f9d8fc6e08ed5c5f58f62776c5e23ea21edc165",
+      "pages": 2
+    },
+    {
+      "file": "CS5222/Tutorial7/tutorial-7-solution_semA2026.pptx",
+      "sha256": "caa948f71835972899edd87ed98c7a04956a2d85d8968a50fc7e6d6558fd6eb4",
+      "slides": 13
+    },
+    {
+      "file": "CS5222/Tutorial7/tutorial-7_semA2026.pdf",
+      "sha256": "090f44f455156d4d013369ab43e7f72cdf9501884eeb26813225ebf9186dd0d5",
+      "pages": 3
+    },
+    {
+      "file": "CS5222/Tutorial8/tutorial-8-solution_semA2026.pptx",
+      "sha256": "ef68d218276841a5c55fa7733ebf2dd93bc9c9e90f120033607eba2505297e93",
+      "slides": 11
+    },
+    {
+      "file": "CS5222/Tutorial8/tutorial-8_semA2026.pdf",
+      "sha256": "938d8f91e8002ea5fdf6bb1b1ff3c64dd7a3f5fb8f2ad44183d1c511840434fb",
+      "pages": 2
+    },
+    {
+      "file": "CS5222/Tutorial9/tutorial-9-solution_semA2026.pptx",
+      "sha256": "64ec545b874de2f9c00592e157180912de481479de480624346e27c3336dbcfc",
+      "slides": 10
+    },
+    {
+      "file": "CS5222/Tutorial9/tutorial-9_semA2026.pdf",
+      "sha256": "33ca63bb7ca4cc404f3e5eeddc7820c798692cd1f8c7bab403dfa9a7e0a1aafc",
+      "pages": 2
     }
-  ]
+  ],
+  "updated": "2026-11-26"
 }

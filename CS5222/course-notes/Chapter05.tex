@@ -3,44 +3,47 @@
 \StudyChapter{CS5222-Chapter05}{Chapter 5 · 网络层：控制平面（Dijkstra、距离向量、OSPF、BGP 与 ICMP）}
 \StudyTarget{CS5222-Chapter05__root-section}
 
-\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter04}{root}{上一章：Chapter 4 数据平面} · \StudyRef{CS5222-Chapter06}{root}{下一章：Chapter 6 链路层}
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter04}{root}{上一章：Chapter 4 数据平面} · \StudyRef{CS5222-Chapter06}{root}{下一章：Chapter 6 链路层} · \StudyRef{CS5222-Tutorial09}{root}{Tutorial 9} · \StudyRef{CS5222-Tutorial10}{root}{Tutorial 10}
 
-\StudyHeading{1}{考前头号预警｜老师已明确提示期末必考 1 道路由算法大题！}
+\StudyHeading{1}{导读｜全网路由器怎样协同算出每一张本地转发表}
 \StudyTarget{CS5222-Chapter05__overview}
 
-Canvas 公告与课堂提示均明确指出：\textbf{期末考试必有 1 道路由算法题}（2021A 期末 Q6 正是 14 分的 Dijkstra 填表 + 画最短路径树整道大题；Tutorial 9 全卷 3 题专练 Dijkstra 与 Distance Vector）。本章把\textbf{两套路由算法（LS / Dijkstra 与 DV / Bellman-Ford）}做成开卷考场可直接套用的“防错填表模板”，并覆盖层次路由 OSPF、域间路由 BGP（含热土豆路由）与 ICMP / Traceroute。
+上一章我们看到，路由器输入端口之所以能在纳秒级把分组送向正确出口，全靠手头已经备好了一张“目的前缀 $\to$ 出接口”的转发表。本章进入\textbf{控制平面（control plane）}，回答这张表究竟是怎么算出来的：如果每台路由器都收集全网完整地图自己算最短路，就得到链路状态算法（\textbf{Dijkstra}，工程化为域内协议 \textbf{OSPF}）；如果每台路由器只跟隔壁邻居打听“你去某地要多远”并迭代刷新估计，就得到距离向量算法（\textbf{Bellman–Ford}，工程化为 \textbf{RIP}）；当网络规模扩大到成千上万家独立运营的自治系统（AS）时，又必须引入兼顾商业策略的域间路径向量协议 \textbf{BGP}，并配合 \textbf{ICMP} 传递控制差错与路径探测消息。
+
+注：本学期期末考前通知明确提示试卷包含一道路由算法计算题（可对照\StudyRef{CS5222-Tutorial09}{root}{Tutorial 9}与 2021A 期末 Q6 练习）；此外课件大纲页（第 3 页）列出的 \texttt{5.5 The SDN Control Plane} 与 \texttt{5.7 Network Management and SNMP} 在本学期 55 页正文幻灯片中已略去未讲，本章严格按实际授课正文展开。
 
 
-\StudyHeading{1}{1. 图抽象与路由算法分类}
+\StudyHeading{1}{1. 网络图抽象与两类路由算法家族}
 \StudyTarget{CS5222-Chapter05__taxonomy}
 
-网络抽象为带权图 $G=(N,E)$：$N$ 是路由器集合，$E$ 是链路集合，$c(x,y)$ 是直连链路代价（非直连记 $\infty$，可取跳数 1、带宽倒数或拥塞函数）。路径 $(x_1,x_2,\dots,x_p)$ 的总代价为各边代价之和。按信息视野可分为两大家族：
+路由算法将路由器网络抽象为无向带权图 $G = (N, E)$：顶点集 $N$ 代表路由器，边集 $E$ 代表物理直连链路，边权 $c(x, y) > 0$ 表示链路 $(x, y)$ 的开销（两节点不直连时记 $c(x, y) = \infty$；工程上 $c(x,y)$ 可设为固定跳数 $1$、与链路带宽成反比，或随当前拥塞程度动态调节）。一条路径 $(x_1, x_2, \dots, x_p)$ 的总代价等于沿途各边权之和 $\sum_{i=1}^{p-1} c(x_i, x_{i+1})$。按照路由器掌握拓扑信息的范围及更新机制，路由算法分为两类：
 \begin{itemize}
-\item \textbf{链路状态（Link-State, LS，全局视野）}：所有节点通过链路状态广播（link-state broadcast）获知\textbf{全网完整拓扑与全部链路代价}，随后各自运行 \textbf{Dijkstra 算法}算出以自己为根的最短路径树。代表协议：\textbf{OSPF}。
-\item \textbf{距离向量（Distance Vector, DV，分散/局部视野）}：每个节点只知道自己到\textbf{物理直连邻居}的代价，通过与邻居反复异步交换距离向量、用 \textbf{Bellman-Ford 方程}迭代更新。代表协议：\textbf{RIP}。
+\item \textbf{全局式链路状态算法（Global / Link-State, LS）}：每台路由器先将自己直连邻居的身份与链路代价向全网广播（link-state broadcast），使网内所有节点拥有完全一致的全网拓扑图 $G$，随后每台路由器各自独立在本地运行 \textbf{Dijkstra 算法}，一次性算出以自己为根到所有其他节点的最短路径树（如 OSPF）。
+\item \textbf{分散式距离向量算法（Decentralized / Distance Vector, DV）}：没有任何节点掌握全网完整地图。每个节点初始只知道到物理直连邻居的边权，通过与直连邻居周期性或触发式交换各自的距离估计向量，按 \textbf{Bellman–Ford 方程}迭代更新，直至全网收敛（如 RIP）。
 \end{itemize}
+此外还可按链路代价是否随实时负载快速调整，分为\textbf{静态路由（static）}与\textbf{动态路由（dynamic）}。
 
 
-\StudyHeading{1}{2. 链路状态算法：Dijkstra 零失误填表法（必考大题！）}
+\StudyHeading{1}{2. 链路状态路由：Dijkstra 算法与逐步松弛填表规范}
 \StudyTarget{CS5222-Chapter05__dijkstra}
 
-记号约定：源节点 $u$；$N'$ 为已确定最短路径的节点集合；$D(v)$ 为当前已知从 $u$ 到 $v$ 的最小代价；$p(v)$ 为当前最优路径上 $v$ 的\textbf{前驱节点（predecessor）}。
+固定源路由器为 $u$，记 $N'$ 为当前\textbf{已经最终确定最短路径}的节点子集；对任意节点 $v$，记 $D(v)$ 为当前已知从 $u$ 出发且中途只允许经过 $N'$ 内节点到达 $v$ 的最小路径代价，记 $p(v)$ 为该当前最优路径上紧挨在 $v$ 前面的\textbf{前驱节点（predecessor）}。教师在专项拆解课件 \texttt{dijkstraalgo\_2026\_student.pptx} 中特别将每轮新选入 $N'$ 的最小代价节点记作 $n^*$，使它与内层被检查的邻居变量 $v$ 清晰区分：
 
-\begin{StudyBlock}{考场防错四步口诀}{Dijkstra 逐行填表规则}
+\begin{StudyBlock}{Dijkstra 算法伪代码与手算填表四步法}{Chapter 5 第 12–16 页及 \texttt{dijkstraalgo\_2026} 第 3–7 页}
 \begin{enumerate}
-\item \textbf{Step 0（初始化）}：令 $N'=\{u\}$。对每个其他节点 $v$，若 $v$ 与 $u$ 直连，填 ``$c(u,v), u$''；否则填 ``$\infty$''。
-\item \textbf{挑最小进 $N'$}：在\textbf{尚未进入 $N'$ 的所有节点}中，挑 $D(w)$ 最小者 $w$ 加入 $N'$（并列最小时任选其一，通常按字母序）。此后 $w$ 所在列下一行留空或画横线 ``—''，表示已定案。
-\item \textbf{只松弛 $w$ 的未定案邻居}：对所有与 $w$ 直连且 $v\notin N'$ 的节点，计算候选值 $D(w)+c(w,v)$：
+\item \textbf{Step 0（初始化）}：置 $N' = \{u\}$。遍历每个其他节点 $v \neq u$：若 $v$ 与源 $u$ 直接相连，在表格对应列填入 ``$c(u,v),\, u$''；若不直连，填入 ``$\infty$''。
+\item \textbf{选最小节点 $n^*$ 并入 $N'$}：在当前行所有尚未进入 $N'$ 的节点里找出 $D(n^*)$ 最小者，令 $N' \leftarrow N' \cup \{n^*\}$（若出现并列最小值，任选其一先入集不会改变最终各点最短距离，习惯按字母顺序选取）。一旦某列节点已进入 $N'$，后续各行该列画横线 ``—'' 表示已定案，不再重复参与比较。
+\item \textbf{仅对 $n^*$ 的未定案直连邻居执行松弛（Relaxation）}：对每个与 $n^*$ 直连且 $v \notin N'$ 的节点，比较旧估计 $D(v)$ 与经由 $n^*$ 中转的新路径代价 $D(n^*) + c(n^*, v)$：
 \[
-D(v) \leftarrow \min\!\bigl(D(v),\; D(w) + c(w,v)\bigr).
+D(v) \leftarrow \min\!\bigl\{\, D(v),\; D(n^*) + c(n^*, v) \,\bigr\}.
 \tag{5.1}
 \]
-\textbf{关键避坑}：只有当 $D(w)+c(w,v) < D(v)$ 时才改写 $D(v)$ 并把前驱 $p(v)$ 改为 $w$；若更大或相等则照抄上一行！\textbf{不与 $w$ 相连的未定案节点也必须把上一行原样抄下来}，绝不能漏抄！
-\item \textbf{画最短路径树（SPT）与转发表}：每个节点 $v\neq u$ 只连一条边 $(p(v), v)$ 构成一棵有 $|N|-1$ 条边的树；查 $u$ 到 $v$ 的转发表下一跳时，沿 $v\to p(v)\to \dots \to u$ 倒推回与 $u$ 相连的那第一条出边！
+若 $D(n^*) + c(n^*, v) < D(v)$，则将该格改写为新值并将前驱更新为 $p(v) = n^*$；若大于或等于原值，或某未定案节点根本不与 $n^*$ 直连，则\textbf{原封不动照抄上一行的 $D(v), p(v)$}（切勿把未直连列误改成 $\infty$ 或漏填）。
+\item \textbf{由前驱生成最短路径树（SPT）与本地转发表}：重复第 2–3 步共 $|N|-1$ 轮直至 $N' = N$。将每个节点 $v \neq u$ 与其最终定案前驱连接成边 $(p(v), v)$，即得含 $|N|-1$ 条边的最短路径树；若要填源节点 $u$ 的转发表，只需从目的节点 $v$ 沿前驱链 $v \leftarrow p(v) \leftarrow \dots \leftarrow u$ 逆向回溯到紧邻源点 $u$ 的\textbf{第一跳邻居}即可。
 \end{enumerate}
 \end{StudyBlock}
 
-\textbf{完整示范（课件第 15–16 页 6 节点图，源节点 $u$，Python 已校验）：} 边权为 $(u,v)=2, (u,x)=1, (u,w)=5, (v,x)=2, (v,w)=3, (x,w)=3, (x,y)=1, (w,y)=1, (w,z)=5, (y,z)=2$。
+\textbf{跟做完整示范（课件第 15–16 页与 \texttt{dijkstraalgo\_2026} 六节点图，源点 $u$）：}给定无向边权 $(u,v)=2,\; (u,x)=1,\; (u,w)=5,\; (v,x)=2,\; (v,w)=3,\; (x,w)=3,\; (x,y)=1,\; (w,y)=1,\; (w,z)=5,\; (y,z)=2$。Step 1 选入 $n^*=x$（$D(x)=1$），松弛其邻居：$v$ 为 $\min\{2, 1+2\}=2,u$（不变），$w$ 为 $\min\{5, 1+3\}=4,x$，$y$ 为 $\min\{\infty, 1+1\}=2,x$；Step 2 在并列的 $v(2)$ 与 $y(2)$ 中选 $n^*=y$，将 $w$ 更新为 $\min\{4, 2+1\}=3,y$、将 $z$ 更新为 $\min\{\infty, 2+2\}=4,y$，依此类推得完整过程表：
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.08\linewidth-1.71429\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.17\linewidth-1.71429\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.71429\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.71429\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.71429\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.71429\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.15\linewidth-1.71429\tabcolsep\relax}@{}}
@@ -58,99 +61,153 @@ Step & $N'$ & $D(v),p(v)$ & $D(w),p(w)$ & $D(x),p(x)$ & $D(y),p(y)$ & $D(z),p(z)
 5 & $uxyvwz$ & — & — & — & — & — \\
 \end{longtable}\endgroup
 
-由此得到 $u$ 的转发表：目的 $v$ 走链路 $(u,v)$；目的 $x, y, w, z$ 沿前驱倒推（如 $z\leftarrow y\leftarrow x\leftarrow u$）全部走第一跳链路 $(u,x)$！
+回溯前驱链读取 $u$ 的转发表：去往 $v$ 直接走链路 $(u, v)$；去往 $x$（$x\leftarrow u$）、$y$（$y\leftarrow x\leftarrow u$）、$w$（$w\leftarrow y\leftarrow x\leftarrow u$）和 $z$（$z\leftarrow y\leftarrow x\leftarrow u$）的第一跳全部是链路 $(u, x)$。
 
 \StudyImage{CS5222/course-notes/assets/ch5-dijkstra-spt.png}
-\StudyCaption{原创绘制：左图为课件 Chapter 5 六节点图与从 $u$ 出发的最短路径树（红实线）；右图为 Tutorial 9 P1 七节点图与从 $x$ 出发的最短路径树（红实线，详解见 Tutorial 9）。}
+\StudyCaption{原创绘制：左图为课件 Chapter 5 六节点图及从 $u$ 出发的最短路径树（红实线）；右图为 Tutorial 9 P1 七节点图及从 $x$ 出发的最短路径树（红实线，完整填表见\StudyRef{CS5222-Tutorial09}{p1}{Tutorial 9 P1}）。}
 
-\textbf{复杂度与路由震荡（Oscillations）：} 朴素实现每轮扫描未定案节点共 $n(n+1)/2$ 次比较，时间复杂度 $O(n^2)$；配二叉堆可降至 $O(n\log n)$。若链路代价随所载流量动态变化（拥塞敏感路由），所有路由器同时重算最短路可能把全部流量瞬间甩到另一侧空闲链路上，下一轮又全部甩回来，产生\textbf{持续震荡（oscillations）}（课件第 17 页四节点环 A–B–C–D 示例）。
+\textbf{算法复杂度与拥塞敏感震荡（Route Oscillations）：}对 $|N| = n$ 个节点的网络，未用优先队列的朴素扫描在各轮依次检查 $n-1, n-2, \dots, 1$ 个候选节点，总比较次数为 $n(n-1)/2 = O(n^2)$，采用斐波那契堆或二叉堆实现可优化至 $O((n+|E|)\log n)$。课件第 17 页同时提醒一个反直觉风险：若把链路代价 $c(e)$ 直接设成该链路当前承载的实时流量，当所有路由器周期性同步重算最短路时，可能在这一轮集体涌向当前空闲的顺时针半环，导致顺时针代价飙升、逆时针变空；下一轮又集体切往逆时针半环，形成永不停止的\textbf{路由震荡}（工程上通过避免所有路由器在同一时刻同步发出更新来打破共振）。
 
 
-\StudyHeading{1}{3. 距离向量算法（DV / Bellman-Ford）与无穷计数（Count-to-Infinity）}
+\StudyHeading{1}{3. 距离向量算法（DV / Bellman–Ford）、三节点距离表收敛与无穷计数}
 \StudyTarget{CS5222-Chapter05__dv}
 
-距离向量算法基于动态规划的 \textbf{Bellman-Ford 方程}：节点 $x$ 到目的 $y$ 的最小代价等于遍历所有直连邻居 $v$ 后“先到 $v$ 再从 $v$ 到 $y$”的最小值：
+距离向量算法的核心依据是动态规划中的 \textbf{Bellman–Ford 最优性方程}：从源节点 $x$ 到目的节点 $y$ 的最短路径代价 $d_x(y)$，等于在 $x$ 的所有物理直连邻居 $v \in \mathcal{N}(x)$ 中，先花 $c(x, v)$ 走到邻居 $v$、再从 $v$ 按最短路走到 $y$ 的最小总和：
 \[
-d_x(y) = \min_{v \in \mathcal{N}(x)} \bigl\{\, c(x,v) + d_v(y) \,\bigr\}.
+d_x(y) = \min_{v \in \mathcal{N}(x)} \bigl\{\, c(x, v) + d_v(y) \,\bigr\}.
 \tag{5.2}
 \]
-取得最小值的那个邻居 $v^*$ 就是 $x$ 去往 $y$ 的转发表下一跳。例如在上方 6 节点图中，已知 $d_v(z)=5, d_x(z)=3, d_w(z)=3$，则 $d_u(z)=\min\{2+5,\, 1+3,\, 5+3\}=4$，下一跳选 $x$。
+算法运行期，每个节点 $x$ 维护本地距离向量 $\mathbf{D}_x = [D_x(y) : y \in N]$ 以及它从每位直连邻居 $v$ 收到的最新距离向量副本 $\mathbf{D}_v$。每当（a）本地直连链路代价 $c(x, v)$ 改变，或（b）收到某个邻居发来的更新后 $\mathbf{D}_v$ 时，$x$ 就用式（5.2）重算自己的 $\mathbf{D}_x$；\textbf{当且仅当 $\mathbf{D}_x$ 中至少有一项数值发生了改变}，$x$ 才把新向量 $\mathbf{D}_x$ 发送给所有直连邻居，否则立即进入静默静止状态。
 
-每个节点维护自身估计向量 $\mathbf{D}_x$ 及各邻居发来的 $\mathbf{D}_v$，按\textbf{迭代、异步、分布式}循环运行：等待本地链路代价变化或收到邻居 DV $\to$ 用式 5.2 重算自身 $\mathbf{D}_x$ $\to$ \textbf{仅当 $\mathbf{D}_x$ 发生变化时才通知所有邻居}。
-
-\begin{StudyBlock}{好消息传得快，坏消息传得慢（Count-to-Infinity）}{课件第 26–27 页经典三节点图}
-设三节点 $x, y, z$ 初始边权 $c(x,y)=4, c(y,z)=1, c(x,z)=50$，稳态为 $D_y(x)=4$（直连），$D_z(x)=5$（经 $y$）。
+\textbf{跟做完整三节点距离表迭代（课件第 24–25 页经典 `2-1-7` 算例）：}设三节点三角形拓扑的直连边权为 $c(x, y) = 2,\; c(y, z) = 1,\; c(x, z) = 7$。下面完整写出同步轮次下三个节点的距离表（每格按顺序记录到 $(x, y, z)$ 的最小估计向量）：
 \begin{itemize}
-\item \textbf{好消息传得快}：若 $c(x,y)$ 从 4 \textbf{降为 1}，$t_0$ 时 $y$ 算得 $D_y(x)=1$ 通知 $z$；$t_1$ 时 $z$ 算得 $D_z(x)=\min\{50, 1+1\}=2$ 通知 $y$；$t_2$ 时 $y$ 发现不变停止——仅 \textbf{2 步}收敛！
-\item \textbf{坏消息传得慢（Count-to-Infinity）}：若 $c(x,y)$ 从 4 \textbf{暴涨为 60}！$t_0$ 时 $y$ 不知道 $z$ 当初那条 $D_z(x)=5$ 其实是\textbf{绕道自己}走的，于是天真地算得 $D_y(x)=\min\{60,\, 1+D_z(x)\}=6$（走 $z$！）并通知 $z$；$t_1$ 时 $z$ 看到 $y$ 涨到 6，跟着更新 $D_z(x)=\min\{50,\, 1+6\}=7$ 通知 $y$；于是 $y\to 8, z\to 9, \dots$ 形成\textbf{路由环路（routing loop）}！经 Python 精确模拟验证，从 $t_0$ 的 $D_y(x)=6$ 起，两者交替加 1 弹跳 \textbf{$50-6=44$ 轮} 直到 $D_z(x)$ 撞上直连边 50（随后 $D_y(x)=51$）才最终稳定！
+\item \textbf{第 0 轮（初始化，仅知自身为 0 与直连边权，尚未收到邻居通告）}：
+  节点 $x$ 初始向量为 $\mathbf{D}_x^{(0)} = [0, 2, 7]$（它对邻居向量暂记为 $[\infty, \infty, \infty]$）；节点 $y$ 初始向量为 $\mathbf{D}_y^{(0)} = [2, 0, 1]$；节点 $z$ 初始向量为 $\mathbf{D}_z^{(0)} = [7, 1, 0]$。三节点各自由于初建向量有新信息，向相邻两节点发出通告。
+\item \textbf{第 1 轮（收到第 0 轮邻居向量后按式 5.2 重算）}：
+  \begin{itemize}
+  \item 节点 $x$ 收到 $\mathbf{D}_y^{(0)}=[2,0,1]$ 与 $\mathbf{D}_z^{(0)}=[7,1,0]$：重算 $D_x(y) = \min\{2+0,\; 7+1\} = 2$，$D_x(z) = \min\{2+1,\; 7+0\} = \mathbf{3}$（走 $x\to y\to z$ 替代了昂贵的直连边 7），新向量变为 $\mathbf{D}_x^{(1)} = [0, 2, \mathbf{3}]$（因 $7\to 3$ 发生变化，继续向邻居发更新）。
+  \item 节点 $y$ 收到 $\mathbf{D}_x^{(0)}$ 与 $\mathbf{D}_z^{(0)}$：$D_y(x)=\min\{2+0, 1+7\}=2$，$D_y(z)=\min\{2+7, 1+0\}=1$，保持 $\mathbf{D}_y^{(1)} = [2, 0, 1]$ \textbf{未发生改变}（本轮无需发通告）。
+  \item 节点 $z$ 收到 $\mathbf{D}_x^{(0)}$ 与 $\mathbf{D}_y^{(0)}$：$D_z(x) = \min\{7+0,\; 1+2\} = \mathbf{3}$（走 $z\to y\to x$），$D_z(y) = \min\{7+2,\; 1+0\} = 1$，新向量变为 $\mathbf{D}_z^{(1)} = [\mathbf{3}, 1, 0]$（因 $7\to 3$ 发生变化，继续向邻居发更新）。
+  \end{itemize}
+\item \textbf{第 2 轮（收到第 1 轮更新后核验静止）}：各节点用最新的 $\mathbf{D}_x^{(1)}=[0,2,3],\; \mathbf{D}_y^{(1)}=[2,0,1],\; \mathbf{D}_z^{(1)}=[3,1,0]$ 再次代入式（5.2），所有最小值均不再改变，此后再无报文发出，全网进入收敛稳态。（对比\StudyRef{CS5222-Tutorial09}{p2}{Tutorial 9 P2}中边权 $3, 4, 6$ 已满足三角不等式、第 1 轮即无数值变化的情形，更能看清“何时继续发报文、何时停止”。）
 \end{itemize}
-\textbf{毒性逆转（Poisoned Reverse）缓解思路：} 若 $z$ 到 $x$ 的路径经过 $y$，则 $z$ 向 $y$ 撒谎通告 $D_z(x)=\infty$，从而打断两节点环路（但注意：毒性逆转无法消除涉及 3 个及以上节点的更大环路）。
+
+\begin{StudyBlock}{链路代价变好与变坏的不对称反应：无穷计数（Count-to-Infinity）与毒性逆转}{Chapter 5 第 26–27 页}
+设三节点 $x, y, z$ 边权为 $c(x, y) = 4,\; c(y, z) = 1,\; c(x, z) = 50$，初始稳态为 $D_y(x) = 4$（直连 $x$）、$D_z(x) = 5$（经由 $y$ 中转）。
+\begin{itemize}
+\item \textbf{链路代价降低（好消息传得快）}：若 $c(x, y)$ 从 $4$ 降为 $1$，$y$ 立即更新 $D_y(x) = 1$ 通告 $z$，$z$ 随即更新 $D_z(x) = 1 + 1 = 2$，两步即收敛。
+\item \textbf{链路代价剧增（坏消息传得慢 / Count-to-Infinity）}：若 $c(x, y)$ 突然从 $4$ 恶化至 $60$。在 $t_0$ 时刻，$y$ 只记得邻居 $z$ 曾报告过 $D_z(x) = 5$，却\textbf{不知道 $z$ 那条代价为 5 的路径恰恰是穿过 $y$ 自己走的}。于是 $y$ 误以为经 $z$ 绕行只需 $c(y,z) + D_z(x) = 1 + 5 = 6 < 60$，便把 $D_y(x)$ 改为 $6$ 并将下一跳指向 $z$（此时 $y \leftrightarrow z$ 已形成临时路由环路，发往 $x$ 的包在两者间来回乒乓）；$z$ 收到 $D_y(x)=6$ 后把 $D_z(x)$ 改为 $\min\{50, 1+6\} = 7$，再推高 $y$ 为 $8$……如此每次加 $1$ 交替爬升，从 $D_y(x)=6$ 一直弹跳 \textbf{$44$ 轮递增}，直到 $D_z(x)$ 涨到 $50$ 终于改选真实直连链路 $(z, x)$、随后 $D_y(x)$ 定格在 $51$ 才解除环路。
+\item \textbf{毒性逆转（Poisoned Reverse）及其局限}：为阻断两节点乒乓环路，规定只要 $z$ 当前去往 $x$ 的下一跳是 $y$，$z$ 在给 $y$ 发距离向量时就故意把该项报成 $D_z(x) = \infty$；这样当 $c(x, y)$ 涨到 $60$ 时，$y$ 算得 $\min\{60, 1+\infty\} = 60$ 立即通知 $z$，$z$ 随即切往直连 $50$，再通知 $y$ 稳定在 $51$。但要注意：\textbf{毒性逆转只能破除两个相邻节点间的直接折返环路，无法消除涉及三个及以上节点的更大环路}。
+\end{itemize}
 \end{StudyBlock}
 
 \StudyImage{CS5222/course-notes/assets/ch5-dv-count-to-infinity.png}
-\StudyCaption{原创绘制：左图为 $c(x,y):4\to 60$ 后 DV 估计值逐步爬坡 44 次弹跳才触及直连路径 50 的实测曲线；右图为 BGP 的 eBGP/iBGP 会话与 AS 2 内热土豆路由（2d 选 OSPF 代价更低的 2a）示意。}
+\StudyCaption{原创绘制：左图为 $c(x,y): 4\to 60$ 后无毒性逆转时 $D_y(x)$ 与 $D_z(x)$ 交替爬升直至触及直连代价 $50$ 的轨迹；右图为 AS2 内部 BGP 会话及热土豆选路对比示意。}
 
-\textbf{LS 与 DV 综合对比（考场简答速查表）：}
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.40\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.40\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-对比维度 & Link-State（LS / Dijkstra） & Distance Vector（DV / Bellman-Ford） \\
+比较维度 & 链路状态算法（LS / Dijkstra） & 距离向量算法（DV / Bellman–Ford） \\
 \midrule\endfirsthead
-对比维度 & Link-State（LS / Dijkstra） & Distance Vector（DV / Bellman-Ford） \\
+比较维度 & 链路状态算法（LS / Dijkstra） & 距离向量算法（DV / Bellman–Ford） \\
 \midrule\endhead
 \bottomrule\endfoot
-消息复杂度 & $n$ 节点 $E$ 条边需全网泛洪 $O(nE)$ 条消息 & 仅与直连邻居交换；收敛轮数取决于拓扑与代价变化 \\
-收敛速度与异常 & $O(n^2)$ 算表；动态负载代价下可能\textbf{震荡} & 收敛慢且不稳；可能出现\textbf{路由环路}与\textbf{无穷计数} \\
-鲁棒性（节点出错） & 故障节点仅报错自身直连边权，且各节点独立算表，影响较局部 & 故障节点可报错整条路径代价，错误会沿邻居表\textbf{传染扩散全网} \\
+报文通信复杂度 & 每次边权变化需向 $n$ 节点、$|E|$ 条边泛洪链路状态，量级 $O(n|E|)$ & 仅在相邻节点间交换向量，消息局部化，但收敛轮数受权重跨度影响 \\
+收敛速度与异常现象 & 本地 $O(n^2)$ 一次算完；负载敏感边权下可能发生同步路由震荡 & 收敛较慢；边权突增时可能出现临时路由环路与无穷计数问题 \\
+节点故障鲁棒性 & 故障路由器只能报错自己直连边的代价，各节点独立构图算表，影响受限 & 故障路由器可向邻居通告错误的全局全路径代价（如谎报到全网代价为 0），错误会沿邻居表逐跳扩散污染全网 \\
 \end{longtable}\endgroup
 
 
-\StudyHeading{1}{4. 层次路由：AS、OSPF（域内）与 BGP（域间）}
+\StudyHeading{1}{4. 层次路由：自治系统（AS）、域内 OSPF 与域间 BGP}
 \StudyTarget{CS5222-Chapter05__ospf-bgp}
 
-面对数亿目的地与不同运营商的\textbf{管理自治（administrative autonomy）}需求，平面路由不可扩展。互联网将路由器划归为多个\textbf{自治系统（Autonomous System, AS）}，分成两级路由（详见 \StudyRef{CS5222-Tutorial10}{root}{Tutorial 10 P2–P3}）：
+真实互联网连接数十亿终端，且由全球数万家商业 ISP、高校和云厂商各自独立建设运维。把全网当成一张扁平大图跑同一个路由算法在两方面行不通：一是\textbf{规模（scale）}爆炸，没有任何路由器存得下数亿条主机路由或承受全网泛洪；二是\textbf{管理自治（administrative autonomy）}，每家机构都希望自主决定内部跑什么协议，并在边界上控制谁的流量允许借道本网。因此互联网把同一管理机构辖下的一组路由器聚合成一个\textbf{自治系统（Autonomous System, AS，拥有全球唯一的 ASN 编号）}，实行两级分治（详见\StudyRef{CS5222-Tutorial10}{p2}{Tutorial 10 P2–P3}）：
 \begin{itemize}
-\item \textbf{为什么域内（Intra-AS）与域间（Inter-AS）要用不同协议？（三大理由，必背）}
-  (1) \textbf{策略（Policy）}：域间必须控制谁能借道本网（商业结算/安全），策略高于性能；域内归同一管理员，几乎无策略冲突。
-  (2) \textbf{规模（Scale）}：层次聚合大幅缩小转发表与更新流量。
-  (3) \textbf{性能（Performance）}：域内专注低时延/低代价性能，域间策略优先。
-\item \textbf{域内路由 OSPF（Open Shortest Path First）}：基于链路状态（Dijkstra），全 AS 泛洪链路状态通告，\textbf{直接封装在 IP 报文中（不走 TCP 也不走 UDP）}。大型 AS 支持两级层次 OSPF：多个本地 \textbf{Area} + 1 个 \textbf{Backbone}；\textbf{ABR（Area Border Router）}汇总本区距离并转发给其他 ABR，\textbf{ASBR（AS Border Router）}连接外部路由域/AS。
-\item \textbf{域间路由 BGP（Border Gateway Protocol）}：互联网的“粘合剂”，属\textbf{路径向量（Path Vector）}协议，基于半永久 \textbf{TCP 连接}交换四类消息（\StudyInline{OPEN}、\StudyInline{UPDATE}、\StudyInline{KEEPALIVE}、\StudyInline{NOTIFICATION}）。
-  \begin{itemize}
-  \item \textbf{eBGP}（External BGP）：跨越相邻 AS 的边界网关之间，获取外部子网可达性。
-  \item \textbf{iBGP}（Internal BGP）：在同一 AS 内部，把 eBGP 学到的外部可达性传播给本 AS 内所有路由器。
-  \item \textbf{核心路由属性}：\StudyInline{AS-PATH}（记录通告穿过的 AS 列表，顺带防环路）与 \StudyInline{NEXT-HOP}（通往该 AS-PATH 起点的边界路由器接口 IP）。
-  \item \textbf{BGP 选路优先级（从高到低）}：1. 最高 \textbf{Local Preference}（本地商业策略）$\to$ 2. 最短 \textbf{AS-PATH}（AS 跳数最少）$\to$ 3. 最近 \textbf{NEXT-HOP}（\textbf{热土豆路由 Hot Potato Routing}：只看本 AS 内 OSPF/RIP 到出口网关的域内代价最小，尽快把包甩出本网，不管出了本网还要跳几个 AS！见上方右图）$\to$ 4. 其他打破平局规则（如最小路由器 ID）。
-  \end{itemize}
+\item \textbf{域内路由（Intra-AS Routing，又称 IGP）}：在同一个 AS 内部寻找最优路径，因为同属一家机构，无需商业策略壁垒，完全聚焦\textbf{转发性能}。代表协议有基于距离向量的 \textbf{RIP} 和基于链路状态（Dijkstra）的工业标准 \textbf{OSPF（Open Shortest Path First）}。注意协议栈细节：\textbf{OSPF 报文直接封装在 IP 数据报中传输（IP 协议号 89），不经过 TCP 或 UDP}；面对超大型骨干 AS，OSPF 还可进一步划分为多个局部区域（Area）与唯一的主干区（Backbone Area 0），由区域边界路由器（ABR）汇总区间路由。
+\item \textbf{域间路由（Inter-AS Routing）}：在不同 AS 之间通告前缀可达性并按商业与安全\textbf{策略（policy）}选择跨网路径，全网统一运行事实标准 \textbf{BGP（Border Gateway Protocol，路径向量协议）}。BGP 路由器之间通过半永久 \textbf{TCP 连接（端口 179）}交换四类报文（\texttt{OPEN}、\texttt{UPDATE}、\texttt{KEEPALIVE}、\texttt{NOTIFICATION}），分为两种会话角色：
+  \begin{enumerate}
+  \item \textbf{eBGP（External BGP）}：建立在分属两个相邻 AS 的边界网关路由器之间，用于从邻网学习外部子网前缀的可达路径；
+  \item \textbf{iBGP（Internal BGP）}：建立在\textbf{同一个 AS 内部}各台路由器之间，用于把边界网关通过 eBGP 学到的外部前缀可达信息分发给本 AS 内部的全部路由器。
+  \end{enumerate}
 \end{itemize}
-\textbf{转发表来源金句：} 路由器本地转发表由\textbf{域内与域间路由协议共同决定}——域内协议决定内部目的地表项，域间（BGP）+ 域内（找最近网关）共同决定外部目的地表项。
+
+\textbf{准确区分“纯热土豆路由思想”与“完整 BGP 多步选路顺序”（消除考场常见混淆）：}每条 BGP 路由通告携带两个核心属性——\texttt{AS-PATH}（沿途经过的 AS 编号序列，既可统计跨网 AS 跳数，也能在看到本 AS 编号时立刻拒收以防止环路）与 \texttt{NEXT-HOP}（迈入该路径起始网关的具体接口 IP）。当本 AS 内部某路由器（如图 5.2 右侧的 \texttt{2d}）面对去往同一外部前缀 \texttt{X} 的多条候选路径时，课件在两张相邻幻灯片上分别讲了两种场景，作答时务必看清题干问的是哪一种：
+\begin{itemize}
+\item \textbf{场景 A——单独问热土豆路由（Hot Potato Routing，课件第 47 页）}：核心准则是“尽快把分组以最小的本网内部开销送出本 AS 大门，不关心出了大门后还要经过多少个外部 AS”。在图 5.2 右图中，\texttt{2d} 经域内 OSPF 到左出口 \texttt{2a} 的代价为 $201$，到右出口 \texttt{2c} 的代价为 $263$；若直接执行纯热土豆准则，因 $201 < 263$，\texttt{2d} 选择出口 \texttt{2a}。
+\item \textbf{场景 B——问完整标准 BGP 路由选择算法（BGP Route Selection，课件第 46 页）}：标准 BGP 按严格先后顺序逐级筛选，只有前一级打平时才进入下一级：（1）最高本地偏好属性 \textbf{\texttt{LOCAL\_PREF}}（本地商业策略最高优先）$\to$（2）最短 \textbf{\texttt{AS-PATH}}（经过的 AS 跳数最少）$\to$（3）最近 \textbf{\texttt{NEXT-HOP} 路由器（此时用热土豆路由作为平局决胜，比较域内 IGP 代价）} $\to$（4）附加标识符（如 BGP Router ID）决胜。因此在完整 BGP 规则下，只有当两条候选路由的本地策略优先级与 \texttt{AS-PATH} 长度都相同时，才会进入第 3 步用热土豆比较域内 OSPF 代价。
+\end{itemize}
+
+最终，一台路由器本地转发表中的外部前缀表项，必须由\textbf{域间路由（BGP 确定选哪个出口网关 \texttt{NEXT-HOP}）与域内路由（OSPF/RIP 确定本机去往该 \texttt{NEXT-HOP} 应走哪一个物理出端口）共同配合}才能填完整。
 
 
-\StudyHeading{1}{5. ICMP 与 Traceroute 原理}
+\StudyHeading{1}{5. ICMP 控制报文与 Traceroute 逐跳测距原理}
 \StudyTarget{CS5222-Chapter05__icmp}
 
-\textbf{ICMP（Internet Control Message Protocol）} 位于 IP 之上（封装在 IP 数据报中），用于主机与路由器汇报网络层差错与诊断信息，每条消息含 Type、Code 及触发差错的原 IP 数据报前 8 字节。核心类型速查：
-\begin{itemize}
-\item \StudyInline{Type 8, Code 0}：Echo Request（\StudyInline{ping} 请求）；\StudyInline{Type 0, Code 0}：Echo Reply（\StudyInline{ping} 回复）。
-\item \StudyInline{Type 11, Code 0}：\textbf{TTL Expired}（生存时间归零）。
-\item \StudyInline{Type 3, Code 0/1/2/3}：目的网络 / 主机 / 协议 / \textbf{端口不可达（Code 3: dest port unreachable）}。
-\end{itemize}
+\textbf{ICMP（Internet Control Message Protocol）}供主机与路由器彼此报告网络层差错和回显探测。虽然从体系概念上归属网络层伴随协议，但在报文封装上 \textbf{ICMP 消息装在标准 IP 数据报的数据净荷区内传输}（IP 首部协议号为 1），内部包含 8 位 \texttt{Type}、8 位 \texttt{Code} 以及引发差错的原始 IP 数据报首部加前 8 个数据字节（以便源主机认出是哪个端口号的进程发出的包出了错）。常见类型包括：\texttt{Type 8 / Code 0}（\texttt{ping} 回显请求 Echo Request）、\texttt{Type 0 / Code 0}（\texttt{ping} 回显应答 Echo Reply）、\texttt{Type 3 / Code 0..3}（目的网络 / 主机 / 协议 / \textbf{端口不可达 Destination Port Unreachable}）、\texttt{Type 4 / Code 0}（源端抑制 Source Quench，现代已少用）以及 \textbf{\texttt{Type 11 / Code 0}（TTL 归零超时 TTL Expired）}。
 
-\textbf{如何用 ICMP 设计 Traceroute？（课件第 25 页高频简答）：} 源主机向目的主机一个\textbf{极不可能被监听的 UDP 端口}连续发送多组探针（每组 3 个）：第 1 组设 $\text{TTL}=1$，第 2 组设 $\text{TTL}=2$，$\dots$，第 $n$ 组到达路径上第 $n$ 台路由器时 TTL 减为 0 被丢弃，该路由器回发 \textbf{ICMP Type 11 Code 0（TTL expired）}（内含路由器名与 IP），源端据此测得第 $n$ 跳 RTT；直到某组探针最终抵达目的主机，因 UDP 端口无人监听，目的主机回发 \textbf{ICMP Type 3 Code 3（Port Unreachable）}，源端收到即停止探测！
+\textbf{Traceroute 如何仅靠普通 UDP 与两种 ICMP 报文画出整条跨国路由？（课件第 52 页）：}源主机向目标主机的一个\textbf{大概率无人监听的高位 UDP 端口号}一轮接一轮地发送探测小包（每轮连发 3 个探针以测三次往返时间）：第 1 轮把 IP 首部置为 $\mathrm{TTL} = 1$，第 2 轮置为 $\mathrm{TTL} = 2$，$\dots$，第 $n$ 轮置为 $\mathrm{TTL} = n$。当第 $n$ 轮探针抵达沿途第 $n$ 跳路由器时，路由器将 TTL 减为 $0$，按规定丢弃该 UDP 包，并向源主机发回一条 \textbf{ICMP Type 11 Code 0（TTL Expired）} 告警报文（其外层源 IP 就是第 $n$ 跳路由器的接口地址），源主机据此打印第 $n$ 跳身份与 3 个 RTT 数值。随着 $n$ 递增，某轮探针终于活着抵达最终目的主机；目的主机拆开 IP 包欲交付 UDP 层时发现该高端口并无进程绑定，于是发回一条 \textbf{ICMP Type 3 Code 3（Destination Port Unreachable）} 报文——源主机一收到 \texttt{Type 3 Code 3}（区别于沿途路由器的 \texttt{Type 11 Code 0}），便知探针已抵达终点，立即结束探测。
+
+\textbf{独立变式 / Check：}设某路径从源主机 S 经路由器 $R_1, R_2$ 到达目的主机 D，每轮发送 3 个标准 UDP Traceroute 探测包且途中无丢包。求全过程 S 共发出多少个 UDP 探测包，并分别指出 $R_1$、$R_2$ 和 D 各自发回的 ICMP（Type, Code）。 / Host S runs standard 3-probe-per-hop UDP Traceroute across two routers $R_1, R_2$ to destination D with no loss. How many UDP probes are sent in total, and what ICMP (Type, Code) messages return from $R_1$, $R_2$, and D?
+
+\begin{StudySolution}{答案 / Answer}
+路径共 3 跳（$S\to R_1\to R_2\to D$），故依次发送 $\mathrm{TTL}=1, 2, 3$ 共 3 轮、每轮 3 包，合计发出 $3\times 3 = 9$ 个 UDP 探测包。第 1 轮在 $R_1$ 触发 3 条 \texttt{ICMP (Type 11, Code 0)}（TTL Expired）；第 2 轮在 $R_2$ 触发 3 条 \texttt{ICMP (Type 11, Code 0)}；第 3 轮抵达终点 D，触发 3 条 \texttt{ICMP (Type 3, Code 3)}（Port Unreachable）使探测终止。 / S sends $3\times 3 = 9$ UDP probes ($\mathrm{TTL}=1,2,3$); $R_1$ and $R_2$ each return ICMP Type 11, Code 0 (TTL expired), while destination D returns ICMP Type 3, Code 3 (port unreachable).
+\end{StudySolution}
 
 
-\StudyHeading{1}{6. 课堂 Q\&A 精选（Chapter 4 \& 5 Q\&A 全 5 题核对）}
+\StudyHeading{1}{6. 课堂 Q\&A 完整原题与双语解析（Chapter 4 \& 5 全 5 题）}
 \StudyTarget{CS5222-Chapter05__qa}
 
-整理自 \StudyInline{Q\&A\_cha4\&5\_2026\_student.pptx}（第 2–6 页）：
+本节完整收录 \texttt{Q\&A\_cha4\&5\_2026\_student.pptx}（第 2–6 张幻灯片）全部 5 道课堂题目的英文原题与选项（其中 Q1, Q3, Q4 对应\StudyRef{CS5222-Chapter04}{cidr-lpm}{Chapter 4 数据平面}，Q2, Q5 对应本章控制平面）：
+
 \begin{enumerate}
-\item \textbf{分类编址中，某主机 IP 为 \StudyInline{219.100.8.32}，本网最多可分配多少主机 IP？} $\to$ \textbf{A) 254}（$219=\text{11011011}_2$ 属 Class C，8 位主机号除去全 0 与全 1 剩 $2^8-2=254$）。
-\item \textbf{Dijkstra 求得 $p(v)=u, p(x)=v, p(w)=u, p(y)=x, p(z)=w$，从 $u$ 发往 $z$ 走哪条出接口？} $\to$ 倒推 $z\leftarrow w\leftarrow u$，故走 $u$ 连向 $w$ 的出接口（原题标注为 \textbf{A) 接口 a}）。
-\item \textbf{关于 DHCP 哪项正确？} $\to$ \textbf{D}（新主机可通过 DHCP 获取 IP 地址与子网掩码；A 错因 DHCP 用 UDP 非 TCP；B 错因通过广播发现而非查 DNS；C 错因 DHCP Request 目的 IP 仍为广播 \StudyInline{255.255.255.255}）。
-\item \textbf{关于 IPv6 哪项正确？} $\to$ \textbf{C}（禁止中间路由器分片以提升转发处理速度；A 错因首部格式彻底不兼容；B 错因 IPv6 取消了首部校验和；D 错因全球采用率约 51\% 远非 90\%）。
-\item \textbf{关于互联网实用路由哪些正确？} $\to$ \textbf{A 与 D}（转发表由域内与域间算法共同决定；热土豆路由选网关时只看域内代价；B 错因域间策略优先于性能；C 错因 AS 内部传播用 iBGP 而非 eBGP）。
+\item \textbf{Q1 (Slide 2):} \emph{Consider classful routing. Suppose a host in the organization has an IP address \texttt{219.100.8.32}. What is the total number of host IP addresses that we can allocate?} \\
+\texttt{A) 254 \quad B) 256 \quad C) 65534 \quad D) 65536} \\
+\textbf{解析 / Answer: A) 254。}首字节 $219 = \mathtt{11011011}_2$ 以 \texttt{110} 开头（落在 $192..223$ 区间），在分类编址下属 \textbf{Class C}（\texttt{/24}，主机位长 8 bit）；扣除主机位全 0（网络号 \texttt{.0}）与全 1（广播号 \texttt{.255}）后，可分配给主机的地址数为 $2^8 - 2 = 254$。 / $219 \in [192,223]$ is Class C (\texttt{/24}), leaving $2^8 - 2 = 254$ usable host addresses.
+
+\item \textbf{Q2 (Slide 3):} \emph{Suppose after running the Dijkstra's algorithm, we obtain the following predecessor node information: $p(v) = u,\; p(x) = v,\; p(w) = u,\; p(y) = x,\; p(z) = w$. If we want to send a packet from node $u$ to node $z$, which output interface in node $u$ should the packet be forwarded to?}（原图给出节点 $u$ 的三个本地出接口标签：接口 \texttt{a} 连向邻居 $w$，接口 \texttt{b} 连向邻居 $y$，接口 \texttt{c} 连向邻居 $v$。） \\
+\texttt{A) a \quad B) b \quad C) c \quad D) No suitable interface} \\
+\textbf{解析 / Answer: A) a。}从目标 $z$ 沿前驱反向追踪：$z \leftarrow p(z)=w \leftarrow p(w)=u$，可见从源 $u$ 出发去往 $z$ 的第一跳邻居是 $w$，对应 $u$ 上连往 $w$ 的出接口 \texttt{a}（注意若问发往 $y$，回溯 $y \leftarrow x \leftarrow v \leftarrow u$，第一跳邻居是 $v$，则应选连向 $v$ 的接口 \texttt{c} 而非直连边 \texttt{b}）。 / Backtracking $z \leftarrow w \leftarrow u$ identifies $w$ as the first hop from $u$, which connects to interface \texttt{a}.
+
+\item \textbf{Q3 (Slide 4):} \emph{Which of the following statement(s) about DHCP is/are true?} \\
+A) Its transport layer is based on TCP. \\
+B) A newly arriving client obtains the IP address of the DHCP server through DNS. \\
+C) When a client sends a ``DHCP request'' message, the destination IP address is a DHCP server's IP address. \\
+D) A newly arriving client can obtain an IP address and the network mask through DHCP. \\
+\textbf{解析 / Answer: D is true。}A 错因 DHCP 运行在 UDP（端口 67/68）而非 TCP 之上；B 错因新主机尚未拿到本机 IP 与 DNS 服务器地址，必须靠链路层广播发现 DHCP 服务器；C 错因客户端发出 \StudyInline{DHCP request} 时仍未正式启用 IP，且需用广播地址 \StudyInline{255.255.\allowbreak{}255.255} 同时告知其他落选 DHCP 服务器释放预留租约；D 正确。 / Only D is true; DHCP runs over UDP using broadcast discovery and broadcast \StudyInline{DHCP request} messages (\StudyInline{255.255.\allowbreak{}255.255}).
+
+\item \textbf{Q4 (Slide 5):} \emph{Which of the following statement(s) about \textbf{IPv6} is/are true?} \\
+A) By choosing the IP protocol version number to be 6 in an IPv4 datagram, we will obtain an IPv6 datagram. \\
+B) The checksum is enhanced for better security. \\
+C) Fragmentation is not allowed for higher processing speed. \\
+D) The adoption of IPv6 is close to 90\% today. \\
+\textbf{解析 / Answer: C is true。}IPv6 首部结构（固定 40 B、128 位地址）与 IPv4 完全不同，不能仅靠改版本号转换（A 错）；IPv6 彻底移除了网络层首部检验和（B 错）；中间路由器不再执行分片以加快转发（C 对）；当前全球客户端 IPv6 普及率约四至五成，远未达 90\%（D 错）。 / Only C is true: IPv6 removes router-side fragmentation and drops the header checksum altogether.
+
+\item \textbf{Q5 (Slide 6):} \emph{Which of the following statement(s) about the \textbf{practical approach of Internet routing} is/are true?} \\
+A) The forwarding table in a router is jointly determined by both the intra-AS and inter-AS routing algorithms. \\
+B) Performance is always the key concern. \\
+C) e-BGP can be used to propagate reachability information to all routers within an AS. \\
+D) When choosing among gateway routers in hot potato routing, we only care about the intra-domain cost. \\
+\textbf{解析 / Answer: A and D are true。}路由器转发表由域内协议与域间协议共同决定（A 对）；在域间路由中商业策略（policy）优先于纯性能（B 错）；在同一个 AS 内部向全体路由器分发外部可达信息靠的是 \textbf{iBGP} 而非 eBGP（C 错）；热土豆路由在多个出口网关间抉择时只比较本 AS 内部的域内路径代价（D 对）。 / A and D are true; inter-AS routing prioritizes policy over performance, and intra-AS dissemination of external prefixes uses iBGP rather than eBGP.
 \end{enumerate}
 
-\textbf{English takeaway:} Link-state routing (Dijkstra, OSPF) floods global topology and computes $O(n^2)$ shortest-path trees, whereas distance-vector routing (Bellman-Ford, RIP) exchanges neighbor vectors and suffers from count-to-infinity on link-cost increases. BGP glues ASes together using eBGP/iBGP over TCP with policy, AS-PATH, and hot-potato selection; Traceroute pairs incrementing UDP TTL probes with ICMP Type 11/0 and Type 3/3 replies.
+\textbf{English takeaway:} Link-state routing (Dijkstra, OSPF) floods global link states and computes $O(n^2)$ shortest-path trees locally, whereas distance-vector routing (Bellman–Ford, RIP) exchanges distance vectors only with immediate neighbors and suffers from count-to-infinity loops when link costs increase. BGP interconnects autonomous systems over TCP using eBGP/iBGP, applying policy (\texttt{LOCAL\_PREF}), \texttt{AS-PATH} length, and hot-potato intra-AS cost; Traceroute pairs incrementing-TTL UDP probes with ICMP Type 11/0 and Type 3/3 replies.
 
-来源：\StudyInline{cs5222\_cha5\_2026\_student\_part1/2.pptx}（共 55 页）、\StudyInline{dijkstraalgo\_2026\_student.pptx}、\StudyInline{Q\&A\_cha4\&5\_2026\_student.pptx}；算法步进与图表由 \StudyInline{tools/verify\_part2\_examples.py} 校验生成。
+
+\StudyHeading{1}{学习要求与来源覆盖索引}
+\StudyTarget{CS5222-Chapter05__sources}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原课件页段（共 55 页 + 2 份专题） & 讲义对应位置与核心内容 \\
+\midrule\endfirsthead
+原课件页段（共 55 页 + 2 份专题） & 讲义对应位置与核心内容 \\
+\midrule\endhead
+\bottomrule\endfoot
+第 1–9 页（Part 1） & 导读与 §1：控制平面职责、带权图抽象及全局 LS vs 分散 DV 分类（注：大纲页 5.5/5.7 课件未展开） \\
+第 10–18 页 + \texttt{dijkstraalgo\_2026}（7 页） & §2：链路状态广播、Dijkstra `n*` 记号与逐步松弛填表、$O(n^2)$ 复杂度及负载敏感路由震荡 \\
+第 19–30 页（Part 1） & §3：Bellman–Ford 方程、`2-1-7` 三节点距离表完整收敛、无穷计数、毒性逆转及 LS/DV 对比表 \\
+第 31–48 页（Part 2） & §4：自治系统分治动机、OSPF 与层次区域、BGP（eBGP/iBGP、`AS-PATH`、`NEXT-HOP`、完整选路顺序与热土豆路由） \\
+第 49–55 页（Part 2） & §5：ICMP 报文封装与常见类型码、UDP + ICMP Traceroute 逐跳测距与停止判据 \\
+\texttt{Q\&A\_cha4\&5}（6 页） & §6：Class C 可用主机数、前驱链反推出接口、DHCP/IPv6 判断及域内外协同选路多选 \\
+\end{longtable}\endgroup

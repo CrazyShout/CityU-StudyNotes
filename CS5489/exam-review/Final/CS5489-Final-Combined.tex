@@ -2,7 +2,7 @@
 \newcommand{\StudyRoot}{../../..}
 \input{../../../latex/preamble.tex}
 \renewcommand{\StudySourceRef}{CS5489-Final-3Papers}
-\renewcommand{\StudyDate}{2026-11-24}
+\renewcommand{\StudyDate}{2026-11-26}
 
 \begin{document}
 \StudyCover{CS5489 · 期末真题双语精简合订本}{2020B / 2021B / 2021A 三套完整真题（39 题）· 官方参考答案、勘误核对与零基础解析}
@@ -23,7 +23,7 @@
 \textbf{特别勘误与 2026 范围提醒：}
 \begin{enumerate}
 \item 本册透明标出两处经独立验算确认的历史参考答案勘误：\textbf{2021A Q4 选项 A}（ResNet 删块影响，答案键误标 A 为正确）与 \textbf{2021B Q10}（valid 卷积收缩量，答案键误写只减单边 $(K-1)/2$）。两处均同时保留历史键原文与严格数学／课件正解。
-\item 2020–2021 年三套卷覆盖 Lecture 3–10（SVM、MLP、CNN、优化与正则、PCA/KPCA、K-Means/GMM/谱聚类、AE/VAE/GAN）。2026 学期新增的 \textbf{Transformer/ViT（L7）、Diffusion/MAE（L10）、LLMs/GRPO/Decoding/KV Cache（L11）、Detectors/CLIP/VLM（L12）} 尚未出现在旧卷中，务必配合 \StudyInline{pdf/CS5489-A4.pdf} 同步复习！
+\item 2020–2021 年三套卷覆盖 Lecture 3–10（SVM、MLP、CNN、优化与正则、PCA/KPCA、K-Means/GMM/谱聚类、AE/VAE/GAN）。2026 学期新增的 \textbf{Transformer/ViT（L7）、Diffusion/MAE（L10）、LLMs/GRPO/Decoding/KV Cache（L11）、Detectors/CLIP/VLM（L12）} 尚未出现在旧卷中，复习时请配合 \StudyInline{pdf/CS5489-A4.pdf} 同步掌握。
 \end{enumerate}
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
@@ -106,7 +106,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 \textbf{中文题译：} 关于卷积层，哪些正确？A) 叠更多卷积层感受野增大；B) 卷积层引入平移不变性；C) 卷积等价于频域相乘；D) 参数量等于输入大小乘输出大小；E) 等价于特定结构且权重共享的全连接层。
 
 \begin{StudySolution}{官方答案与解析 / Official Key: A, C, E}
-\textbf{A 对：} 如两层步长 1 卷积感受野为 $|w_1|+|w_2|-1$，随层数递增。\textbf{B 错（高频坑！）：} 卷积层引入的是\textbf{平移等变性（translation equivariance）}；\textbf{局部平移不变性（invariance）}来自池化层。\textbf{C 对：} DTFT 卷积定理 $s=x*w \Leftrightarrow S(\omega)=X(\omega)W(\omega)$。\textbf{D 错：} 那是全连接层的参数量；卷积参数量为 $F(CK^2+1)$，与高宽 $H,W$ 无关。\textbf{E 对：} 对应稀疏且对角共享的 Toeplitz 矩阵。
+\textbf{A 对：} 如两层步长 1 卷积感受野为 $|w_1|+|w_2|-1$，随层数递增。\textbf{B 错（常考易混点）：} 卷积层引入的是\textbf{平移等变性（translation equivariance）}；\textbf{局部平移不变性（invariance）}来自池化层。\textbf{C 对：} DTFT 卷积定理 $s=x*w \Leftrightarrow S(\omega)=X(\omega)W(\omega)$。\textbf{D 错：} 那是全连接层的参数量；卷积参数量为 $F(CK^2+1)$，与高宽 $H,W$ 无关。\textbf{E 对：} 对应稀疏且对角共享的 Toeplitz 矩阵。
 \end{StudySolution}
 
 \StudyHeading{2}{2020B Q5｜SGD 优化与噪声（Lecture 7）}
@@ -177,7 +177,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 \begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
 \begin{itemize}
 \item \textbf{(a) [4 分] 过拟合（Overfitting）：} 训练损失续降但验证损失反升。解决：L2 权重衰减（惩罚大权重）、早停（在验证损失最低处停止）、Dropout（训练时随机置零节点）、模型集成（多模型平均）、数据增强（人工变换扩充数据）。
-\item \textbf{(b) [3 分] 大泛化差距（Large generalization gap）：} 两者均已收敛走平但验证损失明显高于训练损失。解决：同 (a) 用 L2 正则、数据增强、Dropout、集成来改善泛化——注意\textbf{早停此时无效（Early stopping will not help）}！
+\item \textbf{(b) [3 分] 大泛化差距（Large generalization gap）：} 两者均已收敛走平但验证损失明显高于训练损失。解决：同 (a) 用 L2 正则、数据增强、Dropout、集成来改善泛化——注意\textbf{早停此时无效（Early stopping will not help）}。
 \item \textbf{(c) [3 分] 尚未充分收敛（Not fully converged）：} 训练与验证损失均仍在下降趋势中。解决：增加训练轮数（more epochs），或适当调大学习率（increase learning rate）。
 \end{itemize}
 \end{StudySolution}
@@ -266,7 +266,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 \textbf{中文题译：} 关于线性降维，哪些正确？A) 总能保持类别分离；B) 将数据近似为基向量加权和；C) 系数总能通过线性变换闭式求得；D) LSA 与 PCA 都最小化平方重构误差；E) 降维可提取有语义含义的特征。
 
 \begin{StudySolution}{官方答案与解析 / Official Key: B, D, E}
-\textbf{A 错：} 无监督 PCA/LSA 可能压扁类别分离（图 8.1 右）。\textbf{B、D、E 对。} \textbf{C 错：} \textbf{NMF} 也属线性降维，但因非负约束\textbf{没有闭式解}，必须迭代优化！
+\textbf{A 错：} 无监督 PCA/LSA 可能压扁类别分离（图 8.1 右）。\textbf{B、D、E 对。} \textbf{C 错：} \textbf{NMF} 也属线性降维，但因非负约束\textbf{没有闭式解}，必须迭代优化。
 \end{StudySolution}
 
 \StudyHeading{2}{2021B Q3｜K-Means 聚类（Lecture 9）}
@@ -381,7 +381,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
     Conv 1: $(128-7+1)=122 \Rightarrow \mathbf{122\times 122\times 16}$；
     Conv 2: $(122-9+1)=114 \Rightarrow \mathbf{114\times 114\times 8}$；
     Conv 3 (same): $\mathbf{114\times 114\times 4}$。
-  \item \textbf{历史存档答案键记录：} 原答案键误只减了单边 $(K-1)/2$（写出 $128-3=125\to 125\times 125\times 16$，$125-4=121\to 121\times 121\times 8$，$121\times 121\times 4$）。考场务必写清完整公式 $H'=H-K+1$，以数学正解为准！
+  \item \textbf{历史存档答案键记录：} 原答案键误只减了单边 $(K-1)/2$（写出 $128-3=125\to 125\times 125\times 16$，$125-4=121\to 121\times 121\times 8$，$121\times 121\times 4$）。作答时请写清完整公式 $H'=H-K+1$，以数学正解为准。
   \end{itemize}
 \end{itemize}
 \end{StudySolution}
@@ -429,7 +429,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 
 \StudyHeading{1}{Multiple Selection Questions（Q1–Q6，每题 5 分，共 30 分）}
 
-\StudyHeading{2}{2021A Q1｜参数聚类反向多选（选出 NOT correct！Lecture 9）}
+\StudyHeading{2}{2021A Q1｜参数聚类反向多选（选出 NOT correct，Lecture 9）}
 \textbf{Question:} Which statements are \textbf{NOT} correct about parametric clustering methods? (select all that apply)
 \begin{itemize}
 \item[A)] The K-means algorithm always converges.
@@ -439,7 +439,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 \item[E)] GMM uses weighted averages to update the parameters, while K-means uses averages.
 \end{itemize}
 
-\begin{StudySolution}{官方答案与解析 / Official Key: C, D（注意题干选错项！）}
+\begin{StudySolution}{官方答案与解析 / Official Key: C, D（注意题干要求选错误项）}
 \textbf{A、B、E 均正确，故不选。} \textbf{C 错（应选）：} 协方差取 $\mathbf{I}$ 时仍按距离与先验分配，绝不会把样本“均匀平分”给各簇。\textbf{D 错（应选）：} 重构误差随 $K$ 增大单调降至 0，不可选最佳 $K$。
 \end{StudySolution}
 
@@ -471,7 +471,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 \textbf{A、D 对。} \textbf{B 错：} L2 必须加在所有层。\textbf{C 错：} Dropout 纯按概率 $p$ 随机丢弃，不看激活阈值。\textbf{E 错：} NN 集成可共用同一训练集配不同随机初始化。
 \end{StudySolution}
 
-\StudyHeading{2}{2021A Q4｜ResNet 性质（含重要勘误标注！Lecture 7）}
+\StudyHeading{2}{2021A Q4｜ResNet 性质（含勘误标注，Lecture 7）}
 \textbf{Question:} Which statements are correct about ResNet? (select all that apply)
 \begin{itemize}
 \item[A)] Removing two or three blocks from ResNet-101 will greatly affect its performance.
@@ -481,11 +481,11 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 \item[E)] The pixels located at $(0, 0)$ on the feature maps of different levels contain the same information.
 \end{itemize}
 
-\begin{StudySolution}{官方答案与勘误核对 / Official Key: A, C（强烈注意 A 勘误！）}
+\begin{StudySolution}{官方答案与勘误核对 / Official Key: A, C（注意选项 A 勘误）}
 \begin{itemize}
 \item \textbf{C 严格正确：} $N=10$ 个残差块对应 $2^{10}=1024$ 条路径集成。
 \item \textbf{B 错：} 是\textbf{较短路径}（而非最长路径）携带绝大部分有效梯度信号。\textbf{D 错：} 堆层不能保证 100\% 完美精度。\textbf{E 错：} 不同层级的 $(0,0)$ 感受野和语义层次完全不同。
-\item \textbf{选项 A 勘误提醒：} 历史存档键把 A 标为正确，但课件 Lecture7b 第 29 个单元与 Veit et al. 原论文明确指出：由于 ResNet 像 $2^N$ 路径集成，\textbf{删去两三个块对性能的影响很小（robust，不会 greatly affect）}！怀疑出题或制键时漏了 ``not''；复习请务必以课件正确原理为准。
+\item \textbf{选项 A 勘误提醒：} 历史存档键把 A 标为正确，但课件 Lecture7b 第 29 个单元与 Veit et al. 原论文明确指出：由于 ResNet 像 $2^N$ 路径集成，\textbf{删去两三个块对性能的影响很小（robust，不会 greatly affect）}。推测原题或制键时漏了 ``not''；复习请以课件原理为准。
 \end{itemize}
 \end{StudySolution}
 
@@ -592,7 +592,7 @@ L10 AE / VAE / GAN & Q6, Q12 & Q6, Q13 & Q6, Q10 \\
 
 \begin{StudySolution}{官方答案与中文要点 / Official Key (10 marks)}
 \begin{itemize}
-\item \textbf{[4 分] 潜在问题：} 二次方程的系数可以是任意数字，组合起来存在\textbf{无穷多个类别}，普通固定类别分类器根本无法覆盖未见方程！ / There are infinitely many classes since coefficients can be any number.
+\item \textbf{[4 分] 潜在问题：} 二次方程的系数可以是任意数字，组合起来存在\textbf{无穷多个类别}，普通固定类别分类器无法覆盖未见方程。 / There are infinitely many classes since coefficients can be any number.
 \item \textbf{[6 分] 更好方案：} 构建一个\textbf{单字符分类器}，只识别有限集合里的符号 \StudyInline{0}–\StudyInline{9}、\StudyInline{x}、\StudyInline{x\^{}2}、\StudyInline{+}、\StudyInline{-}；然后用覆盖整行高度、沿水平方向从左到右滑动的\textbf{滑动窗口分类器}依次识别各个字符，最后从左到右拼接出完整方程。
 \end{itemize}
 \end{StudySolution}

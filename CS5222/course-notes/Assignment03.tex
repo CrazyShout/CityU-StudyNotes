@@ -3,130 +3,140 @@
 \StudyChapter{CS5222-Assignment03}{Assignment 3 · Chapters 6 and 7｜ARP/交换机、CSMA/CD、网页全栈与无线链吞吐}
 \StudyTarget{CS5222-Assignment03__root-section}
 
-\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter06}{root}{Chapter 6} · \StudyRef{CS5222-Chapter07}{root}{Chapter 7} · \StudyRef{CS5222-Assignment02}{root}{上一份：Assignment 2}
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter06}{root}{Chapter 6} · \StudyRef{CS5222-Chapter07}{root}{Chapter 7} · \StudyRef{CS5222-Assignment02}{root}{上一份：Assignment 2} · \StudyRef{CS5222-ResearchReportGuide}{root}{Research Report}
 
-\StudyHeading{1}{本节定位｜全卷 4 道压轴大题（双语题干 + Python 逐项严证）}
+\StudyHeading{1}{导读｜链路层寻址隔离、碰撞检测边界、全栈综述与无线并发排程}
 \StudyTarget{CS5222-Assignment03__overview}
 
-Assignment 3（\StudyInline{CS5222 Assignment 3.pdf}）共 4 题：Chapter 6 的 \textbf{P15}（跨交换机/路由器 ARP 与变址细节）、\textbf{P18}（CSMA/CD 最短帧与 325 bit-time 冲突漏检计算）、\textbf{P31}（网页请求全栈协同流程），以及 Chapter 7 的 \textbf{P8}（4 节点无线链 A–B–C–D 最大吞吐率与全时隙调度证明，含暴露终端并发 ACK 的精妙结论）。所有数值与并发集合均经 Python 穷举验证。
+Assignment 3（\texttt{CS5222 Assignment 3.pdf}）包含四道综合性很强的课后习题：Chapter 6 的 \textbf{P15} 把二层交换机 $S_1$ 与三层路由器 $R_1$ 摆进同一张混合网络，细致考察子网内部交换机过滤、广播域跨交换机蔓延及路由器阻断 ARP 广播的完整链条；\textbf{P18} 用比特时间（bit-time）定量揭示当端到端传播距离过长时以太网 CSMA/CD 为何会发生碰撞漏检；\textbf{P31} 要求从零开机完整串起 DHCP、ARP、DNS、TCP 与 HTTP；Chapter 7 的 \textbf{P8} 则在四节点无线直链 $A\text{–}B\text{–}C\text{–}D$ 上分析无确认与含确认两种模型的最大吞吐率（本讲义同时给出教材教师手册的标准 3 时隙非流水排程解与稳态 2 时隙跨轮流水最优解，明确区分前提假设）。
 
 
-\StudyHeading{1}{Ch.6 P15. 交换机 S1 与路由器 R1 混合互联拓扑中的 ARP 与寻址（Fig. 5.33）}
+\StudyHeading{1}{Ch.6 P15. 交换机 $S_1$ 与路由器 $R_1$ 混合拓扑中的 ARP 与帧寻址}
 \StudyTarget{CS5222-Assignment03__p15}
 
-\textbf{拓扑条件 / Topology：} 原教材 Fig. 5.33 有三个子网依次排开：Subnet 1（本地交换机连主机 A、B）— \textbf{交换机 S1}（替换了原路由器）— Subnet 2（本地交换机连主机 C、D）— \textbf{路由器 R1} — Subnet 3（本地交换机连主机 E、F）。
+\textbf{Original Question:} Consider the topology in the left panel below (where the original router between Subnets 1 and 2 is replaced by a layer-2 switch $S_1$, while the router between Subnets 2 and 3 is labeled $R_1$; Subnet 1 has an internal LAN switch connecting Hosts A and B, Subnet 2 has a LAN switch connecting C and D, and Subnet 3 has a LAN switch connecting E and F).
+\begin{itemize}
+\item \textbf{(a)} Consider sending an IP datagram from Host E to Host F. Will Host E ask router R1 to help forward the datagram? Why? In the Ethernet frame containing the IP datagram, what are the source and destination IP and MAC addresses?
+\item \textbf{(b)} Suppose E would like to send an IP datagram to B, and assume that E's ARP cache does not contain B's MAC address. Will E perform an ARP query to find B's MAC address? Why? In the Ethernet frame (destined to B) delivered to router R1, what are the source and destination IP and MAC addresses?
+\item \textbf{(c)} Suppose Host A would like to send an IP datagram to Host B, and neither A's ARP cache contains B's MAC address nor does B's ARP cache contain A's MAC address. Further suppose that switch S1's forwarding table contains entries for Host B and router R1 only. Thus, A will broadcast an ARP request message. What actions will switch S1 perform once it receives the ARP request message? Will router R1 also receive this ARP request message? If so, will R1 forward the message to Subnet 3? Once Host B receives this ARP request message, it will send back to Host A an ARP response message. But will it send an ARP query message to ask for A's MAC address? Why? Also, will switch S1 receive an ARP response message from Host B? Why?
+\end{itemize}
 
+\StudyImage{CS5222/course-notes/assets/ass3-topologies.png}
+\StudyCaption{原创重绘 Assignment 3 两道核心拓扑：左图为 P15 混合交换机 $S_1$ 与路由器 $R_1$ 的三网段结构（注意 Subnet 1 内部含一台直连 A、B 的局域网交换机）；右图为 P8 四无线节点 $A\text{–}B\text{–}C\text{–}D$ 射频覆盖椭圆与无冲突并发链路对。}
+
+\textbf{逐问完整双语解析：}
 \begin{enumerate}
-\item \textbf{(a) 主机 E 向主机 F 发 IP 数据报：E 会求助路由器 R1 吗？以太网帧中源/目的 IP 与 MAC 分别是什么？}
-  \begin{itemize}
-  \item \textbf{不会（No）。} E 与 F 同处 Subnet 3（子网前缀相同），E 直接在本局域网链路层封装并交付给 F，无需经过路由器 R1。
-  \item \textbf{地址字段}：\StudyInline{Src IP = E, Dst IP = F;  Src MAC = E, Dst MAC = F}。
-  \end{itemize}
+\item \textbf{(a) 同子网通信（$E \to F$）}：\textbf{不会求助路由器 $R_1$（No）}。E 检查 F 的 IP 前缀发现两者同属 Subnet 3，直接通过本地局域网交换机交付以太网帧。帧内地址：\texttt{Src IP = E's IP, Dst IP = F's IP; Src MAC = E's MAC, Dst MAC = F's MAC}。 \\
+\textbf{English answer:} \textbf{No}, because E and F share the same subnet prefix (Subnet 3). Frame fields: \texttt{Src IP = E, Dst IP = F, Src MAC = E, Dst MAC = F}.
 
-\item \textbf{(b) 主机 E 向主机 B 发 IP 数据报（E 的 ARP 缓存里没有 B）：E 会发 ARP 查询 B 的 MAC 吗？交给 R1 的以太网帧中源/目的 IP 与 MAC 是什么？}
-  \begin{itemize}
-  \item \textbf{不会（No）！} E 比对子网掩码发现 B 位于不同子网，而 \textbf{ARP 广播绝不跨越路由器}，因此 E 绝不 ARP 查询 B，而是查询并发送到本子网默认网关 \textbf{R1（连向 Subnet 3 的接口）} 的 MAC！
-  \item \textbf{送达 R1 的以太网帧地址}：\StudyInline{Src IP = E, Dst IP = B}；\StudyInline{Src MAC = E, Dst MAC = R1}（R1 连向 Subnet 3 的接口 MAC）。
-  \end{itemize}
+\item \textbf{(b) 跨路由器通信（$E \to B$，经 $R_1$）}：\textbf{E 不会发 ARP 查询 B 的 MAC（No）}。E 比对子网掩码得知 B 不在 Subnet 3 内（ARP 广播无法跨越路由器 $R_1$），因此 E 只用 ARP 查询默认网关 $R_1$ 右侧接口（连向 Subnet 3 的接口）的 MAC，将第一跳帧发给 $R_1$。送达 $R_1$ 的帧地址：\texttt{Src IP = E's IP, Dst IP = B's IP; Src MAC = E's MAC, Dst MAC = MAC of R1's Subnet-3 interface}。 \\
+\textbf{English answer:} \textbf{No}, because B resides on a different subnet across router R1. Frame from E to R1: \texttt{Src IP = E, Dst IP = B, Src MAC = E, Dst MAC = R1's Subnet-3 interface MAC}.
 
-\item \textbf{(c) 主机 A 向主机 B 发数据报，A、B 的 ARP 表均为空；交换机 S1 的转发表仅含 B 与 R1。A 广播 ARP 请求后，逐一追踪 S1、R1 与 B 的行为：}
+\item \textbf{(c) $A \to B$ 的 ARP 广播与单播回程五连问}：
   \begin{itemize}
-  \item \textbf{S1 收到 ARP 请求后的动作}：(1) \textbf{自学习}：记录 \StudyInline{(A, S1 连向 Subnet 1 的入接口)} 进 S1 转发表；(2) \textbf{广播泛洪}：因 ARP 请求的目的 MAC 是广播地址 \StudyInline{FF-FF-FF-FF-FF-FF}，S1 将其向其余所有接口（连向 Subnet 2 方向）转发。
-  \item \textbf{路由器 R1 会收到该 ARP 请求吗？会转发到 Subnet 3 吗？}
-    \textbf{R1 会收到}（因为 S1 是第 2 层交换机，把 Subnet 1 与 Subnet 2 合并成同一个广播域，ARP 广播传到 R1 连向 Subnet 2 的接口）；但 \textbf{R1 绝不会把它转发到 Subnet 3}（路由器隔离第 2 层广播域，ARP 帧止步于本地子网！）。
-  \item \textbf{B 收到 ARP 请求后，需要再发 ARP 查询问 A 的 MAC 吗？}
-    \textbf{不需要（No）。} A 发出的 ARP 请求载荷里已经包含了 A 自己的 IP 与 MAC 地址，B 直接把 A 的映射写入本地 ARP 缓存，然后用\textbf{单播}把 ARP 响应发回给 A 的 MAC！
-  \item \textbf{交换机 S1 会收到 B 发给 A 的 ARP 响应吗？}
-    \textbf{按 Fig. 5.33 原图拓扑：不会（No）！} 观察原图可知 A 和 B 均挂在 Subnet 1 内部的本地交换机上（该交换机再连到 S1）。刚才 A 广播 ARP 请求时，\textbf{Subnet 1 的本地交换机就已经学到了 A 所在的端口}；因此 B 发出的\textbf{单播} ARP 响应（目的 MAC = A）在 Subnet 1 本地交换机处直接被单播转发给 A，\textbf{不会再被泛洪送去 S1！}（注：若某参考解答把 A、B 简化视为直接插在 S1 的两个端口上，则 S1 会收到该单播响应并依据刚学到的 A 表项直接转发给 A——考场先答原图本地交换机阻断、再括号补充直接接入 S1 的情形，万无一失！）
+  \item \textbf{$S_1$ 收到 ARP 请求后的两项动作}：（i）\textbf{源地址自学习}——获悉主机 A 位于连向 Subnet 1 的接口一侧，将 \texttt{(A, Subnet-1 interface)} 加入 $S_1$ 转发表；（ii）\textbf{广播转发}——因 ARP 查询帧的目的 MAC 是全 1 广播地址 \texttt{FF-FF-FF-FF-FF-FF}，$S_1$ 将其从除入接口以外的其他接口（连向 Subnet 2 方向）广播出去。
+  \item \textbf{$R_1$ 是否收到？是否转发至 Subnet 3？}：\textbf{是，$R_1$ 会收到}该 ARP 请求（二层交换机 $S_1$ 与 Subnet 2 局域网交换机把 Subnet 1 和 Subnet 2 连成了同一个广播域）；但 \textbf{$R_1$ 不会将其转发到 Subnet 3}，因为三层路由器不转发链路层广播帧。
+  \item \textbf{B 是否需另发 ARP 查询问 A 的 MAC？}：\textbf{不需要（No）}，因为 A 刚发来的 ARP 请求报文内部已经携带了 A 的 IP 地址与 MAC 地址映射，B 直接将其存入本地 ARP 缓存，并生成目的 MAC 填 A 的\textbf{单播 ARP 响应帧}。
+  \item \textbf{交换机 $S_1$ 会收到 B 发回给 A 的单播 ARP 响应吗？}：\textbf{不会（No）}。观察上方左图，主机 A 和主机 B 共同接在 \textbf{Subnet 1 最左侧那台局域网交换机（LAN Sw）}下；刚才 A 发出广播 ARP 请求经过该左侧交换机时，左侧交换机已经在自己的转发表里学到了 A 所在的本地端口，因此当 B 发回目的 MAC 为 A 的单播 ARP 响应时，左侧交换机查表直接从连向 A 的端口单播送出，对其进行过滤而不再转发向右侧的 $S_1$。
   \end{itemize}
+  \textbf{English answer:} $S_1$ learns A's interface in its forwarding table and floods the broadcast ARP request toward Subnet 2. Router $R_1$ \textbf{does} receive the ARP request, edit-free, on its Subnet-2 interface, but \textbf{will not} forward it to Subnet 3. Host B \textbf{will not} send an ARP query for A because A's MAC is already contained in A's ARP request. Switch $S_1$ \textbf{will not} receive B's unicast ARP reply, because the leftmost LAN switch inside Subnet 1 already learned A's port from A's request and forwards B's unicast reply directly to A without sending it toward $S_1$.
 \end{enumerate}
 
 
-\StudyHeading{1}{Ch.6 P18. CSMA/CD 冲突漏检计算（10 Mbps，$t_{\text{prop}}=325$ bit-times）}
+\StudyHeading{1}{Ch.6 P18. 以太网 CSMA/CD 碰撞漏检计算（$10\text{ Mbps},\; t_{\mathrm{prop}} = 325\text{ bit-times}$）}
 \StudyTarget{CS5222-Assignment03__p18}
 
-\textbf{题目 / Question：} 节点 A 和 B 在同一条 10 Mbps 共享广播以太网上，两点间传播时延 $t_{\text{prop}} = 325\text{ bit times}$。A 开始发送一帧，发完前 B 也开始发送。问：A 能否在检测到 B 的传输信号之前就把整帧发完（从而误以为发送成功）？为什么？提示：最短以太网帧含 64 bit 前导码共 $512 + 64 = 576\text{ bit times}$。
+\textbf{Original Question:} Suppose nodes A and B are on the same $10\text{ Mbps}$ broadcast channel, and the propagation delay between the two nodes is $325\text{ bit-times}$. Suppose CSMA/CD and Ethernet packets are used for this broadcast channel. Suppose node A begins transmitting a frame and, before it finishes, node B begins transmitting a frame. Can A finish transmitting before it detects that B has transmitted? Why or why not? (Hint: Suppose at $t=0\text{ bits}$, A begins transmitting a minimum-sized frame of $512 + 64 = 576\text{ bit-times}$.)
 
-\textbf{严谨计算（Python 已验算）：}
+\textbf{最坏时刻时间轴推导：}
 \begin{enumerate}
-\item 设 A 在 $t=0$ 开始发送最短帧（长度 $512 + 64 = \mathbf{576\text{ bit times}}$），故 A 在 $t = \mathbf{576\text{ bit times}}$ 发送完毕。
-\item 最坏情况是 B 在 A 的首位即将抵达 B 的前一瞬间（$t = 325 - \varepsilon\text{ bit times}$）监听到信道空闲并开始发送！
-\item B 发出的信号同样需要 $325\text{ bit times}$ 传播回 A，因此 B 的干扰信号最早到达 A 的时刻为：
+\item 设节点 A 在 $t = 0\text{ bit-times}$ 开始发送最短合法以太网帧（含 64 bit 前导码与 512 bit 最短帧体），发送完毕时刻为 $t_{\mathrm{finish}, A} = 512 + 64 = \mathbf{576\text{ bit-times}}$。
+\item A 发出的第 1 个比特需经历 $t_{\mathrm{prop}} = 325\text{ bit-times}$ 才在 $t = 325$ 抵达节点 B。考虑最迟碰撞窗口：设节点 B 在 A 的首比特即将到达前的最后一刻——例如整数时刻 $t = 324\text{ bit-times}$（连续时间极限为 $325 - \varepsilon$）——监听信道仍为空闲并开始发送自己的帧。
+\item B 发出的首比特同样需花 $325\text{ bit-times}$ 才能传回节点 A，因此 B 的信号传到 A 被检测到的时刻为：
 \[
-t_{\text{detect}} = (325 - \varepsilon) + 325 \approx 2\, t_{\text{prop}} = \mathbf{650\text{ bit times}}.
+t_{\mathrm{detect}, A} = 324 + 325 = \mathbf{649\text{ bit-times}} \quad (\text{连续极限为 } 2\,t_{\mathrm{prop}} = 650\text{ bit-times}).
 \tag{A3.1}
 \]
-\item 比较两时刻：$\mathbf{650 > 576}$！
+\item 对比两个时刻：$649 > 576$，即 A 早在 $t = 576\text{ bit-times}$ 就已经把整帧彻底发完停机了，而 B 的碰撞波直到 $t = 649\text{ bit-times}$ 才抵达 A，导致 A 漏检此次碰撞，错误地认为该帧已无冲突成功发送。
 \end{enumerate}
 
-\textbf{结论 / Answer：是的（Yes）！} 在最坏情况下，A 在 $t=576\text{ bit times}$ 就发完了最短帧，而 B 的冲突信号直到 $t=650\text{ bit times}$ 才传到 A；A 未检测到冲突，会错误地以为帧已无冲突发送成功！（这也正是标准 10 Mbps 以太网限制最大端到端传播时延必须 $< 512/2 = 256\text{ bit times}$ 的根本原因。）
+\textbf{English answer:} \textbf{Yes.} If A starts sending a minimum-length frame ($512+64 = 576\text{ bit-times}$) at $t=0$, A finishes transmitting at $t=576$. In the worst case, B senses the channel idle and starts transmitting at $t=324$ (just before A's first bit arrives at $t=325$). B's first bit reaches A at $t = 324 + 325 = 649 > 576$, so A finishes transmitting before detecting B's collision and mistakenly assumes its frame succeeded without collision.
 
 
-\StudyHeading{1}{Ch.6 P31. 从开机插网线到打开网页的完整协议栈步骤}
+\StudyHeading{1}{Ch.6 P31. 从开机连接网线到获取网页的全协议栈交互步骤}
 \StudyTarget{CS5222-Assignment03__p31}
 
-\textbf{题目 / Question：} 走进教室给电脑插上以太网线并请求一个网页（假设 DNS 与浏览器缓存全空）。按顺序列出开机到收到网页的全部协议步骤，并明确说明如何获取默认网关路由器的 \textbf{IP 地址} 与 \textbf{MAC 地址}。
+\textbf{Original Question:} Suppose you walk into a room, connect to Ethernet, and want to download a Web page. What are all the protocol steps that take place, starting from powering on your PC to getting the Web page? Assume there is nothing in our DNS or browser caches when you power on your PC. Explicitly indicate in your steps how you obtain the IP and MAC addresses of a gateway router.
 
-\textbf{标准满分六步法（必须点出网关 IP 与 MAC 的来源）：}
+\textbf{按时间因果顺序写出完整六步（对照官方解答要点，显式点明网关 IP、网关 MAC 与本地 DNS 位置判断）：}
 \begin{enumerate}
-\item \textbf{DHCP（封装在 UDP $\to$ IP $\to$ Ethernet 广播帧 \StudyInline{FF-FF-FF-FF-FF-FF}）}：本机广播 DHCP Discover / Request，校园网 DHCP 服务器回复 DHCP Offer / ACK。本机由此获得三项配置：(i) 自身 IP 地址与子网掩码，(ii) \textbf{第一跳默认网关路由器的 IP 地址}，(iii) 本地 DNS 服务器 IP 地址。
-\item \textbf{ARP（封装在 Ethernet 广播帧）}：本机要把后续发往外网的包交给默认网关，需查网关的 MAC。于是广播携带网关 IP 的 ARP Query；网关单播回 ARP Reply，本机由此获得\textbf{第一跳默认网关路由器的 MAC 地址}。
-\item \textbf{DNS（UDP $\to$ IP $\to$ Ethernet）}：本机向本地 DNS 服务器发送 DNS Query（以太网目的 MAC 填网关 MAC），经校园网及互联网路由（OSPF/BGP）取回目标 Web 服务器的 IP 地址。
-\item \textbf{TCP 三次握手（SYN $\to$ SYN-ACK $\to$ ACK）}：本机向 Web 服务器 80/443 端口发起 TCP 三次握手，建立可靠传输连接。
-\item \textbf{HTTP 请求与响应}：在已建好的 TCP 套接字上发送 \StudyInline{HTTP GET} 报文，Web 服务器通过同一条 TCP 连接返回包含网页内容的 \StudyInline{HTTP 200 OK} 响应。
-\item \textbf{逐层解封装并渲染}：本机网卡校验 CRC $\to$ IP 交付 TCP $\to$ TCP 按序重组交付浏览器，最终显示网页！
+\item \textbf{DHCP 获取本机 IP 与“第一跳网关路由器 IP”}：刚开机的电脑尚未配置 IP，先构造 \texttt{DHCP Discover} 封装进 UDP（68$\to$67）、广播 IP（\texttt{255.255.255.255}）与广播以太网帧（目的 MAC \texttt{FF-FF-FF-FF-FF-FF}）在局域网广播；经与本地 DHCP 服务器的 Offer、Request、ACK 四步交互，电脑获得\textbf{本机 IP 地址、子网掩码、第一跳默认网关路由器的 IP 地址，以及本地 DNS 服务器的 IP 地址}。
+\item \textbf{ARP 获取“第一跳网关路由器的 MAC 地址”（及同子网本地 DNS 的 MAC）}：因本机 ARP 缓存为空，电脑发送广播 \texttt{ARP Query} 查询第一跳默认网关路由器 IP 对应的物理地址，网关单播回传 \texttt{ARP Reply}，电脑由此拿到\textbf{第一跳默认网关路由器的 MAC 地址}（注：若 DHCP 给出的本地 DNS 服务器恰好位于本局域网同一子网内，则电脑同样通过 ARP 直接解析该本地 DNS 服务器的 MAC；若本地 DNS 位于外部子网，则发往 DNS 的帧直接填默认网关的 MAC）。
+\item \textbf{DNS 解析目标域名获取 Web 服务器 IP}：电脑构造查询目标网址的 \texttt{DNS Query} 报文（封装在 UDP 53 $\to$ IP $\to$ Ethernet 帧中），发往本地 DNS 服务器（必要时经各级根/顶级域/权威 DNS 迭代查询），收回目标 Web 服务器的 IP 地址。
+\item \textbf{TCP 三次握手建立可靠连接}：若目标 Web 服务器位于外网，电脑构造发往 Web 服务器 80（或 443）端口的 \texttt{TCP SYN} 报文段，外层以太网目的 MAC 填入第 2 步学到的\textbf{第一跳默认网关 MAC}；经默认网关拆帧查路由表跨互联网转发，完成 \texttt{SYN -> SYN+ACK -> ACK} 三次握手。
+\item \textbf{发送 HTTP 请求报文}：电脑将 \texttt{HTTP GET} 请求交由已建立的 TCP 连接分段、封装进 IP 数据报与发往默认网关的以太网帧，经全网路由器逐跳送达目标 Web 服务器。
+\item \textbf{接收 HTTP 响应并渲染网页}：Web 服务器发回携带 HTML 正文的 \texttt{HTTP 200 OK} 响应，经 TCP/IP 路由回传至本子网第一跳网关，由网关封装进目的 MAC 为本机网卡的以太网帧送达电脑，逐层解封装重组后由浏览器渲染显示。
 \end{enumerate}
 
+\textbf{English answer:} (1) \textbf{DHCP} over UDP/IP/Ethernet broadcast obtains the PC's IP, subnet mask, the \textbf{first-hop gateway router's IP address}, and the local DNS server's IP. (2) \textbf{ARP} broadcast query/unicast reply resolves the \textbf{gateway router's IP to its MAC address} (and resolves the local DNS server's MAC directly if on the same LAN). (3) \textbf{DNS} over UDP queries the local DNS server (via the gateway if off-subnet) to obtain the Web server's IP. (4) \textbf{TCP 3-way handshake} establishes a connection to the Web server (frames addressed to the gateway's MAC). (5) \textbf{HTTP GET} request is sent over TCP/IP/Ethernet through the gateway to the Web server, which returns \textbf{HTTP 200 OK} segments that are reassembled and rendered.
 
-\StudyHeading{1}{Ch.7 P8. 四节点无线链 A–B–C–D 最大吞吐率全解（含暴露终端并发 ACK 证明！）}
+
+\StudyHeading{1}{Ch.7 P8. 四节点无线直链 $A\text{–}B\text{–}C\text{–}D$ 吞吐率分析（双口径完整对照）}
 \StudyTarget{CS5222-Assignment03__p8}
 
-\textbf{题目 / Question：} 四个无线节点排成直线 \StudyInline{A -- B -- C -- D}，共享同一频段，覆盖关系为：
-$\mathrm{hears}(A)=\{B\}$，$\mathrm{hears}(B)=\{A, C\}$，$\mathrm{hears}(C)=\{B, D\}$，$\mathrm{hears}(D)=\{C\}$。
-时间分槽（1 条消息恰占 1 个时隙）；每时隙每个节点只能做\textbf{发送、接收、静默}之一；若某接收节点同时听到 $\ge 2$ 个发送者则发生冲突全毁。全知控制器可任意完美调度，求各场景的最大吞吐率（messages / slot）。
+\textbf{Original Question:} Consider four wireless nodes $A, B, C, D$ in a line (right panel of Figure above): $A$'s transmission is heard only by $B$; $B$'s by $A$ and $C$; $C$'s by $B$ and $D$; $D$'s only by $C$. Time is slotted (1 message = 1 slot). In each slot a node can send, receive (succeeding iff it hears \emph{exactly one} transmitter), or remain silent. An omniscient controller schedules all nodes optimally.
+\begin{itemize}
+\item \textbf{(a)} Maximum data message rate from $C$ to $A$ (relayed via $B$).
+\item \textbf{(b)} Combined maximum data rate when $A \to B$ and $D \to C$.
+\item \textbf{(c)} Combined maximum data rate when $A \to B$ and $C \to D$.
+\item \textbf{(d)} Repeat (a)–(c) if wireless links are replaced by wired links.
+\item \textbf{(e)} Return to the wireless scenario, and suppose every data message requires a 1-slot ACK returned from destination to source. Repeat (a)–(c).
+\end{itemize}
 
+\textbf{逐问严谨推导（对 (d)-(i) 与 (e)-(ii)/(iii) 明确并列教材官方参考解与跨轮流水线最优解）：}
 \begin{enumerate}
-\item \textbf{(a) 无线单流 $C \to A$（经 B 中继）：$\mathbf{1/2\text{ msg/slot}}$。}
-  每条消息须走两跳 $C\to B$ 与 $B\to A$。因 B 为半双工（不能在同一时隙既收又发），这两跳必须交替进行：Slot 1 执行 $C\to B$，Slot 2 执行 $B\to A$，2 时隙交付 1 条消息，最大速率 $\mathbf{1/2\text{ msg/slot}}$。
-
-\item \textbf{(b) 无线双流 $A \to B$ 与 $D \to C$：$\mathbf{2\text{ msgs/slot}}$！}
-  检查干扰集合：接收者 B 只听得到 $\{A, C\}$（听不到 D！）；接收者 C 只听得到 $\{B, D\}$（听不到 A！）。因此 $A\to B$ 与 $D\to C$ 在\textbf{每一个时隙都能毫无冲突地同时发送}，合并速率达到 $\mathbf{2\text{ msgs/slot}}$！
-
-\item \textbf{(c) 无线双流 $A \to B$ 与 $C \to D$：$\mathbf{1\text{ msg/slot}}$。}
-  若 A 与 C 同槽发送，接收者 B 同时听到 A 和 C，导致 $A\to B$ 在 B 处冲突！因此任意时隙最多只能发其中 1 条流（单发 $A\to B$ 或单发 $C\to D$），合并最大速率 $\mathbf{1\text{ msg/slot}}$。
-
-\item \textbf{(d) 把所有无线链路换成独立点对点有线链路，重做 (a)–(c)：}
+\item \textbf{(a) 无线单流 $C \to A$（经 $B$ 中继）：$\mathbf{1/2\text{ message/slot}}$}。每条消息需经过两跳 $C\to B$ 和 $B\to A$；因中继节点 $B$ 在同一时隙不能既收又发，奇数时隙跑 $C\to B$、偶数时隙跑 $B\to A$，每 2 个时隙送达 1 条消息。
+\item \textbf{(b) 无线双流 $A \to B$ 与 $D \to C$：$\mathbf{2\text{ messages/slot}}$}。检查两个接收端：$B$ 的收听范围是 $\{A, C\}$（听不见 $D$），$C$ 的收听范围是 $\{B, D\}$（听不见 $A$）。当 $A$ 和 $D$ 在同一时隙同时发包时，$B$ 只听到 $A$、$C$ 只听到 $D$，互不干扰，每个时隙稳定成功交付 2 条消息。
+\item \textbf{(c) 无线双流 $A \to B$ 与 $C \to D$：$\mathbf{1\text{ message/slot}}$}。若 $A$ 和 $C$ 在同一时隙同时发送，接收者 $B$ 会同时听到 $A$ 与 $C$ 两股信号导致碰撞失败，故每时隙只能择一发送，总速率上限为 $1\text{ message/slot}$。
+\item \textbf{(d) 替换为独立点对点有线链路重做 (a)–(c)}：有线点对点链路消除了空中广播串扰。
   \begin{itemize}
-  \item \textbf{(d)-(a) $C \to A$}：若点对点有线链路支持全双工（标准现代有线链路，节点 B 可同时在 $C\text{–}B$ 端口收、在 $B\text{–}A$ 端口发），两条独立链路完全流水线并发 $\Rightarrow$ \textbf{$1\text{ msg/slot}$}！（注：若严格沿用原题干“每时隙每节点只能发或收其一”的单工节点约束，则仍受限于 B 为 $1/2\text{ msg/slot}$；考场主写全双工 \textbf{1 msg/slot} 并顺手注明半双工假设为 $1/2$ 即可拿满分！）
-  \item \textbf{(d)-(b) $A \to B$ 与 $D \to C$}：两条独立有线链路互不干扰 $\Rightarrow$ \textbf{$2\text{ msgs/slot}$}。
-  \item \textbf{(d)-(c) $A \to B$ 与 $C \to D$}：有线链路无广播串扰，C 绝不会干扰 B $\Rightarrow$ \textbf{$2\text{ msgs/slot}$}！
+  \item \textbf{(d)-(a) $C \to A$}：按现代全双工有线接口（教材官方参考解答标准解），节点 $B$ 可在同一时隙一面从 $C\text{–}B$ 线接收下一包、一面往 $B\text{–}A$ 线转发上一包，稳态速率为 \textbf{$1\text{ message/slot}$}（若严格保留原题干“单节点单时隙只能单工发或收其一”的附加限制，则为 $1/2\text{ message/slot}$）。
+  \item \textbf{(d)-(b) $A\to B$ 与 $D\to C$}：两独立有线链路并行，速率为 \textbf{$2\text{ messages/slot}$}。
+  \item \textbf{(d)-(c) $A\to B$ 与 $C\to D$}：无空中串扰，两链路每槽并行发送，速率升至 \textbf{$2\text{ messages/slot}$}。
   \end{itemize}
-
-\item \textbf{(e) 回到无线场景，且每条数据消息交付后目的端必须回传 1 条占 1 时隙的 ACK 给源端（经相同多跳路径返回），重做 (a)–(c)（Python 穷举并发集合严格验证！）：}
+\item \textbf{(e) 无线场景附加 1 时隙反向 ACK 重做 (a)–(c)}：
   \begin{itemize}
-  \item \textbf{(e)-(a) $C \to A$ 含 ACK}：每次完整往返占 4 跳串行（$C\to B$ 数据 $\to B\to A$ 数据 $\to A\to B$ ACK $\to B\to C$ ACK），任何两跳均无法同槽并发（均涉及 B 或收发冲突）$\Rightarrow$ \textbf{$1/4\text{ msg/slot}$}。
-  \item \textbf{(e)-(b) $A \to B$ 与 $D \to C$ 含 ACK：$\mathbf{1\text{ msg/slot}}$！}
-    \textbf{精妙暴露终端并发！} 数据槽 Slot 1：同时发 $\{A\to B,\; D\to C\}$（无冲突）；ACK 槽 Slot 2：同时发 $\{B\to A,\; C\to D\}$——验证：A 只听得到 B（听不到 C！），D 只听得到 C（听不到 B！），虽然 B 和 C 互在射程内（典型暴露终端），但它们都是\textbf{发送者}而非接收者，\textbf{两路 ACK 完全不冲突！} 故每 2 个时隙完成 2 条完整带 ACK 消息 $\Rightarrow$ \textbf{$2/2 = 1\text{ msg/slot}$}！
-  \item \textbf{(e)-(c) $A \to B$ 与 $C \to D$ 含 ACK：$\mathbf{1\text{ msg/slot}}$！}
-    \textbf{精妙数据+ACK 流水线并发！} 经 Python 对全部 4 条有向链路 $\{A\to B, B\to A, C\to D, D\to C\}$ 穷举验证，恰好存在两对完全无冲突的并发组合：$\{A\to B\text{ (Data)},\; D\to C\text{ (ACK)}\}$ 与 $\{B\to A\text{ (ACK)},\; C\to D\text{ (Data)}\}$！
-    于是稳态 2 时隙完美交替：
+  \item \textbf{(e)-(a) $C \to A$ 含 ACK：$\mathbf{1/4\text{ message/slot}}$}。单条消息完成数据两跳加确认两跳共占 4 个串行时隙（$C\to B \text{ Data},\; B\to A \text{ Data},\; A\to B \text{ ACK},\; B\to C \text{ ACK}$），任意两步均因共享节点 $B$ 或在 $B/C$ 处互撞而无法同槽重叠，故速率为 $1/4\text{ message/slot}$。
+  \item \textbf{(e)-(b) $A \to B$ 与 $D \to C$ 含 ACK（双口径对照）}：
     \begin{itemize}
-    \item 奇数槽：\textbf{$A\to B$ 发第 $n$ 条 Data} + \textbf{$D\to C$ 回第 $n-1$ 条 ACK}（B 听不到 D，C 听不到 A，零冲突！）；
-    \item 偶数槽：\textbf{$B\to A$ 回第 $n$ 条 ACK} + \textbf{$C\to D$ 发第 $n$ 条 Data}（A 听不到 C，D 听不到 B，零冲突！）。
+    \item \emph{教材教师手册保守 3 时隙排程解}（假定相邻节点 $B, C$ 不同时发射）：Slot 1 同时发 $\{A\to B\text{ Data},\; D\to C\text{ Data}\}$；Slot 2 单发 $B\to A\text{ ACK}$；Slot 3 单发 $C\to D\text{ ACK}$，得 \textbf{$2/3\text{ messages/slot}$}。
+    \item \emph{严格按题干纯接收碰撞定义的暴露终端 2 时隙最优解}：题干明确规定“只要每个接收端恰好只听到 1 个发送端即接收成功”。在 Slot 2 让 $\{B\to A\text{ ACK},\; C\to D\text{ ACK}\}$ 同时发送——此时接收者是 $A$ 和 $D$，而 $A$ 只听得见 $B$（听不见 $C$）、$D$ 只听得见 $C$（听不见 $B$），两枚 ACK 完全无冲突同时收妥，每 2 个时隙完成 2 条带确认消息，得理论上限 \textbf{$1\text{ message/slot}$}。
     \end{itemize}
-    每 2 个时隙恰好交付 2 条带 ACK 消息 $\Rightarrow$ 稳态最大速率高达 \textbf{$1\text{ msg/slot}$}（与无 ACK 的 (c) 持平——把原本浪费的空闲信道全用来捎带反向 ACK 了！）。
+  \item \textbf{(e)-(c) $A \to B$ 与 $C \to D$ 含 ACK（双口径对照）}：
+    \begin{itemize}
+    \item \emph{教材教师手册单轮 3 时隙排程解}：Slot 1 单发 $C\to D\text{ Data}$；Slot 2 并发 $\{D\to C\text{ ACK},\; A\to B\text{ Data}\}$（$C$ 只听见 $D$，$B$ 只听见 $A$）；Slot 3 单发 $B\to A\text{ ACK}$，每 3 槽交付 2 条消息，得 \textbf{$2/3\text{ messages/slot}$}。
+    \item \emph{跨轮稳态流水线 2 时隙最优解}：在连续多包流下，奇数时隙并发 $\{A\to B\text{ Data},\; D\to C\text{ ACK}\}$，偶数时隙并发 $\{B\to A\text{ ACK},\; C\to D\text{ Data}\}$（利用暴露终端并发），稳态每 2 槽交付 2 条消息，可达 \textbf{$1\text{ message/slot}$}。（考试作答时将标准 3 时隙解 $2/3$ 与暴露终端 2 时隙解 $1$ 一并写清各自时隙表，即可兼容任何阅卷细则。）
+    \end{itemize}
   \end{itemize}
 \end{enumerate}
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.26\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.28\linewidth-1.50000\tabcolsep\relax}@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.19\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.38\linewidth-1.50000\tabcolsep\relax}@{}}
 \toprule
-业务场景 & (a)–(c) 无线无 ACK & (d) 有线无 ACK & (e) 无线含 1-slot ACK \\
+流配置场景 & 无线无 ACK & 点对点有线无 ACK & 无线含 1-slot ACK（教师手册解 / 暴露终端流水解） \\
 \midrule\endfirsthead
-业务场景 & (a)–(c) 无线无 ACK & (d) 有线无 ACK & (e) 无线含 1-slot ACK \\
+流配置场景 & 无线无 ACK & 点对点有线无 ACK & 无线含 1-slot ACK（教师手册解 / 暴露终端流水解） \\
 \midrule\endhead
 \bottomrule\endfoot
-(a) $C \to A$ & $1/2$ msg/slot & $1$（全双工）/ $1/2$（半双工） & $1/4$ msg/slot \\
-(b) $A\to B$ \& $D\to C$ & \textbf{$2$ msgs/slot} & $2$ msgs/slot & \textbf{$1$ msg/slot}（暴露终端 ACK 并发） \\
-(c) $A\to B$ \& $C\to D$ & \textbf{$1$ msg/slot} & $2$ msgs/slot & \textbf{$1$ msg/slot}（Data+ACK 流水并发） \\
+(a) $C \to A$ & $1/2$ msg/slot & $1$ msg/slot（全双工） & $1/4$ msg/slot \\
+(b) $A\to B$ \& $D\to C$ & $2$ msgs/slot & $2$ msgs/slot & \textbf{$2/3$ msgs/slot}（3 槽解）／ \textbf{$1$ msg/slot}（暴露终端并发 ACK） \\
+(c) $A\to B$ \& $C\to D$ & $1$ msg/slot & $2$ msgs/slot & \textbf{$2/3$ msgs/slot}（3 槽解）／ \textbf{$1$ msg/slot}（奇偶槽流水并发） \\
 \end{longtable}\endgroup
+
+\textbf{独立变式 / Check：}在 P18 的 $10\text{ Mbps}$ 共享以太网上，若保持最短帧总长 $576\text{ bit-times}$ 不变，为确保 A 在发完最短帧前 100\% 能检测到最坏碰撞，A 与 B 之间的单程传播时延 $t_{\mathrm{prop}}$ 必须满足什么上界？ / What upper bound on $t_{\mathrm{prop}}$ guarantees collision detection for a 576-bit-time minimum frame?
+
+\begin{StudySolution}{答案 / Answer}
+由碰撞可检测条件 $2\,t_{\mathrm{prop}} < 576\text{ bit-times}$，得单程传播时延上界 $t_{\mathrm{prop}} < \mathbf{288\text{ bit-times}}$（即 $< 28.8\;\mu\text{s}$；若不计 64 bit 前导码只按 512 bit 帧体保守核算，则要求 $t_{\mathrm{prop}} < 256\text{ bit-times}$）。 / Requires $2\,t_{\mathrm{prop}} < 576 \implies t_{\mathrm{prop}} < 288\text{ bit-times}$ ($< 256\text{ bit-times}$ if excluding the 64-bit preamble).
+\end{StudySolution}
+
+来源：\texttt{CS5222 Assignment 3.pdf}（4 页）与官方教师参考解答对照整理。

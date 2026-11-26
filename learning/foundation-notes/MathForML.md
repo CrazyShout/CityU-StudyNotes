@@ -133,7 +133,15 @@
 - `103` → [第 35 页](../../pdf/Foundations-A4.pdf#page=35)
 <a id="104"></a>
 - `104` → [第 35 页](../../pdf/Foundations-A4.pdf#page=35)
+<a id="eigen-svd"></a>
+- `eigen-svd` → [第 35 页](../../pdf/Foundations-A4.pdf#page=35)
+<a id="11-eigenvalues-eigenvectors-and-svd"></a>
+- `11-eigenvalues-eigenvectors-and-svd` → [第 35 页](../../pdf/Foundations-A4.pdf#page=35)
+<a id="expectation-kl"></a>
+- `expectation-kl` → [第 37 页](../../pdf/Foundations-A4.pdf#page=37)
+<a id="12-expectation-kl-divergence-and-elbo"></a>
+- `12-expectation-kl-divergence-and-elbo` → [第 37 页](../../pdf/Foundations-A4.pdf#page=37)
 <a id="sources"></a>
-- `sources` → [第 35 页](../../pdf/Foundations-A4.pdf#page=35)
+- `sources` → [第 39 页](../../pdf/Foundations-A4.pdf#page=39)
 <a id="_2"></a>
-- `_2` → [第 35 页](../../pdf/Foundations-A4.pdf#page=35)
+- `_2` → [第 39 页](../../pdf/Foundations-A4.pdf#page=39)

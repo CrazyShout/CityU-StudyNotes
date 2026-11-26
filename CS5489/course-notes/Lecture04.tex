@@ -4,7 +4,7 @@
 \StudyTarget{CS5489-Lecture04__lecture-4-regression}
 
 
-\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture03}{root}{上一讲：分类} · \StudyRef{Foundations-MathForML}{rank-pseudoinverse}{数学补课：秩与伪逆}
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture03}{root}{上一讲：分类} · \StudyRef{CS5489-Lecture05}{root}{下一讲：神经网络} · \StudyRef{Foundations-MathForML}{rank-pseudoinverse}{数学补课：秩与伪逆}
 
 
 上一讲给一朵花贴类别标签。这一讲老师换成房价：已知房屋面积、售出时的年龄等信息，希望预测一个数值。输出不再是有限几个标签，而是实数。我们沿着 \textbf{线性回归 \ensuremath{\to} 特征选择 \ensuremath{\to} 异常值 \ensuremath{\to} 非线性回归 \ensuremath{\to} 集成模型} 走一遍。下面用房价数据观察这些方法怎样拟合数值。
@@ -129,9 +129,6 @@ E(\mathbf w,b)=\sum_{i=1}^N[y_i-(\mathbf w^T\mathbf x_i+b)]^2.\tag{4.1}
 合计 &  &  & 1 & 2 \\
 \end{longtable}
 \endgroup
-
-
-
 \[
 w=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2}=\frac12,
 \qquad b=\bar y-w\bar x=\frac76.\tag{4.2}

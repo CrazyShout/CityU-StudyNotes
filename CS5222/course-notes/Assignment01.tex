@@ -4,10 +4,10 @@
 \StudyTarget{CS5222-Assignment01__assignment-1-chapters-1-and-2}
 
 
-\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter01}{root}{Chapter1} · \StudyRef{CS5222-Chapter02}{root}{Chapter2} · 原任务（4页）
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter01}{root}{Chapter1} · \StudyRef{CS5222-Chapter02}{root}{Chapter2} · \StudyRef{CS5222-Assignment02}{root}{下一份：Assignment 2}
 
 
-本讲义提供P6、P31、P17的纸笔推导及Zoom资料核查方法。当前未提供教师解答，以下推导与资料分析供学习参考。截止日期、提交格式和手续回查原任务及\href{https://crazyshout.github.io/micro-course/notices.html}{课程信息栏}。
+本讲义提供 P6、P31、P17 的纸笔推导及 Zoom 协议资料核查方法，并已对照本学期发布的教师参考解答（\texttt{CS5222 Assignment 1 Solution.pdf}，8 页）逐题复核。全篇配图均为原创绘制原理图（不含任何教材原书页面截图），可直接随册带入开卷考场。截止日期、提交格式和手续回查原任务及\href{https://crazyshout.github.io/micro-course/notices.html}{课程信息栏}。
 
 
 基础可选：\StudyRef{Foundations-NetworkBasics}{root}{单位与时间轴}、\StudyRef{Foundations-NetworkBasics}{messages}{报文字段}。当前四题都属于核心任务；P6难点是首/末位事件，P31是跨链路重叠，P17是跨会话状态，Zoom是产品情境与来源边界。理解难度均为中等。
@@ -25,8 +25,10 @@
 
 \textbf{条件 / Conditions:} 主机A、B相距m米，链路发送速率R bit/s，传播速度s m/s，包长L bit。忽略处理、排队，从A开始发送首位计时t=0。 / Hosts A and B are m metres apart; link rate is R bit/s, propagation speed s m/s, and packet length L bits. Ignore processing and queueing and start timing with the first bit.
 
+\textbf{English problem questions (a–g):} (a) Express \(d_{\mathrm{prop}}\) in terms of \(m\) and \(s\). (b) Express \(d_{\mathrm{trans}}\) in terms of \(L\) and \(R\). (c) Ignoring processing and queueing delays, write the end-to-end delay. (d) Suppose Host A begins transmitting at \(t=0\); at \(t=d_{\mathrm{trans}}\), where is the last bit? (e) If \(d_{\mathrm{prop}} > d_{\mathrm{trans}}\), at \(t=d_{\mathrm{trans}}\), where is the first bit? (f) If \(d_{\mathrm{prop}} < d_{\mathrm{trans}}\), at \(t=d_{\mathrm{trans}}\), where is the first bit? (g) For \(s = 2.5\times 10^8\text{ m/s}\), \(L = 120\text{ bits}\), and \(R = 56\text{ kbps}\), find \(m\) such that \(d_{\mathrm{prop}} = d_{\mathrm{trans}}\).
+
 \StudyImage{CS5222/course-notes/assets/assignment01-01.png}
-\StudyCaption{Assignment 1原题页：P6分别跟踪首位与末位，保留题目给定的计时起点。}
+\StudyCaption{原创重绘 P6 单链路模型与首位/末位传播示意（替代原题扫描截图，保留全部给定符号）。}
 
 
 
@@ -89,8 +91,10 @@ m翻倍，约1071.429km。 / m doubles to about 1071.429 km. 改变的是等时�
 
 \textbf{条件 / Conditions:} 原图源\ensuremath{\to}交换机1\ensuremath{\to}交换机2\ensuremath{\to}目的，共3条2Mbps链路；消息8\ensuremath{\times}10\textsuperscript{6}bit，存储转发，忽略传播、排队和处理。分段时为800个10000bit包，题目未另加包头。 / An 8-million-bit message crosses three 2-Mbps store-and-forward links. Ignore propagation, queueing and processing. Segmentation creates 800 packets of 10000 bits each, with no additional header overhead specified.
 
+\textbf{English problem questions (a–e):} (a) Without message segmentation, find the time to move the message from source to the first packet switch, and the total store-and-forward time to the destination. (b) With 800 packets of \(10{,}000\text{ bits}\) each, find the time to move the 1st packet to the first switch, and the time when the 2nd packet is fully received at the first switch. (c) Find total time to move the entire file with segmentation and compare with (a). (d) Besides reducing delay, state two other reasons to use message segmentation. (e) Discuss the drawbacks of message segmentation.
+
 \StudyImage{CS5222/course-notes/assets/assignment01-02.png}
-\StudyCaption{Assignment 1原题页：P31比较整条消息与分段后跨三条链路的完成时间。}
+\StudyCaption{原创重绘 P31 三跳两交换机存储转发拓扑：对比整包串行转发与分段流水线并行传输。}
 
 
 
@@ -140,7 +144,7 @@ e 代价：每包头部和处理开销，更多调度；可能乱序，需要识
 \textbf{完整条件 / Conditions:} 已认证进入transaction，LIST给两封邮件，编号1/2、大小498/912byte；原片段已经RETR1。a为download-and-delete，b为download-and-keep，均继续到服务完成。c在b后退出，5分钟后再次登录，无新邮件，给出第二会话。 / Authentication is complete and the session is in the transaction state. LIST shows messages 1 and 2 of 498 and 912 octets; the supplied exchange has already retrieved message 1. Finish the download-and-delete and download-and-keep transactions, then show a second keep-mode session five minutes later with no new mail.
 
 \StudyImage{CS5222/course-notes/assets/assignment01-03.png}
-\StudyCaption{Assignment 1原题页：P17把同一次POP3事务与下一次登录的邮箱状态连起来。}
+\StudyCaption{原创重绘 P17 POP3 事务与跨会话状态对照：对比标记删除（DELE+QUIT）与保留模式（无 DELE）对下一次会话邮箱内容的影响。}
 
 
 
@@ -275,7 +279,7 @@ S: +OK signing off
 \textbf{原问题 / Questions:} a列举三种应用层协议并解释作用；b主要client-server还是P2P；c主要传输协议及原因；d学生是否需要老师电脑IP及原因。 / Identify three application-layer protocols and their roles, explain the main architecture and transport choice, and determine whether a student needs the lecturer's host IP.
 
 \StudyImage{CS5222/course-notes/assets/assignment01-04.png}
-\StudyCaption{Assignment 1原题页：Zoom四问分别检查应用协议、架构、传输与寻址。}
+\StudyCaption{原创重绘 Zoom 云会议与局域网直连架构对照：区分控制信令/Web 服务（TCP/TLS/HTTPS）与实时音视频流（UDP/RTP/SRTP）。}
 
 
 
@@ -307,7 +311,7 @@ H.323（协议族） & 另一类标准音视频会议端点经连接器接入 & 
 \endgroup
 
 
-表中HTTPS用于Web服务，SIP/H.323用于会议室端点互通，作答时分别注明情境。若教师将题意限定为\textbf{原生客户端自身的媒体/控制三种协议}，应按该范围补充特定版本的技术资料，而不能把SIP/H.323互通项代替原生客户端路径的说明。公开端口表只能证明传输端口用途，不能单独证明RTP/SRTP等内部封装；作答时应注明所选客户端与部署情境。
+表中HTTPS用于Web服务，SIP/H.323用于会议室端点互通，作答时分别注明情境。对照本学期发布的教师参考解答（\texttt{CS5222 Assignment 1 Solution.pdf} 第 6 页），官方参考答案面向原生与网页客户端列出的五项参考协议要点为：（1）\textbf{Zoom Proprietary Protocols}（用户认证、会议建立、参会者与屏幕共享等会话控制信令）；（2）\textbf{RTP / SRTP}（实时音视频流传输及端到端/传输加密与消息认证，依据 Zoom Encryption Whitepaper）；（3）\textbf{HTTPS / HTTP}（访问 Web 服务、下载更新与拉取资源）；（4）\textbf{WebRTC}（浏览器端免插件入会连接）；（5）\textbf{TLS}（客户端与服务器之间的控制与信令加密通道）。考试或报告作答时，从上述官方白皮书支撑项中任选三项并写明各自负责“会话控制、实时媒体或 Web 资源”即可清晰拿分。
 
 
 

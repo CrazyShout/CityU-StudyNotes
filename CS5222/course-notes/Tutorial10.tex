@@ -5,79 +5,94 @@
 
 \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter04}{root}{Chapter 4} · \StudyRef{CS5222-Chapter05}{root}{Chapter 5} · \StudyRef{CS5222-Tutorial09}{root}{上一份：Tutorial 9} · \StudyRef{CS5222-Tutorial11}{root}{下一份：Tutorial 11}
 
-\StudyHeading{1}{本节定位｜子网无重叠切分 + BGP 区分 eBGP/iBGP + 队列调度辨析}
+\StudyHeading{1}{导读｜跨数据平面与控制平面的五道综合题}
 \StudyTarget{CS5222-Tutorial10__overview}
 
-Tutorial 10 跨 Chapter 4（CIDR 子网切分、FIFO/RR/WFQ 调度）与 Chapter 5（为何区分 Intra/Inter-AS、eBGP vs iBGP 判断）。全部结果对照 \StudyInline{tutorial-10-solution\_semA2026} 并经 Python 校验无地址重叠。
+Tutorial 10 将第 4 章与第 5 章的核心应用串在一起：P1 训练在同一个 \texttt{/24} 地址池内无重叠地切分可变长子网掩码（VLSM，先修见\StudyRef{Foundations-NetworkBasics}{cidr-lpm}{Network Basics §5}）；P2–P3 检验为什么互联网必须把路由拆成域内（OSPF/RIP）与域间（eBGP/iBGP）两层，并在四自治系统拓扑图上逐台路由器判断前缀来源；P4–P5 回扣路由器输出队列的四种分组调度规则。全部解答已与 \texttt{tutorial-10-solution\_semA2026.pptx} 核对一致。
 
 
-\StudyHeading{1}{P1. 无重叠 CIDR 子网划分（从 \StudyInline{223.1.17.0/24} 切 3 个子网）}
+\StudyHeading{1}{P1. 无重叠 CIDR 子网划分（在 \texttt{223.1.17.0/24} 内分配三个子网）}
 \StudyTarget{CS5222-Tutorial10__p1}
 
-\textbf{题目 / Question：} 某路由器互联三个子网，均须位于 \StudyInline{223.1.17.0/24} 内且互不重叠。Subnet 1 需支持最多 62 个接口，已分配 \StudyInline{223.1.17.0/26}。
-(a) Subnet 2 需支持最多 \textbf{106} 个接口，应分配什么地址块？
-(b) Subnet 3 需在剩余空间中支持最多 \textbf{14} 个接口，应分配什么地址块？
-
-\textbf{二进制无重叠切分法（只需盯最后 8 位！）：}
+\textbf{Original Question:} Consider a router that interconnects three subnets: Subnet 1, Subnet 2, and Subnet 3. Suppose all of the interfaces in each of these three subnets are required to have the prefix \texttt{223.1.17.0/24}. Also suppose that Subnet 1 is required to support up to 62 interfaces, and is already assigned the subnet address block \texttt{223.1.17.0/26}.
 \begin{itemize}
-\item \textbf{Subnet 1（已占）}：\StudyInline{223.1.17.0/26} $\to$ 末字节前 2 位固定为 \StudyInline{00xxxxxx}（十进制 \StudyInline{0–63}，共 $2^6=64$ 个地址，去头尾剩 62 个可用）。
-\item \textbf{(a) Subnet 2（需 106 接口）}：需要 $2^k - 2 \ge 106 \Rightarrow 2^k \ge 108 \Rightarrow k=7$（7 位主机位 $\Rightarrow$ 掩码 \textbf{/25}，共 $2^7=128$ 个地址、126 个可用）。由于低半区 \StudyInline{0xxxxxxx}（0–127）已被 Subnet 1 占用前半段，\textbf{/25 只能放在高半区 \StudyInline{1xxxxxxx}（128–255）}！
-  $\Longrightarrow$ \textbf{Subnet 2 = \StudyInline{223.1.17.128/25}}（唯一解！）。
-\item \textbf{(b) Subnet 3（需 14 接口）}：需要 $2^k - 2 \ge 14 \Rightarrow 2^k \ge 16 \Rightarrow k=4$（4 位主机位 $\Rightarrow$ 掩码 \textbf{/28}，共 16 个地址、14 个可用）。当前空闲区间是 \StudyInline{01xxxxxx}（十进制 \StudyInline{64–127}），任选其中一个对齐的 /28 块均可：
-  $\Longrightarrow$ \textbf{Subnet 3 = \StudyInline{223.1.17.64/28}}（末字节 \StudyInline{0100xxxx}，64–79）；其余等价合法解：\StudyInline{223.1.17.80/28}、\StudyInline{223.1.17.96/28}、\StudyInline{223.1.17.112/28}。
+\item \textbf{(a)} If Subnet 2 is to support up to 106 interfaces, what will be the allocated address block in the form of \texttt{a.b.c.d/x}?
+\item \textbf{(b)} If Subnet 3 is to support up to 14 interfaces in the remaining addresses, what will be the allocated address block in the form of \texttt{a.b.c.d/x}? (Hint: there shall be no overlap between the assigned network addresses among the three subnets.)
 \end{itemize}
 
-\begin{StudyBlock}{考场防错提醒}{切子网务必“从大到小”并检查边界对齐}
-不能把 /25 从 \StudyInline{.64} 开始切！因为 /25 的起始地址末字节必须是 $128$ 的整数倍（只能是 \StudyInline{.0/25} 或 \StudyInline{.128/25}），同理 /28 必须是 $16$ 的整数倍。
-\end{StudyBlock}
+\textbf{按二进制位边界无重叠切分（聚焦第 4 字节 8 个比特）：}
+\begin{itemize}
+\item \textbf{已知 Subnet 1}：\texttt{223.1.17.0/26} 固定第 4 字节最高两位为 \texttt{00xxxxxx}，占用十进制范围 $0..63$（共 $2^6 = 64$ 个地址，扣去首尾网络号 \texttt{.0} 与广播号 \texttt{.63} 恰好支持 $62$ 个接口）。
+\item \textbf{(a) 分配 Subnet 2（需支持 106 个接口）}：解不等式 $2^h - 2 \ge 106 \implies 2^h \ge 108 \implies h = 7$（$2^7 - 2 = 126 \ge 106$），对应前缀位数 $x = 32 - 7 = \mathbf{25}$（块大小为 $128$）。在 \texttt{/24} 内，\texttt{/25} 只有两个合法对齐块：低半区 \texttt{0xxxxxxx}（$0..127$）和高半区 \texttt{1xxxxxxx}（$128..255$）。由于低半区的前半截 $0..63$ 已被 Subnet 1 占用，为避免重叠，Subnet 2 \textbf{唯一合法分配}为高半区 \textbf{\texttt{223.1.17.128/25}}（占用 $128..255$）。
+\item \textbf{(b) 分配 Subnet 3（需支持 14 个接口）}：解不等式 $2^h - 2 \ge 14 \implies 2^h \ge 16 \implies h = 4$，对应前缀位数 $x = 32 - 4 = \mathbf{28}$（块大小为 $16$，去头尾恰好支持 $14$ 个接口）。此时尚未分配的剩余空间是 \texttt{01xxxxxx}（十进制 $64..127$，共 64 个地址，正好可切为 4 个对齐的 \texttt{/28} 块），任取第一块即得 \textbf{\texttt{223.1.17.64/28}}（占用 $64..79$；其余三个等价合法答案依次为 \texttt{223.1.17.80/28}、\texttt{223.1.17.96/28} 或 \texttt{223.1.17.112/28}）。
+\end{itemize}
+
+\textbf{English answer:} (a) \textbf{\texttt{223.1.17.128/25}} ($128$ addresses, supporting up to $126 \ge 106$ interfaces without overlapping \texttt{.0/26}). (b) \textbf{\texttt{223.1.17.64/28}} (or \texttt{.80/28}, \texttt{.96/28}, \texttt{.112/28}; $16$ addresses supporting $14$ interfaces).
 
 
-\StudyHeading{1}{P2. 为什么互联网需要不同的域内（Intra-AS）与域间（Inter-AS）路由协议？}
+\StudyHeading{1}{P2. 为什么互联网要分开设计域内（Intra-AS）与域间（Inter-AS）路由协议？}
 \StudyTarget{CS5222-Tutorial10__p2}
 
-\textbf{答案 / Answer（三大关键词：Policy / Scale / Performance）：}
+\textbf{Original Question:} Why are different inter-AS and intra-AS protocols used in the Internet?
+
+\textbf{三点核心原因（Policy, Scale, Performance）：}
 \begin{enumerate}
-\item \textbf{策略（Policy）}：域间涉及不同商业机构/ISP，管理员必须严格控制流量能否穿越其他特定 AS 以及是否替别人中转流量，策略压倒一切；域内归同一管理实体管辖，几乎无需复杂商业策略。
-\item \textbf{规模（Scale）}：域间必须面向全球海量网络实现层次化前缀聚合，压缩转发表与更新开销；单 AS 内部规模小得多（过大时也可拆分成两个 AS）。
-\item \textbf{性能（Performance）}：域内无策略掣肘，可以全力追求最短时延/最小代价路径；域间常常为满足策略放弃更短路径（甚至没有统一链路代价，只有策略属性与 AS 跳数）。
+\item \textbf{策略（Policy）}：在自治系统之间（Inter-AS），各网络分属不同商业运营商或组织，管理员必须按商业结算与安全规则控制“本网发出的流量允许穿过哪些外部 AS”以及“是否允许别家流量借道本网中转”；而在单一自治系统内部（Intra-AS），全部路由器归同一机构统一管理，无需跨组织策略壁垒。
+\item \textbf{规模（Scale）}：两级层次化路由与前缀聚合大幅压缩了骨干转发表条目数和路由更新报文量，解决了平面路由无法扩展至全球数亿主机的问题。
+\item \textbf{性能（Performance）}：域内路由没有商业策略束缚，可专注按带宽与延迟指标寻找最短代价路径；而域间路由将商业策略置于纯路径长度之上。
 \end{enumerate}
 
+\textbf{English answer:} Different protocols are used because of \textbf{(1) Policy}: inter-AS routing requires administrative control over how traffic transits across autonomous organizations, whereas intra-AS networks are under a single administration; \textbf{(2) Scale}: hierarchical aggregation keeps forwarding tables and routing traffic manageable across the global Internet; and \textbf{(3) Performance}: intra-AS routing focuses purely on performance metrics, whereas inter-AS routing prioritizes policy over raw path cost.
 
-\StudyHeading{1}{P3. 四 AS 拓扑识别路由协议（OSPF / RIP / eBGP / iBGP）}
+
+\StudyHeading{1}{P3. 四自治系统拓扑识别前缀学习协议（OSPF、RIP、eBGP、iBGP）}
 \StudyTarget{CS5222-Tutorial10__p3}
 
-\textbf{题目 / Question：} 拓扑中前缀 $x$ 位于 \textbf{AS4} 内部；AS4 通过边界链路 $4a\text{–}3c$ 连入 \textbf{AS3}（跑 OSPF）；AS3 通过 $3a\text{–}1c$ 连入 \textbf{AS1}（跑 RIP）；AS1 通过 $1b\text{–}2a$ 连入 \textbf{AS2}（跑 OSPF）；AS2 与 AS4 间无直连链路。问下列路由器分别通过哪种协议获知外部前缀 $x$？
+\textbf{Original Question:} Consider the network shown below. Suppose AS3 and AS2 are running OSPF for their intra-AS routing protocol. Suppose AS1 and AS4 are running RIP for their intra-AS routing protocol. Suppose eBGP and iBGP are used for the inter-AS routing protocol. Initially suppose there is no physical link between AS2 and AS4, and prefix $x$ is attached to AS4 ($4c$). From which routing protocol (\texttt{OSPF, RIP, eBGP, or iBGP}) do routers \texttt{3c}, \texttt{3a}, \texttt{1c}, and \texttt{1d} learn about prefix $x$?
+
+\StudyImage{CS5222/course-notes/assets/tut10-bgp-as-topology.png}
+\StudyCaption{原创重绘 Tutorial 10 P3 四自治系统（AS1–AS4）拓扑：红实线为跨 AS 的物理 eBGP 链路，前缀 $x$ 挂接在 AS4 内部路由器 $4c$ 右侧。}
+
+\textbf{一步判别准则：}前缀 $x$ 属于 AS4，对 AS3 和 AS1 而言均属于\textbf{外部自治系统前缀}。OSPF 和 RIP 只负责各自 AS 内部路由器接口之间的可达性与代价，\textbf{从不直接搬运外部 AS 的 BGP 前缀通告}；外部前缀跨越 AS 边界靠 \textbf{eBGP}，进入本 AS 边界网关后再分发给本 AS 其他路由器一律靠 \textbf{iBGP}：
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.68\linewidth-1.33333\tabcolsep\relax}@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-路由器 & 获知协议 & 判别依据（口诀：跨 AS 传外部前缀 = eBGP；AS 内广播外部前缀 = iBGP！） \\
+小问与路由器 & 答案协议 & 路径与会话依据（中文 + English Explanation） \\
 \midrule\endfirsthead
-路由器 & 获知协议 & 判别依据（口诀：跨 AS 传外部前缀 = eBGP；AS 内广播外部前缀 = iBGP！） \\
+小问与路由器 & 答案协议 & 路径与会话依据（中文 + English Explanation） \\
 \midrule\endhead
 \bottomrule\endfoot
-(a) \textbf{3c} & \textbf{eBGP} & $3c$ 是 AS3 与 AS4 的边界网关，直接跨越 AS 边界从 $4a$ 通过 eBGP 学到外部前缀 $x$。 \\
-(b) \textbf{3a} & \textbf{iBGP} & $3a$ 与 $3c$ 同属 AS3，由 $3c$ 通过 AS3 内部的 iBGP 会话把外部前缀 $x$ 通告给 $3a$（\textbf{绝不是 OSPF！}OSPF 只管 AS3 内部拓扑代价，不传外部 BGP 前缀）。 \\
-(c) \textbf{1c} & \textbf{eBGP} & $1c$ 是 AS1 与 AS3 的边界网关，通过跨 AS 链路 $3a\text{–}1c$ 的 eBGP 会话从 $3a$ 学到 $x$。 \\
-(d) \textbf{1d} & \textbf{iBGP} & $1d$ 是 AS1 内部路由器，由边界网关 $1c$ 通过 AS1 内部的 iBGP 会话把 $x$ 通告给 $1d$（不是 RIP！）。 \\
+(a) Router \texttt{3c} & \textbf{eBGP} & \texttt{3c} 是 AS3 连向 AS4（\texttt{4a}）的边界网关，直接经跨 AS 链路 \texttt{4a–3c} 的 eBGP 会话获知 $x$。 / Learned directly from border router \texttt{4a} across the inter-AS link via \textbf{eBGP}. \\
+(b) Router \texttt{3a} & \textbf{iBGP} & \texttt{3a} 与 \texttt{3c} 同属 AS3，由网关 \texttt{3c} 经 AS3 内部 \textbf{iBGP} 会话告知外部前缀 $x$（非 OSPF）。 / Learned from AS3's own gateway \texttt{3c} via an internal \textbf{iBGP} session. \\
+(c) Router \texttt{1c} & \textbf{eBGP} & \texttt{1c} 是 AS1 连向 AS3（\texttt{3a}）的边界网关，经跨 AS 链路 \texttt{3a–1c} 的 \textbf{eBGP} 会话获知 $x$。 / Learned across the AS3–AS1 border link from \texttt{3a} via \textbf{eBGP}. \\
+(d) Router \texttt{1d} & \textbf{iBGP} & \texttt{1d} 是 AS1 内部路由器，由网关 \texttt{1c} 经 AS1 内部 \textbf{iBGP} 会话告知外部前缀 $x$（非 RIP）。 / Learned within AS1 from border router \texttt{1c} via \textbf{iBGP}. \\
 \end{longtable}\endgroup
 
 
-\StudyHeading{1}{P4. 哪种分组调度策略保证所有分组按到达顺序离开？}
+\StudyHeading{1}{P4. 保序出队的唯一分组调度策略}
 \StudyTarget{CS5222-Tutorial10__p4}
 
-\textbf{答案 / Answer：仅 FIFO（First-In, First-Out）。} Priority（优先级排队）会让后到的高优先级包插队；RR（轮询）与 WFQ（加权公平队列）都会在不同类别队列间切换，导致先到达某队列但排在后面的包晚于后到达空队列的包离开。
+\textbf{Original Question:} We studied FIFO, Priority, Round Robin (RR), and Weighted Fair Queueing (WFQ) packet scheduling disciplines. Which of these queueing disciplines ensure that all packets depart in the order in which they arrived?
 
-\textbf{English answer:} Only \textbf{FIFO} ensures that all packets depart in the exact order in which they arrived.
+\textbf{答案与理由：}只有 \textbf{FIFO（First-In, First-Out）}能保证所有分组严格按到达顺序离开。在 Priority 中，晚到的高优先级分组会排在早到的低优先级分组前面先发走；在 RR 和 WFQ 中，若第 1 类队列连续瞬间到达两个分组而第 2 类队列稍晚到达一个分组，调度器发完第 1 类首包后会切去服务第 2 类队列，同样打破全局到达先后顺序。
+
+\textbf{English answer:} Only \textbf{FIFO} guarantees that all packets depart in the exact order of arrival; Priority, RR, and WFQ can all reorder packets belonging to different classes/queues.
 
 
-\StudyHeading{1}{P5. RR 与 WFQ 的本质区别，及何时二者行为完全相同？}
+\StudyHeading{1}{P5. RR 与 WFQ 的核心区别及等价退化条件}
 \StudyTarget{CS5222-Tutorial10__p5}
 
-\textbf{答案 / Answer：}
-\begin{itemize}
-\item \textbf{本质区别}：\textbf{RR（Round Robin）}平等对待所有业务类别（无优先级与份额差异，轮流各服务 1 个分组）；\textbf{WFQ（Weighted Fair Queueing）}为每个类别 $i$ 赋予不同权重 $w_i$，使各类别在任意繁忙时段按权重比例 $w_i / \sum_j w_j$ 获得差异化的服务份额。
-\item \textbf{完全相同的特例}：当 WFQ 中\textbf{所有类别的权重 $w_i$ 完全相等}（且按同尺度分组服务）时，WFQ 退化为与 RR 完全一致！
-\end{itemize}
+\textbf{Original Question:} What is an essential difference between RR and WFQ packet scheduling? Is there a case where RR and WFQ will behave exactly the same? (Hint: Consider the WFQ weights.)
 
-\textbf{English answer:} RR treats all service classes equally, whereas WFQ allocates differential service proportional to class weights $w_i$. When all classes in WFQ are assigned \textbf{equal weights}, WFQ behaves identically to RR.
+\textbf{答案：}RR 对所有非空队列一视同仁，每轮每类公平轮转服务 1 个分组；WFQ 则为每个类别 $i$ 配置正权重 $w_i$，按权重占比 $w_i / \sum_j w_j$ 分配差异化的链路带宽份额。当 WFQ 中\textbf{所有类别的权重 $w_i$ 设为完全相等}（且分组大小一致）时，WFQ 的调度行为退化为与 RR 完全相同。
+
+\textbf{English answer:} RR treats every traffic class equally in cyclic turns, whereas WFQ assigns each class $i$ a weight $w_i$ to provide weighted bandwidth shares $w_i/\sum_j w_j$. WFQ behaves identically to RR when \textbf{all class weights in WFQ are equal}.
+
+\textbf{独立变式 / Check：}在 P3 图 6.3 中，当路由器 \texttt{1d} 已通过 iBGP 得知外部前缀 $x$ 的下一跳出口网关是 \texttt{1c} 后，\texttt{1d} 靠哪一种路由协议算出自己去往 \texttt{1c} 应走左接口 $I_1$ 还是右接口 $I_2$？ / Once \texttt{1d} learns via iBGP that \texttt{1c} is the NEXT-HOP for $x$, which protocol tells \texttt{1d} whether to use interface $I_1$ or $I_2$ to reach \texttt{1c}?
+
+\begin{StudySolution}{答案 / Answer}
+靠 AS1 自身的域内路由协议 \textbf{RIP}：iBGP 告诉 \texttt{1d} 出口网关的 IP 是 \texttt{1c}，而 AS1 内运行 RIP 比较 \texttt{1d}$\to$\texttt{1a}$\to$\texttt{1c}（接口 $I_1$）与 \texttt{1d}$\to$\texttt{1b}$\to$\texttt{1c}（接口 $I_2$）的域内跳数/代价来选定物理出端口。 / AS1's intra-AS routing protocol (\textbf{RIP}) determines the minimum-cost internal path from \texttt{1d} to border router \texttt{1c}.
+\end{StudySolution}
+
+来源：\texttt{tutorial-10\_semA2026.pdf}（2 页）与教师解答 \texttt{tutorial-10-solution\_semA2026.pptx}。

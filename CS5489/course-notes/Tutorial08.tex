@@ -1,0 +1,65 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Tutorial08}{Tutorial 8 · Dimensionality Reduction, Face Recognition and Denoising}
+\StudyTarget{CS5489-Tutorial08__root-section}
+
+\StudyRef{CS5489-Lecture08}{root}{Lecture 8：线性与核/流形降维} · \StudyRef{Foundations-MathForML}{eigen-svd}{数学补课：特征值与 SVD} · \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Tutorial07}{root}{上一份：Tutorial 7} · \StudyRef{CS5489-Tutorial09}{root}{下一份：Tutorial 9}
+
+
+\StudyHeading{1}{导读｜4096 维人脸图像，降到几十维后为什么既能认人又能滤除噪点？}
+\StudyTarget{CS5489-Tutorial08__overview}
+
+Tutorial 8（对应 \texttt{Lecture8/Tutorial8/Tutorial8.ipynb}，共 60 个单元，数据集 \texttt{olivetti\_py3.pkz}）把\StudyRef{CS5489-Lecture08}{pca}{Lecture 8}的三类代表性降维算法——正交全局主成分分析（\textbf{PCA}）、非负局部部件分解（\textbf{NMF}）与非线性核主成分分析（\textbf{KPCA}）——放在同一组 $64\times 64$ 人脸识别与图像去噪实验上做横向实测。这份实验覆盖了期末考试关于降维最爱追问的四个核心问题：基图像（basis images）长什么样、主成分个数 $K$ 怎么影响下游分类精度、KPCA 没有显式像素基向量时怎么可视化解释，以及线性子空间投影究竟擅长滤除哪一种噪声。
+
+
+\StudyHeading{1}{1. 数据集特征与严防测试集信息泄漏（第 1–11 单元）}
+\StudyTarget{CS5489-Tutorial08__data-split}
+
+Olivetti 人脸库包含 $40$ 位受试者（即 $40$ 个类别），每人拍摄 $10$ 张不同表情、朝向或戴眼镜与否的 $64\times 64$ 灰度照片，总样本数仅 $N = 400$，而展平后的像素维度高达 $D = 64\times 64 = 4{,}096$（典型的“高维小样本 $D \gg N$”场景，样本协方差矩阵秩至多为 $N_{\mathrm{train}} - 1$）。第 11 单元按 $80\%/20\%$ 随机切分得到 $\mathbf{X}_{\mathrm{train}} \in \mathbb{R}^{320 \times 4096}$ 与 $\mathbf{X}_{\mathrm{test}} \in \mathbb{R}^{80 \times 4096}$。
+
+\textbf{贯穿全篇的第一规范：}无论是 \StudyInline{PCA(\allowbreak{}n\_components=K)}、\StudyInline{NMF(\allowbreak{}n\_components=K)} 还是 \StudyInline{KernelPCA(\allowbreak{}n\_components=K,\allowbreak{} kernel='rbf',\allowbreak{} gamma=...)}，都必须只在训练集上调用 \StudyInline{fit\_\allowbreak{}transform(trainX)} 学习均值、基底或核矩阵特征向量，再对测试集调用 \textbf{\StudyInline{transform(testX)}} 计算低维投影编码——绝不能把 \StudyInline{trainX} 和 \StudyInline{testX} 拼在一起做 \StudyInline{fit}。
+
+
+\StudyHeading{1}{2. PCA 特征脸、NMF 部件基与 KPCA 原型组合的直观对比（第 12–51 单元）}
+\StudyTarget{CS5489-Tutorial08__pca-nmf-kpca}
+
+原 Notebook 依次要求可视化三种方法的低维基，并在投影后的低维特征上用交叉验证训练线性分类器（如逻辑回归或线性 SVM），扫描维度 $K$ 绘制测试准确率曲线：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.24}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.28\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.26\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.28\linewidth-1.50000\tabcolsep\relax}@{}}
+\toprule
+降维方法 & 基图像视觉形态（第 18/31/45 单元问点） & 数学约束与加减组合方式 & 分类表现与维度 $K$ 选择规律 \\
+\midrule\endfirsthead
+降维方法 & 基图像视觉形态（第 18/31/45 单元问点） & 数学约束与加减组合方式 & 分类表现与维度 $K$ 选择规律 \\
+\midrule\endhead
+\bottomrule\endfoot
+\textbf{PCA（Eigenfaces）} & 呈覆盖全脸的“幽灵状”全局轮廓（holistic ghostly faces）：前几阶反映整体左右/上下光照，后续阶强化眼眶、眼镜框、胡须与嘴型明暗对比 & 基向量两两正交（$\mathbf{W}^T\mathbf{W}=\mathbf{I}$），元素与权重\textbf{可正可负}，靠加减相消拼出任意人脸；有 SVD 闭式解 & $K$ 太小（$<10$）欠拟合丢身份细节；约 $K \in [30, 80]$ 达测试峰值（常超 $95\%$）；$K$ 过大把高频噪声带回分类器 \\
+\textbf{NMF（非负矩阵分解）} & 呈局部稀疏的器官部件（localized parts-based features）：每张基图只在眉毛、鼻梁、脸颊或嘴唇某一小块发亮，其余背景接近黑零 & 强制基底与编码\textbf{全部非负}（$\mathbf{W}\ge 0, \mathbf{H}\ge 0$），禁止正负抵消，只能做纯加法拼接；无闭式解，需迭代更新 & 局部可解释性强，但在相同中低维 $K$ 下，因缺少正交去相关且迭代受非凸初值影响，分类峰值通常略低于或接近最优 PCA/KPCA \\
+\textbf{KPCA（RBF / Poly 核）} & 隐式高维空间 $\phi(\mathbf{x})$ 的主方向无法直接画成一张 $64\times 64$ 像素图；第 42 单元通过展示对偶系数 $\alpha_{ij}$ 最正的 5 张与最负的 5 张训练人脸来解释（如“戴眼镜 vs 不戴眼镜”“仰头亮脸 vs 低头暗脸”两端极值） & 对中心化核矩阵 $\tilde{\mathbf{K}}$ 做特征分解，测试点通过与全体训练样本的核相似度加权投影 $\sum_i \tilde{\alpha}_{ij}\tilde{k}(\mathbf{x}_i, \mathbf{x}_*)$ & 当核参数 $\gamma$（如 $10^{-3}$ 量级）与 $K$ 调优得当时，能解开光照与姿态造成的弯曲流形，配合简单线性分类器即可达到全场最高或并列最高测试精度 \\
+\end{longtable}\endgroup
+
+（注：原 Notebook 第 51 单元关于“PCA 与 KPCA 异同”亦完全对应东莞 2024/25 样题 Q1b：两者同属寻找最大方差正交投影方向且对未见测试点支持直接前向映射的无监督谱分解方法；区别在于 PCA 在 $D$ 维原始输入空间找线性超平面、计算复杂度随 $D$ 扩展，而 KPCA 借助核技巧隐式映射到高维非线性特征空间提取非线性流形特征、需存储全部训练样本计算 $N\times N$ 核矩阵且无法直接做简单线性逆重构。）
+
+
+\StudyHeading{1}{3. 基于低维重构的图像去噪与 PSNR 评估（第 52–60 单元）}
+\StudyTarget{CS5489-Tutorial08__denoising}
+
+第 52–60 单元演示用降维做人脸图像去噪（image denoising）：给干净测试人脸 $\mathbf{x}$ 人工叠加噪声得到受损图 $\mathbf{x}_{\mathrm{noisy}}$，先编码到低维主子空间 $\mathbf{z} = \texttt{pca.transform}(\mathbf{x}_{\mathrm{noisy}})$，再逆投影回原像素空间 $\hat{\mathbf{x}} = \texttt{pca.inverse\_transform}(\mathbf{z}) = \boldsymbol{\mu} + \mathbf{W}_K \mathbf{W}_K^T (\mathbf{x}_{\mathrm{noisy}} - \boldsymbol{\mu})$，并用\textbf{峰值信噪比（Peak Signal-to-Noise Ratio, PSNR，单位 dB，越高越清晰）}定量评价修复质量：
+\[
+\mathrm{PSNR}(\mathbf{x}, \hat{\mathbf{x}}) = 10 \log_{10}\!\left(\frac{\mathrm{MAX}_I^2}{\mathrm{MSE}(\mathbf{x}, \hat{\mathbf{x}})}\right), \qquad \mathrm{MSE} = \frac{1}{D}\|\mathbf{x} - \hat{\mathbf{x}}\|_2^2.
+\tag{T8.1}
+\]
+
+\textbf{原课压轴思考题解析（第 60 单元）：线性降维最擅长处理哪一种噪声？为什么？}
+\begin{itemize}
+\item \textbf{擅长处理：全维度零均值加性高斯白噪声（Additive Isotropic Gaussian Noise）}。因为真实人脸信号高度集中在前 $K \ll D$（如 $K=50$）个高方差主成分方向上，而各向同性高斯白噪声的能量均匀摊薄在全部 $D = 4{,}096$ 个正交方向上；把图像投影到前 $K$ 维子空间并丢弃后 $D - K = 4{,}046$ 个尾部方向，直接滤掉了 $(D-K)/D \approx 98.8\%$ 的高斯噪声能量，同时保留了绝大部分人脸主体结构，使 PSNR 大幅回升。
+\item \textbf{不擅长处理：大面积结构化遮挡（如黑块墨镜遮挡）或高幅值椒盐脉冲异常值（Salt-and-Pepper Outliers）}。因为标准 PCA 最小化的是平方重构误差 $\ell_2^2$，对极端离群像素毫不鲁棒；大块遮挡或极端黑白坏点具有很强的空间能量或单点剧烈偏差，在计算内积 $\mathbf{W}_K^T(\mathbf{x}_{\mathrm{noisy}}-\boldsymbol{\mu})$ 时会严重拉偏前 $K$ 个主成分权重 $\mathbf{z}$，导致重构出的整张脸被涂抹变暗或残留伪影（应对此类损坏需改用鲁棒 L1-PCA 或\StudyRef{CS5489-Lecture10}{dae-mae-unet}{Lecture 10 的去噪/掩码自编码器 DAE/MAE}）。
+\end{itemize}
+
+\textbf{双语自测 / Check：}在做 PCA 去噪实验时，如果把保留的主成分个数设成最大可能值（例如 $K = \min(N_{\mathrm{train}}, D)$，保留 100\% 方差），去噪效果会变好还是完全失效？ / What happens to PCA denoising if we keep all principal components (100\% variance)?
+
+\begin{StudySolution}{答案 / Answer}
+去噪会明显恶化（当 $K = D$ 时 $\mathbf{W}_D \mathbf{W}_D^T = \mathbf{I}$，重构输出 $\hat{\mathbf{x}} = \mathbf{x}_{\mathrm{noisy}}$ 原封不动保留了 100\% 的噪声，彻底失去滤波作用）。PCA 去噪恰恰依赖截断丢弃由噪声主导的低特征值尾部子空间，因此 $K$ 存在折中甜点：太小则五官模糊（欠拟合信号），太大则放进高频噪点（过拟合噪声）。 / Keeping all components fails to denoise because noise living in the trailing low-variance eigenvectors is reconstructed back into $\hat{\mathbf{x}}$; effective denoising requires truncating $K$ to retain signal directions while discarding noise-dominated tail directions.
+\end{StudySolution}
+
+来源：2026 学期 \texttt{Lecture8/Tutorial8/Tutorial8.ipynb}（第 1–60 单元）。

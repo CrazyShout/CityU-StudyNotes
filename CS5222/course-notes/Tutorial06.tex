@@ -3,95 +3,115 @@
 \StudyChapter{CS5222-Tutorial06}{Tutorial 6 · GBN/SR 流水线确认、TCP 序号/确认号与 RTO 估算}
 \StudyTarget{CS5222-Tutorial06__root-section}
 
-\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{配套章节：Chapter 3 Part 3} · \StudyRef{CS5222-Tutorial05}{root}{上一份：Tutorial 5} · \StudyRef{CS5222-Tutorial07}{root}{下一份：Tutorial 7}
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03}{root}{Chapter 3 Part 1–2} · \StudyRef{CS5222-Chapter03Part3}{root}{Chapter 3 Part 3} · \StudyRef{CS5222-Tutorial05}{root}{上一份：Tutorial 5} · \StudyRef{CS5222-Tutorial07}{root}{下一份：Tutorial 7}
 
-\StudyHeading{1}{本节定位｜全卷 4 题对应 Chapter 3 可靠传输核心计算}
+\StudyHeading{1}{导读｜对照比较包级确认（GBN/SR）与字节级确认（TCP）}
 \StudyTarget{CS5222-Tutorial06__overview}
 
-Tutorial 6 覆盖 GBN 与 SR 的确认机制差异、TCP 字节序号与累积确认、丢失 ACK 引发的超时重传时序图，以及 $\mathrm{EstimatedRTT}/\mathrm{DevRTT}/\mathrm{TimeoutInterval}$ 三步递推计算。全部结果已对照教师解答 \StudyInline{tutorial-6-solution\_semA2026} 并经 Python 独立校验。
+Tutorial 6 共四道题，衔接\StudyRef{CS5222-Chapter03}{windows}{Chapter 3 Part 1–2 的 GBN/SR 与 RTO}及\StudyRef{CS5222-Chapter03Part3}{tcp-rdt}{Chapter 3 Part 3 的 TCP 重传机制}：Q1 比较单个流水线分组丢失后 GBN 累积确认与 SR 选择确认的反馈序列；Q2 练习 TCP 按字节编号、回程源/目的端口对调、乱序到达确认号及丢失 ACK 的超时重传时序；Q3–Q4 一步步递推计算 $\mathrm{EstimatedRTT}$、$\mathrm{DevRTT}$ 与 $\mathrm{TimeoutInterval}$。不熟字节左闭右开计数可先回看\StudyRef{Foundations-NetworkBasics}{messages}{Network Basics §4 植树边界说明}。全部解答已与本学期教师解答课件 \texttt{tutorial-6-solution\_semA2026.pptx} 核对一致。
 
 
-\StudyHeading{1}{Q1. GBN vs. SR 流水线确认序列（pkt6 丢失）}
+\StudyHeading{1}{Q1. GBN 与 SR 流水线确认序列对比（pkt6 丢失）}
 \StudyTarget{CS5222-Tutorial06__q1}
 
-\textbf{题目 / Question：} 考虑窗口大小 $N=8$ 的流水线协议，发送方依次发出 $\mathrm{pkt0}, \mathrm{pkt1}, \dots, \mathrm{pkt7}$，其中 $\mathrm{pkt6}$ 丢失（信道不乱序）。(a) 若运行 \textbf{GBN}，发送方将收到哪些 ACK？（选项 A–D） (b) 若运行 \textbf{SR}，发送方将收到哪些 ACK？
-
+\textbf{Original Question:} Consider the GBN protocol with a sender window size of 8. Suppose that the sender has sent packets $\mathrm{pkt0}, \mathrm{pkt1}, \dots, \mathrm{pkt7}$ in the pipeline, and $\mathrm{pkt6}$ is lost during transmission (i.e., $\mathrm{pkt6}$ fails to arrive at the receiver). Assume that the medium does not reorder messages.
 \begin{itemize}
-\item \textbf{(a) GBN 答案：A）\StudyInline{ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK5}（共 7 个 ACK）。}
-  \textbf{解析：} GBN 使用\textbf{累积确认}且接收方不缓存乱序包。$\mathrm{pkt0}\text{–}\mathrm{pkt5}$ 依次到达分别触发 \StudyInline{ACK0}–\StudyInline{ACK5}；$\mathrm{pkt6}$ 丢失无响应；$\mathrm{pkt7}$ 到达时接收方仍期待 6，于是丢弃 $\mathrm{pkt7}$ 并重发最近按序收到的 \textbf{\StudyInline{ACK5}}（共 7 个 ACK，不要错选多一个 \StudyInline{ACK5} 的 B）。
-\item \textbf{(b) SR 答案：C）\StudyInline{ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK7}（共 7 个 ACK）。}
-  \textbf{解析：} SR 使用\textbf{选择确认（独立确认）}并缓存窗口内乱序到达的分组。$\mathrm{pkt6}$ 丢失无 ACK；$\mathrm{pkt7}$ 到达后接收方将其缓存并直接发回 \textbf{\StudyInline{ACK7}}，等后续 $\mathrm{pkt6}$ 超时重传到达后再把 6、7 一起交付上层。
+\item \textbf{(a)} Please list all the ACKs that the sender will receive for the pipelined 8 packets from the receiver. \\
+\texttt{A) ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK5} \\
+\texttt{B) ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK5, ACK5} \\
+\texttt{C) ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK7} \\
+\texttt{D) ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK7, ACK7}
+\item \textbf{(b)} If the SR protocol is running, what will be your answer again?（选项 A–D 同上。）
 \end{itemize}
 
-\textbf{English answer:} (a) \textbf{A} (\StudyInline{ACK0..ACK5, ACK5}) because GBN uses cumulative ACKs and discards out-of-order \StudyInline{pkt7}, resending \StudyInline{ACK5}. (b) \textbf{C} (\StudyInline{ACK0..ACK5, ACK7}) because SR individually ACKs and buffers out-of-order \StudyInline{pkt7}.
+\textbf{分步解析：}发送方共发出 $8$ 个分组，其中 $\mathrm{pkt6}$ 在途中丢失，因此真正抵达接收方的分组只有 \textbf{$7$ 个}（$\mathrm{pkt0}..\mathrm{pkt5}$ 与 $\mathrm{pkt7}$），接收方总共只会发出 $7$ 个 ACK（据此可直接排除含 8 个 ACK 的选项 B 和 D）：
+\begin{itemize}
+\item \textbf{(a) GBN 选 A（\texttt{ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK5}）}：GBN 使用累积确认且接收端无乱序缓存。前 6 个包按序到达依次触发 \texttt{ACK0} 至 \texttt{ACK5}；随后 $\mathrm{pkt7}$ 到达时，接收方仍在等待序号 $6$，故丢弃乱序的 $\mathrm{pkt7}$，并重发最近按序收妥分组的确认号 \texttt{ACK5}。
+\item \textbf{(b) SR 选 C（\texttt{ACK0, ACK1, ACK2, ACK3, ACK4, ACK5, ACK7}）}：SR 对每个正确到达的窗口内分组独立确认并缓存乱序包。$\mathrm{pkt7}$ 到达后，接收方将其暂存入接收缓存，直接发回单包确认 \texttt{ACK7}，等待日后 $\mathrm{pkt6}$ 重传补齐后再将 6、7 一并上交应用层。
+\end{itemize}
+
+\textbf{English answer:} (a) \textbf{A}: 7 packets arrive; GBN discards out-of-order $\mathrm{pkt7}$ and re-sends cumulative \texttt{ACK5}. (b) \textbf{C}: SR buffers out-of-order $\mathrm{pkt7}$ and sends individual \texttt{ACK7}.
 
 
-\StudyHeading{1}{Q2. TCP 连续报文段序号、端口交换、乱序 ACK 与超时时序图}
+\StudyHeading{1}{Q2. TCP 背靠背报文段序号、端口方向、乱序确认与超时时序图}
 \StudyTarget{CS5222-Tutorial06__q2}
 
-\textbf{题目 / Question：} 主机 A 向 B 经 TCP 发送数据，B 已按序收到字节 0–126。A 紧接着背靠背发送两段：第 1 段含 \textbf{80 B}（\StudyInline{Seq=127, SrcPort=302, DstPort=80}），第 2 段含 \textbf{40 B}。B 每收到一段即回 ACK。
+\textbf{Original Question:} Host A and B are communicating over a TCP connection, and Host B has already received from A all bytes up through byte 126. Suppose Host A then sends two segments to Host B back-to-back. The first and second segments contain 80 and 40 bytes of data, respectively. In the first segment, the sequence number is 127, the source port number is 302, and the destination port number is 80. Host B sends an acknowledgement whenever it receives a segment from Host A.
+\begin{itemize}
+\item \textbf{(a)} In the second segment sent from Host A to B, what are the sequence number, source port number, and the destination port number? \\
+\texttt{A) 206, 80, 302 \quad B) 206, 302, 80 \quad C) 207, 80, 302 \quad D) 207, 302, 80}
+\item \textbf{(b)} If the first segment arrives before the second segment, in the acknowledgement of the first arriving segment, what is the acknowledgement number, the source port number, and the destination port number? \\
+\texttt{A) 206, 80, 302 \quad B) 206, 302, 80 \quad C) 207, 80, 302 \quad D) 207, 302, 80}
+\item \textbf{(c)} If the second segment arrives before the first segment, in the acknowledgement of the first arriving segment, what is the acknowledgement number? \\
+\texttt{A) 127 \quad B) 207 \quad C) 246 \quad D) 247}
+\item \textbf{(d)} Suppose the two segments sent by A arrive in order at B. The first acknowledgement is lost and the second acknowledgement arrives after the first timeout interval. Draw a timing diagram, showing these segments and all other segments and acknowledgements sent (assume no additional packet loss). For each segment, provide the sequence number and number of bytes; for each acknowledgement, provide the acknowledgement number.
+\end{itemize}
 
+\textbf{分步解析：}
 \begin{enumerate}
-\item \textbf{(a) 第 2 段的 Seq、源端口、目的端口：D）\StudyInline{207, 302, 80}。}
-  第 1 段占据字节 $127$ 到 $127+80-1=206$，故第 2 段首字节序号为 $127+80=\mathbf{207}$；方向仍为 A$\to$B，端口保持 \StudyInline{302 -> 80}。
-\item \textbf{(b) 第 1 段先到时，B 回复该段的 ACK 号、源端口、目的端口：C）\StudyInline{207, 80, 302}。}
-  B 已收齐至字节 206，下一期待字节为 \textbf{207}；回程方向 B$\to$A，源/目的端口互换为 \StudyInline{80 -> 302}。
-\item \textbf{(c) 第 2 段先于第 1 段到达时，B 回复该段的 ACK 号：A）\StudyInline{127}。}
-  TCP 使用\textbf{累积确认}（只确认到第一个缺失字节为止）。字节 127–206 尚未到，即使先收到了 207–246，B 仍必须填 \textbf{\StudyInline{ACK=127}}！
-\item \textbf{(d) 第 1、2 段按序到达 B，但第 1 个 ACK（ACK=207）丢失，且第 2 个 ACK（ACK=247）在第 1 段的超时计时器触发后才回到 A。画出完整收发时序图。}
+\item \textbf{(a) 选 D（\texttt{207, 302, 80}）}：第 1 段起始序号为 $127$、长 $80\text{ B}$，覆盖字节区间 $127..206$；故第 2 段首字节序号为 $127 + 80 = \mathbf{207}$。该段仍由 A 发往 B，源端口保持 \texttt{302}、目的端口保持 \texttt{80}。
+\item \textbf{(b) 选 C（\texttt{207, 80, 302}）}：第 1 段先到达 B 后，B 已连续收妥至字节 $206$，期望的下一字节序号为 $\mathbf{207}$；该确认段由 B 发回 A，源端口与目的端口对调为 \texttt{SrcPort = 80, DstPort = 302}。
+\item \textbf{(c) 选 A（\texttt{127}）}：若第 2 段（字节 $207..246$）先于第 1 段到达，字节 $127..206$ 仍存在缺口；按 TCP 累积确认规则，B 只能确认连续无缺口前缀的下一期待字节，即发回冗余确认 \texttt{ACK = 127}。
+\item \textbf{(d) 超时重传与迟到累积确认时序图}：两段按序抵达 B（分别覆盖 $127..206$ 与 $207..246$），B 依次发出 \texttt{ACK=207}（途中丢失）和 \texttt{ACK=247}（在 A 超时之后才抵达 A）。A 在超时时刻只重传最早未确认段（\texttt{Seq=127, 80 bytes}）；当该重传段抵达 B 时，B 早已收齐至字节 $246$，故丢弃重复数据并再次发回累积确认 \texttt{ACK=247}：
 \end{enumerate}
 
 \begin{StudyCode}
-Host A (port 302)                                Host B (port 80)
-  | --- Seg 1: Seq=127, 80 bytes --------------> |  (rcvd bytes 127..206)
-  | --- Seg 2: Seq=207, 40 bytes --------------> |  (rcvd bytes 207..246)
-  |               X <--- ACK = 207 (lost!) ----- |  (ack for Seg 1 lost)
-  |  [timer for Seg 1 expires -> timeout!]       |
-  | --- Retransmit Seg 1: Seq=127, 80 bytes ---> |  (duplicate! B already has ..246)
-  | <-------------- ACK = 247 (arrives late) --- |  (original ack for Seg 2 arrives!)
-  |   [A cancels timer; bytes up to 246 ACKed]   |
-  | <-------------- ACK = 247 (for retrans) ---- |  (B replies cumulative ACK=247)
+Host A (port 302)                                   Host B (port 80)
+  | --- Seg 1: Seq = 127, 80 bytes ---------------> |  (receives bytes 127..206)
+  | --- Seg 2: Seq = 207, 40 bytes ---------------> |  (receives bytes 207..246)
+  |                  X <--- ACK = 207 (lost) ------ |
+  |  [Timeout for Seq = 127 occurs before ACK=247]  |
+  | --- Retransmit: Seq = 127, 80 bytes ----------> |  (duplicate; B already has ..246)
+  | <----------------- ACK = 247 (arrives after TO) |  (A advances SendBase to 247)
+  | <----------------- ACK = 247 (reply to retrans) |
 \end{StudyCode}
 
-\textbf{考场防丢分要点：} (1) A 超时只重传最早未确认段（\StudyInline{Seq=127, 80 bytes}），不必重传第 2 段；(2) B 收到重复的 Seg 1 后发现自己早已收齐到字节 246，因此再次回复累积确认 \textbf{\StudyInline{ACK=247}}，绝不是 207！
+\textbf{English answer for (d):} A sends \texttt{(Seq=127, 80B)} and \texttt{(Seq=207, 40B)}; B replies \texttt{ACK=207} (lost) and \texttt{ACK=247} (delayed past A's timeout). On timeout, A retransmits only the oldest unacknowledged segment \texttt{(Seq=127, 80B)}; after \texttt{ACK=247} arrives A's window advances to 247, and B responds to the duplicate segment with another cumulative \texttt{ACK=247}.
 
 
-\StudyHeading{1}{Q3. TCP 超时间隔（TimeoutInterval）公式}
+\StudyHeading{1}{Q3. TCP 超时间隔（TimeoutInterval）计算公式}
 \StudyTarget{CS5222-Tutorial06__q3}
 
-\textbf{题目 / Question：} 已知 $\mathrm{EstimatedRTT}$ 和 $\mathrm{DevRTT}$，TCP 应如何设置 $\mathrm{TimeoutInterval}$？
+\textbf{Original Question:} Given values of \texttt{EstimatedRTT} and \texttt{DevRTT}, what value should be used for TCP's timeout interval value?
 
-\textbf{答案 / Answer：}
+\textbf{答案与机制解释：}TCP 将超时间隔设为平滑往返时间估计加上四倍偏差裕度：
 \[
 \mathrm{TimeoutInterval} = \mathrm{EstimatedRTT} + 4 \cdot \mathrm{DevRTT}.
 \tag{T6.1}
 \]
-其中 $\mathrm{EstimatedRTT}$ 是平滑均值，而 $4\cdot\mathrm{DevRTT}$ 是安全裕度（safety margin）：当 RTT 波动剧烈时安全裕度自动放大避免虚假超时，RTT 平稳时安全裕度自动缩小加快真实丢包检测。
+当网络排队平稳时 $\mathrm{DevRTT}$ 很小，超时间隔紧贴 $\mathrm{EstimatedRTT}$ 以便迅速感知丢包；当网络抖动剧烈时 $4\cdot\mathrm{DevRTT}$ 自动拉开安全裕度，防止尚在路上的正常报文引发虚假超时重传。
 
-\textbf{English answer:} $\mathrm{TimeoutInterval} = \mathrm{EstimatedRTT} + 4\cdot\mathrm{DevRTT}$, adding a fluctuation-adaptive safety margin to the smoothed RTT estimate.
+\textbf{English answer:} $\mathrm{TimeoutInterval} = \mathrm{EstimatedRTT} + 4\cdot\mathrm{DevRTT}$, combining the smoothed average RTT with four times the mean absolute RTT deviation as a fluctuation-adaptive safety margin.
 
 
-\StudyHeading{1}{Q4. 三次 SampleRTT 递推算 EstimatedRTT、DevRTT 与 TimeoutInterval}
+\StudyHeading{1}{Q4. 三轮 SampleRTT 逐步递推估算 TimeoutInterval}
 \StudyTarget{CS5222-Tutorial06__q4}
 
-\textbf{题目 / Question：} 初始 $\mathrm{EstimatedRTT}=100\text{ ms}$，$\mathrm{DevRTT}=5\text{ ms}$，$\alpha=0.125$，$\beta=0.25$。连续测得 3 个样本 $\mathrm{SampleRTT} = 106\text{ ms},\; 120\text{ ms},\; 140\text{ ms}$，求每次更新后的三项指标及第 3 次后的 $\mathrm{TimeoutInterval}$（选项 A–D）。
+\textbf{Original Question:} Suppose that the three measured \texttt{SampleRTT} values are $106\text{ ms},\; 120\text{ ms},\; 140\text{ ms}$. Compute \texttt{EstimatedRTT} after each sample using $\alpha = 0.125$ (initial $\mathrm{EstimatedRTT} = 100\text{ ms}$), \texttt{DevRTT} after each sample using $\beta = 0.25$ (initial $\mathrm{DevRTT} = 5\text{ ms}$), and the TCP \texttt{TimeoutInterval} after each sample. What is the value of \texttt{TimeoutInterval} after the three measured \texttt{SampleRTT}? \\
+\texttt{A) 135 ms \quad B) 147 ms \quad C) 150 ms \quad D) 164 ms}
 
-\textbf{递推公式：}
-$\mathrm{EstimatedRTT} \leftarrow 0.875\,\mathrm{EstimatedRTT} + 0.125\,\mathrm{SampleRTT}$，
-$\mathrm{DevRTT} \leftarrow 0.75\,\mathrm{DevRTT} + 0.25\,|\mathrm{SampleRTT} - \mathrm{EstimatedRTT}_{\text{new}}|$（注意用\textbf{刚更新完的新 $\mathrm{EstimatedRTT}$}！）。逐轮代入（Python 精确验证）：
+\textbf{逐步递推顺序：}按标准课件定义（Chapter 3 Part 2 第 25–26 页），每收到一个新测量值 $S$，先用 $\mathrm{EstimatedRTT}_{\mathrm{new}} = (1-\alpha)\mathrm{EstimatedRTT}_{\mathrm{old}} + \alpha S$ 算出新均值，再用更新后的新均值代入 $\mathrm{DevRTT}_{\mathrm{new}} = (1-\beta)\mathrm{DevRTT}_{\mathrm{old}} + \beta\,|S - \mathrm{EstimatedRTT}_{\mathrm{new}}|$，最后合成 $\mathrm{TimeoutInterval} = \mathrm{EstimatedRTT}_{\mathrm{new}} + 4\,\mathrm{DevRTT}_{\mathrm{new}}$：
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.23\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.60000\tabcolsep\relax}@{}}
 \toprule
-样本轮次 & SampleRTT & EstimatedRTT (ms) & DevRTT (ms) & TimeoutInterval (ms) \\
+更新阶段 & SampleRTT & EstimatedRTT (ms) & DevRTT (ms) & TimeoutInterval (ms) \\
 \midrule\endfirsthead
-样本轮次 & SampleRTT & EstimatedRTT (ms) & DevRTT (ms) & TimeoutInterval (ms) \\
+更新阶段 & SampleRTT & EstimatedRTT (ms) & DevRTT (ms) & TimeoutInterval (ms) \\
 \midrule\endhead
 \bottomrule\endfoot
-初始值 & — & $100$ & $5$ & $120$ \\
-第 1 次 & $106\text{ ms}$ & $0.875(100)+0.125(106)=\mathbf{100.75}$ & $0.75(5)+0.25|106-100.75|=\mathbf{5.0625}$ & $100.75+4(5.0625)=\mathbf{121.00}$ \\
-第 2 次 & $120\text{ ms}$ & $0.875(100.75)+0.125(120)=\mathbf{103.15625}$ & $0.75(5.0625)+0.25|120-103.15625|=\mathbf{8.0078125}$ & $103.15625+4(8.0078125)=\mathbf{135.1875}$ \\
-第 3 次 & $140\text{ ms}$ & $0.875(103.15625)+0.125(140)=\mathbf{107.7617}$ & $0.75(8.0078)+0.25|140-107.7617|=\mathbf{14.0654}$ & $107.7617+4(14.0654)=\mathbf{164.0234}$ \\
+初始状态 & — & $100$ & $5$ & $120$ \\
+样本 1 后 & $106\text{ ms}$ & $0.875(100)+0.125(106)=\mathbf{100.75}$ & $0.75(5)+0.25|106-100.75|=\mathbf{5.0625}$ & $100.75+4(5.0625)=\mathbf{121.00}$ \\
+样本 2 后 & $120\text{ ms}$ & $0.875(100.75)+0.125(120)=\mathbf{103.15625}$ & $0.75(5.0625)+0.25|120-103.15625|=\mathbf{8.0078125}$ & $103.15625+4(8.0078125)=\mathbf{135.1875}$ \\
+样本 3 后 & $140\text{ ms}$ & $0.875(103.15625)+0.125(140)=\mathbf{107.7617}$ & $0.75(8.0078)+0.25|140-107.7617|=\mathbf{14.0654}$ & $107.7617+4(14.0654)=\mathbf{164.0234}$ \\
 \end{longtable}\endgroup
 
-\textbf{最终答案：D）164 ms}（精确值 $164.0234\text{ ms}$）。
+\textbf{最终选项 / English answer:} \textbf{D) 164 ms} (exact value $164.023\text{ ms}$ after the third sample).
+
+\textbf{独立变式 / Check：}若紧接着第 4 次由于超时重传才收到确认，TCP 是否应该用这次从初发算到重传确认的时间去更新 $\mathrm{EstimatedRTT}$？ / Should TCP update $\mathrm{EstimatedRTT}$ using a sample from a retransmitted segment?
+
+\begin{StudySolution}{答案 / Answer}
+\textbf{不应该（No，Karn 算法规则）。}因为发送方无法分辨该 ACK 对应的究竟是最初发出的原段还是刚刚发出的重传段，拿重传段测样本会严重污染 $\mathrm{EstimatedRTT}$；TCP 只对未经历重传的报文段采样更新 RTT，并在超时重传时直接令超时间隔加倍。 / No: TCP does not measure \texttt{SampleRTT} for retransmitted segments because it cannot tell whether the ACK replies to the original or the retransmitted transmission.
+\end{StudySolution}
+
+来源：\texttt{tutorial-6\_semA2026.pdf}（2 页）与教师解答 \texttt{tutorial-6-solution\_semA2026.pptx}。

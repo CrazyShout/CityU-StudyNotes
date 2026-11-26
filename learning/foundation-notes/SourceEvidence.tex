@@ -4,12 +4,12 @@
 \StudyTarget{Foundations-SourceEvidence__sources-and-priorities}
 
 
-\StudyRepoRef{CS5489/course-notes/README.md}{}{CS5489目录} · \StudyRepoRef{CS5222/course-notes/README.md}{}{CS5222目录}
+\StudyRepoRef{CS5489/course-notes/README.md}{}{CS5489目录} · \StudyRepoRef{CS5222/course-notes/README.md}{}{CS5222目录} · \StudyRepoRef{README.md}{}{全仓总览}
 
 
-遇到“这部分为什么要学”或“这道题来自哪一份材料”时，再回查本篇。下面依次区分当前课程、历史材料和整理者补充；具体单元与页码仍在各讲末尾的覆盖索引中查找。
+遇到“这部分为什么要学”“这道题来自哪一份材料”或“哪些内容属于期末免考但平时仍可参考”时，可回查本篇。下面依次区分本学期当前课程材料、历史真题与样题证据，以及整理者补充的教学算例；具体单元与页码仍在各讲末尾的来源覆盖索引中查找。
 
-\textbf{材料核对：当前Canvas范围截至2026-10-03；历史题映射更新至2026-10-09。} 学习优先级和理解难度分别标注：核心必会表示它支撑当前课程目标或配套任务；高难度表示需要更多推理台阶。复杂不自动等于高频考点，缺少历史题证据也不等于不考。
+\textbf{材料核对：两门课全学期 Canvas 范围与历史真题映射均已更新至 2026-11-26。} 学习优先级和理解难度分开标注：“核心必会”表示该知识点直接支撑当前课程目标、配套实验或作业推导；“高难度”表示需要更多数学或协议状态机铺垫。理解步骤多并不自动等于高频考题，某一部分暂无历史真题记录也不等于不考。
 
 
 
@@ -17,13 +17,11 @@
 \StudyTarget{Foundations-SourceEvidence___1}
 
 
-CS5489目前下载到Lecture1–5、Tutorial1–4和Assignment1–2；网络课目前为Chapter1–2完整件、Chapter3的part1–2、Tutorial1–5、Assignment1和Research Report。整讲正文按当前源顺序，来源索引定位每个单元/页段。数据、代码、图片附件随所属任务归入，不独立算一讲。
+\textbf{CS5489（机器学习）当前全学期材料}覆盖 Lecture 1–12 全部课件与课堂 Notebook、Tutorial 1–9（其中 Tutorial 1–4 附带保存输出的配套可执行 Notebook，Tutorial 5–9 以原生讲义完整拆解实验数据流、算法对比与评分问题）以及 Assignment 1–2。整讲正文严格贴合教师授课顺序，章末来源索引逐一对应原 Notebook 单元或 PDF 页段。
 
+\textbf{CS5222（计算机网络）当前全学期材料}覆盖 Chapter 1–7 完整课件（含 Chapter 3 Part 3、课堂问答专题 Q\&A\_cha1 至 cha5 及 Dijkstra 算法拆解课件）、Tutorial 1–12（含 Tutorial 1–11 教师解答课件）、Assignment 1–3（含已发布标准解答对照）及 Research Report 指南。分卷 PPT 与整章合并版 PPT、课堂 Notebook 与导出 PDF 按同一教学内容对应，重复副本不额外虚增范围；文件版本与哈希清单见\StudyRepoRef{docs/source-materials.json}{}{来源清单}。
 
-Notebook/PDF/PPT的文件版本与单元或页数见\StudyRepoRef{docs/source-materials.json}{}{来源清单}。网络part副本与完整PPT、Lecture2的Notebook与PDF按同一教学内容对应；重复副本不增加课程范围。
-
-
-以下不计为当前已经有正文：CS5489 Lecture5对应Tutorial；CS5222 Chapter2早期目录中的独立FTP讲解；两门课后续尚未下载的章节与作业。Overview/Intro列出的学期路线只说明计划，不证明资料已提供。
+\textbf{明确的范围边界与考纲说明：}其一，各章大纲页曾提及但 2026 正文课件明确略去的段落（如 CS5222 Chapter 2 早期目录中的独立 FTP 小节、Chapter 5 的 SDN 控制面与网络管理独立节、Chapter 6 的数据中心与 VLAN/MPLS、Chapter 7 的 CDMA 码片展开计算）在相应章节注明“本学期未展开”，不混充课堂正文。其二，依据 CS5222 期末考前公告，期末闭场开卷笔试允许携带纸质讲义与合规计算器，\textbf{严禁携带教材原书或教材原书页面打印节选}；同时 \textbf{Socket 编程与 Wireshark 抓包实验不纳入期末笔试范围}（讲义中保留相应章节并醒目标注免考提示，仅供课程实验与后续科研查阅）。
 
 
 
@@ -41,23 +39,15 @@ Notebook/PDF/PPT的文件版本与单元或页数见\StudyRepoRef{docs/source-ma
 证据 & 核对结果与可用位置 & 不能推断的结论 \\
 \midrule\endhead
 \bottomrule\endfoot
-ML sample\_final\_questions.docx & 封面明确CITY UNIVERSITY OF HONG KONG (DONGGUAN)、Semester A 2024/25、Sample Questions。Q2a问ridge优缺点，Q3a用正则LR学习曲线诊断，Q4a讨论不平衡，Q4b要求约束优化及dual；可辅助Lecture3/4英文解释与迁移训练 & 样题不是真实试卷；东莞不等于香港；不能推出“每年必考”或确认QE范围；该文件未直接确认教师姓名 \\
-ML Home\_Assignments\_1.pdf & 文件日期为2024年，Ex2用于练习更换分布后的MLE推导；教师/校区未由文件内信息确认 & 不把另一个分布的历史任务改成本学期新要求 \\
-CS5222 review.docx & 是整理笔记，开头覆盖edge、交换、时延、分层，之后涉及应用协议；已核对这些相关部分。未在文件开头找到可确认年份、教师、校区的封面 & 不是官方考纲或评分答案，不能计入真题频率 \\
+CS5489 历年真题库（6 套期中 + 3 套期末） & 经哈希与题面逐题去重：6 套独立期中（2020B、2021A、2021B*、2023A、2023B、2025A，归并为 67 题，见\StudyRepoRef{CS5489/exam-review/Midterm/README.md}{}{期中题库}）与 3 套香港本部独立期末（2020B、2021A、2021B，共 39 题，整理版见\StudyRepoRef{CS5489/exam-review/Final/CS5489-Final-Combined.pdf}{}{期末真题双语合订本}）。公开镜像仓中的同名试卷均已确认为同源副本 & 历史频率只反映 2020–2025 已获取试卷；2026 新增的 Lecture 11–12（LLM 与 VLM）无旧卷记录，须直接按本学期课件与手算模型准备 \\
+ML sample\_final\_questions.docx 与 Home\_Assignments\_1/3/4 & 样题封面明确标注 CITY UNIVERSITY OF HONG KONG (DONGGUAN)、Semester A 2024/25、Sample Questions：Q1 比较 MLP/CNN、PCA/KPCA、降维/特征选择，Q2–Q4 考查 Ridge、朴素贝叶斯、Mini-batch SGD、学习曲线诊断、均匀分布 MLE、类别不平衡与线性约束对偶；2024 历史作业补充对称矩阵实特征值/正交特征向量与 DTFT 卷积定理推导 & 样题不是正式统考试卷，东莞校区材料不等同香港本部命题范围，仅作英文概念辨析与推导迁移练习 \\
+CS5489 QE 整理片段 & 含参数后验/MAP 残题及 Apple、Bottles、CWD 三个 CNN 训练曲线与压缩/增强诊断片段，已在 Lecture 1、Lecture 2、Lecture 5–7 及\StudyRef{CS5489-ExamIndex}{root}{按卷索引}标注关联位置 & 年份与独立原卷身份未载，三个情境不换算为三套试卷；扫描件上的同学手写批注不作为标准答案 \\
+CS5222 2021/22 Sem A 期末真题与 2024 期末复习课件 & 已完整核对 2021/22 Sem A 期末原卷（8 大题、26 小问、100 分，双语精校版见\StudyRepoRef{CS5222/exam-review/Final/CS5222-Final-2021A-Combined.pdf}{}{2021A 期末合订本}，并修正原非官方参考答案在 Q4a、Q7c、Q8d 的三处偏差）；2024 期末复习课件与往年 Tutorial 解答用于补充多项式 CRC 与轮询耗时等典型算例 & 单套历史真题与往年复习提纲不代表固定题型模板，仍须全面覆盖本学期 12 份 Tutorials 与课堂 Q\&A \\
 \end{longtable}
 \endgroup
 
 
-新增的实验室题库已按独立卷去重：6套期中（2020B、2021A、2021B*、2023A、2023B、2025A），3套期末（2020B、2021A、2021B）。\StudyRef{CS5489-ExamIndex}{root}{CS5489按卷索引}汇总Lecture1–5对应题，各讲末按考点列题号与页码。
-
-
-2021B*题纸封面写2020，但题内指定的答案文件和配套解答指向2021B，保留星号。Mock复用2023A，不增加真题次数；Question Samples单列。QE整理片段无年份和完整原卷身份，不能把三个应用情境当作已确认的三套卷。同学手写答案不当作官方标准。
-
-
-卷数表示手头资料中的独立卷数。同一考点同卷多题只计一次，直接题与关联题分别记；同卷可出现在两列，不能相加。PCA、CNN等尚未讲到的题只标出相关基础，不计为当前完整覆盖。公开台账只保留摘要和来源身份，完整原卷及私人题答留在本地。
-
-
-网络旧整理笔记对Zoom直接列HTTP/WebSocket/RTP，却没有在该段给足客户端/版本与技术来源；这些记录不足以确定不同Zoom部署的协议组合。当前作业指南转为按官方资料标明原生客户端、会议室互通、云/P2P/Mesh情境。
+\StudyRef{CS5489-ExamIndex}{root}{CS5489 历史题源索引}按独立试卷汇总全书对应关系，其中 Lecture 1–5 由结构化台账自动生成精确卷次标签，Lecture 6–10 在各讲末尾提供期末三卷逐题映射表。2021B* 期中题纸封面误印 2020，但题内指定文件名与配套答案均指向 2021B，故保留星号注明。同一考点在同一独立试卷出现多问时只计一卷；直接题与关联题分列统计，两列数字不直接相加。公开仓库仅发布重排整理后的双语题答与自绘原理图，原始题纸扫描件与个人笔记留在本地。
 
 
 
@@ -65,24 +55,17 @@ CS5222 review.docx & 是整理笔记，开头覆盖edge、交换、时延、分�
 \StudyTarget{Foundations-SourceEvidence___3}
 
 
-
 \begin{itemize}
 
-\item \textbf{当前依据}：具体原课单元、课堂题、Tutorial或Assignment；学习目标写成“解释/计算/推导/实现”。
+\item \textbf{当前依据}：明确指向具体原课 Notebook 单元、幻灯片页段、课堂 Q\&A、Tutorial 或 Assignment；学习目标落到可检验的动作（解释条件、逐步手算、推导公式或阅读代码）。
 
-\item \textbf{历史依据}：明确是样题、作业还是复习笔记，写年份/校区已知与未知部分，不把副本次数当年份。
+\item \textbf{历史依据}：区分正式真题、校区样题、往年作业与课堂问答，写清已知年份与缺失信息；若官方或流传参考答案存在笔误或隐含假设分歧（如 CS5489 2021A Q4A 残差块移除、2021B Q10 卷积边界缩减，或 CS5222 Assignment 3 P8e 无线确认时隙排程），均将原参考解与独立复核解并列写明依据。
 
-\item \textbf{整理者建议}：为补基础、降低跳步、检查边界而增加的例子/变式，明确标为教学补充。
+\item \textbf{整理者补充}：为衔接零基础先修、补齐跳步推导或提供自测变式而设计的微算例与自绘示意图，统一使用规范术语并标明假设前提，不替代原课定义。
 
-\item \textbf{软件与协议补充}：给官方资料和查阅日期；本次实际执行/测量与原课保存输出分开。
+\item \textbf{协议与工程事实}：涉及现实软件架构（如 Assignment 1 的 Zoom 协议栈分析）时，同时给出本学期教师参考解答要点与官方文档核查情境，说明客户端类型与网络部署前提。
 
 \end{itemize}
-
-
-Lecture1的Python/NumPy优先级主要来自Tutorial1与后续程序依赖。Lecture3的SVM、核与代价敏感分类，Lecture4的正则化、损失与集成模型，Lecture5的反向传播与训练诊断，都已有对应历史题；其具体卷数由各讲台账生成。必要基础即使没有直接题也保留。
-
-
-CS5222依据已下载的Chapter、Q\&A、Tutorial与Assignment判断学习优先级，暂未做历史试卷统计；这不用于推断本学期有无期中考试。
 
 
 
@@ -90,7 +73,6 @@ CS5222依据已下载的Chapter、Q\&A、Tutorial与Assignment判断学习优先
 \StudyTarget{Foundations-SourceEvidence___4}
 
 
-Notebook保存真实执行输出；补充图保存计算脚本与参数；原题图旁给出条件，答案与推导可回查来源。原课保存输出与补充算例分别标明，具体原件位置见各文档的来源覆盖索引。
+配套可执行 Notebook 保留真实运行输出，讲义中的数值例题与教学配图均由对应目录下的 Python 复算与绘图脚本生成并经自动校验脚本核对。阅读时先顺着正文例题与折叠自测理解机制，遇到跨章概念再通过文内蓝色引用跳转；考前总复习可结合两门课书末的索引附录定位具体页码。
 
-
-2026-10-03材料补充：Lecture5 HTML/ZIP属于重复版本，不增加覆盖。Chapter3两个part共70页，到RTT/timeout；完整后半章仍缺。Tutorial3官方解答确认现有DNS/HTTP计算；Tutorial4的DASH按v2一一配对解释N，任意组合N\textsuperscript{2}作补充。Assignment2原模板的凸性公式、批量梯度及全量预处理需按讲义注明区别；原件保持。
+早期勘误与版本归档保留：CS5489 Lecture 5 的 HTML/ZIP 导出件为同内容副本；CS5222 Tutorial 4 的 DASH 题按教师解答的一一配对口径计 \(N\) 种比特率组合，独立音视频任意搭配的 N\textsuperscript{2} 情况仅作扩展说明；CS5489 Assignment 2 原模板中的凸性记号、批量平均因子与全量标准化细节已在对应作业讲义中逐条注明，原始下载文件保持未改。

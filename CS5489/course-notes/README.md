@@ -22,11 +22,19 @@
 - [Tutorial 2 · Text Document Classification with Naive Bayes](Tutorial02.tex)
 - [Tutorial 3 · Linear classifiers, cropping and an L1 kernel](Tutorial03.tex)
 - [Tutorial 4 · Predicting Bike Sharing Usage](Tutorial04.tex)
+- [Tutorial 5 · MLP Face Detection & Data Augmentation](Tutorial05.tex)
+- [Tutorial 6 · CNN Face Detection & Early Stopping](Tutorial06.tex)
+- [Tutorial 7 · Deep Feature Extraction & Transfer Learning on Cakes](Tutorial07.tex)
+- [Tutorial 8 · Dimensionality Reduction & Image Denoising on Olivetti Faces](Tutorial08.tex)
+- [Tutorial 9 · Clustering-Based Image Segmentation & ARI Evaluation](Tutorial09.tex)
 ## Assignment / Report · 综合应用
 
 - [Assignment 1 · SMS Classification](Assignment01.tex)
 - [Assignment 2 · Backpropagation and Optimization](Assignment02.tex)
 
-## 历史题源索引
+## 历史题源索引与期末合订本
 
-[按试卷查Lecture 1–5题源](ExamIndex.tex)。各Lecture开头按考点列独立卷数，讲末保留题号和页码。附录位于A4分册的Assignment之后；完整题目与答案另在本地整理，不随仓库发布。
+- [全学期历史题源与样题索引（Lecture 1–12）](ExamIndex.tex)
+- [期末真题双语精简合订本（2020B / 2021B / 2021A，共 39 题）](../exam-review/Final/CS5489-Final-Combined.pdf)
+
+各 Lecture 开头按考点列独立卷数，讲末保留题号与页码；全学期题源附录位于 A4 分册的 Assignment 之后。

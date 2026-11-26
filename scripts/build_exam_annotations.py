@@ -101,7 +101,7 @@ def build():
                         '缺年份与独立原卷身份', 'CNN设计另需后续课', '缺年份',
                         '不把片段数量计为卷数', '只映射一般诊断能力'}, [
                         '完整处理还需Lecture5的优化与早停',
-                        '当前只映射通用训练/验证诊断，CNN结构设计属于后续内容',
+                        '本讲只映射通用训练/验证诊断，CNN结构设计详见Lecture 6',
                         'QE题段缺年份与独立原卷身份，不按片段数计卷数'])
                 if notes:topic_parts+=[r'\textbf{题源条件：}'+escape('；'.join(notes)+'。')]
         headers=['考点','复习重点' if n==2 else '复习动作','期中' if n==2 else '期中：直接／关联','期末：直接／关联','QE记录','学习入口' if n==2 else '入口']
@@ -126,7 +126,7 @@ def build():
         heading=r'\StudyHeading{1}{'+escape(p['label'])+'}'
         parts += [heading,targets(ANCHORS['appendix'].get(heading,[]))]
         description=p['description']
-        if p['kind']=='final':description='题纸共'+{'F20B':'4','F21A':'4','F21B':'5'}[p['id']]+'页；本表汇总与Lecture1–5有关的部分，其余题不计入当前讲义覆盖。'
+        if p['kind']=='final':description='题纸共'+{'F20B':'4','F21A':'4','F21B':'5'}[p['id']]+'页；下表列出与Lecture 1–5直接或关联的题目，Lecture 6–10期末题映射见各讲题源表及文末Part 2总表。'
         if p['kind']=='qe':description='使用者提供的CS5489 QE整理片段，夹有同学笔记；仅按印刷题面映射。年份与独立卷身份未载，参数后验残题还缺前页模型和先验。'
         parts.append(escape(description));rows=[];pairs=[]
         for n,d in data.items():
@@ -147,12 +147,12 @@ def build():
             # Year, coverage and independent-paper identity are stated before/after the table.
             notes=compact_review_notes(notes, {
                 '缺年份与独立原卷身份', 'CNN设计另需后续课', '缺年份',
-                '不把片段数量计为卷数', '只映射一般诊断能力', 'CNN架构未在当前讲义覆盖',
+                '不把片段数量计为卷数', '只映射一般诊断能力', '本讲仅映射二分类损失，CNN架构详见Lecture 6',
                 '题段年份与卷次待定', '仅映射通用训练诊断', '图与问题跨两个原页',
                 '不使用扫描手写解答', '缺年份和独立原卷身份'}, [
                 '部分图与问题跨两个原页，须一起读取；手写解答不作为标准答案'])
         if notes:parts += [r'\textbf{核对说明：}'+escape('；'.join(notes)+'。')]
-        if p['id']=='QE-U':parts+=['Apple、Bottles、CWD用来区分题段主题，不是已确认的三套独立卷。CNN架构、增强和压缩部分留待后续课件，未登记为当前已讲。']
+        if p['id']=='QE-U':parts+=['Apple、Bottles、CWD用来区分题段主题，不是已确认的三套独立卷；其中CNN结构、数据增强与自编码器压缩部分详见Lecture 6与Lecture 10。']
     output[ROOT/'CS5489/course-notes/ExamIndex.tex']=(TEMPLATES/'appendix.tex.in').read_text().replace('@@PAPERS@@','\n\n'.join(parts))
     return {path:text.rstrip()+'\n' for path,text in output.items()}
 

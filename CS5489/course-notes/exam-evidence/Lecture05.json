@@ -338,7 +338,7 @@
         }
       ],
       "answer_basis": "配套答案见S004",
-      "review_note": "一般诊断已讲；具体CNN结构仍需后续课"
+      "review_note": "一般诊断已讲；具体CNN结构调整详见Lecture 6"
     },
     {
       "id": "L5E16",
@@ -376,7 +376,7 @@
         }
       ],
       "answer_basis": "无独立官方答案；不采纳扫描件上的同学作答为标准",
-      "review_note": "CNN架构未在当前讲义覆盖；题段年份与卷次待定"
+      "review_note": "本讲仅映射二分类损失，CNN架构详见Lecture 6；题段年份与卷次待定"
     },
     {
       "id": "L5E18",

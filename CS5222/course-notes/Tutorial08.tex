@@ -3,100 +3,126 @@
 \StudyChapter{CS5222-Tutorial08}{Tutorial 8 · TCP 概念判断、IPv4 分片、HOL 阻塞与最长前缀匹配}
 \StudyTarget{CS5222-Tutorial08__root-section}
 
-\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter04}{root}{配套章节：Chapter 4 数据平面} · \StudyRef{CS5222-Tutorial07}{root}{上一份：Tutorial 7} · \StudyRef{CS5222-Tutorial09}{root}{下一份：Tutorial 9}
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{Chapter 3 Part 3} · \StudyRef{CS5222-Chapter04}{root}{Chapter 4 数据平面} · \StudyRef{CS5222-Tutorial07}{root}{上一份：Tutorial 7} · \StudyRef{CS5222-Tutorial09}{root}{下一份：Tutorial 9}
 
-\StudyHeading{1}{本节定位｜传输层收官辨析 + 网络层数据平面三大必考题型}
+\StudyHeading{1}{导读｜从 TCP 易混概念跨越到路由器分片、排队与二进制查表}
 \StudyTarget{CS5222-Tutorial08__overview}
 
-Tutorial 8 的 P1 是 7 道极易挖坑的 TCP 判断题；P2–P4 覆盖 IPv4 分片填表、路由器输入端 HOL 阻塞与最长前缀匹配（LPM）转发表构建。全部结论对照 \StudyInline{tutorial-8-solution\_semA2026} 并经 Python 验算。
+Tutorial 8 前承传输层，后启网络层数据平面：P1 用七道是非题集中排查学生对 TCP 确认方向、字节序号、动态接收窗口与超时间隔的常见误解；P2–P4 则对应\StudyRef{CS5222-Chapter04}{ipv4-frag}{Chapter 4}的三大基础题型——IPv4 8 字节对齐分片、输入端口队头阻塞（HOL blocking）以及压缩到 4 行的二进制最长前缀匹配（LPM）转发表构造。先修位运算可回看\StudyRef{Foundations-NetworkBasics}{cidr-lpm}{Network Basics §5}。全部结论已与 \texttt{tutorial-8-solution\_semA2026.pptx} 核对一致。
 
 
-\StudyHeading{1}{P1. TCP 概念七连判断（True / False）}
+\StudyHeading{1}{P1. TCP 概念七道是非题（True or False）}
 \StudyTarget{CS5222-Tutorial08__p1}
 
-\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.07\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.11\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.82\linewidth-1.33333\tabcolsep\relax}@{}}
+下面完整列出原题英文陈述，逐条给出判断与正反理由：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.24}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.06\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.10\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.84\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-小问 & 答案 & 原题核心判断与辨析（中文 + English Key Point） \\
+题号 & 判定 & 原题英文陈述 + 中文辨析与 English Reason \\
 \midrule\endfirsthead
-小问 & 答案 & 原题核心判断与辨析（中文 + English Key Point） \\
+题号 & 判定 & 原题英文陈述 + 中文辨析与 English Reason \\
 \midrule\endhead
 \bottomrule\endfoot
-(a) & \textbf{False} & “若 B 没数据发给 A，就不回 ACK”——错！即使 B 无应用数据回发，仍必须发纯 ACK 段确认收到的 A 数据（可靠传输基础）。 \\
-(b) & \textbf{False} & “若当前段序号为 $m$，下一段序号必为 $m+1$”——错！TCP 序号按\textbf{字节}编号而非按段编号，下一段序号是 $m + \text{本段数据字节数}$。 \\
-(c) & \textbf{False} & “A 发 \texttt{Seq=38} 含 4 B 数据给 B，则\textbf{这同一段}里 ACK 号必为 42”——大坑！A 发出的段里的 ACK 号确认的是\textbf{A 此前从 B 收到的数据}，与 A 自己的 \texttt{Seq=38} 无关！ \\
-(d) & \textbf{False} & “连接期间 \texttt{rwnd} 永不改变”——错！接收方根据接收缓存剩余可用空间动态更新并通告 \texttt{rwnd}。 \\
-(e) & \textbf{True} & “A 发出的未确认字节数不应超过接收缓存大小”——对！流量控制约束 $\mathrm{LastByteSent}-\mathrm{LastByteAcked}\le \mathrm{rwnd}\le \mathrm{RcvBuffer}$。 \\
-(f) & \textbf{True} & “TCP 首部有字段携带 \texttt{rwnd}”——对！即 16 位 Receive Window 字段。 \\
-(g) & \textbf{False} & “若最新 $\mathrm{SampleRTT}=1\text{ s}$，则当前 $\mathrm{TimeoutInterval}$ 必大于 $1\text{ s}$”——错！$\mathrm{TimeoutInterval}=\mathrm{EstimatedRTT}+4\mathrm{DevRTT}$ 取决于历史加权均值与权重系数 $(x,y)$：即便取常用 $x=0.125, y=0.25$，若此前 $E=0.2\text{ s}, D=0\text{ s}$，则更新后 $E'=0.3\text{ s}, D'=0.175\text{ s}\Rightarrow \mathrm{TimeoutInterval}=0.3+4(0.175)=\mathbf{1.0\text{ s}}$（并不严格 $>1\text{ s}$）；而当权重 $y<0.25$ 且历史 $E<1\text{ s}$ 时甚至严格 $<1\text{ s}$！故“necessarily $>1\text{ s}$”为 False。 \\
+(a) & \textbf{False} & \emph{Host A is sending Host B a large file over a TCP connection. Assume Host B has no data to send Host A, then Host B will not send ACKs to Host A.} \\
+& & \textbf{辨析：}错。可靠传输依赖接收方反馈；即便 B 没有反向应用数据可捎带（piggyback），B 也必须发送数据长度为 0 的纯确认段（pure ACK segments）向 A 确认已收字节。 / Even without reverse application data, B must still send pure TCP ACK segments to acknowledge A's data. \\
+(b) & \textbf{False} & \emph{Suppose Host A is sending a large file to Host B over a TCP connection. If the sequence number of a segment of this connection is $m$, then the sequence number for the subsequent segment will necessarily be $m+1$.} \\
+& & \textbf{辨析：}错。TCP 按\textbf{字节}而非按报文段编号；若当前段携带 $L$ 字节净荷，下一段序号应为 $m + L$（仅当当前段恰好只装 $1$ 字节数据时才等于 $m+1$）。 / TCP numbers bytes rather than segments; the next sequence number is $m + L$, where $L$ is the payload byte count of the current segment. \\
+(c) & \textbf{False} & \emph{Suppose Host A sends one segment with sequence number 38 and 4 bytes of data over a TCP connection to Host B. In this same segment the acknowledgement number is necessarily 42.} \\
+& & \textbf{辨析：}错（高频混淆点）。A 发给 B 的这同一个报文段里，\texttt{ACK} 字段填的是 \textbf{A 期望从 B 收到的下一个字节序号}，取决于此前 B 给 A 发到了哪一字节，与 A 自己正发出的 \texttt{Seq=38, len=4} 毫无关系（$38+4=42$ 是 B 收到该段后回给 A 的确认号）。 / The ACK field in A's outgoing segment acknowledges bytes received \emph{from B}, not A's own outgoing bytes $38..41$. \\
+(d) & \textbf{False} & \emph{The size of TCP \texttt{rwnd} never changes throughout the duration of the connection.} \\
+& & \textbf{辨析：}错。接收窗口 $\mathrm{rwnd}$ 等于接收缓存当前的空闲余量，随网络数据到达和上层应用进程读取而实时动态变化。 / \texttt{rwnd} varies dynamically over time as data arrives in and is read from the receiver buffer. \\
+(e) & \textbf{True} & \emph{Suppose Host A is sending Host B a large file over a TCP connection. The number of unacked bytes that A sends should not exceed the size of the receiver buffer.} \\
+& & \textbf{辨析：}对。流量控制要求 $\mathrm{LastByteSent} - \mathrm{LastByteAcked} \le \mathrm{rwnd} \le \mathrm{RcvBuffer}$。 / Flow control enforces $\mathrm{LastByteSent}-\mathrm{LastByteAcked} \le \mathrm{rwnd} \le \mathrm{RcvBuffer}$. \\
+(f) & \textbf{True} & \emph{The TCP segment has a field in its header for \texttt{rwnd}.} \\
+& & \textbf{辨析：}对。标准 20B TCP 首部包含专门的 16 位 \texttt{Receive Window} 字段。 / Yes, the 20-byte TCP header contains a dedicated 16-bit Receive Window field. \\
+(g) & \textbf{False} & \emph{Suppose that the last \texttt{SampleRTT} in a TCP connection is equal to $1\text{ sec}$. The current value of \texttt{TimeoutInterval} for the connection will necessarily be $> 1\text{ sec}$.} \\
+& & \textbf{辨析：}错。$\mathrm{TimeoutInterval} = \mathrm{EstimatedRTT} + 4\,\mathrm{DevRTT}$ 由历史指数滑动均值决定。取标准参数 $\alpha=0.125,\; \beta=0.25$ 构造反例：设此前稳态 $\mathrm{EstimatedRTT}=0.2\text{ s},\; \mathrm{DevRTT}=0\text{ s}$，突遇一次 $S=1.0\text{ s}$ 后，$E_{\mathrm{new}} = 0.875(0.2)+0.125(1.0) = 0.3\text{ s}$，$D_{\mathrm{new}} = 0 + 0.25|1.0-0.3| = 0.175\text{ s}$，此时 $\mathrm{TimeoutInterval} = 0.3 + 4(0.175) = \mathbf{1.0\text{ s}}$（并不严格大于 $1\text{ s}$；若 $\beta < 0.25$ 则严格小于 $1\text{ s}$）。 / Not necessarily: if prior \texttt{EstimatedRTT} and \texttt{DevRTT} were small (e.g., $0.2\text{ s}$ and $0\text{ s}$ with $\alpha=0.125,\beta=0.25$), a single $1\text{ s}$ sample yields $\mathrm{TimeoutInterval}=0.3+4(0.175)=1.0\text{ s} \ngtr 1\text{ s}$. \\
 \end{longtable}\endgroup
 
 
-\StudyHeading{1}{P2. IPv4 数据报分片计算（1600 B 数据报，MTU = 500 B，ID = 291）}
+\StudyHeading{1}{P2. IPv4 数据报分片字段计算（1600 B 数据报，MTU = 500 B，ID = 291）}
 \StudyTarget{CS5222-Tutorial08__p2}
 
-\textbf{题目 / Question：} 将一个总长 1600 B（含 20 B IP 首部，故载荷 1580 B）、标识 \StudyInline{ID=291} 的 IPv4 数据报送入 $\mathrm{MTU}=500\text{ B}$ 的链路。共产生几个分片？列出每个分片的 Length、ID、MF 标志位与 Offset（以 8 字节为单位）。
+\textbf{Original Question:} Consider sending a $1{,}600\text{-byte}$ datagram into a link that has an MTU of $500\text{ bytes}$. Suppose the original datagram is stamped with the identification number $291$. How many fragments are generated? What are the values in the various fields in the IP datagrams generated related to fragmentation? (Hint: the offset value shall be specified in units of 8-byte chunks.)
 
-\textbf{分步计算（Python 已核验）：}
+\textbf{分步计算：}
 \begin{enumerate}
-\item 每片最大数据载荷 $= \lfloor (500 - 20)/8 \rfloor \times 8 = \lfloor 480/8 \rfloor \times 8 = \mathbf{480\text{ B}}$（恰好是 8 的倍数，偏移步长 $480/8 = \mathbf{60}$）。
-\item 所需分片数 $= \lceil 1580 / 480 \rceil = \lceil 3.29 \rceil = \mathbf{4}$ 片（前 3 片各装 480 B，最后 1 片装 $1580 - 3\times 480 = 140\text{ B}$ 数据 + 20 B 首部 $= 160\text{ B}$）。
+\item 原始数据报总长 $1600\text{ B}$ 扣除标准 $20\text{ B}$ IPv4 首部，待传输的原始数据净荷为 $1600 - 20 = \mathbf{1580\text{ B}}$（字节下标 $0..1579$）。
+\item 出链路 $\mathrm{MTU} = 500\text{ B}$，单片最大净荷 $D_{\max} = 8\lfloor (500 - 20)/8 \rfloor = 8 \times 60 = \mathbf{480\text{ B}}$（恰能被 8 整除，相邻两片偏移量递增 $480 / 8 = 60$）。
+\item 分片总数 $= \lceil 1580 / 480 \rceil = \lceil 3.292 \rceil = \mathbf{4}$ 片：前 3 片各装满 $480\text{ B}$ 数据（总长 $500\text{ B}$，后续还有分片故 $\mathrm{MF}=1$），最后第 4 片装余下的 $1580 - 3\times 480 = 140\text{ B}$ 数据（加 $20\text{ B}$ 首部得总长 $160\text{ B}$，末片置 $\mathrm{MF}=0$）：
 \end{enumerate}
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.12\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.66667\tabcolsep\relax}@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.12\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.16\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.66667\tabcolsep\relax}@{}}
 \toprule
-分片 & 总长 Length (B) & 数据载荷 (B) & ID & FragFlag (MF) & Offset（$\div 8$） \\
+分片序号 & 总长度 Length (B) & 数据区间与字节数 & ID & FragFlag (MF) & Offset（$\div 8$） \\
 \midrule\endfirsthead
-分片 & 总长 Length (B) & 数据载荷 (B) & ID & FragFlag (MF) & Offset（$\div 8$） \\
+分片序号 & 总长度 Length (B) & 数据区间与字节数 & ID & FragFlag (MF) & Offset（$\div 8$） \\
 \midrule\endhead
 \bottomrule\endfoot
-Frag 1 & \textbf{500} & 480 & 291 & \textbf{1} & \textbf{0} \\
-Frag 2 & \textbf{500} & 480 & 291 & \textbf{1} & \textbf{60} \\
-Frag 3 & \textbf{500} & 480 & 291 & \textbf{1} & \textbf{120} \\
-Frag 4 & \textbf{160} & 140 & 291 & \textbf{0} & \textbf{180} \\
+Fragment 1 & \textbf{500} & $0..479$（480 B） & 291 & \textbf{1} & \textbf{0} \\
+Fragment 2 & \textbf{500} & $480..959$（480 B） & 291 & \textbf{1} & \textbf{60} \\
+Fragment 3 & \textbf{500} & $960..1439$（480 B） & 291 & \textbf{1} & \textbf{120} \\
+Fragment 4 & \textbf{160} & $1440..1579$（140 B） & 291 & \textbf{0} & \textbf{180} \\
 \end{longtable}\endgroup
 
+\textbf{English answer:} \textbf{4 fragments} are generated, all carrying \texttt{ID = 291}: Fragments 1–3 have \texttt{Total Length = 500} (480 B data + 20 B header), \texttt{MF = 1}, and \texttt{Offsets = 0, 60, 120}; Fragment 4 has \texttt{Total Length = 160} (140 B data + 20 B header), \texttt{MF = 0}, and \texttt{Offset = 180}.
 
-\StudyHeading{1}{P3. 什么是 HOL 阻塞？发生在输入端口还是输出端口？}
+
+\StudyHeading{1}{P3. 队头阻塞（HOL Blocking）定义与发生位置}
 \StudyTarget{CS5222-Tutorial08__p3}
 
-\textbf{答案 / Answer：} \textbf{队头阻塞（Head-of-the-Line, HOL Blocking）}是指输入端口队列排在最前面的分组因目标输出端口竞争/无可用缓存而被阻塞等待时，导致它\textbf{身后的所有分组}即使各自的目标输出端口完全空闲也无法跨越交换结构继续前进。HOL 阻塞发生在\textbf{输入端口（input ports）}！
+\textbf{Original Question:} What is HOL blocking? Does it occur in input ports or output ports?
 
-\textbf{English answer:} HOL blocking occurs at \textbf{input ports} when a datagram at the front of an input queue is blocked due to output-port contention, preventing subsequent packets in that same input queue from being forwarded even when their own destination output ports are free.
+\textbf{答案：}队头阻塞（Head-of-the-Line blocking）发生在路由器的\textbf{输入端口（input ports）}。当排在某输入队列最前端的分组因目标输出端口正被其他输入端口占用（输出争用）而不得不原地等待时，排在该输入队列后面的后续分组即便要去往另一个完全空闲的输出端口，也被队首分组挡住无法穿过交换结构。
+
+\textbf{English answer:} Head-of-the-line (HOL) blocking occurs at \textbf{input ports}: a queued datagram at the front of an input queue must wait for transfer through the switching fabric due to output-port contention, thereby blocking subsequent datagrams behind it in the same input queue even if their own target output ports are completely idle.
 
 
-\StudyHeading{1}{P4. 最长前缀匹配（LPM）转发表构建与查表}
+\StudyHeading{1}{P4. 四表项最长前缀匹配（LPM）转发表设计与二进制查表}
 \StudyTarget{CS5222-Tutorial08__p4}
 
-\textbf{题目 / Question：} 32 位地址数据报网络，路由器 4 个接口对应范围：
+\textbf{Original Question:} Consider a datagram network using 32-bit host addresses. Suppose a router has four links, numbered 0 through 3, and packets are to be forwarded to the link interfaces as follows:
 \begin{itemize}
-\item 接口 0：\StudyInline{11100000 00000000 00000000 00000000} 至 \StudyInline{11100000 11111111 11111111 11111111}
-\item 接口 1：\StudyInline{11100001 00000000 00000000 00000000} 至 \StudyInline{11100001 00000000 11111111 11111111}
-\item 接口 2：\StudyInline{11100001 00000001 00000000 00000000} 至 \StudyInline{11100001 11111111 11111111 11111111}
-\item 接口 3：其他（otherwise）
+\item Interface 0: \texttt{11100000 00000000 00000000 00000000} through \texttt{11100000 11111111 11111111 11111111}
+\item Interface 1: \texttt{11100001 00000000 00000000 00000000} through \texttt{11100001 00000000 11111111 11111111}
+\item Interface 2: \texttt{11100001 00000001 00000000 00000000} through \texttt{11100001 11111111 11111111 11111111}
+\item Interface 3: \texttt{otherwise}
 \end{itemize}
+(a) Provide a forwarding table with \textbf{four entries}, using longest prefix match and forwarding packets to the correct interfaces. \\
+(b) Describe how you determine the proper link interfaces for datagrams with destination IP addresses: \\
+(i) \texttt{11001000 100010001 01010001 01010101} \\
+(ii) \texttt{11100001 00000000 11000011 00111100} \\
+(iii) \texttt{11100001 10000000 00010001 01110111}
 
-\textbf{(a) 4 表项最长前缀匹配转发表：}
+\textbf{(a) 四表项最长前缀匹配转发表构造：}观察接口 2 的区间从 \texttt{11100001 00000001...} 到 \texttt{11100001 11111111...}，它并不是单独一条前缀，但它与接口 1（\texttt{11100001 00000000...}）合起来恰好拼成完整的 8 位前缀 \texttt{11100001}。利用\textbf{最长前缀优先}机制，把接口 1 写成 16 位长前缀 \texttt{11100001 00000000}，把接口 2 写成 8 位较短前缀 \texttt{11100001}，便能在仅用 4 行的限制下精确分离所有区间：
+
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.62\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.38\linewidth-1.00000\tabcolsep\relax}@{}}
 \toprule
-前缀匹配（Prefix Match） & 链路接口（Link Interface） \\
+Prefix Match（前缀匹配） & Link Interface（出链路接口） \\
 \midrule\endfirsthead
-前缀匹配（Prefix Match） & 链路接口（Link Interface） \\
+Prefix Match（前缀匹配） & Link Interface（出链路接口） \\
 \midrule\endhead
 \bottomrule\endfoot
-\texttt{11100000}（/8） & \textbf{0} \\
-\texttt{11100001 00000000}（/16） & \textbf{1} \\
-\texttt{11100001}（/8） & \textbf{2} \\
-\texttt{otherwise} & \textbf{3} \\
+\texttt{11100000}（8-bit prefix） & \textbf{0} \\
+\texttt{11100001 00000000}（16-bit prefix） & \textbf{1} \\
+\texttt{11100001}（8-bit prefix） & \textbf{2} \\
+\texttt{otherwise}（\texttt{*} default） & \textbf{3} \\
 \end{longtable}\endgroup
 
-\textbf{精妙之处：} 接口 1 与接口 2 的前缀都以 \StudyInline{11100001} 开头；但表项 2 匹配前 16 位 \StudyInline{11100001 00000000}（更长！），因此第 2 字节全 0 时优先命中接口 1，否则回落到 8 位前缀的接口 2，刚好仅用 4 行覆盖原题！
-
-\textbf{(b) 三个目的地址查表结果：}
+\textbf{(b) 三个目的地址逐位比对结果与 English Answer：}
 \begin{enumerate}
-\item \StudyInline{11001000 100010001 01010001 01010101}（注：原题第 2 组印刷多打 1 位，不影响前 8 位判定）：首字节 \StudyInline{11001000} 与前 3 条均不匹配，落入默认表项 $\to$ \textbf{Interface 3}。
-\item \StudyInline{11100001 00000000 11000011 00111100}：同时匹配表项 2（16 位）与表项 3（8 位），按最长前缀胜出 $\to$ \textbf{Interface 1}。
-\item \StudyInline{11100001 10000000 00010001 01110111}：不匹配 16 位的表项 2，仅匹配 8 位的表项 3 $\to$ \textbf{Interface 2}。
+\item 地址 (i) 首字节为 \texttt{11001000}（注：原卷第 2 组多印 1 位比特，但首字节第 3 位即为 \texttt{0}，不匹配前三条任何一条），仅命中兜底默认项 $\implies$ \textbf{Link Interface 3}。 / Matches none of the first three prefixes $\to$ \textbf{Interface 3}.
+\item 地址 (ii) 前两字节为 \texttt{11100001 00000000}，同时匹配第 2 行（16 位）与第 3 行（8 位），按最长前缀匹配选 16 位更长项 $\implies$ \textbf{Link Interface 1}。 / Matches both the 16-bit prefix \texttt{11100001 00000000} and the 8-bit prefix \texttt{11100001}; LPM selects the longer 16-bit match $\to$ \textbf{Interface 1}.
+\item 地址 (iii) 前两字节为 \texttt{11100001 10000000}，不匹配第 2 行，匹配 8 位前缀的第 3 行与默认项，选 8 位前缀 $\implies$ \textbf{Link Interface 2}。 / Fails the 16-bit prefix for Interface 1, matches the 8-bit prefix \texttt{11100001} $\to$ \textbf{Interface 2}.
 \end{enumerate}
+
+\textbf{独立变式 / Check：}在 P4 转发表下，目的地址 \texttt{11100001 00000001 00000000 00000000}（即原区间里紧挨接口 1 上界的第一个地址）会被发往哪个接口？ / Which interface is chosen for \texttt{11100001 00000001 00000000 00000000}?
+
+\begin{StudySolution}{答案 / Answer}
+第 16 位为 \texttt{1}，与第 2 行（要求第 9–16 位全为 \texttt{0}）失配，仅匹配第 3 行的 8 位前缀 \texttt{11100001}，故准确转入 \textbf{Interface 2}。 / Bit 16 is \texttt{1}, so it misses the 16-bit entry for Interface 1 and matches the 8-bit prefix \texttt{11100001} $\to$ \textbf{Interface 2}.
+\end{StudySolution}
+
+来源：\texttt{tutorial-8\_semA2026.pdf}（2 页）与教师解答 \texttt{tutorial-8-solution\_semA2026.pptx}。

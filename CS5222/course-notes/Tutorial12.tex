@@ -5,94 +5,105 @@
 
 \StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter06}{root}{Chapter 6} · \StudyRef{CS5222-Chapter07}{root}{Chapter 7} · \StudyRef{CS5222-Tutorial11}{root}{上一份：Tutorial 11}
 
-\StudyHeading{1}{本节定位｜无官方解答 PPTX——全卷 5 题独立严谨推导与考场防错}
+\StudyHeading{1}{导读｜链路层自学习交换机与无线 MAC 机制综合辨析}
 \StudyTarget{CS5222-Tutorial12__overview}
 
-Canvas 上 Tutorial 12 仅发布了原题 PDF（\StudyInline{tutorial-12\_semA2026.pdf}），未发布解答 PPT。以下 5 题全部严格依据 Chapter 6 与 Chapter 7 课件原定义完整推导，其中 P2 多交换机自学习（尤其是 S2 永不学到 G 的考场陷阱！）和 P5 RTS/CTS 等长反问均为期末简答/论述高危题型。
+Tutorial 12 是本学期最后一份教程（原卷 \texttt{tutorial-12\_semA2026.pdf} 共 5 题，Canvas 未另附教师解答 PPTX），横跨\StudyRef{CS5222-Chapter06}{csmacd}{Chapter 6}与\StudyRef{CS5222-Chapter07}{80211}{Chapter 7}五道核心简答与追踪题：P1 解释为何先听后说的 CSMA 仍会撞车；P2 追踪四台树形互联交换机 $S_1\text{–}S_4$ 在一次往返通信中的自学习表项；P3 结合双子网路由器图检验 ARP 广播域边界；P4–P5 总结无线链路物理特性并论证为何 802.11 的 RTS/CTS 控制帧必须远短于数据帧。
 
 
-\StudyHeading{1}{P1. 所有节点发前都做载波监听，为何 CSMA 仍会发生冲突？}
+\StudyHeading{1}{P1. 所有节点发前均执行载波监听，为什么 CSMA 仍会发生碰撞？}
 \StudyTarget{CS5222-Tutorial12__p1}
 
-\textbf{题目 / Question：} Why does collision occur in CSMA, if all nodes perform carrier sensing before transmission?
+\textbf{Original Question:} Why does collision occur in CSMA, if all nodes perform carrier sensing before transmission?
 
-\textbf{答案 / Answer：} 根本原因是\textbf{非零信号传播时延（non-zero propagation delay）}。假设节点 A 在 $t_0$ 监听到信道空闲并开始发送帧，电磁波以有限速度在介质上传播，在 $t_1$ 时刻才传到节点 B。如果在 $(t_0, t_1)$ 之间节点 B 监听信道，由于 A 的信号尚未抵达 B，B 会误判信道仍空闲并立即开始发送——随后两路信号在信道上迎面相撞，引发冲突！
+\textbf{物理原因分析：}根本原因在于共享介质上的电磁波存在\textbf{有限的信号传播时延（non-zero propagation delay）}。假设节点 A 在时刻 $t_0$ 监听信道为空闲并立即开始发送帧，其首比特需经历传播时延 $t_{\mathrm{prop}} > 0$ 才能在 $t_0 + t_{\mathrm{prop}}$ 抵达远端节点 B。只要节点 B 在 $(t_0,\; t_0 + t_{\mathrm{prop}})$ 这段空窗期内恰好有帧要发并执行载波监听，由于 A 发出的能量波尚未传到 B 的网卡接口，B 会测得信道依然空闲并立即开始发送，两列信号随即在线路上交汇碰撞。
 
-\textbf{English answer:} Collisions still occur in CSMA due to \textbf{non-zero propagation delay}. After node A begins transmitting, its signal takes a finite propagation time to reach node B. If B senses the channel before A's first bit arrives, B perceives the channel as idle and starts transmitting as well, causing a collision.
+\textbf{English answer:} Collisions still occur in CSMA because of \textbf{non-zero signal propagation delay} across the shared medium. After node A senses an idle channel and starts transmitting at $t_0$, its signal takes time $t_{\mathrm{prop}}$ to reach node B. If B senses the channel during $(t_0, t_0 + t_{\mathrm{prop}})$, it falsely perceives the channel as idle and transmits as well, resulting in a collision.
 
 
-\StudyHeading{1}{P2. 多交换机自学习：A 发给 G，随后 G 回复 A（S1–S4 表项与转发追踪）}
+\StudyHeading{1}{P2. 四交换机互联网络自学习表项与转发路径追踪（$A \to G$ 与 $G \to A$）}
 \StudyTarget{CS5222-Tutorial12__p2}
 
-\textbf{题目 / Question：} 树形互联的 4 台初始转发表均为空的交换机：中心交换机 \textbf{S4} 连接 \textbf{S1、S2、S3}；其中 S1 接主机 A, B, C；S2 接主机 D, E, F；S3 接主机 G, H, I。先由 \textbf{A 发送帧给 G}，随后 \textbf{G 回复帧给 A}。写出 S1、S2、S3、S4 的转发表演化与逐跳转发行为。
+\textbf{Original Question:} Consider the self-learning with multi-switch as shown in the figure (root switch $S_4$ interconnects $S_1, S_2, S_3$; $S_1$ attaches hosts $A, B, C$; $S_2$ attaches hosts $D, E, F$; $S_3$ attaches hosts $G, H, I$; all switch tables are initially empty). Suppose $A$ sends a frame to $G$, and then $G$ responds to $A$. Show the switch tables and packet forwarding in $S_1, S_2, S_3, S_4$.
 
 \StudyImage{CS5222/course-notes/assets/ch6-aloha-csma-efficiency.png}
-\StudyCaption{右图即为 Tutorial 12 P2 的多交换机拓扑 S1–S4 与主干路径示意。牢记陷阱：S2 在第 2 步中收不到回程帧！}
+\StudyCaption{右图为 Tutorial 12 P2 四交换机互联拓扑：第 1 步 $A\to G$ 全网泛洪使四台交换机全部学到 $A$；第 2 步 $G\to A$ 沿已学路径 $S_3 \to S_4 \to S_1 \to A$ 单播返回，完全不经过分支交换机 $S_2$。}
 
-\textbf{Step 1：A 发送帧给 G（Src = A, Dst = G，全网初始表空）：}
+\textbf{分两步逐台追踪（严格遵循“先学入端口源 MAC，再查目的 MAC 决定单播或泛洪”）：}
 \begin{enumerate}
-\item \textbf{S1} 从连向 A 的端口收到帧：记录 \StudyInline{(A, port A)}；查不到 G $\to$ 向其余端口 \textbf{泛洪（flood）} 至 B、C 以及 \textbf{S4}（B、C 发现目的 MAC 不是自己便丢弃）。
-\item \textbf{S4} 从连向 S1 的端口收到帧：记录 \StudyInline{(A, port S1)}；查不到 G $\to$ \textbf{泛洪} 至 \textbf{S2} 与 \textbf{S3}。
-\item \textbf{S2} 从连向 S4 的端口收到帧：记录 \StudyInline{(A, port S4)}；查不到 G $\to$ \textbf{泛洪} 至 D、E、F（三者均丢弃）。
-\item \textbf{S3} 从连向 S4 的端口收到帧：记录 \StudyInline{(A, port S4)}；查不到 G $\to$ \textbf{泛洪} 至 G、H、I（H、I 丢弃，\textbf{G 成功接收！}）。
+\item \textbf{第一阶段：$A$ 发送帧给 $G$（$\mathrm{Src}=A,\; \mathrm{Dst}=G$，四张交换表初始全空）}：
+  \begin{itemize}
+  \item \textbf{$S_1$} 从连向 $A$ 的端口收帧：写入表项 \texttt{(A -> port to A)}；查不到 $G$，向除入端口外的其余端口\textbf{泛洪（flood）}至主机 $B, C$ 及上行交换机 $S_4$。
+  \item \textbf{$S_4$} 从连向 $S_1$ 的端口收帧：写入表项 \texttt{(A -> port to S1)}；查不到 $G$，\textbf{泛洪}至 $S_2$ 与 $S_3$。
+  \item \textbf{$S_2$} 从连向 $S_4$ 的端口收帧：写入表项 \texttt{(A -> port to S4)}；查不到 $G$，\textbf{泛洪}至主机 $D, E, F$（均因目的 MAC 不符丢弃）。
+  \item \textbf{$S_3$} 从连向 $S_4$ 的端口收帧：写入表项 \texttt{(A -> port to S4)}；查不到 $G$，\textbf{泛洪}至主机 $G, H, I$（$G$ 成功收妥，$H, I$ 丢弃）。
+  \end{itemize}
+\item \textbf{第二阶段：$G$ 回复帧给 $A$（$\mathrm{Src}=G,\; \mathrm{Dst}=A$）}：
+  \begin{itemize}
+  \item \textbf{$S_3$} 从连向 $G$ 的端口收帧：写入表项 \texttt{(G -> port to G)}；查表命中 \texttt{A -> port to S4}，故仅向 $S_4$ \textbf{选择性单播转发}（不发给 $H, I$）。
+  \item \textbf{$S_4$} 从连向 $S_3$ 的端口收帧：写入表项 \texttt{(G -> port to S3)}；查表命中 \texttt{A -> port to S1}，故仅向 $S_1$ \textbf{单播转发}（\textbf{不转发给 $S_2$}）。
+  \item \textbf{$S_1$} 从连向 $S_4$ 的端口收帧：写入表项 \texttt{(G -> port to S4)}；查表命中 \texttt{A -> port to A}，故仅向主机 $A$ \textbf{单播转发}（不发给 $B, C$）。
+  \item \textbf{$S_2$} 在整个第二阶段没有收到任何帧，因此 \textbf{$S_2$ 的交换表中只有 $A$、没有 $G$}。
+  \end{itemize}
 \end{enumerate}
 
-\textbf{Step 2：G 回复帧给 A（Src = G, Dst = A）：}
-\begin{enumerate}
-\item \textbf{S3} 从连向 G 的端口收到帧：记录 \StudyInline{(G, port G)}；查表\textbf{命中 A 在 port S4} $\to$ 仅向 \textbf{S4 单播转发（unicast）}（不发给 H、I）。
-\item \textbf{S4} 从连向 S3 的端口收到帧：记录 \StudyInline{(G, port S3)}；查表\textbf{命中 A 在 port S1} $\to$ 仅向 \textbf{S1 单播转发}（\textbf{绝不发给 S2！}）。
-\item \textbf{S1} 从连向 S4 的端口收到帧：记录 \StudyInline{(G, port S4)}；查表\textbf{命中 A 在 port A} $\to$ 仅向 \textbf{A 单播转发}（不发给 B、C）。
-\end{enumerate}
-
-\textbf{两步结束后 4 台交换机的最终转发表（必背陷阱汇总）：}
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.42\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.44\linewidth-1.33333\tabcolsep\relax}@{}}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.12\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.42\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.46\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-交换机 & 最终表项（MAC $\to$ 出接口） & 转发动作总结 \\
+交换机 & 两步完成后的交换表条目 & 两阶段转发行为汇总（English Summary） \\
 \midrule\endfirsthead
-交换机 & 最终表项（MAC $\to$ 出接口） & 转发动作总结 \\
+交换机 & 两步完成后的交换表条目 & 两阶段转发行为汇总（English Summary） \\
 \midrule\endhead
 \bottomrule\endfoot
-\textbf{S1} & \texttt{(A -> port A)}, \texttt{(G -> port S4)} & Step 1 泛洪；Step 2 单播给 A \\
-\textbf{S2} & \textbf{仅有 \texttt{(A -> port S4)}}（\textbf{没有 G！}） & Step 1 泛洪；\textbf{Step 2 完全没收到任何帧！} \\
-\textbf{S3} & \texttt{(A -> port S4)}, \texttt{(G -> port G)} & Step 1 泛洪；Step 2 单播给 S4 \\
-\textbf{S4} & \texttt{(A -> port S1)}, \texttt{(G -> port S3)} & Step 1 泛洪；Step 2 单播给 S1 \\
+\textbf{$S_1$} & \texttt{(A, iface-A)}, \texttt{(G, iface-S4)} & Floods $A\to G$ to $B, C, S_4$; unicasts $G\to A$ only to $A$. \\
+\textbf{$S_2$} & \textbf{\texttt{(A, iface-S4)} only}（无 $G$） & Floods $A\to G$ to $D, E, F$; receives \textbf{nothing} on $G\to A$. \\
+\textbf{$S_3$} & \texttt{(A, iface-S4)}, \texttt{(G, iface-G)} & Floods $A\to G$ to $G, H, I$; unicasts $G\to A$ only to $S_4$. \\
+\textbf{$S_4$} & \texttt{(A, iface-S1)}, \texttt{(G, iface-S3)} & Floods $A\to G$ to $S_2, S_3$; unicasts $G\to A$ only to $S_1$. \\
 \end{longtable}\endgroup
 
 
-\StudyHeading{1}{P3. 路由器两张独立 ARP 表中，能否出现同一个 MAC 地址？}
+\StudyHeading{1}{P3. 双子网路由器的两张独立 ARP 表能否包含同一 MAC 地址？}
 \StudyTarget{CS5222-Tutorial12__p3}
 
-\textbf{题目 / Question：} 路由器 R 连接两个独立子网（左子网 \StudyInline{111.111.111.*}，右子网 \StudyInline{222.222.222.*}），路由器有两个 ARP 模块、各自维护一张 ARP 表。同一个 MAC 地址有可能同时出现在这两张 ARP 表里吗？
+\textbf{Original Question:} For the network in the following figure (Router R interconnects Subnet 1 \StudyInline{111.111.\allowbreak{}111.*} and Subnet 2 \StudyInline{222.222.\allowbreak{}222.*}, with two ARP modules each maintaining its own ARP table), is it possible that the same MAC address appears in both tables?
 
-\textbf{答案 / Answer：不可能（No，正常网络配置下）。} 原因有二：(1) IEEE 保证全球每张网卡（NIC）拥有\textbf{唯一}的 48 位 MAC 地址，同一物理接口在给定时刻只能接入这两个子网中的一个；(2) \textbf{ARP 仅限本局域网广播且绝不跨越路由器}，右子网主机的 ARP 信息绝不会传播到左子网接口的 ARP 模块中（除非人为恶意 MAC 欺骗/克隆或把同一块网卡热拔插到另一子网且旧表项 TTL 尚未超时，标准教材常规假设下明确答 \textbf{No}）。
+\StudyImage{CS5222/course-notes/assets/tut12-arp-router.png}
+\StudyCaption{原创重绘 Tutorial 12 P3 双子网六接口拓扑（亦同 Chapter 6 Q\&A 第 3 题图）：路由器 R 左、右两个接口分属不同广播域，各自独立运行 ARP 模块。}
 
-\textbf{English answer:} \textbf{No.} Under normal operation, every network adapter has a globally unique MAC address and attaches to only one subnet at a time, and ARP packets are local to a single LAN and are never forwarded across a router. Therefore, the same MAC address cannot appear in both ARP tables.
+\textbf{答案与双层依据：}在正常网络运行与标准硬件配置下，\textbf{不可能（No）}。原因有两条：第一，IEEE 为全球每块物理网络适配器分配全局唯一的 48 位 MAC 地址，同一张网卡在给定时刻只能物理接入其中一个子网；第二，ARP 查询与响应均局限于单个局域网子网内部，路由器 R 严格隔离两侧二层广播域，左子网的 ARP 报文绝不会穿过 R 进入右子网的 ARP 表（仅在某台移动设备刚从左子网拔出并迁入右子网、而左接口旧 ARP 表项尚未满 20 分钟 TTL 过期的短暂瞬态，或人为软件篡改克隆 MAC 时才可能出现特例；按教材标准模型应明确作答 \textbf{No} 并写出唯一性与子网局部性两点理由）。
+
+\textbf{English answer:} \textbf{No} (under normal operation): every network interface card has a globally unique 48-bit MAC address attached to at most one subnet at a time, and ARP operates strictly within a single LAN broadcast domain without crossing routers. (Only transient host migration before ARP TTL expiration or deliberate MAC spoofing could create an exception.)
 
 
-\StudyHeading{1}{P4. 无线链路区别于有线链路的主要物理特征}
+\StudyHeading{1}{P4. 无线链路区别于有线链路的物理与协议特征}
 \StudyTarget{CS5222-Tutorial12__p4}
 
-\textbf{题目 / Question：} What are the characteristics that differentiate wireless link from wired link?
+\textbf{Original Question:} What are the characteristics that differentiate wireless link from wired link?
 
-\textbf{答案 / Answer（Chapter 7 课件 7-2/3 页四大要点）：}
+\textbf{四点核心差异（对应 Chapter 7 完整课件第 13–14 页 / 分卷 \texttt{part2} 第 2–3 页）：}
 \begin{enumerate}
-\item \textbf{信号衰减 / 路径损耗（Decreased Signal Strength / Path Loss）}：无线电波穿行空气与障碍物时能量急剧衰减。
-\item \textbf{来自其他源的干扰（Interference from Other Sources）}：如 2.4 GHz 等公共频段被多种设备（蓝牙、微波炉、电机、邻近 AP）共享。
-\item \textbf{多径传播（Multipath Propagation）}：信号经建筑物与地面多次反射，以不同路径和微小时间差到达接收端造成信号畸变/衰落。
-\item \textbf{隐藏终端与无法边发边检（Hidden Terminal Problem \& No CD）}：信号衰减导致两个发送者互相听不到却在接收端冲突，且本地发射信号淹没微弱来波，使有线以太网的 CSMA/CD 无法直接适用。
+\item \textbf{信号衰减严重（Decreased Signal Strength / Path Loss）}：电磁波随空间距离扩散并受墙体障碍物吸收而迅速衰减。
+\item \textbf{外部同频干扰（Interference from Other Sources）}：开放共享频段（如 $2.4\text{ GHz}$）同时受邻近无线网络、蓝牙、微波炉与电机干扰，误码率显著高于有线光纤/双绞线。
+\item \textbf{多径传播（Multipath Propagation）}：电波经建筑物和地面反射沿多条不同长度路径先后到达接收天线，引发码间干扰与信号衰落。
+\item \textbf{隐藏终端与无法实施碰撞检测（Hidden Terminals \& No Collision Detection）}：相距较远或被阻挡的两发送站彼此听不见却在共同接收站处碰撞，且本地强发射功率淹没微弱远端信号，使有线以太网的 CSMA/CD 无法使用。
 \end{enumerate}
 
+\textbf{English answer:} Wireless links differ from wired links due to \textbf{(1) severe path loss} (attenuation with distance and obstacles), \textbf{(2) interference from other radio sources} sharing unlicensed bands, \textbf{(3) multipath propagation} from reflections arriving at slightly different times, and \textbf{(4) hidden terminals and self-interference}, which prevent Ethernet-style collision detection (CSMA/CD) and necessitate link-layer ACKs and CSMA/CA.
 
-\StudyHeading{1}{P5. 若 802.11 的 RTS/CTS 和 DATA/ACK 一样长，使用 RTS/CTS 还有优势吗？}
+
+\StudyHeading{1}{P5. 若 802.11 的 RTS/CTS 帧与 DATA/ACK 帧一样长，使用它还有优势吗？}
 \StudyTarget{CS5222-Tutorial12__p5}
 
-\textbf{题目 / Question：} Suppose the IEEE 802.11 RTS and CTS frames were as long as the standard DATA and ACK frames. Would there be any advantage to using RTS/CTS? Why or why not?
+\textbf{Original Question:} Suppose the IEEE 802.11 RTS and CTS frames were as long as the standard DATA and ACK frames. Would there be any advantage to using the CTS and RTS frames? Why or why not?
 
-\textbf{答案 / Answer：没有任何优势，反而性能大幅恶化！（No advantage; in fact, worse performance.）}
-\begin{itemize}
-\item RTS/CTS 原本有效的唯一前提是\textbf{控制帧极短}：宁可让极短的 RTS 发生冲突，来换取超长的 DATA 帧零冲突。
-\item 如果 RTS 和 DATA 一样长，那么\textbf{两个 RTS 撞车浪费的信道时间与直接发两个 DATA 撞车完全一样多}（零减损！）；更糟的是，每次没有冲突的成功传输现在都必须额外付出与 DATA 等长的 RTS 和 CTS 传输开销，信道有效吞吐量直接暴跌数倍！
-\end{itemize}
+\textbf{答案与分析：}\textbf{没有任何优势，反而会令信道吞吐性能显著恶化（No advantage at all; performance would degrade severely）。}RTS/CTS 预约机制之所以在隐藏终端场景下划算，全部建立在“RTS/CTS 控制帧极短、DATA 数据帧很长”的不对称前提之上：即便两个隐藏站点的 RTS 发生碰撞，浪费的只是极短的控制帧时长，从而保护了漫长的 DATA 帧免于碰撞重传。倘若把 RTS 和 CTS 做得与标准 DATA 帧一样长，那么：（1）一旦两张 RTS 帧发生碰撞，白白损毁的空中时长与直接拿两张 DATA 帧去碰撞完全一样多，失去了减小碰撞代价的作用；（2）更糟的是，每一次原本无碰撞的正常发送，现在都得先额外花掉两整张大帧的时间去发 RTS 和 CTS，导致有效载荷占比大幅缩水。
 
-\textbf{English answer:} \textbf{No—there would be no advantage (performance would actually be worse).} RTS/CTS only helps because short control-frame collisions waste far less channel time than long DATA-frame collisions. If RTS/CTS were as long as DATA frames, colliding RTS frames would waste just as much airtime as colliding DATA frames, while every successful transmission would suffer massive extra overhead from sending full-sized RTS and CTS frames before DATA.
+\textbf{English answer:} \textbf{No—there would be no advantage, and throughput would actually become much worse.} RTS/CTS is beneficial only because RTS/CTS control frames are much shorter than DATA frames, turning expensive long DATA collisions into cheap short RTS collisions. If RTS and CTS were as long as DATA frames, an RTS collision would waste just as much channel time as a direct DATA collision, while every successful transmission would incur huge extra overhead from transmitting full-length RTS and CTS frames prior to DATA.
+
+\textbf{独立变式 / Check：}在 P2 的四交换机拓扑中，若紧接着第 3 步由主机 $D$（接在 $S_2$ 下）向主机 $A$ 发送一帧，哪几台交换机会收到该帧？它会被泛洪吗？ / In P2, if Host $D$ (under $S_2$) next sends a frame to Host $A$, which switches receive it and is it flooded?
+
+\begin{StudySolution}{答案 / Answer}
+因为第 1 步泛洪时 $S_2, S_4, S_1$ 均已学到了主机 $A$ 的出端口，所以 $D\to A$ 全程\textbf{不会泛洪}：$S_2$ 学得 $(D,\text{iface-D})$ 后单播发给 $S_4$ $\to$ $S_4$ 学得 $(D,\text{iface-S2})$ 后单播发给 $S_1$ $\to$ $S_1$ 学得 $(D,\text{iface-S4})$ 后单播交付给 $A$（$S_3$ 完全收不到该帧）。 / None of the switches flood it: $S_2$, $S_4$, and $S_1$ already learned $A$'s direction in Step 1, so the frame is unicast along $D \to S_2 \to S_4 \to S_1 \to A$ while $S_3$ never sees it.
+\end{StudySolution}
+
+来源：\texttt{tutorial-12\_semA2026.pdf}（2 页），对照 Chapter 6 与 Chapter 7 2026 课件整理。

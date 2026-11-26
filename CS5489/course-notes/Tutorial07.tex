@@ -1,0 +1,41 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Tutorial07}{Tutorial 7 · Deep Features and Transfer Learning for Cake Classification}
+\StudyTarget{CS5489-Tutorial07__root-section}
+
+\StudyRef{CS5489-Lecture07}{root}{Lecture 7：深层架构、优化与迁移学习} · \StudyRef{CS5489-Lecture03}{root}{Lecture 3：SVM 与线性分类} · \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Tutorial06}{root}{上一份：Tutorial 6} · \StudyRef{CS5489-Tutorial08}{root}{下一份：Tutorial 8}
+
+
+\StudyHeading{1}{导读｜每类只有百来张蛋糕照片，怎样借用百万张大图预训练好的视觉表征？}
+\StudyTarget{CS5489-Tutorial07__overview}
+
+如果直接拿包含两千五百万参数的深层网络在仅有几百张照片的小数据集（\texttt{cakes.zip}：共 8 类甜点蛋糕，每张 $224\times 224\times 3$ 彩色图像）上从随机初始化开始训练，网络会在几个轮次内把训练集死记硬背下来而彻底丧失泛化能力。Tutorial 7（对应 \texttt{Lecture7/Tutorial7/Tutorial7-torch.ipynb}，共 41 个单元）完整实践\StudyRef{CS5489-Lecture07}{resnet}{Lecture 7 迁移学习（Transfer Learning）}的两条工程主路径：第一阶段把在 ImageNet 百万图像上预训练好的 \textbf{ResNet-50} 当作冻结的\textbf{固定特征提取器（off-the-shelf feature extractor）}，抽出 $2048$ 维高层语义向量喂给第 3 讲学过的传统分类器（SVM、逻辑回归、随机森林）；第二阶段替换顶层全连接头或微调（fine-tuning）预训练骨干网络，并通过混淆矩阵诊断细粒度视觉混淆错误。
+
+
+\StudyHeading{1}{1. 预训练骨干网络的输入预处理对齐与特征提取（第 1–19 单元）}
+\StudyTarget{CS5489-Tutorial07__feature-extraction}
+
+使用任何预训练模型的第一条铁律是：\textbf{下游输入图像的数值范围、通道顺序和均值标准差归一化，必须与该骨干网络当年预训练时的约定严格一致}。
+\begin{itemize}
+\item \textbf{避免原地覆盖与量纲错位（第 10–15 单元）}：\StudyInline{transforms.\allowbreak{}ToTensor()} 会把 \StudyInline{uint8} 的 $[0, 255]$ 像素除以 $255$ 缩放到 $[0.0, 1.0]$；若选用标准 \StudyInline{torchvision.\allowbreak{}models.\allowbreak{}resnet50(\allowbreak{}weights=\allowbreak{}ResNet50\_\allowbreak{}Weights.\allowbreak{}DEFAULT)}，必须在 $[0, 1]$ 张量上继续做 ImageNet 三通道标准化 $\mathbf{x}_{\mathrm{norm}} = (\mathbf{x} - \boldsymbol{\mu}) / \boldsymbol{\sigma}$（其中 $\boldsymbol{\mu} = [0.485, 0.456, 0.406],\; \boldsymbol{\sigma} = [0.229, 0.224, 0.225]$；若调用旧式按 $[0,255]$ 减均值的预处理函数，则需像原 Notebook 第 11、14 单元提示的那样先核对缩放倍数并用 \StudyInline{copy()/\allowbreak{}clone()} 防止原地修改毁掉用于后续可视化的原始图像 \StudyInline{Xraw}）。
+\item \textbf{剥离原 1000 类分类头提取 2048 维特征（第 17–18 单元）}：标准 ResNet-50 在四个残差阶段与全局平均池化（Global Average Pooling, GAP，将 $2048\times 7\times 7$ 压成 $2048\times 1\times 1$）之后，接了一层 \StudyInline{model.fc =\allowbreak{} Linear(2048, 1000)}。令 \StudyInline{model.fc =\allowbreak{} nn.Identity()}（或截取 \StudyInline{nn.\allowbreak{}Sequential(\allowbreak{}*list(resnet.\allowbreak{}children())[:-1])} 后展平），并在 \StudyInline{model.\allowbreak{}eval()} 与 \StudyInline{torch.\allowbreak{}no\_grad()} 下前向传播一遍，即可将尺寸为 $(N, 3, 224, 224)$ 的图像张量一次性转化为紧凑的高层特征矩阵 $\mathbf{X}_f \in \mathbb{R}^{N \times 2048}$。
+\end{itemize}
+
+
+\StudyHeading{1}{2. 固定深度特征配传统分类器 vs 端到端迁移微调（第 20–41 单元）}
+\StudyTarget{CS5489-Tutorial07__transfer-analysis}
+
+第 21 单元将 $\mathbf{X}_f$、整数标签 $\mathbf{Y}$、独热标签 $\mathbf{Y}_b$ 与原图同步按固定随机种子划分为训练集与测试集，随后展开两轮对比实验：
+\begin{enumerate}
+\item \textbf{路线一：冻结 2048 维深度特征 + 传统浅层分类器（第 22–30 单元）}：在 $\mathbf{X}_f$（经 \texttt{StandardScaler} 或 $\ell_2$ 归一化后）上直接用交叉验证训练带 L2 正则的逻辑回归、线性/RBF 核 SVM 及随机森林。由于 ResNet-50 高层特征已经把复杂的甜点纹理、糖霜形状和水果点缀解耦成了近似线性可分的语义方向，仅需几秒钟训练一个带强 L2 正则的线性 SVM 或逻辑回归，就能在 8 类蛋糕上取得相当高的测试准确率（显著优于在原始 $224\times 224\times 3 = 150{,}528$ 维像素上直接跑传统分类器）。
+\item \textbf{路线二：神经网络分类头与骨干微调（Fine-Tuning，第 31–40 单元）}：可以在 $2048$ 维特征上接带 Dropout 与权重衰减的小型 MLP 分类头，或者换用更强的预训练骨干（如 ConvNeXt / ViT / ResNet-101，注意同步更换其专属预处理尺寸与归一化参数），并解冻骨干最后 1 个残差阶段（\texttt{layer4}）配合\textbf{较小的学习率（如 $10^{-4}$，比新初始化分类头低一个数量级）}加数据增强微调。如果把全部骨干层一股脑解冻且使用过大学习率，梯度初期震荡会冲毁预训练权重（灾难性遗忘），在几百张图的小数据集上反而输给冻结特征配正则化逻辑回归。
+\item \textbf{混淆矩阵错误诊断（第 28–30、39 单元）}：观察 $8\times 8$ 混淆矩阵的非对角线高值格，误分几乎不发生在外观迥异的品类之间，而是高度集中在两类情形：（a）\textbf{细粒度视觉重叠}——例如同带白色奶油淋面或切块层次相近的两类蛋糕（如芝士蛋糕与慕斯/胡萝卜蛋糕）；（b）\textbf{背景杂波与拍摄视角干扰}——盘子装饰、叉子或局部特写占满画面遮挡了蛋糕主体结构。
+\end{enumerate}
+
+\textbf{双语自测 / Check（关联期末迁移学习简答）：}当目标任务的数据集非常小、但图像域与 ImageNet 自然照片相近时，应该“冻结预训练骨干只训线性顶层”还是“从头随机初始化训练整网”？若目标数据量充足但领域差异较大（如医学显微切片），策略应如何调整？ / Compare freezing vs. fine-tuning a pre-trained CNN backbone when target data is scarce versus abundant.
+
+\begin{StudySolution}{答案 / Answer}
+当目标样本极少且与源域相近时，应\textbf{冻结预训练骨干，仅训练参数很少的顶层线性/浅层分类器}，以充分利用通用视觉特征并防止小样本严重过拟合；当目标样本较充足但与自然图像存在明显域偏移时，应保留预训练底层通用边缘纹理权重作为初始化，并用\textbf{小学习率微调（fine-tune）高层或全网参数}以适应新领域特征。 / With scarce data similar to the source domain, freeze the pre-trained backbone and train only a lightweight linear head to avoid overfitting; with larger data and domain shift, initialize from pre-trained weights and fine-tune higher layers (or the full network) using a small learning rate.
+\end{StudySolution}
+
+来源：2026 学期 \texttt{Lecture7/Tutorial7/Tutorial7-torch.ipynb}（第 1–41 单元）。

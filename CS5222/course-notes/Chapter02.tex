@@ -4,7 +4,7 @@
 \StudyTarget{CS5222-Chapter02__chapter-2-application-layer}
 
 
-\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter01}{root}{上一章} · \StudyRef{CS5222-Tutorial03}{root}{Tutorial 3} · \StudyRef{CS5222-Assignment01}{root}{Assignment 1} · \StudyRef{CS5222-ResearchReportGuide}{root}{Research Report}
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter01}{root}{上一章} · \StudyRef{CS5222-Chapter03}{root}{下一章：传输层} · \StudyRef{CS5222-Tutorial03}{root}{Tutorial 3} · \StudyRef{CS5222-Assignment01}{root}{Assignment 1} · \StudyRef{CS5222-ResearchReportGuide}{root}{Research Report}
 
 
 上一章知道消息可以穿过网络，这一章把镜头移到两端：浏览器怎样开口要网页，邮件怎样送到邮箱，名字怎样换成地址，多个用户怎样互相传文件，视频为什么可以边下边播。最后亲手让两个本机程序交换一句话。
@@ -499,6 +499,8 @@ Download times are 2, 4 and 8 s; stalls are 0, 1 and 5 s. At 0.5 Mbps the post-d
 \StudyTarget{CS5222-Chapter02__13-socket-programming}
 
 
+\textbf{考纲范围提示：}依据本学期期末考前通知，\textbf{Socket 编程与 Wireshark 抓包实验不纳入期末笔试范围}；本节保留供平时实验与传输层接口理解参考。
+
 课堂的原任务：client读一句文字 \ensuremath{\to} server转大写 \ensuremath{\to} 回给client。当前原代码含Python2 \StudyInline{raw\_\allowbreak{}input}/print写法，以及\StudyInline{from socket import *}与\StudyInline{socket.\allowbreak{}AF\_\allowbreak{}INET}混用。配套 \StudyRepoRef{CS5222/course-notes/labs/socket_demo.py}{}{socket\_demo.py} 使用Python3、模块导入、显式UTF-8编码和超时，只绑定本机127.0.0.1。
 
 
@@ -734,4 +736,4 @@ P2P、BitTorrent & 常规掌握 & 中；资源下界与实际性能 & 推导三�
 \endgroup
 
 
-part1对应完整1–22，part2对应23–65，part3对应66–107；内容核对忽略明确的页脚重编号。课件中的旧RFC、客户端与数字按原例保留；协议版本差异在正文就近说明。FTP独立正文和后续未下载章节列为待补材料。
+part1对应完整1–22，part2对应23–65，part3对应66–107；内容核对忽略明确的页脚重编号。课件中的旧RFC、客户端与数字按原例保留；协议版本差异在正文就近说明。早期目录曾列出的独立FTP小节在本学期完整课件中未展开；后续Chapter 3–7均已按全学期课件编入本册。

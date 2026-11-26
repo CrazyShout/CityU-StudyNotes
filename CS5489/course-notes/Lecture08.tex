@@ -7,13 +7,13 @@
 \StudyHeading{1}{没有标签时怎么压缩数据？从 PCA、文本主题到非线性流形}
 \StudyTarget{CS5489-Lecture08__intro}
 
-\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture07}{root}{上一讲：深度网络与架构} · \StudyRef{CS5489-Lecture09}{root}{下一讲：聚类分析}
+\StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture07}{root}{上一讲：深度网络与架构} · \StudyRef{CS5489-Lecture09}{root}{下一讲：聚类分析} · \StudyRef{CS5489-Tutorial08}{root}{Tutorial 8：人脸降维与去噪}
 
 前七讲全都是\textbf{监督学习（supervised learning）}：每条样本都带着现成答案 $y$，模型照着标准答案学输入到输出的映射。从这一讲开始，我们进入\textbf{无监督学习（unsupervised learning）}——手里只有一堆原始输入向量 $\{\mathbf{x}_1,\dots,\mathbf{x}_N\}$，没有类别标签，也没有回归目标，任务变成自己去发现数据内在的结构。
 
 无监督学习有两大支柱：本讲的\textbf{降维（dimensionality reduction）}，以及下一讲的\textbf{聚类（clustering）}。降维要做的是把成千上万维的高维向量（如图像像素、文档词袋）压成几十维甚至 2–3 维的紧凑表示，既能提速预处理、滤除噪声、方便二维可视化，还常常挖出有语义含义的低维因子（如文档主题、特征脸）。前半讲（Lecture8a）梳理线性降维家族——\textbf{PCA、随机投影、监督降维 FLD（LDA）、文本降维 LSA 与 NMF}；后半讲（Lecture8b）面对弯曲在非线性曲面上的数据，引入\textbf{核主成分分析（Kernel PCA）}以及以可视化为核心的\textbf{流形嵌入（Manifold Embedding：LLE、MDS、Isomap、Spectral Embedding、t-SNE）}。
 
-\textbf{基础复习（可跳过）：} 如果对特征值分解、正交矩阵或核技巧（kernel trick）不熟，可回看\StudyRef{Foundations-MathForML}{root}{机器学习数学基础}与\StudyRef{CS5489-Lecture03}{root}{Lecture 3 核方法与 SVM}。
+\textbf{基础复习（可跳过）：} 如果对特征值分解、正交矩阵、奇异值分解（SVD）或核技巧（kernel trick）不熟，可回看\StudyRef{Foundations-MathForML}{eigen-svd}{数学补课：特征值分解与 SVD}与\StudyRef{CS5489-Lecture03}{root}{Lecture 3 核方法与 SVM}。
 
 学习目标与难点见\StudyRef{CS5489-Lecture08}{learning-priorities}{文末学习要求表}。
 
@@ -63,7 +63,7 @@ KPCA + 线性 SVM vs 核 SVM & 说清无监督重构 vs 有监督判别，全数
 \tag{8.2}
 \]
 \end{enumerate}
-为什么这两个目标是一回事？由勾股定理，对去均值后的任意样本 $\bar{\mathbf{x}}_i = \mathbf{x}_i - \boldsymbol{\mu}$，其到原点的平方长度是一个常数，且正好拆成“落在投影子空间里的平方长度”加上“垂直于子空间的残差平方长度”：$\|\bar{\mathbf{x}}_i\|_2^2 = \|\hat{\bar{\mathbf{x}}}_i\|_2^2 + \|\bar{\mathbf{x}}_i - \hat{\bar{\mathbf{x}}}_i\|_2^2$。总长度不变，投影后的方差越大，剩下的重构误差就必然越小！
+为什么这两个目标是一回事？由勾股定理，对去均值后的任意样本 $\bar{\mathbf{x}}_i = \mathbf{x}_i - \boldsymbol{\mu}$，其到原点的平方长度是一个常数，且正好拆成“落在投影子空间里的平方长度”加上“垂直于子空间的残差平方长度”：$\|\bar{\mathbf{x}}_i\|_2^2 = \|\hat{\bar{\mathbf{x}}}_i\|_2^2 + \|\bar{\mathbf{x}}_i - \hat{\bar{\mathbf{x}}}_i\|_2^2$。总长度不变，投影后的方差越大，剩下的重构误差就必然越小。
 
 \StudyHeading{2}{协方差特征分解与 PCA 五步流程}
 \StudyTarget{CS5489-Lecture08__pca-algo}
@@ -79,20 +79,21 @@ KPCA + 线性 SVM vs 核 SVM & 说清无监督重构 vs 有监督判别，全数
 \item 投影得低维坐标 $\mathbf{w}_i = \mathbf{V}_K^T \bar{\mathbf{x}}_i \in \mathbb{R}^K$，重构则用 $\hat{\mathbf{x}}_i = \boldsymbol{\mu} + \mathbf{V}_K\mathbf{w}_i$。
 \end{enumerate}
 
-四个考试与工程高频要点务必牢记：
+以下五条性质在理论辨析与实际应用中尤为重要：
 \begin{itemize}
-\item \textbf{增量嵌套性（2020B Q1 选项 E）：} 主成分按特征值降序固定排好，把保留维度从 $p$ 增加到 $p+1$ 时，\textbf{前 $p$ 个主成分原封不动}，只是多追加第 $p+1$ 个正交方向！因此挑最佳维度时，只需跑一次 PCA，再直接切片取前 $p$ 列即可。
+\item \textbf{增量嵌套性（2020B Q1 选项 E）：} 主成分按特征值降序固定排好，把保留维度从 $p$ 增加到 $p+1$ 时，\textbf{前 $p$ 个主成分原封不动}，只是多追加第 $p+1$ 个正交方向。因此挑最佳维度时，只需跑一次 PCA，再直接切片取前 $p$ 列即可。
 \item \textbf{不必求全部特征向量（2020B Q1 选项 D 为错）：} 只需要前 $K$ 个最大特征对时，截断 SVD（truncated SVD）或幂迭代法能直接求前 $K$ 个，复杂度约 $O(d K^2)$（或按 SVD 方式），不需要把全部 $d$ 个特征向量全算出来。
 \item \textbf{怎么选 $p$ 与去噪应用：} 两种常见选法——(1) 按\textbf{解释方差比（explained variance）} $\frac{\sum_{j=1}^p \lambda_j}{\sum_{j=1}^d \lambda_j}$ 达到阈值（例如 95\%）；(2) 按下游任务（如验证集分类准确率）择优。另外，因为噪声常分布在方差很小的尾部主成分里，把含噪图像投影到低维主成分再重构回原空间，就能实现 \textbf{PCA 去噪（denoising）}。
 \item \textbf{特征缩放会改变 PCA 结果：} 因为协方差依赖每个特征的数值量级，如果先对各特征做逐维标准化（per-feature normalization），各维相对协方差发生改变，得到的 PCA 主成分会完全不同。
+\item \textbf{降维与特征选择（Feature Selection，见\StudyRef{CS5489-Lecture04}{ridge}{Lecture 4 LASSO}）的异同（2024/25 东莞样题 Q1c）：} 两者都把高维输入减少到 $p<d$ 个变量，从而降低计算开销、缓解过拟合与维度灾难；但\textbf{特征选择}直接从原特征中挑选子集（保留单一原始变量的物理可解释性，不产生新特征），而\textbf{降维（特征提取）}通过线性或非线性映射将全部原始变量组合成全新的低维坐标（信息压缩率通常更高，但新坐标往往失去单一原始特征的直观物理意义）。
 \end{itemize}
 
-\begin{StudyBlock}{完整示范 / Worked example}{手算 2D PCA，亲眼验证“方差 + 误差 = 总方差”}
+\begin{StudyBlock}{完整示范 / Worked example}{手算 2D PCA，验证“保留方差 + 重构误差 = 总方差”}
 给定 4 个已经零均值化的二维点：$(-2,-1),\,(-1,-2),\,(1,2),\,(2,1)$。
 \begin{enumerate}
 \item 协方差矩阵：$\boldsymbol{\Sigma} = \frac{1}{4}\mathbf{X}^T\mathbf{X} = \begin{bmatrix}2.5 & 2.0\\ 2.0 & 2.5\end{bmatrix}$，总方差为迹 $\mathrm{tr}(\boldsymbol{\Sigma}) = 2.5 + 2.5 = 5.0$。
-\item 特征值与单位正交特征向量：解 $(2.5-\lambda)^2 - 4 = 0$ 得 $\lambda_1 = 4.5,\; \lambda_2 = 0.5$，对应 $\mathbf{v}_1 = \frac{1}{\sqrt{2}}[1,1]^T$、$\mathbf{v}_2 = \frac{1}{\sqrt{2}}[-1,1]^T$。第 1 主成分就解释了 $4.5 / 5.0 = 90\%$ 的方差！
-\item 只留 1 维（$\mathbf{v}_1$）：四个投影系数为 $w = \mathbf{X}\mathbf{v}_1 = [-3/\sqrt{2},\,-3/\sqrt{2},\,3/\sqrt{2},\,3/\sqrt{2}]$，保留方差为 $\frac{1}{4}\sum w_i^2 = \frac{1}{4}(4\times 4.5) = 4.5 = \lambda_1$；重构误差均值为 $\frac{1}{4}\sum \|\mathbf{x}_i - w_i\mathbf{v}_1\|_2^2 = 0.5 = \lambda_2$。正好满足 $4.5 + 0.5 = 5.0$！
+\item 特征值与单位正交特征向量：解 $(2.5-\lambda)^2 - 4 = 0$ 得 $\lambda_1 = 4.5,\; \lambda_2 = 0.5$，对应 $\mathbf{v}_1 = \frac{1}{\sqrt{2}}[1,1]^T$、$\mathbf{v}_2 = \frac{1}{\sqrt{2}}[-1,1]^T$。第 1 主成分即解释了 $4.5 / 5.0 = 90\%$ 的方差。
+\item 只留 1 维（$\mathbf{v}_1$）：四个投影系数为 $w = \mathbf{X}\mathbf{v}_1 = [-3/\sqrt{2},\,-3/\sqrt{2},\,3/\sqrt{2},\,3/\sqrt{2}]$，保留方差为 $\frac{1}{4}\sum w_i^2 = \frac{1}{4}(4\times 4.5) = 4.5 = \lambda_1$；重构误差均值为 $\frac{1}{4}\sum \|\mathbf{x}_i - w_i\mathbf{v}_1\|_2^2 = 0.5 = \lambda_2$，恰好满足 $4.5 + 0.5 = 5.0$。
 \end{enumerate}
 \end{StudyBlock}
 
@@ -116,7 +117,7 @@ KPCA + 线性 SVM vs 核 SVM & 说清无监督重构 vs 有监督判别，全数
 \]
 它的代价是在两点距离上引入了一定随机噪声，换来极低的计算开销。
 
-再来看一个\textbf{最致命的无监督陷阱}（2020B Q1 选项 A 与 2021B Q2 选项 A 均据此出题）：\textbf{PCA 降维后的分类准确率并不总是大于等于原空间！} 原因看图 8.1 右便一目了然：如果两个类别像两根平行细长的雪茄横着摆开，横向全是与分类无关的高方差噪声，纵向才是区分两类的信号。无监督的 PCA 看不见标签，一门心思挑方差最大的水平轴 $\mathbf{v}_1$ 投影，结果把两类样本彻底拍扁重叠在一起！
+再来看一个\textbf{无监督降维的关键局限}（2020B Q1 选项 A 与 2021B Q2 选项 A 均据此出题）：\textbf{PCA 降维后的分类准确率并不总是大于等于原空间。} 原因看图 8.1 右便一目了然：如果两个类别像两根平行细长的雪茄横着摆开，横向全是与分类无关的高方差噪声，纵向才是区分两类的信号。无监督的 PCA 看不见标签，只挑方差最大的水平轴 $\mathbf{v}_1$ 投影，结果把两类样本彻底拍扁重叠在一起。
 
 为了在降维时保住分类边界，必须请出\textbf{监督降维}——\textbf{Fisher 线性判别分析（Fisher's Linear Discriminant, FLD，又称 LDA）}。设两类在原空间的均值为 $\boldsymbol{\mu}_1, \boldsymbol{\mu}_2$、类内散度（协方差）矩阵为 $\mathbf{S}_1, \mathbf{S}_2$；投影到方向 $\mathbf{w}$ 后，投影均值为 $m_j = \mathbf{w}^T\boldsymbol{\mu}_j$，投影类内方差为 $s_j = \mathbf{w}^T\mathbf{S}_j\mathbf{w}$。FLD 要求\textbf{两类投影中心越远越好、每类内部越紧凑越好}，即最大化类间平方距与类内方差之和的比值，并有漂亮闭式解：
 \[
@@ -135,8 +136,8 @@ KPCA + 线性 SVM vs 核 SVM & 说清无监督重构 vs 有监督判别，全数
 
 处理文本时，一篇文档表示为高维词袋向量（TF 或 TF-IDF）。把文档向量写成若干“主题向量”的线性组合 $\hat{\mathbf{x}}_i = \sum_{j=1}^p w_{ij}\mathbf{v}_j$，就是面向文本的线性降维：
 \begin{itemize}
-\item \textbf{潜在语义分析（Latent Semantic Analysis, LSA）：} 直接最小化平方重构误差 $\sum_i \|\mathbf{x}_i - \hat{\mathbf{x}}_i\|_2^2$（与 PCA 同一目标，工程上通过 \StudyInline{TruncatedSVD} 闭式求解，通常不对稀疏词袋矩阵做去均值以保稀疏性）。它把经常共现的词归进同一主题，能捕捉同义词和多义词，在主题空间比较文档相似度更有语义含义。\textbf{两大毛病：} SVD 算出的主题向量里的“词频”和文档的主题权重都\textbf{可能出现负数}——可一篇文档显然不应该“包含 $-0.4$ 个体育主题”！
-\item \textbf{非负矩阵分解（Non-negative Matrix Factorization, NMF）：} 在同一平方重构误差目标上，强行加上非负约束 $\mathbf{v}_j \ge 0,\; w_{ij} \ge 0$。好处是每篇文档变成了若干主题的\textbf{纯加法组合（additive parts-based representation）}，而且大多数主题权重自动变成 0，呈现干净的\textbf{稀疏性（sparseness）}。\textbf{两大局限：} (1) \textbf{没有闭式解}，必须用迭代优化算法求解（2021B 期末 Q2 选项 C 专门借此设陷阱：并不是所有线性降维系数都能闭式线性求得！）；(2) 尽管非负，权重和基向量并未归一化成和为 1 的概率分布，仍难以直接做严格概率解释。
+\item \textbf{潜在语义分析（Latent Semantic Analysis, LSA）：} 直接最小化平方重构误差 $\sum_i \|\mathbf{x}_i - \hat{\mathbf{x}}_i\|_2^2$（与 PCA 同一目标，工程上通过 \StudyInline{TruncatedSVD} 闭式求解，通常不对稀疏词袋矩阵做去均值以保稀疏性）。它把经常共现的词归进同一主题，能捕捉同义词和多义词，在主题空间比较文档相似度更有语义含义。\textbf{主要局限：} SVD 算出的主题向量里的“词频”和文档的主题权重都\textbf{可能出现负数}——可一篇文档显然不应该“包含 $-0.4$ 个体育主题”。
+\item \textbf{非负矩阵分解（Non-negative Matrix Factorization, NMF）：} 在同一平方重构误差目标上，加上非负约束 $\mathbf{v}_j \ge 0,\; w_{ij} \ge 0$。好处是每篇文档变成了若干主题的\textbf{纯加法组合（additive parts-based representation）}，而且大多数主题权重自动变成 0，呈现干净的\textbf{稀疏性（sparseness）}。\textbf{两大局限：} (1) \textbf{没有闭式解}，必须用迭代优化算法求解（2021B 期末 Q2 选项 C 据此辨析：并不是所有线性降维系数都能闭式线性求得）；(2) 尽管非负，权重和基向量并未归一化成和为 1 的概率分布，仍难以直接做严格概率解释。
 \end{itemize}
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
@@ -162,7 +163,7 @@ NMF & 无监督／迭代 & 非负约束下最小平方重构 & 纯加法主题�
 
 考点：Kernel PCA 原理、$N\ll D$ 算力拯救与 KPCA vs KSVM \StudyBadge{final}{期末直接 · 2 套}
 
-线性降维都假设数据躺在一条直线或一个平坦超平面上。一旦数据分布在同心圆环或弯曲的“瑞士卷”上，任何直线投影都会把不同分支混在一起（图 8.2 右）。\textbf{Kernel PCA（KPCA）}借用了 SVM 里的\textbf{核技巧（kernel trick）}：先把原数据 $\mathbf{x}_i$ 隐式映射到高维特征空间 $\phi(\mathbf{x}_i)$，再在高维空间里做标准线性 PCA——映射回原空间，等高线就自然弯成了非线性曲面！
+线性降维都假设数据躺在一条直线或一个平坦超平面上。一旦数据分布在同心圆环或弯曲的“瑞士卷”上，任何直线投影都会把不同分支混在一起（图 8.2 右）。\textbf{Kernel PCA（KPCA）}借用了 SVM 里的\textbf{核技巧（kernel trick）}：先把原数据 $\mathbf{x}_i$ 隐式映射到高维特征空间 $\phi(\mathbf{x}_i)$，再在高维空间里做标准线性 PCA——映射回原空间，等高线就自然弯成了非线性曲面。
 
 在特征空间里，主成分可以写成训练样本特征的线性组合 $\mathbf{v} = \sum_{i=1}^N a_i \phi(\mathbf{x}_i)$。对任意新样本 $\mathbf{x}_*$，它的投影系数只依赖核函数内积 $k(\mathbf{x}_*, \mathbf{x}_i) = \phi(\mathbf{x}_*)^T\phi(\mathbf{x}_i)$，完全不用显式算出 $\phi(\mathbf{x})$：
 \[
@@ -183,15 +184,17 @@ w = \phi(\mathbf{x}_*)^T \mathbf{v} = \sum_{i=1}^N a_i k(\mathbf{x}_*, \mathbf{x
 \end{enumerate}
 选多项式核时，主成分可沿曲线展开；选 RBF（高斯）核时，前几个主成分就能把非线性聚团（如同心圆、多团簇）切分开。而且相比后面的流形嵌入算法，KPCA 有一个显著优势：\textbf{训练完后可以直接通过式 8.5 投影全新的测试样本}（代价是必须把训练样本留着算核相似度）。
 
+\textbf{PCA 与 Kernel PCA 的对照（2024/25 东莞样题 Q1b）：} 两者都是无监督正交主成分分析，但标准 PCA 在原输入空间构造 $d\times d$ 协方差矩阵（复杂度 $O(Nd^2+d^3)$），仅能捕捉线性子空间，优点是测试时只需乘 $d\times K$ 基矩阵、且能直接线性重构 $\hat{\mathbf{x}}=\boldsymbol{\mu}+\mathbf{V}_K\mathbf{w}$；KPCA 在核诱导特征空间构造 $N\times N$ 核矩阵（复杂度 $O(N^2d+N^3)$），既能展开非线性曲面结构，又能在 $N\ll d$ 时采用线性核大幅节省内存，代价是需选择核超参数、测试时须保留全部 $N$ 个训练样本计算核向量，且非线性核没有直接的原空间线性逆映射（重构原像需额外优化，见\StudyRef{CS5489-Tutorial08}{root}{Tutorial 8}）。
+
 \StudyHeading{2}{期末两道 10 分真题精解：高维 $N\ll D$ 救场 与 KPCA vs KSVM}
 \StudyTarget{CS5489-Lecture08__kpca-vs-ksvm}
 
-\begin{StudyBlock}{完整示范 / Worked example}{高维小样本图像上的 PCA 数值灾难（2021B 期末 Q7 核心思路）}
-\textbf{场景：} 对 $N = 1{,}000$ 张 $1000\times 1000$ 图像（拉平后维度 $D = 1{,}000{,}000$）做标准 PCA，会遇到什么数值计算灾难？如何破解？
+\begin{StudyBlock}{完整示范 / Worked example}{高维小样本图像上的 PCA 数值瓶颈（2021B 期末 Q7 核心思路）}
+\textbf{场景：} 对 $N = 1{,}000$ 张 $1000\times 1000$ 图像（拉平后维度 $D = 1{,}000{,}000$）做标准 PCA，会遇到什么数值计算瓶颈？如何解决？
 \begin{itemize}
-\item \textbf{直接算协方差矩阵的灾难：} 协方差矩阵 $\boldsymbol{\Sigma}$ 的尺寸是 $D\times D = 10^6\times 10^6 = 10^{12}$ 个元素，按双精度浮点（8 字节）存储需要约 \textbf{8 TB 内存}！计算全部外积的时间复杂度是 $O(N D^2)$（约 $10^{15}$ 次乘法），根本算不动。
-\item \textbf{破解方案 1（线性核 KPCA）：} 改算 $N\times N$ 的样本内积矩阵（Gram 矩阵）$\mathbf{K}=\bar{\mathbf{X}}^T\bar{\mathbf{X}}$，尺寸仅 $1000\times 1000 = 10^6$ 个元素，内存骤降到约 \textbf{8 MB}（缩小 100 万倍！）；计算内积的时间复杂度为 $O(N^2 D)$（约 $10^{12}$ 次乘法），由于 $N \ll D$，比 $O(N D^2)$ 快了整整 1000 倍，且所得投影与标准 PCA 数学上完全一致！
-\item \textbf{破解方案 2（直接对数据矩阵做 SVD）：} 直接对 $D\times N$ 矩阵 $\bar{\mathbf{X}}$ 做经济型奇异值分解，无需构造 $D\times D$ 协方差矩阵即可得到前 $N$ 个奇异值与奇异向量。
+\item \textbf{直接算协方差矩阵的瓶颈：} 协方差矩阵 $\boldsymbol{\Sigma}$ 的尺寸是 $D\times D = 10^6\times 10^6 = 10^{12}$ 个元素，按双精度浮点（8 字节）存储需要约 \textbf{8 TB 内存}；计算全部外积的时间复杂度是 $O(N D^2)$（约 $10^{15}$ 次乘法）。
+\item \textbf{解决方案 1（线性核 KPCA）：} 改算 $N\times N$ 的样本内积矩阵（Gram 矩阵）$\mathbf{K}=\bar{\mathbf{X}}^T\bar{\mathbf{X}}$，尺寸仅 $1000\times 1000 = 10^6$ 个元素，内存降至约 \textbf{8 MB}（缩小 100 万倍）；计算内积的时间复杂度为 $O(N^2 D)$（约 $10^{12}$ 次乘法），由于 $N \ll D$，比 $O(N D^2)$ 快 1000 倍，且所得投影与标准 PCA 数学上完全等价。
+\item \textbf{解决方案 2（直接对数据矩阵做 SVD）：} 直接对 $D\times N$ 矩阵 $\bar{\mathbf{X}}$ 做经济型奇异值分解，无需构造 $D\times D$ 协方差矩阵即可得到前 $N$ 个奇异值与奇异向量。
 \end{itemize}
 \end{StudyBlock}
 
@@ -218,20 +221,20 @@ w = \phi(\mathbf{x}_*)^T \mathbf{v} = \sum_{i=1}^N a_i k(\mathbf{x}_*, \mathbf{x
 \tag{8.7}
 \]
 \textbf{短板（图 8.2 左）：} 在卷曲流形上，隔着空隙面对面的两点\emph{欧氏直线距离}很短（例如折线 $(0,0)\to(1,0)\to(1,1)$ 的弦长仅 $\sqrt{2}\approx 1.414$），但顺着曲面走过去的真实距离其实很长（沿折线长 $2.0$），MDS 会错误地把它们硬挤在一起。
-\item \textbf{Isomap（等距映射）：} 正好修正 MDS 的缺陷——把欧氏距离换成沿流形表面行走的\textbf{测地距离（geodesic distance）}！步骤：(1) 按 $K$ 近邻把所有样本连成邻接图；(2) 用最短路算法（\textbf{Dijkstra 算法}）算任意两节点间的图最短路径近似测地距离；(3) 把测地距离矩阵交给 MDS 求解低维坐标。注意 $K$ 太小会在流形上撕出“空洞”导致图不连通。
+\item \textbf{Isomap（等距映射）：} 正好修正 MDS 的缺陷——把欧氏距离换成沿流形表面行走的\textbf{测地距离（geodesic distance）}。步骤：(1) 按 $K$ 近邻把所有样本连成邻接图；(2) 用最短路算法（\textbf{Dijkstra 算法}）算任意两节点间的图最短路径近似测地距离；(3) 把测地距离矩阵交给 MDS 求解低维坐标。注意 $K$ 太小会在流形上撕出“空洞”导致图不连通。
 \item \textbf{谱嵌入（Spectral Embedding / Laplacian Eigenmaps）：} 先用 $K$ 近邻（0/1）或 RBF 核构造样本相似度（亲和）矩阵 $\mathbf{W}$，再让原空间越近的邻居在低维也靠得越近：
 \[
 \mathbf{Y}^* = \mathop{\mathrm{argmin}}_{\mathbf{Y}}\sum_{i,j} W_{ij}\|\mathbf{y}_i - \mathbf{y}_j\|_2^2.
 \tag{8.8}
 \]
 这就像在图上做广义“PCA”，并与下一讲的谱聚类共享同一个图拉普拉斯框架。
-\item \textbf{t-SNE（t-Distributed Stochastic Neighbor Embedding）：} 当今高维特征可视化最受欢迎的工具。它把成对相似度转成概率分布：(1) 原空间用高斯核定义对称联合概率 $p_{ij}=\frac{p_{j|i}+p_{i|j}}{2N}$（局部带宽由超参数 \StudyInline{perplexity} 控制：perplexity 越小越关注极局部、拆出越多小群，越大则聚出越少大群）；(2) 低维嵌入空间改用\textbf{重尾的 Student-t 分布} $q_{ij}\propto (1+\|\mathbf{y}_i-\mathbf{y}_j\|_2^2)^{-1}$；(3) 最小化两者的 \textbf{KL 散度} $\sum_{i\ne j} p_{ij}\log\frac{p_{ij}}{q_{ij}}$。由于 Student-t 分布尾部更重，原空间里中等距离的点在低维会被推得更开，从而非常清晰地把相似样本聚成一团团。
+\item \textbf{t-SNE（t-Distributed Stochastic Neighbor Embedding）：} 当今高维特征可视化最常用的工具。它把成对相似度转成概率分布：(1) 原空间用高斯核定义对称联合概率 $p_{ij}=\frac{p_{j|i}+p_{i|j}}{2N}$（局部带宽由超参数 \StudyInline{perplexity} 控制：perplexity 越小越关注极局部、拆出越多小群，越大则聚出越少大群）；(2) 低维嵌入空间改用\textbf{重尾的 Student-t 分布} $q_{ij}\propto (1+\|\mathbf{y}_i-\mathbf{y}_j\|_2^2)^{-1}$；(3) 最小化两者的 \textbf{KL 散度} $\sum_{i\ne j} p_{ij}\log\frac{p_{ij}}{q_{ij}}$。由于 Student-t 分布尾部更重，原空间里中等距离的点在低维会被推得更开，从而清晰地把相似样本聚成团簇。
 \end{enumerate}
 
 \StudyImage{CS5489/course-notes/assets/l8-manifold-geodesic.png}
 \StudyCaption{图 8.2：左图对比弯曲螺旋流形上的直线欧氏距离（MDS）与沿流形测地距离（Isomap）；右图展示同心圆结构——任何直线投影（PCA）都会混叠，而 RBF 核 KPCA 可用闭合非线性等高线分开内外两层（教学自绘）。}
 
-\textbf{流形嵌入的共同死穴（与 KPCA 的最大分界）：} LLE、MDS、Isomap、Spectral Embedding 和 t-SNE 全都是直接优化已有样本的坐标表 $\mathbf{Y}$，\textbf{没有学出一个可复用的映射函数}，因此\textbf{训练完成后无法直接把一个全新的测试点投影到低维空间}，来新数据只能把整套样本合起来重新跑一遍！相反，PCA、FLD、RP 和 KPCA 都能直接变换新样本。
+\textbf{流形嵌入的共同局限（与 KPCA 的核心分界）：} LLE、MDS、Isomap、Spectral Embedding 和 t-SNE 全都是直接优化已有样本的坐标表 $\mathbf{Y}$，\textbf{没有学出一个可复用的显式映射函数}，因此\textbf{训练完成后无法直接把一个全新的测试点投影到低维空间}，遇到新数据需合入重算。相反，PCA、FLD、RP 和 KPCA 都能直接变换新样本。
 
 \textbf{自查 / Check：} 为什么 Isomap 在卷曲流形上往往优于标准 MDS？如果部署线上系统需要实时把新图片降维，该选 KPCA 还是 t-SNE？ / Why does Isomap outperform standard MDS on curved manifolds? If an online system must project incoming new images in real time, should you choose KPCA or t-SNE?
 
@@ -274,7 +277,7 @@ w = \phi(\mathbf{x}_*)^T \mathbf{v} = \sum_{i=1}^N a_i k(\mathbf{x}_*, \mathbf{x
 \midrule\endhead
 \bottomrule\endfoot
 PCA 推导与性质 & 核心必会 & 中，目标等价与嵌套性 & 会手算 2D 协方差特征对，解释最大方差$\equiv$最小误差、去噪与无监督局限 \\
-RP、FLD、LSA 与 NMF & 核心必会 & 低，易混闭式解与非负性 & 背熟五种线性方法对比表，会写 FLD 公式 $\mathbf{w}^*\propto (\mathbf{S}_1+\mathbf{S}_2)^{-1}(\boldsymbol{\mu}_1-\boldsymbol{\mu}_2)$ \\
+RP、FLD、LSA 与 NMF & 核心必会 & 低，易混闭式解与非负性 & 掌握五种线性方法对比表，会写 FLD 公式 $\mathbf{w}^*\propto (\mathbf{S}_1+\mathbf{S}_2)^{-1}(\boldsymbol{\mu}_1-\boldsymbol{\mu}_2)$ \\
 Kernel PCA & 核心必会 & 高，双重中心化与 $N\ll D$ 复杂度 & 会算 $O(ND^2)$ vs $O(N^2D)$ 与内存对比，能完整区分 KPCA+SVM 与 KSVM \\
 流形嵌入五大方法 & 常规掌握 & 中，易混各自保距目标 & 区分 LLE/MDS/Isomap/SE/t-SNE 各自目标、perplexity 作用及无法映射新点 \\
 \end{longtable}\endgroup
@@ -283,7 +286,7 @@ Kernel PCA & 核心必会 & 高，双重中心化与 $N\ll D$ 复杂度 & 会算
 \StudyHeading{1}{Historical exam map｜按考点查历史期末题源}
 \StudyTarget{CS5489-Lecture08__exam-topic-index}
 
-口径：汇总已辨识的 3 套独立期末卷（2020B、2021A、2021B）；同卷不重复计数，未见不等于不考。
+口径：汇总已辨识的 3 套独立期末卷（2020B、2021A、2021B）；同卷不重复计数，未见不等于不考。完整三卷双语题答见\StudyRepoRef{CS5489/exam-review/Final/CS5489-Final-Combined.pdf}{}{期末真题双语合订本}；2024/25 东莞校区样题 Q1b（PCA vs KPCA）与 Q1c（降维 vs 特征选择）分别对应 §3 与 §1。
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.54\linewidth-1.33333\tabcolsep\relax}@{}}
@@ -303,7 +306,7 @@ KPCA+线性 SVM vs KSVM & 2020B Q7 & 10 分简答：无监督重构（全样本�
 \StudyHeading{1}{来源覆盖索引}
 \StudyTarget{CS5489-Lecture08__sources}
 
-依据当前课件 Lecture8a（145 个单元）与 Lecture8b（99 个单元），单元编号从 1 起算，含文字与代码单元。
+依据当前课件 Lecture8a（145 个单元）与 Lecture8b（99 个单元），单元编号从 1 起算，含文字与代码单元；配套实验见\StudyRef{CS5489-Tutorial08}{root}{Tutorial 8：Olivetti 人脸 PCA/NMF/KPCA 与去噪}。
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.70\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.00000\tabcolsep\relax}@{}}
@@ -319,5 +322,3 @@ Lecture8a，第 102–145 个单元 文本降维 LSA、NMF 稀疏加法主题、
 Lecture8b，第 1–46 个单元 非线性曲面、Kernel PCA 五步算法、多项式／RBF 核与数字分类实验 & §3 \\
 Lecture8b，第 47–99 个单元 流形嵌入（LLE、HLLE、LTSA、MDS、Isomap、SE、t-SNE）与总对比表 & §4、§5 \\
 \end{longtable}\endgroup
-
-本讲全部手算验算与自绘教学图见同目录 \StudyInline{tools/\allowbreak{}verify\_\allowbreak{}l8\_\allowbreak{}l9\_\allowbreak{}examples.\allowbreak{}py}（独立断言结果存档于 \StudyInline{l8-l9-example-results.\allowbreak{}json}）。

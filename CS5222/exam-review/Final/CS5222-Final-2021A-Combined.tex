@@ -2,41 +2,41 @@
 \newcommand{\StudyRoot}{../../..}
 \input{../../../latex/preamble.tex}
 \renewcommand{\StudySourceRef}{CS5222-Final-2021A}
-\renewcommand{\StudyDate}{2026-11-24}
+\renewcommand{\StudyDate}{2026-11-26}
 
 \begin{document}
-\StudyCover{CS5222 · 2021/22 Sem A 期末真题双语精析合订本}{全卷 8 道大题（26 小问 · 100 分）· Python 独立验算、民间答案勘误与开卷考场速查}
+\StudyCover{CS5222 · 2021/22 Sem A 期末真题双语精析合订本}{全卷 8 道大题（26 小问 · 100 分）· 独立复算、非官方答案勘误与开卷速查}
 \tableofcontents
 
 % =============================================================================
-\StudyChapter{CS5222-Final-Guide}{2021/22 Sem A 真题结构、开卷合规与民间答案勘误}
+\StudyChapter{CS5222-Final-Guide}{2021/22 Sem A 真题结构、开卷合规与参考答案勘误}
 % =============================================================================
 
-本册完整收录香港城市大学（CityUHK）\textbf{CS5222 Computer Networks \& Internets（Semester A 2021/22）} 期末考试全部 \textbf{8 道大题（共 26 小问、满分 100 分，时长 2 小时，开卷纸质资料）}。所有配图均为 100\% 原创 Matplotlib 重绘，\textbf{不含任何教材扫描片段或原卷截图}，完全符合开卷考场规定（允许自带核准计算器、Canvas 下载材料打印件及自制笔记，严禁教材及其打印节选与电子设备）。
+本册完整整理香港城市大学（CityUHK）\textbf{CS5222 Computer Networks \& Internets（Semester A 2021/22）} 期末考试全部 \textbf{8 道大题（共 26 小问、满分 100 分，时长 2 小时，开卷纸质资料）}。所有配图均为原创 Matplotlib 矢量重绘，\textbf{不含任何教材扫描片段或原卷截图}，符合期末开卷考场规定（允许自带合规计算器、Canvas 教学资料打印件及个人笔记，严禁教材及其打印节选与电子设备）。
 
-\textbf{全部数值均经 Python 独立脚本校验，并修正了民间非官方答案（unofficial docx）的三处细节瑕疵：}
+\textbf{全部数值均经独立复算核对，并澄清流传非官方参考答案（unofficial docx）的三处细节偏差：}
 \begin{enumerate}
-\item \textbf{Q7(c) 有限节点 $N=4$ vs 无穷极限勘误}：民间答案直接写“Slotted ALOHA 最大效率 $1/e\approx 37\%$、Pure ALOHA 为 $1/(2e)\approx 18\%$”，未区分本题指定了 \textbf{$N=4$ 个节点}！严格计算：$N=4$ 时 Slotted ALOHA 最大效率为 $4(1/4)(3/4)^3 = \mathbf{27/64 = 42.19\%}$，Pure ALOHA 最大效率为 $4(1/7)(6/7)^6 \approx \mathbf{22.67\%}$；$1/e$ 与 $1/(2e)$ 仅是 $N\to\infty$ 的渐近极限。两套结论同时写出方为满分！
-\item \textbf{Q4(a) 隐含假设补充}：原题未显式给出初始 $\mathrm{ssthresh}$ 数值，默认整个 70 MSS 下载始终处于慢启动阶段（即 $\mathrm{ssthresh}\ge 32\text{ MSS}$）。答卷中写明这一前提更显严谨。
-\item \textbf{Q8(d) RTS/CTS 避免的是“数据帧冲突”}：短 RTS 控制帧之间仍可能发生预约冲突（reservation collision），但一旦收到 AP 广播的 CTS（且所有隐藏终端听到），后续长 DATA 帧可免于冲突。
+\item \textbf{Q7(c) 有限节点 $N=4$ 与无穷极限区分}：流传答案仅给出渐近极限“Slotted ALOHA 最大效率 $1/e\approx 37\%$、Pure ALOHA 为 $1/(2e)\approx 18\%$”，未区分本题给定了 \textbf{$N=4$ 个节点}。精确计算：$N=4$ 时 Slotted ALOHA 在 $p^*=1/4$ 取最大效率 $4(1/4)(3/4)^3 = \mathbf{27/64 = 42.19\%}$，Pure ALOHA 在 $p^*=1/7$ 取最大效率 $4(1/7)(6/7)^6 \approx \mathbf{22.67\%}$；$1/e$ 与 $1/(2e)$ 为 $N\to\infty$ 的渐近极限。作答时将有限 $N=4$ 精确式与渐近极限同时列出最为稳妥。
+\item \textbf{Q4(a) 隐含假设说明}：原题未显式指定初始 $\mathrm{ssthresh}$ 数值，默认整个 70 MSS 下载全程处于慢启动阶段（即 $\mathrm{ssthresh}\ge 32\text{ MSS}$）。在答卷第一行写明该前提条件更严谨。
+\item \textbf{Q8(d) RTS/CTS 避免的是“长数据帧冲突”}：短 RTS 控制帧之间仍可能发生预约冲突（reservation collision），但一旦接收端广播的 CTS 被覆盖范围内所有潜在干扰站正确接收并设置 NAV，后续长 DATA 帧即可免于隐藏终端冲突。
 \end{enumerate}
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.10\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.10\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.56\linewidth-1.50000\tabcolsep\relax}@{}}
 \toprule
-题号 & 对应章节 & 分值 & 考点速览（对照 2026 考前重点） \\
+题号 & 对应章节 & 分值 & 考查要点（对照本学期章节与 Tutorials） \\
 \midrule\endfirsthead
-题号 & 对应章节 & 分值 & 考点速览（对照 2026 考前重点） \\
+题号 & 对应章节 & 分值 & 考查要点（对照本学期章节与 Tutorials） \\
 \midrule\endhead
 \bottomrule\endfoot
-Q1 & Chapter 1 & 14 分 & 传输/传播时延综合对比（公交车 vs 拨号）；路由器输出排队判定 \\
-Q2 & Ch. 2 / 3 / 4 / 6 & 10 分 & 五大经典协议命名（ARP、DHCP、TCP、CSMA/CD、SMTP） \\
-Q3 & Chapter 2 & 11 分 & C/S vs P2P 最小分发时间公式、P2P 可扩展性与 BitTorrent Tracker \\
-Q4 & Chapter 3 & 15 分 & TCP 慢启动下载 RTT 数与平均吞吐率；连续段序号与丢失 ACK 填数 \\
-Q5 & Chapter 4 & 16 分 & Forwarding vs Routing 区别；8 位地址最长前缀匹配（LPM）填表 \\
-\textbf{Q6} & \textbf{Chapter 5（必考！）} & \textbf{14 分} & \textbf{5 节点图从 $a$ 出发运行 Dijkstra 填表 + 画最短路径树（SPT）} \\
-Q7 & Chapter 6 & 8 分 & 4 节点 Slotted ALOHA 概率与效率；Pure ALOHA 易损期加倍分析 \\
-Q8 & Chapter 7 & 12 分 & 隐藏终端定义、干扰图逐问识别与 802.11 RTS/CTS 工作原理 \\
+Q1 & Chapter 1 & 14 分 & 传输/传播时延综合对比（公交车运送 vs 拨号）；路由器输出排队判定 \\
+Q2 & Ch. 2 / 3 / 4 / 6 & 10 分 & 五项核心协议识别（ARP、DHCP、TCP、CSMA/CD、SMTP） \\
+Q3 & Chapter 2 & 11 分 & C/S 与 P2P 最小分发时间下界、P2P 自扩展性与 BitTorrent Tracker \\
+Q4 & Chapter 3 & 15 分 & TCP 慢启动下载 RTT 轮数与平均吞吐率；连续报文段序号与确认号推算 \\
+Q5 & Chapter 4 & 16 分 & Forwarding 与 Routing 区别；8 位地址最长前缀匹配（LPM）区间计数 \\
+\textbf{Q6} & \textbf{Chapter 5} & \textbf{14 分} & \textbf{5 节点图从 $a$ 出发运行 Dijkstra 逐步填表并绘制最短路径树（SPT）} \\
+Q7 & Chapter 6 & 8 分 & 4 节点 Slotted ALOHA 静默概率与效率；Pure ALOHA 易损期加倍分析 \\
+Q8 & Chapter 7 & 12 分 & 隐藏终端定义、干扰图逐问识别与 802.11 RTS/CTS 信道预约机制 \\
 \end{longtable}\endgroup
 
 
@@ -46,46 +46,46 @@ Q8 & Chapter 7 & 12 分 & 隐藏终端定义、干扰图逐问识别与 802.11 R
 
 \StudyHeading{1}{Question 1 · Delay Calculations（14 分｜Chapter 1）}
 
-\StudyHeading{2}{Q1(a)（7 分）｜公交车拉硬盘 vs 56 kbps 拨号上网}
+\StudyHeading{2}{Q1(a)（7 分）｜公交车运送存储介质与 56 kbps 拨号传输比较}
 \textbf{Question:} A user needs to transmit $1.5\text{ GBytes}$ of data to a server. Only $56\text{-Kbps}$ dial-up access is available. Alternatively, a bus visits once a day from the city $150\text{ km}$ away (worst-case wait: 1 day), has a $100\text{-Mbps}$ WiFi link to its onboard storage, travels at $60\text{ km/h}$, and uploads to the server over a $1\text{-Gbps}$ link back in the city. Assume $1\text{G}=10^9, 1\text{M}=10^6, 1\text{K}=10^3$. Which way is faster? Explain.
 
-\textbf{中文题译：} 传输 $1.5\text{ GB}$ 数据至服务器。方案一：56 kbps 拨号直传；方案二：最坏等公交车 1 天（24 h），经 100 Mbps WiFi 传上车载存储，公交以 60 km/h 驶回 150 km 外的城市，再经 1 Gbps 链路传给服务器。哪种更快？
+\textbf{中文题译：} 需将 $1.5\text{ GB}$ 数据传至服务器。方案一：56 kbps 拨号直传；方案二：最坏等待每日一班的公交车 1 天（24 h），经 100 Mbps WiFi 拷入车载存储，公交以 60 km/h 驶回 150 km 外的城市，再经 1 Gbps 链路上传服务器。比较两种方案总耗时。
 
 \begin{StudySolution}{标准双语解析 / Verified Answer: Bus is faster (26.54 h vs 59.52 h)}
 先统一单位为比特：$L = 1.5 \times 10^9 \text{ Bytes} \times 8 = 1.2 \times 10^{10}\text{ bits}$（$12\text{ Gbits}$）。
 \begin{itemize}
 \item \textbf{拨号直传（Dial-up）}：
   \[
-  T_{\text{dial-up}} = \frac{1.2 \times 10^{10}}{56 \times 10^3} = 214{,}285.71\text{ s} \approx \mathbf{59.524\text{ hours}} \;(2.48\text{ days}).
+  T_{\text{dial-up}} = \frac{1.2 \times 10^{10}}{56 \times 10^3} = 214{,}285.71\text{ s} \approx \mathbf{59.524\text{ hours}} \;(2.48\text{ days}). \tag{F.1}
   \]
-\item \textbf{公交车运送（Bus）}：等车 $24\text{ h} = 86{,}400\text{ s}$；WiFi 上传 $1.2\times 10^{10}/10^8 = 120\text{ s}$；行车 $150/60 = 2.5\text{ h} = 9{,}000\text{ s}$；城市 1 Gbps 上传 $1.2\times 10^{10}/10^9 = 12\text{ s}$。合计：
+\item \textbf{公交车运送（Bus）}：最坏等车 $24\text{ h} = 86{,}400\text{ s}$；WiFi 上传 $1.2\times 10^{10}/10^8 = 120\text{ s}$；行车 $150/60 = 2.5\text{ h} = 9{,}000\text{ s}$；城市 1 Gbps 上传 $1.2\times 10^{10}/10^9 = 12\text{ s}$。合计：
   \[
-  T_{\text{bus}} = 86{,}400 + 120 + 9{,}000 + 12 = 95{,}532\text{ s} \approx \mathbf{26.537\text{ hours}} \;(1.11\text{ days}).
+  T_{\text{bus}} = 86{,}400 + 120 + 9{,}000 + 12 = 95{,}532\text{ s} \approx \mathbf{26.537\text{ hours}} \;(1.11\text{ days}). \tag{F.2}
   \]
 \end{itemize}
-\textbf{结论 / Conclusion:} \textbf{By bus is faster} ($26.54\text{ h} < 59.52\text{ h}$). High-capacity physical transport overcomes a narrowband 56 kbps bottleneck.
+\textbf{结论 / Conclusion:} \textbf{By bus is faster} ($26.54\text{ h} < 59.52\text{ h}$). High-capacity physical transport overcomes a narrowband 56 kbps bottleneck even under the 24-hour worst-case wait.
 \end{StudySolution}
 
 
 \StudyHeading{2}{Q1(b)（7 分）｜两台主机同时发包，路由器 A 会发生排队时延吗？}
 \textbf{Question:} Two hosts on the left simultaneously start transmitting 1500-Byte packets at $t=0$ toward Router B via Router A. Both host-to-A links are $4\text{ Mbps}$, with propagation delays of $2\text{ ms}$ and $6\text{ ms}$, respectively. Link A--B is $4\text{ Mbps}$ with $10\text{ ms}$ propagation delay. Will queueing delay occur at Router A? Explain ($1\text{M}=10^6$).
 
-\textbf{中文题译：} 左侧两主机于 $t=0$ 同时各发 1 个 1500 B 分组经路由器 A 发往 B。两条接入链路均 4 Mbps、传播时延分别为 2 ms 与 6 ms；A–B 链路亦 4 Mbps、传播时延 10 ms。路由器 A 会发生排队时延吗？
+\textbf{中文题译：} 左侧两台主机于 $t=0$ 同时各发 1 个 1500 B 分组经路由器 A 发往 B。两条接入链路均为 4 Mbps、传播时延分别为 2 ms 与 6 ms；A–B 链路亦为 4 Mbps、传播时延 10 ms。路由器 A 会发生排队时延吗？
 
 \StudyImage{CS5222/exam-review/Final/assets/final-2021a-q1b.png}
-\StudyCaption{原创绘制 Q1(b) 网络拓扑（左）与路由器 A 精确收发时间轴（右）：两包在出链路间留有 1 ms 空档，零排队！}
+\StudyCaption{原创绘制 Q1(b) 网络拓扑（左）与路由器 A 收发时间轴（右）：两包在出链路间留有 1 ms 空隙，无排队等待。}
 
-\begin{StudySolution}{标准双语解析 / Verified Answer: No queueing delay!}
+\begin{StudySolution}{标准双语解析 / Verified Answer: No queueing delay}
 \begin{enumerate}
 \item 单包比特数 $L = 1500 \times 8 = 12{,}000\text{ bits}$；在所有 $4\text{ Mbps}$ 链路上的传输时延均为 $d_{\text{trans}} = 12{,}000 / (4\times 10^6) = \mathbf{3\text{ ms}}$。
-\item \textbf{包 1（2 ms 链路）}：在 $t = 3 + 2 = \mathbf{5\text{ ms}}$ 完全到达路由器 A（存储转发），立刻开始向 B 发送，于 $t = 5 + 3 = \mathbf{8\text{ ms}}$ 彻底离开路由器 A！
-\item \textbf{包 2（6 ms 链路）}：直到 $t = 3 + 6 = \mathbf{9\text{ ms}}$ 才完全到达路由器 A。此时出链路早在 1 ms 前（$t=8\text{ ms}$）已空闲！
+\item \textbf{包 1（2 ms 接入链路）}：在 $t = 3 + 2 = \mathbf{5\text{ ms}}$ 完全到达路由器 A（存储转发），立即向出链路 A–B 发送，于 $t = 5 + 3 = \mathbf{8\text{ ms}}$ 完全离开路由器 A。
+\item \textbf{包 2（6 ms 接入链路）}：在 $t = 3 + 6 = \mathbf{9\text{ ms}}$ 才完全到达路由器 A。此时出链路早在 $t=8\text{ ms}$ 已恢复空闲。
 \end{enumerate}
-\textbf{结论 / Conclusion:} \textbf{No queueing delay occurs at Router A}, because Packet 1 finishes leaving A at $t=8\text{ ms}$, strictly before Packet 2 finishes arriving at $t=9\text{ ms}$ (note that the 10 ms propagation delay on A--B is irrelevant to queueing at A).
+\textbf{结论 / Conclusion:} \textbf{No queueing delay occurs at Router A}, because Packet 1 finishes leaving A at $t=8\text{ ms}$, strictly before Packet 2 finishes arriving at $t=9\text{ ms}$ (the 10 ms propagation delay on link A--B does not affect link availability at A).
 \end{StudySolution}
 
 
-\StudyHeading{1}{Question 2 · Protocols（10 分｜全课程协议速答）}
+\StudyHeading{1}{Question 2 · Protocols（10 分｜全课程协议识别）}
 
 \textbf{Question:} Name the protocol supporting each function (abbreviations acceptable):
 (a) Translates an IP address into a MAC address in a LAN.
@@ -114,25 +114,31 @@ Q8 & Chapter 7 & 12 分 & 隐藏终端定义、干扰图逐问识别与 802.11 R
 (d) (2 marks) How do BitTorrent peers obtain one another's IP addresses?
 
 \begin{StudySolution}{标准双语解析 / Verified Answers}
-先换算文件大小：$F = 10 \times 10^9 \times 8 = 8 \times 10^{10}\text{ bits}$（$80\text{ Gbits}$）。
+先换算文件总比特数：$F = 10 \times 10^9 \times 8 = 8 \times 10^{10}\text{ bits}$（$80\text{ Gbits}$）。
 \begin{itemize}
 \item \textbf{(a) Client-Server 最小分发时间：}
-  \begin{align*}
+  \[
+  \begin{aligned}
   D_{\text{CS}} &= \max\!\left\{\frac{NF}{u_s},\; \frac{F}{d_{\min}}\right\}
   = \max\!\left\{\frac{10\times 8\times 10^{10}}{10^7},\; \frac{8\times 10^{10}}{2\times 10^6}\right\} \\
   &= \max\{80{,}000,\; 40{,}000\} = \mathbf{80{,}000\text{ s}} \;(\approx 22.22\text{ h}).
-  \end{align*}
-\item \textbf{(b) P2P 最小分发时间：} 全体节点总上传带宽 $u_s + \sum_{i=1}^{10} u_i = 10\text{ Mbps} + 10\times 0.2\text{ Mbps} = 12\text{ Mbps}$：
-  \begin{align*}
-  D_{\text{P2P}} &= \max\!\left\{\frac{F}{u_s},\; \frac{F}{d_{\min}},\; \frac{NF}{u_s + \sum u_i}\right\}
-  = \max\!\left\{8{,}000,\; 40{,}000,\; \frac{8\times 10^{11}}{1.2\times 10^7}\right\} \\
-  &= \mathbf{66{,}666.67\text{ s}} \;(\approx 18.52\text{ h}).
-  \end{align*}
+  \end{aligned}
+  \tag{F.3}
+  \]
+\item \textbf{(b) P2P 最小分发时间：} 系统总上传速率 $u_s + \sum_{i=1}^{10} u_i = 10\text{ Mbps} + 10\times 0.2\text{ Mbps} = 12\text{ Mbps}$：
+  \[
+  \begin{aligned}
+  D_{\text{P2P}} &= \max\!\left\{\frac{F}{u_s},\; \frac{F}{d_{\min}},\; \frac{NF}{u_s + \sum u_i}\right\} \\
+  &= \max\!\left\{8{,}000,\; 40{,}000,\; \frac{8\times 10^{11}}{1.2\times 10^7}\right\}
+  = \mathbf{66{,}666.67\text{ s}} \;(\approx 18.52\text{ h}).
+  \end{aligned}
+  \tag{F.4}
+  \]
 \item \textbf{(c) P2P 高可扩展性原因（Self-scalability）：}
-  \textbf{English:} Peers are not only consumers but also redistributors—every newly joining peer adds upload capacity $u_i$ to the swarm, so total system upload capacity grows with $N$, whereas in client-server the single server upload bandwidth $u_s$ becomes a linear bottleneck ($NF/u_s$).
-  \textbf{中文：} P2P 具备\textbf{自扩展性}——每个新加入的对等方都向系统贡献上传带宽，分摊服务器压力；而 C/S 模式下仅靠单一服务器上传，分发时间随 $N$ 线性暴涨。
-\item \textbf{(d) BitTorrent 获取邻居 IP 的方式：}
-  新节点联系该 torrent 的中心追踪服务器 \textbf{Tracker}（注册自身并获取当前参与对等方的随机 IP 列表）；现代无中心扩展也可通过 \textbf{DHT（Distributed Hash Table）} 发现节点。
+  \textbf{English:} Peers act not only as consumers of bits but also as redistributors—each newly joining peer brings additional upload capacity $u_i$ into the swarm, so aggregate upload capacity scales linearly with $N$, whereas in client-server the fixed server upload rate $u_s$ causes distribution time $NF/u_s$ to grow linearly with $N$.
+  \textbf{中文：} P2P 具有\textbf{自扩展性}：每个新加入的对等方既消耗下载带宽，也贡献上传带宽分担分发压力；而 C/S 仅靠单一服务器上传，耗时会随节点数 $N$ 线性增长。
+\item \textbf{(d) BitTorrent 获取其他对等方 IP 的机制：}
+  新加入 torrent 的节点先联系该种子的追踪服务器 \textbf{Tracker}（登记自身并获得当前活跃对等方的随机子集 IP 列表）；无中心模式下也可通过分布式哈希表 \textbf{DHT} 发现邻居。
 \end{itemize}
 \end{StudySolution}
 
@@ -146,26 +152,26 @@ Q8 & Chapter 7 & 12 分 & 隐藏终端定义、干扰图逐问识别与 802.11 R
 (d) (6 marks) Host B has received bytes 0–77 from Host A. A sends two back-to-back segments (first: \StudyInline{Seq=78, 12 bytes}; second: \StudyInline{Seq=x, 26 bytes}). Both ACKs (\StudyInline{ACK=y} and \StudyInline{ACK=z}) are lost. Find $x, y, z$.
 
 \StudyImage{CS5222/exam-review/Final/assets/final-2021a-q4d.png}
-\StudyCaption{原创绘制 Q4(d) 背靠背 TCP 报文段与丢失确认时序图，直观标出 $x=90, y=90, z=116$。}
+\StudyCaption{原创绘制 Q4(d) 背靠背 TCP 报文段与丢失确认时序图，对应 $x=90, y=90, z=116$。}
 
 \begin{StudySolution}{标准双语解析 / Verified Answers}
 \begin{itemize}
-\item \textbf{(a) 所需 RTT 总数：$\mathbf{8\text{ RTTs}}$}（隐含前提：无丢包且初始 $\mathrm{ssthresh} \ge 32\text{ MSS}$，使下载全程停留在慢启动阶段）：
+\item \textbf{(a) 所需 RTT 总数：$\mathbf{8\text{ RTTs}}$}（前提假设：全程无丢包且初始 $\mathrm{ssthresh} \ge 32\text{ MSS}$，使下载保持在慢启动指数增长阶段）：
   \begin{itemize}
-  \item 第 1 个 RTT：TCP 三次握手（SYN / SYN-ACK；第 3 步 ACK 捎带发 HTTP GET）。
-  \item 第 2–7 个 RTT（共 6 个数据 RTT）：慢启动依次发送 $1 + 2 + 4 + 8 + 16 + 32 = \mathbf{63\text{ MSS}}$。
-  \item 第 8 个 RTT：窗口涨至 64 MSS，一次性发完剩余的 $70 - 63 = \mathbf{7\text{ MSS}}$！
+   \item 第 1 个 RTT：TCP 三次握手（SYN 与 SYN-ACK；第 3 步握手报文捎带发送 HTTP GET 请求）。
+   \item 第 2–7 个 RTT（共 6 个数据轮次）：慢启动窗口依次为 $1, 2, 4, 8, 16, 32$，累计传完 $1 + 2 + 4 + 8 + 16 + 32 = \mathbf{63\text{ MSS}}$。
+   \item 第 8 个 RTT：窗口可发至 64 MSS，单轮传完剩余 $70 - 63 = \mathbf{7\text{ MSS}}$。
   \end{itemize}
-  总计 $1 + 6 + 1 = \mathbf{8\text{ RTTs}}$。
+  合计 $1 + 6 + 1 = \mathbf{8\text{ RTTs}}$。
 \item \textbf{(b) 平均吞吐率（$\mathrm{RTT}=100\text{ ms}$）：}
-  总数据量 $= 70 \times 1024 \times 8 = 573{,}440\text{ bits}$；总时间 $= 8 \times 0.1 = 0.8\text{ s}$：
+  总比特数 $= 70 \times 1024 \times 8 = 573{,}440\text{ bits}$；总耗时 $= 8 \times 0.1 = 0.8\text{ s}$：
   \[
-  \mathrm{Throughput} = \frac{573{,}440\text{ bits}}{0.8\text{ s}} = 716{,}800\text{ bps} = \mathbf{716.8\text{ kbps}}.
+  \mathrm{Throughput} = \frac{573{,}440\text{ bits}}{0.8\text{ s}} = 716{,}800\text{ bps} = \mathbf{716.8\text{ kbps}}. \tag{F.5}
   \]
-\item \textbf{(c) 慢启动中大网页吞吐率是否更高？—— 是（Yes）！}
-  \textbf{English:} \textbf{Yes.} During slow start, $\mathrm{cwnd}$ grows exponentially every RTT ($1,2,4,8,\dots$). A larger webpage stays in transmission longer at much larger window sizes (and amortizes the fixed 1-RTT handshake overhead over more data), yielding a strictly higher average throughput than a small webpage that finishes while $\mathrm{cwnd}$ is still tiny.
+\item \textbf{(c) 慢启动阶段大网页的平均吞吐率是否高于小网页？—— 是（Yes）。}
+  \textbf{English:} \textbf{Yes.} During slow start, $\mathrm{cwnd}$ doubles each RTT ($1,2,4,8,\dots$). A larger webpage transmits later rounds at larger congestion window sizes and amortizes the fixed 1-RTT connection handshake over more bytes, achieving a higher average throughput than a small webpage that finishes while $\mathrm{cwnd}$ is still small.
 \item \textbf{(d) 序号与确认号：$x = \mathbf{90},\; y = \mathbf{90},\; z = \mathbf{116}$。}
-  第 1 段占据字节 $78\text{–}89$（共 12 B），故第 2 段首字节 $x = 78 + 12 = \mathbf{90}$；两段按序到达 B（无交叉），B 收到第 1 段后期待下一字节 $y = \mathbf{90}$；收到第 2 段（字节 $90\text{–}115$，共 26 B）后期待下一字节 $z = 90 + 26 = \mathbf{116}$！（ACK 后来在途中丢失不影响 B 发出的数值！）
+  第 1 段覆盖字节 $78\text{–}89$（共 12 B），故第 2 段起始字节序号为 $x = 78 + 12 = \mathbf{90}$；两段按序抵达 B，B 收妥第 1 段后期待下一字节 $y = \mathbf{90}$；收妥第 2 段（字节 $90\text{–}115$，共 26 B）后期待下一字节 $z = 90 + 26 = \mathbf{116}$（确认段随后在返回途中丢失，不改变 B 发出它们时填入的确认号）。
 \end{itemize}
 \end{StudySolution}
 
@@ -179,12 +185,12 @@ Q8 & Chapter 7 & 12 分 & 隐藏终端定义、干扰图逐问识别与 802.11 R
 \begin{StudySolution}{标准双语解析 / Verified Answers}
 \textbf{(a) Forwarding vs. Routing：}
 \begin{itemize}
-\item \textbf{Forwarding（转发，数据平面）}：单台路由器内部的\textbf{本地动作}，依据本地转发表把入接口收到的分组搬运到正确的出接口（纳秒级硬件实现）。
-\item \textbf{Routing（路由，控制平面）}：整个网络的\textbf{全局过程}，通过路由算法/协议（OSPF、BGP 等）计算分组从源到目的的端到端路径，并据此生成各路由器的转发表（秒级软件实现）。
+\item \textbf{Forwarding（转发，数据平面）}：单台路由器内部的\textbf{本地动作}，根据本地转发表将入端口到达的分组交换至对应出端口（纳秒级硬件实现）。
+\item \textbf{Routing（路由，控制平面）}：全网范围的\textbf{全局过程}，通过路由协议（如 OSPF、BGP）协同计算源到目的的端到端路径，并生成各路由器的转发表（秒级软件实现）。
 \end{itemize}
 
-\textbf{(b) 8 位地址最长前缀匹配精确分配表（共 $2^8 = 256$ 个地址，Python 逐一穷举验证）：}
-\emph{关键避坑：} 以 \StudyInline{1} 开头的 128 个地址中，\StudyInline{10xxxxxx} 被更长前缀 \StudyInline{10}（接口 1）抢走，\StudyInline{111xxxxx} 被更长前缀 \StudyInline{111}（接口 2）抢走，因此接口 0 实际只剩 \textbf{\StudyInline{110xxxxx}}（32 个地址）！
+\textbf{(b) 8 位地址最长前缀匹配分配表（共 $2^8 = 256$ 个地址）：}
+以 \StudyInline{1} 开头的 128 个地址中，\StudyInline{10xxxxxx}（64 个）匹配更长的 2 位前缀 \StudyInline{10} 走接口 1，\StudyInline{111xxxxx}（32 个）匹配更长的 3 位前缀 \StudyInline{111} 走接口 2，故落入接口 0 的仅剩 \textbf{\StudyInline{110xxxxx}}（32 个地址）。
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.12\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.56\linewidth-1.50000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.50000\tabcolsep\relax}@{}}
@@ -199,11 +205,11 @@ Prefix & Interface & Range of destination host addresses（二进制 / 十进制
 \texttt{111} & \textbf{2} & \texttt{11100000} -- \texttt{11111111}（十进制 224--255） & \textbf{32} \\
 \texttt{Otherwise} & \textbf{3} & \texttt{00000000} -- \texttt{01111111}（十进制 0--127） & \textbf{128} \\
 \end{longtable}\endgroup
-核对总和：$32 + 64 + 32 + 128 = 256$，不重不漏！
+总地址数验算：$32 + 64 + 32 + 128 = 256$。
 \end{StudySolution}
 
 
-\StudyHeading{1}{Question 6 · Dijkstra's Algorithm（14 分｜Chapter 5 · 期末必考同类大题！）}
+\StudyHeading{1}{Question 6 · Dijkstra's Algorithm（14 分｜Chapter 5）}
 
 \textbf{Question:} Consider the 5-node weighted network $\{a, b, c, d, e\}$ with edges $(a,b)=8,\; (a,c)=3,\; (a,d)=2,\; (b,d)=1,\; (b,e)=1,\; (c,d)=4,\; (d,e)=5$. Run Dijkstra's shortest-path algorithm from \textbf{node $a$} to all other nodes: (a) (10 marks) Fill in the step-by-step table; (b) (4 marks) Draw the resulting shortest-path tree (SPT) from node $a$.
 
@@ -211,7 +217,7 @@ Prefix & Interface & Range of destination host addresses（二进制 / 十进制
 \StudyCaption{原创绘制 Q6 五节点无向带权原图（左）与从源节点 $a$ 出发的最短路径树（右，红实线，括号内为最终最短代价）。}
 
 \begin{StudySolution}{标准双语解析 / Verified Dijkstra Table \& SPT}
-\textbf{(a) 逐行标准填表（Step 0–4，Python 校验无误）：}
+\textbf{(a) 逐行标准填表（Step 0–4）：}
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.20}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.08\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.20\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.66667\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.66667\tabcolsep\relax}@{}}
@@ -228,15 +234,15 @@ Step & $N'$ & $D(b),p(b)$ & $D(c),p(c)$ & $D(d),p(d)$ & $D(e),p(e)$ \\
 4 & $adbce$ & — & — & — & — \\
 \end{longtable}\endgroup
 
-\textbf{关键松弛步骤拆解：}
+\textbf{逐步松弛过程：}
 \begin{itemize}
-\item Step 1 加入 $d$（$D(d)=2$）：更新 $b$ 为 $\min(8, 2+1)=3,d$；$c$ 候选 $2+4=6>3$ 不改；$e$ 更新为 $2+5=7,d$。
-\item Step 2 并列最小 3（$b$ 与 $c$ 任选其一，这里先选 $b$，也可先选 $c$）：加入 $b$（$D(b)=3$）松弛 $e$ 得 $\min(7, 3+1)=\mathbf{4,b}$！
-\item Step 3 加入 $c$（无未定案邻居可改）；Step 4 加入 $e$，全部节点进入 $N'$，结束。
+\item Step 1 选入最小节点 $n^* = d$（$D(d)=2$）：更新 $b$ 为 $\min(8, 2+1)=3,d$；$c$ 候选 $2+4=6>3$ 保持 $3,a$；$e$ 更新为 $\min(\infty, 2+5)=7,d$。
+\item Step 2 最小距离 $3$ 在 $b, c$ 间并列（先选 $b$ 或先选 $c$ 最终结果完全一致）：选入 $b$（$D(b)=3$），松弛 $e$ 得 $\min(7, 3+1)=\mathbf{4,b}$。
+\item Step 3 选入 $c$（无剩余未定案邻居需更新）；Step 4 选入 $e$，全部节点进入 $N'$，算法终止。
 \end{itemize}
 
 \textbf{(b) 最短路径树（SPT，共 $5-1=4$ 条边，见上方右图红实线）：}
-直接按前驱 $p(\cdot)$ 连边：\textbf{$(a, d)$（代价 2）、$(a, c)$（代价 3）、$(d, b)$（总代价 3）、$(b, e)$（总代价 4）}。
+按最终前驱 $(p(v), v)$ 连边：\textbf{$(a, d)$（代价 2）、$(a, c)$（代价 3）、$(d, b)$（总代价 3）、$(b, e)$（总代价 4）}。
 \end{StudySolution}
 
 
@@ -247,19 +253,18 @@ Step & $N'$ & $D(b),p(b)$ & $D(c),p(c)$ & $D(d),p(d)$ & $D(e),p(e)$ \\
 (b) (2 marks) Efficiency (long-run fraction of successful slots) of this 4-node system.
 (c) (4 marks) If Pure ALOHA is used instead of Slotted ALOHA, is the efficiency higher or lower? Why?
 
-\begin{StudySolution}{标准双语解析（含 $N=4$ 精确勘误）/ Verified Answers}
+\begin{StudySolution}{标准双语解析（含 $N=4$ 精确解与渐近极限）/ Verified Answers}
 \begin{itemize}
-\item \textbf{(a) 时隙 2 无任何节点发送的概率：} 四节点相互独立且每槽独立，全部静默的概率为 $\mathbf{(1-p)^4}$。
-\item \textbf{(b) 4 节点 Slotted ALOHA 效率：} 恰好 1 个节点发送且其余 3 个静默（共 4 种选法）：
+\item \textbf{(a) 时隙 2 无任何节点发送的概率：} 四个节点相互独立且各时隙独立，全部静默的概率为 $\mathbf{(1-p)^4}$。
+\item \textbf{(b) 4 节点 Slotted ALOHA 效率：} 单一时隙恰好 1 个节点发送、其余 3 个节点静默（共 4 种互斥情况）：
   \[
-  \eta_{\text{slotted}}(4, p) = \mathbf{4p(1-p)^3}.
+  \eta_{\text{slotted}}(4, p) = \mathbf{4p(1-p)^3}. \tag{F.6}
   \]
-\item \textbf{(c) 改用 Pure ALOHA 效率更高还是更低？—— 更低（Lower）！}
-  \textbf{原因与精确对比（修正民间答案易混点）：}
+\item \textbf{(c) 改用 Pure ALOHA 效率更高还是更低？—— 更低（Lower）。}
   \begin{enumerate}
-  \item \textbf{物理机理}：Pure ALOHA 不做时隙同步，帧一到就发，导致在 $t_0$ 发出的帧会与 $[t_0-1,\; t_0+1]$ 整整 \textbf{2 个帧时（2 slots）} 内开始发送的其他帧发生部分重叠冲突——\textbf{冲突易损期（vulnerable period）翻倍}！
-  \item \textbf{精确公式对比（对任意 $0<p<1$）}：4 节点 Pure ALOHA 效率为 $\eta_{\text{pure}}(4,p) = 4p(1-p)^{2(4-1)} = 4p(1-p)^6 < 4p(1-p)^3$。
-  \item \textbf{精确最大值 vs 渐近极限}：在 $N=4$ 下，Slotted ALOHA 最大效率为 $4(1/4)(3/4)^3 = \mathbf{27/64 = 42.19\%}$，Pure ALOHA 在 $p^*=1/7$ 最大效率仅 $4(1/7)(6/7)^6 \approx \mathbf{22.67\%}$；当 $N\to\infty$ 时二者最大效率分别趋近 $1/e \approx 36.8\%$ 与 $1/(2e) \approx 18.4\%$（恰好砍半）。
+  \item \textbf{物理原因}：Pure ALOHA 取消了时隙边界同步，任意时刻到达的帧立即发送，使得在 $t_0$ 开始发送的帧会与 $[t_0 - T_{\text{frame}},\; t_0 + T_{\text{frame}}]$ 长度达 \textbf{$2T_{\text{frame}}$} 内启动的任何其他帧发生首尾重叠冲突——\textbf{冲突易损期（vulnerable period）加倍}。
+  \item \textbf{精确公式对比（对任意 $0<p<1$）}：4 节点 Pure ALOHA 成功率降为 $\eta_{\text{pure}}(4,p) = 4p(1-p)^{2(4-1)} = 4p(1-p)^6 < 4p(1-p)^3$。
+  \item \textbf{精确极值与渐近极限对照}：$N=4$ 时，Slotted ALOHA 在 $p^*=1/4$ 取得峰值 $\mathbf{27/64 \approx 42.19\%}$，Pure ALOHA 在 $p^*=1/7$ 峰值仅 $\mathbf{22.67\%}$；当 $N\to\infty$ 时二者峰值分别收敛到 $1/e \approx 36.8\%$ 与 $1/(2e) \approx 18.4\%$。
   \end{enumerate}
 \end{itemize}
 \end{StudySolution}
@@ -279,20 +284,20 @@ Step & $N'$ & $D(b),p(b)$ & $D(c),p(c)$ & $D(d),p(d)$ & $D(e),p(e)$ \\
 \begin{StudySolution}{标准双语解析 / Verified Answers}
 \begin{itemize}
 \item \textbf{(a) 隐藏终端问题定义与不良后果：}
-  \textbf{English:} The hidden terminal problem occurs when two wireless stations (e.g., A and C) are out of each other's radio range and cannot hear each other, yet both are within range of a common receiver (B). Because neither senses the other's ongoing transmission, both may transmit simultaneously and collide at B. \textbf{Undesirable effect:} Frequent frame collisions and packet loss, causing retransmissions, wasted wireless bandwidth, and degraded throughput.
-  \textbf{中文：} 两台彼此听不到的无线站点同时向共同的接收站发送信号而在接收端相撞；不良后果包括帧冲突丢包、反复重传、浪费信道带宽与吞吐率下降。
+  \textbf{English:} The hidden terminal problem arises when two wireless stations (e.g., A and C) are outside each other's transmission range and cannot sense each other's carrier, yet both lie within range of a common receiver (B). Consequently, both may transmit simultaneously and collide at B. \textbf{Undesirable effect:} Repeated frame collisions at the receiver, causing frame loss, retransmissions, wasted channel airtime, and reduced throughput.
+  \textbf{中文：} 两台彼此超出通信半径而互相监听不到的无线站点，同时向共同覆盖范围内的同一接收站发送帧，导致信号在接收端叠加冲突；后果是产生帧丢失、重传开销与吞吐率下降。
 \item \textbf{(b) $1 \to 4$ 的隐藏终端：Station 3。}
-  套用图论速判公式 $\mathrm{Hidden}(s\to r) = (\mathcal{N}(r)\setminus\{s\})\setminus\mathcal{N}(s)$：
-  $\mathcal{N}(4)=\{1,3,5\}$，$\mathcal{N}(1)=\{2,4,5\}$ $\Rightarrow$ $\{3,5\}\setminus\{2,4,5\} = \mathbf{\{3\}}$（Station 3 能干扰接收者 4，但听不到发送者 1！Station 5 能听到 1，故不是隐藏终端）。
+  使用集合判定式 $\mathrm{Hidden}(s\to r) = (\mathcal{N}(r)\setminus\{s\})\setminus\mathcal{N}(s)$：
+  $\mathcal{N}(4)=\{1,3,5\}$，$\mathcal{N}(1)=\{2,4,5\}$ $\Rightarrow$ $\{3,5\}\setminus\{2,4,5\} = \mathbf{\{3\}}$（Station 3 在接收站 4 的覆盖内，但不在发送站 1 的覆盖内；Station 5 能直接听到 1，不是隐藏终端）。
 \item \textbf{(c) $1 \to 5$ 的隐藏终端：无（None / No hidden terminal）。}
-  $\mathcal{N}(5)=\{1,4\}$，$\mathcal{N}(1)=\{2,4,5\}$ $\Rightarrow$ $\{4\}\setminus\{2,4,5\} = \mathbf{\varnothing}$（唯一能干扰接收者 5 的其他站点是 Station 4，但 Station 4 在 Station 1 的覆盖范围内能直接听见 1，因此不会产生隐藏终端！）。
+  $\mathcal{N}(5)=\{1,4\}$，$\mathcal{N}(1)=\{2,4,5\}$ $\Rightarrow$ $\{4\}\setminus\{2,4,5\} = \mathbf{\varnothing}$（接收站 5 除发送站 1 外的唯一邻居是 Station 4，而 Station 4 能直接监听到 Station 1 的载波，不会构成隐藏终端）。
 \item \textbf{(d) IEEE 802.11 解决方案：\textbf{RTS/CTS（Request-to-Send / Clear-to-Send）信道预约机制}。}
-  \textbf{工作原理（四步）：}
-  (1) 发送方先发极短的 \textbf{RTS} 控制帧申请预约信道（标明数据+ACK 所需总时长）；
-  (2) 接收方/AP 若信道空闲，则广播极短的 \textbf{CTS} 控制帧予以许可；
-  (3) \textbf{所有能听到 CTS（包括隐藏终端）的其他站点}记录预约时长（设置 NAV）并\textbf{推迟静默}，直到本次传输结束；
-  (4) 发送方收到 CTS 后安全发送长 \textbf{DATA} 帧，接收方收妥后回 \textbf{ACK}。
-  \emph{精准边界：} 短 RTS 帧之间仍可能发生预约冲突，但一旦某个发送方拿到 CTS 且所有干扰站均能听到，长数据帧冲突即可被彻底避免。
+  \textbf{工作流程（四步）：}
+  (1) 发送方监听空闲 DIFS 后发送短 \textbf{RTS} 帧请求预约信道，帧内携带完成本次 DATA+ACK 所需的总时长；
+  (2) 接收方（或 AP）在 SIFS 后广播短 \textbf{CTS} 帧确认预约；
+  (3) 覆盖范围内所有听到 CTS 的站点（含隐藏终端）读取时长并设置网络分配向量 \textbf{NAV}，在预约期内推迟发送；
+  (4) 发送方收到 CTS 后经 SIFS 发送长 \textbf{DATA} 帧，接收方校验无误后经 SIFS 回复 \textbf{ACK}。
+  \emph{机制边界：} 短 RTS 帧之间仍可能发生碰撞，但因控制帧很短，开销远小于长 DATA 帧碰撞；一旦 CTS 成功广播，长数据帧即可免受隐藏终端干扰。
 \end{itemize}
 \end{StudySolution}
 

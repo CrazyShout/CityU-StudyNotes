@@ -43,6 +43,8 @@
 逆不存在却还要拟合，不知怎么办 & \StudyRef{Foundations-MathForML}{rank-pseudoinverse}{8. 秩与伪逆} & CS5489 Lecture4最小二乘 \\
 梯度、约束、乘子突然冒出来 & \StudyRef{Foundations-MathForML}{optimization}{9. 梯度与约束} & CS5489 Lecture3 LR/SVM \\
 不清楚反向传播为什么转置、求和或平均 & \StudyRef{Foundations-MathForML}{batch-gradients}{10. 批量梯度} & Lecture5、Assignment2 \\
+看不懂特征值、特征向量、迹或奇异值分解 & \StudyRef{Foundations-MathForML}{eigen-svd}{11. 特征值与奇异值分解} & Lecture8 PCA/FLD/KPCA、Lecture9 谱聚类 \\
+碰到数学期望、KL散度或对数和下界发怵 & \StudyRef{Foundations-MathForML}{expectation-kl}{12. 期望、KL散度与变分下界} & Lecture6–12 正则化、EM、VAE、扩散与LLM \\
 \end{longtable}
 \endgroup
 
@@ -249,9 +251,6 @@ English question: A tank starts with 1 L and receives 2 L/min, without leakage o
 \[
 \sum_{i=1}^{3}x_i=x_1+x_2+x_3=1+2+4=7,\tag{M.3}
 \]
-
-
-
 \[
 \prod_{i=1}^{3}x_i=x_1x_2x_3=1\times2\times4=8.\tag{M.4}
 \]
@@ -1398,20 +1397,20 @@ w=(2,2)，预测(4,8)，残差0；仍有其他精确解，但其长度更大。 
 \]
 
 
-这个向量叫梯度（gradient）。在(1,1)，梯度(2,4)：往w\textsubscript{2}方向多走一点，局部增加代价更快。负梯度是局部最陡下降方向（欧氏度量），梯度下降一次 \(w\leftarrow w-\eta\nabla E\)。eta=0.1时(1,1)变(0.8,0.6)，代价从3降为1.36。
+这个向量叫梯度（gradient）。在(1,1)，梯度(2,4)：往w\textsubscript{2}方向多走一点，局部增加代价更快。负梯度是局部最陡下降方向（欧氏度量），梯度下降一次 \(w\leftarrow w-\eta\nabla E\)。\ensuremath{\eta}=0.1时(1,1)变(0.8,0.6)，代价从3降为1.36。
 
 
 \StudyImage{learning/foundation-notes/assets/gradient-constraint.png}
 \StudyCaption{梯度更新与可行域：箭头表示一次候选更新，是否下降取决于步长。}
 
 
-图左沿椭圆等高线观察一次下降，箭头不是保证“无论走多远都下坡”。eta=1时更新到(\ensuremath{-}1,\ensuremath{-}3)，代价37，反而冲过了谷底。学习率决定步长，需要检查目标是否合理下降。
+图左沿椭圆等高线观察一次下降，箭头不是保证“无论走多远都下坡”。\ensuremath{\eta}=1时更新到(\ensuremath{-}1,\ensuremath{-}3)，代价37，反而冲过了谷底。学习率决定步长，需要检查目标是否合理下降。
 
 
 有约束时，还要看允许去哪里。想最小化 \(f(x)=x^2\)，但规定 \(x\ge1\)。无约束最低点0去不了，可行集合（feasible set）是[1,\ensuremath{\infty})，最小值在边界x=1。这里 f\ensuremath{\prime}(1)=2，不是0；这解释了为什么不能对每个受限问题只背“令导数为0”。
 
 
-把限制写成 \(g(x)=x-1\ge0\)，引入非负乘子lambda，写拉格朗日函数 \(L(x,\lambda)=f(x)-\lambda g(x)\)。在解处检查四件事：
+把限制写成 \(g(x)=x-1\ge0\)，引入非负乘子\ensuremath{\lambda}，写拉格朗日函数 \(L(x,\lambda)=f(x)-\lambda g(x)\)。在解处检查四件事：
 
 
 
@@ -1419,19 +1418,19 @@ w=(2,2)，预测(4,8)，残差0；仍有其他精确解，但其长度更大。 
 
 \item 可行：g(x)\ensuremath{\ge}0；
 
-\item 乘子：lambda\ensuremath{\ge}0；
+\item 乘子：\ensuremath{\lambda\ge}0；
 
-\item 对原变量的驻点：f\ensuremath{\prime}(x)\ensuremath{-}lambda g\ensuremath{\prime}(x)=0；
+\item 对原变量的驻点：f\ensuremath{\prime}(x)\ensuremath{-}\ensuremath{\lambda} g\ensuremath{\prime}(x)=0；
 
-\item 互补松弛：lambda g(x)=0。
+\item 互补松弛：\ensuremath{\lambda} g(x)=0。
 
 \end{enumerate}
 
 
-本例x=1使g=0，驻点式2\ensuremath{-}lambda=0给lambda=2，四件事都满足。若限制改成 \(x\ge-1\)，无约束最小点0已可行，g(0)=1>0，lambda=0，约束没挡路。
+本例x=1使g=0，驻点式2\ensuremath{-}\ensuremath{\lambda}=0给\ensuremath{\lambda}=2，四件事都满足。若限制改成 \(x\ge-1\)，无约束最小点0已可行，g(0)=1>0，\ensuremath{\lambda}=0，约束没挡路。
 
 
-这些是适当条件下的KKT条件，不是任意非凸问题的全局最优证明。互补松弛只要求乘积0：lambda>0推出g=0，g>0推出lambda=0；g=0不保证lambda>0。比如最小化x\textsuperscript{2}且x\ensuremath{\ge}0，解x=0恰在边界，但lambda=0。这正是SVM“在margin上却可能零乘子”的入门反例。
+这些是适当条件下的KKT条件，不是任意非凸问题的全局最优证明。互补松弛只要求乘积0：\ensuremath{\lambda}>0推出g=0，g>0推出\ensuremath{\lambda}=0；g=0不保证\ensuremath{\lambda}>0。比如最小化x\textsuperscript{2}且x\ensuremath{\ge}0，解x=0恰在边界，但\ensuremath{\lambda}=0。这正是SVM“在margin上却可能零乘子”的入门反例。
 
 
 \textbf{自查/变式 / Check and transfer:} 最小化 \((x-3)^2\) 且x\ensuremath{\le}2，求解与乘子。先统一写g\ensuremath{\ge}0。 / Minimize (x\ensuremath{-}3)\textsuperscript{2} subject to x\ensuremath{\le}2. Write g\ensuremath{\ge}0 and find the solution and multiplier.
@@ -1441,7 +1440,7 @@ w=(2,2)，预测(4,8)，残差0；仍有其他精确解，但其长度更大。 
 \begin{StudySolution}{答案 / Answer}
 
 
-g=2\ensuremath{-}x\ensuremath{\ge}0，L=(x\ensuremath{-}3)\textsuperscript{2}\ensuremath{-}lambda(2\ensuremath{-}x)。可行范围内最接近3的是x=2，驻点式 \(2(x-3)+\lambda=0\) 给lambda=2。 / x=2, lambda=2, with g=2\ensuremath{-}x and L=(x\ensuremath{-}3)\textsuperscript{2}\ensuremath{-}lambda(2\ensuremath{-}x). 注意g\ensuremath{\prime}=\ensuremath{-}1，所以lambda在导数里带加号。
+g=2\ensuremath{-}x\ensuremath{\ge}0，L=(x\ensuremath{-}3)\textsuperscript{2}\ensuremath{-}\ensuremath{\lambda}(2\ensuremath{-}x)。可行范围内最接近3的是x=2，驻点式 \(2(x-3)+\lambda=0\) 给\ensuremath{\lambda}=2。 / x=2, \ensuremath{\lambda}=2, with g=2\ensuremath{-}x and L=(x\ensuremath{-}3)\textsuperscript{2}\ensuremath{-}\ensuremath{\lambda}(2\ensuremath{-}x). 注意g\ensuremath{\prime}=\ensuremath{-}1，所以\ensuremath{\lambda}在导数里带加号。
 
 
 \end{StudySolution}
@@ -1564,12 +1563,173 @@ J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.\tag{M.41}
 
 
 
+\StudyHeading{1}{11. Eigenvalues, eigenvectors and SVD｜矩阵真正拉伸的方向}
+\StudyTarget{Foundations-MathForML__eigen-svd}
+\StudyTarget{Foundations-MathForML__11-eigenvalues-eigenvectors-and-svd}
+
+
+\StudyRef{CS5489-Lecture08}{pca}{回到Lecture 8：PCA与核PCA} · \StudyRef{CS5489-Lecture09}{spectral}{回到Lecture 9：谱聚类} · \StudyRef{Foundations-MathForML}{foundation-nav}{回到专题导航}
+
+
+在 §5 里，我们已经看到方阵 \(A\) 左乘一个向量 \(v\) 时，一般会同时改变它的方向和长度。到了降维（PCA、FLD、LSA）和谱聚类，课堂上突然出现 \(\Sigma v = \lambda v\)、特征值分解和奇异值分解（SVD）。这一节只用一个 \(2\times 2\) 的小矩阵把它们彻底算明白。
+
+
+\StudyHeading{2}{11.1 不旋转只缩放的特殊方向：特征向量与特征值}
+
+
+观察对称矩阵 \(\Sigma = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}\)。先随便取一个普通向量 \(u = (1, 0)^T\)，乘上去得到 \(\Sigma u = (2, 1)^T\)——方向偏转了，不再沿着原来的横轴。但如果我们改试两个斜对角方向 \(v_1 = (1, 1)^T\) 和 \(v_2 = (1, -1)^T\)：
+\[
+\Sigma \begin{pmatrix} 1 \\ 1 \end{pmatrix} = \begin{pmatrix} 3 \\ 3 \end{pmatrix} = 3 \begin{pmatrix} 1 \\ 1 \end{pmatrix}, \qquad
+\Sigma \begin{pmatrix} 1 \\ -1 \end{pmatrix} = \begin{pmatrix} 1 \\ -1 \end{pmatrix} = 1 \begin{pmatrix} 1 \\ -1 \end{pmatrix}.
+\]
+在这两条直线上，矩阵乘法退化成了单纯的数字倍乘：方向保持在原直线上（\(\lambda < 0\) 时只反向），长度乘以 \(\lambda\)。只要非零向量 \(v \neq 0\) 满足 \(\Sigma v = \lambda v\)，就把 \(v\) 叫做\textbf{特征向量（eigenvector）}，把倍数 \(\lambda\) 叫做对应的\textbf{特征值（eigenvalue）}。因为把 \(v\) 拉长任何非零倍数后仍站在同一条直线上，课程中通常把它除以其长度 \(\|v\|_2\)，固定成\textbf{单位特征向量}，例如 \(q_1 = \frac{1}{\sqrt{2}}(1, 1)^T\)、\(q_2 = \frac{1}{\sqrt{2}}(1, -1)^T\)。
+
+
+怎样系统求出 \(\lambda\)？把 \(\Sigma v = \lambda v\) 移项写成 \((\Sigma - \lambda I)v = 0\)。要让非零向量 \(v\) 被压成零向量，括号里的矩阵必须“不可逆”（在 \(2\times 2\) 情形就是行列式 \(ad - bc = 0\)）：
+\[
+\det(\Sigma - \lambda I) = \det\begin{pmatrix} 2 - \lambda & 1 \\ 1 & 2 - \lambda \end{pmatrix} = (2 - \lambda)^2 - 1 = \lambda^2 - 4\lambda + 3 = (\lambda - 3)(\lambda - 1) = 0.
+\]
+解得 \(\lambda_1 = 3\)、\(\lambda_2 = 1\)。算完后立刻做两个零成本验算：矩阵主对角线元素之和叫做\textbf{迹（trace）}，记作 \(\mathrm{tr}(\Sigma)\)，它恒等于全部特征值之和（\(2 + 2 = 3 + 1 = 4\)）；行列式恒等于全部特征值之积（\(2\times 2 - 1\times 1 = 3\times 1 = 3\)）。
+
+
+\StudyHeading{2}{11.2 实对称矩阵的谱定理与瑞利商（Rayleigh quotient）}
+
+
+协方差矩阵 \(\Sigma = \frac{1}{N}\tilde{X}^T\tilde{X}\)、核矩阵 \(K\) 以及图拉普拉斯矩阵 \(L = D - A\) 全都是\textbf{实对称矩阵（\(\Sigma^T = \Sigma\)）}。实对称矩阵有两条在考试和推导里反复使用的性质：
+\begin{enumerate}[start=1]
+\item \textbf{特征值必为实数，不同特征值对应的特征向量必正交}：若 \(\Sigma v_1 = \lambda_1 v_1\)、\(\Sigma v_2 = \lambda_2 v_2\) 且 \(\lambda_1 \neq \lambda_2\)，用 \(v_2^T\) 左乘第一式并利用 \(\Sigma^T = \Sigma\)，有 \(\lambda_1 (v_2^T v_1) = v_2^T (\Sigma v_1) = (\Sigma v_2)^T v_1 = \lambda_2 (v_2^T v_1)\)，移项得 \((\lambda_1 - \lambda_2)(v_2^T v_1) = 0\)，故必有 \(v_2^T v_1 = 0\)。验证上面的例子：\((1, 1)\cdot(1, -1) = 1 - 1 = 0\)，确实严格垂直。
+\item \textbf{二次型极值（瑞利商）刚好落在特征向量上}：当单位向量 \(w\)（满足 \(\|w\|_2 = 1\)）在平面上旋转时，投影方差 \(w^T \Sigma w\) 夹在最小与最大特征值之间，即 \(\lambda_{\min} \le w^T \Sigma w \le \lambda_{\max}\)。其中 \(w = q_1\) 时取到最大值 \(\lambda_{\max}\)（PCA 的第一主成分），\(w = q_{\min}\) 时取到最小值 \(\lambda_{\min}\)（谱聚类寻找最小切边代价的方向）。若进一步把约束换成广义比值 \(\frac{w^T A w}{w^T B w}\)（如 Lecture 8 的 FLD 类间与类内散度比），驻点就对应广义特征值问题 \(A w = \lambda B w\)。
+\end{enumerate}
+
+
+把正交单位特征向量按列排成正交矩阵 \(Q = [q_1, \dots, q_d]\)（满足 \(Q^T Q = I\)，即逆矩阵就是转置 \(Q^{-1} = Q^T\)），对称矩阵就能写成\textbf{谱分解} \(\Sigma = Q \Lambda Q^T = \sum_{j=1}^d \lambda_j q_j q_j^T\)。若协方差矩阵半正定（所有样本投影方差 \(w^T \Sigma w \ge 0\)），则全部特征值 \(\lambda_j \ge 0\)。
+
+
+\StudyHeading{2}{11.3 奇异值分解（SVD）与行列记号辨析}
+
+
+如果数据表 \(\tilde{X} \in \mathbb{R}^{N \times D}\) 不是方阵（比如 \(N = 400\) 张人脸，每张有 \(D = 4096\) 个像素），没法直接对 \(\tilde{X}\) 求特征值；若硬算 \(4096 \times 4096\) 的协方差矩阵 \(\Sigma = \frac{1}{N}\tilde{X}^T\tilde{X}\)，内存和耗时又太大。任意实矩阵 \(\tilde{X} \in \mathbb{R}^{N \times D}\) 都可以做\textbf{奇异值分解（Singular Value Decomposition, SVD）}：
+\[
+\tilde{X} = U S V^T,
+\]
+其中 \(U \in \mathbb{R}^{N \times r}\) 和 \(V \in \mathbb{R}^{D \times r}\) 的列各自正交归一（\(U^T U = I_r\)，\(V^T V = I_r\)，\(r = \mathrm{rank}(\tilde{X}) \le \min(N, D)\)），\(S = \mathrm{diag}(\sigma_1, \dots, \sigma_r)\) 是按从大到小排列的正奇异值。把它代回协方差矩阵：
+\[
+\Sigma = \frac{1}{N}\tilde{X}^T \tilde{X} = \frac{1}{N} V S^T U^T U S V^T = V \left(\frac{1}{N} S^2\right) V^T.
+\]
+对照谱分解立刻看出：右奇异向量 \(V\) 的各列就是协方差矩阵的特征向量（主成分方向），而特征值恰好等于 \(\lambda_j = \sigma_j^2 / N\)。只保留前 \(K\) 个最大奇异值与对应列 \(\tilde{X}_K = \sum_{j=1}^K \sigma_j u_j v_j^T\)，就是在平方误差（Frobenius 范数）下最优的秩-\(K\) 近似——这正是 PCA 降维去噪与 LSA 文本潜在语义分解共用同一套数值工具的原因。
+
+
+\textbf{记号提醒（行样本 vs 列样本）：}在 §5 和 scikit-learn 代码里，每一行是一个样本 \(X \in \mathbb{R}^{N \times D}\)；而在 Lecture 7 自注意力与 Lecture 8 推导讲义中，老师常把每个样本或词向量竖着放成一列 \(X_{\text{col}} \in \mathbb{R}^{D \times N}\)。两套写法只是互为转置：当按列排布时，协方差写成 \(\frac{1}{N}\tilde{X}_{\text{col}}\tilde{X}_{\text{col}}^T\)，注意力相关性写成 \(K^T Q \in \mathbb{R}^{n \times n}\)。遇到矩阵乘积先核对内侧维度是否消去、外侧维度是否等于目标形状，就不会背反转置位置。
+
+
+\textbf{补充小补充：余弦相似度与二维旋转矩阵（用于 Lecture 12）。}在 §7 内积的基础上，把两个向量先各自除以自身长度变成单位向量再做点积，得到只看夹角、不看长短的\textbf{余弦相似度} \(\cos\theta = \frac{u^T v}{\|u\|_2 \|v\|_2} \in [-1, 1]\)（CLIP 图文对比学习的核心打分）。而在二维平面上把向量逆时针旋转 \(\theta\) 角的正交矩阵是 \(R(\theta) = \begin{pmatrix}\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta\end{pmatrix}\)，它满足 \(R(m\theta)^T R(n\theta) = R((n-m)\theta)\)——旋转位置编码（RoPE）正是借这一等式让查询与键的内积只依赖词距 \(n - m\)。
+
+
+\textbf{独立变式 / Try：}设中心化协方差矩阵为 \(\Sigma = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}\)。（1）求它的两个特征值并用迹与行列式验算；（2）求最大特征值对应的单位特征向量，并说明第一主成分保留了总方差的百分之多少。 / For \(\Sigma = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}\), find both eigenvalues, check them with the trace and determinant, find the top unit eigenvector, and state the fraction of variance explained by PC1.
+
+
+
+\begin{StudySolution}{答案 / Answer}
+
+
+特征方程 \((5-\lambda)(2-\lambda) - 4 = \lambda^2 - 7\lambda + 6 = (\lambda - 6)(\lambda - 1) = 0\)，得 \(\lambda_1 = 6\)、\(\lambda_2 = 1\)。验算：\(\mathrm{tr}(\Sigma) = 5 + 2 = 6 + 1 = 7\)，\(\det(\Sigma) = 10 - 4 = 6\times 1 = 6\)。代入 \((\Sigma - 6I)v_1 = 0\) 得 \(-v_{11} + 2v_{12} = 0\)，取 \((2, 1)^T\) 归一化得 \(q_1 = \frac{1}{\sqrt{5}}(2, 1)^T\)。总方差为 \(7\)，第一主成分保留 \(6 / 7 \approx 85.7\%\) 的方差。 / Eigenvalues are \(\lambda_1 = 6, \lambda_2 = 1\) (\(\mathrm{tr}=7, \det=6\)); the top unit eigenvector is \(\frac{1}{\sqrt{5}}(2, 1)^T\), explaining \(6/7 \approx 85.7\%\) of total variance.
+
+
+\end{StudySolution}
+
+
+\textbf{English takeaway:} Symmetric matrices have real eigenvalues and orthogonal eigenvectors; the top eigenvectors maximize projected variance \(w^T \Sigma w\), and truncated SVD computes the same subspace directly from the data matrix without forming a huge \(D \times D\) covariance matrix.
+
+
+返回：\StudyRef{CS5489-Lecture08}{pca}{Lecture 8：PCA与核PCA} · \StudyRef{CS5489-Lecture08}{lsa-nmf}{Lecture 8：LSA与NMF} · \StudyRef{CS5489-Lecture09}{spectral}{Lecture 9：图拉普拉斯与谱聚类} · \StudyRef{CS5489-Lecture12}{patch-rope}{Lecture 12：RoPE与CLIP} · \StudyRef{Foundations-MathForML}{foundation-nav}{专题导航}
+
+
+
+
+
+
+\StudyHeading{1}{12. Expectation, KL divergence and ELBO｜随机变量的平均、分布差异与对数和拆解}
+\StudyTarget{Foundations-MathForML__expectation-kl}
+\StudyTarget{Foundations-MathForML__12-expectation-kl-divergence-and-elbo}
+
+
+\StudyRef{CS5489-Lecture06}{subsampling}{回到Lecture 6：集成与Dropout} · \StudyRef{CS5489-Lecture09}{gmm-em}{回到Lecture 9：GMM与EM} · \StudyRef{CS5489-Lecture10}{vae}{回到Lecture 10：VAE与扩散模型} · \StudyRef{CS5489-Lecture11}{token-lm}{回到Lecture 11：困惑度与GRPO}
+
+
+前面 §2 用有限表格算了频率平均值 \(\frac{1}{N}\sum_{i=1}^N x_i\)。进入深度学习与生成模型后，公式里频繁出现花体期望 \(\mathbb{E}[\cdot]\)、变量代换雅可比因子、KL 散度 \(\mathrm{KL}(q \| p)\) 以及“对数套求和无法直接求导”的变分下界（ELBO）。把下面三条运算法则理顺，后七讲的推导就会连成一条线。
+
+
+\StudyHeading{2}{12.1 数学期望的线性性质与独立高斯可加性}
+
+
+把随机变量 \(X\) 每个可能取值乘上它出现的概率（连续变量则是乘以密度 \(p(x)\) 积分），所得理论加权平均叫做\textbf{数学期望（expectation）}：离散情形 \(\mathbb{E}[g(X)] = \sum_x g(x)P(X=x)\)，连续情形 \(\mathbb{E}[g(X)] = \int g(x)p(x)\,dx\)。期望和方差最常考的运算法则是：
+\begin{enumerate}[start=1]
+\item \textbf{期望永远满足线性拆分（无论变量是否独立）}：对常数 \(a, b\)，恒有 \(\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b\mathbb{E}[Y]\)。例如 Lecture 6 的 Dropout 以概率 \(1-p\) 保留神经元（\(\delta \sim \mathrm{Bernoulli}(1-p)\)，\(\mathbb{E}[\delta] = 1-p\)），训练时激活期望变成 \(\mathbb{E}[\delta h] = (1-p)h\)；测试时不丢弃，就必须乘上 \((1-p)\)（或训练时除以 \(1-p\)）才能让训练与测试期望一致。再如 Lecture 7 的 Adam 一阶矩从 \(\mathbf{s}^{(0)} = 0\) 起步，展开递推后 \(\mathbb{E}[\mathbf{s}^{(t)}] = (1 - \rho_1^t)\mathbb{E}[\mathbf{g}]\)，除以 \((1 - \rho_1^t)\) 正是为了消除初期向零偏置。
+\item \textbf{方差缩放平方倍，独立和的方差直接相加}：\(\mathrm{Var}(X) = \mathbb{E}[(X - \mathbb{E}[X])^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2\)。常数提出方差要平方：\(\mathrm{Var}(aX) = a^2 \mathrm{Var}(X)\)。若 \(X\) 与 \(Y\) \textbf{相互独立}，则 \(\mathrm{Var}(aX + bY) = a^2\mathrm{Var}(X) + b^2\mathrm{Var}(Y)\)；若不独立，则还要加上交叉协方差项 \(2ab\,\mathrm{Cov}(X, Y)\)（Lecture 6 集成模型平均 \(K\) 个相关性为 \(C\)、方差为 \(V\) 的误差时，\(\mathrm{Var}(\frac{1}{K}\sum_{i=1}^K \epsilon_i) = \frac{1}{K^2}[K V + K(K-1)C] = \frac{V}{K} + \frac{K-1}{K}C\) 就由此一步算出）。在 Lecture 10 扩散模型（DDPM）中，把独立标准高斯噪声合并时，必须把\textbf{方差}相加而非标准差相加：\(\sqrt{\alpha_2}\epsilon_1 + \sqrt{1-\alpha_2}\epsilon_2\) 的总方差是 \(\alpha_2\cdot 1 + (1-\alpha_2)\cdot 1 = 1\)，因此可以合并写成单个标准高斯噪声 \(\bar{\epsilon} \sim \mathcal{N}(0, 1)\)。
+\item \textbf{一维可逆变换的密度换元（流模型基础）}：若 \(z\) 有密度 \(p_z(z)\)，通过严格单调可逆函数 \(y = f(z)\) 变成 \(y\)，概率微元守恒 \(p_y(y)\,|dy| = p_z(z)\,|dz|\) 给出 \(p_y(y) = p_z(f^{-1}(y))\left|\frac{df^{-1}(y)}{dy}\right|\)。函数把区间拉宽几倍，密度高度就必须除掉同样的倍数，总面积才仍为 1。
+\end{enumerate}
+
+
+\StudyHeading{2}{12.2 信息熵、交叉熵、困惑度与 KL 散度}
+
+
+假定真实世界按分布 \(p\) 产生事件，而我们的模型给出了预测分布 \(q\)。用 \(-\log q(x)\) 度量看到事件 \(x\) 时模型的“意外程度”（越不相信它发生，负对数惩罚越大）：
+\[
+H(p, q) = \mathbb{E}_{x \sim p}[-\log q(x)] = -\sum_x p(x)\log q(x), \qquad
+\mathrm{KL}(p \| q) = \sum_x p(x)\log\frac{p(x)}{q(x)} = H(p, q) - H(p).
+\]
+其中 \(H(p) = -\sum_x p(x)\log p(x)\) 是真实分布自身的熵，\(H(p, q)\) 是\textbf{交叉熵（cross-entropy）}，两者的差 \(\mathrm{KL}(p \| q)\) 叫做\textbf{KL 散度（Kullback–Leibler divergence）}。在训练集上真实标签给定，\(H(p)\) 是与模型参数无关的常数，所以\textbf{最小化交叉熵损失完全等价于最小化真实分布与模型分布之间的 KL 散度}。在 Lecture 11 语言模型中，若按以 2 为底算平均负对数似然 \(\bar{\ell}_2\)，把它放回指数 \(2^{\bar{\ell}_2}\) 就得到\textbf{困惑度（Perplexity, PPL）}：每一步在多少个等可能候选词之间犹豫，PPL 就是多少（若代码用自然对数算平均交叉熵 \(\bar{\ell}_e\)，则 \(\mathrm{PPL} = e^{\bar{\ell}_e}\)，两种底数算出的 PPL 完全相同）。
+
+
+使用 KL 散度时要牢记两点：第一，\(\mathrm{KL}(p \| q) \ge 0\)，且当且仅当 \(p = q\) 处处成立时等于 0；第二，\textbf{KL 散度不对称}，\(\mathrm{KL}(p \| q) \neq \mathrm{KL}(q \| p)\)（因此在 t-SNE、VAE 和 GRPO 策略约束中不能随意调换左、右两个分布的位置）。
+
+
+\StudyHeading{2}{12.3 琴生不等式（Jensen's inequality）与对数和下界（ELBO）}
+
+
+在 §3 我们学过自然对数 \(\ln u\) 是一条向上拱起的\textbf{凹函数（concave function）}：连接曲线上任意两点的弦一定落在曲线下方，即“先求平均再取对数，大于等于先取对数再求平均”：
+\[
+\log \mathbb{E}_{z \sim q}[A(z)] \ge \mathbb{E}_{z \sim q}[\log A(z)].
+\]
+为什么 Lecture 9 的高斯混合模型（GMM）和 Lecture 10 的变分自编码器（VAE）不能像第 2 讲那样直接令导数为零？因为边缘似然 \(\log p(x) = \log \sum_z p(x, z)\) 是\textbf{对数套着求和}，求导时整个和式会卡在分母上，解不出闭式参数。引入任意辅助分布 \(q(z)\)（满足 \(\sum_z q(z) = 1, q(z) > 0\)）做恒等变形并套用上面的凹函数不等式：
+\[
+\log p(x) = \log \sum_z q(z)\frac{p(x, z)}{q(z)} \ge \sum_z q(z)\log\frac{p(x, z)}{q(z)} = \mathbb{E}_{q(z)}[\log p(x \mid z)] - \mathrm{KL}\bigl(q(z) \,\|\, p(z)\bigr).
+\]
+不等号右边就是\textbf{证据下界（Evidence Lower Bound, ELBO）}，而左、右两边的差距恰好等于 \(\mathrm{KL}(q(z) \| p(z \mid x)) \ge 0\)。当潜变量离散且有限（GMM）时，E 步直接令 \(q(z) = p(z \mid x)\) 让差距清零，M 步最大化下界中的加权对数和；当潜变量连续且真实后验不可算（VAE）时，就用编码器网络参数化 \(q_\phi(z \mid x)\) 并同时优化编码器与解码器最大化这一条 ELBO。
+
+
+\textbf{跟做小算例：}设二元分布 \(p = (0.5, 0.5)\)，\(q = (0.8, 0.2)\)。以自然对数计算（\(\ln 0.5 \approx -0.693\)，\(\ln 0.8 \approx -0.223\)，\(\ln 0.2 \approx -1.609\)）：\(\mathrm{KL}(p \| q) = 0.5\ln\frac{0.5}{0.8} + 0.5\ln\frac{0.5}{0.2} = 0.5(-0.470 + 0.916) = 0.223 > 0\)；反过来算 \(\mathrm{KL}(q \| p) = 0.8\ln\frac{0.8}{0.5} + 0.2\ln\frac{0.2}{0.5} = 0.8(0.470) + 0.2(-0.916) \approx 0.193 \neq 0.223\)，直观看到非负性与不对称性。
+
+
+\textbf{独立变式 / Try：}设 \(X_1, X_2\) 为相互独立的标准正态随机变量 \(\mathcal{N}(0, 1)\)，令 \(Y = 0.6 X_1 + 0.8 X_2\)。求 \(\mathbb{E}[Y]\) 与 \(\mathrm{Var}(Y)\)；若一位同学把标准差直接相加写成 \(0.6 + 0.8 = 1.4\)，错在哪里？ / Let \(X_1, X_2 \sim \mathcal{N}(0,1)\) be independent and \(Y = 0.6 X_1 + 0.8 X_2\). Find \(\mathbb{E}[Y]\) and \(\mathrm{Var}(Y)\), and explain why adding standard deviations \(0.6 + 0.8 = 1.4\) is wrong.
+
+
+
+\begin{StudySolution}{答案 / Answer}
+
+
+由期望线性性得 \(\mathbb{E}[Y] = 0.6(0) + 0.8(0) = 0\)；因 \(X_1, X_2\) 独立，方差满足 \(\mathrm{Var}(Y) = 0.6^2\mathrm{Var}(X_1) + 0.8^2\mathrm{Var}(X_2) = 0.36 + 0.64 = 1\)，标准差仍为 \(\sqrt{1} = 1\)。直接把标准差相加漏掉了正负抵消（交叉项 \(\mathbb{E}[X_1 X_2] = 0\)），独立随机变量之和应将方差相加。 / \(\mathbb{E}[Y] = 0\) and \(\mathrm{Var}(Y) = 0.6^2(1) + 0.8^2(1) = 1\); variances add for independent variables, whereas adding standard deviations ignores mutual cancellation.
+
+
+\end{StudySolution}
+
+
+\textbf{English takeaway:} Linearity of expectation and variance addition govern dropout scaling, ensemble error, and diffusion noise schedules; KL divergence is non-negative and asymmetric, and Jensen's inequality turns intractable log-sums \(\log \sum_z p(x,z)\) into tractable EM and VAE lower bounds.
+
+
+返回：\StudyRef{CS5489-Lecture06}{subsampling}{Lecture 6：集成与Dropout} · \StudyRef{CS5489-Lecture07}{momentum-adam}{Lecture 7：Adam偏置修正} · \StudyRef{CS5489-Lecture08}{manifold}{Lecture 8：t-SNE} · \StudyRef{CS5489-Lecture09}{gmm-em}{Lecture 9：GMM与EM} · \StudyRef{CS5489-Lecture10}{vae}{Lecture 10：流模型、VAE与扩散} · \StudyRef{CS5489-Lecture11}{token-lm}{Lecture 11：困惑度与GRPO} · \StudyRef{Foundations-MathForML}{foundation-nav}{专题导航}
+
+
+
+
+
+
 \StudyHeading{1}{这些补课从哪里来，学到哪里为止？}
 \StudyTarget{Foundations-MathForML__sources}
 \StudyTarget{Foundations-MathForML___2}
 
 
-这些专题按当前课程需要组织：前五节衔接Lecture2，组合概率用于网络课，投影、伪逆和优化衔接后续Lecture/Tutorial，批量梯度用于Lecture5与Assignment2。例子和推导为教学补充，按需要选读。
+这些专题按两门课全学期需要组织：第1–5节衔接Lecture 1–2，第6节组合概率服务网络课统计复用与随机接入，第7–10节衔接线性空间、回归、SVM与神经网络反向传播，第11–12节衔接降维、谱聚类、生成模型与大语言/多模态模型。所有小数字例子和推导均为教学补充，可按卡点选读。
 
 
 \begingroup
@@ -1584,14 +1744,16 @@ J=\begin{bmatrix}2&0\\1&1\end{bmatrix}.\tag{M.41}
 \bottomrule\endfoot
 符号、函数、数组 & Lecture2a，第4–17个单元；Lecture2b，第6–15个单元 & 水箱、下标和数组形状的教学例子 \\
 概率与密度 & Lecture2a，第9–25、32–40个单元 & 邮件计数表、均匀等待时间与标准正态面积的教学例子 \\
-指数与对数 & Lecture2a，第13–15、41–47个单元；Lecture2b，第89–92个单元 & 两模型的概率比较；指数／对数曲线与定义域 \\
-导数与极值 & Lecture2a，第15、26–28个单元 & 差商、链式法则、偏导与似然峰值的教学例子 \\
-矩阵与协方差 & Lecture2b，第33–44个单元 & 原第36个单元的协方差模型；四条记录与矩阵操作为教学补充 \\
-组合与二项概率 & CS5222 Chapter1统计复用、Tutorial1 Q4 & 从3用户列举到n用户；教学补充，条件明确 \\
-长度与投影 & Tutorial1，第35–45个单元；Lecture3b，第27–36个单元 & 衔接原Gram–Schmidt和margin，算法留在课程正文 \\
+指数与对数 & Lecture2a，第13–15、41–47个单元；Lecture2b，第89–92个单元；Lecture11困惑度 & 两模型的概率比较；自然对数与底数2换算 \\
+导数与极值 & Lecture2a，第15、26–28个单元；CS5222 Chapter6 ALOHA极值 & 差商、链式法则、偏导与似然峰值的教学例子 \\
+矩阵与协方差 & Lecture2b，第33–44个单元；Lecture7 BatchNorm；Lecture11 GRPO标准化 & 原第36个单元的协方差模型；行/列矩阵约定对照 \\
+组合与二项概率 & CS5222 Chapter1统计复用、Tutorial1 Q4、Chapter6/Tutorial11 ALOHA & 从3用户列举到n用户；教学补充，条件明确 \\
+长度与投影 & Tutorial1，第35–45个单元；Lecture3b，第27–36个单元；Lecture12 CLIP余弦相似度 & 衔接原Gram–Schmidt、margin与单位向量夹角 \\
 秩与伪逆 & Lecture4a，第19–21、43–49个单元 & 展开逆不存在与最小范数的具体例子 \\
 梯度与约束 & Lecture3a，第52个单元；Lecture3b，第37–44个单元；SVM.pdf第2–4页 & 展开原课求导与KKT前提，不代替SVM推导 \\
 批量梯度 & Lecture5b，第15–21个单元；Assignment2，第4、7个单元 & 行样本、共享参数与平均因子的补充推导 \\
+特征值与奇异值分解 & Lecture8 PCA/FLD/LSA/KPCA；Tutorial8；Lecture9图拉普拉斯谱聚类；Lecture12 RoPE & \(2\times2\)特征方程、对称矩阵正交特征向量与截断SVD直觉 \\
+期望、KL散度与变分下界 & Lecture6集成/Dropout；Lecture7 Adam；Lecture8 t-SNE；Lecture9 GMM-EM；Lecture10流/VAE/扩散；Lecture11 PPL/GRPO & 期望线性性、独立方差相加、KL不对称与Jensen下界拆解 \\
 \end{longtable}
 \endgroup
 

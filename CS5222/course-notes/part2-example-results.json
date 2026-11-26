@@ -22,7 +22,14 @@
     ],
     "t7_p1_r70": 7,
     "t7_p4_n_min": 3033,
-    "tcp_avg_thru_mbps": 5.6064
+    "tcp_avg_thru_mbps": 5.6064,
+    "a2_p22_inflight_acks": [
+      "k-5",
+      "k-4",
+      "k-3",
+      "k-2",
+      "k-1"
+    ]
   },
   "ch4": {
     "ch4_frags": [
@@ -240,6 +247,8 @@
       "quotient": "1011011100",
       "rem": "0100"
     },
+    "crc_poly_x4_x2_1": "10101",
+    "polling_round_s": 0.9,
     "t11_p1_parity": {
       "row": [
         1,

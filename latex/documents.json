@@ -117,6 +117,41 @@
       "legacy_source": "CS5489/course-notes/Tutorial04.ipynb"
     },
     {
+      "source": "CS5489/course-notes/Tutorial05.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial05",
+      "legacy_source": "CS5489/course-notes/Tutorial05.md"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial06.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial06",
+      "legacy_source": "CS5489/course-notes/Tutorial06.md"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial07.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial07",
+      "legacy_source": "CS5489/course-notes/Tutorial07.md"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial08.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial08",
+      "legacy_source": "CS5489/course-notes/Tutorial08.md"
+    },
+    {
+      "source": "CS5489/course-notes/Tutorial09.tex",
+      "course": "CS5489",
+      "major": true,
+      "id": "CS5489-Tutorial09",
+      "legacy_source": "CS5489/course-notes/Tutorial09.md"
+    },
+    {
       "source": "CS5489/course-notes/Assignment01.tex",
       "course": "CS5489",
       "major": true,
@@ -307,6 +342,14 @@
       "legacy_source": "CS5222/course-notes/ResearchReportGuide.md"
     },
     {
+      "source": "CS5222/course-notes/ExamIndex.tex",
+      "course": "CS5222",
+      "major": false,
+      "print_appendix": true,
+      "id": "CS5222-ExamIndex",
+      "legacy_source": "CS5222/course-notes/ExamIndex.md"
+    },
+    {
       "source": "learning/foundation-notes/MathForML.tex",
       "course": null,
       "major": false,
@@ -377,6 +420,16 @@
     "CS5489/course-notes/Tutorial04.ipynb": "CS5489-Tutorial04",
     "CS5489/course-notes/Tutorial04.html": "CS5489-Tutorial04",
     "CS5489/course-notes/Tutorial04.tex": "CS5489-Tutorial04",
+    "CS5489/course-notes/Tutorial05.md": "CS5489-Tutorial05",
+    "CS5489/course-notes/Tutorial05.tex": "CS5489-Tutorial05",
+    "CS5489/course-notes/Tutorial06.md": "CS5489-Tutorial06",
+    "CS5489/course-notes/Tutorial06.tex": "CS5489-Tutorial06",
+    "CS5489/course-notes/Tutorial07.md": "CS5489-Tutorial07",
+    "CS5489/course-notes/Tutorial07.tex": "CS5489-Tutorial07",
+    "CS5489/course-notes/Tutorial08.md": "CS5489-Tutorial08",
+    "CS5489/course-notes/Tutorial08.tex": "CS5489-Tutorial08",
+    "CS5489/course-notes/Tutorial09.md": "CS5489-Tutorial09",
+    "CS5489/course-notes/Tutorial09.tex": "CS5489-Tutorial09",
     "CS5489/course-notes/Assignment01.md": "CS5489-Assignment01",
     "CS5489/course-notes/Assignment01.html": "CS5489-Assignment01",
     "CS5489/course-notes/Assignment01.tex": "CS5489-Assignment01",
@@ -458,6 +511,8 @@
     "CS5222/course-notes/ResearchReportGuide.md": "CS5222-ResearchReportGuide",
     "CS5222/course-notes/ResearchReportGuide.html": "CS5222-ResearchReportGuide",
     "CS5222/course-notes/ResearchReportGuide.tex": "CS5222-ResearchReportGuide",
+    "CS5222/course-notes/ExamIndex.md": "CS5222-ExamIndex",
+    "CS5222/course-notes/ExamIndex.tex": "CS5222-ExamIndex",
     "learning/foundation-notes/MathForML.md": "Foundations-MathForML",
     "learning/foundation-notes/MathForML.html": "Foundations-MathForML",
     "learning/foundation-notes/MathForML.tex": "Foundations-MathForML",

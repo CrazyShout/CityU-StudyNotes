@@ -9,7 +9,9 @@
 
 \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Lecture11}{root}{上一讲：大语言模型} · \StudyRef{CS5489-Lecture07}{vit-scaling}{回顾：ViT 与缩放定律}
 
-前面我们分别把“视觉分类（CNN / ViT）”和“语言建模（LLM）”两条主线走到了最前沿。这一讲（收官讲，Lecture12a、12b、12c）把视觉与语言彻底合流：先补全\textbf{图像块分词与旋转位置编码（RoPE）}；再串起图像分类之外的核心视觉应用——\textbf{目标检测（R-CNN \ensuremath{\to} Fast \ensuremath{\to} Faster R-CNN / RPN \ensuremath{\to} YOLO \ensuremath{\to} DETR）}与\textbf{三类分割（语义／实例／全景）}；接着拆解多模态对齐的灵魂——\textbf{度量学习（Triplet Loss）、对比自监督（InfoNCE）与 CLIP 双塔图文对齐}，以及将检测与语言统一的 \textbf{GLIP}；最后总结\textbf{多模态大语言模型（MLLM）的四大模态融合架构}与真实 VLM 任务中的典型能力边界。
+前面我们分别把“视觉分类（CNN / ViT）”和“语言建模（LLM）”两条主线走到了前沿。这一讲（收官讲，Lecture12a、12b、12c）把视觉与语言合流：先补全\textbf{图像块分词与旋转位置编码（RoPE）}；再串起图像分类之外的核心视觉应用——\textbf{目标检测（R-CNN \ensuremath{\to} Fast \ensuremath{\to} Faster R-CNN / RPN \ensuremath{\to} YOLO \ensuremath{\to} DETR）}与\textbf{三类分割（语义／实例／全景）}；接着拆解多模态对齐的核心机制——\textbf{度量学习（Triplet Loss）、对比自监督（InfoNCE）与 CLIP 双塔图文对齐}，以及将检测与语言统一的 \textbf{GLIP}；最后总结\textbf{多模态大语言模型（MLLM）的四大模态融合架构}与真实 VLM 任务中的典型能力边界。
+
+\textbf{基础复习（可跳过）：} 二维正交变换与余弦相似度可回看\StudyRef{Foundations-MathForML}{eigen-svd}{数学补课：特征值分解与正交矩阵}及\StudyRef{Foundations-MathForML}{vectors-covariance}{向量内积}。
 
 学习目标与难点见\StudyRef{CS5489-Lecture12}{learning-priorities}{文末学习要求表}。
 
@@ -46,7 +48,7 @@ VQA、零样本、GLIP 与 MLLM & 理解 VQA 语言先验陷阱、Zero-shot 属�
 = \mathbf{q}^T \mathbf{R}\bigl((n-m)\theta\bigr)\mathbf{k}.
 \tag{12.1}
 \]
-由此天然获得两大绝佳特性：(1) \textbf{相对位置保持}——无论“pig”和“dog”出现在第 $(2,5)$ 位还是第 $(10,13)$ 位，只要相对距离 $n-m=3$ 不变，旋转后的点积完全一致；(2) \textbf{向量稳定性（利好 KV 缓存）}——在句子末尾追加新词时，前面所有旧词的位置编号和旋转向量丝毫不变，无需重算！
+由此天然获得两大关键特性：(1) \textbf{相对位置保持}——无论“pig”和“dog”出现在第 $(2,5)$ 位还是第 $(10,13)$ 位，只要相对距离 $n-m=3$ 不变，旋转后的点积完全一致；(2) \textbf{向量稳定性（兼容 KV 缓存）}——在句子末尾追加新词时，前面所有旧词的位置编号和旋转向量保持不变，无需重算。
 
 来源：Lecture12a，第 4–8 个单元；Lecture12b，第 21 个单元。
 
@@ -54,23 +56,23 @@ VQA、零样本、GLIP 与 MLLM & 理解 VQA 语言先验陷阱、Zero-shot 属�
 \StudyHeading{1}{2. 目标检测五代演进与三类图像分割}
 \StudyTarget{CS5489-Lecture12__detection-seg}
 
-基础视觉理解按粒度从粗到细分三级：图像级\textbf{识别（Recognition）}只回答“图里是什么”；\textbf{目标检测（Object Detection）}既要认出全部物体类别，又要框出每个物体的四元组边界框 $(x,y,w,h)$；\textbf{分割（Segmentation）}则精确到每一个像素！
+基础视觉理解按粒度从粗到细分三级：图像级\textbf{识别（Recognition）}只回答“图里是什么”；\textbf{目标检测（Object Detection）}既要认出全部物体类别，又要框出每个物体的四元组边界框 $(x,y,w,h)$；\textbf{分割（Segmentation）}则精确到每一个像素。
 
 \StudyHeading{2}{目标检测：从两阶段 R-CNN 到单阶段 YOLO 与端到端 DETR}
 \StudyTarget{CS5489-Lecture12__detectors}
 
-图 12.1 左概括了目标检测从“笨重外挂”到“端到端一气呵成”的五代跃迁：
+图 12.1 左概括了目标检测从多阶段组合到端到端预测的五代演进：
 \begin{enumerate}
-\item \textbf{R-CNN（2014，两阶段鼻祖）：} 先用传统选择性搜索（Selective Search）在原图上抠出约 2000 个候选框（RoI），逐一缩放变形后\textbf{分别跑一遍预训练 CNN} 提特征，再外接 SVM 分类器和边界框回归器。致命短板：重复跑上千次 CNN，慢得离谱且无法端到端训练。
-\item \textbf{Fast R-CNN：} 颠倒顺序——\textbf{先对整张原图只跑一次 CNN} 得到特征图，再在特征图上提取候选框特征（RoI Pooling）统一分类与回归，速度暴涨。但候选框生成仍依赖慢速外部算法。
-\item \textbf{Faster R-CNN + RPN（区域提议网络）：} 用内置神经网络 \textbf{Region Proposal Network（RPN）} 取代选择性搜索，首次打通真正\textbf{端到端可训练}的两阶段检测器！RPN 在特征图每个像素点（anchor 锚点中心）预设 $k=9$ 个不同尺度和长宽比的先验框（3 种尺度\ensuremath{\times}3 种长宽比），对全图 $W\times H$ 特征位置共产生 $W\times H\times k$ 个锚框（例如 $14\times 14\times 9 = 1764$ 个），同步预测每个锚框“有没有物体（二分类）”以及“坐标微调量（回归）”。
-\item \textbf{YOLO（You Only Look Once，单阶段实时霸主）：} 干脆取消候选框阶段！把整张图划成 $S\times S$ 网格，\textbf{物体中心落在哪个格子里，就由那个格子负责预测该物体}。每个格子预测 $B$ 个边界框（每框 5 个数：$x,y,w,h$ 加置信度 confidence）以及 $C$ 个类别概率，整张图一次性输出一个三维张量：
+\item \textbf{R-CNN（2014，两阶段早期代表）：} 先用传统选择性搜索（Selective Search）在原图上抠出约 2000 个候选框（RoI），逐一缩放变形后\textbf{分别跑一遍预训练 CNN} 提特征，再外接 SVM 分类器和边界框回归器。主要瓶颈：重复跑上千次 CNN，推理极慢且无法端到端联合训练。
+\item \textbf{Fast R-CNN：} 颠倒顺序——\textbf{先对整张原图只跑一次 CNN} 得到特征图，再在特征图上提取候选框特征（RoI Pooling）统一分类与回归，速度大幅提升。但候选框生成仍依赖慢速外部算法。
+\item \textbf{Faster R-CNN + RPN（区域提议网络）：} 用内置神经网络 \textbf{Region Proposal Network（RPN）} 取代选择性搜索，首次打通真正\textbf{端到端可训练}的两阶段检测器。RPN 在特征图每个像素点（anchor 锚点中心）预设 $k=9$ 个不同尺度和长宽比的先验框（3 种尺度\ensuremath{\times}3 种长宽比），对全图 $W\times H$ 特征位置共产生 $W\times H\times k$ 个锚框（例如 $14\times 14\times 9 = 1764$ 个），同步预测每个锚框“有没有物体（二分类）”以及“坐标微调量（回归）”。
+\item \textbf{YOLO（You Only Look Once，单阶段实时检测代表）：} 取消候选框阶段，把整张图划成 $S\times S$ 网格，\textbf{物体中心落在哪个格子里，就由那个格子负责预测该物体}。每个格子预测 $B$ 个边界框（每框 5 个数：$x,y,w,h$ 加置信度 confidence）以及 $C$ 个类别概率，整张图一次性输出一个三维张量：
 \[
 \text{YOLO 输出形状} = S \times S \times (C + 5B).
 \tag{12.2}
 \]
-（例如经典设定 $S=7, B=2, C=20$ 时，输出形状为 $7\times 7\times 30 = 1470$ 维。）速度极快，但原始 YOLO 有一条经典局限：\textbf{每个网格只预测 1 个类别}，若同一小格内同时挤进两个不同类别的物体，模型会漏检或判错其中一个。
-\item \textbf{DETR（DEtection TRansformer）：} 把目标检测变成集合直接预测！骨干特征经 Transformer 编码器获得全局上下文；解码器用固定数量的可学习\textbf{物体查询（object queries）}并行关注图像特征，再经 FFN 直接输出类别和相对整图的边界框（\textbf{无需手工锚框 anchors}）。训练时用\textbf{匈牙利算法（Hungarian algorithm）做二分图最优匹配（bipartite matching）}，强迫每个真实物体只匹配到唯一一个预测框（结合分类交叉熵 + L1 与广义 IoU 损失），省去了传统检测后处理的非极大值抑制（NMS）。
+（例如经典设定 $S=7, B=2, C=20$ 时，输出形状为 $7\times 7\times 30 = 1470$ 维。）速度很快，但原始 YOLO 有一条结构局限：\textbf{每个网格只预测 1 个类别}，若同一小格内同时落入两个不同类别的物体中心，模型会漏检或判错其中一个。
+\item \textbf{DETR（DEtection TRansformer）：} 把目标检测建模为集合直接预测：骨干特征经 Transformer 编码器获得全局上下文；解码器用固定数量的可学习\textbf{物体查询（object queries）}并行关注图像特征，再经 FFN 直接输出类别和相对整图的边界框（\textbf{无需手工锚框 anchors}）。训练时用\textbf{匈牙利算法（Hungarian algorithm）做二分图最优匹配（bipartite matching）}，确保每个真实物体只匹配到唯一一个预测框（结合分类交叉熵 + L1 与广义 IoU 损失），省去了传统检测后处理的非极大值抑制（NMS）。
 \end{enumerate}
 
 \StudyHeading{2}{三类分割一句话精准区分}
@@ -103,12 +105,20 @@ VQA、零样本、GLIP 与 MLLM & 理解 VQA 语言先验陷阱、Zero-shot 属�
 \tag{12.4}
 \]
 
-\textbf{基石 3：CLIP（Contrastive Language–Image Pre-training）。} CLIP 把对比学习从单模态搬到了互联网上数以亿计的\textbf{（图像，文本）配对数据}上，采用极简洁的\textbf{双塔（two-tower）架构}（图 12.1 右）：图像编码器（ViT 或 ResNet）输出 L2 归一化图像向量 $\mathbf{z}_i$，文本编码器（Transformer）输出 L2 归一化文本向量 $\mathbf{u}_j$。对一个含 $N$ 对图文的 batch，算出 $N\times N$ 余弦相似度矩阵并用温度 $\tau$ 缩放得 logits $z_i^T u_j / \tau$：对角线上的 $N$ 格是真正匹配的图文正对，其余 $N^2-N$ 格全作批内负对！随后做\textbf{双向对称交叉熵}（按行算\textbf{图找文}、按列算\textbf{文找图}，两者取平均）。
+\textbf{基石 3：CLIP（Contrastive Language–Image Pre-training）。} CLIP 把对比学习从单模态搬到了大规模\textbf{（图像，文本）配对数据}上，采用简洁的\textbf{双塔（two-tower）架构}（图 12.1 右）：图像编码器（ViT 或 ResNet）输出 L2 归一化图像向量 $\mathbf{z}_i$，文本编码器（Transformer）输出 L2 归一化文本向量 $\mathbf{u}_j$。对一个含 $N$ 对图文的 batch，算出 $N\times N$ 余弦相似度矩阵并用温度 $\tau$ 缩放得 logits $z_i^T u_j / \tau$：对角线上的 $N$ 格是真正匹配的图文正对，其余 $N^2-N$ 格均作批内负对。随后做\textbf{双向对称交叉熵}（按行算\textbf{图找文}、按列算\textbf{文找图}，两者取平均）。
 
-\textbf{实操与考试要点（Lecture12b）：} (1) CLIP 输出的图文余弦相似度（如咖啡图配 \StudyInline{a photo of coffee} 得 $0.299$、配干扰项 \StudyInline{a cup of tea on a table} 得 $0.265$）是\textbf{余弦分数，而非经过校准的概率}；(2) 推理时只改显示 softmax 温度 $\tau$ 会改变概率尖锐程度，但\textbf{绝不改变已训练向量的排序名次}；(3) 借由共享图文空间，CLIP 天然解锁\textbf{零样本分类（Zero-Shot Classification）}——把任意没训练过的新类别名写进提示词（如 \StudyInline{a photo of a \{class\}}），算图像与各候选文本的相似度最高者即得预测类别！进一步地，\textbf{GLIP（Grounded Language–Image Pre-training）}把对比对齐从“整图–整句”精细到\textbf{“图像局部区域–文本短语”}，统一了目标检测与语言理解，实现开放词汇目标检测（Open-Vocabulary Detection）。
+\textbf{实践与概念要点（Lecture12b）：} (1) CLIP 输出的图文余弦相似度（如咖啡图配 \StudyInline{a photo of coffee} 得 $0.299$、配干扰项 \StudyInline{a cup of tea on a table} 得 $0.265$）是\textbf{余弦分数，而非经过校准的概率}；(2) 推理时只改显示 softmax 温度 $\tau$ 会改变概率尖锐程度，但\textbf{不改变已训练向量的排序名次}；(3) 借由共享图文空间，CLIP 直接支持\textbf{零样本分类（Zero-Shot Classification）}——把任意没训练过的新类别名写进提示词（如 \StudyInline{a photo of a \{class\}}），算图像与各候选文本的相似度最高者即得预测类别。进一步地，\textbf{GLIP（Grounded Language–Image Pre-training）}把对比对齐从“整图–整句”细化到\textbf{“图像局部区域–文本短语”}，统一了目标检测与语言理解，实现开放词汇目标检测（Open-Vocabulary Detection）。
 
 \StudyImage{CS5489/course-notes/assets/l12-detectors-clip.png}
 \StudyCaption{图 12.1：左图对照五代目标检测核心流水线（R-CNN \ensuremath{\to} Fast \ensuremath{\to} Faster/RPN \ensuremath{\to} YOLO \ensuremath{\to} DETR）；右图展示 CLIP 批内 $N\times N$ 图文余弦相似度矩阵——训练对称 InfoNCE 损失推高对角线正对、压低非对角线负对（教学自绘）。}
+
+\textbf{English takeaway:} RoPE rotates queries and keys by position-dependent angles so dot products depend only on relative distance $n-m$ while preserving KV-cache stability. Object detection progressed from 2-stage region proposals (R-CNN $\to$ Fast $\to$ Faster R-CNN/RPN) to 1-stage grid regression (YOLO, $S\times S\times(C+5B)$) and anchor-free bipartite set prediction (DETR). CLIP aligns L2-normalized image and text embeddings via symmetric batch InfoNCE loss, enabling zero-shot transfer; MLLMs bridge visual encoders to LLMs via early input projection/tokenization (NTEF/TEF) or deep cross-attention layers.
+
+\textbf{自查 / Check：} (1) 输入 $224\times 224$ 图像时，ViT-B/16 与 ViT-B/32 分别产生多少个图像 patch token（不含 \StudyInline{[class]}）？(2) 在 $80$ 类数据集（如 COCO，$C=80$）上用 $S=13, B=3$ 配置原始 YOLO 头，输出张量形状是多少？ / (1) For a $224\times 224$ image, how many patch tokens (excluding \StudyInline{[class]}) do ViT-B/16 and ViT-B/32 produce? (2) What is the output tensor shape of a YOLO head with $S=13, B=3, C=80$?
+
+\begin{StudySolution}{答案 / Answer}
+(1) ViT-B/16 产生 $(224/16)^2 = 14^2 = 196$ 个图像块；ViT-B/32 产生 $(224/32)^2 = 7^2 = 49$ 个图像块。(2) 按 $S\times S\times(C+5B)$，每格通道数为 $80 + 5\times 3 = 95$，输出张量形状为 $13\times 13\times 95$（共 $16{,}055$ 个标量）。 / (1) ViT-B/16 yields $14^2=196$ patches; ViT-B/32 yields $7^2=49$ patches. (2) By $S\times S\times(C+5B)$, the output shape is $13\times 13\times(80+15) = 13\times 13\times 95$.
+\end{StudySolution}
 
 来源：Lecture12a，第 17–18 个单元；Lecture12b，第 1–25 个单元（Triplet Loss、SSL/InfoNCE、CLIP 双塔对比与检索实证、GLIP）。
 
@@ -142,7 +152,7 @@ MLLM 融合架构 & 视觉信息接入位置与连接器 & 核心特征 \\
 离散化早期融合（TEF） & 先将视觉等模态\textbf{离散 tokenized} 成统一 token 词表，再直接送入统一多模态 Transformer 输入端 & 文本与视觉彻底统一为同构 token 序列，便于统一理解与生成 \\
 \end{longtable}\endgroup
 
-最后看 Lecture12c 对真实 VLM（如 SmolVLM-256M 与 Qwen3-VL-2B）的十类受控实测案例（描述、VQA、计数与左右方位、小票 OCR 转 JSON、柱状图计算增长率、双图找不同、GUI 按钮像素定位、视频帧运动方向、音视频同步、以及\textbf{拒答不可判定问题 abstention}）：小参数模型往往能在简单描述与单问 VQA 上答对，却极易在\textbf{精确计数、像素级坐标定位（如返回荒谬坐标 \StudyInline{[5,5,5,5]}）、多步比较以及“承认图里看不出重量而拒答”}上露馅并产生幻觉！这也正是当前 VLM 前沿研究的四大开放问题：组合推理与减少物体幻觉、兼顾规模与专业领域效率、视频时空理解、以及赋能具身智能（embodied AI / 机器人）与 GUI 智能体。
+最后看 Lecture12c 对真实 VLM（如 SmolVLM-256M 与 Qwen3-VL-2B）的十类受控实测案例（描述、VQA、计数与左右方位、小票 OCR 转 JSON、柱状图计算增长率、双图找不同、GUI 按钮像素定位、视频帧运动方向、音视频同步、以及\textbf{拒答不可判定问题 abstention}）：小参数模型往往能在简单描述与单问 VQA 上答对，却容易在\textbf{精确计数、像素级坐标定位（如返回荒谬坐标 \StudyInline{[5,5,5,5]}）、多步比较以及“承认图里看不出重量而拒答”}上出错并产生幻觉。这也正是当前 VLM 前沿研究的四大开放问题：组合推理与减少物体幻觉、兼顾规模与专业领域效率、视频时空理解、以及赋能具身智能（embodied AI / 机器人）与 GUI 智能体。
 
 来源：Lecture12a，第 17–23 个单元；Lecture12c，第 1–19 个单元（VQA、ZSL、MLLM 四类融合与十项受控评测）。
 
@@ -204,5 +214,3 @@ Lecture12a，第 17–23 个单元 VQA、零样本学习、开放词汇检测、
 Lecture12b\_CLIP，第 1–25 个单元 Triplet Loss、SSL/InfoNCE、CLIP 双塔对齐与检查点检索对比 & §3 \\
 Lecture12c\_VLM，第 1–19 个单元 10 类多模态受控测试（OCR/图表/定位/视频/拒答）与失效分析 & §4、§5 \\
 \end{longtable}\endgroup
-
-本讲全部手算验算与自绘教学图见同目录 \StudyInline{tools/\allowbreak{}verify\_\allowbreak{}l10\_\allowbreak{}l12\_\allowbreak{}examples.\allowbreak{}py}（独立断言结果存档于 \StudyInline{l10-l12-example-results.\allowbreak{}json}）。

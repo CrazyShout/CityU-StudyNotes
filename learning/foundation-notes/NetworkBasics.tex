@@ -4,13 +4,13 @@
 \StudyTarget{Foundations-NetworkBasics__network-basics}
 
 
-\textbf{可选基础补课 · 2026-09-23}
+\textbf{可选基础补课 · 全学期更新 2026-11-26}
 
 
 \StudyRepoRef{CS5222/course-notes/README.md}{}{CS5222目录} · \StudyRef{Foundations-MathForML}{foundation-nav}{数学补课}
 
 
-本篇补充网络计算中的单位、报文字节和时间轴：区分bit与byte、数据量与速率，以及首位和整包到达。协议机制见Chapter正文，小算例均为教学补充。
+本篇补充网络计算中的单位、报文字节、时间轴、子网掩码位运算以及模 2 无进位算术：区分 bit 与 byte、数据量与速率、首位与末位时刻、跨字节边界的 CIDR 前缀切分，以及反码求和与 CRC 异或除法的差别。具体协议状态机见各 Chapter 正文，小算例均为教学补充。
 
 
 \begingroup
@@ -25,8 +25,10 @@
 \bottomrule\endfoot
 bit、byte、Mbps分不清 & \StudyRef{Foundations-NetworkBasics}{units}{单位与数量级} & 1500 B以2 Mbps发出要多久？ \\
 二进制和IP字段陌生 & \StudyRef{Foundations-NetworkBasics}{binary}{二进制与字节} & 00000101表示多少？ \\
-英文报文看起来像乱码 & \StudyRef{Foundations-NetworkBasics}{messages}{报文、字段与分隔} & CRLF空行起什么作用？ \\
-时间轴不知道从哪里数 & \StudyRef{Foundations-NetworkBasics}{timeline}{第一位、最后一位和流水线} & 2 ms发送、8 ms传播，最后一位何时到？ \\
+英文报文或TCP字节序号容易数错1 & \StudyRef{Foundations-NetworkBasics}{messages}{报文、字段与字节区间} & Seq=127装80 B，下一个Seq是多少？ \\
+时间轴或bit-time不知道从哪里数 & \StudyRef{Foundations-NetworkBasics}{timeline}{第一位、最后一位和流水线} & 2 ms发送、8 ms传播，最后一位何时到？ \\
+子网前缀/17、/26或最长前缀匹配不会切 & \StudyRef{Foundations-NetworkBasics}{cidr-lpm}{子网前缀与最长前缀匹配} & /26一块含多少个地址、能从.64起算吗？ \\
+CRC异或长除法总是习惯去借位 & \StudyRef{Foundations-NetworkBasics}{xor-crc}{模2异或与多项式比特串} & \(x^4+x^2+1\)对应哪5个比特？ \\
 \end{longtable}
 \endgroup
 
@@ -245,7 +247,90 @@ T–2T & 包2 & 包1 \\
 \textbf{English:} Name the event before calculating its time. Pipelining overlaps work on different links; store-and-forward still requires each individual packet to arrive completely.
 
 
-返回：\StudyRef{CS5222-Chapter01}{switching}{Chapter1：存储转发} · \StudyRef{CS5222-Chapter01}{queue-events}{Chapter1：队列事件} · \StudyRef{CS5222-Chapter03}{utilization}{Chapter3：停等利用率} · \StudyRef{CS5222-Tutorial01}{q1}{Tutorial1 Q1} · \StudyRef{CS5222-Assignment01}{p31}{Assignment1 P31}
+返回：\StudyRef{CS5222-Chapter01}{switching}{Chapter1：存储转发} · \StudyRef{CS5222-Chapter01}{queue-events}{Chapter1：队列事件} · \StudyRef{CS5222-Chapter03}{utilization}{Chapter3：停等利用率} · \StudyRef{CS5222-Chapter03Part3}{tcp-rdt}{Chapter3 Part3：TCP重传与序号} · \StudyRef{CS5222-Tutorial01}{q1}{Tutorial1 Q1} · \StudyRef{CS5222-Assignment01}{p31}{Assignment1 P31} · \StudyRef{CS5222-Assignment03}{p18}{Assignment3 P18：以太网bit-time}
+
+
+\textbf{补充提示（植树边界与 bit-time）：}（1）TCP 按字节编号时采用“左闭右开”或“首尾含端点计数”：起始序号 \(\mathrm{Seq} = s\)、携带 \(L\) 字节数据的报文段覆盖第 \(s, s+1, \dots, s+L-1\) 号字节，因此下一段紧接着的起始序号与对方的累积确认号都是 \(s + L\)（如 \(\mathrm{Seq}=127\)、长 \(80\text{ B}\) 覆盖 \(127..206\)，下一个期待序号是 \(127 + 80 = 207\)，切忌减 1 误写成 \(206\)）。（2）链路层常把“发送 1 个比特所需的时间 \(1/R\)”记作 \textbf{1 bit-time}：例如在 \(R = 10\text{ Mbps}\) 以太网上，\(1\text{ bit-time} = 0.1\;\mu\text{s}\)，\(576\text{ bit-times} = 57.6\;\mu\text{s}\)；用 bit-time 直接加减传播与发送长度，就无需中途反复换算微秒。
+
+
+
+
+
+
+\StudyHeading{1}{5. CIDR prefixes and longest prefix match｜把 32 位地址切成对齐的地址块}
+\StudyTarget{Foundations-NetworkBasics__cidr-lpm}
+\StudyTarget{Foundations-NetworkBasics__5-cidr-prefixes-and-longest-prefix-match}
+
+
+在 §2 里我们知道 IPv4 地址由 4 个 8 位字节（共 32 bit）组成。无类域间路由（CIDR）写作 \texttt{a.b.c.d/x}，意思是\textbf{最左边连续 \(x\) 个比特固定为子网前缀（network prefix），最右边剩余 \(h = 32 - x\) 个主机位（host bits）可在该子网内部自由取 \(0\) 或 \(1\)}。
+
+
+做子网计算与路由查表时，只需按以下四步操作：
+\begin{enumerate}[start=1]
+\item \textbf{算块大小与可用接口数}：剩余 \(h = 32 - x\) 个主机位共有 \(2^h\) 个连续地址；扣掉主机位全 \(0\)（网络地址）和主机位全 \(1\)（本子网广播地址）后，最多可分配给主机与路由器接口的地址数是 \(2^{32-x} - 2\)。反过来，若题目要求某子网容纳至少 \(M\) 个接口，就找满足 \(2^h - 2 \ge M\) 的最小整数 \(h\)，对应前缀长度 \(x = 32 - h\)（例如要支持 106 个接口：\(2^6 - 2 = 62 < 106 \le 126 = 2^7 - 2\)，故需 \(h = 7\)，取 \texttt{/25}，块大小为 \(128\)）。
+\item \textbf{切分非 8 倍数前缀（跨位边界按位与）}：当 \(x\) 不是 8、16、24 时，切分点落在某个字节内部。例如求 \texttt{137.189.178.73/17} 所在子网：前 16 位固定前两个字节 \texttt{137.189}，第 17 位是第 3 个字节的最高位（权重 \(128\)）。把 \(178 = 128 + 32 + 16 + 2\) 写成 \texttt{10110010}，保留最高位 \texttt{1}、把后面 15 个主机位全清零得网络地址 \texttt{137.189.128.0/17}；把后面 15 位全置 1（第 3 字节为 \texttt{11111111} \(= 255\)，第 4 字节为 \(255\)）得广播地址 \texttt{137.189.255.255}。
+\item \textbf{块起始地址必须整除块大小（\(2^k\) 对齐铁律）}：在最后 1 个字节内切分 \texttt{/24}（共 256 个地址：\(0..255\)）时，块大小为 \(B = 2^{32-x}\) 的子网，其第 4 字节起始值\textbf{只能是 \(B\) 的整数倍}！例如 \texttt{/26}（\(B = 64\)）只能从 \texttt{.0, .64, .128, .192} 开始；\texttt{/25}（\(B = 128\)）只能从 \texttt{.0} 或 \texttt{.128} 开始。若 \texttt{.0/26}（占 \(0..63\)）已分给子网 1，那么子网 2 的 \texttt{/25} \textbf{绝不能}从 \texttt{.64} 起算（因为二进制前 25 位无法表示 \(64..191\) 这种跨半界区间），必须对齐到 \texttt{.128/25}（占 \(128..255\)），再把中间留出的 \(64..127\) 切出 \texttt{.64/28}（占 \(64..79\)）给更小的子网。
+\item \textbf{最长前缀匹配（Longest Prefix Match, LPM）}：路由器转发表中可能有多条前缀同时匹配同一个目的 IP（包括兜底默认路由 \texttt{0.0.0.0/0}，即全星号通配 \texttt{*}）。逐位核对目的 IP 二进制串与各表项前缀，剔除但凡有 1 位不一致的表项；在所有完全匹配的表项中，\textbf{选择固定前缀位数 \(x\) 最长（最具体）的那一条}转发。
+\end{enumerate}
+
+
+\textbf{变式 / Transfer:} 在 \texttt{192.168.10.0/24} 内，子网 A 已占用 \texttt{192.168.10.0/27}（\(0..31\)）。现需给子网 B 分配支持 50 台主机的最小地址块，其起始子网地址与广播地址是什么？ / Inside \texttt{192.168.10.0/24}, \texttt{.0/27} is already taken. Allocate the smallest valid CIDR block for 50 hosts and state its network and broadcast addresses.
+
+
+
+\begin{StudySolution}{答案 / Answer}
+
+
+50 台主机需 \(2^h - 2 \ge 50 \implies h = 6\)（\(62 \ge 50\)），前缀为 \texttt{/26}，块大小 \(B = 64\)。因 \(0..31\) 已被占用，下一个能被 \(64\) 整除的合法起点是 \(64\)，故分配 \texttt{192.168.10.64/26}，广播地址为 \texttt{192.168.10.127}（中间 \(32..63\) 留给后续更小子网）。 / Need \(h=6\) (\texttt{/26}, block size \(64\)); since \(0..31\) is occupied, align to the next multiple of \(64\): \texttt{192.168.10.64/26} with broadcast \texttt{192.168.10.127}.
+
+
+\end{StudySolution}
+
+
+返回：\StudyRef{CS5222-Chapter04}{cidr-lpm}{Chapter4：CIDR与LPM} · \StudyRef{CS5222-Tutorial08}{p4}{Tutorial8 P4：二进制LPM表} · \StudyRef{CS5222-Tutorial10}{p1}{Tutorial10 P1：无重叠子网划分}
+
+
+
+
+
+
+\StudyHeading{1}{6. Modulo-2 XOR arithmetic and polynomials｜CRC 为什么从不借位}
+\StudyTarget{Foundations-NetworkBasics__xor-crc}
+\StudyTarget{Foundations-NetworkBasics__6-modulo-2-xor-arithmetic-and-polynomials}
+
+
+本课程出现两种完全不同的二进制校验运算，考场上千万不要混用：
+\begin{itemize}
+\item \textbf{传输层 UDP/TCP 检验和（Chapter 3 / Tutorial 5）}用的是\textbf{16 位反码算术（1's complement addition）}：列与列之间\textbf{正常向高位进位}，最高位溢出的进位还要回卷加到最低位，最后整体按位取反。
+\item \textbf{链路层奇偶校验与循环冗余校验 CRC（Chapter 6 / Tutorial 11）}用的是\textbf{模 2 算术（\(\mathrm{GF}(2)\) 异或 XOR，记作 \(\oplus\)）}：每一位完全独立，\textbf{既不向高位进位，也绝不向高位借位}！因此模 2 加法与模 2 减法是同一个运算：相同得 \(0\)（\(0\oplus 0=0,\; 1\oplus 1=0\)），相异得 \(1\)（\(1\oplus 0=1,\; 0\oplus 1=1\)）。
+\end{itemize}
+
+
+做 CRC 编码或验算时，遵守三条死规则就不会出错：
+\begin{enumerate}[start=1]
+\item \textbf{生成多项式 \(G(x)\) 与二进制比特串互转（缺项必须补 0）}：最高次幂为 \(r\) 的生成多项式 \(G(x)\) 对应一个\textbf{长度为 \(r + 1\) 位}的二进制除数串，从 \(x^r\) 到常数项 \(x^0 = 1\) 逐次写出系数 \(1\) 或 \(0\)。例如 \(G(x) = x^4 + x^2 + 1 = 1\cdot x^4 + \mathbf{0}\cdot x^3 + 1\cdot x^2 + \mathbf{0}\cdot x^1 + 1\cdot x^0\)，对应的 5 位除数串是 \texttt{10101}（切勿漏掉缺项写成 \texttt{111}）；反过来 \texttt{1001} 对应 \(x^3 + 1\)（\(r = 3\)）。
+\item \textbf{被除数末尾补 \(r\) 个 0，余数 \(R\) 严格保留 \(r\) 位（含前导 0）}：若除数 \(G\) 长 \(r + 1\) 位，先在原始数据比特串 \(D\) 末尾补上 \(r\) 个 \(0\)（相当于计算 \(D\cdot 2^r\)）。长除法每一步\textbf{只看当前余数窗口的最高位}：若最高位是 \(1\)，商写 \(1\) 并与 \(G\) 逐位异或；若最高位是 \(0\)，商写 \(0\) 并与全 \(0\) 异或，拉下下一位继续。最终剩下的余数 \(R\) \textbf{固定为 \(r\) 位}——若算出高位是 \(0\)（例如 \(r=4\) 时余数为 \texttt{0100}），前面的 \(0\) 也是必须拼接到帧尾的校验位，不能省写成 3 位 \texttt{100}。
+\item \textbf{发送帧与接收端校验}：发送端传输拼接后的比特串 \(\langle D, R\rangle\)（因为在模 2 算术里加上 \(R\) 就等于减去余数 \(R\)，使得 \(D\cdot 2^r \oplus R\) 恰好被 \(G\) 整除）；接收端用同一个 \(G\) 去除收到的整帧，余数全 \(0\) 则判无错，非 \(0\) 则判有错。
+\end{enumerate}
+
+
+\textbf{变式 / Transfer:} 设生成多项式为 \(G(x) = x^3 + x + 1\)，数据为 \(D = \mathtt{1010}\)。写出二进制生成串 \(G\)、补零后的被除数，并求 3 位 CRC 余数 \(R\)。 / For \(G(x) = x^3 + x + 1\) and \(D = \mathtt{1010}\), write the binary generator \(G\), the zero-padded dividend, and the 3-bit CRC remainder \(R\).
+
+
+
+\begin{StudySolution}{答案 / Answer}
+
+
+\(G(x) = 1\cdot x^3 + 0\cdot x^2 + 1\cdot x^1 + 1\cdot x^0 \implies G = \mathtt{1011}\)（\(r = 3\)）。在 \(D\) 末尾补 3 个 0 得 \texttt{1010000}。模 2 长除：前四位 \(\mathtt{1010}\oplus\mathtt{1011}=\mathtt{0001}\)，依次拉下三个 0 得 \(\mathtt{1000}\oplus\mathtt{1011}=\mathtt{0011}\)，保留完整 \(r = 3\) 位得 \(R = \mathtt{011}\)，发送帧为 \texttt{1010011}。 / \(G = \mathtt{1011}\) (\(r=3\)), padded dividend \texttt{1010000}, and 3-bit remainder \(R = \mathtt{011}\) (transmitted frame \texttt{1010011}).
+
+
+\end{StudySolution}
+
+
+\textbf{English:} Keep 1's-complement checksums (with wraparound carry) distinct from modulo-2 CRC arithmetic (carry-free XOR); an \((r+1)\)-bit generator always appends an exact \(r\)-bit remainder including leading zeros.
+
+
+返回：\StudyRef{CS5222-Chapter06}{edc}{Chapter6：差错检测与CRC} · \StudyRef{CS5222-Tutorial11}{p1}{Tutorial11 P1–P2：二维奇偶与CRC余数}
 
 
 
@@ -253,4 +338,4 @@ T–2T & 包2 & 包1 \\
 \StudyTarget{Foundations-NetworkBasics___1}
 
 
-这些先修概念直接服务当前Chapter1 pp25–26、45–48、63–65，Chapter2进程、HTTP与socket，以及当前Tutorial/Assignment。可按对应课程中的需要选读。示意图与数值由 \StudyRepoRef{CS5222/course-notes/tools/network_examples.py}{}{network\_examples.py} 生成，结果在\StudyRepoRef{CS5222/course-notes/network-example-results.json}{}{复算记录}。组合概率另见\StudyRef{Foundations-MathForML}{combinations}{MathForML §6}。
+这些先修概念服务全学期 Chapter 1–7（时延时间轴、应用层报文、TCP 字节流序号、CIDR/LPM 子网划分、链路层 CRC 与 bit-time）及 Tutorial 1–12、Assignment 1–3，可按对应章节中的需要选读。示意图与数值由 \StudyRepoRef{CS5222/course-notes/tools/network_examples.py}{}{network\_examples.py} 与 \StudyRepoRef{CS5222/course-notes/tools/verify_part2_examples.py}{}{verify\_part2\_examples.py} 复算，结果记录在\StudyRepoRef{CS5222/course-notes/network-example-results.json}{}{复算记录}。组合与争用成功概率另见\StudyRef{Foundations-MathForML}{combinations}{MathForML §6}。

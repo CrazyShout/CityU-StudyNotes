@@ -1,0 +1,90 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5222-ExamIndex}{Exam Appendix · 开卷考纲边界、全书公式速查与历年真题索引}
+\StudyTarget{CS5222-ExamIndex__root-section}
+
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter01}{root}{回到第 1 章} · \StudyRepoRef{CS5222/exam-review/Final/CS5222-Final-2021A-Combined.pdf}{}{2021A 期末真题双语合订本}
+
+
+\StudyHeading{1}{1. 期末开卷考试范围与合规清单（依据本学期课程公告）}
+\StudyTarget{CS5222-ExamIndex__exam-rules}
+
+\begin{itemize}
+\item \textbf{形式与允许物品}：闭场纸质开卷笔试（时长 2 小时），允许携带合规计算器、Canvas 下载教学资料打印件及本册学习讲义；\textbf{严禁携带教材原书、教材原书页面打印节选及任何电子通信设备}（本册全部配图均为教师课件页或原创 Matplotlib 重绘原理图，不含任何教材原书扫描页）。
+\item \textbf{明确免考范围}：\textbf{Socket 编程（Chapter 2 §13）与 Wireshark 抓包实验不纳入期末笔试范围}。
+\item \textbf{命题重心与单位约定}：重点覆盖本学期 \textbf{Chapter 1–7 课堂内容、课堂 Q\&A 以及全部 12 份 Tutorials}，且\textbf{必含 1 道路由算法计算题}（复习\StudyRef{CS5222-Chapter05}{dijkstra}{Chapter 5 Dijkstra / DV}与\StudyRef{CS5222-Tutorial09}{root}{Tutorial 9}）。做计算题时先统一单位：链路速率词头一律按十进制计（$1\text{ kbps}=10^3\text{ bps},\; 1\text{ Mbps}=10^6\text{ bps},\; 1\text{ Gbps}=10^9\text{ bps}$），字节换比特乘 $8$，注意题干对文件大小是给十进制（$1\text{ GB}=10^9\text{ B}$）还是特定 $\mathrm{MSS}$ 字节数（如 $1024\text{ B}$ 或 $1460\text{ B}$）。
+\end{itemize}
+
+
+\StudyHeading{1}{2. 全书核心公式与适用条件速查总表（Chapters 1–7）}
+\StudyTarget{CS5222-ExamIndex__formula-sheet}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.24}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.21\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.49\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+章节与考点 & 核心公式 & 符号单位、前提条件与跳转 \\
+\midrule\endfirsthead
+章节与考点 & 核心公式 & 符号单位、前提条件与跳转 \\
+\midrule\endhead
+\bottomrule\endfoot
+Ch1 节点四类时延与流量强度 & $d_{\mathrm{nodal}} = d_{\mathrm{proc}} + d_{\mathrm{queue}} + \frac{L}{R} + \frac{m}{s}$，流量强度 $I = \frac{L a}{R}$ & $L$（bits），$R$（bps），$a$（pkts/s）；$I > 1$ 队列无限发散。见\StudyRef{CS5222-Chapter01}{delay}{Ch1} \\
+Ch1 存储转发流水线 & $d_{\mathrm{total}} = (P + N - 1)\cdot \frac{L}{R}$（忽略传播/排队） & $P$ 个等长包跨 $N$ 条等速链路；单包 $P=1$ 为 $N\frac{L}{R}$。见\StudyRef{CS5222-Assignment01}{p31}{A1 P31} \\
+Ch2 HTTP 往返时间 & 非持久：$2\,\mathrm{RTT} + d_{\mathrm{trans}}$／对象；持久无流水：$1\,\mathrm{RTT}$ 建连 + 每对象 $1\,\mathrm{RTT}$ & 基 HTML + $k$ 个引用对象时，先算拿 HTML 的 $2\,\mathrm{RTT}$，再算 $k$ 个对象。见\StudyRef{CS5222-Chapter02}{http}{Ch2} \\
+Ch2 文件分发最小耗时 & $D_{\mathrm{CS}} = \max\!\bigl\{\frac{NF}{u_s},\, \frac{F}{d_{\min}}\bigr\}$，$D_{\mathrm{P2P}} = \max\!\bigl\{\frac{F}{u_s},\, \frac{F}{d_{\min}},\, \frac{NF}{u_s + \sum_{i=1}^N u_i}\bigr\}$ & $F$（总比特），$u_s$ 服务器上传，$d_{\min}$ 最慢下载，$u_i$ 对等方上传。见\StudyRef{CS5222-Tutorial04}{root}{T4} \\
+Ch3 流水线信道利用率 & $U_{\mathrm{stop-wait}} = \frac{L/R}{\mathrm{RTT} + L/R}$，$U_{\mathrm{pipeline}} = \min\!\Bigl\{1,\; \frac{N\cdot(L/R)}{\mathrm{RTT} + L/R}\Bigr\}$ & $N$ 为发送窗口包数；SR 防歧义要求 $N \le \frac{1}{2}|\mathrm{SeqSpace}|$。见\StudyRef{CS5222-Tutorial07}{p4}{T7 P4} \\
+Ch3 TCP 超时估计 & $E_{\mathrm{new}}=(1-\alpha)E_{\mathrm{old}}+\alpha S$，$D_{\mathrm{new}}=(1-\beta)D_{\mathrm{old}}+\beta|S-E_{\mathrm{new}}|$，$\mathrm{RTO}=E_{\mathrm{new}}+4D_{\mathrm{new}}$ & 典型 $\alpha=0.125,\; \beta=0.25$；算 $D_{\mathrm{new}}$ 用刚算出的 $E_{\mathrm{new}}$。见\StudyRef{CS5222-Tutorial06}{q4}{T6 Q4} \\
+Ch3P3 TCP 发送双约束与吞吐 & $\mathrm{Unacked} \le \min\{\mathrm{cwnd}, \mathrm{rwnd}\}$；锯齿稳态平均吞吐 $\approx \frac{3}{4}\frac{W}{\mathrm{RTT}}$ & Reno 遇 3 dup ACKs：$\mathrm{ssthresh}=\lfloor \mathrm{cwnd}/2\rfloor,\; \mathrm{cwnd}=\mathrm{ssthresh}+3$；Timeout 置 $\mathrm{cwnd}=1$。见\StudyRef{CS5222-Chapter03Part3}{tcp-cc}{Ch3P3} \\
+Ch4 路由器缓存与 IPv4 分片 & $B = \frac{\mathrm{RTT}\cdot C}{\sqrt{N}}$；单片最大净荷 $D_{\max}=8\bigl\lfloor\frac{\mathrm{MTU}-20}{8}\bigr\rfloor$，$\mathrm{Offset}=\frac{\text{起始字节}}{8}$ & 末片 $\mathrm{MF}=0$，前面各片 $\mathrm{MF}=1$ 且净荷必为 8 字节整数倍；仅在目的端重组。见\StudyRef{CS5222-Tutorial08}{p2}{T8 P2} \\
+Ch5 Dijkstra 与 Bellman–Ford & LS：$D(v)\leftarrow\min\{D(v), D(n^*)+c(n^*,v)\}$；DV：$d_x(y)=\min_{v\in\mathcal{N}(x)}\{c(x,v)+d_v(y)\}$ & BGP 完整选路：\texttt{LOCAL\_PREF} $\to$ 最短 \texttt{AS-PATH} $\to$ 热土豆最近 \texttt{NEXT-HOP}。见\StudyRef{CS5222-Chapter05}{dijkstra}{Ch5} \\
+Ch6 CRC、ALOHA 与 CSMA/CD & $R = \mathrm{rem}(D\cdot 2^r / G)_{\bmod 2}$；$\eta_{\mathrm{slot}}=Np(1-p)^{N-1}$（峰值 $1/e$），$\eta_{\mathrm{pure}}=Np(1-p)^{2(N-1)}$（峰值 $1/2e$） & CSMA/CD 检碰要求 $t_{\mathrm{trans,min}}\ge 2t_{\mathrm{prop}}$，效率 $\frac{1}{1+5t_{\mathrm{prop}}/t_{\mathrm{trans}}}$；轮询单轮 $\sum(d_{\mathrm{poll}}+L/R)$。见\StudyRef{CS5222-Chapter06}{mac}{Ch6} \\
+Ch7 隐藏终端集合判定 & $\mathrm{Hidden}(s\to r) = (\mathcal{N}(r)\setminus\{s\})\setminus\mathcal{N}(s)$ & 能干扰接收者 $r$ 但听不见发送者 $s$ 的节点；靠接收端广播 \texttt{CTS} 设置 NAV 静默。见\StudyRef{CS5222-Chapter07}{characteristics}{Ch7} \\
+\end{longtable}\endgroup
+
+
+\StudyHeading{1}{3. CIDR 子网掩码速查表与五层协议栈关键字段对照}
+\StudyTarget{CS5222-ExamIndex__cidr-stack}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.14\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.18\linewidth-1.60000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.36\linewidth-1.60000\tabcolsep\relax}@{}}
+\toprule
+CIDR 前缀 & 主机位数 $h$ & 总地址数 $2^h$ & 可用主机 $2^h-2$ & 点分十进制掩码与末字节合法对齐起点 \\
+\midrule\endfirsthead
+CIDR 前缀 & 主机位数 $h$ & 总地址数 $2^h$ & 可用主机 $2^h-2$ & 点分十进制掩码与末字节合法起点 \\
+\midrule\endhead
+\bottomrule\endfoot
+\texttt{/16}（B 类） & 16 & $65{,}536$ & $65{,}534$ & \texttt{255.255.0.0} \\
+\texttt{/17} & 15 & $32{,}768$ & $32{,}766$ & \texttt{255.255.128.0}（第 3 字节 \texttt{0} 或 \texttt{128}） \\
+\texttt{/23} & 9 & $512$ & $510$ & \texttt{255.255.254.0}（第 3 字节须为偶数） \\
+\texttt{/24}（C 类） & 8 & $256$ & $254$ & \texttt{255.255.255.0}（第 4 字节 \texttt{.0}） \\
+\texttt{/25} & 7 & $128$ & $126$ & \texttt{255.255.255.128}（\texttt{.0, .128}） \\
+\texttt{/26} & 6 & $64$ & $62$ & \texttt{255.255.255.192}（\texttt{.0, .64, .128, .192}） \\
+\texttt{/27} & 5 & $32$ & $30$ & \texttt{255.255.255.224}（$32$ 的整数倍） \\
+\texttt{/28} & 4 & $16$ & $14$ & \texttt{255.255.255.240}（$16$ 的整数倍：\texttt{.0, .16, .32, .48, .64...}） \\
+\texttt{/29} / \texttt{/30} & 3 / 2 & $8$ / $4$ & $6$ / $2$ & \texttt{.248}（$8$ 倍数）／ \texttt{.252}（$4$ 倍数，点对点路由器链路常用） \\
+\end{longtable}\endgroup
+
+\textbf{常考协议承载关系备忘：}HTTP（TCP 80/443）、SMTP（TCP 25）、POP3（TCP 110）、IMAP（TCP 143）、DNS（通常 UDP 53）、DHCP（\textbf{UDP} 客户端 68 / 服务器 67，广播发现与请求）、BGP（\textbf{TCP} 179，跨网 eBGP + 域内 iBGP）、OSPF（\textbf{直接封装在 IP 内}，不走 TCP/UDP）、ICMP（封装在 IP 内，Traceroute 用 UDP 探针配 ICMP 11/0 与 3/3）、ARP（直接封装在以太网帧内，广播查询 \texttt{FF-FF-FF-FF-FF-FF} + 单播响应，\textbf{绝不跨路由器}）。
+
+
+\StudyHeading{1}{4. 2021/22 Sem A 期末真题全卷映射索引（Q1–Q8，共 100 分）}
+\StudyTarget{CS5222-ExamIndex__final-2021a}
+
+完整题干、配图与分步双语解答另册排印于\StudyRepoRef{CS5222/exam-review/Final/CS5222-Final-2021A-Combined.pdf}{}{CS5222 2021/22 Sem A 期末真题双语合订本}；下表给出每道真题在本册讲义与教程中的对应章节，便于开卷考场同步翻阅：
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.12\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.52\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.36\linewidth-1.33333\tabcolsep\relax}@{}}
+\toprule
+真题题号 & 考查内容与易错提醒 & 本册对应章节与同类练习 \\
+\midrule\endfirsthead
+真题题号 & 考查内容与易错提醒 & 本册对应章节与同类练习 \\
+\midrule\endhead
+\bottomrule\endfoot
+Q1（14 分） & 1.5 GB 拨号 vs 公交车运送总时延；双主机同时发包至路由器 A 输出排队判定 & \StudyRef{CS5222-Chapter01}{delay}{Chapter 1}、\StudyRef{CS5222-Tutorial01}{root}{Tutorial 1–2}、\StudyRef{CS5222-Assignment01}{p6}{A1 P6} \\
+Q2（10 分） & 按职责写出五个协议简称：ARP、DHCP、TCP、CSMA/CD、SMTP & 全书各章导读与本附录 §3 \\
+Q3（11 分） & 10 GB 文件向 10 个对等方分发的 C/S vs P2P 最短时间、自扩展性与 Tracker & \StudyRef{CS5222-Chapter02}{root}{Chapter 2 §10–11}、\StudyRef{CS5222-Tutorial04}{root}{Tutorial 4} \\
+Q4（15 分） & 70 MSS 网页慢启动所需 RTT 数（含握手共 8 轮）、平均吞吐率与连续段序号/确认号 & \StudyRef{CS5222-Chapter03Part3}{tcp-cc}{Chapter 3 Part 3}、\StudyRef{CS5222-Tutorial06}{q2}{T6 Q2}、\StudyRef{CS5222-Tutorial07}{p1}{T7 P1} \\
+Q5（16 分） & Forwarding vs Routing 辨析；8 位地址四接口最长前缀匹配区间与地址计数（$32,64,32,128$） & \StudyRef{CS5222-Chapter04}{data-vs-control}{Chapter 4 §1/§4}、\StudyRef{CS5222-Tutorial08}{p4}{Tutorial 8 P4} \\
+Q6（14 分） & 五节点图 $\{a,b,c,d,e\}$ 从 $a$ 运行 Dijkstra 逐步填表并绘制最短路径树 & \StudyRef{CS5222-Chapter05}{dijkstra}{Chapter 5 §2}、\StudyRef{CS5222-Tutorial09}{p1}{Tutorial 9 P1} \\
+Q7（8 分） & $N=4$ 节点 Slotted ALOHA 空槽概率 $(1-p)^4$、效率 $4p(1-p)^3$（峰值 $27/64$）与 Pure ALOHA 对比 & \StudyRef{CS5222-Chapter06}{aloha}{Chapter 6 §3.1}、\StudyRef{CS5222-Tutorial11}{p3}{Tutorial 11 P3} \\
+Q8（12 分） & 隐藏终端定义、五站点干扰图判定（$1\to 4$ 为 $\{3\}$，$1\to 5$ 为空集）与 802.11 RTS/CTS 流程 & \StudyRef{CS5222-Chapter07}{characteristics}{Chapter 7 §2–3}、\StudyRef{CS5222-Tutorial12}{p5}{Tutorial 12 P5} \\
+\end{longtable}\endgroup

@@ -1,0 +1,55 @@
+% Teaching manuscript. Edit this TeX source; Markdown is compatibility navigation only.
+
+\StudyChapter{CS5489-Tutorial06}{Tutorial 6 · Face Detection with CNNs and Early Stopping}
+\StudyTarget{CS5489-Tutorial06__root-section}
+
+\StudyRef{CS5489-Lecture06}{root}{Lecture 6：卷积神经网络与正则化} · \StudyRepoRef{CS5489/course-notes/README.md}{}{课程目录} · \StudyRef{CS5489-Tutorial05}{root}{上一份：Tutorial 5} · \StudyRef{CS5489-Tutorial07}{root}{下一份：Tutorial 7}
+
+
+\StudyHeading{1}{导读｜同一份人脸数据，把全连接换成卷积层究竟改变了什么？}
+\StudyTarget{CS5489-Tutorial06__overview}
+
+Tutorial 6（对应 \texttt{Lecture6/Tutorial6/Tutorial6.ipynb}，共 62 个单元）沿用与\StudyRef{CS5489-Tutorial05}{root}{Tutorial 5}完全相同的 \texttt{faces.zip}（$19\times 19\times 1$ 灰度图块）与 \texttt{nasa-small.png} 滑窗测试台，构成一组严格控制变量的对比实验：唯一改动是把拍扁像素的 MLP 替换为保留二维空间拓扑的\textbf{卷积神经网络（CNN）}，并引入显式的验证集\textbf{早停类（\texttt{EarlyStopping}）}与自定义增强数据集包装器 \texttt{AugmentedTensorDataset}。通过前后对照，学生能直观体会局部感受野、空间权值共享、最大池化局部平移不变性在参数效率与实景误报抑制上的显著优势。
+
+
+\StudyHeading{1}{1. 四维图像张量通道顺序（NHWC vs NCHW）与早停器实现（第 1–25 单元）}
+\StudyTarget{CS5489-Tutorial06__tensor-earlystop}
+
+用 \StudyInline{skimage} 读入的原始图像数组形状为 \textbf{NHWC}，即 $(N, 19, 19, 1)$（通道维在最后）；而 PyTorch 的二维卷积层 \StudyInline{nn.\allowbreak{}Conv2d(\allowbreak{}in\_channels,\allowbreak{} out\_channels,\allowbreak{} kernel\_size)} 严格要求输入张量采用 \textbf{NCHW} 排布，即 $(N, 1, 19, 19)$。这也是第 57 单元滑窗推理代码专门执行 \StudyInline{patches2.\allowbreak{}transpose(0, 3, 1, 2)} 的原因——考场阅读或编写 PyTorch 卷积代码时，第一步务必核对通道维是否已移至第 1 维（下标 1）。
+
+第 19 单元给出了清晰的早停器实现（类 \StudyInline{EarlyStopping}，默认配置 \StudyInline{monitor='val\_accuracy'}、\StudyInline{min\_delta=0.0001}、\StudyInline{patience=5}）。每跑完一个训练 epoch，都在不计算梯度的 \StudyInline{torch.\allowbreak{}no\_grad()} 与 \StudyInline{model.\allowbreak{}eval()} 模式下评估验证集准确率：若连续 \StudyInline{patience=5} 个轮次验证准确率提升不足 \StudyInline{min\_delta}，立即停止训练以定格在泛化峰值附近（参见\StudyRef{CS5489-Lecture06}{early-stopping}{Lecture 6 早停与双曲线诊断}）。
+
+
+\StudyHeading{1}{2. 针对 19×19 小图块的 CNN 尺寸设计与参数量核算（第 26–31 单元）}
+\StudyTarget{CS5489-Tutorial06__cnn-design}
+
+设计处理 $19\times 19$ 微小图块的 CNN 时，最常见的失误是连叠过多 \texttt{valid} 无填充卷积与池化，导致特征图高宽迅速缩成 $0$ 或负数报错。下面给出一组尺寸严丝合缝的典型两阶段卷积骨干，顺带演练\StudyRef{CS5489-Lecture06}{cnn-layers}{Lecture 6 输出形状与参数量必考公式}：
+\begin{enumerate}
+\item \textbf{输入张量}：$1 \times 19 \times 19$。
+\item \textbf{Conv1（\StudyInline{Conv2d(1, 16,\allowbreak{} kernel\_size=3,\allowbreak{} padding=1)} + \StudyInline{ReLU} + \StudyInline{MaxPool2d(2, 2)}）}：带 $p=1$ 的 \StudyInline{same} 填充保持 $16 \times 19 \times 19$；经 $2\times 2$ 步长 $2$ 最大池化向下取整 $\lfloor 19/2\rfloor = 9$，输出形状为 $16 \times 9 \times 9$。本层参数量 $= (1\times 3\times 3 + 1)\times 16 = \mathbf{160}$（池化层含 \textbf{0} 个可学习参数）。
+\item \textbf{Conv2（\StudyInline{Conv2d(16, 32,\allowbreak{} kernel\_size=3,\allowbreak{} padding=1)} + \StudyInline{ReLU} + \StudyInline{MaxPool2d(2, 2)}）}：卷积后为 $32 \times 9 \times 9$，再经 $2\times 2$ 池化得 $\lfloor 9/2\rfloor = 4$，输出形状为 $32 \times 4 \times 4$（展平后为 $32\times 16 = 512$ 维）。本层参数量 $= (16\times 3\times 3 + 1)\times 32 = \mathbf{4{,}640}$。
+\item \textbf{分类头（\StudyInline{Flatten ->\allowbreak{} Linear(512, 64) ->\allowbreak{} ReLU ->\allowbreak{} Dropout(0.5) ->\allowbreak{} Linear(64, 2)}）}：参数量 $= (512+1)\times 64 + (64+1)\times 2 = 32{,}832 + 130 = \mathbf{32{,}962}$。
+\end{enumerate}
+
+整座 CNN 总参数量仅约 $3.78\times 10^4$（其中两层卷积核加起来还不到 $5{,}000$ 个参数），却比 Tutorial 5 数万参数的全连接首层取得了明显更高的验证与测试准确率：卷积核跨全图共享权重捕捉边缘、眼眶、鼻梁等局部结构，大幅压缩了假设空间方差。
+
+
+\StudyHeading{1}{3. CNN 结合数据增强及实景滑窗对比总结（第 32–62 单元）}
+\StudyTarget{CS5489-Tutorial06__aug-comparison}
+
+第 36–45 单元通过重写 \texttt{\_\_getitem\_\_} 的 \texttt{AugmentedTensorDataset}，在每次取样时对单张图块实时串联执行 \texttt{RandomRotation(10)}、\texttt{RandomHorizontalFlip()} 与高斯像素噪声（原 Notebook 演示仅在逻辑回归基线上启用增强即可令测试准确率从约 $0.60$ 升至 $0.70$，换上两至三层 CNN 配合增强与适度 Dropout/BatchNorm 后测试准确率进一步提升至 $0.90+$）。
+
+\textbf{整合原 Notebook 三道核心对比问点（对照东莞 2024/25 样题 Q1a“比较 MLP 与 CNN 异同”）：}
+\begin{itemize}
+\item \textbf{CNN 与 MLP 的共同点（Similarities）}：两者都是由线性变换与逐元素非线性激活函数复合而成的前馈有监督神经网络，均可逼近复杂非线性决策边界，且均通过交叉熵损失与反向传播（SGD/Adam）端到端训练。
+\item \textbf{CNN 与 MLP 的本质差异（Differences）}：MLP 将输入像素展平为无序向量并采用稠密全连接（参数量 $O(D\cdot H)$，无空间位置先验）；CNN 保留多维网格结构，利用\textbf{局部连接（local connectivity / receptive fields）}、\textbf{空间权值共享（weight sharing，参数量仅 $O(C_{\mathrm{in}}C_{\mathrm{out}}K^2)$，与图像高宽无关）}赋予特征\textbf{平移等变性（translation equivariance）}，再配合池化层获得\textbf{局部平移不变性（local translation invariance）}。
+\item \textbf{在 \texttt{nasa-small.png} 上的滑窗表现改进}：相比 Tutorial 5 的 MLP，增强后的 CNN 在宇航员面部位置给出更紧致连贯的响应，同时显著减少了背景墙面和宇航服褶皱上的零散假阳性误报（因卷积滤波器专门响应眼鼻局部几何排布，而非孤立的明暗像素和）。
+\end{itemize}
+
+\textbf{双语自测 / Check：}在 PyTorch 中对测试集或滑窗图块做推理（第 44、57 单元）时，为什么必须同时调用 \texttt{nn\_model.eval()} 和 \texttt{with torch.no\_grad():}？只写 \texttt{no\_grad()} 够吗？ / Why are both \texttt{model.eval()} and \texttt{torch.no\_grad()} needed at test time?
+
+\begin{StudySolution}{答案 / Answer}
+\textbf{只写 \texttt{no\_grad()} 不够。}\texttt{torch.no\_grad()} 只负责关闭反向传播计算图以节省显存和加速推理，并\textbf{不会}改变层的训练/测试行为；只有调用 \texttt{model.eval()} 才能通知 \textbf{Dropout} 停止随机丢弃神经元（按期望比例输出），并通知 \textbf{BatchNorm} 改用全局滑动均值与方差而非当前测试批统计量。 / \texttt{torch.no\_grad()} only disables autograd memory tracking; \texttt{model.eval()} is required to switch Dropout to deterministic pass-through scaling and BatchNorm to saved running statistics.
+\end{StudySolution}
+
+来源：2026 学期 \texttt{Lecture6/Tutorial6/Tutorial6.ipynb}（第 1–62 单元）。

@@ -3,164 +3,181 @@
 \StudyChapter{CS5222-Chapter04}{Chapter 4 · 网络层：数据平面（路由器、IP 分片、CIDR、DHCP、NAT、IPv6 与 SDN）}
 \StudyTarget{CS5222-Chapter04__root-section}
 
-\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{上一篇：Chapter 3 Part 3} · \StudyRef{CS5222-Chapter05}{root}{下一章：Chapter 5 控制平面与路由算法}
+\StudyRepoRef{CS5222/course-notes/README.md}{}{课程目录} · \StudyRef{CS5222-Chapter03Part3}{root}{上一篇：Chapter 3 Part 3} · \StudyRef{CS5222-Chapter05}{root}{下一章：Chapter 5 控制平面与路由算法} · \StudyRef{CS5222-Tutorial08}{root}{Tutorial 8} · \StudyRef{CS5222-Tutorial10}{root}{Tutorial 10} · \StudyRef{CS5222-Assignment02}{root}{Assignment 2}
 
-\StudyHeading{1}{开卷速查定位｜网络层数据平面三大高频算题}
+\StudyHeading{1}{导读｜从端主机走进路由器内部的数据搬运流水线}
 \StudyTarget{CS5222-Chapter04__overview}
 
-从本章起我们离开网络边缘，进入网络核心（路由器内部与 IP 协议）。本章聚焦\textbf{数据平面（Data Plane）}——也就是“一个 IP 数据报抵达路由器输入端口后，在纳秒级硬件时间里怎么查表、穿交换结构、必要时分片并从输出端口发出去”。期末（含 2021A Q5、T8、T10、A2）在本章有\textbf{三类高频必考计算／画表题}：
+前三章一直停留在网络边缘的两台端主机上：应用层构造报文，传输层把报文切成字节流段并负责端到端纠错与限速。但传输层本身并不把数据搬出本机——它只是把报文段交给网络层，委托全网每一台中间路由器一跳接一跳地接力送达终点。现代课程将网络层清晰拆成上下两半：本章研究\textbf{数据平面（data plane）}，即单台路由器在收到一个 IP 数据报后，怎样在纳秒级硬件时间里查转发表、穿过交换结构、按队列规则调度出队、必要时切成分片或改写 NAT 地址并送入下一跳链路；下一章\StudyRef{CS5222-Chapter05}{root}{Chapter 5}再研究控制平面怎样算出那张转发表。
+
+\textbf{基础补课（可跳过）：}若对 32 位二进制掩码按位与、非 8 倍数前缀切分或 $2^k$ 地址块对齐还不熟练，建议先花五分钟读完\StudyRef{Foundations-NetworkBasics}{cidr-lpm}{Network Basics §5：子网前缀与最长前缀匹配}。
 
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.24\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.50\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.26\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-考题模块 & 考场 10 秒速查公式／铁律 & 配套练习 \\
+核心模块 & 关键规则与公式 & 配套练习与真题 \\
 \midrule\endfirsthead
-考题模块 & 考场 10 秒速查公式／铁律 & 配套练习 \\
+核心模块 & 关键规则与公式 & 配套练习与真题 \\
 \midrule\endhead
 \bottomrule\endfoot
-\textbf{IPv4 分片计算} & 每片最大净荷 $D_{\max} = 8\lfloor(\text{MTU}-20)/8\rfloor$；偏移量 $\text{offset}=\text{起始字节}/8$；末片 $\text{MF}=0$ 其余 $\text{MF}=1$；仅在\textbf{最终目的主机}重组 & \StudyRef{CS5222-Tutorial08}{root}{T8 P2} \\
-\textbf{CIDR 划分与 LPM} & 前缀长 $/x$ 含 $2^{32-x}$ 个地址（可用主机 $2^{32-x}-2$）；多条匹配时必选\textbf{最长前缀（Longest Prefix Match）} & \StudyRef{CS5222-Tutorial08}{root}{T8 P4}、\StudyRef{CS5222-Tutorial10}{root}{T10 P1}、2021A Q5 \\
-\textbf{OpenFlow 流表} & Match（L2/L3/L4 多字段通配）+ Action（forward/drop/modify/to-controller）统一路由器、交换机、防火墙与 NAT & \StudyRef{CS5222-Assignment02}{root}{A2 P19–20} \\
+路由器架构与队列调度 & 输入端发生 \textbf{HOL 阻塞}；输出端排队遵循 FIFO / Priority / RR / WFQ，缓存经验量级 $\mathrm{RTT}\cdot C/\sqrt{N}$ & \StudyRef{CS5222-Tutorial08}{p3}{T8 P3}、\StudyRef{CS5222-Tutorial10}{p4}{T10 P4–P5} \\
+IPv4 分片计算 & 单片最大数据净荷 $D_{\max} = 8\lfloor(\mathrm{MTU}-20)/8\rfloor$；偏移量 $\mathrm{offset}=\text{起始字节}/8$；末片 $\mathrm{MF}=0$ 其余为 $1$；仅在\textbf{最终目的主机}重组 & \StudyRef{CS5222-Tutorial08}{p2}{T8 P2} \\
+CIDR 子网与 LPM & 前缀 $/x$ 含 $2^{32-x}$ 个地址（可用主机 $2^{32-x}-2$，起点须整除块大小）；多表项同时命中时按\textbf{最长前缀匹配}转发 & \StudyRef{CS5222-Tutorial08}{p4}{T8 P4}、\StudyRef{CS5222-Tutorial10}{p1}{T10 P1}、2021A Q5 \\
+DHCP、NAT、IPv6 与 SDN & DHCP 四步广播（UDP 68/67）；NAT 改写 IP+端口；IPv6 固定 40 B 首部且禁中间路由器分片；OpenFlow 用 \textbf{Match + Action} 统一四类设备 & \StudyRef{CS5222-Assignment02}{p4}{A2 P4/P19–20}、\StudyRef{CS5222-Chapter05}{qa}{Ch4\&5 Q\&A} \\
 \end{longtable}\endgroup
 
 
-\StudyHeading{1}{1. 转发与路由、数据平面与控制平面}
+\StudyHeading{1}{1. 转发与路由、数据平面与控制平面及服务模型}
 \StudyTarget{CS5222-Chapter04__data-vs-control}
 
-2021A 期末 Q5a 直接考了这组核心辨析，用英文作答时务必写清“作用范围”和“所属平面”：
+网络层的两项基本职能必须从“作用范围”和“实现层次”两个维度严格区分（2021A 期末 Q5a 原题）：
 \begin{itemize}
-\item \textbf{转发（Forwarding，Data Plane，本地硬件）}：单个路由器内部把到达某输入端口的分组移动到恰当输出端口的本地动作，依赖本地转发表（forwarding table），通常在纳秒级硬件中完成。类比：开车通过一个立交桥匝道。
-\item \textbf{路由（Routing，Control Plane，全网软件）}：全网范围内确定分组从源主机到目的主机所经端到端路径的过程，由路由算法计算并生成各路由器的转发表，通常在毫秒/秒级软件中运行。类比：出发前规划从香港到北京的整条路线。
+\item \textbf{转发（Forwarding，属于数据平面 Data Plane）}：单台路由器内部的\textbf{本地动作}——分组到达某个输入端口后，路由器查阅本地转发表（forwarding table），将其搬运至对应的输出端口。由于每过一个包都要执行一次，转发在纳秒时间尺度上由专用硬件实现，就像汽车驶入某座立交桥后按路牌拐上正确的出口匝道。
+\item \textbf{路由（Routing，属于控制平面 Control Plane）}：全网范围的\textbf{全局过程}——决定分组从源主机到目的主机沿途经过哪条端到端路径，并据此计算和填充每台路由器的转发表。路由在毫秒至秒级时间尺度上由软件实现，就像出发前在地图软件上规划跨城总路线。
 \end{itemize}
 
-控制平面有两种架构：(1) \textbf{传统逐路由器控制（Per-router control）}——每台路由器都跑路由协议（RIP/OSPF/BGP）互相交换消息、各自算本地转发表；(2) \textbf{软件定义网络（SDN，Logically centralized control）}——远端逻辑集中控制器统一算出流表并下发给每台路由器的控制代理（CA），路由器只做转发。
+谁来负责运行控制平面？传统互联网采用\textbf{逐路由器控制（per-router control）}，每台路由器内部同时装有转发硬件和路由控制软件（如 OSPF、BGP），彼此交换路由报文各自算表；软件定义网络（\textbf{SDN}）则采用\textbf{逻辑集中控制（logically centralized control）}，由远端控制器集中收集拓扑、统一算出流表并下发给各路由器的轻量级控制代理（CA）。
 
-\textbf{互联网网络层服务模型：} \textbf{Best-Effort（尽力而为）}——对带宽、丢包、乱序、时延、显式拥塞反馈均\textbf{不做任何保证}（与 ATM 的 CBR/ABR 形成鲜明对比），把可靠性与拥塞控制留给端主机的传输层（TCP）。
+在服务保证方面，课件第 10 页对比了两套截然不同的哲学：ATM 网络提供恒定比特率（CBR，保证固定带宽、时延与保序）和可用比特率（ABR，保证最低带宽与无损反馈），代价是复杂的信令与虚电路状态；互联网 IP 层则只提供极简的\textbf{尽力而为服务模型（best-effort service model）}——对最小带宽、不丢包、按序到达、端到端最大时延以及拥塞反馈均\textbf{不作任何承诺}。这种“网络核心保持简单无状态、复杂恢复交给端主机 TCP”的设计，正是互联网得以在各种异构物理链路上快速扩展的关键。
 
 
-\StudyHeading{1}{2. 路由器内部架构、HOL 阻塞、缓存估算与队列调度}
+\StudyHeading{1}{2. 路由器内部架构、队头阻塞、缓存容量与分组调度}
 \StudyTarget{CS5222-Chapter04__router-arch}
 
-一台路由器由四大部件组成：\textbf{输入端口（Input ports）}（物理层终结 $\to$ 链路层解封装 $\to$ 查找转发表 LPM 与排队）、\textbf{高速交换结构（Switching fabric）}、\textbf{输出端口（Output ports）}（缓存排队 $\to$ 调度器选包 $\to$ 链路层封装发送）、\textbf{路由处理器（Routing processor）}（运行控制平面软件并下发转发表）。
-
+拆开一台路由器，数据平面由输入端口、交换结构、输出端口组成，控制平面在路由处理器上运行：
 \begin{itemize}
-\item \textbf{三种交换结构对比}：(1) \textbf{经内存（Memory）}：传统通用 CPU 拷贝，吞吐受内存带宽限制（每包读写各一次，总速率 $\le B/2$）；(2) \textbf{经总线（Bus）}：共享总线一次只能过一个包，受总线带宽限制；(3) \textbf{经纵横交叉开关（Crossbar）}：网格互联支持多个无冲突输入–输出对并行传输，速度最快。
-\item \textbf{输入端口排队与队头阻塞（HOL Blocking，必考概念，T8 P3）}：如果交换结构速率低于各输入端口汇聚速率，输入端就会排队。当某输入队列\textbf{排在队首的分组}因目标输出端口争用而被阻塞时，\textbf{排在它后面的分组即使想去完全空闲的另一个输出端口，也会被卡住无法前进}——这就是 \textbf{Head-of-the-Line（HOL）blocking}。\textbf{考试铁律：HOL 阻塞发生在输入端口（input ports）！}
-\item \textbf{输出端口排队与缓存大小（Buffering）}：当多个输入端口同时把包送往同一个输出端口（到达率超过输出链路速率 $C$），即使交换结构无限快，输出端仍会排队甚至溢出丢包。缓存经验公式：
+\item \textbf{输入端口与线速查表}：依次完成物理层比特接收、链路层拆帧（如以太网解封装），随后在输入端口本地保存的转发表副本中按\textbf{最长前缀匹配}查找目标输出端口，无需每个包都去打扰中央路由处理器。
+\item \textbf{三种交换结构（Switching Fabric）}：（1）\textbf{经内存交换}（早期路由器像通用计算机，分组先拷入系统内存再拷出，每次转发穿过系统总线两次，总吞吐上限为内存带宽 $B/2$）；（2）\textbf{经共享总线交换}（输入端口通过内部共享总线直接送往输出端口，免去处理器干预，但同一时刻只能传一个分组，受总线速率限制）；（3）\textbf{经纵横交叉开关网络（Crossbar / Interconnection Network）}（由 $2N$ 条纵横总线交叉组成，只要不同输入端口去往互不冲突的输出端口，多个分组就能完全并行穿过交换矩阵）。
+\item \textbf{输入端口排队与队头阻塞（Head-of-the-Line Blocking, HOL Blocking）}：若交换结构速度慢于所有输入端口速率之和，或者多个输入端口同一时刻争抢同一个输出端口，未获准穿过的分组就得在\textbf{输入队列}等待。此时若排在某输入队列最前端的分组因目标输出口正忙而被挡住，\textbf{排在它身后的分组哪怕要去另一个完全空闲的输出口，也被迫原地干等}——这一现象称为 \textbf{HOL 阻塞}，它明确发生在\textbf{输入端口（input ports）}（见\StudyRef{CS5222-Tutorial08}{p3}{Tutorial 8 P3}）。
+\item \textbf{输出端口排队、丢弃策略与缓存经验公式}：当交换结构把分组送达某个输出端口的速率暂时超过该输出链路的发送速率 $C$ 时，输出端口同样会排队；缓存耗尽时需执行主动或被动丢弃（如直接丢弃新来包的 \textbf{tail drop}、按类别优先丢弃的 \textbf{priority drop} 或提前概率丢包预警拥塞的 \textbf{random drop / RED}）。输出缓存 $B$ 设多大合适？传统 RFC 3439 经验法则建议设为单流带宽时延积，而现代核心路由器承载 $N$ 条相互独立的去同步化 TCP 流时，统计复用允许按 $\sqrt{N}$ 缩减：
 \[
-\text{RFC 3439 传统经验：}\; B = \text{RTT}\cdot C,
+B_{\mathrm{classic}} = \mathrm{RTT}\cdot C,
 \qquad
-\text{多条 TCP 流（$N$ 条独立流）改进：}\; B = \frac{\text{RTT}\cdot C}{\sqrt{N}}.
+B_{\mathrm{mux}} = \frac{\mathrm{RTT}\cdot C}{\sqrt{N}}.
 \tag{4.1}
 \]
-例如 $C=10\text{ Gbps}$、$\text{RTT}=250\text{ ms}$ 时，传统需 $2.5\text{ Gbit}$ 缓存；若有 $N=10{,}000$ 条独立 TCP 流经过，只需 $2.5\text{ Gbit}/100 = 25\text{ Mbit}$。
+例如在 $C = 10\text{ Gbps}$、平均 $\mathrm{RTT} = 250\text{ ms}$ 的骨干链路上，传统公式需配 $0.25\times 10\text{ Gbit} = 2.5\text{ Gbit}$ 缓存；当汇聚 $N = 10{,}000$ 条独立 TCP 流时，仅需 $2.5\text{ Gbit} / \sqrt{10{,}000} = 25\text{ Mbit}$ 即可维持高链路利用率。
 \end{itemize}
 
-\textbf{四种输出端口调度策略（Scheduling Disciplines，T10 P4–P5）：}
+当输出缓存中有多个分组等待发送时，由\textbf{分组调度器（packet scheduler）}决定下一个发谁（见\StudyRef{CS5222-Tutorial10}{p4}{Tutorial 10 P4–P5}）：
 \begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.22\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.52\linewidth-1.33333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.26\linewidth-1.33333\tabcolsep\relax}@{}}
 \toprule
-调度策略 & 核心规则 & 考试高频问点 \\
+调度策略 & 选包规则 & 关键性质与对比 \\
 \midrule\endfirsthead
-调度策略 & 核心规则 & 考试高频问点 \\
+调度策略 & 选包规则 & 关键性质与对比 \\
 \midrule\endhead
 \bottomrule\endfoot
-\textbf{FIFO（先来先服务）} & 严格按到达队列的先后顺序发送；满队列常配 Tail Drop（尾丢弃） & \textbf{唯一}保证所有包按到达顺序离开的策略（T10 P4） \\
-\textbf{Priority（优先级）} & 分高/低优先级队列，总是先发最高优先级非空队列（非抢占） & 低优先级流可能饥饿 \\
-\textbf{Round Robin（RR，轮询）} & 多类别队列循环扫描，每类轮流发一个完整分组 & 所有类别\textbf{平等}对待 \\
-\textbf{WFQ（加权公平队列）} & 广义 RR，第 $i$ 类按权重 $w_i$ 获得比例为 $w_i/\sum w_j$ 的服务带宽 & 当所有类权重\textbf{相等}时，WFQ 退化为 RR（T10 P5） \\
+\textbf{FIFO / FCFS} & 严格按分组到达输出缓存的时间先后依次发送 & 四种策略中\textbf{唯一保证全部出队顺序与到达顺序完全一致} \\
+\textbf{Priority（严格优先级）} & 划分高、低优先级队列；只要高优先级队列非空就优先发完它（通常非抢占，即正在发送的低优先级包发完后再切） & 低时延保障实时控制/语音包，但高优先级长期满载会使低优先级流饥饿 \\
+\textbf{Round Robin（RR，轮询）} & 按类别分队列，调度器循环扫描各非空类别，每轮每类发 1 个分组 & 各类别获得对等的发送机会（具备工作保持性：空队列立即跳过不空等） \\
+\textbf{WFQ（加权公平队列）} & 为第 $i$ 类分配权重 $w_i$，繁忙期保证该类获得 $w_i / \sum_j w_j$ 的带宽份额 & 广义化的 RR；当\textbf{所有类别权重 $w_i$ 相等}时，WFQ 退化为标准 RR \\
 \end{longtable}\endgroup
 
+\textbf{跟做小算例（非抢占 Priority vs RR 出队顺序）：}设每发完 1 个分组耗时 1 个单位时间。时刻 $t=0$ 到达包 $p_1$（高优 H）与 $p_2$（低优 L）；$t=0.5$ 到达 $p_3$（L）；$t=1.5$ 到达 $p_4$（H）。在 $[0, 1]$ 内两者都先发 $p_1$。$t=1$ 时队列里只有 $p_2, p_3$（均为 L），故 $[1, 2]$ 开始发送 $p_2$——注意 $t=1.5$ 虽然新到了高优 $p_4$，但在\textbf{非抢占（non-preemptive）}规则下必须等 $p_2$ 在 $t=2$ 发完。到了 $t=2$，队列中有 $p_4$（H）和 $p_3$（L）：无论是严格优先级（H 优先于 L）还是 RR（上一包刚发过 L 类，本轮轮到 H 类），$[2, 3]$ 都发 $p_4$，$[3, 4]$ 最后发 $p_3$，出队序列均为 $p_1, p_2, p_4, p_3$（若 $t=1.5$ 再多到一个高优 $p_5$，则 Priority 在 $t=3$ 继续连发 $p_5$，而 RR 会在 $t=3$ 先轮转去发低优 $p_3$）。
 
-\StudyHeading{1}{3. IPv4 数据报格式与分片（Fragmentation）手算}
+
+\StudyHeading{1}{3. IPv4 数据报首部与分片（Fragmentation）计算}
 \StudyTarget{CS5222-Chapter04__ipv4-frag}
 
-标准无选项 IPv4 首部固定为 \textbf{20 字节}（配 20 字节 TCP 首部即 40 字节基础开销）。关键首部字段：Version（4 位，值为 4）、Header Length（4 位，单位 4 字节，无选项时为 5 即 20 B）、Total Length（16 位，首部+数据总字节数）、\textbf{16-bit Identifier / Flags（含 MF 标志）/ 13-bit Fragment Offset（分片三件套）}、TTL（每过一跳路由器减 1，归零丢弃并回 ICMP 超时）、Upper-Layer Protocol（如 6=TCP、17=UDP）、Header Checksum（\textbf{每跳重算}因为 TTL 变了）、32 位源/目的 IP。
+无选项的标准 IPv4 首部固定占 \textbf{20 字节}（5 行 $\times$ 32 bit；若上层为无选项 TCP 20 字节首部，则每个应用层段至少附带 40 字节首部开销）。首部关键字段包括：4 位版本号（IPv4 为 4）、4 位首部长度（以 4 字节字为单位，标准值为 5）、16 位总长度（首部加数据总字节数）、服务分片重组的三个字段——\textbf{16 位标识（Identifier）}、\textbf{3 位标志（Flags，含 DF 禁分片与 MF 后续还有分片）}及 \textbf{13 位片偏移（Fragment Offset）}、8 位生存时间 \textbf{TTL}（每经过一跳路由器减 1，减至 0 时丢弃并向源端发回 ICMP 超时报文）、8 位上层协议号（如 6 代表 TCP、17 代表 UDP、1 代表 ICMP）、16 位\textbf{首部检验和}（只校验 IP 首部，因 TTL 每跳改变故每跳路由器都须重算），以及各 32 位的源 IP 和目的 IP 地址。
 
-\textbf{分片与重组铁律：} 不同链路的最大传输单元（\textbf{MTU}）不同。当 IP 数据报大于下一跳链路 MTU 时，路由器把它切成多个小 IP 数据报；\textbf{所有分片只在最终目的主机重组（reassembled only at final destination）}，中间路由器绝不重组。由于偏移量字段以 \textbf{8 字节块} 为单位，\textbf{除最后一片外，每片的数据净荷长度必须是 8 的倍数}：
+不同链路层技术允许单帧承载的最大传输单元（\textbf{MTU}，Maximum Transmission Unit）不同（如标准以太网 MTU 为 $1500\text{ B}$）。当一个大 IP 数据报需要进入较小 MTU 的出链路时，路由器将其切分为若干独立的小 IP 数据报（每片都复制原首部并修改总长、MF 与偏移量）。互联网为减轻核心路由器负担，规定\textbf{分片绝不在中间路由器重组，只在最终目的主机的 IP 层完成重组}；若任一分片丢失，整包无法拼齐将被目的端丢弃。
+
+因为 16 位总长度以 1 字节计，而 13 位片偏移少了 3 个比特，所以\textbf{片偏移必须以 8 字节块（8-byte chunks）为单位计数}。由此推出分片手算的唯一硬约束——\textbf{除最后一片外，前面每一片携带的纯数据字节数都必须是 8 的整数倍}：
 \[
-D_{\max} = 8\left\lfloor \frac{\text{MTU} - 20}{8} \right\rfloor,
+D_{\max} = 8\left\lfloor \frac{\mathrm{MTU} - 20}{8} \right\rfloor,
 \qquad
-\text{Offset}_i = \frac{\text{该片首字节在原数据净荷中的字节下标}}{8}.
+\mathrm{Offset}_i = \frac{\text{第 $i$ 片首数据字节在原净荷中的起始下标}}{8}.
 \tag{4.2}
 \]
 
-\begin{StudyBlock}{完整分片双算例（Python 已全核验）}{常规 1500 MTU 与“非 8 倍数”陷阱 MTU=600}
-\textbf{例 1（课件第 31 页）：} 原数据报总长 4000 B（20 B 首部 + 3980 B 数据），$\text{ID}=x$，过 $\text{MTU}=1500\text{ B}$ 链路。$D_{\max}=8\lfloor 1480/8\rfloor=1480\text{ B}$，需 $\lceil 3980/1480\rceil = 3$ 片：
+\begin{StudyBlock}{分片计算两步核对：标准 MTU=1500 与非 8 倍数 MTU=600}{Chapter 4 第 31 页与防错对比}
+\textbf{例 1（课件第 31 页标准例）：}总长 $4000\text{ B}$ 的 IPv4 数据报（含 $20\text{ B}$ 首部与 $3980\text{ B}$ 数据，$\mathrm{ID}=x$）进入 $\mathrm{MTU}=1500\text{ B}$ 链路。先减首部得 $1500 - 20 = 1480$，因 $1480 / 8 = 185$ 恰能整除，故 $D_{\max} = 1480\text{ B}$，共切成 $\lceil 3980 / 1480\rceil = 3$ 片：
 \begin{itemize}
-\item 第 1 片：数据 1480 B，总长 \textbf{1500}，$\text{ID}=x$，$\text{MF}=1$，$\text{Offset}=0/8=\mathbf{0}$。
-\item 第 2 片：数据 1480 B，总长 \textbf{1500}，$\text{ID}=x$，$\text{MF}=1$，$\text{Offset}=1480/8=\mathbf{185}$。
-\item 第 3 片：余下 $3980-2960=1020\text{ B}$，总长 $1020+20=\mathbf{1040}$，$\text{ID}=x$，$\text{MF}=0$，$\text{Offset}=2960/8=\mathbf{370}$。
+\item 第 1 片（数据字节 $0..1479$）：净荷 $1480\text{ B}$，总长 $\mathbf{1500}$，$\mathrm{ID}=x$，$\mathrm{MF}=1$，$\mathrm{Offset} = 0 / 8 = \mathbf{0}$。
+\item 第 2 片（数据字节 $1480..2959$）：净荷 $1480\text{ B}$，总长 $\mathbf{1500}$，$\mathrm{ID}=x$，$\mathrm{MF}=1$，$\mathrm{Offset} = 1480 / 8 = \mathbf{185}$。
+\item 第 3 片（数据字节 $2960..3979$）：剩余净荷 $3980 - 2960 = 1020\text{ B}$，加上首部后总长 $\mathbf{1040}$，$\mathrm{ID}=x$，末片置 $\mathrm{MF}=0$，$\mathrm{Offset} = 2960 / 8 = \mathbf{370}$。
 \end{itemize}
-\textbf{例 2（防陷阱变式：MTU=600）：} 原数据报 2000 B（数据 1980 B），过 $\text{MTU}=600\text{ B}$。注意 $600-20=580$ \textbf{不是 8 的倍数}！必须向下取整到 $D_{\max}=8\lfloor 580/8\rfloor = \mathbf{576\text{ B}}$（每片总长 596 B，而非 600 B！）。需 $\lceil 1980/576\rceil = 4$ 片：前 3 片总长 596、$\text{MF}=1$、偏移 $0, 72, 144$；第 4 片数据 $1980-1728=252\text{ B}$、总长 272、$\text{MF}=0$、偏移 $1728/8=\mathbf{216}$。
+\textbf{例 2（非 8 倍数 MTU 对齐示范）：}总长 $2000\text{ B}$（净荷 $1980\text{ B}$）进入 $\mathrm{MTU}=600\text{ B}$ 链路。先算 $\mathrm{MTU} - 20 = 580$，注意 $580 / 8 = 72.5$ 不能整除，故必须向下取整为 $D_{\max} = 8\times 72 = \mathbf{576\text{ B}}$（前几片总长只能发 $576 + 20 = 596\text{ B}$，不能发满 $600\text{ B}$）。共需 $\lceil 1980/576\rceil = 4$ 片：前 3 片总长 $596$、$\mathrm{MF}=1$、偏移依次为 $0, 72, 144$；第 4 片净荷 $1980 - 3\times 576 = 252\text{ B}$、总长 $272$、$\mathrm{MF}=0$、偏移 $1728 / 8 = \mathbf{216}$。
 \end{StudyBlock}
 
 \StudyImage{CS5222/course-notes/assets/ch4-ip-fragmentation-nat.png}
-\StudyCaption{原创示意：左图为 4000 B 数据报在 MTU=1500 链路上的三片切分（每片均自带 20 B IP 首部）；右图为 NAT 路由器修改源/目的 IP 与端口并维护 WAN–LAN 映射表的四步过程。}
+\StudyCaption{原创绘制：左图为 $4000\text{ B}$ 数据报在 $\mathrm{MTU}=1500\text{ B}$ 链路上的三片切分（每片均独立携带 $20\text{ B}$ IPv4 首部）；右图为 NAT 路由器改写内网私有地址/端口与公网地址/端口并维护映射表的双向四步过程。}
 
 
-\StudyHeading{1}{4. IPv4 编址、CIDR、最长前缀匹配（LPM）与路由聚合}
+\StudyHeading{1}{4. IPv4 编址、CIDR 子网划分、最长前缀匹配与路由聚合}
 \StudyTarget{CS5222-Chapter04__cidr-lpm}
 
-IPv4 地址长 32 位，拆成\textbf{网络部分（子网前缀）}与\textbf{主机部分}。
+每个连接在主机或路由器上的物理网卡接口都绑定一个 32 位 IPv4 地址（一台连接 $k$ 个子网的路由器就拥有 $k$ 个接口和 $k$ 个不同子网的 IP 地址）。什么是\textbf{子网（subnet）}？课件给出一个极直观的操作检验：把主机和路由器各个接口从路由器主体上“拔下来”，凡是不必经过路由器就能彼此物理连通（中间只隔着二层交换机或无线 AP）的一组接口小岛，就构成一个独立子网。
+
 \begin{itemize}
-\item \textbf{旧式分类编址（Classful，已淘汰但 Q\&A 会考！）}：首比特决定类别——Class A（\StudyInline{0...}，/8，范围 0–127）、Class B（\StudyInline{10...}，/16，范围 128–191，最多 $2^{16}-2=65{,}534$ 主机）、Class C（\StudyInline{110...}，/24，范围 192–223，最多 $2^8-2=254$ 主机）、Class D（\StudyInline{1110...} 组播）、Class E（\StudyInline{1111...} 保留）。\textbf{全 0 主机号表示本网络，全 1 主机号表示广播地址，均不可分给普通主机。}
-\item \textbf{无类别域间路由（CIDR：\StudyInline{a.b.c.d/x}）}：用显式前缀长度 $/x$（或点分十进制掩码）取代死板的 A/B/C 划分，路由器之间必须同时通告掩码。给定 IP 与 $/x$，\textbf{网络地址 = IP 按位与 掩码}（后 $32-x$ 位置 0），\textbf{广播地址 = 网络地址后 $32-x$ 位置 1}。
+\item \textbf{早期分类编址（Classful Addressing）}：把前缀长度硬性锁死为三档——最高位以 \texttt{0} 开头为 \textbf{Class A}（\texttt{/8}，首字节 $0..127$）、以 \texttt{10} 开头为 \textbf{Class B}（\texttt{/16}，首字节 $128..191$，单网 $2^{16}-2=65{,}534$ 台主机）、以 \texttt{110} 开头为 \textbf{Class C}（\texttt{/24}，首字节 $192..223$，单网 $2^8-2=254$ 台主机；另 \texttt{1110} 为 D 类组播、\texttt{1111} 为 E 类保留）。Class C 太小（仅 254 台）、Class B 又太大（动辄浪费数万地址），促使互联网转向无类编址。
+\item \textbf{无类域间路由（CIDR：\texttt{a.b.c.d/x}）}：允许前缀位数 $x$ 在任意比特位切分。如课件第 40 页求 \texttt{137.189.178.73/17} 的子网范围：前两字节 \texttt{137.189} 占去 16 位，第 17 位只固定第 3 字节（$178 = \mathtt{10110010}_2$）的最高位 \texttt{1}；将其后 15 位全置 0 得网络地址 \texttt{137.189.128.0/17}，全置 1 得广播地址 \texttt{137.189.255.255}。
+\item \textbf{层次聚合（Route Aggregation）与最长前缀匹配（LPM）}：某 ISP 持有大块地址 \texttt{200.23.16.0/20}，拆成 8 个连续的 \texttt{/23} 分给下属机构（Org 0 至 Org 7）。对外通告时，ISP 无需广播 8 条明细路由，只需向骨干网通告 1 条汇总前缀 \texttt{200.23.16.0/20}。若日后 Org 1（\texttt{200.23.18.0/23}）改签另一家新 ISP，新 ISP 只需单独向全网通告更具体的 23 位前缀 \texttt{200.23.18.0/23}——全网路由器收到去往 Org 1 的数据包时，发现既匹配旧 ISP 的 \texttt{/20} 又匹配新 ISP 的 \texttt{/23}，按\textbf{最长前缀匹配（Longest Prefix Match）}原则选 23 位更长表项，流量便平滑切往新 ISP。
 \end{itemize}
 
-\textbf{手算示范（课件第 40 页）：} 求 \StudyInline{137.189.178.73/17} 的网络地址与广播地址。前 16 位 \StudyInline{137.189} 不变；第 3 字节 $178 = \text{10110010}_2$，第 17 位掩码只保留其最高 1 位（即 $128 = \text{10000000}_2$），后 15 位全置 0 得网络地址 \StudyInline{137.189.128.0}，后 15 位全置 1 得广播地址 \StudyInline{137.189.255.255}。
+\textbf{独立变式 / Transfer（跨字节边界 VLSM 划分）：}某学院分得地址块 \texttt{216.65.170.0/23}（注意 \texttt{/23} 横跨第三字节 \texttt{.170} 与 \texttt{.171} 共 512 个地址），需无重叠切分给三个系：系 A 需支持 230 台主机，系 B 需支持 120 台主机，系 C 需支持 60 台主机。请按从大到小对齐原则给出三个系的 \texttt{IP/x} 地址块。 / Split \texttt{216.65.170.0/23} into three non-overlapping CIDR blocks supporting 230, 120, and 60 hosts respectively.
 
-\textbf{路由聚合（Route Aggregation）与最长前缀匹配（LPM）：} ISP 拥有 \StudyInline{200.23.16.0/20} 并下分 8 个 \StudyInline{/23} 机构时，向全网只通告一条聚合路由 \StudyInline{200.23.16.0/20} 即可大幅缩减转发表。但如果其中 Org 1（\StudyInline{200.23.18.0/23}）换了另一家 ISP，新 ISP 单独通告更具体的 \StudyInline{200.23.18.0/23}，全网路由器在查找目标地址时执行\textbf{最长前缀匹配（Longest Prefix Match）}——同时匹配 $/20$ 与 $/23$ 时优先走更长的 $/23$！例如查 \StudyInline{192.168.1.140}（末字节 $140 = \text{10001100}_2$）时，在 \StudyInline{/16}、\StudyInline{/24}、\StudyInline{192.168.1.128/25} 三条匹配项中选择 25 位最长的 \StudyInline{/25}。
+\begin{StudySolution}{答案 / Answer}
+先算所需主机位：系 A 需 $2^h - 2 \ge 230 \implies h = 8$（\texttt{/24}，256 个地址），取前半块 \texttt{216.65.170.0/24}（占 \texttt{.170.0} 至 \texttt{.170.255}）；剩余后半块为 \texttt{216.65.171.0/24}。系 B 需 $2^h - 2 \ge 120 \implies h = 7$（\texttt{/25}，128 个地址），取 \texttt{216.65.171.0/25}（占 \texttt{.171.0} 至 \texttt{.171.127}）。系 C 需 $2^h - 2 \ge 60 \implies h = 6$（\texttt{/26}，64 个地址），对齐在 128 起点取 \texttt{216.65.171.128/26}（占 \texttt{.171.128} 至 \texttt{.171.191}，余下 \texttt{.171.192/26} 备用）。 / Dept A: \texttt{216.65.170.0/24}; Dept B: \texttt{216.65.171.0/25}; Dept C: \texttt{216.65.171.128/26}.
+\end{StudySolution}
 
 
-\StudyHeading{1}{5. DHCP（即插即用）与 NAT（私有地址转换）}
+\StudyHeading{1}{5. DHCP 动态主机配置与 NAT 网络地址转换}
 \StudyTarget{CS5222-Chapter04__dhcp-nat}
 
-\textbf{DHCP（Dynamic Host Configuration Protocol）} 让新接入主机自动租用 IP 地址，并且顺带返回三项关键配置：\textbf{第一跳默认路由器 IP、本地 DNS 服务器名与 IP、子网掩码}。它跑在 \textbf{UDP} 上（客户端端口 68，服务器端口 67），完整四步（口诀 \textbf{D-O-R-A}）在基础模型中全部使用广播目标 \StudyInline{255.255.255.255}（链路层目的 MAC \StudyInline{FF-FF-FF-FF-FF-FF}）：
+机构从 ISP 或 ICANN 区域注册机构拿到一段地址块后，怎样给每天来去自如的笔记本和手机自动配好上网参数？这靠运行在 \textbf{UDP} 之上（客户端端口 68、服务器端口 67）的应用层即插即用协议 \textbf{DHCP（Dynamic Host Configuration Protocol）}。DHCP 不仅租给主机一个临时 IP，还一次性下发另外三项必不可少的入网信息：\textbf{子网掩码（network mask）}、\textbf{第一跳默认网关路由器 IP} 以及\textbf{本地 DNS 服务器 IP}（课件第 49 页真实抓包显示在 \texttt{DHCP ACK / Boot Reply} 报文的 \texttt{yiaddr} 与 Options 字段中）。在同子网标准模型下，完整交互分四步（\textbf{Discover $\to$ Offer $\to$ Request $\to$ ACK}）：
 \begin{enumerate}
-\item \textbf{DHCP Discover}：客户端（源 \StudyInline{0.0.0.0:68} $\to$ \StudyInline{255.255.255.255:67}）广播寻找 DHCP 服务器。
-\item \textbf{DHCP Offer}：服务器（源 \StudyInline{serverIP:67} $\to$ \StudyInline{255.255.255.255:68}）广播提供一个可用 IP（\StudyInline{yiaddr}）与租期。
-\item \textbf{DHCP Request}：客户端（仍用 \StudyInline{0.0.0.0:68} $\to$ \StudyInline{255.255.255.255:67}）\textbf{广播}选定该 IP（广播是为了同时通知其他未中标的 DHCP 服务器收回其 Offer！——对应 Chapter 4\&5 Q\&A 第 4 题陷阱）。
-\item \textbf{DHCP ACK}：服务器广播确认分配完成。
+\item \textbf{DHCP discover}：新到主机尚未取得 IP，置源 IP \StudyInline{0.0.0.0:68}、目的 IP 受限广播地址 \StudyInline{255.255.\allowbreak{}255.255:67}，全子网广播寻找 DHCP 服务器（若无续租缓存，前两步不可省略）。
+\item \textbf{DHCP offer}：子网内一台或多台 DHCP 服务器收到后，广播回送候选租约（含拟分配地址 \StudyInline{yiaddr} 与租期）。
+\item \textbf{DHCP request}：客户端从中挑选一份 Offer，\textbf{仍然使用目的广播地址 \StudyInline{255.255.\allowbreak{}255.255} 发送请求}——之所以仍用广播而非单播，是因为必须同时通知子网里其他未中标的 DHCP 服务器及时回收它们刚才预留的候选地址（见\StudyRef{CS5222-Chapter05}{qa}{Ch4\&5 Q\&A 第 3 题}）。
+\item \textbf{DHCP ACK}：中标服务器广播最终确认，客户端正式启用该 IP 与配套参数。
 \end{enumerate}
 
-\textbf{NAT（Network Address Translation）与 RFC 1918 私有地址：} 为缓解 IPv4 地址枯竭，RFC 1918 保留三段私有地址（ISP 丢弃公网上的私有 IP 包）：\StudyInline{10.0.0.0/8}（24 位主机）、\StudyInline{172.16.0.0/12}（20 位主机）、\StudyInline{192.168.0.0/16}（16 位主机）。NAT 路由器让整个局域网对外只共用 \textbf{1 个公网 IP}，通过改写传输层端口号区分 6 万余条并发连接（见上方右图）：
-\begin{itemize}
-\item \textbf{出站}：把源 \StudyInline{(私网IP, 原端口)} 改成 \StudyInline{(NAT公网IP, 新端口)} 并记入 NAT 转换表。
-\item \textbf{入站}：查 NAT 转换表，把目的 \StudyInline{(NAT公网IP, 新端口)} 还原为 \StudyInline{(私网IP, 原端口)}。
-\item \textbf{NAT 的争议（常考简答）}：(1) 路由器本应只处理到第 3 层，NAT 却动了第 4 层端口号；(2) 违背端到端原则（end-to-end argument）；(3) 迫使 P2P 等应用额外处理 NAT 穿透；(4) 地址短缺本应由 IPv6 根本解决。
-\end{itemize}
+家庭与校园局域网内部普遍使用三段免申请的 RFC 1918 \textbf{私有地址空间}：\StudyInline{10.0.0.0/8}、\StudyInline{172.16.\allowbreak{}0.0/12}（即 \StudyInline{172.16.0.0}–\StudyInline{172.31.255.255}）与 \StudyInline{192.168.\allowbreak{}0.0/16}。私有地址不能直接出现在公网路由表上，边缘路由器通过 \textbf{NAT（Network Address Translation）} 让内网成百上千台设备对外共用\textbf{单个公网 IPv4 地址}（见图 4.1 右侧）：内网主机 \StudyInline{10.0.0.1:3345} 发包出站时，NAT 路由器把源地址和源端口改写成公网口 \StudyInline{138.76.29.7:5001}，并在 \textbf{NAT 转换表}中登记这一映射；远端服务器回包发往 \StudyInline{138.76.29.7:5001} 时，NAT 查表把目的地址和端口还原回 \StudyInline{10.0.0.1:3345} 后送入内网。凭借 16 位端口号，单个公网 IP 可同时区分逾六万条并发连接。课件同时指出 NAT 引发的架构争议：路由器属于第 3 层设备却读写修改了第 4 层端口号，打破了端到端透明可达性（外部主机无法主动向内网服务器发起连接，需配置静态端口映射或使用 NAT 穿透技术），且延长了向 IPv6 彻底迁移的过渡期。
 
 
-\StudyHeading{1}{6. IPv6 与隧道过渡（Tunneling）}
+\StudyHeading{1}{6. IPv6 首部革新与混合网络隧道（Tunneling）}
 \StudyTarget{CS5222-Chapter04__ipv6}
 
-IPv6 为根治地址枯竭与加速路由器处理而设计，核心变化记四条：
+为从根本上解决 32 位地址耗尽并简化核心路由器硬件处理，\textbf{IPv6} 对数据报格式做了四项做减法式的精简：
 \begin{enumerate}
-\item \textbf{128 位地址}（8 组 16 位十六进制，如 \StudyInline{2041:0000:140F:0000:0000:0000:005B:131B}）与 \textbf{固定 40 字节首部}（更易硬件高速流水线解析）。
-\item \textbf{禁止中间路由器分片}（极大提速）：如果数据包超 MTU，路由器直接丢弃并回发 \textbf{ICMPv6 ``Packet Too Big''}，由源主机自行缩小发包尺寸。
-\item \textbf{彻底取消 IP 首部校验和（Checksum）}：减少每跳重算开销（由链路层 CRC 与传输层校验和兜底）。
-\item \textbf{字段微调}：TTL 改名 \StudyInline{Hop Limit}；Protocol 改名 \StudyInline{Next Header}；新增 \StudyInline{Flow Label} 与 \StudyInline{Traffic Class} 支持 QoS。
+\item \textbf{地址扩至 128 位、首部固定为 40 字节}：不再允许可变长首部基本区，选项移入链式的 \texttt{Next Header}，便于硬件对齐高速转发。
+\item \textbf{取消中间路由器分片}：IPv6 首部彻底删除了分片标识、标志与偏移量字段；若途中某跳链路 MTU 装不下，路由器直接丢弃该包并向源主机发回 \textbf{ICMPv6 ``Packet Too Big''} 差错报文，由源端自行改发更小的包。
+\item \textbf{取消网络层首部检验和（No Checksum）}：免去每跳因 \texttt{Hop Limit}（原 TTL）递减而重算检验和的开销，差错检测交由链路层 CRC 与传输层 TCP/UDP 检验和完成。
+\item \textbf{流标签支持}：引入 20 位 \texttt{Flow Label} 与 8 位 \texttt{Traffic Class}，供路由器识别同一数据流做差异化调度。
 \end{enumerate}
 
-\textbf{混合网络过渡——隧道技术（Tunneling）：} 全网不可能同一天切换（no ``flag day''）。当两个 IPv6 路由器（B 与 E）之间夹着纯 IPv4 网络（C、D）时，入口路由器 B 把\textbf{整个 IPv6 数据报原封不动塞进一个 IPv4 数据报的载荷（payload）里}（外层源=B、目的=E），穿越 IPv4 区域到达 E 后剥掉外层 IPv4 首部，继续按 IPv6 转发至终点 F。
+由于全球数以千万计的 IPv4 路由器不可能在同一时刻停机升级，互联网长期处于双栈共存期，核心过渡手段是\textbf{隧道技术（Tunneling）}：当两座 IPv6 孤岛边界路由器 B 与 E 之间隔着一片纯 IPv4 路由器（C、D）时，入口双栈路由器 B 把\textbf{完整的 40B 首部 IPv6 数据报当作普通数据净荷，整体封装进一个外层 IPv4 数据报内部}（外层 IPv4 源地址填 B、目的地址填隧道终点 E，协议号指示内层为 IPv6）；中间路由器 C、D 完全感知不到 IPv6 的存在，只按普通 IPv4 转发至 E，出口路由器 E 剥除外层 IPv4 首部，再将完好无损的内层 IPv6 数据报继续发往最终目的端 F。
 
 
-\StudyHeading{1}{7. 广义转发与 SDN / OpenFlow（Match-plus-Action）}
+\StudyHeading{1}{7. 广义转发与 SDN OpenFlow 流表编写}
 \StudyTarget{CS5222-Chapter04__sdn-openflow}
 
-传统转发只按\textbf{目的 IP 地址}查表转发；SDN 的\textbf{广义转发（Generalized Forwarding）}采用统一的 \textbf{Match-plus-Action} 范式，每台分组交换机（packet switch）保存由远端控制器下发的\textbf{流表（Flow Table）}，每条表项含三列：\textbf{Headers（匹配 L2 MAC / VLAN、L3 源目的 IP / 协议、L4 源目的端口与入端口，支持 \StudyInline{*} 通配）}、\textbf{Actions（转发至指定端口、丢弃、改写首部字段、或封装上送控制器）}、\textbf{Counters（匹配包/字节计数）}。
+传统路由器转发只看“目的 IP 前缀”这一个字段；SDN 数据平面的 OpenFlow 协议将其推广为统一的\textbf{“匹配加动作”（Match-plus-Action）广义转发模型}。每台分组交换机维护由集中控制器计算下发的流表（flow table），每条规则包含三部分：（1）\textbf{首部匹配域（Match）}，可同时指定入端口（Switch Port）及跨越三层的 10 个首部字段——链路层源/目的 MAC、以太网类型、VLAN ID，网络层源/目的 IP、上层协议号（\texttt{IP Prot}），传输层 TCP/UDP 源/目的端口（未指定的字段填通配符 \texttt{*}）；（2）\textbf{动作集（Action）}，包括转发至指定出端口 \texttt{Forward(k)}、静默丢弃 \texttt{Drop}、封装上送控制器或改写字段；（3）统计命中包数与字节数的计数器。
 
-\textbf{一套 OpenFlow 硬件即可统一扮演四种网络设备（必背对照）：}
-\begin{itemize}
-\item \textbf{Router}：Match = 最长目的 IP 前缀；Action = 转发至指定输出链路。
-\item \textbf{Switch}：Match = 目的 MAC 地址；Action = 转发或泛洪（flood）。
-\item \textbf{Firewall}：Match = IP 地址与 TCP/UDP 端口号（如阻断 \StudyInline{TCP dport=22}）；Action = 允许或丢弃（drop）。
-\item \textbf{NAT}：Match = IP 地址与端口；Action = 改写（rewrite）地址与端口后转发。
-\end{itemize}
+借由不同层级的匹配组合，同一台 OpenFlow 交换机可以扮演四种传统设备：只匹配目的 IP 前缀并转发即\textbf{路由器}；只匹配目的 MAC 并转发或泛洪即\textbf{二层交换机}；联合匹配源/目的 IP、协议号与传输层端口并执行 \texttt{Drop} 或放行即\textbf{无状态包过滤防火墙}（例如写成 \texttt{IP Dst = 10.2.0.3, IP Prot = 17 -> Drop} 即可精准拦截发往主机 \texttt{h3} 的一切 UDP 流量，同时放行 \texttt{IP Prot = 6} 的 TCP 流量）；匹配并改写源/目的 IP 与端口即 \textbf{NAT 网关}。完整拓扑流表编写详见\StudyRef{CS5222-Assignment02}{p19}{Assignment 2 P19–P20}。
 
-\textbf{编写 OpenFlow 流表实战（详见 \StudyRef{CS5222-Assignment02}{root}{Assignment 2 P19–P20}）：} 写流表时务必同时核对\textbf{入端口（ingress port）}、\textbf{源 IP} 与 \textbf{目的 IP}——正是因为 OpenFlow 能匹配“源 IP + 目的 IP”或入端口，它才能轻松实现传统纯目的 IP 转发根本做不到的“来自 h3 顺时针走、来自 h4 逆时针走”等精细流量工程！
+\textbf{English takeaway:} Forwarding is the router-local data-plane lookup and switching action, whereas routing is the network-wide control-plane path calculation. Head-of-the-line (HOL) blocking occurs at input ports; FIFO is the only scheduling discipline guaranteeing arrival-order departure. IPv4 fragmentation enforces 8-byte payload multiples on all non-final fragments and reassembles exclusively at the destination host; CIDR forwarding uses longest prefix matching; IPv6 adopts a fixed 40-byte header without router fragmentation or header checksums; and SDN OpenFlow unifies routing, switching, firewalling, and NAT via match-plus-action flow tables.
 
-\textbf{English takeaway:} Forwarding is the router-local data-plane action; routing is the network-wide control-plane computation. IPv4 fragmentation enforces 8-byte payload alignment except on the last fragment and reassembles only at the destination; CIDR relies on longest prefix matching; IPv6 eliminates router fragmentation and header checksums; OpenFlow unifies routers, switches, firewalls, and NAT via match-plus-action flow tables.
 
-来源：2026 年课件 Chapter 4（Part 1–3 共 79 页）；分片与 CIDR 算例均经本仓库 Python 校验脚本独立验算生成。
+\StudyHeading{1}{学习要求与来源覆盖索引}
+\StudyTarget{CS5222-Chapter04__sources}
+
+\begingroup\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\dimexpr0.28\linewidth-1.00000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.72\linewidth-1.00000\tabcolsep\relax}@{}}
+\toprule
+原课件页段（共 79 页） & 讲义对应位置与核心内容 \\
+\midrule\endfirsthead
+原课件页段（共 79 页） & 讲义对应位置与核心内容 \\
+\midrule\endhead
+\bottomrule\endfoot
+第 1–10 页（Part 1） & §1：转发与路由区分、传统逐路由器控制 vs SDN 集中控制、尽力而为 vs ATM 服务模型 \\
+第 11–27 页（Part 1） & §2：输入端口 LPM、三种交换结构、输入端 HOL 阻塞、输出缓存 $\mathrm{RTT}\cdot C/\sqrt{N}$ 与四种队列调度 \\
+第 28–32 页（Part 2） & §3：IPv4 20B 首部字段、MTU 分片 8 字节对齐公式与双算例 \\
+第 33–46 页（Part 2） & §4：接口与子网定义、分类编址 A/B/C、CIDR 位掩码计算、路由聚合与最长前缀匹配 \\
+第 47–59 页（Part 2） & §5：DHCP 四步广播与返回四项配置、RFC 1918 私有网段、NAT 端口映射与端到端争议 \\
+第 60–70 页（Part 3） & §6：IPv6 固定 40B 首部四项精简、ICMPv6 超大包反馈与 IPv6-over-IPv4 隧道过渡 \\
+第 71–79 页（Part 3） & §7：OpenFlow 11 字段广义转发流表、四类网络功能统一表达与多交换机流量工程 \\
+\end{longtable}\endgroup

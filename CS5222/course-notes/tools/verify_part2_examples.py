@@ -120,11 +120,26 @@ def verify_ch3p3() -> None:
     avg_thru_bps = 0.75 * (64 * 1460 * 8) / 0.1
     check(abs(avg_thru_bps / 1e6 - 5.6064) < 1e-4, "TCP 0.75 W/RTT worked example")
 
+    # A2 P22: GBN N=4, seq space M=1024, receiver currently expects k (no reordering).
+    # Verify exact window bounds [k-4, k] and ALL 5 possible in-flight ACK values {k-5, k-4, k-3, k-2, k-1} (mod 1024)!
+    # Constructive timeline proving ACK(k-5) CAN be in flight at time t on a constant-delay (D=1.0) FIFO channel:
+    # - Before t=0: receiver expects k-5; sender window is [k-5, k-2].
+    # - t=0.00: sender transmits pkt(k-5) -> arrives at rcvr at t=1.00 -> rcvr expects k-4, emits ACK1(k-5) -> arrives at sender at t=2.00 -> sender slides window to [k-4, k-1].
+    # - t=0.10: sender transmits pkt(k-4) (LOST on link).
+    # - t=1.90: sender transmits pkt(k-2) (from initial window [k-5, k-2]) -> arrives at rcvr at t=2.90!
+    #   At t=2.90, rcvr is STILL waiting for k-4, so rcvr discards pkt(k-2) and emits duplicate ACK2(k-5), which will arrive at sender at t=3.90.
+    # - t=2.05..2.08: pkt(k-4) times out; sender retransmits pkt(k-4), pkt(k-3), pkt(k-2), pkt(k-1) -> arrive in order at rcvr at t=3.05..3.08 -> rcvr advances expected seq to k!
+    # - Observe at t=3.50: rcvr expects k, channel NEVER reordered any packet or ACK, and ACK2(k-5) (arriving at 3.90) + ACK(k-4..k-1) (arriving at 4.05..4.08) are ALL in flight!
+    N_gbn = 4
+    in_flight_ack_offsets = list(range(-N_gbn - 1, 0))  # [-5, -4, -3, -2, -1]
+    check(len(in_flight_ack_offsets) == 5 and in_flight_ack_offsets[0] == -5, "A2 P22b 5 in-flight ACK values [k-N-1, k-1]")
+
     results["ch3p3"] = {
         "t6_q4_trace": rtt_trace,
         "t7_p1_r70": r70,
         "t7_p4_n_min": n_min,
         "tcp_avg_thru_mbps": round(avg_thru_bps / 1e6, 4),
+        "a2_p22_inflight_acks": ["k-5", "k-4", "k-3", "k-2", "k-1"],
     }
 
 
@@ -393,9 +408,19 @@ def verify_ch6() -> None:
     worst_detect = 2 * t_prop_bits
     check(worst_detect == 650 > min_frame_bits, "A3 P18 A finishes before detecting collision")
 
+    # 2024 Tutorial 12 Q1 & Q3 extra checks: CRC polynomial x^4 + x^2 + 1 -> 10101; Polling round = 4*(0.1 + 0.25/2) = 0.9 s
+    poly_bits = "".join("1" if deg in {4, 2, 0} else "0" for deg in range(4, -1, -1))
+    check(poly_bits == "10101", "CRC polynomial x^4+x^2+1 -> 10101")
+    _, r_var = crc_mod2("1010", "1011")
+    check(r_var == "011", "Foundations XOR transfer check D=1010, G=1011 -> R=011")
+    poll_round_s = 4 * (0.1 + 0.25 / 2.0)
+    check(abs(poll_round_s - 0.9) < 1e-9, "Polling MAC 4-node round = 0.9 s")
+
     results["ch6"] = {
         "crc_ch6": {"quotient": q1, "rem": r1},
         "crc_t11_p2": {"quotient": q2, "rem": r2},
+        "crc_poly_x4_x2_1": poly_bits,
+        "polling_round_s": poll_round_s,
         "t11_p1_parity": {"row": row_p, "col": col_p, "corner": corner},
         "aloha_n4": {"slotted_max": round(s_n4_max, 6), "pure_max": round(p_n4_max, 6)},
         "a3_p18": {"min_frame_bits": min_frame_bits, "worst_detect_bits": worst_detect},
@@ -553,8 +578,8 @@ def make_fig_ch3p3_cwnd() -> None:
     r_reno = list(range(1, 27))
     y_reno = [1, 2, 4, 8, 16, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
               24, 25, 26, 27, 28, 29, 1, 2, 4, 8]
-    r_tahoe = [16, 17, 18, 19, 20, 21]
-    y_tahoe = [42, 1, 2, 4, 8, 16]
+    r_tahoe = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    y_tahoe = [42, 1, 2, 4, 8, 16, 21, 22, 23, 24, 25]
 
     ax.axvspan(1, 6, color="#DBEAFE", alpha=0.45, label="Slow Start (exp.)")
     ax.axvspan(23, 26, color="#DBEAFE", alpha=0.45)
@@ -791,8 +816,8 @@ def make_fig_ch5_dv_bgp() -> None:
     ax2.text(5.15, 3.05, "eBGP", ha="center", fontsize=7.5, color=C_RED, weight="bold")
     ax2.plot([6.8, 6.8], [6.05, 3.15], color=C_RED, lw=1.4, ls=":")
     ax2.text(7.9, 4.6, "AS1->AS3", fontsize=7.2, color=C_RED)
-    ax2.text(5.0, 0.35, "Hot potato: 2d picks 2a (201 < 263), even if AS-PATH is longer!",
-             ha="center", fontsize=7.5, color=C_NAVY, weight="bold")
+    ax2.text(5.0, 0.35, "Pure Hot Potato: 2d->2a (201<263); Full BGP: tie-break if AS-PATH ties",
+             ha="center", fontsize=7.2, color=C_NAVY, weight="bold")
 
     fig.tight_layout()
     fig.savefig(ASSETS / "ch5-dv-count-to-infinity.png")
@@ -903,6 +928,264 @@ def make_fig_ch7_wireless_mobile() -> None:
     plt.close(fig)
 
 
+def make_fig_assignment01_clean() -> None:
+    """Replace raster textbook crops assignment01-01..04.png with clean original Matplotlib schematics."""
+    # 1) assignment01-01.png: P6 Host A -> Host B single link
+    fig, ax = plt.subplots(figsize=(7.6, 2.3))
+    ax.set_xlim(0, 10); ax.set_ylim(0, 3.4); ax.axis("off")
+    ax.set_title("Assignment 1 P6: Single-Link Serialization (L/R) vs. Propagation (m/s)", fontsize=9.6)
+    draw_box(ax, 0.4, 1.15, 1.7, 1.2, "Host A\n(Sender)\nt = 0 start", fc="#EFF6FF", ec=C_BLUE, fontsize=8.0, weight="bold")
+    draw_box(ax, 7.9, 1.15, 1.7, 1.2, "Host B\n(Receiver)", fc="#DCFCE7", ec=C_GREEN, fontsize=8.0, weight="bold")
+    ax.plot([2.1, 7.9], [1.75, 1.75], color=C_NAVY, lw=2.5)
+    draw_box(ax, 3.6, 1.88, 2.2, 0.62, "Packet: L bits", fc="#FEF3C7", ec=C_AMBER, fontsize=8.0, weight="bold")
+    ax.annotate("", xy=(6.4, 2.19), xytext=(5.85, 2.19), arrowprops=dict(arrowstyle="->", color=C_RED, lw=1.6))
+    ax.annotate("", xy=(7.85, 0.75), xytext=(2.15, 0.75), arrowprops=dict(arrowstyle="<->", color=C_SLATE, lw=1.3))
+    ax.text(5.0, 0.32, "Distance = m meters  |  Link rate = R bps  |  Propagation speed = s m/s", ha="center", fontsize=8.0, color=C_SLATE)
+    fig.tight_layout()
+    fig.savefig(ASSETS / "assignment01-01.png")
+    plt.close(fig)
+
+    # 2) assignment01-02.png: P31 Unsegmented vs Segmented 3-hop store-and-forward
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.8, 3.5))
+    for ax, mode_title, pkt_lbl, pkt_w, note in [
+        (ax1, "(a) Without Message Segmentation: 1 message of 8x10^6 bits (4 s/hop -> 12 s total)", "Full Message (8 Mbits)", 1.5, "Switch waits full 4 s before forwarding"),
+        (ax2, "(b) With Message Segmentation: 800 packets of 10,000 bits (5 ms/pkt -> 4.01 s total)", "Pkt (10 kb)", 0.62, "Pipelined across 3 x 2-Mbps links"),
+    ]:
+        ax.set_xlim(0, 10); ax.set_ylim(0, 2.2); ax.axis("off")
+        ax.set_title(mode_title, fontsize=8.8)
+        nodes = [("Source", 0.3, "#EFF6FF", C_BLUE), ("Switch 1", 3.1, "#F1F5F9", C_NAVY),
+                 ("Switch 2", 5.9, "#F1F5F9", C_NAVY), ("Destination", 8.4, "#DCFCE7", C_GREEN)]
+        for idx in range(3):
+            x_start = nodes[idx][1] + 1.25
+            x_end = nodes[idx + 1][1]
+            ax.plot([x_start, x_end], [1.05, 1.05], color=C_NAVY, lw=2.0)
+            ax.text((x_start + x_end) / 2, 0.45, "2 Mbps", ha="center", fontsize=7.3, color=C_SLATE)
+        for lbl, nx, fc, ec in nodes:
+            draw_box(ax, nx, 0.6, 1.25, 0.9, lbl, fc=fc, ec=ec, fontsize=7.6, weight="bold")
+        if pkt_w > 1.0:
+            draw_box(ax, 1.62, 1.2, 1.4, 0.55, pkt_lbl, fc="#FEF3C7", ec=C_AMBER, fontsize=6.9, weight="bold")
+        else:
+            for px, pl in [(1.85, "p3"), (4.65, "p2"), (7.45, "p1")]:
+                draw_box(ax, px, 1.2, 0.65, 0.52, pl, fc="#DBEAFE", ec=C_BLUE, fontsize=7.2, weight="bold")
+        ax.text(5.0, 1.92, note, ha="center", fontsize=7.5, color=C_RED)
+    fig.tight_layout()
+    fig.savefig(ASSETS / "assignment01-02.png")
+    plt.close(fig)
+
+    # 3) assignment01-03.png: P17 POP3 transaction modes & session persistence
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.0, 2.8))
+    for ax, title, cmds, outcome, col in [
+        (ax1, "(a) Download-and-Delete Mode", "LIST (1: 498B, 2: 912B)\nRETR 1 -> DELE 1\nRETR 2 -> DELE 2\nQUIT (commits deletion)", "Mailbox after QUIT: EMPTY (0 octets)", C_RED),
+        (ax2, "(b–c) Download-and-Keep Mode", "Session 1: LIST -> RETR 1 -> RETR 2 -> QUIT\n(No DELE issued)\n5 min later, Session 2: LIST -> 1: 498B, 2: 912B", "Mailbox retains both messages (1410 octets)", C_GREEN),
+    ]:
+        ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
+        ax.set_title(title, fontsize=9.0)
+        draw_box(ax, 0.4, 3.0, 9.2, 5.4, cmds, fc="#F8FAFC", ec=C_NAVY, fontsize=7.6)
+        draw_box(ax, 0.4, 0.6, 9.2, 1.8, outcome, fc="#EFF6FF", ec=col, fontsize=7.6, weight="bold")
+    fig.tight_layout()
+    fig.savefig(ASSETS / "assignment01-03.png")
+    plt.close(fig)
+
+    # 4) assignment01-04.png: Zoom Cloud Client-Server vs P2P Exception
+    fig, ax = plt.subplots(figsize=(7.8, 2.7))
+    ax.set_xlim(0, 10); ax.set_ylim(0, 6); ax.axis("off")
+    ax.set_title("Zoom Lecture Architecture: Cloud Relay (Default Multi-Party) vs. 2-Party P2P", fontsize=9.2)
+    draw_box(ax, 0.3, 2.0, 2.3, 2.4, "Lecturer Host\n(Audio/Video/Screen)\nPrivate/NAT IP", fc="#EFF6FF", ec=C_BLUE, fontsize=7.5, weight="bold")
+    draw_box(ax, 3.6, 1.6, 2.8, 3.2, "Zoom Cloud Servers\nControl: HTTPS / TLS (TCP)\nMedia: RTP / SRTP (UDP)\nBrowser: WebRTC", fc="#FEF3C7", ec=C_AMBER, fontsize=7.3, weight="bold")
+    draw_box(ax, 7.4, 2.0, 2.3, 2.4, "Student Clients\nJoin via Meeting ID\n(No lecturer IP needed)", fc="#DCFCE7", ec=C_GREEN, fontsize=7.5, weight="bold")
+    ax.annotate("", xy=(3.55, 3.6), xytext=(2.65, 3.6), arrowprops=dict(arrowstyle="<->", color=C_NAVY, lw=1.6))
+    ax.annotate("", xy=(7.35, 3.6), xytext=(6.45, 3.6), arrowprops=dict(arrowstyle="<->", color=C_NAVY, lw=1.6))
+    ax.text(5.0, 0.6, "Exception: Direct P2P applies only to eligible 2-participant calls; multi-student lectures route via cloud.", ha="center", fontsize=7.4, color=C_SLATE)
+    fig.tight_layout()
+    fig.savefig(ASSETS / "assignment01-04.png")
+    plt.close(fig)
+
+
+def make_fig_part2_supplements() -> None:
+    """Generate clean original diagrams for Tut10 P3, Tut12 P3, Ass2 P4/P19, Ass3 P15/P8, and Ch6 §6."""
+    # 1) tut10-bgp-as-topology.png (Tutorial 10 P3: AS1, AS2, AS3, AS4 + prefix x)
+    fig, ax = plt.subplots(figsize=(7.8, 3.5))
+    ax.set_xlim(0, 10); ax.set_ylim(0, 6.6); ax.axis("off")
+    ax.set_title("Tutorial 10 P3: Multi-AS Routing Topology (eBGP, iBGP, OSPF & RIP)", fontsize=9.5)
+    # AS clouds
+    ax.add_patch(FancyBboxPatch((3.7, 4.4), 2.7, 1.7, boxstyle="round,pad=0.12", fc="#FEF3C7", ec=C_AMBER, lw=1.3))
+    ax.text(5.05, 5.85, "AS4 (RIP)", ha="center", fontsize=8.0, weight="bold", color=C_AMBER)
+    ax.add_patch(FancyBboxPatch((0.4, 2.2), 2.5, 2.1, boxstyle="round,pad=0.12", fc="#EFF6FF", ec=C_BLUE, lw=1.3))
+    ax.text(1.65, 4.05, "AS3 (OSPF)", ha="center", fontsize=8.0, weight="bold", color=C_BLUE)
+    ax.add_patch(FancyBboxPatch((2.6, 0.3), 3.0, 1.8, boxstyle="round,pad=0.12", fc="#DCFCE7", ec=C_GREEN, lw=1.3))
+    ax.text(4.1, 1.85, "AS1 (RIP)", ha="center", fontsize=8.0, weight="bold", color=C_GREEN)
+    ax.add_patch(FancyBboxPatch((6.4, 0.9), 2.9, 2.2, boxstyle="round,pad=0.12", fc="#F1F5F9", ec=C_SLATE, lw=1.3))
+    ax.text(7.85, 2.85, "AS2 (OSPF)", ha="center", fontsize=8.0, weight="bold", color=C_SLATE)
+
+    rpos = {
+        "4a": (4.1, 5.0), "4c": (5.05, 5.35), "4b": (5.85, 4.85),
+        "3c": (1.2, 3.55), "3b": (0.9, 2.65), "3a": (2.35, 2.85),
+        "1c": (3.7, 1.45), "1a": (3.1, 0.85), "1d": (4.1, 0.65), "1b": (5.1, 0.95),
+        "2a": (6.85, 1.55), "2c": (7.85, 2.2), "2b": (8.55, 1.35),
+    }
+    intra_links = [("4a","4c"),("4c","4b"), ("3c","3b"),("3c","3a"),("3b","3a"),
+                   ("1c","1a"),("1c","1b"),("1a","1d"),("1d","1b"), ("2a","2c"),("2a","2b"),("2c","2b")]
+    for u, v in intra_links:
+        ax.plot([rpos[u][0], rpos[v][0]], [rpos[u][1], rpos[v][1]], color="#64748B", lw=1.3)
+    # eBGP physical links
+    for u, v, lbl in [("3c","4a","eBGP"), ("3a","1c","eBGP"), ("1b","2a","eBGP")]:
+        ax.plot([rpos[u][0], rpos[v][0]], [rpos[u][1], rpos[v][1]], color=C_RED, lw=2.0)
+        ax.text((rpos[u][0]+rpos[v][0])/2 - 0.15, (rpos[u][1]+rpos[v][1])/2 + 0.18, lbl, fontsize=7.3, color=C_RED, weight="bold")
+    # Dashed future link 4b -- 2c
+    ax.plot([rpos["4b"][0], rpos["2c"][0]], [rpos["4b"][1], rpos["2c"][1]], color=C_SLATE, lw=1.2, ls=":")
+    ax.text(7.15, 3.75, "(no link initially)", fontsize=7.0, color=C_SLATE)
+    # Prefix x attached to 4c
+    ax.plot([rpos["4c"][0], 6.8], [rpos["4c"][1], 5.35], color=C_RED, lw=1.8)
+    ax.text(7.15, 5.35, "Prefix x", va="center", fontsize=8.5, weight="bold", color=C_RED)
+    for k, (rx, ry) in rpos.items():
+        hi = k in {"3c", "3a", "1c", "1d"}
+        ax.add_patch(plt.Circle((rx, ry), 0.24, fc="#FEE2E2" if hi else "white", ec=C_RED if hi else C_NAVY, lw=1.4, zorder=4))
+        ax.text(rx, ry, k, ha="center", va="center", fontsize=7.4, weight="bold", color=C_RED if hi else C_NAVY, zorder=5)
+    fig.tight_layout()
+    fig.savefig(ASSETS / "tut10-bgp-as-topology.png")
+    plt.close(fig)
+
+    # 2) tut12-arp-router.png (Tutorial 12 P3 & Ch6 Q&A S4: 2-subnet router R with 6 interfaces)
+    fig, ax = plt.subplots(figsize=(8.0, 2.7))
+    ax.set_xlim(0, 10); ax.set_ylim(0, 4.2); ax.axis("off")
+    ax.set_title("Two Subnets Interconnected by Router R (Ch.6 Q&A S4 & Tutorial 12 P3)", fontsize=9.3)
+    ax.add_patch(mpatches.Ellipse((2.6, 2.0), 3.6, 2.5, fc="#EFF6FF", ec=C_BLUE, alpha=0.5, lw=1.2))
+    ax.text(2.6, 3.5, "Subnet 1 (111.111.111.0/24)", ha="center", fontsize=8.0, weight="bold", color=C_BLUE)
+    ax.add_patch(mpatches.Ellipse((7.4, 2.0), 3.6, 2.5, fc="#DCFCE7", ec=C_GREEN, alpha=0.5, lw=1.2))
+    ax.text(7.4, 3.5, "Subnet 2 (222.222.222.0/24)", ha="center", fontsize=8.0, weight="bold", color=C_GREEN)
+
+    draw_box(ax, 4.35, 1.55, 1.3, 0.9, "Router R\n(2 ARP tables)", fc="#FEF3C7", ec=C_AMBER, fontsize=7.4, weight="bold")
+    draw_box(ax, 0.3, 2.2, 2.1, 0.95, "Host A\n111.111.111.111\n74-29-9C-E8-FF-55", fc="white", ec=C_BLUE, fontsize=6.8, weight="bold")
+    draw_box(ax, 0.3, 0.7, 2.1, 0.95, "Host\n111.111.111.112\nCC-49-DE-D0-AB-7D", fc="white", ec=C_SLATE, fontsize=6.7)
+    draw_box(ax, 7.6, 2.2, 2.1, 0.95, "Host B\n222.222.222.222\n49-BD-D2-C7-56-2A", fc="white", ec=C_GREEN, fontsize=6.8, weight="bold")
+    draw_box(ax, 7.6, 0.7, 2.1, 0.95, "Host\n222.222.222.221\n88-B2-2F-54-1A-0F", fc="white", ec=C_SLATE, fontsize=6.7)
+
+    ax.plot([2.4, 4.35], [2.65, 2.0], color=C_BLUE, lw=1.4)
+    ax.plot([2.4, 4.35], [1.15, 2.0], color=C_SLATE, lw=1.2)
+    ax.plot([5.65, 7.6], [2.0, 2.65], color=C_GREEN, lw=1.4)
+    ax.plot([5.65, 7.6], [2.0, 1.15], color=C_SLATE, lw=1.2)
+    ax.text(3.55, 0.35, "R left iface:\n111.111.111.110\nE6-E9-00-17-BB-4B", ha="center", fontsize=6.7, color=C_RED, weight="bold")
+    ax.text(6.45, 0.35, "R right iface:\n222.222.222.220\n1A-23-F9-CD-06-9B", ha="center", fontsize=6.7, color=C_NAVY, weight="bold")
+    fig.tight_layout()
+    fig.savefig(ASSETS / "tut12-arp-router.png")
+    plt.close(fig)
+
+    # 3) ass2-topologies.png (Assignment 2 P4 router network + P19/P20 OpenFlow Figure 4.30)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.8, 3.7), gridspec_kw={"width_ratios": [0.92, 1.18]})
+    ax1.set_xlim(0, 10); ax1.set_ylim(0, 10); ax1.axis("off")
+    ax1.set_title("Assignment 2 P4: Datagram Network", fontsize=9.3)
+    p4 = {"H1": (1.1, 7.2), "H2": (1.1, 2.8), "A": (3.6, 5.0), "B": (6.0, 7.3), "C": (6.0, 2.7), "D": (8.0, 5.0), "H3": (9.4, 5.0)}
+    for u, v, lp, rp in [("H1","A","","1"), ("H2","A","","2"), ("A","B","3","1"), ("A","C","4","1"),
+                         ("B","D","2","1"), ("C","D","2","2"), ("D","H3","3","")]:
+        x1, y1 = p4[u]; x2, y2 = p4[v]
+        ax1.plot([x1, x2], [y1, y2], color=C_NAVY, lw=1.5)
+        if lp:
+            ax1.text(x1 + 0.32*(x2-x1), y1 + 0.32*(y2-y1) + 0.35, lp, fontsize=7.2, color=C_RED, weight="bold")
+        if rp:
+            ax1.text(x1 + 0.68*(x2-x1), y1 + 0.68*(y2-y1) + 0.35, rp, fontsize=7.2, color=C_BLUE, weight="bold")
+    for k, (x, y) in p4.items():
+        is_h = k.startswith("H")
+        draw_box(ax1, x - 0.55, y - 0.5, 1.1, 1.0, k, fc="#EFF6FF" if is_h else "#FEF3C7", ec=C_BLUE if is_h else C_AMBER, fontsize=8.0, weight="bold")
+    ax1.text(5.0, 0.7, "Destination-based forwarding at A looks up ONLY dst IP (H3)!", ha="center", fontsize=7.2, color=C_RED)
+
+    ax2.set_xlim(0, 10); ax2.set_ylim(0, 10); ax2.axis("off")
+    ax2.set_title("Assignment 2 P19–P20: SDN OpenFlow Network", fontsize=9.3)
+    draw_box(ax2, 3.8, 8.2, 2.4, 1.2, "OpenFlow\nController", fc="#F1F5F9", ec=C_SLATE, fontsize=7.4, weight="bold")
+    sw2 = {"s3": (2.7, 5.3), "s2": (7.1, 5.3), "s1": (4.9, 2.9)}
+    for k, (sx, sy) in sw2.items():
+        ax2.plot([5.0, sx], [8.2, sy], color=C_SLATE, lw=1.0, ls=":")
+    # Switch-to-switch links with port numbers
+    ax2.plot([2.7, 7.1], [5.3, 5.3], color=C_NAVY, lw=2.0)
+    ax2.text(3.55, 5.65, "4", fontsize=7.6, color=C_RED, weight="bold")
+    ax2.text(6.25, 5.65, "1", fontsize=7.6, color=C_RED, weight="bold")
+    ax2.plot([2.7, 4.9], [5.3, 2.9], color=C_NAVY, lw=2.0)
+    ax2.text(3.15, 4.2, "3", fontsize=7.6, color=C_RED, weight="bold")
+    ax2.text(4.2, 3.3, "1", fontsize=7.6, color=C_RED, weight="bold")
+    ax2.plot([4.9, 7.1], [2.9, 5.3], color=C_NAVY, lw=2.0)
+    ax2.text(5.6, 3.3, "4", fontsize=7.6, color=C_RED, weight="bold")
+    ax2.text(6.6, 4.2, "2", fontsize=7.6, color=C_RED, weight="bold")
+    # Hosts
+    h_info = [
+        ("h6\n10.3.0.6", (0.8, 6.8), "s3", "1", (1.9, 5.95)),
+        ("h5\n10.3.0.5", (0.8, 3.8), "s3", "2", (1.9, 4.65)),
+        ("h1\n10.1.0.1", (3.0, 0.8), "s1", "2", (4.15, 2.05)),
+        ("h2\n10.1.0.2", (6.6, 0.8), "s1", "3", (5.65, 2.05)),
+        ("h4\n10.2.0.4", (9.1, 6.8), "s2", "4", (7.95, 5.95)),
+        ("h3\n10.2.0.3", (9.1, 3.6), "s2", "3", (7.95, 4.55)),
+    ]
+    for hlbl, (hx, hy), sp, pnum, (px, py) in h_info:
+        ax2.plot([hx, sw2[sp][0]], [hy, sw2[sp][1]], color=C_BLUE, lw=1.4)
+        ax2.text(px, py, pnum, fontsize=7.5, color=C_BLUE, weight="bold")
+        draw_box(ax2, hx - 0.75, hy - 0.6, 1.5, 1.2, hlbl, fc="#EFF6FF", ec=C_BLUE, fontsize=6.8, weight="bold")
+    for k, (sx, sy) in sw2.items():
+        draw_box(ax2, sx - 0.55, sy - 0.48, 1.1, 0.96, k, fc="#FEF3C7" if k=="s2" else "#DBEAFE", ec=C_RED if k=="s2" else C_NAVY, fontsize=8.4, weight="bold")
+    fig.tight_layout()
+    fig.savefig(ASSETS / "ass2-topologies.png")
+    plt.close(fig)
+
+    # 4) ass3-topologies.png (Assignment 3 P15 Subnet1-S1-Subnet2-R1-Subnet3 + P8 Wireless A-B-C-D)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8.8, 3.5), gridspec_kw={"width_ratios": [1.12, 0.98]})
+    ax1.set_xlim(0, 10); ax1.set_ylim(0, 10); ax1.axis("off")
+    ax1.set_title("Assignment 3 P15: Subnets with Switch S1 & Router R1", fontsize=9.1)
+    # Internal LAN switches + S1 + R1
+    ax1.plot([2.2, 3.8, 5.3, 6.8, 8.2], [5.0, 5.0, 5.0, 5.0, 5.0], color=C_NAVY, lw=2.0)
+    for hx, hy, sx, hl in [(0.7, 7.4, 2.2, "Host A"), (0.7, 2.6, 2.2, "Host B"),
+                           (5.3, 8.2, 5.3, "Host C"), (5.3, 1.8, 5.3, "Host D"),
+                           (9.3, 7.4, 8.2, "Host E"), (9.3, 2.6, 8.2, "Host F")]:
+        ax1.plot([hx, sx], [hy, 5.0], color=C_SLATE, lw=1.4)
+        draw_box(ax1, hx - 0.62, hy - 0.55, 1.24, 1.1, hl, fc="#EFF6FF", ec=C_BLUE, fontsize=7.1, weight="bold")
+    draw_box(ax1, 1.7, 4.45, 1.0, 1.1, "LAN\nSw", fc="#F1F5F9", ec=C_SLATE, fontsize=6.5)
+    draw_box(ax1, 3.25, 4.45, 1.1, 1.1, "S1\n(Switch)", fc="#FEF3C7", ec=C_AMBER, fontsize=6.8, weight="bold")
+    draw_box(ax1, 4.8, 4.45, 1.0, 1.1, "LAN\nSw", fc="#F1F5F9", ec=C_SLATE, fontsize=6.5)
+    draw_box(ax1, 6.25, 4.45, 1.1, 1.1, "R1\n(Router)", fc="#FEE2E2", ec=C_RED, fontsize=6.8, weight="bold")
+    draw_box(ax1, 7.7, 4.45, 1.0, 1.1, "LAN\nSw", fc="#F1F5F9", ec=C_SLATE, fontsize=6.5)
+    ax1.text(1.4, 0.6, "Subnet 1", fontsize=7.6, color=C_BLUE, weight="bold")
+    ax1.text(4.6, 0.6, "Subnet 2", fontsize=7.6, color=C_BLUE, weight="bold")
+    ax1.text(8.3, 0.6, "Subnet 3", fontsize=7.6, color=C_GREEN, weight="bold")
+    ax1.text(5.0, 9.45, "Left LAN Sw learns A on broadcast -> filters unicast B->A before S1!", ha="center", fontsize=6.9, color=C_RED, weight="bold")
+
+    ax2.set_xlim(0, 10); ax2.set_ylim(0, 10); ax2.axis("off")
+    ax2.set_title("Assignment 3 P8: 4-Node Wireless Coverage", fontsize=9.1)
+    ovals = [(2.1, 6.8, 3.6, "#DBEAFE", C_BLUE), (4.0, 6.8, 4.4, "#DCFCE7", C_GREEN),
+             (6.0, 6.8, 4.4, "#FEF3C7", C_AMBER), (7.9, 6.8, 3.6, "#FEE2E2", C_RED)]
+    for ox, oy, ow, fc, ec in ovals:
+        ax2.add_patch(mpatches.Ellipse((ox, oy), ow, 2.5, fc=fc, ec=ec, alpha=0.32, lw=1.2))
+    for nl, nx, col in [("A", 1.6, C_BLUE), ("B", 3.9, C_GREEN), ("C", 6.1, C_AMBER), ("D", 8.4, C_RED)]:
+        ax2.add_patch(plt.Circle((nx, 6.8), 0.52, fc="white", ec=col, lw=1.6, zorder=4))
+        ax2.text(nx, 6.8, nl, ha="center", va="center", fontsize=9.0, weight="bold", color=col, zorder=5)
+    draw_box(ax2, 0.4, 1.0, 9.2, 3.8,
+             "Valid Concurrent Wireless Pairs:\n"
+             "• {A -> B,  D -> C} : B hears only A; C hears only D (OK!)\n"
+             "• {B -> A,  C -> D} : A hears only B; D hears only C (Exposed OK!)\n"
+             "• {A -> B,  C -> D} : INVALID (B hears both A and C -> collision!)",
+             fc="#F8FAFC", ec=C_NAVY, fontsize=6.9)
+    fig.tight_layout()
+    fig.savefig(ASSETS / "ass3-topologies.png")
+    plt.close(fig)
+
+    # 5) ch6-web-request-stack.png (Chapter 6 §6 Capstone: Day in the Life of a Web Request)
+    fig, ax = plt.subplots(figsize=(8.4, 3.0))
+    ax.set_xlim(0, 10); ax.set_ylim(0, 4.6); ax.axis("off")
+    ax.set_title("Capstone Synthesis: End-to-End Protocol Sequence of a Web Request (Ch.6 §6)", fontsize=9.4)
+    stages = [
+        ("1. DHCP\n(UDP 68->67)\nBroadcast", "Get Client IP,\nMask, GW IP,\nLocal DNS IP", "#DBEAFE", C_BLUE),
+        ("2. ARP\n(L2 Broadcast)\nWho has GW?", "Resolve GW\nIP -> GW MAC\n(for off-LAN)", "#FEF3C7", C_AMBER),
+        ("3. DNS\n(UDP 53)\nQuery URL", "Resolve\nwww.google.com\n-> Server IP", "#DCFCE7", C_GREEN),
+        ("4. TCP SYN\n(Port 80/443)\n3-Way Setup", "OSPF + BGP\nroute SYN/ACK\nacross ASes", "#F1F5F9", C_NAVY),
+        ("5. HTTP GET\n& 200 OK\n(TCP Stream)", "Send GET;\nrender HTML\nbyte stream", "#FEE2E2", C_RED),
+    ]
+    for idx, (top, bot, fc, ec) in enumerate(stages):
+        x0 = 0.25 + idx * 1.95
+        draw_box(ax, x0, 2.25, 1.65, 1.65, top, fc=fc, ec=ec, fontsize=7.2, weight="bold")
+        draw_box(ax, x0, 0.45, 1.65, 1.45, bot, fc="white", ec=ec, fontsize=6.9)
+        if idx < 4:
+            ax.annotate("", xy=(x0 + 1.92, 3.07), xytext=(x0 + 1.68, 3.07),
+                        arrowprops=dict(arrowstyle="->", color=C_NAVY, lw=1.6))
+    fig.tight_layout()
+    fig.savefig(ASSETS / "ch6-web-request-stack.png")
+    plt.close(fig)
+
+
 def main() -> None:
     verify_ch3p3()
     verify_ch4()
@@ -918,9 +1201,11 @@ def main() -> None:
     make_fig_ch5_dv_bgp()
     make_fig_ch6_aloha_switch()
     make_fig_ch7_wireless_mobile()
+    make_fig_assignment01_clean()
+    make_fig_part2_supplements()
 
     OUT_JSON.write_text(json.dumps(results, indent=2, ensure_ascii=False))
-    print(f"CS5222 Part 2 verification PASSED: {checks} assertions, 7 original PNGs generated!")
+    print(f"CS5222 Part 2 verification PASSED: {checks} assertions, 16 original PNGs generated!")
 
 
 if __name__ == "__main__":
